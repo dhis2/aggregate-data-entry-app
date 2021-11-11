@@ -1,0 +1,11 @@
+ls:
+    ./**/{src,cypress,lib}:
+        .dir: kebab-case
+
+    ./**/node_modules:
+        .dir: regex:.*
+
+ignore:
+    - node_modules
+    - .d2
+    - build
