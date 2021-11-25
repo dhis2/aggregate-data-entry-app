@@ -1,4 +1,4 @@
-export const useIsAuthorized = () => {
+const useIsAuthorized = () => {
     // @TODO(auth): determine how to fetch/store authorities
     const authorities = ['ALL']
 
@@ -7,3 +7,5 @@ export const useIsAuthorized = () => {
             authority === 'ALL' || authority === 'M_dhis-web-approval'
     )
 }
+
+export default useIsAuthorized

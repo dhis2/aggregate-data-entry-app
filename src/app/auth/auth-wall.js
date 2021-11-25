@@ -1,12 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
-import PropTypes from 'prop-types'
+import { node, bool } from 'prop-types'
 import React from 'react'
 import { ErrorMessage } from '../../shared/index.js'
-import { useIsAuthorized } from './use-is-authorized.js'
 
-const AuthWall = ({ children }) => {
-    const isAuthorized = useIsAuthorized()
-
+const AuthWall = ({ isAuthorized, children }) => {
     if (!isAuthorized) {
         return (
             <ErrorMessage title={i18n.t('Not authorized')}>
@@ -21,7 +18,8 @@ const AuthWall = ({ children }) => {
 }
 
 AuthWall.propTypes = {
-    children: PropTypes.node.isRequired,
+    children: node.isRequired,
+    isAuthorized: bool.isRequired,
 }
 
-export { AuthWall }
+export default AuthWall

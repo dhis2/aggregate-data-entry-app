@@ -1,10 +1,10 @@
 import { NoticeBox } from '@dhis2/ui'
-import PropTypes from 'prop-types'
+import { node, string } from 'prop-types'
 import React from 'react'
-import classes from './error-message.module.css'
+import css from './error-message.module.css'
 
 const ErrorMessage = ({ children, title }) => (
-    <div className={classes.wrapper}>
+    <div className={css.wrapper}>
         <NoticeBox error title={title}>
             {children}
         </NoticeBox>
@@ -12,8 +12,8 @@ const ErrorMessage = ({ children, title }) => (
 )
 
 ErrorMessage.propTypes = {
-    children: PropTypes.node.isRequired,
-    title: PropTypes.string.isRequired,
+    children: node.isRequired,
+    title: string.isRequired,
 }
 
-export { ErrorMessage }
+export default ErrorMessage
