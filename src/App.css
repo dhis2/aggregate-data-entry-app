@@ -1,0 +1,4 @@
+body {
+    background: var(--colors-grey100);
+    box-sizing: border-box;
+}

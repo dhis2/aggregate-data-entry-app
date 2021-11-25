@@ -1,6 +1,22 @@
+import { CssVariables } from '@dhis2/ui'
 import React from 'react'
-import classes from './App.module.css'
+import './App.css'
+import { Layout } from './layout/index.js'
 
-export default function App() {
-    return <div className={classes.container}>Data entry app</div>
+const App = () => {
+    return (
+        <>
+            <CssVariables colors />
+            <Layout
+                header=""
+                main=""
+                sidebar=""
+                footer=""
+                showSidebar
+                showFooter
+            />
+        </>
+    )
 }
+
+export default App
