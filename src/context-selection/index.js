@@ -1,1 +1,1 @@
-export { ContextSelection } from './ContextSelection.js'
+export { default as ContextSelection } from './context-selection.js'

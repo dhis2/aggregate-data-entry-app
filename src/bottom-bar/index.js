@@ -1,1 +1,1 @@
-export { BottomBar } from './BottomBar.js'
+export { default as BottomBar } from './bottom-bar.js'

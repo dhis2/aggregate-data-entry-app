@@ -1,32 +1,28 @@
-// @TODO(react testing): replace enzyme with testing-library
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import React from 'react'
-import { ErrorMessage } from '../../shared/index.js'
-import { AuthWall } from './auth-wall.js'
-import { useIsAuthorized } from './use-is-authorized.js'
+import AuthWall from './auth-wall.js'
 
-jest.mock('./use-is-authorized', () => ({
-    useIsAuthorized: jest.fn(),
-}))
+describe('<AuthWall />', () => {
+    it('shows an error message for unauthorized users', () => {
+        const children = 'children'
+        const { queryByText, getByText } = render(
+            <AuthWall isAuthorized={false}>{children}</AuthWall>
+        )
+        const errorTitle = 'Not authorized'
+        const errorMessage =
+            "You don't have access to the Data Approval App. Contact a system administrator to request access."
 
-afterEach(() => {
-    jest.resetAllMocks()
-})
-
-describe('<AuthWall>', () => {
-    it('shows a noticebox for unauthorized users', () => {
-        useIsAuthorized.mockImplementation(() => false)
-
-        const wrapper = shallow(<AuthWall>Child</AuthWall>)
-
-        expect(wrapper.find(ErrorMessage)).toHaveLength(1)
+        expect(queryByText(children)).not.toBeInTheDocument()
+        expect(getByText(errorTitle)).toBeInTheDocument()
+        expect(getByText(errorMessage)).toBeInTheDocument()
     })
 
     it('renders the children for authorised users', () => {
-        useIsAuthorized.mockImplementation(() => true)
+        const children = 'children'
+        const { getByText } = render(
+            <AuthWall isAuthorized={true}>{children}</AuthWall>
+        )
 
-        const wrapper = shallow(<AuthWall>Child</AuthWall>)
-
-        expect(wrapper.text()).toEqual(expect.stringContaining('Child'))
+        expect(getByText(children)).toBeInTheDocument()
     })
 })
