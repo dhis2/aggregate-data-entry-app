@@ -7,8 +7,20 @@
     "scripts": {
         "build": "d2-app-scripts build",
         "start": "d2-app-scripts start",
+        "start:nobrowser": "BROWSER=none yarn start",
         "test": "d2-app-scripts test",
-        "deploy": "d2-app-scripts deploy"
+        "deploy": "d2-app-scripts deploy",
+        "format": "d2-style apply",
+        "format:staged": "d2-style apply --staged",
+        "lint": "d2-style check",
+        "lint:staged": "d2-style check --staged",
+        "cypress:open:live": "yarn cypress open --env networkMode=live",
+        "cypress:run:capture": "yarn cypress run --env dhis2ApiVersion=38,networkMode=capture",
+        "cypress:run:stub": "yarn cypress run --env dhis2ApiVersion=38,networkMode=stub",
+        "cypress:prepare": "start-server-and-test 'yarn start:nobrowser' http://localhost:3000",
+        "cypress:live": "yarn cypress:prepare 'yarn cypress:open:live'",
+        "cypress:capture": "yarn cypress:prepare 'yarn cypress:run:capture'",
+        "cypress:stub": "yarn cypress:prepare 'yarn cypress:run:stub'"
     },
     "devDependencies": {
         "@dhis2/cli-app-scripts": "^8.3.1",
@@ -17,7 +29,8 @@
         "@dhis2/cypress-plugins": "^9.0.1",
         "cypress": "^9.1.0",
         "cypress-cucumber-preprocessor": "^4.3.0",
-        "eslint-plugin-cypress": "^2.12.1"
+        "eslint-plugin-cypress": "^2.12.1",
+        "start-server-and-test": "^1.14.0"
     },
     "dependencies": {
         "@dhis2/app-runtime": "^3.2.6"

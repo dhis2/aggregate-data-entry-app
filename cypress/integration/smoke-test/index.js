@@ -5,5 +5,5 @@ Given('the user opens the app', () => {
 })
 
 Then('it should load without crashing', () => {
-    cy.get('#root').should('exist')
+    cy.get('#dhis2-app-root').should('exist')
 })
