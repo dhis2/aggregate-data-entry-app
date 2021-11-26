@@ -27,12 +27,18 @@
         "@dhis2/cli-style": "^10.1.1",
         "@dhis2/cypress-commands": "^9.0.1",
         "@dhis2/cypress-plugins": "^9.0.1",
+        "@testing-library/jest-dom": "^5.15.1",
+        "@testing-library/react-hooks": "^7.0.2",
         "cypress": "^9.1.0",
         "cypress-cucumber-preprocessor": "^4.3.0",
+        "enzyme": "^3.11.0",
+        "enzyme-adapter-react-16": "^1.15.6",
         "eslint-plugin-cypress": "^2.12.1",
         "start-server-and-test": "^1.14.0"
     },
     "dependencies": {
-        "@dhis2/app-runtime": "^3.2.6"
+        "@dhis2/app-runtime": "^3.2.6",
+        "history": "^5.1.0",
+        "query-string": "^7.0.1"
     }
 }
