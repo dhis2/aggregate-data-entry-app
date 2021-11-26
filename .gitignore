@@ -4,3 +4,4 @@ node_modules
 src/locales
 build
 cypress.env.json
+.vscode
