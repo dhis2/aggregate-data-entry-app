@@ -1,6 +1,6 @@
 import { CssVariables } from '@dhis2/ui'
 import React from 'react'
-import './App.css'
+import './app.css'
 import { Layout } from './layout/index.js'
 
 const App = () => {
