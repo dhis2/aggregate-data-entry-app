@@ -16,4 +16,30 @@ describe('<Layout />', () => {
 
         expect(getByText(text)).toBeInTheDocument()
     })
+
+    it('renders a node passed to the sidebar prop', () => {
+        /**
+         * This passes because even though the visibility of this
+         * node can be toggled it is still in the DOM, even
+         * when not visible, to allow for a (simpler) width transition.
+         */
+
+        const text = 'text'
+        const { getByText } = render(<Layout sidebar={text} />)
+
+        expect(getByText(text)).toBeInTheDocument()
+    })
+
+    it('allows toggling the footer with the showFooter prop', () => {
+        const text = 'text'
+        const { queryByText, rerender } = render(
+            <Layout footer={text} showFooter={false} />
+        )
+
+        expect(queryByText(text)).not.toBeInTheDocument()
+
+        rerender(<Layout footer={text} showFooter={true} />)
+
+        expect(queryByText(text)).toBeInTheDocument()
+    })
 })
