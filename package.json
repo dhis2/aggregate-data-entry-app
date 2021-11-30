@@ -39,10 +39,5 @@
         "@dhis2/ui": "^7.7.9",
         "classnames": "^2.3.1",
         "prop-types": "^15.7.2"
-    },
-    "jest": {
-        "setupFilesAfterEnv": [
-            "<rootDir>/setupTests.js"
-        ]
     }
 }
