@@ -1,6 +1,7 @@
 import { CssVariables } from '@dhis2/ui'
 import React from 'react'
 import './app.css'
+import { DataWorkspace } from '../data-workspace/index.js'
 import { Layout } from './layout/index.js'
 
 const App = () => {
@@ -9,7 +10,7 @@ const App = () => {
             <CssVariables colors />
             <Layout
                 header=""
-                main=""
+                main={<DataWorkspace />}
                 sidebar=""
                 footer=""
                 showSidebar
