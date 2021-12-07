@@ -8,8 +8,17 @@ import {
     TableRow,
     TableCell,
 } from '@dhis2/ui'
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Sections, FormSection } from './section'
+import { DataSetSelector } from './dataset-selector'
+import {
+    getCategoryCombosByDataElements,
+    getCategoryOptionCombosByCategoryComboId,
+    getDataElementsByDataSetId,
+    getDataSetById,
+} from './selectors'
+import { DataTable } from './data-table.js'
+
 const ngeleId = 'DiszpKrYNg8'
 const pe = '202108'
 const emergencyDataSetId = 'Lpw6GcnTrmS'
@@ -24,10 +33,10 @@ const query = {
         resource: 'dataSets',
         id: emergencyDataSetId,
         params: {
-            fields: `id,name,displayName,displayFormName,formType,dataSetElements[dataElement[id,name, formName],
-                categoryCombo[id,name,
-                categoryOptionCombos[id,name]]],
-                sections[id,displayName,sortOrder,dataElements[id]]`,
+            fields: `id,name,displayName,displayFormName,formType,
+            dataSetElements[dataElement[id,name,formName,
+            categoryCombo[id,name,categories[id,displayName,categoryOptions[id,displayName]],categoryOptionCombos[id,name]]]],
+            sections[:owner,displayName,categoryCombos[id,categories[id,displayName,categoryOptions[id,displayName]]]]`,
         },
         // want dataSet.dataSetElements for rows & columns
         // elements with a COC other than 'default' should have a new table section
@@ -41,13 +50,83 @@ const query = {
             attributeOptionCombo: attrOptionComboId,
         },
     },
+    form: {
+        resource: 'dataSets',
+        id: ({ id }) => `${id}/form`,
+        params: ({ ou }) => ({
+            metaData: true,
+            ou,
+            fields: '',
+        }),
+    },
+}
+
+const metadataQuery = {
+    metadata: {
+        resource: 'metadata',
+        params: {
+            // Note: on dataSet.dataSetElement, the categoryCombo property is
+            // included because it can mean it's overriding the data element's
+            // native categoryCombo. It can sometimes be absent from the data
+            // set element
+            'dataSets:fields':
+                'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
+            'dataElements:fields': 'id,formName,categoryCombo,valueType',
+            'sections:fields':
+                'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
+            'categoryCombos:fields':
+                'id,skipTotal,categories~pluck,categoryOptionCombos~pluck,isDefault',
+            'categories:fields': 'id,displayFormName,categoryOptions~pluck',
+            'categoryOptions:fields':
+                'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
+            'categoryOptionCombos:fields':
+                'id,categoryOptions~pluck,categoryCombo,name',
+        },
+    },
 }
 
 // Sections: dataSet.sections => api/sections/<id> endpoint
 // dataSet.renderAsTabs or .renderHorizontally
+//const transformData = (metadata) =>
+
+const hashById = (array) =>
+    array.reduce((acc, curr) => {
+        acc[curr.id] = curr
+        return acc
+    }, {})
+
+const hashArraysInObject = (result) =>
+    Object.keys(result).reduce((acc, currKey) => {
+        const prop = result[currKey]
+        if (Array.isArray(prop)) {
+            acc[currKey] = hashById(result[currKey])
+        } else {
+            acc[currKey] = prop
+        }
+        return acc
+    }, {})
 
 const DataWorkspace = () => {
-    const { data, loading, error } = useDataQuery(query)
+    const [selectedDataset, setSelectedDataset] = useState(emergencyDataSetId)
+    const { data, loading, error, refetch } = useDataQuery(query, {
+        variables: { ou: ngeleId, id: selectedDataset },
+    })
+
+    const { data: metadata, loading: metaLoading } = useDataQuery(metadataQuery)
+    console.log({ metadata })
+
+    const hashed = useMemo(
+        () => metadata?.metadata && hashArraysInObject(metadata.metadata),
+        metadata
+    )
+
+    useEffect(() => {
+        refetch({
+            variables: {
+                id: selectedDataset,
+            },
+        })
+    }, [selectedDataset])
 
     // todo: split up table by category combos
     // if catCombo.name === 'default' => columnTitle = 'Value'
@@ -82,42 +161,28 @@ const DataWorkspace = () => {
     // dataSetElement => catCombo => catOptCombos => forEach: get value from dataValueSet
     //const formatDataElements = ()
     console.log(data)
-    // dataElements
-    // categoryComboOption
-    // dataElement-catcomboId
-    const dataValueWithDSE = data.dataValues.dataValues.map((dv) => {
-        const dses = data.dataSet.dataSetElements
-        const dse = dses.find((dse) => dse.dataElement.id === dv.dataElement)
-        const catCombo = dse?.categoryCombo.categoryOptionCombos.find(
-            (coc) => coc.id === dv.categoryOptionCombo
-        )
-
-        return {
-            ...dv,
-            dataElementObject: dse,
-            catComboObject: catCombo,
-        }
-    })
 
     // * Making table
     // Could iterate over data.dataSet.sections
     const sectionDataElements = getSectionDataElements(data.dataSet.sections[1])
     // want to get [{ dataElements: [], categoryOptionCombos: []}]
     const sectionCategoryCombos = sectionDataElements.reduce((ccs, dse) => {
-        const ccId = dse.categoryCombo.id
+        const categoryCombo = dse.dataElement.categoryCombo
+        const ccId = categoryCombo.id
         if (!ccs[ccId]) {
             ccs[ccId] = {
                 dataElements: [dse.dataElement],
-                categoryOptionCombos: dse.categoryCombo.categoryOptionCombos,
+                categoryOptionCombos: categoryCombo.categoryOptionCombos,
             }
         } else {
             ccs[ccId].dataElements.push(dse.dataElement)
         }
         return ccs
     }, [])
-    console.log({ sectionCategoryCombos })
+    // console.log({ sectionCategoryCombos })
     // hopefully results in { ccId1: { dataElements: [de1, de2], categoryOptionCombos: [coc1, coc2] }, ccId2: ... }
     // ex: { DJXmyhnquyI: { dataElements: [...], categoryOptionCombos: [{ id: "mPBwiaWc2sk", name: "Rural" }, { id: "IGhnY0XeHXe", name: "Urban" }] } }
+    // (There is just one category combo in this section)
 
     // for each category combo in section, make a category combo table section
     // rows = dataElements, columns = categoryOptionCombos
@@ -127,6 +192,7 @@ const DataWorkspace = () => {
         sectionCategoryCombos[Object.keys(sectionCategoryCombos)[0]]
 
     // Get a cell's data value from the DE ID and COC ID
+    // todo: use this to populate the matrix
     const getDataValue = (dataElementId, categoryOptionComboId) => {
         const dataValue = data.dataValues.dataValues.find(
             (dv) =>
@@ -141,6 +207,7 @@ const DataWorkspace = () => {
             <TableHead>
                 {/* Will need to handle multiple-category combos with multiple header rows */}
                 <TableRowHead>
+                    {/* TODO: should be category name */}
                     <TableCellHead />
                     {/* For each category option combo in this category combo, render a column */}
                     {exampleCC.categoryOptionCombos.map((coc) => (
@@ -166,20 +233,113 @@ const DataWorkspace = () => {
         </Table>
     )
 
-    console.log('FORMAT', dataValueWithDSE)
+    //const getDataElementCells = (coc) => coc.map()
+    /**
+     * Intended result:
+     * { name: string, description: string,
+     * categoryComboTableSections: { [id]: { columns: [], rows: [] } } }
+     */
+    function mapSectionToFormSectionObject(section) {
+        // COULD be refactored to section.dataElements.map(findElementFromDataSetElements)
+        const sectionDataElements = getSectionDataElements(section)
+        const categoryCombos = section.categoryCombos
+        console.log({ section, sectionDataElements })
+
+        // todo: abstract out for reuse by 'default' form type
+        const sectionCategoryComboTableSections = sectionDataElements.reduce(
+            (ccs, dse) => {
+                const cc = dse.dataElement.categoryCombo
+                if (!ccs[cc.id]) {
+                    ccs[cc.id] = {
+                        dataElements: [
+                            {
+                                ...dse.dataElement,
+                                cells: ['iterate over cocs'],
+                            },
+                        ],
+                        categoryCombo: { ...cc }, // need category options too --
+                    }
+                } else {
+                    ccs[cc.id].dataElements.push(dse.dataElement)
+                }
+                return ccs
+            },
+            {}
+        )
+
+        return {
+            name: section.displayName,
+            description: section.description, // might be "" or undefined
+            categoryCombos: sectionCategoryComboTableSections,
+        }
+    }
+
+    const sectionObjs = data.dataSet.sections.map(mapSectionToFormSectionObject)
+    console.log({ sectionObjs })
+    const defaultFormObject = {}
+
+    const sectionFormObject = {
+        // todo: sort sections by section.sortOrder
+        // data.form.groups.map(mapSectionToFormSectionObject)
+        sections: [
+            {
+                name: 'Training',
+                description: 'asdf',
+                categoryCombos: {
+                    ccId1: 'A CCTS matrix', // i.e. { columns: [], rows: [] } COCs = columns
+                    ccId2: { dataElements: [], categoryOptionCombos: [] }, // different COCs
+                },
+            },
+            { name: 'Support', description: 'asdf', sectionCategoryCombos },
+        ],
+        otherProperties: {},
+    }
+    // Math.max(Object.keys(sectionCategoryCombos).) find max column
+    const cctsMatrix = {
+        categoryCombos: [
+            { id: 'id1', name: 'catA', options: ['catOptA1', 'catOptA2'] },
+            { id: 'id2', name: 'catB', options: ['catOptB1', 'catOptB2'] },
+        ],
+        dataElements: [
+            { id: 'id1', name: 'asdf', cells: ['...cell objects'] },
+            { id: 'id2', name: 'qwerty', cells: ['...cell objects'] },
+        ],
+    }
+
+    const cellObject = {
+        dataElement: 'deId',
+        categoryCombo: 'ccId', // need this one? section/row relative
+        categoryOptionCombo: 'cocId',
+        value: 'value',
+        type: 'NUMBER',
+    }
+
+    // If section => iterate over sections; for each section, render "form section" wrapper component;
+    // in each form section, render CCTSs (Maybe in tabs)
+    // Form section wrapper has section name & description, and "section filter" field
+    // TODO: Make sure we have an example with multiple Cat.Combos in ONE section to test out CCTSs
+
+    // If default => render CCTSs; don't need "Form section" wrapper
+
+    // If CUSTOM form => just render that? 'dangerouslySetInnerHtml'
+    // Need to replace entry cells with our custom entry cells somehow
 
     if (data.dataSet.formType === 'SECTION') {
         return (
             <>
+                <DataSetSelector
+                    onDataSetSelect={(val) => setSelectedDataset(val.selected)}
+                    selected={selectedDataset}
+                />
+                <DataTable metadata={hashed} dataSetId={selectedDataset} />
                 {/* Example CC Table section rendered here: */}
                 {exampleCCTableSection}
-                <p>Hey!</p>
                 {data.dataSet.sections.map((s) => (
-                    <FormSection name={s.displayName} key={s.id}>
+                    <FormSection section={s} key={s.id}>
                         {getSectionDataElements(s).map(({ dataElement }) => {
                             return (
                                 <div key={dataElement.id}>
-                                    {dataElement.formName} an item
+                                    {dataElement.formName}
                                 </div>
                             )
                         })}
