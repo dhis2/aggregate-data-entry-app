@@ -118,6 +118,7 @@ const DataWorkspace = () => {
     console.log({ sectionCategoryCombos })
     // hopefully results in { ccId1: { dataElements: [de1, de2], categoryOptionCombos: [coc1, coc2] }, ccId2: ... }
     // ex: { DJXmyhnquyI: { dataElements: [...], categoryOptionCombos: [{ id: "mPBwiaWc2sk", name: "Rural" }, { id: "IGhnY0XeHXe", name: "Urban" }] } }
+    // (There is just one category combo in this section)
 
     // for each category combo in section, make a category combo table section
     // rows = dataElements, columns = categoryOptionCombos
