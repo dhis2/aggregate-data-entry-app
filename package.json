@@ -38,12 +38,14 @@
         "start-server-and-test": "^1.14.0"
     },
     "dependencies": {
+        "@dhis2-ui/selector-bar": "^7.10.0",
         "@dhis2/app-runtime": "^3.2.6",
-        "@dhis2/ui": "^7.7.9",
+        "@dhis2/ui": "^7.10.0",
         "classnames": "^2.3.1",
         "history": "^5.1.0",
         "prop-types": "^15.7.2",
         "query-string": "^7.0.1",
-        "react-query": "^3.34.5"
+        "react-query": "^3.34.5",
+        "use-query-params": "^1.2.3"
     }
 }
