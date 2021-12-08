@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-22T14:43:27.825Z\n"
-"PO-Revision-Date: 2021-12-22T14:43:27.825Z\n"
+"POT-Creation-Date: 2021-12-23T10:31:25.207Z\n"
+"PO-Revision-Date: 2021-12-23T10:31:25.207Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -17,3 +17,21 @@ msgid ""
 msgstr ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
+
+msgid "Fetching data set info"
+msgstr "Fetching data set info"
+
+msgid "Error occurred while fetching data set info"
+msgstr "Error occurred while fetching data set info"
+
+msgid "Data set"
+msgstr "Data set"
+
+msgid "Choose a data set"
+msgstr "Choose a data set"
+
+msgid "Fetching data sets"
+msgstr "Fetching data sets"
+
+msgid "Error occurred while fetching data sets"
+msgstr "Error occurred while fetching data sets"
