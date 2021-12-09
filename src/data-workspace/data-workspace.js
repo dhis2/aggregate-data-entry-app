@@ -54,8 +54,46 @@ const query = {
     },
 }
 
+const metadataQuery = {
+    metadata: {
+        resource: 'metadata',
+        params: {
+            'dataSets:fields':
+                'id,displayFormName,formType,dataSetElements[dataElement],categoryCombo,sections~pluck',
+            'dataElements:fields': 'id,formName,categoryCombo,valueType',
+            'sections:fields':
+                'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
+            'categoryCombos:fields':
+                'id,skipTotal,categories~pluck,categoryOptionCombos~pluck,isDefault',
+            'categories:fields': 'id,displayFormName,categoryOptions~pluck',
+            'categoryOptions:fields':
+                'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
+            'categoryOptionCombos:fields':
+                'id,categoryOptions~pluck,categoryCombo',
+        },
+    },
+}
+
 // Sections: dataSet.sections => api/sections/<id> endpoint
 // dataSet.renderAsTabs or .renderHorizontally
+//const transformData = (metadata) =>
+
+const hashById = (array) =>
+    array.reduce((acc, curr) => {
+        acc[curr.id] = curr
+        return acc
+    }, {})
+
+const hashArraysInObject = (result) =>
+    Object.keys(result).reduce((acc, currKey) => {
+        const prop = result[currKey]
+        if (Array.isArray(prop)) {
+            acc[currKey] = hashById(result[currKey])
+        } else {
+            acc[currKey] = prop
+        }
+        return acc
+    }, {})
 
 const DataWorkspace = () => {
     const [selectedDataset, setSelectedDataset] = useState(emergencyDataSetId)
@@ -63,6 +101,13 @@ const DataWorkspace = () => {
         variables: { ou: ngeleId, id: selectedDataset },
     })
 
+    const { data: metadata, loading: metaLoading } = useDataQuery(metadataQuery)
+    console.log({ metadata })
+
+    if (metadata?.metadata) {
+        const hashed = hashArraysInObject(metadata.metadata)
+        console.log({ hashed })
+    }
     useEffect(() => {
         refetch({
             variables: {

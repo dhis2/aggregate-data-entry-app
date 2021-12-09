@@ -8,7 +8,7 @@ import {
     TableCell,
 } from '@dhis2/ui'
 
-export const CategoryComboTableSection = ({ matrix }) => {
+export const CategoryComboTable = ({ matrix }) => {
     return (
         <Table>
             <TableHead>
