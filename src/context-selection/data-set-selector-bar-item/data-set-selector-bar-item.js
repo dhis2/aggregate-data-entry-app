@@ -1,16 +1,19 @@
 import { SelectorBarItem } from '@dhis2-ui/selector-bar'
 import i18n from '@dhis2/d2-i18n'
 import React, { useState } from 'react'
+import { useQueryParam } from 'use-query-params'
 import * as constants from '../contants.js'
 import { MenuSelect } from '../menu-select/index.js'
-import useContextSelection from '../use-context-selection.js'
+import { PARAMS_SCHEMA } from '../use-context-selection.js'
 import useDataSet from './use-data-set.js'
 import useSelectableDataSets from './use-selectable-data-sets.js'
 
 const DataSetSelectorBarItem = () => {
     const [dataSetOpen, setDataSetOpen] = useState(false)
-    const [query, setQuery] = useContextSelection()
-    const dataSetId = query[constants.PARAM_DATA_SET_ID]
+    const [dataSetId, setDataSetId] = useQueryParam(
+        constants.PARAM_DATA_SET_ID,
+        PARAMS_SCHEMA[constants.PARAM_DATA_SET_ID]
+    )
 
     const { fetchingDataSet, errorDataSet, dataSet } = useDataSet(dataSetId)
 
@@ -42,10 +45,7 @@ const DataSetSelectorBarItem = () => {
                     values={selectableDataSets}
                     selected={dataSetId}
                     onChange={({ selected }) => {
-                        setQuery({
-                            ...query,
-                            [constants.PARAM_DATA_SET_ID]: selected,
-                        })
+                        setDataSetId(selected)
                         setDataSetOpen(false)
                     }}
                 />
