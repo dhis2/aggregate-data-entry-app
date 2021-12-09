@@ -1,7 +1,7 @@
 import { StringParam, useQueryParams } from 'use-query-params'
 import * as constants from './contants.js'
 
-const PARAMS_SCHEMA = {
+export const PARAMS_SCHEMA = {
     [constants.PARAM_DATA_SET_ID]: StringParam,
     [constants.PARAM_ORG_UNIT_ID]: StringParam,
     [constants.PARAM_PERIOD]: StringParam,
@@ -10,6 +10,6 @@ const PARAMS_SCHEMA = {
     [constants.PARAM_SECTION_FILTER]: StringParam,
 }
 
-export default function useContextSelection() {
+export function useContextSelection() {
     return useQueryParams(PARAMS_SCHEMA)
 }
