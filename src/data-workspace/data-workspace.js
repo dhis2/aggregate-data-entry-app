@@ -8,9 +8,16 @@ import {
     TableRow,
     TableCell,
 } from '@dhis2/ui'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Sections, FormSection } from './section'
 import { DataSetSelector } from './dataset-selector'
+import {
+    getCategoryCombosByDataElements,
+    getCategoryOptionCombosByCategoryComboId,
+    getDataElementsByDataSetId,
+    getDataSetById,
+} from './selectors'
+import { DataTable } from './data-table.js'
 
 const ngeleId = 'DiszpKrYNg8'
 const pe = '202108'
@@ -58,8 +65,12 @@ const metadataQuery = {
     metadata: {
         resource: 'metadata',
         params: {
+            // Note: on dataSet.dataSetElement, the categoryCombo property is
+            // included because it can mean it's overriding the data element's
+            // native categoryCombo. It can sometimes be absent from the data
+            // set element
             'dataSets:fields':
-                'id,displayFormName,formType,dataSetElements[dataElement],categoryCombo,sections~pluck',
+                'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
             'dataElements:fields': 'id,formName,categoryCombo,valueType',
             'sections:fields':
                 'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
@@ -69,7 +80,7 @@ const metadataQuery = {
             'categoryOptions:fields':
                 'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
             'categoryOptionCombos:fields':
-                'id,categoryOptions~pluck,categoryCombo',
+                'id,categoryOptions~pluck,categoryCombo,name',
         },
     },
 }
@@ -104,10 +115,11 @@ const DataWorkspace = () => {
     const { data: metadata, loading: metaLoading } = useDataQuery(metadataQuery)
     console.log({ metadata })
 
-    if (metadata?.metadata) {
-        const hashed = hashArraysInObject(metadata.metadata)
-        console.log({ hashed })
-    }
+    const hashed = useMemo(
+        () => metadata?.metadata && hashArraysInObject(metadata.metadata),
+        metadata
+    )
+
     useEffect(() => {
         refetch({
             variables: {
@@ -319,16 +331,15 @@ const DataWorkspace = () => {
                     onDataSetSelect={(val) => setSelectedDataset(val.selected)}
                     selected={selectedDataset}
                 />
-
+                <DataTable metadata={hashed} dataSetId={selectedDataset} />
                 {/* Example CC Table section rendered here: */}
                 {exampleCCTableSection}
-                <p>Hey!</p>
                 {data.dataSet.sections.map((s) => (
-                    <FormSection name={s.displayName} key={s.id}>
+                    <FormSection section={s} key={s.id}>
                         {getSectionDataElements(s).map(({ dataElement }) => {
                             return (
                                 <div key={dataElement.id}>
-                                    {dataElement.formName} an item
+                                    {dataElement.formName}
                                 </div>
                             )
                         })}

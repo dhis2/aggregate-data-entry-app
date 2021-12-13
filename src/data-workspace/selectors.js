@@ -1,88 +1,115 @@
-const getDataElements = (metadata) => metadata.dataElements
-const getDataElementById = (metadata) => getDataElements(metadata)[id]
+export const getDataElements = (metadata) => metadata.dataElements
 
-const listDataElementsBySectionId = (metadata, sectionId) => {
-    meta
-}
+export const getDataElementById = (metadata, id) =>
+    getDataElements(metadata)[id]
 
-const getCategories = (metadata) => metadata.categories
+export const getCategories = (metadata) => metadata.categories
 
-const getCategoryCombos = (metadata) => metadata.categoryCombos
+export const getCategoryCombos = (metadata) => metadata.categoryCombos
 
-const getCategoryOptions = (metadata) => metadata.categoryOptions
+export const getCategoryOptions = (metadata) => metadata.categoryOptions
 
-const getCategoryOptionCombos = (metadata) => metadata.categoryOptionCombos
+export const getCategoryOptionCombos = (metadata) =>
+    metadata.categoryOptionCombos
 
-const getDataSets = (metadata) => metadata.dataSets
-const getDataSetById = (metadata, dataSetId) => metadata.dataSets[dataSetId]
-const getSections = (metadata) => metadata.sections
+export const getDataSets = (metadata) => metadata.dataSets
+export const getDataSetById = (metadata, dataSetId) =>
+    getDataSets(metadata)?.[dataSetId]
 
-const getSectionsByDataSetId = (metadata, dataSetId) => {
+export const getSections = (metadata) => metadata.sections
+
+export const getSectionsByDataSetId = (metadata, dataSetId) => {
     const sections = getSections(metadata)
     const dataSet = getDataSetById(metadata, dataSetId)
 
     return dataSet.sections.map((sId) => sections[sId])
 }
 
-const getDataElementsByDataSetId = (metadata, dataSetId) => {
-    const dataElements = getDataSetById(dataSetId).dataSetElements.map((dse) =>
-        getDataElementById(dse.id)
-    )
+export const getDataElementsByDataSetId = (metadata, dataSetId) => {
+    const dataElements = getDataSetById(
+        metadata,
+        dataSetId
+    )?.dataSetElements?.map((dse) => {
+        const dataElement = getDataElementById(metadata, dse.dataElement.id)
+        // catcombo for a dataelement can be overriden per dataSet
+        // in that case, dataSetElement.categoryCombo takes precedence
+        const dataElementCategoryCombo =
+            dse.categoryCombo ?? dataElement.categoryCombo
+        return {
+            ...dataElement,
+            categoryCombo: dataElementCategoryCombo,
+        }
+    })
+
     return dataElements
 }
 
-const getCategoryCombosByDataElements = (metadata, dataElements) => {
+// Use IDs?
+// Most of the time, this should return only one catcombo
+// (Maybe don't need it if we use data element order from backend)
+export const getCategoryCombosByDataElements = (metadata, dataElements) => {
     const categoryCombos = dataElements.reduce((ccs, de) => {
         const cc = de.categoryCombo
         if (!ccs[cc.id]) {
-            ccs[cc.id] = cc
+            ccs[cc.id] = getCategoryComboById(metadata, cc.id)
         }
         return cc
     }, {})
     return categoryCombos
 }
 
-const getCategoryCombosByDataSetId = (metadata, dataSetId) => {
+export const getCategoryCombosByDataSetId = (metadata, dataSetId) => {
     const dataElements = getDataElementsByDataSetId(metadata, dataSetId)
     return getCategoryCombosByDataElements(dataElements)
 }
 
-const getCategoryById = (metadata, id) => {
+export const getCategoryById = (metadata, id) => {
     return getCategories(metadata)[id]
 }
 
-const getCategoryComboById = (metadata, id) => {
+export const getCategoryComboById = (metadata, id) => {
     return getCategoryCombos(metadata)[id]
 }
 
-const getCategoryOptionById = (metadata, id) => {
+export const getCategoryOptionById = (metadata, id) => {
     return getCategoryOptions(metadata)[id]
 }
 
-const getCategoryOptionComboById = (metadata, id) => {
+export const getCategoryOptionsByCoCId = (metadata, cocId) => {
+    const coc = getCategoryOptionComboById(metadata, cocId)
+    return coc.categoryOptions.map((coId) =>
+        getCategoryOptionById(metadata, coId)
+    )
+}
+
+export const getCategoryOptionComboById = (metadata, id) => {
     return getCategoryOptionCombos(metadata)[id]
 }
 
-const getCategoriesByCategoryComboId = (metadata, categoryComboId) => {
-    const categoryCombo = getCategoryComboById(categoryComboId)
+export const getCategoriesByCategoryComboId = (metadata, categoryComboId) => {
+    const categoryCombo = getCategoryComboById(metadata, categoryComboId)
     const categories = categoryCombo.categories.map((id) =>
         getCategoryById(metadata, id)
     )
     return categories
 }
 
-const getCategoryOptionsByCategoryId = (metadata, categoryId) => {
-    const category = getCategoryById(categoryId)
+export const getCategoryOptionsByCategoryId = (metadata, categoryId) => {
+    const category = getCategoryById(metadata, categoryId)
     const categoryOptions = category.categoryOptions.map((optId) =>
-        getCategoryOptionById(optId)
+        getCategoryOptionById(metadata, optId)
     )
     return categoryOptions
 }
 
-const getCategoryOptionCombosByCategoryComboId = (metadata, catComboId) => {
-    const categoryCombo = getCategoryComboById(catComboId)
-    const categoryOptionCombos = categoryCombo.categoryOptionCombos.map((cocId) =>
-        getCategoryOptionComboById(cocId)
+export const getCategoryOptionCombosByCategoryComboId = (
+    metadata,
+    catComboId
+) => {
+    const categoryCombo = getCategoryComboById(metadata, catComboId)
+    console.log({ categoryCombo })
+    const categoryOptionCombos = categoryCombo?.categoryOptionCombos.map(
+        (cocId) => getCategoryOptionComboById(metadata, cocId)
     )
     return categoryOptionCombos
 }
@@ -97,7 +124,7 @@ const getCategoryOptionCombosByCategoryComboId = (metadata, catComboId) => {
 //      -- cat.label
 // cat.catOpts.forEach
 //   //
-const getDataSetMetadata = (metadata, dataSetId) => {
+export const getDataSetMetadata = (metadata, dataSetId) => {
     const dataElements = getDataElementsByDataSetId(metadata, dataSetId)
 
     const sections = getSectionsByDataSetId(metadata, dataSetId)
