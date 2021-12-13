@@ -20,13 +20,14 @@ import {
 import { DataTable } from './data-table.js'
 
 const ngeleId = 'DiszpKrYNg8'
-const pe = '202108'
+const period = '202111'
 const emergencyDataSetId = 'Lpw6GcnTrmS'
 const expendituresDataSetId = 'rsyjyJmYD4J'
 const catComboId = 'WBW7RjsApsv'
 const attrOptionComboId = 'gQhAMdimKO4' //result
-const defaultCatOptComboId = 'bjDvmb4bfuf'
+const defaultCatComboId = 'bjDvmb4bfuf'
 const urbanRuralCatOptCombo = 'DJXmyhnquyI'
+const defaultCatOptComboId = 'HllvX50cXC0'
 
 const query = {
     dataSet: {
@@ -45,7 +46,7 @@ const query = {
         resource: 'dataValueSets',
         params: {
             dataSet: emergencyDataSetId,
-            period: pe,
+            period: period,
             orgUnit: ngeleId,
             attributeOptionCombo: attrOptionComboId,
         },
@@ -71,7 +72,7 @@ const metadataQuery = {
             // set element
             'dataSets:fields':
                 'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
-            'dataElements:fields': 'id,formName,categoryCombo,valueType',
+            'dataElements:fields': 'id,displayFormName,categoryCombo,valueType',
             'sections:fields':
                 'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
             'categoryCombos:fields':
@@ -120,6 +121,7 @@ const DataWorkspace = () => {
         metadata
     )
 
+    console.log({ hashed })
     useEffect(() => {
         refetch({
             variables: {
@@ -324,33 +326,60 @@ const DataWorkspace = () => {
     // If CUSTOM form => just render that? 'dangerouslySetInnerHtml'
     // Need to replace entry cells with our custom entry cells somehow
 
-    if (data.dataSet.formType === 'SECTION') {
-        return (
-            <>
-                <DataSetSelector
-                    onDataSetSelect={(val) => setSelectedDataset(val.selected)}
-                    selected={selectedDataset}
-                />
-                <DataTable metadata={hashed} dataSetId={selectedDataset} />
-                {/* Example CC Table section rendered here: */}
-                {exampleCCTableSection}
-                {data.dataSet.sections.map((s) => (
-                    <FormSection section={s} key={s.id}>
-                        {getSectionDataElements(s).map(({ dataElement }) => {
-                            return (
-                                <div key={dataElement.id}>
-                                    {dataElement.formName}
-                                </div>
-                            )
-                        })}
-                        {/* Then split up section data elements by category combo */}
-                        {/* For each CC, render CC table section */}
-                    </FormSection>
-                ))}
-            </>
-        )
+    const getForm = () => {
+        // TODO: handle other form types
+        if (data.dataSet.formType === 'SECTION') {
+            return (
+                <>
+                    <DataSetSelector
+                        onDataSetSelect={(val) =>
+                            setSelectedDataset(val.selected)
+                        }
+                        selected={selectedDataset}
+                    />
+                    <DataTable
+                        metadata={hashed}
+                        dataSetId={selectedDataset}
+                        orgUnitId={ngeleId}
+                        period={period}
+                        attributeOptionCombo={defaultCatOptComboId}
+                    />
+                    {/* Example CC Table section rendered here: */}
+                    {exampleCCTableSection}
+                    {data.dataSet.sections.map((s) => (
+                        <FormSection section={s} key={s.id}>
+                            {getSectionDataElements(s).map(
+                                ({ dataElement }) => {
+                                    return (
+                                        <div key={dataElement.id}>
+                                            {dataElement.formName}
+                                        </div>
+                                    )
+                                }
+                            )}
+                            {/* Then split up section data elements by category combo */}
+                            {/* For each CC, render CC table section */}
+                        </FormSection>
+                    ))}
+                </>
+            )
+        }
     }
-    return 'hi'
+    return (
+        <div className="workspace-wrapper">
+            {getForm()}
+            <style jsx>
+                {`
+                    .workspace-wrapper {
+                        background-color: #fff;
+                        min-width: 600px;
+                        padding: 8px;
+                        overflow: scroll;
+                    }
+                `}
+            </style>
+        </div>
+    )
 }
 
 export default DataWorkspace

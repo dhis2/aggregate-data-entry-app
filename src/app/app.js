@@ -13,7 +13,8 @@ const App = () => {
                 main={<DataWorkspace />}
                 sidebar=""
                 footer=""
-                showSidebar
+                // Todo: make dynamic after working on workspace
+                showSidebar={false}
                 showFooter
             />
         </>
