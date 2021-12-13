@@ -1,3 +1,5 @@
+import { cartesian } from './utils'
+
 export const getDataElements = (metadata) => metadata.dataElements
 
 export const getDataElementById = (metadata, id) =>
@@ -42,6 +44,16 @@ export const getDataElementsByDataSetId = (metadata, dataSetId) => {
     })
 
     return dataElements
+}
+
+export const getDataElementsBySection = (metadata, dataSetId, sectionId) => {
+    const section = getSections(metadata)[sectionId]
+    // need dataSetId to get dataElements from the dataSet, as there can be catCombo overrides
+    const dataSetElements = getDataElementsByDataSetId(metadata, dataSetId)
+
+    return section.dataElements.map((deId) =>
+        dataSetElements.find((dse) => dse.id === deId)
+    )
 }
 
 // Use IDs?
@@ -107,11 +119,64 @@ export const getCategoryOptionCombosByCategoryComboId = (
     catComboId
 ) => {
     const categoryCombo = getCategoryComboById(metadata, catComboId)
-    console.log({ categoryCombo })
+    //console.log({ categoryCombo })
     const categoryOptionCombos = categoryCombo?.categoryOptionCombos.map(
         (cocId) => getCategoryOptionComboById(metadata, cocId)
     )
     return categoryOptionCombos
+}
+
+/**
+ * Gets the correct ordering of categoryOptionCombos within a category combination
+ * @param {*} metadata
+ * @param {*} catComboId
+ * @returns
+ */
+export const getSortedCategoryOptionCombosByCategoryComboId = (
+    metadata,
+    catComboId
+) => {
+    const categories = getCategoriesByCategoryComboId(metadata, catComboId)
+
+    // get options for each category, these should be in sorted order
+    const allOptionsLists = categories.map((cat) => cat.categoryOptions)
+    // compute the  combination of category-catgoryOption- this basically computes the categoryCombinations
+    // result is a matrix of categoryOptions for each column in the categoryCombo
+    const optionCombinationOrder = cartesian(allOptionsLists)
+    return optionCombinationOrder.map((opts) =>
+        getCoCByCategoryOptions(metadata, catComboId, opts)
+    )
+}
+
+/**
+ * Tries to find the categoryOptionCombo with the given categoryOptions within
+ * a category combination.
+ * @param {} metadata
+ * @param {*} catComboId
+ * @param {*} categoryOptionIds
+ * @returns
+ */
+export const getCoCByCategoryOptions = (
+    metadata,
+    catComboId,
+    categoryOptionIds
+) => {
+    const cocs = getCategoryOptionCombosByCategoryComboId(metadata, catComboId)
+    const sorted = [...categoryOptionIds].sort() //sort to check for equality
+
+    for (const coc of cocs) {
+        const sortedCatOptions = [...coc.categoryOptions].sort()
+        if (
+            sorted.length === sortedCatOptions.length &&
+            sortedCatOptions.every((id, ind) => id === sorted[ind])
+        ) {
+            return coc
+        }
+    }
+    console.warn(
+        `Could not find categoryOptionCombo for catCombo ${catComboId}, with categoryOptions: ${categoryOptionIds.join()}`
+    )
+    return null
 }
 
 // Birk: catCombo => catOptsCombos => categories => catOpts

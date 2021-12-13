@@ -7,8 +7,9 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    CircularLoader,
 } from '@dhis2/ui'
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useContext, useState, useEffect, useMemo } from 'react'
 import { Sections, FormSection } from './section'
 import { DataSetSelector } from './dataset-selector'
 import {
@@ -18,15 +19,17 @@ import {
     getDataSetById,
 } from './selectors'
 import { DataTable } from './data-table.js'
-
+import { hashArraysInObject } from './utils'
+import { MetadataContext } from './metadata-context'
 const ngeleId = 'DiszpKrYNg8'
-const pe = '202108'
+const period = '202111'
 const emergencyDataSetId = 'Lpw6GcnTrmS'
 const expendituresDataSetId = 'rsyjyJmYD4J'
 const catComboId = 'WBW7RjsApsv'
 const attrOptionComboId = 'gQhAMdimKO4' //result
-const defaultCatOptComboId = 'bjDvmb4bfuf'
+const defaultCatComboId = 'bjDvmb4bfuf'
 const urbanRuralCatOptCombo = 'DJXmyhnquyI'
+const defaultCatOptComboId = 'HllvX50cXC0'
 
 const query = {
     dataSet: {
@@ -45,19 +48,10 @@ const query = {
         resource: 'dataValueSets',
         params: {
             dataSet: emergencyDataSetId,
-            period: pe,
+            period: period,
             orgUnit: ngeleId,
             attributeOptionCombo: attrOptionComboId,
         },
-    },
-    form: {
-        resource: 'dataSets',
-        id: ({ id }) => `${id}/form`,
-        params: ({ ou }) => ({
-            metaData: true,
-            ou,
-            fields: '',
-        }),
     },
 }
 
@@ -71,7 +65,7 @@ const metadataQuery = {
             // set element
             'dataSets:fields':
                 'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
-            'dataElements:fields': 'id,formName,categoryCombo,valueType',
+            'dataElements:fields': 'id,displayFormName,categoryCombo,valueType',
             'sections:fields':
                 'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
             'categoryCombos:fields':
@@ -89,37 +83,28 @@ const metadataQuery = {
 // dataSet.renderAsTabs or .renderHorizontally
 //const transformData = (metadata) =>
 
-const hashById = (array) =>
-    array.reduce((acc, curr) => {
-        acc[curr.id] = curr
-        return acc
-    }, {})
-
-const hashArraysInObject = (result) =>
-    Object.keys(result).reduce((acc, currKey) => {
-        const prop = result[currKey]
-        if (Array.isArray(prop)) {
-            acc[currKey] = hashById(result[currKey])
-        } else {
-            acc[currKey] = prop
-        }
-        return acc
-    }, {})
-
-const DataWorkspace = () => {
+export const DataWorkspace = () => {
     const [selectedDataset, setSelectedDataset] = useState(emergencyDataSetId)
     const { data, loading, error, refetch } = useDataQuery(query, {
         variables: { ou: ngeleId, id: selectedDataset },
     })
+    const { setMetadata } = useContext(MetadataContext)
 
     const { data: metadata, loading: metaLoading } = useDataQuery(metadataQuery)
     console.log({ metadata })
 
-    const hashed = useMemo(
-        () => metadata?.metadata && hashArraysInObject(metadata.metadata),
-        metadata
-    )
+    const hashed = useMemo(() => {
+        const hashed =
+            metadata?.metadata && hashArraysInObject(metadata.metadata)
 
+        return hashed
+    }, [metadata])
+
+    useEffect(() => {
+        setMetadata(hashed)
+    }, [hashed])
+
+    console.log({ hashed })
     useEffect(() => {
         refetch({
             variables: {
@@ -132,7 +117,7 @@ const DataWorkspace = () => {
     // if catCombo.name === 'default' => columnTitle = 'Value'
 
     if (loading) {
-        return 'Loading...'
+        return <CircularLoader />
     }
 
     if (error) {
@@ -324,33 +309,60 @@ const DataWorkspace = () => {
     // If CUSTOM form => just render that? 'dangerouslySetInnerHtml'
     // Need to replace entry cells with our custom entry cells somehow
 
-    if (data.dataSet.formType === 'SECTION') {
-        return (
-            <>
-                <DataSetSelector
-                    onDataSetSelect={(val) => setSelectedDataset(val.selected)}
-                    selected={selectedDataset}
-                />
-                <DataTable metadata={hashed} dataSetId={selectedDataset} />
-                {/* Example CC Table section rendered here: */}
-                {exampleCCTableSection}
-                {data.dataSet.sections.map((s) => (
-                    <FormSection section={s} key={s.id}>
-                        {getSectionDataElements(s).map(({ dataElement }) => {
-                            return (
-                                <div key={dataElement.id}>
-                                    {dataElement.formName}
-                                </div>
-                            )
-                        })}
-                        {/* Then split up section data elements by category combo */}
-                        {/* For each CC, render CC table section */}
-                    </FormSection>
-                ))}
-            </>
-        )
+    const getForm = () => {
+        // TODO: handle other form types
+        if (data.dataSet.formType === 'SECTION') {
+            return (
+                <>
+                    {loading ? (
+                        <CircularLoader />
+                    ) : (
+                        <DataTable
+                            metadata={hashed}
+                            dataSetId={selectedDataset}
+                            orgUnitId={ngeleId}
+                            period={period}
+                            attributeOptionCombo={defaultCatOptComboId}
+                        />
+                    )}
+                    {/* Example CC Table section rendered here: */}
+                    {exampleCCTableSection}
+                    {data.dataSet.sections.map((s) => (
+                        <FormSection section={s} key={s.id}>
+                            {getSectionDataElements(s).map(
+                                ({ dataElement }) => {
+                                    return (
+                                        <div key={dataElement.id}>
+                                            {dataElement.formName}
+                                        </div>
+                                    )
+                                }
+                            )}
+                            {/* Then split up section data elements by category combo */}
+                            {/* For each CC, render CC table section */}
+                        </FormSection>
+                    ))}
+                </>
+            )
+        }
     }
-    return 'hi'
+    return (
+        <div className="workspace-wrapper">
+            <DataSetSelector
+                onDataSetSelect={(val) => setSelectedDataset(val.selected)}
+                selected={selectedDataset}
+            />
+            {getForm()}
+            <style jsx>
+                {`
+                    .workspace-wrapper {
+                        background-color: #fff;
+                        min-width: 600px;
+                        padding: 8px;
+                        overflow: scroll;
+                    }
+                `}
+            </style>
+        </div>
+    )
 }
-
-export default DataWorkspace
