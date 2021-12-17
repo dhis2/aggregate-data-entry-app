@@ -2,20 +2,20 @@ import { useDataQuery } from '@dhis2/app-runtime'
 import { useEffect } from 'react'
 import { useDataSetId } from '../use-context-selection.js'
 
-const QUERY_DATA_SET = {
+const QUERY_DATA_SET_ORG_UNIT_PATHS = {
     dataSet: {
         resource: 'dataSets',
         id: ({ id }) => id,
         params: {
-            fields: ['id', 'displayName'],
+            fields: ['organisationUnits[path]'],
         },
     },
 }
 
-export default function useDataSet() {
+export default function useDataSetOrgUnitPaths() {
     const [dataSetId] = useDataSetId()
-    const { called, loading, error, refetch, data } = useDataQuery(
-        QUERY_DATA_SET,
+    const { loading, error, data, refetch } = useDataQuery(
+        QUERY_DATA_SET_ORG_UNIT_PATHS,
         { lazy: true }
     )
 
@@ -25,13 +25,13 @@ export default function useDataSet() {
         }
     }, [dataSetId])
 
-    const dataSet = data?.dataSet
+    const dataSetOrgUnitPaths = data?.dataSet.organisationUnits.map(
+        ({ path }) => path
+    )
 
     return {
-        calledDataSet: called,
-        loadingDataSet: loading,
-        errorDataSet: error,
-        refetchDataSet: refetch,
-        dataSet,
+        dataSetOrgUnitPaths,
+        loadingDataSetOrgUnitPaths: loading,
+        errorDataSetOrgUnitPaths: error,
     }
 }

@@ -1,45 +1,39 @@
-import { SelectorBarItem } from '@dhis2-ui/selector-bar'
 import i18n from '@dhis2/d2-i18n'
+import { SelectorBarItem } from '@dhis2/ui'
 import React, { useState } from 'react'
-import { useQueryParam } from 'use-query-params'
-import * as constants from '../contants.js'
 import { MenuSelect } from '../menu-select/index.js'
-import { PARAMS_SCHEMA } from '../use-context-selection.js'
+import { useDataSetId } from '../use-context-selection.js'
 import useDataSet from './use-data-set.js'
 import useSelectableDataSets from './use-selectable-data-sets.js'
 
-const DataSetSelectorBarItem = () => {
+export default function DataSetSelectorBarItem() {
     const [dataSetOpen, setDataSetOpen] = useState(false)
-    const [dataSetId, setDataSetId] = useQueryParam(
-        constants.PARAM_DATA_SET_ID,
-        PARAMS_SCHEMA[constants.PARAM_DATA_SET_ID]
-    )
-
-    const { fetchingDataSet, errorDataSet, dataSet } = useDataSet(dataSetId)
+    const [dataSetId, setDataSetId] = useDataSetId()
+    const { loadingDataSet, errorDataSet, dataSet } = useDataSet()
 
     const {
-        fetchingSelectableDataSets,
+        loadingSelectableDataSets,
         errorSelectableDataSets,
         selectableDataSets,
     } = useSelectableDataSets()
 
-    const selectorBarItemValue = fetchingDataSet
+    const selectorBarItemValue = loadingDataSet
         ? i18n.t('Fetching data set info')
         : errorDataSet
-        ? i18n.t('Error occurred while fetching data set info')
+        ? i18n.t('Error occurred while loading data set info')
         : dataSet?.displayName
 
     return (
         <SelectorBarItem
             label={i18n.t('Data set')}
-            value={selectorBarItemValue}
+            value={dataSetId ? selectorBarItemValue : undefined}
             open={dataSetOpen}
             setOpen={setDataSetOpen}
             noValueMessage={i18n.t('Choose a data set')}
         >
-            {fetchingSelectableDataSets && i18n.t('Fetching data sets')}
+            {loadingSelectableDataSets && i18n.t('Fetching data sets')}
             {errorSelectableDataSets &&
-                i18n.t('Error occurred while fetching data sets')}
+                i18n.t('Error occurred while loading data sets')}
             {selectableDataSets && (
                 <MenuSelect
                     values={selectableDataSets}
@@ -53,5 +47,3 @@ const DataSetSelectorBarItem = () => {
         </SelectorBarItem>
     )
 }
-
-export default DataSetSelectorBarItem

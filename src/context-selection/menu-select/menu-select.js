@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import css from './menu-select.module.css'
 
-const MenuSelect = ({ values, selected, onChange }) => {
+export default function MenuSelect({ values, selected, onChange }) {
     return (
         <div className={css.menuSelect}>
             <Menu>
@@ -30,5 +30,3 @@ MenuSelect.propTypes = {
     onChange: PropTypes.func.isRequired,
     selected: PropTypes.string,
 }
-
-export default MenuSelect

@@ -7,17 +7,16 @@ const QUERY_DATA_SET = {
         resource: 'dataSets',
         id: ({ id }) => id,
         params: {
-            fields: ['id', 'displayName'],
+            fields: ['periodType'],
         },
     },
 }
 
-export default function useDataSet() {
+export default function useDataSetPeriodType() {
     const [dataSetId] = useDataSetId()
-    const { called, loading, error, refetch, data } = useDataQuery(
-        QUERY_DATA_SET,
-        { lazy: true }
-    )
+    const { loading, error, refetch, data } = useDataQuery(QUERY_DATA_SET, {
+        lazy: true,
+    })
 
     useEffect(() => {
         if (dataSetId) {
@@ -25,13 +24,11 @@ export default function useDataSet() {
         }
     }, [dataSetId])
 
-    const dataSet = data?.dataSet
+    const dataSetPeriodType = data?.dataSet.periodType
 
     return {
-        calledDataSet: called,
-        loadingDataSet: loading,
-        errorDataSet: error,
-        refetchDataSet: refetch,
-        dataSet,
+        loadingDataSetPeriodType: loading,
+        errorDataSetPeriodType: error,
+        dataSetPeriodType,
     }
 }

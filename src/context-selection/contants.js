@@ -1,6 +1,0 @@
-export const PARAM_DATA_SET_ID = 'dataSetId'
-export const PARAM_ORG_UNIT_ID = 'orgUnitId'
-export const PARAM_PERIOD = 'period'
-export const PARAM_IMPLEMENTING_PARTNER_ID = 'implementingPartnerId'
-export const PARAM_PROJECT_ID = 'projectId'
-export const PARAM_SECTION_FILTER = 'sectionFilter'

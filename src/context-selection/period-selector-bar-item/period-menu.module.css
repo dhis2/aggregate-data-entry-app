@@ -1,0 +1,6 @@
+.menu {
+    /* total max height 400px, minus 45px for year navigator */
+    max-height: 355px;
+    min-width: 240px;
+    overflow: auto;
+}

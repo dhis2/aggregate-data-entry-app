@@ -1,0 +1,16 @@
+.container {
+    width: 400px;
+    padding: 16px;
+}
+
+.inputs {
+    margin-bottom: 32px;
+}
+
+.input {
+    margin-bottom: 16px;
+}
+
+.input:last-child {
+    margin-bottom: 0;
+}

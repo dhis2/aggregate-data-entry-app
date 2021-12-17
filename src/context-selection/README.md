@@ -2,12 +2,12 @@
 
 This module exports three variables:
 
-* `contextSelectionConstants` & `useContextSelection`
-    * These need to be used in conjunction to retrieve the context selection
-      global state
-* `ContextSelection`
-    * This is the component that should be rendered in the appropriate layout
-      area
+-   `contextSelectionConstants` & `useContextSelection`
+    -   These need to be used in conjunction to retrieve the context selection
+        global state
+-   `ContextSelection`
+    -   This is the component that should be rendered in the appropriate layout
+        area
 
 ## Global state
 
@@ -32,6 +32,15 @@ export default function Comp() {
     return <div />
 }
 ```
+
+## Co-locating logic with selectors
+
+The individual selectors are supposed to be completely self-contained in terms
+of logic. A good example is that when changing the data set to one with a
+different period type, the selected period type selection should be deselected.
+The data set selector should not have to know about that. Instead the period
+selector subscribes to changes of the data set id and deselects the currently
+selected period when the period type of the data set changes.
 
 ## ContextSelection component
 
