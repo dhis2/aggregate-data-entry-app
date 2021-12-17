@@ -9,8 +9,8 @@ const QUERY_SELECTABLE_DATA_SETS = {
     },
 }
 
-const useSelectableDataSets = () => {
-    const { fetching, error, data } = useDataQuery(QUERY_SELECTABLE_DATA_SETS)
+export default function useSelectableDataSets() {
+    const { loading, error, data } = useDataQuery(QUERY_SELECTABLE_DATA_SETS)
 
     // @TODO: How to handle pages / large lists?
     // Nested as this is "page-able"
@@ -22,10 +22,8 @@ const useSelectableDataSets = () => {
     }))
 
     return {
-        fetchingSelectableDataSets: fetching,
+        loadingSelectableDataSets: loading,
         errorSelectableDataSets: error,
         selectableDataSets,
     }
 }
-
-export default useSelectableDataSets

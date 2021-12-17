@@ -2,20 +2,20 @@ import { useDataQuery } from '@dhis2/app-runtime'
 import { useEffect } from 'react'
 import { useDataSetId } from '../use-context-selection.js'
 
-const QUERY_DATA_SET = {
+const QUERY_DATA_SET_SECTIONS_INFO = {
     dataSet: {
         resource: 'dataSets',
         id: ({ id }) => id,
         params: {
-            fields: ['id', 'displayName'],
+            fields: ['formType', 'sections[id,displayName]'],
         },
     },
 }
 
-export default function useDataSet() {
+export default function useDataSetSectionsInfo() {
     const [dataSetId] = useDataSetId()
     const { called, loading, error, refetch, data } = useDataQuery(
-        QUERY_DATA_SET,
+        QUERY_DATA_SET_SECTIONS_INFO,
         { lazy: true }
     )
 
@@ -25,13 +25,12 @@ export default function useDataSet() {
         }
     }, [dataSetId])
 
-    const dataSet = data?.dataSet
+    const dataSetSectionsInfo = data?.dataSet
 
     return {
-        calledDataSet: called,
-        loadingDataSet: loading,
-        errorDataSet: error,
-        refetchDataSet: refetch,
-        dataSet,
+        calledDataSetSectionsInfo: called,
+        loadingDataSetSectionsInfo: loading,
+        errorDataSetSectionsInfo: error,
+        dataSetSectionsInfo,
     }
 }

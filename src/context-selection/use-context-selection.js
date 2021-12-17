@@ -1,13 +1,40 @@
-import { StringParam, useQueryParams } from 'use-query-params'
-import * as constants from './contants.js'
+import {
+    ArrayParam,
+    StringParam,
+    useQueryParams,
+    useQueryParam,
+    withDefault,
+} from 'use-query-params'
 
 export const PARAMS_SCHEMA = {
-    [constants.PARAM_DATA_SET_ID]: StringParam,
-    [constants.PARAM_ORG_UNIT_ID]: StringParam,
-    [constants.PARAM_PERIOD]: StringParam,
-    [constants.PARAM_IMPLEMENTING_PARTNER_ID]: StringParam,
-    [constants.PARAM_PROJECT_ID]: StringParam,
-    [constants.PARAM_SECTION_FILTER]: StringParam,
+    dataSetId: StringParam,
+    orgUnitId: StringParam,
+    periodId: StringParam,
+    categoryOptionComboSelection: withDefault(ArrayParam, []),
+    sectionFilter: StringParam,
+}
+
+export function useDataSetId() {
+    return useQueryParam('dataSetId', PARAMS_SCHEMA.dataSetId)
+}
+
+export function useOrgUnitId() {
+    return useQueryParam('orgUnitId', PARAMS_SCHEMA.orgUnitId)
+}
+
+export function usePeriodId() {
+    return useQueryParam('periodId', PARAMS_SCHEMA.periodId)
+}
+
+export function useCategoryOptionComboSelection() {
+    return useQueryParam(
+        'categoryOptionComboSelection',
+        PARAMS_SCHEMA.categoryOptionComboSelection
+    )
+}
+
+export function useSectionFilter() {
+    return useQueryParam('sectionFilter', PARAMS_SCHEMA.sectionFilter)
 }
 
 export function useContextSelection() {
