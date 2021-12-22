@@ -27,13 +27,11 @@ export default function useCategoryCombination() {
         }
     }, [dataSetId])
 
-    const categoryCombination = data?.dataSet.categoryCombo
-
     return {
-        calledCategoryCombination: called,
-        loadingCategoryCombination: loading,
-        errorCategoryCombination: error,
-        refetchCategoryCombination: refetch,
-        categoryCombination,
+        called,
+        loading,
+        error,
+        refetch,
+        data: data?.dataSet.categoryCombo,
     }
 }

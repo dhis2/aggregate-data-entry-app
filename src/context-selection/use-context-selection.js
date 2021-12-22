@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import {
     ArrayParam,
     StringParam,
@@ -39,4 +40,18 @@ export function useSectionFilter() {
 
 export function useContextSelection() {
     return useQueryParams(PARAMS_SCHEMA)
+}
+
+export function useClearEntireSelection() {
+    const [, setSelectionContext] = useContextSelection()
+
+    return useCallback(() => {
+        setSelectionContext({
+            dataSetId: '',
+            orgUnitId: '',
+            periodId: '',
+            categoryOptionComboSelection: [],
+            sectionFilter: '',
+        })
+    }, [setSelectionContext])
 }

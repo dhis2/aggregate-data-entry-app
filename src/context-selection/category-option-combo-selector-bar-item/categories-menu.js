@@ -6,25 +6,20 @@ import css from './categories-menu.module.css'
 import useCategoryCombination from './use-category-combination.js'
 
 export default function CategoriesMenu({ close, selected, onChange }) {
-    const {
-        calledCategoryCombination,
-        loadingCategoryCombination,
-        errorCategoryCombination,
-        categoryCombination,
-    } = useCategoryCombination()
+    const categoryCombination = useCategoryCombination()
 
-    if (!calledCategoryCombination || loadingCategoryCombination) {
+    if (!categoryCombination.called || categoryCombination.loading) {
         return i18n.t('Loading categories...')
     }
 
-    if (errorCategoryCombination) {
+    if (categoryCombination.error) {
         return i18n.t('An error occurred loading the categories')
     }
 
     return (
         <div className={css.container}>
             <div className={css.inputs}>
-                {categoryCombination?.categories.map(
+                {categoryCombination.data?.categories.map(
                     ({ id, displayName, categoryOptions }) => (
                         <div className={css.input} key={id}>
                             <SingleSelectField
@@ -69,8 +64,6 @@ export default function CategoriesMenu({ close, selected, onChange }) {
 
 CategoriesMenu.propTypes = {
     close: PropTypes.func.isRequired,
-    // No specific shape due to dynamic keys,
-    // only `{ [categoryId]: categoryOptionId }`
-    selected: PropTypes.object.isRequired,
+    selected: PropTypes.objectOf(PropTypes.string).isRequired,
     onChange: PropTypes.func.isRequired,
 }

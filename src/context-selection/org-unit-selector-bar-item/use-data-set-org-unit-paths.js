@@ -30,8 +30,8 @@ export default function useDataSetOrgUnitPaths() {
     )
 
     return {
-        dataSetOrgUnitPaths,
-        loadingDataSetOrgUnitPaths: loading,
-        errorDataSetOrgUnitPaths: error,
+        data: dataSetOrgUnitPaths,
+        loading,
+        error,
     }
 }

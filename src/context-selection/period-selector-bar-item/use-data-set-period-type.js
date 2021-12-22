@@ -27,8 +27,8 @@ export default function useDataSetPeriodType() {
     const dataSetPeriodType = data?.dataSet.periodType
 
     return {
-        loadingDataSetPeriodType: loading,
-        errorDataSetPeriodType: error,
-        dataSetPeriodType,
+        loading,
+        error,
+        data: dataSetPeriodType,
     }
 }
