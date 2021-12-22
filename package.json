@@ -28,8 +28,8 @@
         "@dhis2/cypress-commands": "^9.0.1",
         "@dhis2/cypress-plugins": "^9.0.1",
         "@testing-library/jest-dom": "^5.15.1",
-        "@testing-library/react-hooks": "^7.0.2",
         "@testing-library/react": "^12.1.2",
+        "@testing-library/react-hooks": "^7.0.2",
         "cypress": "^9.1.0",
         "cypress-cucumber-preprocessor": "^4.3.0",
         "enzyme": "^3.11.0",
@@ -39,10 +39,11 @@
     },
     "dependencies": {
         "@dhis2/app-runtime": "^3.2.6",
-        "history": "^5.1.0",
-        "query-string": "^7.0.1",
         "@dhis2/ui": "^7.7.9",
         "classnames": "^2.3.1",
-        "prop-types": "^15.7.2"
+        "history": "^5.1.0",
+        "prop-types": "^15.7.2",
+        "query-string": "^7.0.1",
+        "react-query": "^3.34.5"
     }
 }
