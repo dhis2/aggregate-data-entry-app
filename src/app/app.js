@@ -1,27 +1,12 @@
-import { useDataEngine } from '@dhis2/app-runtime'
 import { CssVariables } from '@dhis2/ui'
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query'
 import './app.css'
 import { Layout } from './layout/index.js'
+import useQueryClient from './use-query-client.js'
 
 const App = () => {
-    const engine = useDataEngine()
-
-    // https://react-query.tanstack.com/guides/query-keys
-    const queryFn = ({ queryKey }) => {
-        const [query, variables] = queryKey
-        return engine.query(query, { variables })
-    }
-
-    // https://react-query.tanstack.com/guides/default-query-function
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                queryFn,
-            },
-        },
-    })
+    const queryClient = useQueryClient()
 
     return (
         <QueryClientProvider client={queryClient}>
