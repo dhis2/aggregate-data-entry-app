@@ -9,19 +9,14 @@ import useSelectableDataSets from './use-selectable-data-sets.js'
 export default function DataSetSelectorBarItem() {
     const [dataSetOpen, setDataSetOpen] = useState(false)
     const [dataSetId, setDataSetId] = useDataSetId()
-    const { loadingDataSet, errorDataSet, dataSet } = useDataSet()
+    const dataSet = useDataSet()
+    const selectableDataSets = useSelectableDataSets()
 
-    const {
-        loadingSelectableDataSets,
-        errorSelectableDataSets,
-        selectableDataSets,
-    } = useSelectableDataSets()
-
-    const selectorBarItemValue = loadingDataSet
+    const selectorBarItemValue = dataSet.loading
         ? i18n.t('Fetching data set info')
-        : errorDataSet
+        : dataSet.error
         ? i18n.t('Error occurred while loading data set info')
-        : dataSet?.displayName
+        : dataSet.data?.displayName
 
     return (
         <SelectorBarItem
@@ -31,12 +26,12 @@ export default function DataSetSelectorBarItem() {
             setOpen={setDataSetOpen}
             noValueMessage={i18n.t('Choose a data set')}
         >
-            {loadingSelectableDataSets && i18n.t('Fetching data sets')}
-            {errorSelectableDataSets &&
+            {selectableDataSets.loadingSelectableDataSets && i18n.t('Fetching data sets')}
+            {selectableDataSets.errorSelectableDataSets &&
                 i18n.t('Error occurred while loading data sets')}
-            {selectableDataSets && (
+            {selectableDataSets.data && (
                 <MenuSelect
-                    values={selectableDataSets}
+                    values={selectableDataSets.data}
                     selected={dataSetId}
                     onChange={({ selected }) => {
                         setDataSetId(selected)

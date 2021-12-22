@@ -25,13 +25,11 @@ export default function useDataSet() {
         }
     }, [dataSetId])
 
-    const dataSet = data?.dataSet
-
     return {
-        calledDataSet: called,
-        loadingDataSet: loading,
-        errorDataSet: error,
-        refetchDataSet: refetch,
-        dataSet,
+        called,
+        loading,
+        error,
+        refetch,
+        data: data?.dataSet,
     }
 }

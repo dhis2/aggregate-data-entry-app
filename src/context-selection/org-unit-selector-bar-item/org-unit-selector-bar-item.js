@@ -7,37 +7,25 @@ import {
     useOrgUnitId,
 } from '../use-context-selection.js'
 import useDataSetOrgUnitPaths from './use-data-set-org-unit-paths.js'
+import useExpandedState from './use-expanded-state.js'
 import useOrgUnit from './use-organisation-unit.js'
+import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
 
 export default function OrganisationUnitSetSelectorBarItem() {
     const [orgUnitOpen, setOrgUnitOpen] = useState(false)
+    const { expanded, handleExpand, handleCollapse } = useExpandedState()
     const [dataSetId] = useDataSetId()
     const [, setOrgUnitId] = useOrgUnitId()
     const [, setCategoryOptionComboSelection] =
         useCategoryOptionComboSelection()
-    const [expanded, setExpanded] = useState([])
-    const handleExpand = ({ path }) => setExpanded([...expanded, path])
-    const handleCollapse = ({ path }) =>
-        setExpanded(expanded.filter((p) => p !== path))
 
-    const { loadingOrgUnit, errorOrgUnit, orgUnit } = useOrgUnit()
-    const { loadingUserOrgUnits, errorUserOrgUnits, userOrgUnits } =
-        useUserOrgUnits()
-    const {
-        dataSetOrgUnitPaths,
-        loadingDataSetOrgUnitPaths,
-        errorDataSetOrgUnitPaths,
-    } = useDataSetOrgUnitPaths()
+    const orgUnit = useOrgUnit()
+    const userOrgUnits = useUserOrgUnits()
+    const dataSetOrgUnitPaths = useDataSetOrgUnitPaths()
 
-    const selectorBarItemValue =
-        loadingUserOrgUnits || loadingOrgUnit || loadingDataSetOrgUnitPaths
-            ? i18n.t('Fetching organisation unit info')
-            : errorOrgUnit || errorUserOrgUnits || errorDataSetOrgUnitPaths
-            ? i18n.t('Error occurred while loading organisation unit info')
-            : orgUnit?.displayName
-
-    const selected = orgUnit ? [orgUnit.path] : []
+    const selectorBarItemValue = useSelectorBarItemValue()
+    const selected = orgUnit.data ? [orgUnit.data.path] : []
 
     return (
         <SelectorBarItem
@@ -51,7 +39,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
             <div style={{ width: 400 }}>
                 <OrganisationUnitTree
                     singleSelection
-                    roots={userOrgUnits || []}
+                    roots={userOrgUnits.data || []}
                     selected={selected}
                     expanded={expanded}
                     handleExpand={handleExpand}
@@ -64,7 +52,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
                         setOrgUnitOpen(false)
                         setCategoryOptionComboSelection([])
                     }}
-                    filter={dataSetOrgUnitPaths || undefined}
+                    filter={dataSetOrgUnitPaths.data || undefined}
                 />
             </div>
         </SelectorBarItem>

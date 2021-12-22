@@ -2,5 +2,5 @@
 
 ## Global state
 
-In order to provide deep linking, the global state has been implemented with
-`use-query-params`.
+We're using use-query-params to store part of the app's state in the url query
+parameters. This allows users to bookmark and share specific states of the app.

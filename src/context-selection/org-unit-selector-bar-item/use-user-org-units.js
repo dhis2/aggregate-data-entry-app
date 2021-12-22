@@ -14,8 +14,8 @@ export default function useUserOrgUnits() {
     const userOrgUnits = data?.orgUnits.organisationUnits.map(({ id }) => id)
 
     return {
-        userOrgUnits,
-        loadingUserOrgUnits: loading,
-        errorUserOrgUnits: error,
+        data: userOrgUnits,
+        loading,
+        error,
     }
 }

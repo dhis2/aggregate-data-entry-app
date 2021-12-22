@@ -22,8 +22,8 @@ export default function useSelectableDataSets() {
     }))
 
     return {
-        loadingSelectableDataSets: loading,
-        errorSelectableDataSets: error,
-        selectableDataSets,
+        loading,
+        error,
+        data: selectableDataSets,
     }
 }

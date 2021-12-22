@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-23T10:33:35.668Z\n"
-"PO-Revision-Date: 2021-12-23T10:33:35.668Z\n"
+"POT-Creation-Date: 2021-12-23T10:36:36.977Z\n"
+"PO-Revision-Date: 2021-12-23T10:36:36.977Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -60,17 +60,17 @@ msgstr "Fetching data sets"
 msgid "Error occurred while loading data sets"
 msgstr "Error occurred while loading data sets"
 
-msgid "Fetching organisation unit info"
-msgstr "Fetching organisation unit info"
-
-msgid "Error occurred while loading organisation unit info"
-msgstr "Error occurred while loading organisation unit info"
-
 msgid "Organisation unit"
 msgstr "Organisation unit"
 
 msgid "Choose a organisation unit"
 msgstr "Choose a organisation unit"
+
+msgid "Fetching organisation unit info"
+msgstr "Fetching organisation unit info"
+
+msgid "Error occurred while loading organisation unit info"
+msgstr "Error occurred while loading organisation unit info"
 
 msgid "Period"
 msgstr "Period"

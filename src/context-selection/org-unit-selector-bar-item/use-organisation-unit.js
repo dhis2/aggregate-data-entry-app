@@ -27,8 +27,8 @@ export default function useOrgUnit() {
     const orgUnit = data?.orgUnit
 
     return {
-        loadingOrgUnit: loading,
-        errorOrgUnit: error,
-        orgUnit,
+        loading,
+        error,
+        data: orgUnitId ? orgUnit : undefined,
     }
 }

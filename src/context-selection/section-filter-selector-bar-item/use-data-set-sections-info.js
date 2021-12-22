@@ -25,12 +25,17 @@ export default function useDataSetSectionsInfo() {
         }
     }, [dataSetId])
 
-    const dataSetSectionsInfo = data?.dataSet
+    const dataSetSectionsInfo = data?.dataSet.sections.map(
+        ({ id, displayName }) => ({
+            value: id,
+            label: displayName,
+        })
+    )
 
     return {
-        calledDataSetSectionsInfo: called,
-        loadingDataSetSectionsInfo: loading,
-        errorDataSetSectionsInfo: error,
-        dataSetSectionsInfo,
+        called,
+        loading,
+        error,
+        data: dataSetSectionsInfo,
     }
 }

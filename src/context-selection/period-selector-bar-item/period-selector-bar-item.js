@@ -7,6 +7,7 @@ import computeMaxYear from './compute-max-year.js'
 import PeriodMenu from './period-menu.js'
 import useDataSetPeriodType from './use-data-set-period-type.js'
 import useDeselectOnPeriodTypeChange from './use-deselect-on-period-type-change.js'
+import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import YearNavigator from './year-navigator.js'
 
 export const PERIOD = 'PERIOD'
@@ -15,14 +16,10 @@ export const PeriodSelectorBarItem = () => {
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()
     const [dataSetId] = useDataSetId()
-    const {
-        loadingDataSetPeriodType,
-        errorDataSetPeriodType,
-        dataSetPeriodType,
-    } = useDataSetPeriodType()
+    const dataSetPeriodType = useDataSetPeriodType()
 
     const [maxYear, setMaxYear] = useState(() =>
-        computeMaxYear(dataSetPeriodType)
+        computeMaxYear(dataSetPeriodType.data)
     )
 
     const selectedPeriod = usePeriod(periodId)
@@ -35,21 +32,17 @@ export const PeriodSelectorBarItem = () => {
     }, [selectedPeriod?.year])
 
     useEffect(() => {
-        if (dataSetPeriodType) {
-            const newMaxYear = computeMaxYear(dataSetPeriodType)
+        if (dataSetPeriodType.data) {
+            const newMaxYear = computeMaxYear(dataSetPeriodType.data)
             setMaxYear(newMaxYear)
 
             if (!selectedPeriod?.year) {
                 setYear(newMaxYear)
             }
         }
-    }, [dataSetPeriodType])
+    }, [dataSetPeriodType.data])
 
-    const selectorBarItemValue = loadingDataSetPeriodType
-        ? i18n.t('Fetching data set info')
-        : errorDataSetPeriodType
-        ? i18n.t('Error occurred while loading data set info')
-        : selectedPeriod?.displayName
+    const selectorBarItemValue = useSelectorBarItemValue()
 
     useDeselectOnPeriodTypeChange()
 
@@ -78,7 +71,7 @@ export const PeriodSelectorBarItem = () => {
                             setPeriodId(selected)
                             setPeriodOpen(false)
                         }}
-                        periodType={dataSetPeriodType}
+                        periodType={dataSetPeriodType.data}
                         year={year}
                     />
                 </>
