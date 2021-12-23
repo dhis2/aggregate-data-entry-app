@@ -26,7 +26,8 @@ export default function DataSetSelectorBarItem() {
             setOpen={setDataSetOpen}
             noValueMessage={i18n.t('Choose a data set')}
         >
-            {selectableDataSets.loadingSelectableDataSets && i18n.t('Fetching data sets')}
+            {selectableDataSets.loadingSelectableDataSets &&
+                i18n.t('Fetching data sets')}
             {selectableDataSets.errorSelectableDataSets &&
                 i18n.t('Error occurred while loading data sets')}
             {selectableDataSets.data && (
