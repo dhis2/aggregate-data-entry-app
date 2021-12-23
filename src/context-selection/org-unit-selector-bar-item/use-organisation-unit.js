@@ -1,5 +1,4 @@
-import { useDataQuery } from '@dhis2/app-runtime'
-import { useEffect } from 'react'
+import { useQuery } from 'react-query'
 import { useOrgUnitId } from '../use-context-selection.js'
 
 const QUERY_ORG_UNIT = {
@@ -14,15 +13,12 @@ const QUERY_ORG_UNIT = {
 
 export default function useOrgUnit() {
     const [orgUnitId] = useOrgUnitId()
-    const { loading, error, refetch, data } = useDataQuery(QUERY_ORG_UNIT, {
-        lazy: true,
-    })
-
-    useEffect(() => {
-        if (orgUnitId) {
-            refetch({ id: orgUnitId })
-        }
-    }, [orgUnitId])
+    const queryKey = [QUERY_ORG_UNIT, { id: orgUnitId }]
+    const {
+        isLoading: loading,
+        error,
+        data,
+    } = useQuery(queryKey, { enabled: !!orgUnitId })
 
     const orgUnit = data?.orgUnit
 

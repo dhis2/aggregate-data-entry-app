@@ -1,5 +1,4 @@
-import { useDataQuery } from '@dhis2/app-runtime'
-import { useEffect } from 'react'
+import { useQuery } from 'react-query'
 import { useDataSetId } from '../use-context-selection.js'
 
 const QUERY_DATA_SET = {
@@ -14,22 +13,19 @@ const QUERY_DATA_SET = {
 
 export default function useDataSet() {
     const [dataSetId] = useDataSetId()
-    const { called, loading, error, refetch, data } = useDataQuery(
-        QUERY_DATA_SET,
-        { lazy: true }
-    )
-
-    useEffect(() => {
-        if (dataSetId) {
-            refetch({ id: dataSetId })
-        }
-    }, [dataSetId])
+    const {
+        isIdle,
+        isLoading: loading,
+        error,
+        data,
+    } = useQuery([QUERY_DATA_SET, { id: dataSetId }], {
+        enabled: !!dataSetId,
+    })
 
     return {
-        called,
+        called: !isIdle,
         loading,
         error,
-        refetch,
         data: data?.dataSet,
     }
 }
