@@ -16,10 +16,11 @@ export default function CategoryOptionComboSelectorBarItem() {
     const shouldComponentRenderNull = useShouldComponentRenderNull()
     const label = useSelectorBarItemLabel()
     const valueLabel = useSelectorBarItemValue()
-    const onChange = ({ selected, categoryId }) => select({
-        value: selected,
-        categoryId,
-    })
+    const onChange = ({ selected, categoryId }) =>
+        select({
+            value: selected,
+            categoryId,
+        })
 
     useOnDependentParamsChange(deselectAll)
 
