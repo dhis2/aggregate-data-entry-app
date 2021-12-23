@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<PeriodMenu> renders MenuItems with the expected periods 1`] = `ShallowWrapper {}`;
