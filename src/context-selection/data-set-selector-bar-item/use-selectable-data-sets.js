@@ -1,4 +1,4 @@
-import { useDataQuery } from '@dhis2/app-runtime'
+import { useQuery } from 'react-query'
 
 const QUERY_SELECTABLE_DATA_SETS = {
     dataSets: {
@@ -10,7 +10,11 @@ const QUERY_SELECTABLE_DATA_SETS = {
 }
 
 export default function useSelectableDataSets() {
-    const { loading, error, data } = useDataQuery(QUERY_SELECTABLE_DATA_SETS)
+    const {
+        isLoading: loading,
+        error,
+        data,
+    } = useQuery([QUERY_SELECTABLE_DATA_SETS])
 
     // @TODO: How to handle pages / large lists?
     // Nested as this is "page-able"

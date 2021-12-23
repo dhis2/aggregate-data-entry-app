@@ -1,5 +1,4 @@
-import { useDataQuery } from '@dhis2/app-runtime'
-import { useEffect } from 'react'
+import { useQuery } from 'react-query'
 import { useDataSetId } from '../use-context-selection.js'
 
 const QUERY_CATEGORY_COMBINATION = {
@@ -16,22 +15,18 @@ const QUERY_CATEGORY_COMBINATION = {
 
 export default function useCategoryCombination() {
     const [dataSetId] = useDataSetId()
-    const { called, loading, error, refetch, data } = useDataQuery(
-        QUERY_CATEGORY_COMBINATION,
-        { lazy: true }
-    )
-
-    useEffect(() => {
-        if (dataSetId) {
-            refetch({ id: dataSetId })
-        }
-    }, [dataSetId])
+    const queryKey = [QUERY_CATEGORY_COMBINATION, { id: dataSetId }]
+    const {
+        isIdle,
+        isLoading: loading,
+        error,
+        data,
+    } = useQuery(queryKey, { enabled: !!dataSetId })
 
     return {
-        called,
+        called: !isIdle,
         loading,
         error,
-        refetch,
         data: data?.dataSet.categoryCombo,
     }
 }
