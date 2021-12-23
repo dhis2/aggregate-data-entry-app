@@ -1,4 +1,4 @@
-import { useDataQuery } from '@dhis2/app-runtime'
+import { useQuery } from 'react-query'
 
 const QUERY_USER_ORG_UNITS = {
     orgUnits: {
@@ -10,7 +10,7 @@ const QUERY_USER_ORG_UNITS = {
 }
 
 export default function useUserOrgUnits() {
-    const { loading, error, data } = useDataQuery(QUERY_USER_ORG_UNITS)
+    const { isLoading: loading, error, data } = useQuery([QUERY_USER_ORG_UNITS])
     const userOrgUnits = data?.orgUnits.organisationUnits.map(({ id }) => id)
 
     return {

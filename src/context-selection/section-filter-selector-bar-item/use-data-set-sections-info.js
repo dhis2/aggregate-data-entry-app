@@ -1,5 +1,4 @@
-import { useDataQuery } from '@dhis2/app-runtime'
-import { useEffect } from 'react'
+import { useQuery } from 'react-query'
 import { useDataSetId } from '../use-context-selection.js'
 
 const QUERY_DATA_SET_SECTIONS_INFO = {
@@ -14,16 +13,13 @@ const QUERY_DATA_SET_SECTIONS_INFO = {
 
 export default function useDataSetSectionsInfo() {
     const [dataSetId] = useDataSetId()
-    const { called, loading, error, refetch, data } = useDataQuery(
-        QUERY_DATA_SET_SECTIONS_INFO,
-        { lazy: true }
-    )
-
-    useEffect(() => {
-        if (dataSetId) {
-            refetch({ id: dataSetId })
-        }
-    }, [dataSetId])
+    const queryKey = [QUERY_DATA_SET_SECTIONS_INFO, { id: dataSetId }]
+    const {
+        isIdle,
+        isLoading: loading,
+        error,
+        data,
+    } = useQuery(queryKey, { enabled: !!dataSetId })
 
     const dataSetSectionsInfo = data?.dataSet.sections.map(
         ({ id, displayName }) => ({
@@ -33,7 +29,7 @@ export default function useDataSetSectionsInfo() {
     )
 
     return {
-        called,
+        called: !isIdle,
         loading,
         error,
         data: dataSetSectionsInfo,

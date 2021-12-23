@@ -1,5 +1,4 @@
-import { useDataQuery } from '@dhis2/app-runtime'
-import { useEffect } from 'react'
+import { useQuery } from 'react-query'
 import { useDataSetId } from '../use-context-selection.js'
 
 const QUERY_DATA_SET_ORG_UNIT_PATHS = {
@@ -14,16 +13,12 @@ const QUERY_DATA_SET_ORG_UNIT_PATHS = {
 
 export default function useDataSetOrgUnitPaths() {
     const [dataSetId] = useDataSetId()
-    const { loading, error, data, refetch } = useDataQuery(
-        QUERY_DATA_SET_ORG_UNIT_PATHS,
-        { lazy: true }
-    )
-
-    useEffect(() => {
-        if (dataSetId) {
-            refetch({ id: dataSetId })
-        }
-    }, [dataSetId])
+    const queryKey = [QUERY_DATA_SET_ORG_UNIT_PATHS, { id: dataSetId }]
+    const {
+        isLoading: loading,
+        error,
+        data,
+    } = useQuery(queryKey, { enabled: !!dataSetId })
 
     const dataSetOrgUnitPaths = data?.dataSet.organisationUnits.map(
         ({ path }) => path
