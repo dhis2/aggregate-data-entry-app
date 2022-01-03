@@ -46,6 +46,16 @@ export const getDataElementsByDataSetId = (metadata, dataSetId) => {
     return dataElements
 }
 
+export const getDataElementsBySection = (metadata, dataSetId, sectionId) => {
+    const section = getSections(metadata)[sectionId]
+    // need dataSetId to get dataElements from the dataSet, as there can be catCombo overrides
+    const dataSetElements = getDataElementsByDataSetId(metadata, dataSetId)
+
+    return section.dataElements.map((deId) =>
+        dataSetElements.find((dse) => dse.id === deId)
+    )
+}
+
 // Use IDs?
 // Most of the time, this should return only one catcombo
 // (Maybe don't need it if we use data element order from backend)
@@ -109,7 +119,7 @@ export const getCategoryOptionCombosByCategoryComboId = (
     catComboId
 ) => {
     const categoryCombo = getCategoryComboById(metadata, catComboId)
-    console.log({ categoryCombo })
+    //console.log({ categoryCombo })
     const categoryOptionCombos = categoryCombo?.categoryOptionCombos.map(
         (cocId) => getCategoryOptionComboById(metadata, cocId)
     )
@@ -130,7 +140,7 @@ export const getSortedCategoryOptionCombosByCategoryComboId = (
 
     // get options for each category, these should be in sorted order
     const allOptionsLists = categories.map((cat) => cat.categoryOptions)
-    // compute the  combination of category-catgoryOption- this basically computes all the categoryCombinations
+    // compute the  combination of category-catgoryOption- this basically computes the categoryCombinations
     // result is a matrix of categoryOptions for each column in the categoryCombo
     const optionCombinationOrder = cartesian(allOptionsLists)
     return optionCombinationOrder.map((opts) =>

@@ -1,0 +1,22 @@
+.tableHeader {
+    text-align: center;
+    border: 1px solid #e8edf2;
+}
+
+.tableHeaderLastCategory {
+    border: 1px solid #e8edf2;
+}
+
+.categoryNameHeader {
+    font-size: 0.8em !important;
+    font-weight: 200;
+    text-align: right;
+}
+
+.tableCell {
+    border: 1px solid #e8edf2;
+}
+
+.border {
+    border: 1px solid #e8edf2;
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import { useDataQuery } from '@dhis2/app-runtime'
 import {
     Table,
     TableHead,
@@ -8,6 +8,8 @@ import {
     TableRow,
     TableCell,
 } from '@dhis2/ui'
+import React, { useEffect } from 'react'
+import styles from './data-table.module.css'
 import {
     getDataSetById,
     getDataElementsByDataSetId,
@@ -18,9 +20,10 @@ import {
     getCategoryOptionsByCoCId,
     getCategoryOptionsByCategoryId,
     getCoCByCategoryOptions,
-} from './selectors'
-import { useDataQuery } from '@dhis2/app-runtime'
-import { cartesian } from './utils'
+} from './selectors.js'
+import { cartesian } from './utils.js'
+
+console.log('stylez', styles)
 const query = {
     dataValues: {
         resource: 'dataValueSets',
@@ -46,7 +49,7 @@ export const DataTable = ({
     // dataSetId = 'y3PUl2zXH8o' //test triple cat
     const dataSet = getDataSetById(metadata, dataSetId)
     console.log({ dataSet })
-    const { data, loading } = useDataQuery(query, {
+    const { data, loading, refetch } = useDataQuery(query, {
         variables: {
             dataSetId,
             orgUnitId,
@@ -54,7 +57,15 @@ export const DataTable = ({
             attributeOptionCombo,
         },
     })
+    console.log('renderz')
 
+    useEffect(() => {
+        refetch({
+            variables: { dataSetId, orgUnitId, period, attributeOptionCombo },
+        })
+    }, [dataSetId, orgUnitId, period, attributeOptionCombo])
+
+    console.log('loadz', loading)
     const dataElements = getDataElementsByDataSetId(metadata, dataSetId)
     console.log({ dataElements })
     const catcombo = getCategoryCombosByDataElements(metadata, dataElements)
@@ -65,19 +76,30 @@ export const DataTable = ({
         metadata,
         catcombo.id
     )
+    const optionsIdLists = categories.map((cat) => cat.categoryOptions)
+
+    console.log(
+        'total options',
+        optionsIdLists.flatMap((c) => c)
+    )
+    console.log({ optionsLists: optionsIdLists })
+    const catOptionsOrder = cartesian(optionsIdLists) // combination of category-options for a particular column
+
     console.log({ categories })
     console.log({ catoptcombos })
 
-    let catColSpan = catoptcombos.length
+    console.log({ catOptionsOrder })
+
+    // colSpan current category
+    let catColSpan = catOptionsOrder.length
 
     // Calculate number of times we need to repeat the options per category
-    const catOptRepeat = categories.reduce((acc, cat) => {
+    const catRenderInfo = categories.reduce((acc, cat) => {
         const nrOfOptions = cat.categoryOptions.length
-
         if (nrOfOptions > 0 && catColSpan >= nrOfOptions) {
             catColSpan = catColSpan / nrOfOptions
-            const total = catoptcombos.length / (catColSpan * nrOfOptions)
-            console.log('category', cat, ' repeat', total, 'span', catColSpan)
+            const total = catOptionsOrder.length / (catColSpan * nrOfOptions)
+            //console.log('category', cat, ' repeat', total, 'span', catColSpan)
             acc[cat.id] = {
                 span: catColSpan,
                 repeat: total,
@@ -85,35 +107,35 @@ export const DataTable = ({
         }
         return acc
     }, {})
+    console.log({ catOptRepeat: catRenderInfo })
 
     const columnsToRender = categories.map((c) => {
         const categoryOptions = getCategoryOptionsByCategoryId(metadata, c.id)
-        const columnsToRender = new Array(catOptRepeat[c.id].repeat)
+        const renderInfo = catRenderInfo[c.id]
+        const columnsToRender = new Array(renderInfo.repeat)
             .fill(0)
             .flatMap(() => categoryOptions)
         //columns.push(columnsToRender)
         //optionsMatrix.push(categoryOptions)
         return {
-            ...catOptRepeat[c.id],
+            ...catRenderInfo[c.id],
             columns: columnsToRender,
             categoryOptions,
+            category: c,
         }
     })
 
-    const options = columnsToRender.map((col) =>
-        col.categoryOptions.map((co) => co.id)
-    )
-    const optionsOrder = cartesian(options) // combination of category-options for a particular column
+    // const options = columnsToRender.map((col) =>
+    //     col.categoryOptions.map((co) => co.id)
+    // )
+    //   const catOptionsOrder = cartesian(options) // combination of category-options for a particular column
     //columnsToRender.forEach((val, i))
 
-    const sortedCatCombos = optionsOrder.map((options) =>
-        getCoCByCategoryOptions(metadata, catcombo.id, options)
-    )
-    console.log(
-        'sortz',
-        getSortedCategoryOptionCombosByCategoryComboId(metadata, catcombo.id)
-    )
-    // columns.reduce((acc, curr, i) => {}, [])
+    const sortedCOCs = catOptionsOrder
+        .map((options) =>
+            getCoCByCategoryOptions(metadata, catcombo.id, options)
+        )
+        .filter((coc) => !!coc)
 
     const getDataValue = (dataElementId, cocId) => {
         const values = data?.dataValues?.dataValues
@@ -123,28 +145,37 @@ export const DataTable = ({
 
         const ret = values.find(
             (v) =>
-                v.attributeOptionCombo === attributeOptionCombo &&
                 v.categoryOptionCombo === cocId &&
-                v.orgUnit === orgUnitId &&
-                v.period === period &&
                 v.dataElement === dataElementId
         )
         console.log(dataElementId, cocId, 'dataValues', values, ret)
         return ret
     }
-
     return (
         <Table>
             <TableHead>
                 {columnsToRender.map((colInfo) => {
                     const { span, columns } = colInfo
                     return (
-                        <TableRowHead>
-                            <TableCellHead colSpan={1}></TableCellHead>
-                            {columns.map((co) => {
+                        <TableRowHead key={colInfo.category.id}>
+                            <TableCellHead
+                                className={styles.categoryNameHeader}
+                                colSpan={'1'}
+                            >
+                                {colInfo.category.displayFormName}
+                            </TableCellHead>
+                            {columns.map((co, i) => {
                                 //console.log({ cocOptions })
                                 return (
-                                    <TableCellHead colSpan={span}>
+                                    <TableCellHead
+                                        key={i}
+                                        className={
+                                            span === 1
+                                                ? styles.tableHeaderLastCategory
+                                                : styles.tableHeader
+                                        }
+                                        colSpan={span.toString()}
+                                    >
                                         {co.displayFormName}
                                     </TableCellHead>
                                 )
@@ -156,14 +187,17 @@ export const DataTable = ({
             <TableBody>
                 {dataElements.map((de) => {
                     return (
-                        <TableRow>
-                            <TableCell>
+                        <TableRow key={de.id}>
+                            <TableCell className={styles.tableCell}>
                                 <div style={{ minWidth: 150 }}>
                                     {de.displayFormName}
                                 </div>
                             </TableCell>
-                            {sortedCatCombos.map((coc) => (
-                                <TableCell>
+                            {sortedCOCs.map((coc) => (
+                                <TableCell
+                                    key={coc.id}
+                                    className={styles.tableCell}
+                                >
                                     <span>
                                         {getDataValue(de.id, coc.id)?.value}
                                     </span>
