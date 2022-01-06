@@ -1,12 +1,59 @@
 import { colors, IconFilter16 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useContext } from 'react'
 import i18n from '../locales'
+import { MetadataContext } from './metadata-context'
+import {
+    getCategoryCombosByDataElements,
+    getDataElementsBySection,
+    groupDataElementsByCatCombo,
+} from './selectors'
+import { CategoryComboTable } from './category-combo-table'
 
-export const FormSection = ({ children, section }) => {
+export const FormSection = ({ section }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = React.useState('')
+    const { metadata } = useContext(MetadataContext)
 
+    if (!metadata) {
+        return 'Loading metadata'
+    }
+    console.log({ metadata })
+    const dataElements = getDataElementsBySection(
+        metadata,
+        section.dataSet.id,
+        section.id
+    )
+    const catCombos = getCategoryCombosByDataElements(metadata, dataElements)
+    let grouped
+    if (catCombos.length > 1 && !section.disableDataElementAutoGroup) {
+        grouped = Object.values(
+            groupDataElementsByCatCombo(metadata, dataElements)
+        )
+    } else {
+        // gather elements in order
+        // if catCombo is not the same as previous catCombo, it's grouped to a different catCombo
+        grouped = dataElements.reduce((acc, curr, ind, arr) => {
+            const prevDE = arr[ind - 1]
+            const prevGroup = acc[acc.length - 1]
+
+            if (
+                !prevGroup ||
+                (prevDE && prevDE.categoryCombo.id != curr.categoryCombo.id)
+            ) {
+                acc.push({
+                    dataElements: [curr],
+                    categoryCombo: curr.categoryCombo,
+                })
+            } else {
+                acc[acc.length - 1].dataElements.push(curr)
+            }
+            return acc
+        }, [])
+    }
+    const getDataValue = (dataElementId, cocId) => {
+        return Math.floor(Math.random() * 10)
+    }
     console.log('FormSection:', { section })
 
     return (
@@ -27,10 +74,19 @@ export const FormSection = ({ children, section }) => {
                     type="text"
                     placeholder={i18n.t('Type here to filter in this section')}
                     value={filterText}
-                    onChange={({ value }) => setFilterText(value)}
+                    onChange={({ target }) => setFilterText(target.value)}
                 />
             </div>
-            {children}
+            {grouped.map(({ categoryCombo, dataElements }) => (
+                <CategoryComboTable
+                    key={categoryCombo.id}
+                    categoryCombo={categoryCombo}
+                    dataElements={dataElements}
+                    getDataValue={getDataValue}
+                    filterText={filterText}
+                />
+            ))}
+
             {/* Todo: verify styles with joe - 
             line height for title & description, lack of focus styles on input,
             inset box shadow in title?, grey300 on section description */}
@@ -78,7 +134,6 @@ export const FormSection = ({ children, section }) => {
     )
 }
 FormSection.propTypes = {
-    children: PropTypes.node,
     section: PropTypes.shape({
         description: PropTypes.string,
         displayName: PropTypes.string,
