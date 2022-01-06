@@ -18,7 +18,6 @@ import {
     getDataElementsByDataSetId,
     getDataSetById,
 } from './selectors'
-import { DataTable } from './data-table.js'
 import { hashArraysInObject } from './utils'
 import { MetadataContext } from './metadata-context'
 const ngeleId = 'DiszpKrYNg8'
