@@ -71,6 +71,30 @@ export const getCategoryCombosByDataElements = (metadata, dataElements) => {
     return Object.values(categoryCombos)
 }
 
+export const groupDataElementsByCatComboInOrder = (metadata, dataElements) => {
+    // gather elements in order
+    // if catCombo is not the same as previous catCombo, it's grouped to a different catCombo
+
+    // eslint-disable-next-line max-params
+    return dataElements.reduce((acc, curr, ind, arr) => {
+        const prevDE = arr[ind - 1]
+        const prevGroup = acc[acc.length - 1]
+
+        if (
+            !prevGroup ||
+            (prevDE && prevDE.categoryCombo.id != curr.categoryCombo.id)
+        ) {
+            acc.push({
+                dataElements: [curr],
+                categoryCombo: curr.categoryCombo,
+            })
+        } else {
+            acc[acc.length - 1].dataElements.push(curr)
+        }
+        return acc
+    }, [])
+}
+
 export const groupDataElementsByCatCombo = (metadata, dataElements) => {
     const categoryCombos = dataElements.reduce((ccs, de) => {
         const cc = de.categoryCombo
@@ -86,7 +110,7 @@ export const groupDataElementsByCatCombo = (metadata, dataElements) => {
         }
         return ccs
     }, {})
-    return categoryCombos
+    return Object.values(categoryCombos)
 }
 
 export const getCategoryCombosByDataSetId = (metadata, dataSetId) => {
