@@ -1,7 +1,8 @@
-import { colors, IconFilter16 } from '@dhis2/ui'
+import { colors, IconFilter16, Button, InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useContext } from 'react'
-import i18n from '../locales'
+import React, { useContext, useState } from 'react'
+import i18n from '@dhis2/d2-i18n'
+import styles from './section.module.css'
 import { CategoryComboTable } from './category-combo-table.js'
 import { MetadataContext } from './metadata-context.js'
 import {
@@ -12,7 +13,7 @@ import {
 
 export const FormSection = ({ section, getDataValue }) => {
     // Could potentially build table via props instead of rendering children
-    const [filterText, setFilterText] = React.useState('')
+    const [filterText, setFilterText] = useState('')
     const { metadata } = useContext(MetadataContext)
 
     if (!metadata) {
@@ -109,12 +110,68 @@ export const FormSection = ({ section, getDataValue }) => {
 FormSection.propTypes = {
     section: PropTypes.shape({
         description: PropTypes.string,
+        disableDataElementAutoGroup: PropTypes.bool,
         displayName: PropTypes.string,
     }),
 }
 
-export const Sections = ({ children }) => {
-    return children
+export const SectionForms = ({ dataSet, getDataValue }) => {
+    const [globalFilter, setGlobalFilter] = useState('')
+
+    return (
+        <div>
+            <FilterFields
+                value={globalFilter}
+                setFilterText={setGlobalFilter}
+            />
+            {dataSet.sections.map((s) => (
+                <FormSection
+                    section={s}
+                    key={s.id}
+                    getDataValue={getDataValue}
+                />
+            ))}
+        </div>
+    )
 }
 
-export const Subsection = () => {}
+const FilterFields = ({ value, setFilterText }) => (
+    <div className="filter">
+        <InputField
+            name="filter-input"
+            className={styles.filterField}
+            type="text"
+            placeholder={i18n.t('Filter fields in all sections')}
+            value={value}
+            onChange={({ value }) => setFilterText(value)}
+        />
+        <Button secondary small name="Clear" onClick={() => setFilterText('')}>
+            {i18n.t('Clear filter')}
+        </Button>
+        <style jsx>
+            {`
+                .filter {
+                    display: flex;
+                    align-items: center;
+                    background-color: #fff;
+                    font-size: 13px;
+                    line-height: 15px;
+                    padding: 8px;
+                    gap: 8px;
+                    margin-bottom: 12px;
+                }
+                .filter input {
+                    width: 420px;
+                    background: none;
+                    color: ${colors.grey900};
+                }
+                .filter input::placeholder {
+                    color: ${colors.grey600};
+                }
+                .filter input:focus {
+                    outline: none;
+                }
+            `}
+        </style>
+    </div>
+)

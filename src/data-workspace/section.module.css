@@ -1,0 +1,9 @@
+.filter {
+}
+
+.filterField {
+    width: 420px;
+    margin-left: -8px;
+    margin-right: 4px;
+    height: 24px;
+}
