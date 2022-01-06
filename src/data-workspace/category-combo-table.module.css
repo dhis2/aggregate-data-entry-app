@@ -17,3 +17,7 @@
 .tableCell {
     composes: border;
 }
+
+.hiddenByFilterRow {
+    color: var(--colors-grey600);
+}

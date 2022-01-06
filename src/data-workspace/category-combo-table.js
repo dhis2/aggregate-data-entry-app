@@ -9,7 +9,7 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styles from './data-table.module.css'
+import styles from './category-combo-table.module.css'
 import { useMetadata } from './metadata-context.js'
 import {
     getCategoriesByCategoryComboId,
@@ -76,6 +76,13 @@ export const CategoryComboTable = ({
             getCoCByCategoryOptions(metadata, categoryCombo.id, options)
         )
         .filter((coc) => !!coc)
+
+    const filteredDataElements = dataElements.filter(
+        (de) =>
+            !filterText ||
+            de.displayFormName.toLowerCase().includes(filterText.toLowerCase())
+    )
+    const itemsHiddenCnt = dataElements.length - filteredDataElements.length
     return (
         <Table>
             <TableHead>
@@ -141,6 +148,13 @@ export const CategoryComboTable = ({
                             </TableRow>
                         )
                     })}
+                {itemsHiddenCnt > 0 && (
+                    <TableRow className={styles.hiddenByFilterRow}>
+                        <TableCell className="hiddenByFilterCell">
+                            {itemsHiddenCnt} items hidden by filter
+                        </TableCell>
+                    </TableRow>
+                )}
             </TableBody>
         </Table>
     )
