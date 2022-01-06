@@ -18,6 +18,10 @@ import {
 } from './selectors.js'
 import { cartesian } from './utils.js'
 
+const DataValue = ({ dataValue }) => {
+    return <span>{dataValue ? dataValue.value : null}</span>
+}
+
 export const CategoryComboTable = ({
     categoryCombo,
     dataElements,
@@ -126,9 +130,12 @@ export const CategoryComboTable = ({
                                         key={coc.id}
                                         className={styles.tableCell}
                                     >
-                                        <span>
-                                            {getDataValue(de.id, coc.id)}
-                                        </span>
+                                        <DataValue
+                                            dataValue={getDataValue(
+                                                de.id,
+                                                coc.id
+                                            )}
+                                        />
                                     </TableCell>
                                 ))}
                             </TableRow>
