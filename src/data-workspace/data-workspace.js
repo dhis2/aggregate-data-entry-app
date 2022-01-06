@@ -1,18 +1,13 @@
 import { useDataQuery } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, NoticeBox } from '@dhis2/ui'
-import React, {
-    useContext,
-    useState,
-    useEffect,
-    useMemo,
-    useCallback,
-} from 'react'
-import { Sections, FormSection } from './section'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { DataSetSelector } from './dataset-selector'
-import { hashArraysInObject } from './utils'
-import { MetadataContext } from './metadata-context'
 import { DefaultForm } from './default-form'
-
+import { MetadataContext } from './metadata-context'
+import { Sections, FormSection } from './section'
+import { hashArraysInObject } from './utils'
+import { EntryForm } from './entry-form'
 const ngeleId = 'DiszpKrYNg8'
 const period = '202112'
 const emergencyDataSetId = 'Lpw6GcnTrmS'
@@ -164,45 +159,13 @@ export const DataWorkspace = () => {
         return 'Error!'
     }
 
-    const getForm = () => {
-        // TODO: handle other form types
-        const formType = dataSet.dataSet.formType
-        if (formType === 'SECTION') {
-            return (
-                <>
-                    {/* Example CC Table section rendered here: */}
-                    {dataSet.dataSet.sections.map((s) => (
-                        <FormSection
-                            section={s}
-                            key={s.id}
-                            getDataValue={getDataValue}
-                        />
-                    ))}
-                </>
-            )
-        } else if (formType === 'DEFAULT') {
-            return (
-                <DefaultForm
-                    dataSet={dataSet.dataSet}
-                    getDataValue={getDataValue}
-                />
-            )
-        } else if (formType === 'CUSTOM') {
-            return (
-                <NoticeBox title="Not implemented" warning>
-                    This data set uses a custom form. Custom forms are not
-                    implemented yet.
-                </NoticeBox>
-            )
-        }
-    }
     return (
         <div className="workspace-wrapper">
             <DataSetSelector
                 onDataSetSelect={(val) => setSelectedDataset(val.selected)}
                 selected={selectedDataset}
             />
-            {getForm()}
+            <EntryForm dataSet={dataSet.dataSet} getDataValue={getDataValue} />
             <style jsx>
                 {`
                     .workspace-wrapper {
