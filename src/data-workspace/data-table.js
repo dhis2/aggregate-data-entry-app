@@ -20,6 +20,7 @@ import {
     getCategoryOptionsByCoCId,
     getCategoryOptionsByCategoryId,
     getCoCByCategoryOptions,
+    groupDataElementsByCatCombo,
 } from './selectors.js'
 import { cartesian } from './utils.js'
 
@@ -42,6 +43,7 @@ export const DataTable = ({
     period,
     orgUnitId,
     attributeOptionCombo,
+    filterText,
 }) => {
     if (!metadata) {
         return 'Loading'
@@ -57,7 +59,6 @@ export const DataTable = ({
             attributeOptionCombo,
         },
     })
-    console.log('renderz')
 
     useEffect(() => {
         refetch({
@@ -65,10 +66,13 @@ export const DataTable = ({
         })
     }, [dataSetId, orgUnitId, period, attributeOptionCombo])
 
-    console.log('loadz', loading)
     const dataElements = getDataElementsByDataSetId(metadata, dataSetId)
     console.log({ dataElements })
-    const catcombo = getCategoryCombosByDataElements(metadata, dataElements)
+    const catCombos = getCategoryCombosByDataElements(metadata, dataElements)
+    if (catCombos.length > 1) {
+        const grouped = groupDataElementsByCatCombo(metadata, dataElements)
+    }
+    const catcombo = catCombos[0]
     console.log({ catcombo })
 
     const categories = getCategoriesByCategoryComboId(metadata, catcombo.id)
@@ -148,7 +152,6 @@ export const DataTable = ({
                 v.categoryOptionCombo === cocId &&
                 v.dataElement === dataElementId
         )
-        console.log(dataElementId, cocId, 'dataValues', values, ret)
         return ret
     }
     return (
@@ -185,28 +188,39 @@ export const DataTable = ({
                 })}
             </TableHead>
             <TableBody>
-                {dataElements.map((de) => {
-                    return (
-                        <TableRow key={de.id}>
-                            <TableCell className={styles.tableCell}>
-                                <div style={{ minWidth: 150 }}>
-                                    {de.displayFormName}
-                                </div>
-                            </TableCell>
-                            {sortedCOCs.map((coc) => (
-                                <TableCell
-                                    key={coc.id}
-                                    className={styles.tableCell}
-                                >
-                                    <span>
-                                        {getDataValue(de.id, coc.id)?.value}
-                                    </span>
+                {dataElements
+                    .filter((de) => de.displayFormName.contains(filterText))
+                    .map((de) => {
+                        console.log(
+                            'filterz',
+                            de.displayFormName,
+                            de.displayFormName.contains(filterText)
+                        )
+                        return (
+                            <TableRow key={de.id}>
+                                <TableCell className={styles.tableCell}>
+                                    <div style={{ minWidth: 150 }}>
+                                        {de.displayFormName}
+                                    </div>
                                 </TableCell>
-                            ))}
-                        </TableRow>
-                    )
-                })}
+                                {sortedCOCs.map((coc) => (
+                                    <TableCell
+                                        key={coc.id}
+                                        className={styles.tableCell}
+                                    >
+                                        <span>
+                                            {getDataValue(de.id, coc.id)?.value}
+                                        </span>
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        )
+                    })}
             </TableBody>
         </Table>
     )
+}
+
+const TableSection = ({}) => {
+    return
 }

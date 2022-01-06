@@ -65,7 +65,26 @@ export const getCategoryCombosByDataElements = (metadata, dataElements) => {
         if (!ccs[cc.id]) {
             ccs[cc.id] = getCategoryComboById(metadata, cc.id)
         }
-        return cc
+        return ccs
+    }, {})
+
+    return Object.values(categoryCombos)
+}
+
+export const groupDataElementsByCatCombo = (metadata, dataElements) => {
+    const categoryCombos = dataElements.reduce((ccs, de) => {
+        const cc = de.categoryCombo
+        if (!ccs[cc.id]) {
+            const catCombo = getCategoryComboById(metadata, cc.id)
+
+            ccs[cc.id] = {
+                categoryCombo: catCombo,
+                dataElements: [de],
+            }
+        } else {
+            ccs[cc.id].dataElements.push(de)
+        }
+        return ccs
     }, {})
     return categoryCombos
 }

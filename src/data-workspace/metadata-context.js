@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useContext } from 'react'
 
 export const MetadataContext = React.createContext({
     metadata: {},
@@ -16,3 +16,5 @@ export const MetadataContextProvider = ({ children }) => {
         </MetadataContext.Provider>
     )
 }
+
+export const useMetadata = () => useContext(MetadataContext)

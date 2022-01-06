@@ -18,6 +18,7 @@ export const cartesian = (args) => {
     add([], 0)
     return result
 }
+// [[1,2,3]. [1,2]] => [[1,1],[1,2],[2,1],[2,2],[3,1],[3,2]]
 
 export const hashById = (array) =>
     array.reduce((acc, curr) => {
