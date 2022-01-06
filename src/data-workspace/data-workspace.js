@@ -1,27 +1,18 @@
 import { useDataQuery } from '@dhis2/app-runtime'
-import {
-    Table,
-    TableHead,
-    TableRowHead,
-    TableCellHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    CircularLoader,
-} from '@dhis2/ui'
-import React, { useContext, useState, useEffect, useMemo } from 'react'
+import { CircularLoader } from '@dhis2/ui'
+import React, {
+    useContext,
+    useState,
+    useEffect,
+    useMemo,
+    useCallback,
+} from 'react'
 import { Sections, FormSection } from './section'
 import { DataSetSelector } from './dataset-selector'
-import {
-    getCategoryCombosByDataElements,
-    getCategoryOptionCombosByCategoryComboId,
-    getDataElementsByDataSetId,
-    getDataSetById,
-} from './selectors'
 import { hashArraysInObject } from './utils'
 import { MetadataContext } from './metadata-context'
 const ngeleId = 'DiszpKrYNg8'
-const period = '202111'
+const period = '202112'
 const emergencyDataSetId = 'Lpw6GcnTrmS'
 const expendituresDataSetId = 'rsyjyJmYD4J'
 const catComboId = 'WBW7RjsApsv'
@@ -56,7 +47,7 @@ const query = {
 
 const dataValueQuery = {
     dataValues: {
-        resource: 'datgitaValueSets',
+        resource: 'dataValueSets',
         params: ({ dataSetId, period, orgUnitId, attributeOptionCombo }) => ({
             dataSet: dataSetId,
             period: period,
@@ -90,32 +81,74 @@ const metadataQuery = {
     },
 }
 
+const useDataValues = (selectedDataSet, attributeOptionCombo) => {
+    const {
+        data: dataValues,
+        refetch,
+        ...rest
+    } = useDataQuery(dataValueQuery, {
+        variables: {
+            dataSetId: selectedDataSet,
+            period,
+            orgUnitId: ngeleId,
+            attributeOptionCombo: attrOptionComboId,
+        },
+        lazy: true,
+    })
+
+    useEffect(() => {
+        refetch({
+            dataSetId: selectedDataSet,
+            attributeOptionCombo:
+                selectedDataSet === emergencyDataSetId
+                    ? attrOptionComboId
+                    : undefined,
+        })
+    }, [selectedDataSet, attributeOptionCombo])
+
+    return { ...rest, refetch, dataValues: dataValues?.dataValues }
+}
+
 // Sections: dataSet.sections => api/sections/<id> endpoint
 // dataSet.renderAsTabs or .renderHorizontally
 //const transformData = (metadata) =>
 
 export const DataWorkspace = () => {
     const [selectedDataset, setSelectedDataset] = useState(emergencyDataSetId)
-    const { data, loading, error, refetch } = useDataQuery(query, {
+    const {
+        data: dataSet,
+        loading,
+        error,
+        refetch,
+    } = useDataQuery(query, {
         variables: { ou: ngeleId, id: selectedDataset },
     })
-    const { setMetadata } = useContext(MetadataContext)
 
-    const { data: metadata, loading: metaLoading } = useDataQuery(metadataQuery)
-    console.log({ metadata })
+    const { metadata, setMetadata } = useContext(MetadataContext)
 
-    const hashed = useMemo(() => {
-        const hashed =
-            metadata?.metadata && hashArraysInObject(metadata.metadata)
-        return hashed
-    }, [metadata])
+    const { data: meta, loading: metaLoading } = useDataQuery(metadataQuery, {
+        onComplete: (metadata) => {
+            const hashed =
+                metadata?.metadata && hashArraysInObject(metadata.metadata)
+            setMetadata(hashed)
+        },
+    })
 
-    // cannot set context while rendering
-    useEffect(() => {
-        setMetadata(hashed)
-    }, [hashed])
+    const { dataValues } = useDataValues(selectedDataset, attrOptionComboId)
+    console.log({ metadata }, { dataValues })
 
-    console.log({ hashed })
+    const getDataValue = useCallback(
+        (dataElementId, cocId) => {
+            console.log(dataValues?.dataValues)
+            return dataValues?.dataValues.find(
+                (dv) =>
+                    dv.dataElement === dataElementId &&
+                    dv.categoryOptionCombo === cocId
+            )
+        },
+        [dataValues]
+    )
+
     useEffect(() => {
         refetch({
             id: selectedDataset,
@@ -132,12 +165,16 @@ export const DataWorkspace = () => {
 
     const getForm = () => {
         // TODO: handle other form types
-        if (data.dataSet.formType === 'SECTION') {
+        if (dataSet.dataSet.formType === 'SECTION') {
             return (
                 <>
                     {/* Example CC Table section rendered here: */}
-                    {data.dataSet.sections.map((s) => (
-                        <FormSection section={s} key={s.id} />
+                    {dataSet.dataSet.sections.map((s) => (
+                        <FormSection
+                            section={s}
+                            key={s.id}
+                            getDataValue={getDataValue}
+                        />
                     ))}
                 </>
             )

@@ -10,7 +10,7 @@ import {
     groupDataElementsByCatComboInOrder,
 } from './selectors.js'
 
-export const FormSection = ({ section }) => {
+export const FormSection = ({ section, getDataValue }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = React.useState('')
     const { metadata } = useContext(MetadataContext)
@@ -29,9 +29,6 @@ export const FormSection = ({ section }) => {
         ? groupDataElementsByCatComboInOrder(metadata, dataElements)
         : groupDataElementsByCatCombo(metadata, dataElements)
 
-    const getDataValue = (dataElementId, cocId) => {
-        return Math.floor(Math.random() * 10)
-    }
     console.log('FormSection:', { section })
 
     return (

@@ -1,14 +1,39 @@
-import React, { useState, useMemo, useContext } from 'react'
+import React, { useState, useMemo, useContext, useCallback } from 'react'
 
+const cachedMetadata = () => {
+    try {
+        return JSON.parse(localStorage.getItem('metadata'))
+    } catch (e) {
+        return false
+    }
+}
 export const MetadataContext = React.createContext({
     metadata: {},
+    loading: true,
     setMetadata: () => {},
 })
 
 export const MetadataContextProvider = ({ children }) => {
-    const [metadata, setMetadata] = useState({})
+    const cached = cachedMetadata()
+    const [metadata, setContext] = useState(cached ?? {})
+    const [loading, setLoading] = useState(true)
 
-    const contextValue = useMemo(() => ({ metadata, setMetadata }), [metadata])
+    const setMetadata = (value) => {
+        setContext(value)
+        setLoading(false)
+        localStorage.setItem('metadata', JSON.stringify(value))
+    }
+
+    const contextValue = useMemo(
+        () => ({
+            metadata,
+            loading,
+            isCached: !!cached,
+            usingCached: loading && cached,
+            setMetadata,
+        }),
+        [metadata, loading, cached]
+    )
 
     return (
         <MetadataContext.Provider value={contextValue}>
