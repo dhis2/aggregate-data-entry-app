@@ -1,22 +1,19 @@
-.tableHeader {
-    text-align: center;
+.border {
     border: 1px solid #e8edf2;
 }
 
-.tableHeaderLastCategory {
-    border: 1px solid #e8edf2;
+.tableHeader {
+    composes: border;
+    background-color: var(--colors-grey200);
+    font-weight: 500;
 }
 
 .categoryNameHeader {
-    font-size: 0.8em !important;
-    font-weight: 200;
+    composes: tableHeader;
+    font-weight: 300;
     text-align: right;
 }
 
 .tableCell {
-    border: 1px solid #e8edf2;
-}
-
-.border {
-    border: 1px solid #e8edf2;
+    composes: border;
 }

@@ -104,11 +104,7 @@ export const CategoryComboTable = ({
                                 return (
                                     <TableCellHead
                                         key={i}
-                                        className={
-                                            span === 1
-                                                ? styles.tableHeaderLastCategory
-                                                : styles.tableHeader
-                                        }
+                                        className={styles.tableHeader}
                                         colSpan={span.toString()}
                                     >
                                         {co.isDefault
