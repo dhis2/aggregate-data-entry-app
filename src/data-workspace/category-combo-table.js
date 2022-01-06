@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import {
     Table,
     TableRowHead,
@@ -128,7 +129,7 @@ export const CategoryComboTable = ({
                         return (
                             <TableRow key={de.id}>
                                 <TableCell className={styles.tableCell}>
-                                    <div style={{ minWidth: 150 }}>
+                                    <div style={{ minWidth: 240 }}>
                                         {de.displayFormName}
                                     </div>
                                 </TableCell>
@@ -151,7 +152,9 @@ export const CategoryComboTable = ({
                 {itemsHiddenCnt > 0 && (
                     <TableRow className={styles.hiddenByFilterRow}>
                         <TableCell className="hiddenByFilterCell">
-                            {itemsHiddenCnt} items hidden by filter
+                            {i18n.t('{{count}} items hidden by filter', {
+                                count: itemsHiddenCnt,
+                            })}
                         </TableCell>
                     </TableRow>
                 )}
