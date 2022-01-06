@@ -1,16 +1,15 @@
-import { colors, IconFilter16 } from '@dhis2/ui'
+import { colors, IconFilter16, NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useContext } from 'react'
 import i18n from '../locales'
 import { CategoryComboTable } from './category-combo-table.js'
 import { MetadataContext } from './metadata-context.js'
 import {
-    getDataElementsBySection,
+    getDataElementsByDataSetId,
     groupDataElementsByCatCombo,
-    groupDataElementsByCatComboInOrder,
 } from './selectors.js'
 
-export const FormSection = ({ section, getDataValue }) => {
+export const DefaultForm = ({ dataSet, getDataValue }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = React.useState('')
     const { metadata } = useContext(MetadataContext)
@@ -18,38 +17,27 @@ export const FormSection = ({ section, getDataValue }) => {
     if (!metadata) {
         return 'Loading metadata'
     }
+    console.log({ metadata })
+    const dataElements = getDataElementsByDataSetId(metadata, dataSet.id)
 
-    const dataElements = getDataElementsBySection(
+    const groupedDataElements = groupDataElementsByCatCombo(
         metadata,
-        section.dataSet.id,
-        section.id
+        dataElements
     )
 
-    const groupedDataElements = section.disableDataElementAutoGroup
-        ? groupDataElementsByCatComboInOrder(metadata, dataElements)
-        : groupDataElementsByCatCombo(metadata, dataElements)
+    console.log({ dataSet }, { groupedDataElements })
 
     return (
         <section className="wrapper">
-            <header className="header">
-                <div className="title">{section.displayName}</div>
-                {section.description && (
-                    <div className="description">
-                        {section.description ||
-                            'Placeholder section description'}
-                    </div>
-                )}
-            </header>
-            <div className="filter">
-                <IconFilter16 color={colors.grey600} />
-                <input
-                    name="filter-input"
-                    type="text"
-                    placeholder={i18n.t('Type here to filter in this section')}
-                    value={filterText}
-                    onChange={({ target }) => setFilterText(target.value)}
-                />
-            </div>
+            {groupedDataElements.length < 1 && (
+                <NoticeBox
+                    title="This data set has no assigned Data Elements"
+                    warning
+                >
+                    There are no Data Elements in this data set. Adds some Data
+                    Elements to use this data set.
+                </NoticeBox>
+            )}
             {groupedDataElements.map(({ categoryCombo, dataElements }) => (
                 <CategoryComboTable
                     key={categoryCombo.id}
@@ -106,15 +94,9 @@ export const FormSection = ({ section, getDataValue }) => {
         </section>
     )
 }
-FormSection.propTypes = {
-    section: PropTypes.shape({
-        description: PropTypes.string,
+DefaultForm.propTypes = {
+    dataSet: PropTypes.shape({
         displayName: PropTypes.string,
+        id: PropTypes.string,
     }),
 }
-
-export const Sections = ({ children }) => {
-    return children
-}
-
-export const Subsection = () => {}
