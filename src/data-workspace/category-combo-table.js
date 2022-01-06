@@ -7,6 +7,7 @@ import {
     TableRow,
     TableCell,
 } from '@dhis2/ui'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './data-table.module.css'
 import { useMetadata } from './metadata-context.js'
@@ -16,33 +17,6 @@ import {
     getCoCByCategoryOptions,
 } from './selectors.js'
 import { cartesian } from './utils.js'
-
-/**
- * Computes the span and repeats for each columns in a category-row.
- * Repeats are the number of times the options in a category needs to be rendered per category-row
- * @param {*} categories
- * @param {*} computedCategoryOptions
- * @returns
- */
-const computeColumnRenderInfo = (categories, computedCategoryOptions) => {
-    let catColSpan = computedCategoryOptions.length
-    const renderInfo = categories.reduce((acc, cat) => {
-        const nrOfOptions = cat.categoryOptions.length
-        if (nrOfOptions > 0 && catColSpan >= nrOfOptions) {
-            catColSpan = catColSpan / nrOfOptions
-            const total =
-                computedCategoryOptions.length / (catColSpan * nrOfOptions)
-
-            acc[cat.id] = {
-                span: catColSpan,
-                repeat: total,
-            }
-        }
-        return acc
-    }, {})
-
-    return renderInfo
-}
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -61,25 +35,38 @@ export const CategoryComboTable = ({
 
     // each element is a combination of category-options for a particular column
     // this results in lists of category-options in the same order as headers are rendered
+    // the result is a client side computation of categoryOption-combinations
     const computedCategoryOptions = cartesian(optionsIdLists)
-    const categoryRenderInfo = computeColumnRenderInfo(
-        categories,
-        computedCategoryOptions
-    )
+
+    // Computes the span and repeats for each columns in a category-row.
+    // Repeats are the number of times the options in a category needs to be rendered per category-row
+    let catColSpan = computedCategoryOptions.length
     const rowToColumnsMap = categories.map((c) => {
         const categoryOptions = getCategoryOptionsByCategoryId(metadata, c.id)
-        const renderInfo = categoryRenderInfo[c.id]
-        const columnsToRender = new Array(renderInfo.repeat)
-            .fill(0)
-            .flatMap(() => categoryOptions)
+        const nrOfOptions = c.categoryOptions.length
+        if (nrOfOptions > 0 && catColSpan >= nrOfOptions) {
+            catColSpan = catColSpan / nrOfOptions
+            const repeat =
+                computedCategoryOptions.length / (catColSpan * nrOfOptions)
 
-        return {
-            ...categoryRenderInfo[c.id],
-            columns: columnsToRender,
-            category: c,
+            const columnsToRender = new Array(repeat)
+                .fill(0)
+                .flatMap(() => categoryOptions)
+
+            return {
+                span: catColSpan,
+                columns: columnsToRender,
+                category: c,
+            }
+        } else {
+            console.warn(
+                `Category ${c.displayFormName} malformed. Number of options: ${nrOfOptions}, span: ${catColSpan}`
+            )
         }
+        return c
     })
-    // find categoryOptionCombo by category-options
+
+    // find categoryOptionCombos by category-options
     const sortedCOCs = computedCategoryOptions
         .map((options) =>
             getCoCByCategoryOptions(metadata, categoryCombo.id, options)
@@ -150,4 +137,22 @@ export const CategoryComboTable = ({
             </TableBody>
         </Table>
     )
+}
+
+CategoryComboTable.propTypes = {
+    categoryCombo: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }).isRequired,
+    dataElements: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            categoryCombo: PropTypes.shape({
+                id: PropTypes.string,
+            }),
+            displayFormName: PropTypes.string,
+            valueType: PropTypes.string,
+        })
+    ),
+    filterText: PropTypes.string,
+    getDataValue: PropTypes.func,
 }
