@@ -28,7 +28,7 @@ const query = {
         resource: 'dataSets',
         id: ({ id }) => id,
         params: {
-            fields: `id,name,displayName,displayFormName,formType,
+            fields: `id,name,displayName,displayFormName,formType,renderAsTabs,
             dataSetElements[dataElement[id,name,formName,
             categoryCombo[id,name,categories[id,displayName,categoryOptions[id,displayName]],categoryOptionCombos[id,name]]]],
             sections[:owner,displayName,categoryCombos[id,categories[id,displayName,categoryOptions[id,displayName]]]]`,
