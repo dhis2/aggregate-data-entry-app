@@ -12,7 +12,7 @@ export default function useOnDependentParamsChange(cb) {
     const [orgUnitId] = useOrgUnitId()
 
     useEffect(() => {
-        if (initialExecution) {
+        if (initialExecution.current) {
             initialExecution.current = false
         } else {
             cb()

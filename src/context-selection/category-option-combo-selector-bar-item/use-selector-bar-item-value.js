@@ -35,9 +35,12 @@ export default function useSelectorBarItemValue() {
     }
 
     const error = new Error('Case not implemented!')
-    if (process.env.NODE_ENV === 'production') {
-        console.error(error)
-    } else {
+
+    if (process.env.NODE_ENV !== 'production') {
         throw error
+    } else {
+        console.error(error)
     }
+
+    return ''
 }

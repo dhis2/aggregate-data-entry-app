@@ -14,7 +14,7 @@ export default function useOnDependentParamsChange(cb) {
     const [categoryOptionComboSelection] = useCategoryOptionComboSelection()
 
     useEffect(() => {
-        if (initialExecution) {
+        if (initialExecution.current) {
             initialExecution.current = false
         } else {
             cb()
