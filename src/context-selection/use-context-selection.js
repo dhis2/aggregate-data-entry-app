@@ -7,7 +7,7 @@ import {
     withDefault,
 } from 'use-query-params'
 
-export const PARAMS_SCHEMA = {
+const PARAMS_SCHEMA = {
     dataSetId: StringParam,
     orgUnitId: StringParam,
     periodId: StringParam,
