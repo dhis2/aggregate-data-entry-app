@@ -28,6 +28,7 @@ export const CategoryComboTable = ({
     dataElements,
     getDataValue,
     filterText,
+    globalFilterText,
 }) => {
     const { metadata } = useMetadata()
 
@@ -120,10 +121,14 @@ export const CategoryComboTable = ({
                 {dataElements
                     .filter(
                         (de) =>
-                            !filterText ||
-                            de.displayFormName
-                                .toLowerCase()
-                                .includes(filterText.toLowerCase())
+                            (!filterText ||
+                                de.displayFormName
+                                    .toLowerCase()
+                                    .includes(filterText.toLowerCase())) &&
+                            (!globalFilterText ||
+                                de.displayFormName
+                                    .toLowerCase()
+                                    .includes(globalFilterText.toLowerCase()))
                     )
                     .map((de) => {
                         return (
