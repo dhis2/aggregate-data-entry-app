@@ -16,7 +16,7 @@ export const FormSection = ({ section, getDataValue }) => {
     const [filterText, setFilterText] = useState('')
     const { metadata } = useContext(MetadataContext)
 
-    if (!metadata) {
+    if (!Object.keys(metadata).length) {
         return 'Loading metadata'
     }
 
