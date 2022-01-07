@@ -79,12 +79,15 @@ export const CategoryComboTable = ({
         )
         .filter((coc) => !!coc)
 
-    const filteredDataElements = dataElements.filter(
-        (de) =>
-            !filterText ||
-            de.displayFormName.toLowerCase().includes(filterText.toLowerCase())
-    )
+    const filteredDataElements = dataElements.filter((de) => {
+        const name = de.displayFormName.toLowerCase()
+        return (
+            (!filterText || name.includes(filterText.toLowerCase())) &&
+            (!globalFilterText || name.includes(globalFilterText.toLowerCase()))
+        )
+    })
     const itemsHiddenCnt = dataElements.length - filteredDataElements.length
+
     return (
         <Table>
             <TableHead>
@@ -118,42 +121,27 @@ export const CategoryComboTable = ({
                 })}
             </TableHead>
             <TableBody>
-                {dataElements
-                    .filter(
-                        (de) =>
-                            (!filterText ||
-                                de.displayFormName
-                                    .toLowerCase()
-                                    .includes(filterText.toLowerCase())) &&
-                            (!globalFilterText ||
-                                de.displayFormName
-                                    .toLowerCase()
-                                    .includes(globalFilterText.toLowerCase()))
-                    )
-                    .map((de) => {
-                        return (
-                            <TableRow key={de.id}>
-                                <TableCell className={styles.tableCell}>
-                                    <div style={{ minWidth: 240 }}>
-                                        {de.displayFormName}
-                                    </div>
+                {filteredDataElements.map((de) => {
+                    return (
+                        <TableRow key={de.id}>
+                            <TableCell className={styles.tableCell}>
+                                <div style={{ minWidth: 240 }}>
+                                    {de.displayFormName}
+                                </div>
+                            </TableCell>
+                            {sortedCOCs.map((coc) => (
+                                <TableCell
+                                    key={coc.id}
+                                    className={styles.tableCell}
+                                >
+                                    <DataValue
+                                        dataValue={getDataValue(de.id, coc.id)}
+                                    />
                                 </TableCell>
-                                {sortedCOCs.map((coc) => (
-                                    <TableCell
-                                        key={coc.id}
-                                        className={styles.tableCell}
-                                    >
-                                        <DataValue
-                                            dataValue={getDataValue(
-                                                de.id,
-                                                coc.id
-                                            )}
-                                        />
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        )
-                    })}
+                            ))}
+                        </TableRow>
+                    )
+                })}
                 {itemsHiddenCnt > 0 && (
                     <TableRow className={styles.hiddenByFilterRow}>
                         <TableCell className="hiddenByFilterCell">
@@ -184,4 +172,5 @@ CategoryComboTable.propTypes = {
     ),
     filterText: PropTypes.string,
     getDataValue: PropTypes.func,
+    globalFilterText: PropTypes.string,
 }
