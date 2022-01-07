@@ -1,0 +1,21 @@
+.itemContentContainer {
+    width: 400px;
+    min-height: 280px;
+    max-height: 80vh;
+    display: flex;
+    padding: var(--spacers-dp8);
+    flex-direction: column;
+}
+
+.searchInputContainer {
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--colors-grey300);
+    margin-bottom: 8px;
+    flex-grow: 0;
+}
+
+.orgUnitTreeContainer {
+    flex-grow: 1;
+    overflow: hidden;
+    overflow-y: auto;
+}

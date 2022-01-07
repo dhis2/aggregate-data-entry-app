@@ -20,7 +20,7 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <Router>
                 <QueryParamProvider ReactRouterRoute={Route}>
-                    <CssVariables colors />
+                    <CssVariables colors spacers />
                     <Layout
                         header={<ContextSelection />}
                         main=""
