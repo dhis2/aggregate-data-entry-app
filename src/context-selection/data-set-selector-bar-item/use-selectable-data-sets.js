@@ -11,6 +11,7 @@ const QUERY_SELECTABLE_DATA_SETS = {
 
 export default function useSelectableDataSets() {
     const {
+        isIdle,
         isLoading: loading,
         error,
         data,
@@ -26,6 +27,7 @@ export default function useSelectableDataSets() {
     }))
 
     return {
+        called: !isIdle,
         loading,
         error,
         data: selectableDataSets,

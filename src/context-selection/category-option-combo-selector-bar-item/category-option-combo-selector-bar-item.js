@@ -28,6 +28,13 @@ export default function CategoryOptionComboSelectorBarItem() {
         return null
     }
 
+    const renderMenu = (
+        categoryCombination.called &&
+        !categoryCombination.loading &&
+        !categoryCombination.error &&
+        categoryCombination.data
+    )
+
     return (
         <SelectorBarItem
             label={label}
@@ -39,11 +46,13 @@ export default function CategoryOptionComboSelectorBarItem() {
             {categoryCombination.error &&
                 i18n.t('An error occurred loading the categories')}
 
-            <CategoriesMenu
-                close={() => setOpen(false)}
-                selected={selected}
-                onChange={onChange}
-            />
+            {renderMenu && (
+                <CategoriesMenu
+                    close={() => setOpen(false)}
+                    selected={selected}
+                    onChange={onChange}
+                />
+            )}
         </SelectorBarItem>
     )
 }

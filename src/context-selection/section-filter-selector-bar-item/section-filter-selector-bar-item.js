@@ -23,6 +23,12 @@ export default function SectionFilterSelectorBarItem() {
         return null
     }
 
+    const renderMenu = (
+        !dataSetSectionsInfo.loading &&
+        !dataSetSectionsInfo.error &&
+        dataSetSectionsInfo.data
+    )
+
     return (
         <SelectorBarItem
             disabled={loading || dataSetSectionsInfo.error}
@@ -32,7 +38,7 @@ export default function SectionFilterSelectorBarItem() {
             setOpen={setOpen}
             noValueMessage={i18n.t('Choose a section filter')}
         >
-            {dataSetSectionsInfo.data && (
+            {renderMenu && (
                 <MenuSelect
                     values={dataSetSectionsInfo.data}
                     selected={sectionFilter}

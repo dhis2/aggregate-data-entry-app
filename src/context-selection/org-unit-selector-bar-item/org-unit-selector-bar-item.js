@@ -48,6 +48,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
                         // Not sure why this is necessary, but when not done,
                         // it causes bugs in the UI
                         e.stopPropagation()
+
                         setOrgUnitId(id)
                         setOrgUnitOpen(false)
                         setCategoryOptionComboSelection([])
