@@ -1,8 +1,10 @@
 import { useDataMutation } from '@dhis2/app-runtime/build/cjs'
-import { TableCell } from '@dhis2/ui'
+import { TableCell, colors, theme } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Form, useField } from 'react-final-form'
+import css from 'styled-jsx/css'
 
 // See docs: https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_sending_individual_data_values
 // Taken from old DE app
@@ -44,6 +46,37 @@ FinalFormWrapper.propTypes = {
     initialValues: PropTypes.any,
 }
 
+const { className: cellClassName, styles: cellStyles } = css.resolve`
+    td.dataEntryCell {
+        padding: 0px;
+        min-width: 100px;
+        border: 1px solid ${colors.grey400};
+        background: #fff;
+        font-size: 13px;
+        line-height: 15px;
+        color: ${colors.grey900}
+        height: 100%;
+    }
+`
+
+const inputStyles = css`
+    input {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border: none;
+        padding: 8px 16px 8px 8px;
+    }
+
+    input:hover {
+        outline: 1px solid #a0adba;
+    }
+
+    input:focus-visible {
+        outline: 3px solid ${theme.focus};
+    }
+`
+
 export function DataEntryCell({ deId, cocId }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
@@ -76,14 +109,15 @@ export function DataEntryCell({ deId, cocId }) {
 
     // todo: handle key presses (arrows, tab, enter) and double-click
 
+    // todo: tooltip for invalid cells
+
+    // todo: other input types for different value types
+
     return (
-        <TableCell>
+        <TableCell className={cx('dataEntryCell', cellClassName)}>
             <input type="text" {...input} onBlur={onBlur} />
-            <style jsx>{`
-                input {
-                    text-align: center;
-                }
-            `}</style>
+            <style jsx>{inputStyles}</style>
+            {cellStyles}
         </TableCell>
     )
 }

@@ -7,11 +7,14 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    colors,
 } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
+import css from 'styled-jsx/css'
 import styles from './category-combo-table.module.css'
-import { DataEntryCell } from './data-entry-cell'
+import { DataEntryCell } from './data-entry-cell.js'
 import { useMetadata } from './metadata-context.js'
 import {
     getCategoriesByCategoryComboId,
@@ -24,6 +27,13 @@ import { cartesian } from './utils.js'
 const DataValue = ({ dataValue }) => {
     return <span>{dataValue ? dataValue.value : null}</span>
 }
+
+const { className: tableClassName, styles: tableStyles } = css.resolve`
+    table.dataEntryTable {
+        // A weird fix to allow table cells to use 'height: 100%':
+        height: 100%;
+    }
+`
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -87,7 +97,10 @@ export const CategoryComboTable = ({
     )
     const itemsHiddenCnt = dataElements.length - filteredDataElements.length
     return (
-        <Table>
+        <Table
+            suppressZebraStriping
+            className={cx('dataEntryTable', tableClassName)}
+        >
             <TableHead>
                 {rowToColumnsMap.map((colInfo) => {
                     const { span, columns } = colInfo
@@ -169,6 +182,8 @@ export const CategoryComboTable = ({
                     </TableRow>
                 )}
             </TableBody>
+
+            {tableStyles}
         </Table>
     )
 }
