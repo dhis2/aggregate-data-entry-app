@@ -21,6 +21,7 @@ export default function useDataSetSectionsInfo() {
         data,
     } = useQuery(queryKey, { enabled: !!dataSetId })
 
+    // TODO: fix return formType
     const dataSetSectionsInfo = data?.dataSet.sections.map(
         ({ id, displayName }) => ({
             value: id,
