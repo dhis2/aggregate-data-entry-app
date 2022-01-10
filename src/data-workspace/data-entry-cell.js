@@ -106,6 +106,8 @@ export function DataEntryCell({ deId, cocId }) {
         // Also invoke FinalForm's `onBlur`
         input.onBlur(event)
     }
+    
+    // todo: on focus, set 'active cell' in context
 
     // todo: handle key presses (arrows, tab, enter) and double-click
 

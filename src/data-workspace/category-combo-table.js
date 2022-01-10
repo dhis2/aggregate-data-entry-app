@@ -156,7 +156,7 @@ export const CategoryComboTable = ({
                             />
                         ))}
                         {renderPaddedCells.map((_, i) => (
-                            <PaddingCell key={i} />
+                            <PaddingCell key={i} className={styles.tableCell} />
                         ))}
                     </TableRow>
                 )
