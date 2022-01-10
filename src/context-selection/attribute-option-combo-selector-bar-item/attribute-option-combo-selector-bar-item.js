@@ -9,7 +9,7 @@ import useSelectorBarItemLabel from './use-selector-bar-item-label.js'
 import useSelectorBarItemValue from './use-selector-bar-item-value.js'
 import useShouldComponentRenderNull from './use-should-component-render-null.js'
 
-export default function CategoryOptionComboSelectorBarItem() {
+export default function AttributeOptionComboSelectorBarItem() {
     const [open, setOpen] = useState(false)
     const categoryCombination = useCategoryCombination()
     const { deselectAll, select, selected } = useSelected()

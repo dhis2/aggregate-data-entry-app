@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, OrganisationUnitTree, SelectorBarItem } from '@dhis2/ui'
 import React, { useState } from 'react'
 import {
-    useCategoryOptionComboSelection,
+    useAttributeOptionComboSelection,
     useDataSetId,
     useOrgUnitId,
 } from '../use-context-selection/index.js'
@@ -49,8 +49,8 @@ export default function OrganisationUnitSetSelectorBarItem() {
     const { expanded, handleExpand, handleCollapse } = useExpandedState()
     const [dataSetId] = useDataSetId()
     const [, setOrgUnitId] = useOrgUnitId()
-    const [, setCategoryOptionComboSelection] =
-        useCategoryOptionComboSelection()
+    const [, setAttributeOptionComboSelection] =
+        useAttributeOptionComboSelection()
 
     const orgUnit = useOrgUnit()
     const userOrgUnits = useUserOrgUnits()
@@ -123,7 +123,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
 
                                     setOrgUnitId(id)
                                     setOrgUnitOpen(false)
-                                    setCategoryOptionComboSelection([])
+                                    setAttributeOptionComboSelection([])
                                 }}
                             />
                         }

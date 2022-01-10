@@ -1,9 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
-import { useCategoryOptionComboSelection } from '../use-context-selection/index.js'
+import { useAttributeOptionComboSelection } from '../use-context-selection/index.js'
 import useCategoryCombination from './use-category-combination.js'
 
 export default function useSelectorBarItemValue() {
-    const [categoryOptionComboSelection] = useCategoryOptionComboSelection()
+    const [attributeOptionComboSelection] = useAttributeOptionComboSelection()
     const categoryCombination = useCategoryCombination()
 
     if (!categoryCombination.called || categoryCombination.loading) {
@@ -14,13 +14,13 @@ export default function useSelectorBarItemValue() {
         return i18n.t('An error loading the values occurred')
     }
 
-    if (!categoryOptionComboSelection.length) {
+    if (!attributeOptionComboSelection.length) {
         return i18n.t('No selection!')
     }
 
     if (
         categoryCombination.data &&
-        categoryOptionComboSelection.length <
+        attributeOptionComboSelection.length <
             categoryCombination.data.categories.length
     ) {
         return i18n.t('Partial selection!')
@@ -28,7 +28,7 @@ export default function useSelectorBarItemValue() {
 
     if (
         categoryCombination.data &&
-        categoryOptionComboSelection.length ===
+        attributeOptionComboSelection.length ===
             categoryCombination.data.categories.length
     ) {
         return i18n.t('Complete selection!')

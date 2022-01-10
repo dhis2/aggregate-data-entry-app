@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useCategoryOptionComboSelection } from '../use-context-selection/index.js'
+import { useAttributeOptionComboSelection } from '../use-context-selection/index.js'
 import omit from './omit.js'
 
 const createStateFromUrlParam = (urlParams) => {
@@ -10,20 +10,20 @@ const createStateFromUrlParam = (urlParams) => {
 }
 
 export default function useSelected() {
-    const [categoryOptionComboSelection, setCategoryOptionComboSelection] =
-        useCategoryOptionComboSelection()
+    const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
+        useAttributeOptionComboSelection()
 
     const [selected, setSelected] = useState(() =>
-        createStateFromUrlParam(categoryOptionComboSelection)
+        createStateFromUrlParam(attributeOptionComboSelection)
     )
 
     useEffect(() => {
-        setSelected(createStateFromUrlParam(categoryOptionComboSelection))
-    }, [categoryOptionComboSelection])
+        setSelected(createStateFromUrlParam(attributeOptionComboSelection))
+    }, [attributeOptionComboSelection])
 
     const deselectAll = () => {
         setSelected({})
-        setCategoryOptionComboSelection([])
+        setAttributeOptionComboSelection([])
     }
 
     const select = ({ value, categoryId }) => {
@@ -31,12 +31,12 @@ export default function useSelected() {
             ? omit(categoryId, selected)
             : { ...selected, [categoryId]: value }
 
-        const nextCategoryOptionComboSelection = Object.entries(
+        const nextAttributeOptionComboSelection = Object.entries(
             nextSelected
         ).map(([key, value]) => `${key}:${value}`)
 
         setSelected(nextSelected)
-        setCategoryOptionComboSelection(nextCategoryOptionComboSelection)
+        setAttributeOptionComboSelection(nextAttributeOptionComboSelection)
     }
 
     return {

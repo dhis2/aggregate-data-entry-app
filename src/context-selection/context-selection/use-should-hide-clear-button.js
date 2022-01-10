@@ -6,7 +6,7 @@ export default function useShouldHideClearButton() {
     if (
         !selection.orgUnitId &&
         !selection.periodId &&
-        !selection.categoryOptionComboSelection.length &&
+        !selection.attributeOptionComboSelection.length &&
         !selection.sectionFilter
     ) {
         return true
