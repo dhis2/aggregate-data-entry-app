@@ -59,7 +59,7 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
                 />
             </div>
             <div>
-                <Table className={styles.table}>
+                <Table suppressZebraStriping className={styles.table}>
                     {groupedDataElements.map(
                         ({ categoryCombo, dataElements }) => (
                             <CategoryComboTable
