@@ -5,7 +5,7 @@ import {
     useCategoryOptionComboSelection,
     useDataSetId,
     useOrgUnitId,
-} from '../use-context-selection.js'
+} from '../use-context-selection/index.js'
 import DebouncedSearchInput from './debounced-search-input.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import getFilteredOrgUnitPaths from './get-filtered-org-unit-paths.js'

@@ -4,7 +4,7 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { getFixedPeriodsByTypeAndYear, usePeriod } from '../../shared/index.js'
-import { usePeriodId } from '../use-context-selection.js'
+import { usePeriodId } from '../use-context-selection/index.js'
 import classes from './period-menu.module.css'
 
 const getPeriods = ({ periodType, year, dateFormat }) =>

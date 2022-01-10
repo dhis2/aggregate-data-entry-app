@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { usePeriod } from '../../shared/index.js'
-import { usePeriodId } from '../use-context-selection.js'
+import { usePeriodId } from '../use-context-selection/index.js'
 import useDataSetPeriodType from './use-data-set-period-type.js'
 
 export default function useSelectorBarItemValue() {

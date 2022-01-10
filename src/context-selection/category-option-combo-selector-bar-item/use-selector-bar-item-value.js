@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { useCategoryOptionComboSelection } from '../use-context-selection.js'
+import { useCategoryOptionComboSelection } from '../use-context-selection/index.js'
 import useCategoryCombination from './use-category-combination.js'
 
 export default function useSelectorBarItemValue() {

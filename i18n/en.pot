@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-10T10:00:43.080Z\n"
-"PO-Revision-Date: 2022-01-10T10:00:43.080Z\n"
+"POT-Creation-Date: 2022-01-10T10:29:38.069Z\n"
+"PO-Revision-Date: 2022-01-10T10:29:38.069Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -66,11 +66,11 @@ msgstr "Error occurred while loading data sets"
 msgid "Search org units"
 msgstr "Search org units"
 
-msgid "Only loaded org units will be searched"
-msgstr "Only loaded org units will be searched"
-
 msgid "You must choose a data set first"
 msgstr "You must choose a data set first"
+
+msgid "Error: {{ ERRORMESSAGE }}"
+msgstr "Error: {{ ERRORMESSAGE }}"
 
 msgid "Organisation unit"
 msgstr "Organisation unit"

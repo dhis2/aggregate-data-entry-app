@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { MenuSelect } from '../menu-select/index.js'
-import { useDataSetId } from '../use-context-selection.js'
+import { useDataSetId } from '../use-context-selection/index.js'
 import useDataSet from './use-data-set.js'
 import useSelectableDataSets from './use-selectable-data-sets.js'
 
