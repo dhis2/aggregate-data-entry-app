@@ -1,17 +1,17 @@
-import { colors, IconFilter16, Button, InputField } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { colors, IconFilter16, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useContext, useState } from 'react'
-import i18n from '@dhis2/d2-i18n'
-import styles from './section.module.css'
 import { CategoryComboTable } from './category-combo-table.js'
 import { MetadataContext } from './metadata-context.js'
+import styles from './section.module.css'
 import {
     getDataElementsBySection,
     groupDataElementsByCatCombo,
     groupDataElementsByCatComboInOrder,
 } from './selectors.js'
 
-export const FormSection = ({ section, getDataValue }) => {
+export const FormSection = ({ section, getDataValue, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
     const { metadata } = useContext(MetadataContext)
@@ -29,6 +29,13 @@ export const FormSection = ({ section, getDataValue }) => {
     const groupedDataElements = section.disableDataElementAutoGroup
         ? groupDataElementsByCatComboInOrder(metadata, dataElements)
         : groupDataElementsByCatCombo(metadata, dataElements)
+    console.log(groupedDataElements)
+
+    const maxColumnsInSection = Math.max(
+        ...groupedDataElements.map(
+            (grp) => grp.categoryCombo.categoryOptionCombos.length
+        )
+    )
 
     return (
         <section className="wrapper">
@@ -51,15 +58,23 @@ export const FormSection = ({ section, getDataValue }) => {
                     onChange={({ target }) => setFilterText(target.value)}
                 />
             </div>
-            {groupedDataElements.map(({ categoryCombo, dataElements }) => (
-                <CategoryComboTable
-                    key={categoryCombo.id}
-                    categoryCombo={categoryCombo}
-                    dataElements={dataElements}
-                    getDataValue={getDataValue}
-                    filterText={filterText}
-                />
-            ))}
+            <div>
+                <Table className={styles.table}>
+                    {groupedDataElements.map(
+                        ({ categoryCombo, dataElements }) => (
+                            <CategoryComboTable
+                                key={categoryCombo.id}
+                                categoryCombo={categoryCombo}
+                                dataElements={dataElements}
+                                getDataValue={getDataValue}
+                                filterText={filterText}
+                                globalFilterText={globalFilterText}
+                                maxColumnsInSection={maxColumnsInSection}
+                            />
+                        )
+                    )}
+                </Table>
+            </div>
 
             {/* Todo: verify styles with joe - 
             line height for title & description, lack of focus styles on input,
@@ -115,63 +130,17 @@ FormSection.propTypes = {
     }),
 }
 
-export const SectionForms = ({ dataSet, getDataValue }) => {
-    const [globalFilter, setGlobalFilter] = useState('')
-
+export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
     return (
         <div>
-            <FilterFields
-                value={globalFilter}
-                setFilterText={setGlobalFilter}
-            />
             {dataSet.sections.map((s) => (
                 <FormSection
                     section={s}
                     key={s.id}
                     getDataValue={getDataValue}
+                    globalFilterText={globalFilterText}
                 />
             ))}
         </div>
     )
 }
-
-const FilterFields = ({ value, setFilterText }) => (
-    <div className="filter">
-        <InputField
-            name="filter-input"
-            className={styles.filterField}
-            type="text"
-            placeholder={i18n.t('Filter fields in all sections')}
-            value={value}
-            onChange={({ value }) => setFilterText(value)}
-        />
-        <Button secondary small name="Clear" onClick={() => setFilterText('')}>
-            {i18n.t('Clear filter')}
-        </Button>
-        <style jsx>
-            {`
-                .filter {
-                    display: flex;
-                    align-items: center;
-                    background-color: #fff;
-                    font-size: 13px;
-                    line-height: 15px;
-                    padding: 8px;
-                    gap: 8px;
-                    margin-bottom: 12px;
-                }
-                .filter input {
-                    width: 420px;
-                    background: none;
-                    color: ${colors.grey900};
-                }
-                .filter input::placeholder {
-                    color: ${colors.grey600};
-                }
-                .filter input:focus {
-                    outline: none;
-                }
-            `}
-        </style>
-    </div>
-)

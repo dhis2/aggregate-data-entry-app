@@ -1,43 +1,54 @@
-import { colors, IconFilter16, NoticeBox } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { Button, InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useContext } from 'react'
-import i18n from '../locales'
-import { CategoryComboTable } from './category-combo-table.js'
+import { CustomForm } from './custom-form.js'
+import { DefaultForm } from './default-form.js'
+import styles from './entry-form.module.css'
 import { MetadataContext } from './metadata-context.js'
-import {
-    getDataElementsByDataSetId,
-    groupDataElementsByCatCombo,
-} from './selectors.js'
-import { DefaultForm } from './default-form'
-import { FormSection, SectionForms } from './section'
-import { CustomForm } from './custom-form'
+import { SectionForms } from './section.js'
 
 const FORM_TYPES = {
+    DEFAULT: 'DEFAULT',
+    SECTION: 'SECTION',
+    CUSTOM: 'CUSTOM',
+}
+
+const formTypeToComponent = {
     DEFAULT: DefaultForm,
     SECTION: SectionForms,
     CUSTOM: CustomForm,
 }
 
 export const EntryForm = ({ dataSet, getDataValue }) => {
-    // Could potentially build table via props instead of rendering children
-    const [globalFilter, setGlobalFilter] = React.useState('')
+    const [globalFilterText, setGlobalFilterText] = React.useState('')
     const { metadata } = useContext(MetadataContext)
 
     if (!metadata) {
         return 'Loading metadata'
     }
 
-    console.log('DATAZZZ', dataSet)
     if (!dataSet) {
         return null
     }
 
     const formType = dataSet.formType
-    const Component = FORM_TYPES[formType]
+    const Component = formTypeToComponent[formType]
 
     return (
         <div>
-            <Component dataSet={dataSet} getDataValue={getDataValue} />
+            {formType !== FORM_TYPES.CUSTOM && (
+                <FilterField
+                    value={globalFilterText}
+                    setFilterText={setGlobalFilterText}
+                    formType={formType}
+                />
+            )}
+            <Component
+                dataSet={dataSet}
+                getDataValue={getDataValue}
+                globalFilterText={globalFilterText}
+            />
         </div>
     )
 }
@@ -48,3 +59,23 @@ EntryForm.propTypes = {
         id: PropTypes.string,
     }),
 }
+
+const FilterField = ({ value, setFilterText, formType }) => (
+    <div className={styles.filterWrapper}>
+        <InputField
+            name="filter-input"
+            className={styles.filterField}
+            type="text"
+            placeholder={
+                formType === FORM_TYPES.SECTION
+                    ? i18n.t('Filter fields in all sections')
+                    : i18n.t('Filter fields')
+            }
+            value={value}
+            onChange={({ value }) => setFilterText(value)}
+        />
+        <Button secondary small name="Clear" onClick={() => setFilterText('')}>
+            {i18n.t('Clear filter')}
+        </Button>
+    </div>
+)

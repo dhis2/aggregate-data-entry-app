@@ -1,7 +1,7 @@
-import { colors, IconFilter16, NoticeBox } from '@dhis2/ui'
+import { colors, IconFilter16, NoticeBox, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useContext } from 'react'
-import i18n from '../locales'
+import styles from './section.module.css'
 import { CategoryComboTable } from './category-combo-table.js'
 import { MetadataContext } from './metadata-context.js'
 import {
@@ -38,16 +38,17 @@ export const DefaultForm = ({ dataSet, getDataValue }) => {
                     Elements to use this data set.
                 </NoticeBox>
             )}
-            {groupedDataElements.map(({ categoryCombo, dataElements }) => (
-                <CategoryComboTable
-                    key={categoryCombo.id}
-                    categoryCombo={categoryCombo}
-                    dataElements={dataElements}
-                    getDataValue={getDataValue}
-                    filterText={filterText}
-                />
-            ))}
-
+            <Table className={styles.table}>
+                {groupedDataElements.map(({ categoryCombo, dataElements }) => (
+                    <CategoryComboTable
+                        key={categoryCombo.id}
+                        categoryCombo={categoryCombo}
+                        dataElements={dataElements}
+                        getDataValue={getDataValue}
+                        filterText={filterText}
+                    />
+                ))}
+            </Table>
             {/* Todo: verify styles with joe - 
             line height for title & description, lack of focus styles on input,
             inset box shadow in title?, grey300 on section description */}

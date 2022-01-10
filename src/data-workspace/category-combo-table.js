@@ -9,10 +9,8 @@ import {
     TableCell,
     colors,
 } from '@dhis2/ui'
-import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import css from 'styled-jsx/css'
 import styles from './category-combo-table.module.css'
 import { DataEntryCell } from './data-entry-cell.js'
 import { useMetadata } from './metadata-context.js'
@@ -28,18 +26,13 @@ const DataValue = ({ dataValue }) => {
     return <span>{dataValue ? dataValue.value : null}</span>
 }
 
-const { className: tableClassName, styles: tableStyles } = css.resolve`
-    table.dataEntryTable {
-        // A weird fix to allow table cells to use 'height: 100%':
-        height: 100%;
-    }
-`
-
 export const CategoryComboTable = ({
     categoryCombo,
     dataElements,
     getDataValue,
     filterText,
+    globalFilterText,
+    maxColumnsInSection,
 }) => {
     const { metadata } = useMetadata()
 
@@ -54,7 +47,17 @@ export const CategoryComboTable = ({
     // this results in lists of category-options in the same order as headers are rendered
     // the result is a client side computation of categoryOption-combinations
     const computedCategoryOptions = cartesian(optionsIdLists)
-
+    if (
+        computedCategoryOptions.length !==
+        categoryCombo.categoryOptionCombos.length
+    ) {
+        console.warn(
+            `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server. 
+            Please regenerate categoryOptionCombos. 
+            Computed: ${computedCategoryOptions.length}
+            Server: ${categoryCombo.categoryOptionCombos.length})`
+        )
+    }
     // Computes the span and repeats for each columns in a category-row.
     // Repeats are the number of times the options in a category needs to be rendered per category-row
     let catColSpan = computedCategoryOptions.length
@@ -66,7 +69,7 @@ export const CategoryComboTable = ({
             const repeat =
                 computedCategoryOptions.length / (catColSpan * nrOfOptions)
 
-            const columnsToRender = new Array(repeat)
+            const columnsToRender = Array(repeat)
                 .fill(0)
                 .flatMap(() => categoryOptions)
 
@@ -90,101 +93,86 @@ export const CategoryComboTable = ({
         )
         .filter((coc) => !!coc)
 
-    const filteredDataElements = dataElements.filter(
-        (de) =>
-            !filterText ||
-            de.displayFormName.toLowerCase().includes(filterText.toLowerCase())
-    )
-    const itemsHiddenCnt = dataElements.length - filteredDataElements.length
-    return (
-        <Table
-            suppressZebraStriping
-            className={cx('dataEntryTable', tableClassName)}
-        >
-            <TableHead>
-                {rowToColumnsMap.map((colInfo) => {
-                    const { span, columns } = colInfo
-                    return (
-                        <TableRowHead key={colInfo.category.id}>
-                            <TableCellHead
-                                className={styles.categoryNameHeader}
-                                colSpan={'1'}
-                            >
-                                {colInfo.category.displayFormName === 'default'
-                                    ? ''
-                                    : colInfo.category.displayFormName}
-                            </TableCellHead>
-                            {columns.map((co, i) => {
-                                return (
-                                    <TableCellHead
-                                        key={i}
-                                        className={styles.tableHeader}
-                                        colSpan={span.toString()}
-                                    >
-                                        {co.isDefault
-                                            ? 'Value'
-                                            : co.displayFormName}
-                                    </TableCellHead>
-                                )
-                            })}
-                        </TableRowHead>
-                    )
-                })}
-            </TableHead>
-            <TableBody>
-                {dataElements
-                    .filter(
-                        (de) =>
-                            !filterText ||
-                            de.displayFormName
-                                .toLowerCase()
-                                .includes(filterText.toLowerCase())
-                    )
-                    .map((de) => {
-                        return (
-                            <TableRow key={de.id}>
-                                <TableCell className={styles.tableCell}>
-                                    <div style={{ minWidth: 240 }}>
-                                        {de.displayFormName}
-                                    </div>
-                                </TableCell>
-                                {sortedCOCs.map((coc) => (
-                                    // todo: may want to pass getDataValue into DataEntryCell
-                                    // to access "Data Item Details" (comment, followup, name, etc)
-                                    <DataEntryCell
-                                        key={coc.id}
-                                        cocId={coc.id}
-                                        deId={de.id}
-                                    />
-                                    // * Keeping this handy for the time being:
-                                    // <TableCell
-                                    //     key={coc.id}
-                                    //     className={styles.tableCell}
-                                    // >
-                                    //     <DataValue
-                                    //         dataValue={getDataValue(
-                                    //             de.id,
-                                    //             coc.id
-                                    //         )}
-                                    //     />
-                                    // </TableCell>
-                                ))}
-                            </TableRow>
-                        )
-                    })}
-                {itemsHiddenCnt > 0 && (
-                    <TableRow className={styles.hiddenByFilterRow}>
-                        <TableCell className="hiddenByFilterCell">
-                            {i18n.t('{{count}} items hidden by filter', {
-                                count: itemsHiddenCnt,
-                            })}
-                        </TableCell>
-                    </TableRow>
-                )}
-            </TableBody>
+    const renderPaddedCells =
+        maxColumnsInSection > 0
+            ? Array(maxColumnsInSection - sortedCOCs.length).fill(0)
+            : []
 
-            {tableStyles}
-        </Table>
+    const filteredDataElements = dataElements.filter((de) => {
+        const name = de.displayFormName.toLowerCase()
+        return (
+            (!filterText || name.includes(filterText.toLowerCase())) &&
+            (!globalFilterText || name.includes(globalFilterText.toLowerCase()))
+        )
+    })
+    const itemsHiddenCnt = dataElements.length - filteredDataElements.length
+
+    return (
+        <TableBody>
+            {rowToColumnsMap.map((colInfo) => {
+                const { span, columns } = colInfo
+                return (
+                    <TableRowHead key={colInfo.category.id}>
+                        <TableCellHead
+                            className={styles.categoryNameHeader}
+                            colSpan={'1'}
+                        >
+                            {colInfo.category.displayFormName === 'default'
+                                ? ''
+                                : colInfo.category.displayFormName}
+                        </TableCellHead>
+                        {columns.map((co, i) => {
+                            return (
+                                <TableCellHead
+                                    key={i}
+                                    className={styles.tableHeader}
+                                    colSpan={span.toString()}
+                                >
+                                    {co.isDefault
+                                        ? 'Value'
+                                        : co.displayFormName}
+                                </TableCellHead>
+                            )
+                        })}
+                        {renderPaddedCells.map((_, i) => (
+                            <PaddingCell key={i} />
+                        ))}
+                    </TableRowHead>
+                )
+            })}
+            {filteredDataElements.map((de) => {
+                return (
+                    <TableRow key={de.id}>
+                        <TableCell className={styles.dataElementName}>
+                            {de.displayFormName}
+                        </TableCell>
+                        {sortedCOCs.map((coc) => (
+                            // todo: may want to pass getDataValue into DataEntryCell
+                            // to access "Data Item Details" (comment, followup, name, etc)
+                            <DataEntryCell
+                                key={coc.id}
+                                cocId={coc.id}
+                                deId={de.id}
+                            />
+                        ))}
+                        {renderPaddedCells.map((_, i) => (
+                            <PaddingCell key={i} />
+                        ))}
+                    </TableRow>
+                )
+            })}
+            {itemsHiddenCnt > 0 && (
+                <TableRow className={styles.hiddenByFilterRow}>
+                    <TableCell className="hiddenByFilterCell">
+                        {itemsHiddenCnt === 1
+                            ? i18n.t('1 item hidden by filter')
+                            : i18n.t('{{count}} items hidden by filter', {
+                                  count: itemsHiddenCnt,
+                              })}
+                    </TableCell>
+                </TableRow>
+            )}
+        </TableBody>
     )
 }
 
@@ -204,4 +192,8 @@ CategoryComboTable.propTypes = {
     ),
     filterText: PropTypes.string,
     getDataValue: PropTypes.func,
+    globalFilterText: PropTypes.string,
+    maxColumnsInSection: PropTypes.number,
 }
+
+const PaddingCell = () => <TableCell className={styles.paddingCell}></TableCell>
