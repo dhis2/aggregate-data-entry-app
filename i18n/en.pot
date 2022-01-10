@@ -63,6 +63,12 @@ msgstr "Fetching data sets"
 msgid "Error occurred while loading data sets"
 msgstr "Error occurred while loading data sets"
 
+msgid "Search org units"
+msgstr "Search org units"
+
+msgid "Only loaded org units will be searched"
+msgstr "Only loaded org units will be searched"
+
 msgid "You must choose a data set first"
 msgstr "You must choose a data set first"
 
@@ -74,12 +80,6 @@ msgstr "Choose a organisation unit"
 
 msgid "No organisation units could be found"
 msgstr "No organisation units could be found"
-
-msgid "Search org units"
-msgstr "Search org units"
-
-msgid "Only loaded org units will be searched"
-msgstr "Only loaded org units will be searched"
 
 msgid "Fetching organisation unit info"
 msgstr "Fetching organisation unit info"
