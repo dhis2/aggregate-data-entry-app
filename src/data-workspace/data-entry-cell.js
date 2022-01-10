@@ -15,7 +15,7 @@ const dummyQueryParams = {
     ou: 'DiszpKrYNg8', // Org unit: SL / Bo / Badjia / Ngelehun CHC
     pe: '202112', // Period: December 2021
     cc: 'WBW7RjsApsv', // Attribute combo: Target vs Result
-    cp: 'JvIqWKLPPkt', // Attribute option combo: Result
+    cp: 'JvIqWKLPPkt', // Attribute option _LIST_: Result (should be ';'-separated)
     // value: '6',
     // comment: 'optional',
     // followup: 'optional',
