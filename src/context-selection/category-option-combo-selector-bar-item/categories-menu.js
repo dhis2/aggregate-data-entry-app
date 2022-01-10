@@ -46,7 +46,7 @@ export default function CategoriesMenu({ close, selected, onChange }) {
             </div>
 
             <Button
-                primary
+                secondary
                 onClick={(_, evt) => {
                     // required as otherwise it'd trigger a `setOpen(true)` call as
                     // react thinks of this dropdown as being inside of the
@@ -56,7 +56,7 @@ export default function CategoriesMenu({ close, selected, onChange }) {
                     close()
                 }}
             >
-                {i18n.t('Close')}
+                {i18n.t('Hide menu')}
             </Button>
         </div>
     )
