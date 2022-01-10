@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { colors, IconFilter16 } from '@dhis2/ui'
+import { colors, IconFilter16, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useContext, useState } from 'react'
 import { CategoryComboTable } from './category-combo-table.js'
@@ -29,6 +29,13 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
     const groupedDataElements = section.disableDataElementAutoGroup
         ? groupDataElementsByCatComboInOrder(metadata, dataElements)
         : groupDataElementsByCatCombo(metadata, dataElements)
+    console.log(groupedDataElements)
+
+    const maxColumnsInSection = Math.max(
+        ...groupedDataElements.map(
+            (grp) => grp.categoryCombo.categoryOptionCombos.length
+        )
+    )
 
     return (
         <section className="wrapper">
@@ -51,16 +58,23 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
                     onChange={({ target }) => setFilterText(target.value)}
                 />
             </div>
-            {groupedDataElements.map(({ categoryCombo, dataElements }) => (
-                <CategoryComboTable
-                    key={categoryCombo.id}
-                    categoryCombo={categoryCombo}
-                    dataElements={dataElements}
-                    getDataValue={getDataValue}
-                    filterText={filterText}
-                    globalFilterText={globalFilterText}
-                />
-            ))}
+            <div>
+                <Table className={styles.table}>
+                    {groupedDataElements.map(
+                        ({ categoryCombo, dataElements }) => (
+                            <CategoryComboTable
+                                key={categoryCombo.id}
+                                categoryCombo={categoryCombo}
+                                dataElements={dataElements}
+                                getDataValue={getDataValue}
+                                filterText={filterText}
+                                globalFilterText={globalFilterText}
+                                maxColumnsInSection={maxColumnsInSection}
+                            />
+                        )
+                    )}
+                </Table>
+            </div>
 
             {/* Todo: verify styles with joe - 
             line height for title & description, lack of focus styles on input,
