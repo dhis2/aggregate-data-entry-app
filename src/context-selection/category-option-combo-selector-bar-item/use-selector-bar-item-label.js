@@ -9,7 +9,9 @@ export default function useSelectorBarItemLabel() {
     }
 
     if (categoryCombination.error) {
-        return i18n.t('Category option combination: An error occurred')
+        return i18n.t('Category option combination: An error occurred', {
+            nsSeparator: '-:-',
+        })
     }
 
     return categoryCombination.data?.displayName
