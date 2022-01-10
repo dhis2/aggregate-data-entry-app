@@ -14,10 +14,24 @@
     text-align: right;
 }
 
+.dataElementName {
+    min-width: 240px;
+}
+
 .tableCell {
     composes: border;
+    min-width: 100px;
 }
 
 .hiddenByFilterRow {
     color: var(--colors-grey600);
+}
+
+.table td {
+    height: 32px;
+    padding: 8px 16px 8px 8px;
+}
+
+.paddingCell {
+    composes: tableHeader;
 }
