@@ -16,6 +16,7 @@
 
 .dataElementName {
     min-width: 240px;
+    max-width: 350px;
 }
 
 .tableCell {
