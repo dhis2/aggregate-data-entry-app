@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-10T10:29:38.069Z\n"
-"PO-Revision-Date: 2022-01-10T10:29:38.069Z\n"
+"POT-Creation-Date: 2022-01-10T14:48:37.255Z\n"
+"PO-Revision-Date: 2022-01-10T14:48:37.255Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -18,20 +18,20 @@ msgstr ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 
-msgid "Loading categories..."
-msgstr "Loading categories..."
+msgid "Choose a data set"
+msgstr "Choose a data set"
 
 msgid "An error occurred loading the categories"
 msgstr "An error occurred loading the categories"
 
+msgid "Loading categories..."
+msgstr "Loading categories..."
+
 msgid "Hide menu"
 msgstr "Hide menu"
 
-msgid "Choose a data set"
-msgstr "Choose a data set"
-
-msgid "Category option combination: An error occurred"
-msgstr "Category option combination: An error occurred"
+msgid "Attribute option combination: An error occurred"
+msgstr "Attribute option combination: An error occurred"
 
 msgid "Loading..."
 msgstr "Loading..."

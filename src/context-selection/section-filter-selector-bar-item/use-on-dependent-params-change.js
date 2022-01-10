@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import {
-    useCategoryOptionComboSelection,
+    useAttributeOptionComboSelection,
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
@@ -11,7 +11,7 @@ export default function useOnDependentParamsChange(cb) {
     const [dataSetId] = useDataSetId()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
-    const [categoryOptionComboSelection] = useCategoryOptionComboSelection()
+    const [attributeOptionComboSelection] = useAttributeOptionComboSelection()
 
     useEffect(() => {
         if (initialExecution.current) {
@@ -19,5 +19,5 @@ export default function useOnDependentParamsChange(cb) {
         } else {
             cb()
         }
-    }, [dataSetId, orgUnitId, periodId, categoryOptionComboSelection])
+    }, [dataSetId, orgUnitId, periodId, attributeOptionComboSelection])
 }

@@ -11,7 +11,7 @@ const PARAMS_SCHEMA = {
     dataSetId: StringParam,
     orgUnitId: StringParam,
     periodId: StringParam,
-    categoryOptionComboSelection: withDefault(ArrayParam, []),
+    attributeOptionComboSelection: withDefault(ArrayParam, []),
     sectionFilter: StringParam,
 }
 
@@ -27,10 +27,10 @@ export function usePeriodId() {
     return useQueryParam('periodId', PARAMS_SCHEMA.periodId)
 }
 
-export function useCategoryOptionComboSelection() {
+export function useAttributeOptionComboSelection() {
     return useQueryParam(
-        'categoryOptionComboSelection',
-        PARAMS_SCHEMA.categoryOptionComboSelection
+        'attributeOptionComboSelection',
+        PARAMS_SCHEMA.attributeOptionComboSelection
     )
 }
 
@@ -50,7 +50,7 @@ export function useClearEntireSelection() {
             dataSetId: '',
             orgUnitId: '',
             periodId: '',
-            categoryOptionComboSelection: [],
+            attributeOptionComboSelection: [],
             sectionFilter: '',
         })
     }, [setSelectionContext])

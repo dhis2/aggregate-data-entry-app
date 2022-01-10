@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useDataSetPeriodType } from '../period-selector-bar-item/index.js'
 import {
-    useCategoryOptionComboSelection,
+    useAttributeOptionComboSelection,
     useDataSetId,
 } from '../use-context-selection/index.js'
 
@@ -11,23 +11,23 @@ import {
  * logic into the category option combo module
  */
 export default function useDeselectOnPeriodTypeChange() {
-    const [initialExecution, setInitialExecution] = useState(true)
+    const initialExecution = useRef(true)
     const [previousPeriodType, setPreviousPeriodType] = useState('')
     const [dataSetId] = useDataSetId()
     const { loadingDataSetPeriodType, errorDataSetPeriodType, periodType } =
         useDataSetPeriodType()
-    const [, setCategoryOptionComboSelection] =
-        useCategoryOptionComboSelection()
+    const [, setAttributeOptionComboSelection] =
+        useAttributeOptionComboSelection()
 
     useEffect(() => {
-        if (
+        if (initialExecution.current) {
+            initialExecution.current = false
+        } else if (
             !loadingDataSetPeriodType &&
             !errorDataSetPeriodType &&
-            initialExecution &&
             previousPeriodType !== periodType
         ) {
-            setInitialExecution(false)
-            setCategoryOptionComboSelection([])
+            setAttributeOptionComboSelection([])
             setPreviousPeriodType(periodType)
         }
     }, [
