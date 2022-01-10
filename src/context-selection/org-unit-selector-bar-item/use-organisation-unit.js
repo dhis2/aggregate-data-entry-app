@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { useOrgUnitId } from '../use-context-selection.js'
+import { useOrgUnitId } from '../use-context-selection/index.js'
 
 const QUERY_ORG_UNIT = {
     orgUnit: {

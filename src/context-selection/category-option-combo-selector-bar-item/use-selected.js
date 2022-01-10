@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useCategoryOptionComboSelection } from '../use-context-selection.js'
+import { useCategoryOptionComboSelection } from '../use-context-selection/index.js'
 import omit from './omit.js'
 
 const createStateFromUrlParam = (urlParams) => {

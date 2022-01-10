@@ -1,4 +1,4 @@
-import { useCategoryOptionComboSelection } from '../use-context-selection.js'
+import { useCategoryOptionComboSelection } from '../use-context-selection/index.js'
 
 export default function useSelectedCategoryOptionByCategoryId(id) {
     const [categoryOptionIds] = useCategoryOptionComboSelection()

@@ -2,7 +2,7 @@ import {
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
-} from '../use-context-selection.js'
+} from '../use-context-selection/index.js'
 import useCategoryCombination from './use-category-combination.js'
 
 /*

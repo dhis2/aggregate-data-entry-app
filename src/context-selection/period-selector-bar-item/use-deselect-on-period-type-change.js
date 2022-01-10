@@ -3,7 +3,7 @@ import { useDataSetPeriodType } from '../period-selector-bar-item/index.js'
 import {
     useCategoryOptionComboSelection,
     useDataSetId,
-} from '../use-context-selection.js'
+} from '../use-context-selection/index.js'
 
 /**
  * If the period type changes, we need to deselect the current selection. As
