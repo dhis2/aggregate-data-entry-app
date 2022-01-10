@@ -28,7 +28,7 @@ export const MetadataContextProvider = ({ children }) => {
         () => ({
             metadata,
             loading,
-            isCached: !!cached,
+            available: !!cached,
             usingCached: loading && cached,
             setMetadata,
         }),

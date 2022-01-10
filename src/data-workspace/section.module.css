@@ -2,3 +2,44 @@
     /* overrides fullwidth(100%)- UI-styling */
     min-width: 240px !important;
 }
+
+.header {
+    background-color: var(--colors-grey800);
+    line-height: 20px;
+    padding: 8px !important;
+    height: auto !important;
+}
+
+.title {
+    color: var(--colors-grey050);
+    font-weight: 400;
+    font-size: 14px;
+}
+.description {
+    color: var(--colors-grey300);
+    font-size: 13px;
+    margin-top: 2px;
+    font-weight: 300;
+}
+.filter {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    font-size: 13px;
+    line-height: 15px !important;
+    padding: 8px !important;
+    gap: 8px;
+    height: auto !important;
+}
+.filter input {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--colors-grey900);
+}
+.filter input::placeholder {
+    color: var(--colors-grey600);
+}
+.filter input:focus {
+    outline: none;
+}
