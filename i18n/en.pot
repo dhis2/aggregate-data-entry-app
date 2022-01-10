@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-10T14:02:33.520Z\n"
-"PO-Revision-Date: 2021-12-10T14:02:33.520Z\n"
+"POT-Creation-Date: 2022-01-10T19:44:40.183Z\n"
+"PO-Revision-Date: 2022-01-10T19:44:40.183Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -18,5 +18,197 @@ msgstr ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 
+msgid "Choose a data set"
+msgstr "Choose a data set"
+
+msgid "An error occurred loading the categories"
+msgstr "An error occurred loading the categories"
+
+msgid "Loading categories..."
+msgstr "Loading categories..."
+
+msgid "Hide menu"
+msgstr "Hide menu"
+
+msgid "Attribute option combination: An error occurred"
+msgstr "Attribute option combination: An error occurred"
+
+msgid "Loading..."
+msgstr "Loading..."
+
+msgid "An error loading the values occurred"
+msgstr "An error loading the values occurred"
+
+msgid "No selection!"
+msgstr "No selection!"
+
+msgid "Partial selection!"
+msgstr "Partial selection!"
+
+msgid "Complete selection!"
+msgstr "Complete selection!"
+
+msgid "Fetching data set info"
+msgstr "Fetching data set info"
+
+msgid "Error occurred while loading data set info"
+msgstr "Error occurred while loading data set info"
+
+msgid "Data set"
+msgstr "Data set"
+
+msgid "Fetching data sets"
+msgstr "Fetching data sets"
+
+msgid "Error occurred while loading data sets"
+msgstr "Error occurred while loading data sets"
+
+msgid "Search org units"
+msgstr "Search org units"
+
+msgid "You must choose a data set first"
+msgstr "You must choose a data set first"
+
+msgid "Error: {{ ERRORMESSAGE }}"
+msgstr "Error: {{ ERRORMESSAGE }}"
+
+msgid "Organisation unit"
+msgstr "Organisation unit"
+
+msgid "Choose a organisation unit"
+msgstr "Choose a organisation unit"
+
+msgid "No organisation units could be found"
+msgstr "No organisation units could be found"
+
+msgid "Fetching organisation unit info"
+msgstr "Fetching organisation unit info"
+
+msgid "Error occurred while loading organisation unit info"
+msgstr "Error occurred while loading organisation unit info"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "Choose a period"
+msgstr "Choose a period"
+
+msgid "Section filter"
+msgstr "Section filter"
+
+msgid "Choose a section filter"
+msgstr "Choose a section filter"
+
+msgid "1 item hidden by filter"
+msgstr "1 item hidden by filter"
+
+msgid "Not implemented"
+msgstr "Not implemented"
+
+msgid "This data set uses a custom form. Custom forms are not implemented yet."
+msgstr "This data set uses a custom form. Custom forms are not implemented yet."
+
+msgid "Filter fields in all sections"
+msgstr "Filter fields in all sections"
+
+msgid "Filter fields"
+msgstr "Filter fields"
+
+msgid "Clear filter"
+msgstr "Clear filter"
+
 msgid "Type here to filter in this section"
 msgstr "Type here to filter in this section"
+
+msgid "January"
+msgstr "January"
+
+msgid "February"
+msgstr "February"
+
+msgid "March"
+msgstr "March"
+
+msgid "April"
+msgstr "April"
+
+msgid "May"
+msgstr "May"
+
+msgid "June"
+msgstr "June"
+
+msgid "July"
+msgstr "July"
+
+msgid "August"
+msgstr "August"
+
+msgid "September"
+msgstr "September"
+
+msgid "October"
+msgstr "October"
+
+msgid "November"
+msgstr "November"
+
+msgid "December"
+msgstr "December"
+
+msgid "Week {{weekNumber}}"
+msgstr "Week {{weekNumber}}"
+
+msgid "Bi-Week {{biWeekNumber}}"
+msgstr "Bi-Week {{biWeekNumber}}"
+
+msgid "Daily"
+msgstr "Daily"
+
+msgid "Weekly"
+msgstr "Weekly"
+
+msgid "Weekly (Start Wednesday)"
+msgstr "Weekly (Start Wednesday)"
+
+msgid "Weekly (Start Thursday)"
+msgstr "Weekly (Start Thursday)"
+
+msgid "Weekly (Start Saturday)"
+msgstr "Weekly (Start Saturday)"
+
+msgid "Weekly (Start Sunday)"
+msgstr "Weekly (Start Sunday)"
+
+msgid "Bi-weekly"
+msgstr "Bi-weekly"
+
+msgid "Monthly"
+msgstr "Monthly"
+
+msgid "Bi-monthly"
+msgstr "Bi-monthly"
+
+msgid "Quarterly"
+msgstr "Quarterly"
+
+msgid "Six-monthly"
+msgstr "Six-monthly"
+
+msgid "Six-monthly April"
+msgstr "Six-monthly April"
+
+msgid "Yearly"
+msgstr "Yearly"
+
+msgid "Financial year (Start November)"
+msgstr "Financial year (Start November)"
+
+msgid "Financial year (Start October)"
+msgstr "Financial year (Start October)"
+
+msgid "Financial year (Start July)"
+msgstr "Financial year (Start July)"
+
+msgid "Financial year (Start April)"
+msgstr "Financial year (Start April)"
