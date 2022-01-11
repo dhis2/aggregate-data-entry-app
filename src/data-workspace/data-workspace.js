@@ -1,24 +1,21 @@
 import { useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, NoticeBox } from '@dhis2/ui'
-import React, { useContext, useState, useEffect, useCallback } from 'react'
+import React, { useMemo, useState, useEffect, useCallback } from 'react'
 import { DataSetSelector } from './dataset-selector'
 import { DefaultForm } from './default-form'
 import { MetadataContext } from './metadata-context'
 import { Sections, FormSection } from './section'
 import { hashArraysInObject } from './utils'
 import { EntryForm } from './entry-form'
+import { useContextSelection } from '../context-selection'
+import { useMetadata } from './metadata-context'
+import {
+    getCoCByCategoryOptions,
+    getDataSetById,
+    getCategoryComboById,
+} from './selectors'
 import { FinalFormWrapper } from './data-entry-cell'
-
-const ngeleId = 'DiszpKrYNg8'
-const period = '202112'
-const emergencyDataSetId = 'Lpw6GcnTrmS'
-const expendituresDataSetId = 'rsyjyJmYD4J'
-const catComboId = 'WBW7RjsApsv'
-const attrOptionComboId = 'gQhAMdimKO4' //result
-const defaultCatComboId = 'bjDvmb4bfuf'
-const urbanRuralCatOptCombo = 'DJXmyhnquyI'
-const defaultCatOptComboId = 'HllvX50cXC0'
 
 const query = {
     dataSet: {
@@ -30,28 +27,22 @@ const query = {
             categoryCombo[id,name,categories[id,displayName,categoryOptions[id,displayName]],categoryOptionCombos[id,name]]]],
             sections[:owner,displayName,categoryCombos[id,categories[id,displayName,categoryOptions[id,displayName]]]]`,
         },
-        // want dataSet.dataSetElements for rows & columns
-        // elements with a COC other than 'default' should have a new table section
     },
-    // dataValues: {
-    //     resource: 'dataValueSets',
-    //     params: {
-    //         dataSet: emergencyDataSetId,
-    //         period: period,
-    //         orgUnit: ngeleId,
-    //         attributeOptionCombo: attrOptionComboId,
-    //     },
-    // },
 }
 
 const dataValueQuery = {
     dataValues: {
         resource: 'dataValueSets',
-        params: ({ dataSetId, period, orgUnitId, attributeOptionCombo }) => ({
+        params: ({
+            dataSetId,
+            periodId,
+            orgUnitId,
+            attributeOptionComboId,
+        }) => ({
             dataSet: dataSetId,
-            period: period,
+            period: periodId,
             orgUnit: orgUnitId,
-            attributeOptionCombo,
+            attributeOptionCombo: attributeOptionComboId,
         }),
     },
 }
@@ -80,30 +71,32 @@ const metadataQuery = {
     },
 }
 
-const useDataValues = (selectedDataSet, attributeOptionCombo) => {
+const useDataValues = () => {
+    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
+    const attributeOptionComboId = useAttributeOptionCombo()
+
     const {
         data: dataValues,
         refetch,
         ...rest
     } = useDataQuery(dataValueQuery, {
         variables: {
-            dataSetId: selectedDataSet,
-            period,
-            orgUnitId: ngeleId,
-            attributeOptionCombo: attrOptionComboId,
+            dataSetId,
+            periodId,
+            orgUnitId,
+            attributeOptionComboId,
         },
         lazy: true,
     })
 
     useEffect(() => {
         refetch({
-            dataSetId: selectedDataSet,
-            attributeOptionCombo:
-                selectedDataSet === emergencyDataSetId
-                    ? attrOptionComboId
-                    : undefined,
+            dataSetId,
+            periodId,
+            orgUnitId,
+            attributeOptionComboId,
         })
-    }, [selectedDataSet, attributeOptionCombo])
+    }, [dataSetId, orgUnitId, periodId, attributeOptionComboId])
 
     return { ...rest, refetch, dataValues: dataValues?.dataValues }
 }
@@ -128,19 +121,55 @@ function mapDataValuesToFormInitialValues(dataValues) {
 // dataSet.renderAsTabs or .renderHorizontally
 //const transformData = (metadata) =>
 
+// TODO: this should probably be handled by useContextSelection-hook
+const useAttributeOptionCombo = () => {
+    const { available, metadata } = useMetadata()
+    const [{ dataSetId, attributeOptionComboSelection }] = useContextSelection()
+
+    const cocId = useMemo(() => {
+        if (available && dataSetId) {
+            const dataSet = getDataSetById(metadata, dataSetId)
+            const categoryCombo = getCategoryComboById(
+                metadata,
+                dataSet.categoryCombo.id
+            )
+            if (categoryCombo.isDefault) {
+                // if default catCombo, selected should be default coc as well
+                return categoryCombo.categoryOptionCombos[0]
+            }
+
+            const selectedOptions = attributeOptionComboSelection.map(
+                (categoryOptStr) => categoryOptStr.split(':')[1]
+            )
+
+            const attributeOptionCombo = getCoCByCategoryOptions(
+                metadata,
+                dataSet.categoryCombo.id,
+                selectedOptions
+            )
+
+            return attributeOptionCombo?.id
+        }
+        return null
+    }, [dataSetId, attributeOptionComboSelection, metadata, available])
+    return cocId
+}
+
 export const DataWorkspace = () => {
-    const [selectedDataset, setSelectedDataset] = useState(emergencyDataSetId)
+    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
+    const attributeOptionComboId = useAttributeOptionCombo()
     const {
         data: dataSet,
         loading,
         error,
         refetch,
     } = useDataQuery(query, {
-        variables: { ou: ngeleId, id: selectedDataset },
+        variables: {
+            id: dataSetId,
+        },
     })
 
-    const { metadata, setMetadata } = useContext(MetadataContext)
-
+    const { available, metadata, setMetadata } = useMetadata()
     const { data: meta, loading: metaLoading } = useDataQuery(metadataQuery, {
         onComplete: (metadata) => {
             const hashed =
@@ -149,7 +178,7 @@ export const DataWorkspace = () => {
         },
     })
 
-    const { dataValues, loading: dataValuesLoading } = useDataValues(selectedDataset, attrOptionComboId)
+    const { dataValues, loading: dataValuesLoading } = useDataValues()
     console.log({ metadata }, { dataValues }, { dataSet })
 
     const getDataValue = useCallback(
@@ -165,11 +194,15 @@ export const DataWorkspace = () => {
 
     useEffect(() => {
         refetch({
-            id: selectedDataset,
+            id: dataSetId,
         })
-    }, [selectedDataset])
+    }, [dataSetId])
 
-    if (loading || dataValuesLoading) {
+    if (!dataSetId || !orgUnitId || !periodId || !attributeOptionComboId) {
+        return null
+    }
+
+    if (!available || loading || dataValuesLoading) {
         return <CircularLoader />
     }
 
@@ -179,10 +212,6 @@ export const DataWorkspace = () => {
 
     return (
         <div className="workspace-wrapper">
-            <DataSetSelector
-                onDataSetSelect={(val) => setSelectedDataset(val.selected)}
-                selected={selectedDataset}
-            />
             <FinalFormWrapper
                 initialValues={mapDataValuesToFormInitialValues(
                     dataValues.dataValues
