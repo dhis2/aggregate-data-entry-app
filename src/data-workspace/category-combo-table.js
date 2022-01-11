@@ -7,10 +7,12 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    colors,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './category-combo-table.module.css'
+import { DataEntryCell } from './data-entry-cell.js'
 import { useMetadata } from './metadata-context.js'
 import {
     getCategoriesByCategoryComboId,
@@ -19,6 +21,7 @@ import {
 } from './selectors.js'
 import { cartesian } from './utils.js'
 
+// todo: remove once DataEntryCell is mature
 const DataValue = ({ dataValue }) => {
     return <span>{dataValue ? dataValue.value : null}</span>
 }
@@ -144,17 +147,16 @@ export const CategoryComboTable = ({
                             {de.displayFormName}
                         </TableCell>
                         {sortedCOCs.map((coc) => (
-                            <TableCell
+                            // todo: may want to pass getDataValue into DataEntryCell
+                            // to access "Data Item Details" (comment, followup, name, etc)
+                            <DataEntryCell
                                 key={coc.id}
-                                className={styles.tableCell}
-                            >
-                                <DataValue
-                                    dataValue={getDataValue(de.id, coc.id)}
-                                />
-                            </TableCell>
+                                dataElement={de}
+                                categoryOptionCombo={coc}
+                            />
                         ))}
                         {renderPaddedCells.map((_, i) => (
-                            <PaddingCell key={i} />
+                            <PaddingCell key={i} className={styles.tableCell} />
                         ))}
                     </TableRow>
                 )

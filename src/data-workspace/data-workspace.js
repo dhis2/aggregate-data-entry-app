@@ -8,6 +8,8 @@ import { MetadataContext } from './metadata-context'
 import { Sections, FormSection } from './section'
 import { hashArraysInObject } from './utils'
 import { EntryForm } from './entry-form'
+import { FinalFormWrapper } from './data-entry-cell'
+
 const ngeleId = 'DiszpKrYNg8'
 const period = '202112'
 const emergencyDataSetId = 'Lpw6GcnTrmS'
@@ -106,6 +108,22 @@ const useDataValues = (selectedDataSet, attributeOptionCombo) => {
     return { ...rest, refetch, dataValues: dataValues?.dataValues }
 }
 
+// Form value object structure: { [dataElementId]: { [cocId]: value } }
+function mapDataValuesToFormInitialValues(dataValues) {
+    const formInitialValues = dataValues.reduce(
+        (acc, { dataElement, categoryOptionCombo, value }) => {
+            if (!acc[dataElement]) {
+                acc[dataElement] = { [categoryOptionCombo]: value }
+            } else {
+                acc[dataElement][categoryOptionCombo] = value
+            }
+            return acc
+        },
+        {}
+    )
+    return formInitialValues
+}
+
 // Sections: dataSet.sections => api/sections/<id> endpoint
 // dataSet.renderAsTabs or .renderHorizontally
 //const transformData = (metadata) =>
@@ -131,7 +149,7 @@ export const DataWorkspace = () => {
         },
     })
 
-    const { dataValues } = useDataValues(selectedDataset, attrOptionComboId)
+    const { dataValues, loading: dataValuesLoading } = useDataValues(selectedDataset, attrOptionComboId)
     console.log({ metadata }, { dataValues }, { dataSet })
 
     const getDataValue = useCallback(
@@ -151,7 +169,7 @@ export const DataWorkspace = () => {
         })
     }, [selectedDataset])
 
-    if (loading) {
+    if (loading || dataValuesLoading) {
         return <CircularLoader />
     }
 
@@ -165,7 +183,16 @@ export const DataWorkspace = () => {
                 onDataSetSelect={(val) => setSelectedDataset(val.selected)}
                 selected={selectedDataset}
             />
-            <EntryForm dataSet={dataSet.dataSet} getDataValue={getDataValue} />
+            <FinalFormWrapper
+                initialValues={mapDataValuesToFormInitialValues(
+                    dataValues.dataValues
+                )}
+            >
+                <EntryForm
+                    dataSet={dataSet.dataSet}
+                    getDataValue={getDataValue}
+                />
+            </FinalFormWrapper>
             <style jsx>
                 {`
                     .workspace-wrapper {
