@@ -151,8 +151,8 @@ export const CategoryComboTable = ({
                             // to access "Data Item Details" (comment, followup, name, etc)
                             <DataEntryCell
                                 key={coc.id}
-                                cocId={coc.id}
-                                deId={de.id}
+                                dataElement={de}
+                                categoryOptionCombo={coc}
                             />
                         ))}
                         {renderPaddedCells.map((_, i) => (
