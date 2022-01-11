@@ -40,7 +40,7 @@ export default function SectionFilterSelectorBarItem() {
         >
             {renderMenu && (
                 <MenuSelect
-                    values={dataSetSectionsInfo.data}
+                    values={dataSetSectionsInfo.menuOptions}
                     selected={sectionFilter}
                     onChange={({ selected }) => {
                         setSectionFilter(selected)
