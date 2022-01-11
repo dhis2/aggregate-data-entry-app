@@ -21,8 +21,7 @@ export default function useDataSetSectionsInfo() {
         data,
     } = useQuery(queryKey, { enabled: !!dataSetId })
 
-    // TODO: fix return formType
-    const dataSetSectionsInfo = data?.dataSet.sections.map(
+    const menuOptions = data?.dataSet.sections.map(
         ({ id, displayName }) => ({
             value: id,
             label: displayName,
@@ -33,6 +32,7 @@ export default function useDataSetSectionsInfo() {
         called: !isIdle,
         loading,
         error,
-        data: dataSetSectionsInfo,
+        data: data && { ...data.dataSet },
+        menuOptions,
     }
 }
