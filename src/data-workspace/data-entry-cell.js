@@ -1,10 +1,10 @@
 import { useDataMutation } from '@dhis2/app-runtime/build/cjs'
-import { TableCell, colors, theme, IconMore16 } from '@dhis2/ui'
+import { IconMore16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Form, useField } from 'react-final-form'
-import css from 'styled-jsx/css'
+import styles from './data-entry-cell.module.css'
 
 // See docs: https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_sending_individual_data_values
 // Taken from old DE app
@@ -46,90 +46,6 @@ FinalFormWrapper.propTypes = {
     initialValues: PropTypes.any,
 }
 
-const { className: cellClassName, styles: cellResolvedStyles } = css.resolve`
-    td.dataEntryCell {
-        padding: 0px;
-        min-width: 100px;
-        border: 1px solid ${colors.grey400};
-        background: #fff;
-        font-size: 13px;
-        line-height: 15px;
-        color: ${colors.grey900}
-        height: 100%;
-    }
-`
-
-const styles = css`
-    input {
-        width: 100%;
-        height: 100%;
-        background: none;
-        border: none;
-        padding: 8px 16px 8px 8px;
-    }
-    input.readOnly {
-        background: ${colors.grey300};
-    }
-    input:hover:not(.readOnly) {
-        outline: 1px solid #a0adba;
-    }
-
-    input.invalid {
-        background: ${colors.red200};
-        border: 1px solid ${colors.red600};
-    }
-    input.invalid:hover {
-        background: #ffb3bc;
-    }
-
-    input.synced {
-        background: ${colors.green050};
-    }
-    input.synced:hover {
-        background: #d8eeda;
-    }
-
-    input:focus-visible {
-        outline: 3px solid ${theme.focus} !important;
-        border: none !important;
-        background: #fff !important;
-    }
-
-    .topRightIndicator {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-    .bottomLeftIndicator {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-    }
-
-    .topRightTriangle {
-        width: 0;
-        height: 0;
-        border-top: 3px solid ${colors.green300};
-        border-right: 3px solid ${colors.green300};
-        border-bottom: 3px solid transparent;
-        border-left: 3px solid transparent;
-    }
-    .bottomLeftTriangle {
-        width: 0;
-        height: 0;
-        border-top: 3px solid transparent;
-        border-right: 3px solid transparent;
-        border-bottom: 3px solid ${colors.grey600};
-        border-left: 3px solid ${colors.grey600};
-    }
-
-    .cellWrapper {
-        width: 100%;
-        height: 100%;
-        position: relative;
-    }
-`
-
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
@@ -165,36 +81,36 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // todo: implement read-only cells
 
     const synced = meta.valid && called && !loading && !error
-    const inputState = meta.invalid
-        ? 'invalid'
+    const inputStateClassName = meta.invalid
+        ? styles.inputInvalid
         : synced
-        ? 'synced'
+        ? styles.inputSynced
         : null
 
     return (
-        <TableCell className={cx('dataEntryCell', cellClassName)}>
-            <div className="cellWrapper">
+        <td className={styles.dataEntryCell}>
+            <div className={styles.cellInnerWrapper}>
                 <input
-                    className={inputState}
+                    className={cx(styles.input, inputStateClassName)}
                     type="text"
                     {...input}
                     onBlur={onBlur}
+                    // todo: disabled if 'readOnly'
+                    // disabled={true}
                 />
-                <div className="topRightIndicator">
+                <div className={styles.topRightIndicator}>
                     {loading ? (
                         <IconMore16 color={colors.grey700} />
                     ) : synced ? (
-                        <div className="topRightTriangle" />
+                        <div className={styles.topRightTriangle} />
                     ) : null}
                 </div>
-                <div className="bottomLeftIndicator">
+                <div className={styles.bottomLeftIndicator}>
                     {/* todo: show grey600 6x6 triangle if there is a comment */}
-                    {false && <div className="bottomLeftTriangle" />}
+                    {false && <div className={styles.bottomLeftTriangle} />}
                 </div>
             </div>
-            <style jsx>{styles}</style>
-            {cellResolvedStyles}
-        </TableCell>
+        </td>
     )
 }
 DataEntryCell.propTypes = {
