@@ -46,7 +46,7 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
 
     return (
         <div className="wrapper">
-            <Table className={styles.table}>
+            <Table className={styles.table} suppressZebraStriping>
                 <TableHead>
                     <TableRowHead>
                         <TableCellHead colSpan="100%" className={styles.header}>
