@@ -21,7 +21,7 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <Router>
                 <QueryParamProvider ReactRouterRoute={Route}>
-                    <CssVariables colors spacers />
+                    <CssVariables colors spacers theme />
                     <Layout
                         header={<ContextSelection />}
                         main={<DataWorkspace />}
