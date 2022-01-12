@@ -38,7 +38,7 @@ export const DefaultForm = ({ dataSet, getDataValue }) => {
                     Elements to use this data set.
                 </NoticeBox>
             )}
-            <Table className={styles.table}>
+            <Table className={styles.table} suppressZebraStriping>
                 {groupedDataElements.map(({ categoryCombo, dataElements }) => (
                     <CategoryComboTable
                         key={categoryCombo.id}
