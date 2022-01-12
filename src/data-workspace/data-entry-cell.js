@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Form, useField } from 'react-final-form'
 import styles from './data-entry-cell.module.css'
+import { useFieldNavigation } from './use-field-navigation.js'
 
 // See docs: https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_sending_individual_data_values
 // Taken from old DE app
@@ -49,7 +50,9 @@ FinalFormWrapper.propTypes = {
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
-    const { input, meta } = useField(`${de.id}.${coc.id}`)
+    const fieldName = `${de.id}.${coc.id}`
+    const { input, meta } = useField(fieldName)
+    const { focusNext, focusPrev } = useFieldNavigation(fieldName)
 
     const [mutate, { called, loading, error }] =
         useDataMutation(DATA_VALUE_MUTATION)
@@ -63,6 +66,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 
     const onBlur = (event) => {
         // todo: also check if 'valid'
+        // todo: don't resend if same as last value
         // If this value has changed from its initial value
         if (!meta.pristine) {
             // Send mutation to autosave data
@@ -70,6 +74,20 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
         }
         // Also invoke FinalForm's `onBlur`
         input.onBlur(event)
+    }
+
+    const onKeyDown = (event) => {
+        const { key, shiftKey } = event
+        if (key === 'Enter' && shiftKey) {
+            // todo: open data item details
+        } else if (key === 'ArrowDown' || key === 'Enter') {
+            event.preventDefault()
+            focusNext()
+        } else if (key === 'ArrowUp') {
+            event.preventDefault()
+            focusPrev()
+        }
+        // tab and shift-tab on their own work as expected
     }
 
     // todo: get data details (via getDataValue?)
@@ -95,6 +113,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                     type="text"
                     {...input}
                     onBlur={onBlur}
+                    onKeyDown={onKeyDown}
                     // todo: disabled if 'readOnly'
                     // disabled={true}
                 />
