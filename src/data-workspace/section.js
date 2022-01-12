@@ -17,6 +17,7 @@ import {
     groupDataElementsByCatCombo,
     groupDataElementsByCatComboInOrder,
 } from './selectors.js'
+import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
 
 export const FormSection = ({ section, getDataValue, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children
@@ -102,9 +103,13 @@ FormSection.propTypes = {
 }
 
 export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
+    const [sectionId] = useSectionFilter()
+    const filteredSections = sectionId
+        ? dataSet.sections.filter((s) => s.id === sectionId)
+        : dataSet.sections
     return (
         <div>
-            {dataSet.sections.map((s) => (
+            {filteredSections.map((s) => (
                 <FormSection
                     section={s}
                     key={s.id}

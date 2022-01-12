@@ -162,7 +162,6 @@ export const getCategoryOptionCombosByCategoryComboId = (
     catComboId
 ) => {
     const categoryCombo = getCategoryComboById(metadata, catComboId)
-    //console.log({ categoryCombo })
     const categoryOptionCombos = categoryCombo?.categoryOptionCombos.map(
         (cocId) => getCategoryOptionComboById(metadata, cocId)
     )
