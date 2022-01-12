@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form, useField } from 'react-final-form'
 import styles from './data-entry-cell.module.css'
+import { getValidatorByValueType } from './field-validation.js'
 import { useFieldNavigation } from './use-field-navigation.js'
 
 // See docs: https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_sending_individual_data_values
@@ -51,9 +52,11 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldName = `${de.id}.${coc.id}`
-    const { input, meta } = useField(fieldName)
+    const validate = getValidatorByValueType(de.valueType)
+    const { input, meta } = useField(fieldName, { validate })
+
+    const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
     const { focusNext, focusPrev } = useFieldNavigation(fieldName)
-    const [lastSyncedValue, setLastSyncedValue] = useState(null)
 
     const [mutate, { called, loading, error }] =
         useDataMutation(DATA_VALUE_MUTATION)
@@ -68,7 +71,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     const onBlur = (event) => {
         // todo: also check if 'valid'
         // If this value has changed...
-        if (!meta.pristine && input.value !== lastSyncedValue) {
+        if (meta.dirty && input.value !== lastSyncedValue && meta.valid) {
             // Send mutation to autosave data
             mutate({ ...mutationVars, value: input.value })
             // Update last-synced value to avoid resending
@@ -136,6 +139,8 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 DataEntryCell.propTypes = {
     categoryOptionCombo: PropTypes.shape({ id: PropTypes.string.isRequired })
         .isRequired,
-    dataElement: PropTypes.shape({ id: PropTypes.string.isRequired })
-        .isRequired,
+    dataElement: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        valueType: PropTypes.string,
+    }).isRequired,
 }
