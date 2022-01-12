@@ -2,7 +2,7 @@ import { useDataMutation } from '@dhis2/app-runtime/build/cjs'
 import { IconMore16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, useField } from 'react-final-form'
 import styles from './data-entry-cell.module.css'
 import { useFieldNavigation } from './use-field-navigation.js'
@@ -53,6 +53,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     const fieldName = `${de.id}.${coc.id}`
     const { input, meta } = useField(fieldName)
     const { focusNext, focusPrev } = useFieldNavigation(fieldName)
+    const [lastSyncedValue, setLastSyncedValue] = useState(null)
 
     const [mutate, { called, loading, error }] =
         useDataMutation(DATA_VALUE_MUTATION)
@@ -66,11 +67,12 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 
     const onBlur = (event) => {
         // todo: also check if 'valid'
-        // todo: don't resend if same as last value
-        // If this value has changed from its initial value
-        if (!meta.pristine) {
+        // If this value has changed...
+        if (!meta.pristine && input.value !== lastSyncedValue) {
             // Send mutation to autosave data
             mutate({ ...mutationVars, value: input.value })
+            // Update last-synced value to avoid resending
+            setLastSyncedValue(input.value)
         }
         // Also invoke FinalForm's `onBlur`
         input.onBlur(event)
@@ -92,10 +94,9 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 
     // todo: get data details (via getDataValue?)
     // todo: on focus, set 'active cell' in context
-    // todo: handle key presses (arrows, tab, enter) and double-click
     // todo: tooltip for invalid cells
     // todo: validate with `de.valueType`
-    // todo: other input types for different value types
+    // todo: implement other input types for different value types
     // todo: implement read-only cells
 
     const synced = meta.valid && called && !loading && !error
