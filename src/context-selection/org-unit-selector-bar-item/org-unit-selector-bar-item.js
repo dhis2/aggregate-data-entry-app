@@ -128,7 +128,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
 
                                         setOrgUnitId(id)
                                         setOrgUnitOpen(false)
-                                        setAttributeOptionComboSelection([])
+                                        setAttributeOptionComboSelection(undefined)
                                     }}
                                 />
                             )}
