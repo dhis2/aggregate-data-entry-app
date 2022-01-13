@@ -1,21 +1,20 @@
-import { useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, NoticeBox } from '@dhis2/ui'
 import React, { useMemo, useState, useEffect, useCallback } from 'react'
+import { useQuery } from 'react-query'
+import { useContextSelection } from '../context-selection'
+import { FinalFormWrapper } from './data-entry-cell'
 import { DataSetSelector } from './dataset-selector'
 import { DefaultForm } from './default-form'
-import { MetadataContext } from './metadata-context'
-import { Sections, FormSection } from './section'
-import { hashArraysInObject } from './utils'
 import { EntryForm } from './entry-form'
-import { useContextSelection } from '../context-selection'
-import { useMetadata } from './metadata-context'
+import { MetadataContext, useMetadata } from './metadata-context'
+import { Sections, FormSection } from './section'
 import {
     getCoCByCategoryOptions,
     getDataSetById,
     getCategoryComboById,
 } from './selectors'
-import { FinalFormWrapper } from './data-entry-cell'
+import { hashArraysInObject } from './utils'
 
 const query = {
     dataSet: {
@@ -75,30 +74,15 @@ const useDataValues = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
 
-    const {
-        data: dataValues,
-        refetch,
-        ...rest
-    } = useDataQuery(dataValueQuery, {
-        variables: {
+    return useQuery([
+        dataValueQuery,
+        {
             dataSetId,
             periodId,
             orgUnitId,
             attributeOptionComboId,
         },
-        lazy: true,
-    })
-
-    useEffect(() => {
-        refetch({
-            dataSetId,
-            periodId,
-            orgUnitId,
-            attributeOptionComboId,
-        })
-    }, [dataSetId, orgUnitId, periodId, attributeOptionComboId])
-
-    return { ...rest, refetch, dataValues: dataValues?.dataValues }
+    ])
 }
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
@@ -158,55 +142,45 @@ const useAttributeOptionCombo = () => {
 export const DataWorkspace = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
-    const {
-        data: dataSet,
-        loading,
-        error,
-        refetch,
-    } = useDataQuery(query, {
-        variables: {
+    const dataSetFetch = useQuery([
+        query,
+        {
             id: dataSetId,
         },
-    })
+    ])
 
     const { available, metadata, setMetadata } = useMetadata()
-    const { data: meta, loading: metaLoading } = useDataQuery(metadataQuery, {
-        onComplete: (metadata) => {
+    useQuery([metadataQuery], {
+        onSuccess: (metadata) => {
             const hashed =
                 metadata?.metadata && hashArraysInObject(metadata.metadata)
             setMetadata(hashed)
         },
     })
 
-    const { dataValues, loading: dataValuesLoading } = useDataValues()
-    console.log({ metadata }, { dataValues }, { dataSet })
+    const dataValuesFetch = useDataValues()
+    console.log({ metadata }, { dataValues: dataValuesFetch.data }, { dataSet: dataSetFetch.data })
 
     const getDataValue = useCallback(
         (dataElementId, cocId) => {
-            return dataValues?.dataValues.find(
+            return dataValuesFetch.data?.dataValues.find(
                 (dv) =>
                     dv.dataElement === dataElementId &&
                     dv.categoryOptionCombo === cocId
             )
         },
-        [dataValues]
+        [dataValuesFetch.data]
     )
-
-    useEffect(() => {
-        refetch({
-            id: dataSetId,
-        })
-    }, [dataSetId])
 
     if (!dataSetId || !orgUnitId || !periodId || !attributeOptionComboId) {
         return null
     }
 
-    if (!available || loading || dataValuesLoading) {
+    if (!available || dataSetFetch.isLoading || dataValuesFetch.isLoading) {
         return <CircularLoader />
     }
 
-    if (error) {
+    if (dataSetFetch.error) {
         return 'Error!'
     }
 
@@ -214,11 +188,11 @@ export const DataWorkspace = () => {
         <div className="workspace-wrapper">
             <FinalFormWrapper
                 initialValues={mapDataValuesToFormInitialValues(
-                    dataValues.dataValues
+                    dataValuesFetch.data.dataValues
                 )}
             >
                 <EntryForm
-                    dataSet={dataSet.dataSet}
+                    dataSet={dataSetFetch.data.dataSet}
                     getDataValue={getDataValue}
                 />
             </FinalFormWrapper>
