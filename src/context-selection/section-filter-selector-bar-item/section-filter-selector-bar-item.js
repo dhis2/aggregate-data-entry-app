@@ -51,7 +51,9 @@ export default function SectionFilterSelectorBarItem() {
                         setOpen(false)
                     }}
                 />
-            ) : <div />}
+            ) : (
+                <div />
+            )}
         </SelectorBarItem>
     )
 }
