@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     Table,
     TableRowHead,
@@ -11,7 +10,8 @@ import {
     SingleSelectOption,
     SingleSelectField,
 } from '@dhis2/ui'
-import { useDataQuery } from '@dhis2/app-runtime'
+import React from 'react'
+import { useQuery } from 'react-query'
 
 const ngeleId = 'DiszpKrYNg8'
 const pe = '202108'
@@ -26,13 +26,13 @@ const query = {
 }
 
 export const DataSetSelector = ({ onDataSetSelect, selected }) => {
-    const { loading, data, error } = useDataQuery(query)
+    const { isLoading, data } = useQuery([query])
 
     return (
         <SingleSelectField
             label="Select Dataset"
             onChange={onDataSetSelect}
-            loading={loading}
+            loading={isLoading}
             selected={data && selected}
         >
             {data?.dataSet?.dataSets.map((ds) => (
