@@ -188,7 +188,7 @@ export const DataWorkspace = () => {
         <div className="workspace-wrapper">
             <FinalFormWrapper
                 initialValues={mapDataValuesToFormInitialValues(
-                    dataValuesFetch.data.dataValues
+                    dataValuesFetch.data.dataValues.dataValues
                 )}
             >
                 <EntryForm
