@@ -9,13 +9,11 @@ const QUERY_SELECTABLE_DATA_SETS = {
     },
 }
 
-export default function useSelectableDataSets() {
-    const {
-        isIdle,
-        isLoading: loading,
-        error,
-        data,
-    } = useQuery([QUERY_SELECTABLE_DATA_SETS])
+export default function useSelectableDataSets(onComplete) {
+    const { isIdle, isLoading: loading, error, data } = useQuery(
+        [QUERY_SELECTABLE_DATA_SETS],
+        { onComplete }
+    )
 
     // @TODO: How to handle pages / large lists?
     // Nested as this is "page-able"
