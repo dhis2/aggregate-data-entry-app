@@ -79,3 +79,9 @@ const FilterField = ({ value, setFilterText, formType }) => (
         </Button>
     </div>
 )
+
+FilterField.propTypes = {
+    formType: PropTypes.string,
+    setFilterText: PropTypes.func,
+    value: PropTypes.string,
+}

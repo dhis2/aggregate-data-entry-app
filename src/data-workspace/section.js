@@ -9,6 +9,7 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useContext, useState } from 'react'
+import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
 import { CategoryComboTable } from './category-combo-table.js'
 import { MetadataContext } from './metadata-context.js'
 import styles from './section.module.css'
@@ -17,7 +18,6 @@ import {
     groupDataElementsByCatCombo,
     groupDataElementsByCatComboInOrder,
 } from './selectors.js'
-import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
 
 export const FormSection = ({ section, getDataValue, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children
