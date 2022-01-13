@@ -1,12 +1,13 @@
-import { useDataMutation } from '@dhis2/app-runtime/build/cjs'
 import { IconMore16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
+import { useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
 import { useMetadata } from '../metadata-context.js'
 import { getDataSetById } from '../selectors.js'
+import { useMutationFn } from '../use-mutation-fn.js'
 import styles from './data-entry-cell.module.css'
 import { getValidatorByValueType } from './field-validation.js'
 import { useFieldNavigation } from './use-field-navigation.js'
@@ -30,8 +31,10 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
     const { focusNext, focusPrev } = useFieldNavigation(fieldName)
 
-    const [mutate, { called, loading, error }] =
-        useDataMutation(DATA_VALUE_MUTATION)
+    const mutationFn = useMutationFn(DATA_VALUE_MUTATION)
+    const { mutate, isIdle, isLoading, isError } = useMutation(mutationFn, {
+        retry: 1,
+    })
     const [dataEntryContext] = useContextSelection()
     const { metadata } = useMetadata()
 
@@ -100,7 +103,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // todo: implement other input types for different value types
     // todo: implement read-only cells
 
-    const synced = meta.valid && called && !loading && !error
+    const synced = meta.valid && !isIdle && !isLoading && !isError
     const inputStateClassName = meta.invalid
         ? styles.inputInvalid
         : synced
@@ -120,7 +123,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                     // disabled={true}
                 />
                 <div className={styles.topRightIndicator}>
-                    {loading ? (
+                    {isLoading ? (
                         <IconMore16 color={colors.grey700} />
                     ) : synced ? (
                         <div className={styles.topRightTriangle} />
