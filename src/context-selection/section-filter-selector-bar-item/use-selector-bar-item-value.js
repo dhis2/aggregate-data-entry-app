@@ -24,6 +24,6 @@ export default function useSelectorBarItemValue() {
     }
 
     const { sections } = dataSetSectionsInfo.data
-    const selectedSection = sections.find(({ id }) => id === sectionFilter)
-    return selectedSection?.displayName
+    const selectedSection = sections.find(({ value }) => value === sectionFilter)
+    return selectedSection?.label
 }

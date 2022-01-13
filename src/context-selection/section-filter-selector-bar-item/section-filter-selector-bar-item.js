@@ -11,7 +11,7 @@ import useShouldComponentRenderNull from './use-should-component-render-null.js'
 export default function SectionFilterSelectorBarItem() {
     const [open, setOpen] = useState(false)
     const [sectionFilter, setSectionFilter] = useSectionFilter()
-    const deselect = () => setSectionFilter('')
+    const deselect = () => setSectionFilter(undefined)
     const dataSetSectionsInfo = useDataSetSectionsInfo()
     const loading = !dataSetSectionsInfo.called || dataSetSectionsInfo.loading
     const sectionFilterValue = useSelectorBarItemValue()
@@ -28,6 +28,11 @@ export default function SectionFilterSelectorBarItem() {
         !dataSetSectionsInfo.error &&
         dataSetSectionsInfo.data
 
+    const selectableOptions = [
+        { value: '', label: i18n.t('Show all sections') },
+        ...(dataSetSectionsInfo.data?.sections || []),
+    ]
+
     return (
         <SelectorBarItem
             disabled={loading || dataSetSectionsInfo.error}
@@ -37,16 +42,16 @@ export default function SectionFilterSelectorBarItem() {
             setOpen={setOpen}
             noValueMessage={i18n.t('Choose a section filter')}
         >
-            {renderMenu && (
+            {renderMenu ? (
                 <MenuSelect
-                    values={dataSetSectionsInfo.data}
+                    values={selectableOptions}
                     selected={sectionFilter}
                     onChange={({ selected }) => {
                         setSectionFilter(selected)
                         setOpen(false)
                     }}
                 />
-            )}
+            ) : <div />}
         </SelectorBarItem>
     )
 }
