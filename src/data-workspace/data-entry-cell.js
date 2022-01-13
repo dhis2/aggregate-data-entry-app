@@ -4,25 +4,14 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form, useField } from 'react-final-form'
+import { useContextSelection } from '../context-selection/index.js'
 import styles from './data-entry-cell.module.css'
 import { getValidatorByValueType } from './field-validation.js'
+import { useMetadata } from './metadata-context.js'
+import { getDataSetById } from './selectors.js'
 import { useFieldNavigation } from './use-field-navigation.js'
 
 // See docs: https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_sending_individual_data_values
-// Taken from old DE app
-const dummyQueryParams = {
-    de: 'KFnFpbqDqji', // Data element: Children trained on key survival skills
-    co: 'HllvX50cXC0', // COC: Default
-    ds: 'Lpw6GcnTrmS', // Dataset: Emergency Response (ER)
-    ou: 'DiszpKrYNg8', // Org unit: SL / Bo / Badjia / Ngelehun CHC
-    pe: '202112', // Period: December 2021
-    cc: 'WBW7RjsApsv', // Attribute combo: Target vs Result
-    cp: 'JvIqWKLPPkt', // Attribute option _LIST_: Result (should be ';'-separated)
-    // value: '6',
-    // comment: 'optional',
-    // followup: 'optional',
-}
-
 // ? Q: Params can either be sent as query params or form data, but not JSON (I think).
 // ? Is one better?
 const DATA_VALUE_MUTATION = {
@@ -60,22 +49,48 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 
     const [mutate, { called, loading, error }] =
         useDataMutation(DATA_VALUE_MUTATION)
+    const [dataEntryContext] = useContextSelection()
+    const { metadata } = useMetadata()
 
-    // todo: get org unit, period, dataSetId and attribute combo & option combo from context
-    const mutationVars = {
-        ...dummyQueryParams,
-        de: de.id,
-        co: coc.id,
+    const syncData = () => {
+        const {
+            dataSetId,
+            orgUnitId,
+            periodId,
+            attributeOptionComboSelection,
+        } = dataEntryContext
+
+        const attributeComboId = getDataSetById(metadata, dataSetId)
+            .categoryCombo.id
+        const isDefaultAttributeCombo =
+            metadata.categoryCombos[attributeComboId].isDefault
+
+        const mutationVars = {
+            de: de.id,
+            co: coc.id,
+            ds: dataSetId,
+            ou: orgUnitId,
+            pe: periodId,
+            value: input.value,
+        }
+        // Add attribute params to mutation if relevant
+        if (!isDefaultAttributeCombo) {
+            // convert ['<catId>:<catOptId>', ...] into 'catOptId1;catOptId2':
+            const attributeOptionIdList = attributeOptionComboSelection
+                .map((aoc) => aoc.split(':')[1])
+                .join(';')
+            mutationVars.cc = attributeComboId
+            mutationVars.cp = attributeOptionIdList
+        }
+
+        mutate(mutationVars)
+        setLastSyncedValue(input.value)
     }
 
     const onBlur = (event) => {
-        // todo: also check if 'valid'
-        // If this value has changed...
+        // If this value has changed, sync it to server if valid
         if (meta.dirty && input.value !== lastSyncedValue && meta.valid) {
-            // Send mutation to autosave data
-            mutate({ ...mutationVars, value: input.value })
-            // Update last-synced value to avoid resending
-            setLastSyncedValue(input.value)
+            syncData()
         }
         // Also invoke FinalForm's `onBlur`
         input.onBlur(event)
@@ -98,7 +113,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // todo: get data details (via getDataValue?)
     // todo: on focus, set 'active cell' in context
     // todo: tooltip for invalid cells
-    // todo: validate with `de.valueType`
+    // todo: validate with `de.valueType` (started)
     // todo: implement other input types for different value types
     // todo: implement read-only cells
 
