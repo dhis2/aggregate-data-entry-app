@@ -1,20 +1,16 @@
-import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, NoticeBox } from '@dhis2/ui'
-import React, { useMemo, useState, useEffect, useCallback } from 'react'
+import { CircularLoader } from '@dhis2/ui'
+import React, { useMemo, useCallback } from 'react'
 import { useQuery } from 'react-query'
-import { useContextSelection } from '../context-selection'
-import { FinalFormWrapper } from './data-entry-cell'
-import { DataSetSelector } from './dataset-selector'
-import { DefaultForm } from './default-form'
-import { EntryForm } from './entry-form'
-import { MetadataContext, useMetadata } from './metadata-context'
-import { Sections, FormSection } from './section'
+import { useContextSelection } from '../context-selection/index.js'
+import { FinalFormWrapper } from './data-entry-cell.js'
+import { EntryForm } from './entry-form.js'
+import { useMetadata } from './metadata-context.js'
 import {
     getCoCByCategoryOptions,
     getDataSetById,
     getCategoryComboById,
-} from './selectors'
-import { hashArraysInObject } from './utils'
+} from './selectors.js'
+import { hashArraysInObject } from './utils.js'
 
 const query = {
     dataSet: {
@@ -100,10 +96,6 @@ function mapDataValuesToFormInitialValues(dataValues) {
     )
     return formInitialValues
 }
-
-// Sections: dataSet.sections => api/sections/<id> endpoint
-// dataSet.renderAsTabs or .renderHorizontally
-//const transformData = (metadata) =>
 
 // TODO: this should probably be handled by useContextSelection-hook
 const useAttributeOptionCombo = () => {
