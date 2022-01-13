@@ -43,7 +43,7 @@ export const DefaultForm = ({ dataSet, getDataValue, globalFilterText }) => {
                         categoryCombo={categoryCombo}
                         dataElements={dataElements}
                         getDataValue={getDataValue}
-                        filterText={globalFilterText}
+                        globalFilterText={globalFilterText}
                     />
                 ))}
             </Table>
