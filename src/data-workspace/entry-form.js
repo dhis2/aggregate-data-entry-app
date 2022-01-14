@@ -56,6 +56,7 @@ export const EntryForm = ({ dataSet, getDataValue }) => {
 EntryForm.propTypes = {
     dataSet: PropTypes.shape({
         displayName: PropTypes.string,
+        formType: PropTypes.string,
         id: PropTypes.string,
     }),
 }

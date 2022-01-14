@@ -94,12 +94,15 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
         </div>
     )
 }
+const sectionProps = PropTypes.shape({
+    description: PropTypes.string,
+    disableDataElementAutoGroup: PropTypes.bool,
+    displayName: PropTypes.string,
+})
+
 FormSection.propTypes = {
-    section: PropTypes.shape({
-        description: PropTypes.string,
-        disableDataElementAutoGroup: PropTypes.bool,
-        displayName: PropTypes.string,
-    }),
+    globalFilterText: PropTypes.string,
+    section: sectionProps,
 }
 
 export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
@@ -119,4 +122,11 @@ export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
             ))}
         </div>
     )
+}
+
+SectionForms.propTypes = {
+    dataSet: PropTypes.shape({
+        sections: PropTypes.shape(sectionProps),
+    }),
+    globalFilterText: PropTypes.string,
 }
