@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-25T13:04:06.580Z\n"
-"PO-Revision-Date: 2022-01-25T13:04:06.580Z\n"
+"POT-Creation-Date: 2022-01-28T10:27:38.035Z\n"
+"PO-Revision-Date: 2022-01-28T10:27:38.035Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -54,12 +54,6 @@ msgstr "Partial selection!"
 msgid "Complete selection!"
 msgstr "Complete selection!"
 
-msgid "Fetching data set info"
-msgstr "Fetching data set info"
-
-msgid "Error occurred while loading data set info"
-msgstr "Error occurred while loading data set info"
-
 msgid "Data set"
 msgstr "Data set"
 
@@ -69,14 +63,14 @@ msgstr "Fetching data sets"
 msgid "Error occurred while loading data sets"
 msgstr "Error occurred while loading data sets"
 
+msgid "There are no data sets available!"
+msgstr "There are no data sets available!"
+
 msgid "Search org units"
 msgstr "Search org units"
 
 msgid "You must choose a data set first"
 msgstr "You must choose a data set first"
-
-msgid "Error: {{ ERRORMESSAGE }}"
-msgstr "Error: {{ ERRORMESSAGE }}"
 
 msgid "Organisation unit"
 msgstr "Organisation unit"
@@ -98,6 +92,12 @@ msgstr "Period"
 
 msgid "Choose a period"
 msgstr "Choose a period"
+
+msgid "Fetching data set info"
+msgstr "Fetching data set info"
+
+msgid "Error occurred while loading data set info"
+msgstr "Error occurred while loading data set info"
 
 msgid "Show all sections"
 msgstr "Show all sections"

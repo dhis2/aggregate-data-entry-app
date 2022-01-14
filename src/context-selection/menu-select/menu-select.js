@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import css from './menu-select.module.css'
 
-export default function MenuSelect({ values, selected, onChange }) {
+export default function MenuSelect({ values, selected, dataTest, onChange }) {
     return (
-        <div className={css.menuSelect}>
+        <div className={css.menuSelect} data-test={dataTest}>
             <Menu>
                 {values.map(({ value, label }) => (
                     <MenuItem
@@ -28,6 +28,7 @@ MenuSelect.propTypes = {
         })
     ).isRequired,
     onChange: PropTypes.func.isRequired,
+    dataTest: PropTypes.string,
     selected: PropTypes.string,
 }
 10
