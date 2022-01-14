@@ -23,8 +23,6 @@ export const DefaultForm = ({ dataSet, getDataValue, globalFilterText }) => {
         dataElements
     )
 
-    console.log({ dataSet }, { groupedDataElements })
-
     return (
         <section className="wrapper">
             {groupedDataElements.length < 1 && (
@@ -98,4 +96,6 @@ DefaultForm.propTypes = {
         displayName: PropTypes.string,
         id: PropTypes.string,
     }),
+    getDataValue: PropTypes.func,
+    globalFilterText: PropTypes.string,
 }

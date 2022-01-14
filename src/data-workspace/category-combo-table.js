@@ -18,11 +18,6 @@ import {
 } from './selectors.js'
 import { cartesian } from './utils.js'
 
-// todo: remove once DataEntryCell is mature
-const DataValue = ({ dataValue }) => {
-    return <span>{dataValue ? dataValue.value : null}</span>
-}
-
 export const CategoryComboTable = ({
     categoryCombo,
     dataElements,
