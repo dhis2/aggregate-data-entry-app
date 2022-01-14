@@ -32,33 +32,49 @@ export default function DataSetSelectorBarItem() {
         !selectableDataSets.error
     )
 
+    const showLoadingMessage = !selectableDataSets.called || !!selectableDataSets.loading
+
     return (
-        <SelectorBarItem
-            label={i18n.t('Data set')}
-            value={dataSetId ? dataSet.data?.displayName : undefined}
-            open={dataSetOpen}
-            setOpen={setDataSetOpen}
-            noValueMessage={i18n.t('Choose a data set')}
-        >
-            {(!selectableDataSets.called || !!selectableDataSets.loading) &&
-                i18n.t('Fetching data sets')}
+        <div data-test="data-set-selector">
+            <SelectorBarItem
+                label={i18n.t('Data set')}
+                value={dataSetId ? dataSet.data?.displayName : undefined}
+                open={dataSetOpen}
+                setOpen={setDataSetOpen}
+                noValueMessage={i18n.t('Choose a data set')}
+            >
+                <div data-test="data-set-selector-contents">
+                    {showLoadingMessage && (
+                        <span data-test="data-set-selector-loading-msg">
+                            {i18n.t('Fetching data sets')}
+                        </span>
+                    )}
 
-            {selectableDataSets.error &&
-                i18n.t('Error occurred while loading data sets')}
+                    {selectableDataSets.error && (
+                        <span data-test="data-set-selector-error-msg">
+                            {i18n.t('Error occurred while loading data sets')}
+                        </span>
+                    )}
 
-            {isDoneLoading && !selectableDataSets.data?.length &&
-                i18n.t('There are no data sets available!')}
+                    {isDoneLoading && !selectableDataSets.data?.length && (
+                        <span data-test="data-set-selector-none-available-msg">
+                            {i18n.t('There are no data sets available!')}
+                        </span>
+                    )}
 
-            {isDoneLoading && !!selectableDataSets.data?.length && (
-                <MenuSelect
-                    values={selectableDataSets.data || []}
-                    selected={dataSetId}
-                    onChange={({ selected }) => {
-                        setDataSetId(selected)
-                        setDataSetOpen(false)
-                    }}
-                />
-            )}
-        </SelectorBarItem>
+                    {isDoneLoading && !!selectableDataSets.data?.length && (
+                        <MenuSelect
+                            values={selectableDataSets.data || []}
+                            selected={dataSetId}
+                            dataTest="data-set-selector-menu"
+                            onChange={({ selected }) => {
+                                setDataSetId(selected)
+                                setDataSetOpen(false)
+                            }}
+                        />
+                    )}
+                </div>
+            </SelectorBarItem>
+        </div>
     )
 }
