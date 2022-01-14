@@ -17,7 +17,6 @@ export default function useSelected() {
         } else {
             setAttributeOptionComboSelection(nextSelected)
         }
-
     }
 
     return {
