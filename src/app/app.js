@@ -5,6 +5,7 @@ import { HashRouter as Router, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import './app.css'
 import { ContextSelection } from '../context-selection/index.js'
+import { Sidebar } from '../sidebar/index.js'
 import { Layout } from './layout/index.js'
 import useQueryClient from './use-query-client.js'
 
@@ -24,10 +25,11 @@ const App = () => {
                     <Layout
                         header={<ContextSelection />}
                         main=""
-                        sidebar=""
+                        sidebar={<Sidebar />}
                         footer=""
                         showSidebar
                         showFooter
+                        showSidebar
                     />
                 </QueryParamProvider>
             </Router>

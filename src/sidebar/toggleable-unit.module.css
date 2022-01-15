@@ -1,0 +1,33 @@
+.toggleableUnit {
+    composes: unit from './unit.module.css';
+    /* TODO: fix details styles (including focus styles) */
+}
+
+.title, .content {
+    padding: var(--spacers-dp16);
+}
+
+.title {
+    /* Remove disclosure triangle from <summary> element */
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    font-weight: 500;
+    color: var(--colors-grey900);
+    cursor: pointer;
+}
+
+.content {
+    padding-top: 0;
+    padding-bottom: var(--spacers-dp32);
+}
+
+.open .title {
+    padding-bottom: var(--spacers-dp16);
+}
+
+.disabled .title {
+    color: var(--colors-grey600);
+    cursor: not-allowed;
+}

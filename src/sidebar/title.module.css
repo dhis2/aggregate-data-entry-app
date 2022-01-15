@@ -1,0 +1,21 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    min-height: 44px;
+    padding-left: var(--spacers-dp16);
+    background: var(--colors-grey300);
+}
+
+.title {
+    font-weight: 500;
+    color: var(--colors-grey900);
+}
+
+.closeButton {
+    border: none;
+    background: none;
+    min-height: 44px;
+    min-width: 44px;
+    cursor: pointer;
+}
