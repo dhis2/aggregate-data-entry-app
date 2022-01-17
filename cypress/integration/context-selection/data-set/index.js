@@ -7,6 +7,14 @@ const visit = url => {
     cy.get('.selector-bar-item').should('exist')
 }
 
+const getOrgUnitSelectorByValueLabel = value => {
+    return cy.get(`
+        button
+        > .label:contains("Data set")
+        + .value:contains("${value}")
+    `)
+}
+
 Given('a data set has been selected', () => {
     cy.fixture('context-selection/data-set/selectable-data-sets').then(
         ({ dataSets }) => {
@@ -126,9 +134,9 @@ Then('a no-value-label should be displayed', () => {
 
 Then('a value-label should be displayed', () => {
     cy.get('@selectedDataSet').then(selectedDataSet => {
-        cy.get('button:contains("Data set")')
-            .contains(selectedDataSet.displayName)
-            .should('exist')
+        getOrgUnitSelectorByValueLabel(selectedDataSet.displayName).should(
+            'exist'
+        )
     })
 })
 
@@ -154,18 +162,20 @@ Then('the only available data set should be selected', () => {
     cy.fixture('context-selection/data-set/selectable-data-sets-one-only').then(
         ({ dataSets }) => {
             const [dataSet] = dataSets
-            cy.get('[data-test="data-set-selector"] button')
-                .contains(dataSet.displayName)
-                .should('exist')
+            const { displayName } = dataSet
+            getOrgUnitSelectorByValueLabel(displayName).should(
+                'exist'
+            )
         }
     )
 })
 
 Then("the data set's display name should be shown in the context selection", () => {
     cy.get('@selectedDataSet').then(selectedDataSet => {
-        cy.get('[data-test="data-set-selector"] button')
-            .contains(selectedDataSet.displayName)
-            .should('exist')
+        const { displayName } = selectedDataSet
+        getOrgUnitSelectorByValueLabel(displayName).should(
+            'exist'
+        )
     })
 })
 
