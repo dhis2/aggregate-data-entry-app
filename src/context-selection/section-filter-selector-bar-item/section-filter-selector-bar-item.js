@@ -28,9 +28,15 @@ export default function SectionFilterSelectorBarItem() {
         !dataSetSectionsInfo.error &&
         dataSetSectionsInfo.data
 
+    const sectionOptions =
+        dataSetSectionsInfo.data?.sections.map(({ id, displayName }) => ({
+            value: id,
+            label: displayName,
+        })) || []
+
     const selectableOptions = [
         { value: '', label: i18n.t('Show all sections') },
-        ...(dataSetSectionsInfo.data?.sections || []),
+        ...sectionOptions,
     ]
 
     return (
