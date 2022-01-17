@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-17T10:48:53.205Z\n"
-"PO-Revision-Date: 2022-01-17T10:48:53.205Z\n"
+"POT-Creation-Date: 2022-01-17T18:22:26.203Z\n"
+"PO-Revision-Date: 2022-01-17T18:22:26.203Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -191,6 +191,51 @@ msgstr "Financial year (Start July)"
 
 msgid "Financial year (Start April)"
 msgstr "Financial year (Start April)"
+
+msgid "Code: {{code}}"
+msgstr "Code: {{code}}"
+
+msgid "ID: {{id}}"
+msgstr "ID: {{id}}"
+
+msgid "Last updated {{- timeAgo}} by {{- name}}"
+msgstr "Last updated {{- timeAgo}} by {{- name}}"
+
+msgid "Marked for follow-up"
+msgstr "Marked for follow-up"
+
+msgid "Unmark for follow-up"
+msgstr "Unmark for follow-up"
+
+msgid "Mark for follow-up"
+msgstr "Mark for follow-up"
+
+msgid "There was a problem saving the data item comment."
+msgstr "There was a problem saving the data item comment."
+
+msgid "There was a problem loading the comment for this data item"
+msgstr "There was a problem loading the comment for this data item"
+
+msgid "Try again, or contact your system administrator"
+msgstr "Try again, or contact your system administrator"
+
+msgid "Save comment"
+msgstr "Save comment"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "No comment for this data item."
+msgstr "No comment for this data item."
+
+msgid "Edit comment"
+msgstr "Edit comment"
+
+msgid "Add comment"
+msgstr "Add comment"
+
+msgid "Comment"
+msgstr "Comment"
 
 msgid "Details"
 msgstr "Details"

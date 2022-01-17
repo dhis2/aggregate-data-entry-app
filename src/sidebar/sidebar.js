@@ -3,9 +3,8 @@ import React from 'react'
 import BasicInformation from './basic-information.js'
 import styles from './sidebar.module.css'
 import Title from './title.js'
-import ToggleableUnit from './toggleable-unit.js'
 
-const Sidebar = ({ onClose }) => (
+const Sidebar = ({ item, onMarkForFollowup, onUnmarkForFollowup, onClose }) => (
     <div className={styles.wrapper}>
         <Title onClose={onClose} />
         <BasicInformation />

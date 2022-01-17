@@ -19,13 +19,16 @@ const ToggleableUnit = ({ title, children, disabled }) => {
     return (
         <details
             open={disabled ? false : open}
-            onClick={handleClick}
             className={cx(styles.toggleableUnit, {
                 [styles.disabled]: disabled,
                 [styles.open]: open,
             })}
         >
-            <summary tabIndex={disabled ? '-1' : undefined} className={styles.title}>
+            <summary
+                tabIndex={disabled ? '-1' : undefined}
+                className={styles.title}
+                onClick={handleClick}
+            >
                 {disabled ? i18n.t('{{title}} (disabled)', { title }) : title}
                 {open ? (
                     <IconChevronUp24 color={chevronColor} />
@@ -33,7 +36,7 @@ const ToggleableUnit = ({ title, children, disabled }) => {
                     <IconChevronDown24 color={chevronColor} />
                 )}
             </summary>
-            <div className={styles.content}>{children}</div>
+            <div className={styles.content}>{open ? children : null}</div>
         </details>
     )
 }

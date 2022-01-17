@@ -1,5 +1,6 @@
 .toggleableUnit {
     composes: unit from './unit.module.css';
+    padding: 0;
 }
 
 .title, .content {
@@ -7,13 +8,13 @@
 }
 
 .title {
+    composes: title from './unit.module.css';
+    margin: 0;
     /* Remove disclosure triangle from <summary> element */
     list-style: none;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    font-weight: 500;
-    color: var(--colors-grey900);
     cursor: pointer;
 }
 

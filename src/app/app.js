@@ -17,6 +17,22 @@ import useQueryClient from './use-query-client.js'
 const App = () => {
     const queryClient = useQueryClient()
 
+    // TODO: fetch this instead of hardcoding
+    const currentItem = {
+        id: 'aC392Jk3200',
+        name: 'Malaria treated at PHU without ACT',
+        code: 'DE2398742',
+        lastUpdated: {
+            at: new Date('2022-01-14'),
+            userDisplayName: 'Mwangi Babatunde',
+        },
+        markedForFollowup: false,
+    }
+    const handleSidebarClose = () => {}
+    const handleMarkForFollowup = () => {}
+    const handleUnmarkForFollowup = () => {}
+    const showSidebar = !!currentItem
+
     return (
         <QueryClientProvider client={queryClient}>
             <Router>
@@ -25,11 +41,21 @@ const App = () => {
                     <Layout
                         header={<ContextSelection />}
                         main=""
-                        sidebar={<Sidebar onClose={() => {}} />}
+                        sidebar={
+                            currentItem ? (
+                                <Sidebar
+                                    item={currentItem}
+                                    onMarkForFollowup={handleMarkForFollowup}
+                                    onUnmarkForFollowup={
+                                        handleUnmarkForFollowup
+                                    }
+                                    onClose={handleSidebarClose}
+                                />
+                            ) : null
+                        }
+                        showSidebar={showSidebar}
                         footer=""
-                        showSidebar
                         showFooter
-                        showSidebar
                     />
                 </QueryParamProvider>
             </Router>
