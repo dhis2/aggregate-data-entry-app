@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-17T18:22:26.203Z\n"
-"PO-Revision-Date: 2022-01-17T18:22:26.203Z\n"
+"POT-Creation-Date: 2022-01-18T10:40:04.283Z\n"
+"PO-Revision-Date: 2022-01-18T10:40:04.283Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -218,6 +218,9 @@ msgstr "There was a problem loading the comment for this data item"
 
 msgid "Try again, or contact your system administrator"
 msgstr "Try again, or contact your system administrator"
+
+msgid "Saving..."
+msgstr "Saving..."
 
 msgid "Save comment"
 msgstr "Save comment"

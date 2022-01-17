@@ -1,0 +1,20 @@
+.comment, .placeholder {
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--colors-grey900);
+    margin: 0;
+    margin-bottom: var(--spacers-dp12);
+}
+
+.comment {
+    padding-left: 6px;
+    border-left: 2px solid var(--colors-grey400);
+}
+
+.placeholder {
+    color: var(--colors-grey600);
+}
+
+.textArea {
+    margin-bottom: var(--spacers-dp8);
+}
