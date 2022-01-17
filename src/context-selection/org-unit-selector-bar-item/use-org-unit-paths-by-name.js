@@ -8,8 +8,8 @@ const QUERY_SEARCH_ORG_UNITS = {
             fields: ['path'],
             filter: `displayName:ilike:${searchTerm}`,
             paging: false,
-        })
-    }
+        }),
+    },
 }
 
 export default function useOrgUnitPathsByName(searchTerm) {

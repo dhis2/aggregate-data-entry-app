@@ -23,11 +23,10 @@ export default function SectionFilterSelectorBarItem() {
         return null
     }
 
-    const renderMenu = (
+    const renderMenu =
         !dataSetSectionsInfo.loading &&
         !dataSetSectionsInfo.error &&
         dataSetSectionsInfo.data
-    )
 
     return (
         <SelectorBarItem
