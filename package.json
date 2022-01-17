@@ -20,7 +20,8 @@
         "cypress:prepare": "start-server-and-test 'yarn start:nobrowser' http://localhost:3000",
         "cypress:live": "yarn cypress:prepare 'yarn cypress:open:live'",
         "cypress:capture": "yarn cypress:prepare 'yarn cypress:run:capture'",
-        "cypress:stub": "yarn cypress:prepare 'yarn cypress:run:stub'"
+        "cypress:stub": "yarn cypress:prepare 'yarn cypress:run:stub'",
+        "jgs:start": "BROWSER=none yarn start --proxy https://debug.dhis2.org/dev"
     },
     "devDependencies": {
         "@dhis2/cli-app-scripts": "^8.3.2",
