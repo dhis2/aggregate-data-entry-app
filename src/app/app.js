@@ -21,11 +21,11 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <Router>
                 <QueryParamProvider ReactRouterRoute={Route}>
-                    <CssVariables colors spacers />
+                    <CssVariables colors theme spacers />
                     <Layout
                         header={<ContextSelection />}
                         main=""
-                        sidebar={<Sidebar />}
+                        sidebar={<Sidebar onClose={() => {}} />}
                         footer=""
                         showSidebar
                         showFooter

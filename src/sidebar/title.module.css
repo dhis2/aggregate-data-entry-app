@@ -19,3 +19,12 @@
     min-width: 44px;
     cursor: pointer;
 }
+
+.closeButton:focus {
+    outline: 3px solid var(--theme-focus);
+    outline-offset: -3px;
+}
+
+.closeButton:focus:not(:focus-visible) {
+    outline: none;
+}
