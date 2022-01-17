@@ -14,14 +14,10 @@ Feature: A data set can be selected
         When the user opens the menu
         Then nothing but a loading message should be displayed
 
-    #
-    # @TODO: Stubbing the request with a 404 response doesn't work
-    # unless we provide "retry: false" to the react-query client options
-    #
-    ## Scenario: The selectable data sets could not be loaded
-    ##     Given loading the selectable data sets failed
-    ##     When the user opens the menu
-    ##     Then nothing but an error message should be displayed
+    Scenario: The selectable data sets could not be loaded
+        Given loading the selectable data sets failed
+        When the user opens the menu
+        Then nothing but an error message should be displayed
 
     Scenario: No selectable data sets exist
         Given no selectable data set exists
