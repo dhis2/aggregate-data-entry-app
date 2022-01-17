@@ -2,7 +2,7 @@ import { CircularLoader } from '@dhis2/ui'
 import React, { useMemo, useCallback } from 'react'
 import { useQuery } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
-import { FinalFormWrapper } from './data-entry-cell.js'
+import { FinalFormWrapper } from './data-entry-cell/index.js'
 import { EntryForm } from './entry-form.js'
 import { useMetadata } from './metadata-context.js'
 import {
