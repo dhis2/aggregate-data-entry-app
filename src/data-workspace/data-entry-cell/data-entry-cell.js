@@ -3,12 +3,12 @@ import { IconMore16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { Form, useField } from 'react-final-form'
-import { useContextSelection } from '../context-selection/index.js'
+import { useField } from 'react-final-form'
+import { useContextSelection } from '../../context-selection/index.js'
+import { getValidatorByValueType } from '../field-validation.js'
+import { useMetadata } from '../metadata-context.js'
+import { getDataSetById } from '../selectors.js'
 import styles from './data-entry-cell.module.css'
-import { getValidatorByValueType } from './field-validation.js'
-import { useMetadata } from './metadata-context.js'
-import { getDataSetById } from './selectors.js'
 import { useFieldNavigation } from './use-field-navigation.js'
 
 // See docs: https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_sending_individual_data_values
@@ -18,23 +18,6 @@ const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
     type: 'create',
     params: ({ ...params }) => ({ ...params }),
-}
-
-export function FinalFormWrapper({ children, initialValues }) {
-    return (
-        <Form
-            onSubmit={(values, form) => {
-                console.log({ values, form })
-            }}
-            initialValues={initialValues}
-        >
-            {() => children}
-        </Form>
-    )
-}
-FinalFormWrapper.propTypes = {
-    children: PropTypes.node,
-    initialValues: PropTypes.any,
 }
 
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {

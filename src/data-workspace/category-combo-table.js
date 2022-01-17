@@ -9,7 +9,7 @@ import {
 import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './category-combo-table.module.css'
-import { DataEntryCell } from './data-entry-cell.js'
+import { DataEntryCell } from './data-entry-cell/index.js'
 import { useMetadata } from './metadata-context.js'
 import {
     getCategoriesByCategoryComboId,
