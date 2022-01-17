@@ -1,20 +1,15 @@
-import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, NoticeBox } from '@dhis2/ui'
-import React, { useMemo, useState, useEffect, useCallback } from 'react'
+import { CircularLoader } from '@dhis2/ui'
+import React, { useMemo, useCallback } from 'react'
 import { useQuery } from 'react-query'
-import { useContextSelection } from '../context-selection'
-import { FinalFormWrapper } from './data-entry-cell'
-import { DataSetSelector } from './dataset-selector'
-import { DefaultForm } from './default-form'
-import { EntryForm } from './entry-form'
-import { MetadataContext, useMetadata } from './metadata-context'
-import { Sections, FormSection } from './section'
+import { useContextSelection } from '../context-selection/index.js'
+import { FinalFormWrapper } from './data-entry-cell.js'
+import { EntryForm } from './entry-form.js'
+import { useMetadata } from './metadata-context.js'
 import {
     getCoCByCategoryOptions,
     getDataSetById,
     getCategoryComboById,
-} from './selectors'
-import { hashArraysInObject } from './utils'
+} from './selectors.js'
 
 const query = {
     dataSet: {
@@ -43,30 +38,6 @@ const dataValueQuery = {
             orgUnit: orgUnitId,
             attributeOptionCombo: attributeOptionComboId,
         }),
-    },
-}
-
-const metadataQuery = {
-    metadata: {
-        resource: 'metadata',
-        params: {
-            // Note: on dataSet.dataSetElement, the categoryCombo property is
-            // included because it can mean it's overriding the data element's
-            // native categoryCombo. It can sometimes be absent from the data
-            // set element
-            'dataSets:fields':
-                'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
-            'dataElements:fields': 'id,displayFormName,categoryCombo,valueType',
-            'sections:fields':
-                'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
-            'categoryCombos:fields':
-                'id,skipTotal,categories~pluck,categoryOptionCombos~pluck,isDefault',
-            'categories:fields': 'id,displayFormName,categoryOptions~pluck',
-            'categoryOptions:fields':
-                'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
-            'categoryOptionCombos:fields':
-                'id,categoryOptions~pluck,categoryCombo,name',
-        },
     },
 }
 
@@ -101,11 +72,8 @@ function mapDataValuesToFormInitialValues(dataValues) {
     return formInitialValues
 }
 
-// Sections: dataSet.sections => api/sections/<id> endpoint
-// dataSet.renderAsTabs or .renderHorizontally
-//const transformData = (metadata) =>
-
 // TODO: this should probably be handled by useContextSelection-hook
+// should not need this when api support CC and CP instead of cocId
 const useAttributeOptionCombo = () => {
     const { available, metadata } = useMetadata()
     const [{ dataSetId, attributeOptionComboSelection }] = useContextSelection()
@@ -149,14 +117,7 @@ export const DataWorkspace = () => {
         },
     ])
 
-    const { available, metadata, setMetadata } = useMetadata()
-    useQuery([metadataQuery], {
-        onSuccess: (metadata) => {
-            const hashed =
-                metadata?.metadata && hashArraysInObject(metadata.metadata)
-            setMetadata(hashed)
-        },
-    })
+    const { available, metadata } = useMetadata()
 
     const dataValuesFetch = useDataValues()
     console.log({ metadata }, { dataValues: dataValuesFetch.data }, { dataSet: dataSetFetch.data })

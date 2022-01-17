@@ -56,6 +56,7 @@ export const EntryForm = ({ dataSet, getDataValue }) => {
 EntryForm.propTypes = {
     dataSet: PropTypes.shape({
         displayName: PropTypes.string,
+        formType: PropTypes.string,
         id: PropTypes.string,
     }),
 }
@@ -79,3 +80,9 @@ const FilterField = ({ value, setFilterText, formType }) => (
         </Button>
     </div>
 )
+
+FilterField.propTypes = {
+    formType: PropTypes.string,
+    setFilterText: PropTypes.func,
+    value: PropTypes.string,
+}

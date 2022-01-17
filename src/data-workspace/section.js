@@ -8,23 +8,23 @@ import {
     TableRowHead,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
 import { CategoryComboTable } from './category-combo-table.js'
-import { MetadataContext } from './metadata-context.js'
+import { useMetadata } from './metadata-context.js'
 import styles from './section.module.css'
 import {
     getDataElementsBySection,
     groupDataElementsByCatCombo,
     groupDataElementsByCatComboInOrder,
 } from './selectors.js'
-import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
 
 export const FormSection = ({ section, getDataValue, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
-    const { metadata } = useContext(MetadataContext)
+    const { available, metadata } = useMetadata()
 
-    if (!Object.keys(metadata).length) {
+    if (!available) {
         return 'Loading metadata'
     }
 
@@ -37,7 +37,6 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
     const groupedDataElements = section.disableDataElementAutoGroup
         ? groupDataElementsByCatComboInOrder(metadata, dataElements)
         : groupDataElementsByCatCombo(metadata, dataElements)
-    console.log(groupedDataElements)
 
     const maxColumnsInSection = Math.max(
         ...groupedDataElements.map(
@@ -94,12 +93,21 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
         </div>
     )
 }
-FormSection.propTypes = {
-    section: PropTypes.shape({
-        description: PropTypes.string,
-        disableDataElementAutoGroup: PropTypes.bool,
-        displayName: PropTypes.string,
+const sectionProps = PropTypes.shape({
+    dataSet: PropTypes.shape({
+        id: PropTypes.string,
     }),
+    description: PropTypes.string,
+    disableDataElementAutoGroup: PropTypes.bool,
+    displayName: PropTypes.string,
+    getDataValue: PropTypes.func,
+    id: PropTypes.string,
+})
+
+FormSection.propTypes = {
+    getDataValue: PropTypes.func,
+    globalFilterText: PropTypes.string,
+    section: sectionProps,
 }
 
 export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
@@ -119,4 +127,12 @@ export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
             ))}
         </div>
     )
+}
+
+SectionForms.propTypes = {
+    dataSet: PropTypes.shape({
+        sections: PropTypes.shape(sectionProps),
+    }),
+    getDataValue: PropTypes.func,
+    globalFilterText: PropTypes.string,
 }

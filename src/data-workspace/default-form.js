@@ -1,31 +1,27 @@
-import { colors, IconFilter16, NoticeBox, Table } from '@dhis2/ui'
+import { colors, NoticeBox, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useContext } from 'react'
-import styles from './section.module.css'
 import { CategoryComboTable } from './category-combo-table.js'
 import { MetadataContext } from './metadata-context.js'
+import styles from './section.module.css'
 import {
     getDataElementsByDataSetId,
     groupDataElementsByCatCombo,
 } from './selectors.js'
 
-export const DefaultForm = ({ dataSet, getDataValue }) => {
-    // Could potentially build table via props instead of rendering children
-    const [filterText, setFilterText] = React.useState('')
+export const DefaultForm = ({ dataSet, getDataValue, globalFilterText }) => {
     const { metadata } = useContext(MetadataContext)
 
     if (!metadata) {
         return 'Loading metadata'
     }
-    console.log({ metadata })
+
     const dataElements = getDataElementsByDataSetId(metadata, dataSet.id)
 
     const groupedDataElements = groupDataElementsByCatCombo(
         metadata,
         dataElements
     )
-
-    console.log({ dataSet }, { groupedDataElements })
 
     return (
         <section className="wrapper">
@@ -45,7 +41,7 @@ export const DefaultForm = ({ dataSet, getDataValue }) => {
                         categoryCombo={categoryCombo}
                         dataElements={dataElements}
                         getDataValue={getDataValue}
-                        filterText={filterText}
+                        globalFilterText={globalFilterText}
                     />
                 ))}
             </Table>
@@ -100,4 +96,6 @@ DefaultForm.propTypes = {
         displayName: PropTypes.string,
         id: PropTypes.string,
     }),
+    getDataValue: PropTypes.func,
+    globalFilterText: PropTypes.string,
 }

@@ -1,4 +1,4 @@
-import { cartesian } from './utils'
+import { cartesian } from './utils.js'
 
 export const getDataElements = (metadata) => metadata.dataElements
 
@@ -220,27 +220,3 @@ export const getCoCByCategoryOptions = (
     )
     return null
 }
-
-// Birk: catCombo => catOptsCombos => categories => catOpts
-// Kai: catCombo => cats => catOpts => catOptsCombos
-//                    v=> catOptsCombos
-// catCombo => categories
-// catCombo => catOptsCombos
-
-// catCombo.categories.forEach
-//      -- cat.label
-// cat.catOpts.forEach
-//   //
-export const getDataSetMetadata = (metadata, dataSetId) => {
-    const dataElements = getDataElementsByDataSetId(metadata, dataSetId)
-
-    const sections = getSectionsByDataSetId(metadata, dataSetId)
-
-    // const
-}
-
-// getting data elements:
-// 1. get all data set elements (all form types)
-// 2. if it's a section form, then organize by section
-
-/// data

@@ -1,13 +1,10 @@
 import i18n from '@dhis2/d2-i18n'
 import {
-    Table,
     TableRowHead,
-    TableHead,
     TableCellHead,
     TableBody,
     TableRow,
     TableCell,
-    colors,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -20,11 +17,6 @@ import {
     getCoCByCategoryOptions,
 } from './selectors.js'
 import { cartesian } from './utils.js'
-
-// todo: remove once DataEntryCell is mature
-const DataValue = ({ dataValue }) => {
-    return <span>{dataValue ? dataValue.value : null}</span>
-}
 
 export const CategoryComboTable = ({
     categoryCombo,
