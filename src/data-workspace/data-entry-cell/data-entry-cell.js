@@ -3,29 +3,15 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
-import { dataValueQuery, useAttributeOptionCombo } from '../data-workspace.js'
 import { useMetadata } from '../metadata-context.js'
 import { getDataSetById } from '../selectors.js'
-import { useMutationFn } from '../use-mutation-fn.js'
+import { useDataValueMutation } from '../use-data-value-mutation.js'
 import styles from './data-entry-cell.module.css'
 import { getValidatorByValueType } from './field-validation.js'
 import { useFieldNavigation } from './use-field-navigation.js'
 
-// See docs: https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_sending_individual_data_values
-// ? Q: Params can either be sent as query params or form data, but not JSON (I think).
-// ? Is one better?
-const DATA_VALUE_MUTATION = {
-    resource: 'dataValues',
-    type: 'create',
-    params: ({ ...params }) => ({ ...params }),
-}
-
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
-    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const attributeOptionComboId = useAttributeOptionCombo()
-
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldName = `${de.id}.${coc.id}`
@@ -35,75 +21,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
     const { focusNext, focusPrev } = useFieldNavigation(fieldName)
 
-    const queryClient = useQueryClient()
-    const mutationFn = useMutationFn(DATA_VALUE_MUTATION)
-    const { mutate, isIdle, isLoading, isError } = useMutation(mutationFn, {
-        onMutate: async (newDataValue) => {
-            const dataValueQueryKey = [
-                dataValueQuery,
-                {
-                    dataSetId,
-                    periodId,
-                    orgUnitId,
-                    attributeOptionComboId,
-                },
-            ]
-
-            // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-            await queryClient.cancelQueries(dataValueQueryKey)
-
-            // Snapshot the previous value
-            const previousDataValues =
-                queryClient.getQueryData(dataValueQueryKey)
-
-            // Optimistically update to the new value
-            queryClient.setQueryData(dataValueQueryKey, (oldDataValues) => {
-                const newDataValues = { ...oldDataValues }
-
-                newDataValues.dataValues.dataValues =
-                    oldDataValues.dataValues.dataValues.map((dataValue) => {
-                        const {
-                            categoryOptionCombo,
-                            dataElement,
-                            orgUnit,
-                            period,
-                        } = dataValue
-                        const { co, de, ou, pe, value } = newDataValue
-                        const match =
-                            categoryOptionCombo === co &&
-                            dataElement === de &&
-                            orgUnit === ou &&
-                            period === pe
-
-                        if (!match) {
-                            return dataValue
-                        }
-
-                        return {
-                            ...dataValue,
-                            value,
-                        }
-                    })
-
-                return newDataValues
-            })
-
-            return { previousDataValues, dataValueQueryKey }
-        },
-        // If the mutation fails, use the context returned from onMutate to roll back
-        onError: (err, newDataValue, context) => {
-            queryClient.setQueryData(
-                context.dataValueQueryKey,
-                context.previousDataValues
-            )
-        },
-        // Always refetch after error or success
-        // eslint-disable-next-line max-params
-        onSettled: (newDataValue, error, variables, context) => {
-            queryClient.invalidateQueries(context.dataValueQueryKey)
-        },
-        retry: 1,
-    })
+    const { mutate, isIdle, isLoading, isError } = useDataValueMutation()
     const [dataEntryContext] = useContextSelection()
     const { metadata } = useMetadata()
 
