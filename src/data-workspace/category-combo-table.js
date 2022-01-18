@@ -102,12 +102,17 @@ export const CategoryComboTable = ({
 
     console.log({ rowToColumnsMap, computedCategoryOptions, sortedCOCs })
 
+    // Is the active cell in this cat-combo table? Check to see if active
+    // data element is in this CCT
+    const isThisTableActive = dataElements.some(({ id }) => id === activeDeId)
+
+    // Find if this column header includes the active cell's column
     const isHeaderActive = (headerIdx, headerColSpan) => {
         const activeCellColIdx = sortedCOCs.findIndex(
             (coc) => activeCocId === coc.id
         )
         const idxDiff = activeCellColIdx - headerIdx * headerColSpan
-        return idxDiff < headerColSpan && idxDiff >= 0
+        return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
     }
 
     return (
