@@ -1,6 +1,7 @@
 import { useDataQuery } from '@dhis2/app-runtime'
 import { CircularLoader } from '@dhis2/ui'
 import React, { useMemo, useEffect, useCallback } from 'react'
+import { useQuery } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
 import { FinalFormWrapper } from './data-entry-cell.js'
 import { EntryForm } from './entry-form.js'
@@ -38,6 +39,30 @@ const dataValueQuery = {
             orgUnit: orgUnitId,
             attributeOptionCombo: attributeOptionComboId,
         }),
+    },
+}
+
+const metadataQuery = {
+    metadata: {
+        resource: 'metadata',
+        params: {
+            // Note: on dataSet.dataSetElement, the categoryCombo property is
+            // included because it can mean it's overriding the data element's
+            // native categoryCombo. It can sometimes be absent from the data
+            // set element
+            'dataSets:fields':
+                'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
+            'dataElements:fields': 'id,displayFormName,categoryCombo,valueType',
+            'sections:fields':
+                'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
+            'categoryCombos:fields':
+                'id,skipTotal,categories~pluck,categoryOptionCombos~pluck,isDefault',
+            'categories:fields': 'id,displayFormName,categoryOptions~pluck',
+            'categoryOptions:fields':
+                'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
+            'categoryOptionCombos:fields':
+                'id,categoryOptions~pluck,categoryCombo,name',
+        },
     },
 }
 
@@ -92,7 +117,6 @@ function mapDataValuesToFormInitialValues(dataValues) {
 const useAttributeOptionCombo = () => {
     const { available, metadata } = useMetadata()
     const [{ dataSetId, attributeOptionComboSelection }] = useContextSelection()
-
     const cocId = useMemo(() => {
         if (available && dataSetId) {
             const dataSet = getDataSetById(metadata, dataSetId)
@@ -125,6 +149,17 @@ const useAttributeOptionCombo = () => {
 export const DataWorkspace = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
+
+    const { available, setMetadata } = useMetadata()
+
+    useQuery([metadataQuery], {
+        staleTime: 60 * 24 * 1000,
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => setMetadata(data.metadata),
+    })
+
+    const { dataValues, loading: dataValuesLoading } = useDataValues()
+
     const {
         data: dataSet,
         loading,
@@ -135,11 +170,6 @@ export const DataWorkspace = () => {
             id: dataSetId,
         },
     })
-
-    const { available } = useMetadata()
-
-    const { dataValues, loading: dataValuesLoading } = useDataValues()
-
     const getDataValue = useCallback(
         (dataElementId, cocId) => {
             return dataValues?.dataValues.find(
