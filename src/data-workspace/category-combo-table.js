@@ -8,7 +8,7 @@ import {
 } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useMemo } from 'react'
 import styles from './category-combo-table.module.css'
 import { DataEntryCell, useActiveCell } from './data-entry-cell/index.js'
 import { useMetadata } from './metadata-context.js'
@@ -29,17 +29,19 @@ export const CategoryComboTable = ({
     const { metadata } = useMetadata()
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
-    const categories = getCategoriesByCategoryComboId(
-        metadata,
-        categoryCombo.id
+    const categories = useMemo(
+        () => getCategoriesByCategoryComboId(metadata, categoryCombo.id),
+        [metadata, categoryCombo]
     )
-
-    const optionsIdLists = categories.map((cat) => cat.categoryOptions)
 
     // each element is a combination of category-options for a particular column
     // this results in lists of category-options in the same order as headers are rendered
     // the result is a client side computation of categoryOption-combinations
-    const computedCategoryOptions = cartesian(optionsIdLists)
+    const computedCategoryOptions = useMemo(() => {
+        const optionsIdLists = categories.map((cat) => cat.categoryOptions)
+        return cartesian(optionsIdLists)
+    }, [categories, cartesian])
+
     if (
         computedCategoryOptions.length !==
         categoryCombo.categoryOptionCombos.length
