@@ -27,6 +27,7 @@ const App = () => {
             userDisplayName: 'Mwangi Babatunde',
         },
         markedForFollowup: false,
+        type: 'numerical',
     }
     const handleSidebarClose = () => {}
     const handleMarkForFollowup = () => {}

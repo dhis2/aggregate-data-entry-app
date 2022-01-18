@@ -1,9 +1,4 @@
-import {
-    CustomDataProvider,
-    useDataQuery,
-    useDataMutation,
-    useAlert,
-} from '@dhis2/app-runtime'
+import { useDataQuery, useDataMutation, useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     CircularLoader,
@@ -34,23 +29,20 @@ const Comment = ({ itemId }) => {
     const { called, loading, error, data, refetch } = useDataQuery(query, {
         lazy: true,
     })
-    const fetchComment = () => refetch({ id: itemId })
+    const fetchComment = () => {
+        setEditing(false)
+        refetch({ id: itemId })
+    }
     const errorAlert = useAlert(
         i18n.t('There was a problem saving the data item comment.'),
         { critical: true }
     )
     const [updateComment] = useDataMutation(mutation, {
         onError: () => errorAlert.show(),
-        onComplete: () => {
-            setEditing(false)
-            fetchComment()
-        },
+        onComplete: fetchComment,
     })
-    const comment = data?.comment
 
-    useEffect(() => {
-        fetchComment()
-    }, [itemId])
+    useEffect(fetchComment, [itemId])
 
     if (!called || loading) {
         return <CircularLoader small />
@@ -87,12 +79,23 @@ const Comment = ({ itemId }) => {
                             autoGrow
                         />
                         <ButtonStrip>
-                        <Button small primary type="submit" loading={submitting}>
-                            {submitting ? i18n.t('Saving...') : i18n.t('Save comment')}
-                        </Button>
-                        <Button small secondary onClick={() => setEditing(false)}>
-                            {i18n.t('Cancel')}
-                        </Button>
+                            <Button
+                                small
+                                primary
+                                type="submit"
+                                loading={submitting}
+                            >
+                                {submitting
+                                    ? i18n.t('Saving...')
+                                    : i18n.t('Save comment')}
+                            </Button>
+                            <Button
+                                small
+                                secondary
+                                onClick={() => setEditing(false)}
+                            >
+                                {i18n.t('Cancel')}
+                            </Button>
                         </ButtonStrip>
                     </form>
                 )}
@@ -100,6 +103,7 @@ const Comment = ({ itemId }) => {
         )
     }
 
+    const { comment } = data
     return (
         <>
             <p className={comment ? styles.comment : styles.placeholder}>
@@ -116,15 +120,10 @@ Comment.propTypes = {
     itemId: PropTypes.string.isRequired,
 }
 
-// TODO: remove CustomDataProvider
 const CommentUnit = ({ itemId, disabled }) => (
-    <CustomDataProvider
-        data={{ comment: 'Some comment' }}
-    >
-        <ToggleableUnit title={i18n.t('Comment')} disabled={disabled}>
-            <Comment itemId={itemId} />
-        </ToggleableUnit>
-    </CustomDataProvider>
+    <ToggleableUnit title={i18n.t('Comment')} disabled={disabled}>
+        <Comment itemId={itemId} />
+    </ToggleableUnit>
 )
 
 CommentUnit.propTypes = {
