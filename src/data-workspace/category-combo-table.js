@@ -100,8 +100,6 @@ export const CategoryComboTable = ({
     })
     const itemsHiddenCnt = dataElements.length - filteredDataElements.length
 
-    console.log({ rowToColumnsMap, computedCategoryOptions, sortedCOCs })
-
     // Is the active cell in this cat-combo table? Check to see if active
     // data element is in this CCT
     const isThisTableActive = dataElements.some(({ id }) => id === activeDeId)
