@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState, useMemo, useContext, useCallback } from 'react'
+import React, { useState, useMemo, useContext } from 'react'
 import { useQuery } from 'react-query'
 import { hashArraysInObject } from './utils.js'
 
@@ -13,6 +13,8 @@ const cachedMetadata = () => {
 export const MetadataContext = React.createContext({
     metadata: {},
     loading: true,
+    available: false,
+    usingCached: false,
     setMetadata: () => {},
 })
 

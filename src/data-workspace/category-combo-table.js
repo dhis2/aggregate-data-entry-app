@@ -22,7 +22,6 @@ import { cartesian } from './utils.js'
 export const CategoryComboTable = ({
     categoryCombo,
     dataElements,
-    getDataValue,
     filterText,
     globalFilterText,
     maxColumnsInSection,
@@ -63,7 +62,7 @@ export const CategoryComboTable = ({
             const repeat =
                 computedCategoryOptions.length / (catColSpan * nrOfOptions)
 
-            const columnsToRender = Array(repeat)
+            const columnsToRender = new Array(repeat)
                 .fill(0)
                 .flatMap(() => categoryOptions)
 
@@ -89,7 +88,7 @@ export const CategoryComboTable = ({
 
     const renderPaddedCells =
         maxColumnsInSection > 0
-            ? Array(maxColumnsInSection - sortedCOCs.length).fill(0)
+            ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
             : []
 
     const filteredDataElements = dataElements.filter((de) => {
@@ -181,6 +180,7 @@ export const CategoryComboTable = ({
 CategoryComboTable.propTypes = {
     categoryCombo: PropTypes.shape({
         id: PropTypes.string.isRequired,
+        categoryOptionCombos: PropTypes.array,
     }).isRequired,
     dataElements: PropTypes.arrayOf(
         PropTypes.shape({

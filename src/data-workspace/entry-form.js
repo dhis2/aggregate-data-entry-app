@@ -1,11 +1,10 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useContext } from 'react'
+import React from 'react'
 import { CustomForm } from './custom-form.js'
 import { DefaultForm } from './default-form.js'
 import styles from './entry-form.module.css'
-import { MetadataContext } from './metadata-context.js'
 import { SectionForms } from './section.js'
 
 const FORM_TYPES = {
@@ -22,11 +21,6 @@ const formTypeToComponent = {
 
 export const EntryForm = ({ dataSet, getDataValue }) => {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
-    const { metadata } = useContext(MetadataContext)
-
-    if (!metadata) {
-        return 'Loading metadata'
-    }
 
     if (!dataSet) {
         return null
@@ -59,6 +53,7 @@ EntryForm.propTypes = {
         formType: PropTypes.string,
         id: PropTypes.string,
     }),
+    getDataValue: PropTypes.func,
 }
 
 const FilterField = ({ value, setFilterText, formType }) => (
