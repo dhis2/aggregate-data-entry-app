@@ -27,7 +27,10 @@ export const CategoryComboTable = ({
     maxColumnsInSection,
 }) => {
     const { metadata } = useMetadata()
-    const { deId: activeDeId, coIds: activeCoIds } = useActiveCell()
+    const {
+        deId: activeDeId,
+        cocId: activeCocId,
+    } = useActiveCell()
 
     const categories = getCategoriesByCategoryComboId(
         metadata,
@@ -100,6 +103,16 @@ export const CategoryComboTable = ({
     })
     const itemsHiddenCnt = dataElements.length - filteredDataElements.length
 
+    console.log({ rowToColumnsMap, computedCategoryOptions, sortedCOCs })
+
+    const isHeaderActive = (headerIdx, headerColSpan) => {
+        const activeCellColIdx = sortedCOCs.findIndex(
+            (coc) => activeCocId === coc.id
+        )
+        const idxDiff = activeCellColIdx - headerIdx * headerColSpan
+        return idxDiff < headerColSpan && idxDiff >= 0
+    }
+
     return (
         <TableBody>
             {rowToColumnsMap.map((colInfo) => {
@@ -119,8 +132,9 @@ export const CategoryComboTable = ({
                                 <TableCellHead
                                     key={i}
                                     className={cx(styles.tableHeader, {
-                                        [styles.active]: activeCoIds.includes(
-                                            co.id
+                                        [styles.active]: isHeaderActive(
+                                            i,
+                                            span
                                         ),
                                     })}
                                     colSpan={span.toString()}
