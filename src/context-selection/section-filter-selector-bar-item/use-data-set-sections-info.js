@@ -21,7 +21,7 @@ export default function useDataSetSectionsInfo() {
         data,
     } = useQuery(queryKey, { enabled: !!dataSetId })
 
-    const dataSet = data?.dataSet || null
+    const dataSet = data?.dataSet
 
     return {
         called: !isIdle,
