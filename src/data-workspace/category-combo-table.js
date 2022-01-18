@@ -27,10 +27,7 @@ export const CategoryComboTable = ({
     maxColumnsInSection,
 }) => {
     const { metadata } = useMetadata()
-    const {
-        deId: activeDeId,
-        cocId: activeCocId,
-    } = useActiveCell()
+    const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
     const categories = getCategoriesByCategoryComboId(
         metadata,
@@ -207,7 +204,6 @@ CategoryComboTable.propTypes = {
         })
     ),
     filterText: PropTypes.string,
-    getDataValue: PropTypes.func,
     globalFilterText: PropTypes.string,
     maxColumnsInSection: PropTypes.number,
 }
