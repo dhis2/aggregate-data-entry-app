@@ -34,7 +34,7 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
         section.id
     )
 
-    const groupedDataElements = section.disableDataElementAutoGroup
+    const groupedDataElements = !section.disableDataElementAutoGroup
         ? groupDataElementsByCatComboInOrder(metadata, dataElements)
         : groupDataElementsByCatCombo(metadata, dataElements)
 
@@ -131,7 +131,7 @@ export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
 
 SectionForms.propTypes = {
     dataSet: PropTypes.shape({
-        sections: PropTypes.shape(sectionProps),
+        sections: PropTypes.arrayOf(sectionProps),
     }),
     getDataValue: PropTypes.func,
     globalFilterText: PropTypes.string,

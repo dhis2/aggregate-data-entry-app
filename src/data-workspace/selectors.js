@@ -86,7 +86,10 @@ export const groupDataElementsByCatComboInOrder = (metadata, dataElements) => {
         ) {
             acc.push({
                 dataElements: [curr],
-                categoryCombo: curr.categoryCombo,
+                categoryCombo: getCategoryComboById(
+                    metadata,
+                    curr.categoryCombo.id
+                ),
             })
         } else {
             acc[acc.length - 1].dataElements.push(curr)
