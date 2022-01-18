@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-10T19:44:40.183Z\n"
-"PO-Revision-Date: 2022-01-10T19:44:40.183Z\n"
+"POT-Creation-Date: 2022-01-18T08:54:08.887Z\n"
+"PO-Revision-Date: 2022-01-18T08:54:08.887Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -107,6 +107,16 @@ msgstr "Not implemented"
 
 msgid "This data set uses a custom form. Custom forms are not implemented yet."
 msgstr "This data set uses a custom form. Custom forms are not implemented yet."
+
+msgid "This data set has no assigned Data Elements"
+msgstr "This data set has no assigned Data Elements"
+
+msgid ""
+"There are no Data Elements in this data set. Adds some Data Elements to use "
+"this data set."
+msgstr ""
+"There are no Data Elements in this data set. Adds some Data Elements to use "
+"this data set."
 
 msgid "Filter fields in all sections"
 msgstr "Filter fields in all sections"
