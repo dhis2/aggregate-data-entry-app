@@ -8,7 +8,7 @@ import {
     TableRowHead,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
 import { CategoryComboTable } from './category-combo-table.js'
 import { useMetadata } from './metadata-context.js'
@@ -25,24 +25,26 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
     const { available, metadata } = useMetadata()
 
     if (!available) {
-        return 'Loading metadata'
+        return null
     }
 
-    const dataElements = getDataElementsBySection(
-        metadata,
-        section.dataSet.id,
-        section.id
-    )
-
-    const groupedDataElements = !section.disableDataElementAutoGroup
-        ? groupDataElementsByCatComboInOrder(metadata, dataElements)
-        : groupDataElementsByCatCombo(metadata, dataElements)
-
-    const maxColumnsInSection = Math.max(
-        ...groupedDataElements.map(
-            (grp) => grp.categoryCombo.categoryOptionCombos.length
+    const [groupedDataElements, maxColumnsInSection] = useMemo(() => {
+        const dataElements = getDataElementsBySection(
+            metadata,
+            section.dataSet.id,
+            section.id
         )
-    )
+        const groupedDataElements = section.disableDataElementAutoGroup
+            ? groupDataElementsByCatComboInOrder(metadata, dataElements)
+            : groupDataElementsByCatCombo(metadata, dataElements)
+
+        const maxColumnsInSection = Math.max(
+            ...groupedDataElements.map(
+                (grp) => grp.categoryCombo.categoryOptionCombos.length
+            )
+        )
+        return [groupedDataElements, maxColumnsInSection]
+    }, [metadata, section])
 
     return (
         <div className="wrapper">
