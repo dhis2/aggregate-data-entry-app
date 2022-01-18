@@ -28,7 +28,7 @@ export const MetadataContextProvider = ({ children }) => {
         console.log('set metadata', hashed)
         setContext(hashed)
         setLoading(false)
-        localStorage.setItem('metadata', JSON.stringify(value))
+        localStorage.setItem('metadata', JSON.stringify(hashed))
     }
 
     const contextValue = useMemo(
