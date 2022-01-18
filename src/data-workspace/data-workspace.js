@@ -24,7 +24,7 @@ const query = {
     },
 }
 
-const dataValueQuery = {
+export const dataValueQuery = {
     dataValues: {
         resource: 'dataValueSets',
         params: ({
@@ -98,7 +98,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
 
 // TODO: this should probably be handled by useContextSelection-hook
 // should not need this when api support CC and CP instead of cocId
-const useAttributeOptionCombo = () => {
+export const useAttributeOptionCombo = () => {
     const { available, metadata } = useMetadata()
     const [{ dataSetId, attributeOptionComboSelection }] = useContextSelection()
     const cocId = useMemo(() => {
