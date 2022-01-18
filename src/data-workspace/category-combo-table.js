@@ -6,10 +6,11 @@ import {
     TableRow,
     TableCell,
 } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './category-combo-table.module.css'
-import { DataEntryCell } from './data-entry-cell/index.js'
+import { DataEntryCell, useActiveCell } from './data-entry-cell/index.js'
 import { useMetadata } from './metadata-context.js'
 import {
     getCategoriesByCategoryComboId,
@@ -27,6 +28,7 @@ export const CategoryComboTable = ({
     maxColumnsInSection,
 }) => {
     const { metadata } = useMetadata()
+    const { deId: activeDeId, coIds: activeCoIds } = useActiveCell()
 
     const categories = getCategoriesByCategoryComboId(
         metadata,
@@ -117,7 +119,11 @@ export const CategoryComboTable = ({
                             return (
                                 <TableCellHead
                                     key={i}
-                                    className={styles.tableHeader}
+                                    className={cx(styles.tableHeader, {
+                                        [styles.active]: activeCoIds.includes(
+                                            co.id
+                                        ),
+                                    })}
                                     colSpan={span.toString()}
                                 >
                                     {co.isDefault
@@ -135,7 +141,11 @@ export const CategoryComboTable = ({
             {filteredDataElements.map((de) => {
                 return (
                     <TableRow key={de.id}>
-                        <TableCell className={styles.dataElementName}>
+                        <TableCell
+                            className={cx(styles.dataElementName, {
+                                [styles.active]: de.id === activeDeId,
+                            })}
+                        >
                             {de.displayFormName}
                         </TableCell>
                         {sortedCOCs.map((coc) => (

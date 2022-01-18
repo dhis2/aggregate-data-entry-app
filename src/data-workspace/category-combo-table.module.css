@@ -20,6 +20,10 @@
     max-width: 350px;
 }
 
+.active {
+    background-color: var(--colors-grey300);
+}
+
 .tableCell {
     composes: border;
     min-width: 100px;
