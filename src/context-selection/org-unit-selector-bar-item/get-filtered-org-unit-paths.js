@@ -13,5 +13,7 @@ export default function getFilteredOrgUnitPaths({
     const filterPaths = filter !== '' ? orgUnitPathsByName : []
 
     // Only return paths that are allowed by the data set
-    return filterPaths.filter((path) => dataSetPaths.includes(path))
+    return filterPaths.filter((path) =>
+        dataSetPaths.some((curPath) => curPath.includes(path))
+    )
 }

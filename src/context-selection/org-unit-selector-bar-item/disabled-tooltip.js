@@ -7,7 +7,7 @@ import { useDataSetId } from '../use-context-selection/index.js'
 export default function DisabledTooltip({ children }) {
     const [dataSetId] = useDataSetId()
     const tooltipContent = !dataSetId
-        ? i18n.t('You must choose a data set first')
+        ? i18n.t('Choose a data set first')
         : undefined
 
     if (!tooltipContent) {

@@ -47,57 +47,71 @@ export default function OrganisationUnitSetSelectorBarItem() {
         orgUnitPathsByName.loading
 
     return (
-        <DisabledTooltip>
-            <SelectorBarItem
-                disabled={disabled}
-                label={i18n.t('Organisation unit')}
-                value={selectorBarItemValue}
-                open={orgUnitOpen}
-                setOpen={setOrgUnitOpen}
-                noValueMessage={i18n.t('Choose a organisation unit')}
-            >
-                <div className={css.itemContentContainer}>
-                    <div className={css.searchInputContainer}>
-                        <DebouncedSearchInput onChange={setFilter} />
-                    </div>
+        <div data-test="org-unit-selector">
+            <DisabledTooltip>
+                <SelectorBarItem
+                    disabled={disabled}
+                    label={i18n.t('Organisation unit')}
+                    value={selectorBarItemValue}
+                    open={orgUnitOpen}
+                    setOpen={setOrgUnitOpen}
+                    noValueMessage={i18n.t('Choose a organisation unit')}
+                >
+                    <div className={css.itemContentContainer}>
+                        <div className={css.searchInputContainer}>
+                            <DebouncedSearchInput
+                                initialValue={filter}
+                                onChange={setFilter}
+                            />
+                        </div>
 
-                    <div className={css.orgUnitTreeContainer}>
-                        {orgUnitPathsByNameLoading &&
-                            <OrganisationUnitTreeRootLoading />}
-
-                        {!orgUnitPathsByNameLoading &&
-                            orgUnitPathsByName.error &&
-                            <OrganisationUnitTreeRootError
-                                error={orgUnitPathsByName.error}
-                            />}
-
-                        {!orgUnitPathsByNameLoading &&
-                            !!filter &&
-                            !filteredOrgUnitPaths.length &&
-                            i18n.t('No organisation units could be found')}
-
-                        {!orgUnitPathsByNameLoading &&
-                            (!filter || !!filteredOrgUnitPaths.length) && (
-                                <OrganisationUnitTree
-                                    singleSelection
-                                    filter={filteredOrgUnitPaths}
-                                    roots={userOrgUnits.data || []}
-                                    selected={selected}
-                                    expanded={expanded}
-                                    handleExpand={handleExpand}
-                                    handleCollapse={handleCollapse}
-                                    onChange={({ id }, e) => {
-                                        // Not sure why this is necessary, but when not done,
-                                        // it causes bugs in the UI
-                                        e.stopPropagation()
-                                        setOrgUnitId(id)
-                                        setOrgUnitOpen(false)
-                                    }}
-                                />
+                        <div className={css.orgUnitTreeContainer}>
+                            {orgUnitPathsByNameLoading && (
+                                <OrganisationUnitTreeRootLoading dataTest="org-unit-selector-loading" />
                             )}
+
+                            {!orgUnitPathsByNameLoading &&
+                                orgUnitPathsByName.error && (
+                                    <OrganisationUnitTreeRootError
+                                        dataTest="org-unit-selector-error"
+                                        error={orgUnitPathsByName.error}
+                                    />
+                                )}
+
+                            {!orgUnitPathsByNameLoading &&
+                                !!filter &&
+                                !filteredOrgUnitPaths.length && (
+                                    <div dataTest="org-unit-selector-none-found">
+                                        {i18n.t(
+                                            'No organisation units could be found'
+                                        )}
+                                    </div>
+                                )}
+
+                            {!orgUnitPathsByNameLoading &&
+                                (!filter || !!filteredOrgUnitPaths.length) && (
+                                    <OrganisationUnitTree
+                                        dataTest="org-unit-selector-tree"
+                                        singleSelection
+                                        filter={filteredOrgUnitPaths}
+                                        roots={userOrgUnits.data || []}
+                                        selected={selected}
+                                        expanded={expanded}
+                                        handleExpand={handleExpand}
+                                        handleCollapse={handleCollapse}
+                                        onChange={({ id }, e) => {
+                                            // Not sure why this is necessary, but when not done,
+                                            // it causes bugs in the UI
+                                            e.stopPropagation()
+                                            setOrgUnitId(id)
+                                            setOrgUnitOpen(false)
+                                        }}
+                                    />
+                                )}
+                        </div>
                     </div>
-                </div>
-            </SelectorBarItem>
-        </DisabledTooltip>
+                </SelectorBarItem>
+            </DisabledTooltip>
+        </div>
     )
 }
