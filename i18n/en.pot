@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-19T12:00:13.694Z\n"
-"PO-Revision-Date: 2022-01-19T12:00:13.694Z\n"
+"POT-Creation-Date: 2022-01-19T18:49:51.050Z\n"
+"PO-Revision-Date: 2022-01-19T18:49:51.050Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -298,6 +298,9 @@ msgstr "Try again, or contact your system administrator."
 
 msgid "Details"
 msgstr "Details"
+
+msgid "Close details sidebar"
+msgstr "Close details sidebar"
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (disabled)"

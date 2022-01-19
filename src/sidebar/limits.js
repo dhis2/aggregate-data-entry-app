@@ -85,8 +85,13 @@ const Limits = ({ itemId }) => {
         )
     }
 
-    const { avg, min, max } = data.limits
-    const averageValueInfo = (
+    const { avg, min, max } = {
+        avg: null,
+        min: null,
+        max: null,
+        ...data.limits,
+    }
+    const averageValueInfo = avg && (
         <div className={styles.averageValue}>
             <IconInfo16 color={colors.grey600} />
             {i18n.t('Average value: {{avg}}', { avg, nsSeparator: '-:-' })}

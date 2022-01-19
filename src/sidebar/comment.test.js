@@ -1,10 +1,19 @@
 import { CustomDataProvider } from '@dhis2/app-runtime'
 import { render, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import React from 'react'
 import Comment from './comment.js'
 
 describe('<Comment />', () => {
+    it('is expanded by default', () => {
+        const { getByRole } = render(
+            <CustomDataProvider options={{ loadForever: true }}>
+                <Comment itemId="item-1" />
+            </CustomDataProvider>
+        )
+
+        expect(getByRole('group')).toHaveAttribute('open')
+    })
+
     it('renders a loading spinner whilst loading the item comment', () => {
         const { getByRole } = render(
             <CustomDataProvider options={{ loadForever: true }}>
@@ -34,9 +43,9 @@ describe('<Comment />', () => {
         ).toBeInTheDocument()
     })
 
-    it('renders a placeholder if there is no comment', async() => {
+    it('renders a placeholder if there is no comment', async () => {
         const mockData = {
-            comment: undefined,
+            comment: null,
         }
         const { getByRole, queryByRole, getByText } = render(
             <CustomDataProvider data={mockData} options={{ failOnMiss: false }}>
@@ -50,9 +59,7 @@ describe('<Comment />', () => {
         })
 
         expect(getByText('No comment for this data item.')).toBeInTheDocument()
-        expect(
-            getByRole('button', { name: 'Add comment' })
-        ).toBeInTheDocument()
+        expect(getByRole('button', { name: 'Add comment' })).toBeInTheDocument()
         expect(
             queryByRole('button', { name: 'Edit comment' })
         ).not.toBeInTheDocument()
