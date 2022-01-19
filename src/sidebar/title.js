@@ -7,7 +7,11 @@ import styles from './title.module.css'
 const Title = ({ onClose }) => (
     <header className={styles.wrapper}>
         <span className={styles.title}>{i18n.t('Details')}</span>
-        <button className={styles.closeButton} onClick={onClose}>
+        <button
+            className={styles.closeButton}
+            title={i18n.t('Close details sidebar')}
+            onClick={onClose}
+        >
             <IconCross24 color={colors.grey700} />
         </button>
     </header>
