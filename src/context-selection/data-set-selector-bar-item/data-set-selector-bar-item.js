@@ -17,7 +17,7 @@ export default function DataSetSelectorBarItem() {
     const [dataSetOpen, setDataSetOpen] = useState(false)
     const [dataSetId, setDataSetId] = useDataSetId()
     // Select the first item if there's only one
-    const selectOnlyItemOnComplete = data => {
+    const selectOnlyItemOnComplete = (data) => {
         if (data.dataSets?.dataSets?.length === 1) {
             const { id } = data.dataSets?.dataSets[0]
             setDataSetId(id)
@@ -26,13 +26,13 @@ export default function DataSetSelectorBarItem() {
     const dataSet = useDataSet()
     const selectableDataSets = useSelectableDataSets(selectOnlyItemOnComplete)
 
-    const isDoneLoading = (
+    const isDoneLoading =
         selectableDataSets.called &&
         !selectableDataSets.loading &&
         !selectableDataSets.error
-    )
 
-    const showLoadingMessage = !selectableDataSets.called || !!selectableDataSets.loading
+    const showLoadingMessage =
+        !selectableDataSets.called || !!selectableDataSets.loading
 
     return (
         <div data-test="data-set-selector">

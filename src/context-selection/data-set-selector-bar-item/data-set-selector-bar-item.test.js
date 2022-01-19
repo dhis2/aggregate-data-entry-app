@@ -152,7 +152,9 @@ describe('<DataSetSelectorBarItem />', () => {
         const button = queryByText('Data set')
         fireEvent.click(button)
 
-        const errorMessage = await findByText('Error occurred while loading data sets')
+        const errorMessage = await findByText(
+            'Error occurred while loading data sets'
+        )
         expect(errorMessage).toBeInTheDocument()
     })
 
@@ -168,7 +170,9 @@ describe('<DataSetSelectorBarItem />', () => {
         const button = queryByText('Data set')
         fireEvent.click(button)
 
-        const errorMessage = await findByText('There are no data sets available!')
+        const errorMessage = await findByText(
+            'There are no data sets available!'
+        )
         expect(errorMessage).toBeInTheDocument()
     })
 })

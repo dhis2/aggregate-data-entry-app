@@ -3,7 +3,8 @@ export default function createDefineScenario(state) {
         const Given = (step, stepCallback) => {
             !state.stepDefinitions.Given[scenarioDescription] &&
                 (state.stepDefinitions.Given[scenarioDescription] = {})
-            state.stepDefinitions.Given[scenarioDescription][step] = stepCallback
+            state.stepDefinitions.Given[scenarioDescription][step] =
+                stepCallback
         }
 
         const When = (step, stepCallback) => {
@@ -18,19 +19,19 @@ export default function createDefineScenario(state) {
             state.stepDefinitions.Then[scenarioDescription][step] = stepCallback
         }
 
-        const Before = beforeCallback => {
+        const Before = (beforeCallback) => {
             state.hooks.Before[scenarioDescription] = beforeCallback
         }
 
-        const After = afterCallback => {
+        const After = (afterCallback) => {
             state.hooks.After[scenarioDescription] = afterCallback
         }
 
-        const BeforeEach = beforeEachCallback => {
+        const BeforeEach = (beforeEachCallback) => {
             state.hooks.BeforeEach[scenarioDescription] = beforeEachCallback
         }
 
-        const AfterEach = afterEachCallback => {
+        const AfterEach = (afterEachCallback) => {
             state.hooks.AfterEach[scenarioDescription] = afterEachCallback
         }
 
