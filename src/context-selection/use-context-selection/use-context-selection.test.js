@@ -26,7 +26,9 @@ describe('use-query-params usage', () => {
             useDataSetId()
 
             const key = 'dataSetId'
-            expect(useQueryParam.mock.calls[0]).toEqual(expect.arrayContaining([key]))
+            expect(useQueryParam.mock.calls[0]).toEqual(
+                expect.arrayContaining([key])
+            )
             expect(PARAMS_SCHEMA).toHaveProperty(key)
         })
     })
@@ -36,7 +38,9 @@ describe('use-query-params usage', () => {
             useOrgUnitId()
 
             const key = 'orgUnitId'
-            expect(useQueryParam.mock.calls[0]).toEqual(expect.arrayContaining([key]))
+            expect(useQueryParam.mock.calls[0]).toEqual(
+                expect.arrayContaining([key])
+            )
             expect(PARAMS_SCHEMA).toHaveProperty(key)
         })
     })
@@ -46,7 +50,9 @@ describe('use-query-params usage', () => {
             usePeriodId()
 
             const key = 'periodId'
-            expect(useQueryParam.mock.calls[0]).toEqual(expect.arrayContaining([key]))
+            expect(useQueryParam.mock.calls[0]).toEqual(
+                expect.arrayContaining([key])
+            )
             expect(PARAMS_SCHEMA).toHaveProperty(key)
         })
     })
@@ -56,7 +62,9 @@ describe('use-query-params usage', () => {
             useAttributeOptionComboSelection()
 
             const key = 'attributeOptionComboSelection'
-            expect(useQueryParam.mock.calls[0]).toEqual(expect.arrayContaining([key]))
+            expect(useQueryParam.mock.calls[0]).toEqual(
+                expect.arrayContaining([key])
+            )
             expect(PARAMS_SCHEMA).toHaveProperty(key)
         })
     })
@@ -66,7 +74,9 @@ describe('use-query-params usage', () => {
             useSectionFilter()
 
             const key = 'sectionFilter'
-            expect(useQueryParam.mock.calls[0]).toEqual(expect.arrayContaining([key]))
+            expect(useQueryParam.mock.calls[0]).toEqual(
+                expect.arrayContaining([key])
+            )
             expect(PARAMS_SCHEMA).toHaveProperty(key)
         })
     })

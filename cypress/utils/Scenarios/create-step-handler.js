@@ -3,7 +3,9 @@ export default function createStepHandler(state, commandName) {
         const beforeEachHandler = state.hooks.BeforeEach[scenarioDescription]
         const afterEachHandler = state.hooks.AfterEach[scenarioDescription]
         beforeEachHandler && beforeEachHandler()
-        state.stepDefinitions[commandName][scenarioDescription][stepDescription](...args)
+        state.stepDefinitions[commandName][scenarioDescription][
+            stepDescription
+        ](...args)
         afterEachHandler && afterEachHandler()
     }
 }
