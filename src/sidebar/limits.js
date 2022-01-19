@@ -2,7 +2,6 @@ import { useDataQuery, useDataMutation, useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     CircularLoader,
-    NoticeBox,
     Button,
     ButtonStrip,
     ReactFinalForm,
@@ -13,6 +12,7 @@ import {
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import styles from './limits.module.css'
+import LoadingError from './loading-error.js'
 import ToggleableUnit from './toggleable-unit.js'
 
 // TODO
@@ -77,14 +77,11 @@ const Limits = ({ itemId }) => {
 
     if (error) {
         return (
-            <NoticeBox
-                error
+            <LoadingError
                 title={i18n.t(
                     'There was a problem loading the limits for this data item'
                 )}
-            >
-                {i18n.t('Try again, or contact your system administrator')}
-            </NoticeBox>
+            />
         )
     }
 
@@ -206,10 +203,10 @@ Limits.propTypes = {
     itemId: PropTypes.string.isRequired,
 }
 
-const LimitsUnit = ({ itemId, disabled }) => (
+const LimitsUnit = ({ itemId, itemType }) => (
     <ToggleableUnit
         title={i18n.t('Minimum and maximum limits')}
-        disabled={disabled}
+        disabled={itemType !== 'numerical'}
     >
         <Limits itemId={itemId} />
     </ToggleableUnit>
@@ -217,7 +214,7 @@ const LimitsUnit = ({ itemId, disabled }) => (
 
 LimitsUnit.propTypes = {
     itemId: PropTypes.string.isRequired,
-    disabled: PropTypes.bool,
+    itemType: PropTypes.string.isRequired,
 }
 
 export default LimitsUnit

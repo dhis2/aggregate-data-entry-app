@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-18T15:41:41.844Z\n"
-"PO-Revision-Date: 2022-01-18T15:41:41.844Z\n"
+"POT-Creation-Date: 2022-01-19T12:00:13.694Z\n"
+"PO-Revision-Date: 2022-01-19T12:00:13.694Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -192,6 +192,26 @@ msgstr "Financial year (Start July)"
 msgid "Financial year (Start April)"
 msgstr "Financial year (Start April)"
 
+msgid ""
+"{{displayName}} <span class=\"{{typeClass}}\">updated</span> to "
+"{{newValue}} (was {{oldValue}})"
+msgstr ""
+"{{displayName}} <span class=\"{{typeClass}}\">updated</span> to "
+"{{newValue}} (was {{oldValue}})"
+
+msgid ""
+"{{displayName}} <span class=\"{{typeClass}}\">deleted</span> (was "
+"{{oldValue}})"
+msgstr ""
+"{{displayName}} <span class=\"{{typeClass}}\">deleted</span> (was "
+"{{oldValue}})"
+
+msgid "There was a problem loading the audit log for this data item"
+msgstr "There was a problem loading the audit log for this data item"
+
+msgid "Audit log"
+msgstr "Audit log"
+
 msgid "Code: {{code}}"
 msgstr "Code: {{code}}"
 
@@ -215,9 +235,6 @@ msgstr "There was a problem saving the data item comment."
 
 msgid "There was a problem loading the comment for this data item"
 msgstr "There was a problem loading the comment for this data item"
-
-msgid "Try again, or contact your system administrator"
-msgstr "Try again, or contact your system administrator"
 
 msgid "Saving..."
 msgstr "Saving..."
@@ -275,6 +292,9 @@ msgstr "Edit limits"
 
 msgid "Minimum and maximum limits"
 msgstr "Minimum and maximum limits"
+
+msgid "Try again, or contact your system administrator."
+msgstr "Try again, or contact your system administrator."
 
 msgid "Details"
 msgstr "Details"
