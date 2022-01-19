@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import useDebounce from './use-debounce.js'
 
-export default function DebouncedSearchInput({ onChange }) {
-    const [value, setValue] = useState('')
+export default function DebouncedSearchInput({ onChange, initialValue }) {
+    const [value, setValue] = useState(initialValue)
     const debouncedValue = useDebounce(value, 200)
 
     useEffect(() => {
@@ -24,5 +24,6 @@ export default function DebouncedSearchInput({ onChange }) {
 }
 
 DebouncedSearchInput.propTypes = {
+    initialValue: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
 }

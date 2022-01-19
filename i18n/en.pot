@@ -5,8 +5,13 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2022-01-28T10:27:38.035Z\n"
 "PO-Revision-Date: 2022-01-28T10:27:38.035Z\n"
+=======
+"POT-Creation-Date: 2022-01-19T10:18:31.185Z\n"
+"PO-Revision-Date: 2022-01-19T10:18:31.185Z\n"
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -69,8 +74,8 @@ msgstr "There are no data sets available!"
 msgid "Search org units"
 msgstr "Search org units"
 
-msgid "You must choose a data set first"
-msgstr "You must choose a data set first"
+msgid "Choose a data set first"
+msgstr "Choose a data set first"
 
 msgid "Organisation unit"
 msgstr "Organisation unit"

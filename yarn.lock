@@ -1333,6 +1333,7 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
+<<<<<<< HEAD
 "@dhis2-ui/alert@7.14.3":
   version "7.14.3"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/alert/-/alert-7.14.3.tgz#ff75968c6d32ea0b64e686babb23a15b9d3c32bf"
@@ -1351,6 +1352,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/box/-/box-7.14.3.tgz#69c62fa5ef77d0f907269a2fd7848f9a0e9e3660"
   integrity sha512-u+e4458SdQGr1OxuHcsLmNaxlP0S3tUfbFMdjXchhWMBkYlUV9uQ5eEqNX6rQwbxawnzi1+02FAh/FHvmVvhBA==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/alert@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/alert/-/alert-7.14.0.tgz#1bb54ffafe4a5f0c944ff8fd671a0eab5351b00c"
@@ -1363,6 +1366,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/box@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/box/-/box-7.13.0.tgz#1554ef06ccb13ac9889a64834758d22aac562318"
@@ -1380,6 +1384,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/button/-/button-7.14.3.tgz#f698d523c94c8f3b9b10c0746bd3d0de8a6e7da7"
   integrity sha512-bXAPuM8uHgf8vlOXRYlU9YaQFZGqVNMn7w2oHf+9xEGMzqeADyEGb7bw1dmLZpN+Y1Hz8ye12tBgS3sp3Jh3Zg==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/box@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/box/-/box-7.14.0.tgz#a84eaa96ecb4db6d0c7fd1b9862d3bd207bacfa2"
@@ -1390,6 +1396,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/button@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/button/-/button-7.13.0.tgz#8cf420adb795d1cecd8a8a13920a659d638ea455"
@@ -1411,6 +1418,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/card/-/card-7.14.3.tgz#628d4d0ed6d80cb1718b37aa0e25dab85c2bbf76"
   integrity sha512-kqQ+wW68qje2eqvpF7w+VlXjF3v547UJlItGaHdIG9CDwDh5t9LhYoUCliAafGyKVCwsr1Tv5EQRYkqzIfNLuQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/button@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/button/-/button-7.14.0.tgz#115a92c5894fa46dcbd2ff1ce23f60f4c812db7a"
@@ -1425,6 +1434,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/card@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/card/-/card-7.13.0.tgz#36c36cfe168e5fa12820f769c918319cc0beaac4"
@@ -1442,6 +1452,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/center/-/center-7.14.3.tgz#b9586481eaf26d19efc57b23662649a1bee54ecd"
   integrity sha512-3f+kiEAwmEmsWcZbNC1XmjoFyT9ZKVN6DzC5QUl6tOo/m3tEJgq4OeNzro1IPoeP/2pI+iDf7XB/K4rJWljuoQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/card@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/card/-/card-7.14.0.tgz#dc2fad4e1687163c322f2a53cd7fcae5701f7905"
@@ -1452,6 +1464,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/center@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/center/-/center-7.13.0.tgz#d27017decc9f08d798a4fad7a460af2554a664a4"
@@ -1469,6 +1482,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/checkbox/-/checkbox-7.14.3.tgz#7c85908e2ddb171ae88307eb77d2922389101e95"
   integrity sha512-Likau6jWgpS6NCd5DzOVQjfVIU4VD4tnt57OZ9XXq5T+4zkAiJbI64ubnal66K7SxIqds10B92d9O7jenDZVOQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/center@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/center/-/center-7.14.0.tgz#f4f0cf5381a73202aac7bba86cea62732e1ac119"
@@ -1479,6 +1494,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/checkbox@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/checkbox/-/checkbox-7.13.0.tgz#a9c92920a751f41e0cb76c01f8ceaaa938e1b238"
@@ -1498,6 +1514,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/chip/-/chip-7.14.3.tgz#dbb7a2ed092cc5626973cbec0afd168afe81f5c0"
   integrity sha512-pcmeHZOFkce7jvL9OZizRD1+KdmQXjx0HO3pfDH8sEogxPRdJJTObUYGf90nCLqBRNgbJPJ78VjurgwVNT8LEw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/checkbox@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/checkbox/-/checkbox-7.14.0.tgz#5b5fddd1eaf24397343404fe07409e7703a56fce"
@@ -1510,6 +1528,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/chip@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/chip/-/chip-7.13.0.tgz#b00923704958a1f44a3717979fa80bc8a4aa2681"
@@ -1527,6 +1546,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/cover/-/cover-7.14.3.tgz#2d77c679b6e1b6b8efd970e0c0a007cfcdde17d6"
   integrity sha512-9oMU5kgRT0j5nsl2j1uLBdEfa+yQ4KJZvSuB0fu1AjOesvGlEBDCdu85BlzDgIQl6gss4+D/srDhK+zMlHPwaw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/chip@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/chip/-/chip-7.14.0.tgz#6e7fc6d13e3b71ff3402792069868b22fb3da175"
@@ -1537,6 +1558,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/cover@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/cover/-/cover-7.13.0.tgz#9d0cfc72ab306e6e631f152c1f0b0d77b09c37a1"
@@ -1554,6 +1576,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/css/-/css-7.14.3.tgz#2bea55c0d2dbdfb9453c469dc917fe7ce3c28ea3"
   integrity sha512-b8TspkF7hlxxUyEPCIgX9A6t4DFmQewtvy/jZubqx2477jg6fpwdbvfSaSdTfg38MIEnyhzVfJ1mfxgrD9h/HQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/cover@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/cover/-/cover-7.14.0.tgz#04b08d87abfd888ff08c5b6bf0eb78a61f465dec"
@@ -1564,6 +1588,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/css@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/css/-/css-7.13.0.tgz#61be3ef19f781695ea84ca3b5a405caf592d9ea2"
@@ -1581,6 +1606,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/divider/-/divider-7.14.3.tgz#d6b5977b5e35b7726c8c26b6603e2b95d71faac1"
   integrity sha512-n4syb8d3PMVLcCj1PSPaz66hcOBjFJzXeWItVFEUbI/huJt9LgooRiBj8hbtfL86YZqANNt6rkGlb6MGkNpD6w==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/css@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/css/-/css-7.14.0.tgz#d23b6d9ce59162a6d405b48a23440e3078496d04"
@@ -1591,6 +1618,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/divider@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/divider/-/divider-7.13.0.tgz#eb11ddc85205a2efac0174277429c4e07041711e"
@@ -1608,6 +1636,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/field/-/field-7.14.3.tgz#e4df51ccad694fa7dff6a0f6a8073410954d4b72"
   integrity sha512-hTHqLHHCtYu/CXuQgf8KJu9GmF5leD4Y5QpbZHXzUf9YC8le/XaLr2iwYudbAmAx1Dq2lywxeK9tQNmvNUTTZQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/divider@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/divider/-/divider-7.14.0.tgz#26dadcc5f0590bdcd383eb7240ff5a61147d06e2"
@@ -1618,6 +1648,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/field@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/field/-/field-7.13.0.tgz#6fa7d8ca3f271b39582783ba07475e6db8f7f2a8"
@@ -1638,6 +1669,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/file-input/-/file-input-7.14.3.tgz#e99db460c30f0511c2a16df71fe00c09c5b4866b"
   integrity sha512-vZzIRtgBBA3ueT/kom+qzxCyTub7tzqTpUph9dc/OGxqjJ3jCg/dNoB3rKjwzjmx8nnd13ky2YbRuBDQW9dmGQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/field@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/field/-/field-7.14.0.tgz#17b785113b478272202d37bf16f0117068c3de45"
@@ -1651,6 +1684,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/file-input@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/file-input/-/file-input-7.13.0.tgz#e55249134e17c7dc3c4a506c61531ab49ef8fbbc"
@@ -1685,6 +1719,8 @@
     "@dhis2-ui/menu" "7.14.3"
     "@dhis2-ui/user-avatar" "7.14.3"
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/file-input@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/file-input/-/file-input-7.14.0.tgz#d037dbcc4ef30e26c52d26173fdec8c3d713623a"
@@ -1700,6 +1736,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/header-bar@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/header-bar/-/header-bar-7.13.0.tgz#4537360d93d0959e86673255e7df2352efde3035"
@@ -1729,6 +1766,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/help/-/help-7.14.3.tgz#668f7bb4e8380e5ed67e3eba61d8ea34fce88b10"
   integrity sha512-AQGt56aQRJpcyQQ35SQlbjHG3bJ98bWj6TzrdKJWOa5NBTCfniE5X6afXvPfm3D61g3pEYQlBqPFu9zlI1C8pg==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/header-bar@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/header-bar/-/header-bar-7.14.0.tgz#bcc7b94c370b3dc926d6cb240cce922a4ec64cea"
@@ -1751,6 +1790,7 @@
     moment "^2.29.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/help@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/help/-/help-7.13.0.tgz#b8ef4f072322dbca56e05b033e3bbd5eb29c7c5e"
@@ -1768,6 +1808,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/input/-/input-7.14.3.tgz#a88d7fcca2df417d2c9e19ecab56a76929bff57d"
   integrity sha512-eUl/1w5KtQJNY+/MMxrwV152F9FLBB8//j9J8mkvf/252iLD2Hr61TmyxTzCEWjjnpt246vO66yUd3akHBPQRw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/help@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/help/-/help-7.14.0.tgz#6292585e7facb636afe9120726bcad74db882d4f"
@@ -1778,6 +1820,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/input@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/input/-/input-7.13.0.tgz#0d1a7a9c75e68e3caef4b0f22c615fe24ec49239"
@@ -1801,6 +1844,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/intersection-detector/-/intersection-detector-7.14.3.tgz#63243e370f9197c9182fd4e5316b2551bbb35648"
   integrity sha512-yj+/VA8pyLvBY1fPFdmQm3ZWJzsLu/iwr0FKxXWmDpiaq9LfD8DwFo7MrXwJLn729Ex4DWIROyrC8F1a66pwxQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/input@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/input/-/input-7.14.0.tgz#316746ae9fcf589cb4df7b16b34ddc0a5318cef3"
@@ -1816,6 +1861,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/intersection-detector@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/intersection-detector/-/intersection-detector-7.13.0.tgz#29086c5e3ab6352791edb2a991bde49002016cd6"
@@ -1833,6 +1879,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/label/-/label-7.14.3.tgz#c9060da5b7fbca7db8fa8c06815230b4474bbf4f"
   integrity sha512-n2zG3WHq5g0YbWLCLMD8Zj0imUPHt1nbA+F+8MJZAr9iXm3d11ce4iVkgwI7W5a//rXGyhzAglZxWFyDeZuBmw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/intersection-detector@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/intersection-detector/-/intersection-detector-7.14.0.tgz#7568ebdbdc52d1e554667ee04a3b8af4a54325a1"
@@ -1843,6 +1891,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/label@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/label/-/label-7.13.0.tgz#e93899fe15fb943c9cb54b9f25b8c6b1ddc76e60"
@@ -1861,6 +1910,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/layer/-/layer-7.14.3.tgz#c636c1ae428cc953a22a09ef329820f7949b3c98"
   integrity sha512-XCS7yzrwJGpZ3tUSCEgAwQ1rcE/4wHiGjj80XyERWF43cyS4JpqvoQLihP51j81VNBrEZuVPDbpvjrddh1YBjA==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/label@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/label/-/label-7.14.0.tgz#9cce765bd1c9edd904eb4b18d43d91e9a12cac0a"
@@ -1872,6 +1923,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/layer@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/layer/-/layer-7.13.0.tgz#a841445a9321a127a9122c7d948d8cac62c3f955"
@@ -1890,6 +1942,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/legend/-/legend-7.14.3.tgz#9a9a811df232ce2c9f7520ee9273e642f75035d6"
   integrity sha512-34VvLwawGJYnMD8cd0xusscYR6nZW1zecppdFQ4nSiVy+iZ4r+MLrVStj3qUpfnZgtGXp5P0zwIMB8SM42Je3Q==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/layer@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/layer/-/layer-7.14.0.tgz#22c9c521a00b4f30e929ffd646509a8c120ce6f8"
@@ -1901,6 +1955,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/legend@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/legend/-/legend-7.13.0.tgz#68dbf87a2c66189007d7955d1a57e68b2e3c7207"
@@ -1919,6 +1974,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/loader/-/loader-7.14.3.tgz#be3d61d08174ae07ad013eccbe1a60b21a429eca"
   integrity sha512-nOKpqfjLfIsqu06rt0AB6ZoaFMXAeAATVxCBbEkV6OLqF6vgw9+Ah4wl6TsFAxGbFW36TsSCIgzARX4H24dJFA==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/legend@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/legend/-/legend-7.14.0.tgz#5403e4766e818e5277db60d327198d297aaece44"
@@ -1930,6 +1987,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/loader@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/loader/-/loader-7.13.0.tgz#951c397db270cb51f79f115ee8c8476e07ba4a52"
@@ -1947,6 +2005,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/logo/-/logo-7.14.3.tgz#ad03f7f0bb079b0974f2b221ad11bb2433b973cc"
   integrity sha512-3VpJMqF3QkaWXfJqlupTEQ4YRxvC+v382LDu+ZYVGf+BiRGXEhTK5GIywVfVhrJCyiSue5gvnckr2rPYZypsYw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/loader@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/loader/-/loader-7.14.0.tgz#e6b2d6a6ffeb86d720ed70132609b33ce4718442"
@@ -1957,6 +2017,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/logo@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/logo/-/logo-7.13.0.tgz#6aa1d6fe7377c84e433c1cf053e99579e36640a9"
@@ -1974,6 +2035,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/menu/-/menu-7.14.3.tgz#37bd5755ae7eeba20dfc5e6631f467de03433b29"
   integrity sha512-rN++sJUgAiusN4ipzhSoMEVp0EMXyjEehhNlMm4Yk/kIGyLENFBCoaf5oA1kOiJr9WysThuzcODeE8QqUk7Xag==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/logo@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/logo/-/logo-7.14.0.tgz#181564954774a029150d2441dfee2507aa692e03"
@@ -1984,6 +2047,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/menu@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/menu/-/menu-7.13.0.tgz#4ddaed45470e430b167c4cbc8853762916b187bc"
@@ -2007,6 +2071,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/modal/-/modal-7.14.3.tgz#7fe392e7d9ceffbbb3d564c5e8bb44adfe518b2a"
   integrity sha512-UqJ6IOFFbBex5PlLoi5cnX+XjPZpxaAa96bWQNeC5htUlWSbh2k/N1PCMTTb1Ob4YbvCXtWQf0s2QfcSa3DgHA==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/menu@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/menu/-/menu-7.14.0.tgz#a1ef82346460e6c610a02a22b24294e829f1a804"
@@ -2023,6 +2089,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/modal@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/modal/-/modal-7.13.0.tgz#275faecd975860cee59c4da707cd397df99b9f4e"
@@ -2045,6 +2112,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/node/-/node-7.14.3.tgz#21e86f3e6501c65cf2e382be8715960543e52645"
   integrity sha512-dd6azQfbsIgrTo6+pDPnSPLyE1DQ/umP2HLKjuLlDfXZKvDUiwi+MwbPoBOZpdz5Mz+cyckvD2p8NIPCBBFkzw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/modal@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/modal/-/modal-7.14.0.tgz#c746284a71842b37af091b65fbc62565dfc559e7"
@@ -2060,6 +2129,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/node@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/node/-/node-7.13.0.tgz#f49a5a78876afefb19eaf369f49c316ed4372a3a"
@@ -2078,6 +2148,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/notice-box/-/notice-box-7.14.3.tgz#c15b5775c5be368af33ec2e03f82df9ab87dc0b2"
   integrity sha512-x+NCV0cqYBjCBZZvXyJIeMT9PxwQSxjxBmttJdAS6+1vqszCWmISKu9yG2IbKMaPstyJqOQ9vceebawXohz6jw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/node@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/node/-/node-7.14.0.tgz#ef9a470a40d5dc991451f8038941fbea99e104e8"
@@ -2089,6 +2161,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/notice-box@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/notice-box/-/notice-box-7.13.0.tgz#c912e83147816f018ee6b251431d914aba536def"
@@ -2107,6 +2180,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/organisation-unit-tree/-/organisation-unit-tree-7.14.3.tgz#edd4b58805d8bb0150ad13c222547da6bdb9e39d"
   integrity sha512-vs+RJ+t7CnXd0ufb1ZAhPHamXJ4pkPK9Off7QZFIKuQOhIS+7TMPixmZUKzqfOjHSNZhhkuIhvQSjl6xotyTFg==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/notice-box@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/notice-box/-/notice-box-7.14.0.tgz#a4de787f7f61ca92268c0f051352ad76b22989cd"
@@ -2118,6 +2193,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/organisation-unit-tree@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/organisation-unit-tree/-/organisation-unit-tree-7.13.0.tgz#a677eabd992c0278d7fbac135137c6c930ce8f99"
@@ -2138,6 +2214,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/pagination/-/pagination-7.14.3.tgz#02e83d5b92cf1b005d78dc9359a772e74a82e9f2"
   integrity sha512-yISEe9bmjbzf/i1z2xcWDgSVW1GpMHPgOGYT6NKEopwzGwzgk5G2l2XroFr4xL6W9BK5BDN0tBSPI3RVI1AJ2A==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/organisation-unit-tree@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/organisation-unit-tree/-/organisation-unit-tree-7.14.0.tgz#d7bfaa0e90225661cc59d9f17b4d3cd2ecf3c6b3"
@@ -2151,6 +2229,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/pagination@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/pagination/-/pagination-7.13.0.tgz#2915f4a8e4967371847c4a1fdff0dfb1949cef38"
@@ -2171,6 +2250,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/popover/-/popover-7.14.3.tgz#238a8dcbe242180753c965e59c8fca13e22dfc0f"
   integrity sha512-3ikwLIKnsX/MBME/hQjwKgiZs9FlgtQy9iT/8qiLUu28sq+MHQ/DWfwMQK3dCZ/mL+adYDyR5rDfiquLrcUl2Q==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/pagination@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/pagination/-/pagination-7.14.0.tgz#87ab95c943d95bb149cf8c9863873c934ee020fa"
@@ -2184,6 +2265,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/popover@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/popover/-/popover-7.13.0.tgz#b3c45a03abf673be05252c12d7893e46e33300fc"
@@ -2203,6 +2285,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/popper/-/popper-7.14.3.tgz#f680c6eaff0fe17dd801bac103984be559ca3419"
   integrity sha512-DjMIgwnUx948vPHuRX8DhZT3jyK3POYNmSaE7SmuvI+0q2dup0zWFMUZNa8lP53mln9amVUU4tS73Jz6dC7/0w==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/popover@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/popover/-/popover-7.14.0.tgz#d82d4c7611e688f8b5e5a517de5738aeb1a1e390"
@@ -2215,6 +2299,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/popper@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/popper/-/popper-7.13.0.tgz#9a60b7e3767d88d15ab3ca7182bce884b031d50a"
@@ -2235,6 +2320,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/portal/-/portal-7.14.3.tgz#4cee25041cea825245cf73b0cbf58d340f2b1955"
   integrity sha512-FI1hQu6zK3dTopSBe0Y7FlYXiJgWKGDoHz4g7CXSywo/0iMK7qfpTmMJkUF8mLCxmcN2gSCGwnQsVHcx1U3jag==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/popper@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/popper/-/popper-7.14.0.tgz#7008ac89c307986b861b0d8087a28308fc71fee8"
@@ -2248,6 +2335,7 @@
     react-popper "^2.2.5"
     resize-observer-polyfill "^1.5.1"
 
+<<<<<<< HEAD
 "@dhis2-ui/portal@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/portal/-/portal-7.13.0.tgz#52e32ddd6ab002715bedd9e653dd3543663a96e1"
@@ -2263,6 +2351,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/radio/-/radio-7.14.3.tgz#cf9b2546cd193ee955bb87632a234014a254f214"
   integrity sha512-Bus7W4AQqizABoqd/uEmyDQAYXQJBvBPUtE4kSloGbzI9QdzeuNJL49DbANBwxrqX8qOv2RIfDab3Em3e5kHxQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/portal@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/portal/-/portal-7.14.0.tgz#dbc1da34f1dda6f2703575c18c30ca2b9e1d355c"
@@ -2271,6 +2361,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/radio@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/radio/-/radio-7.13.0.tgz#bd871463a041ee014d32ee77547285e3b09dd6cb"
@@ -2288,6 +2379,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/required/-/required-7.14.3.tgz#266a63441b47c8122c6597a2a56d6a2f23c3a523"
   integrity sha512-5UJHRUN8nUc2RwTZNkmSEI9YIv5QGJlKVWNzlJz97/LiTgmLBS5FjXiItEDLoZkOLKPVH7BoGwildgmzAh6/cg==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/radio@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/radio/-/radio-7.14.0.tgz#1f993ad0ee38469e84556daddcdd6727534e92d8"
@@ -2298,6 +2391,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/required@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/required/-/required-7.13.0.tgz#2fd4bfeea520c4105acf8ba7f94b4a75a98fb1b1"
@@ -2315,6 +2409,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/segmented-control/-/segmented-control-7.14.3.tgz#b7f61ea84be227ebfa8a527bd39b70ae9addd1fa"
   integrity sha512-u7jUqAmjXcrQalnTJWUV1Fg7Tvc44y750+TkC+nn2uRPtbzhqnppVn10B0wnqrRVOtBIjO/0rJierXmbz/SVHA==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/required@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/required/-/required-7.14.0.tgz#914087fc515893edd07b52fb65a7681848c1f701"
@@ -2325,6 +2421,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/segmented-control@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/segmented-control/-/segmented-control-7.13.0.tgz#bdf2f654d19aba2bf76cb4528cb3b2c64d82d7fa"
@@ -2354,6 +2451,8 @@
     "@dhis2-ui/popper" "7.14.3"
     "@dhis2-ui/status-icon" "7.14.3"
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/segmented-control@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/segmented-control/-/segmented-control-7.14.0.tgz#cbe653742e0fbd4c334655cc913b5cfa98837542"
@@ -2364,6 +2463,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/select@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/select/-/select-7.13.0.tgz#bd8461d531b96a556a0554ed7ec82138ba841a64"
@@ -2399,6 +2499,8 @@
     "@dhis2/ui-constants" "7.14.3"
     "@dhis2/ui-icons" "7.14.3"
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/select@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/select/-/select-7.14.0.tgz#f4eae5252f8ff52eff02f09738503b6c1a05d3ed"
@@ -2420,6 +2522,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/selector-bar@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/selector-bar/-/selector-bar-7.13.0.tgz#d34d7ae104ba3e6bb87aab1615fa08bb8643e8e6"
@@ -2457,6 +2560,8 @@
     "@dhis2-ui/tooltip" "7.14.3"
     "@dhis2-ui/user-avatar" "7.14.3"
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/selector-bar@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/selector-bar/-/selector-bar-7.14.0.tgz#a995503563497ccf42e29690266eb5577ce2305b"
@@ -2472,6 +2577,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/sharing-dialog@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/sharing-dialog/-/sharing-dialog-7.13.0.tgz#2b71abda5a6f69df149693f200c75476b90eb478"
@@ -2517,6 +2623,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/switch/-/switch-7.14.3.tgz#6f0a8ed3fe70547bc5e124d3fd85c691fc0ae295"
   integrity sha512-FatSuwYrdD97Q1r/z9GDwg73rKt1O+ngdu4JpupZefKMqoe1Fl3Zmm2zVOafggTY86ss7md0wXQCVW45/sFk+g==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/sharing-dialog@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/sharing-dialog/-/sharing-dialog-7.14.0.tgz#34113f16d39e9139ac42286874483b96d7f85047"
@@ -2543,6 +2651,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/switch@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/switch/-/switch-7.13.0.tgz#b712e8c482d883977167f95b3cdb715de7774345"
@@ -2562,6 +2671,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tab/-/tab-7.14.3.tgz#5d21596193f912c20c3d5c0321745d78c3ca3230"
   integrity sha512-2Z3rSmIIZvSTFBsO3wlkk5f+oA7yljsjl/a5DCEGfMLiyq/c5ZQD6wUpgCs2HH0Z+vJF6RwkmcgVr0656qWwMw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/switch@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/switch/-/switch-7.14.0.tgz#e329f1523d605c10ccb2dd21c6921d32a190c441"
@@ -2574,6 +2685,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/tab@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tab/-/tab-7.13.0.tgz#f4d9ab250bc55f77c75ccb55c1cdc87b55f0f02c"
@@ -2592,6 +2704,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/table/-/table-7.14.3.tgz#2123bf0beda04f0f6fe5e319d85dc8b39309f911"
   integrity sha512-tcwfmApSGJVvot74x2gRkOrG0rjX0tb2VYp9gom4zfXYNbp9GEJv8/YAuSJ29/VTl95s1+ejmEnsdWbSNg/5NA==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/tab@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tab/-/tab-7.14.0.tgz#080e66114cb9d5c06f3ef7b6ab0529d8579a1b1d"
@@ -2603,6 +2717,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/table@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/table/-/table-7.13.0.tgz#1b626099a30925828f2d873d47f7751ee73b6f98"
@@ -2621,6 +2736,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tag/-/tag-7.14.3.tgz#981ceacca2f1538cd662e785a5c5dacf9bc5d92d"
   integrity sha512-VBnE9nEFMbzAADCJQEq4I0F7r3zu3lRjd3yHyEcphGKTEeoeV0TIo721mYiapijh0d6TfdkOhz38xETscLASRw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/table@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/table/-/table-7.14.0.tgz#dfced8bd5c395d81fa941eb49903abc5e01232c5"
@@ -2632,6 +2749,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/tag@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tag/-/tag-7.13.0.tgz#65bd40a812aa516617dc15ea0752221f4b107010"
@@ -2649,6 +2767,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/text-area/-/text-area-7.14.3.tgz#cc317a8922469506250ff7d5cf803a104fef7584"
   integrity sha512-AFmQwQ/eu8RwY3oAD4xdwY82F3QxF2P+Mgsc2dpQObvOXW4HHJoM9H0+LjzwDFfJ8GH+DI7imy4nNZA3fHB37g==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/tag@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tag/-/tag-7.14.0.tgz#ec69e4d911c71dce3116bbfca4b51d8bee36cb7c"
@@ -2659,6 +2779,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/text-area@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/text-area/-/text-area-7.13.0.tgz#30fcc3bd6eb836ae4fc9f2428d5818c800161299"
@@ -2681,6 +2802,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tooltip/-/tooltip-7.14.3.tgz#9d5b4456495a5e63a4adba16abcf81dfafb797db"
   integrity sha512-2ERTVYaIanRRWYQgLinM0Jxv2OdcL/S8H+NQ7SyHrrQLvAs9TZkaOPzN4z+t4rV/6KOBQf6yX7J6xL0T38ErKQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/text-area@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/text-area/-/text-area-7.14.0.tgz#294a06132e5bd64badc571a609da4b9ef5bd22a3"
@@ -2695,6 +2818,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/tooltip@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tooltip/-/tooltip-7.13.0.tgz#8644fd9c0d0ac6cd1c3303d24d45446bfde20844"
@@ -2714,6 +2838,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/transfer/-/transfer-7.14.3.tgz#c6b1861345315fbe3caa87d7ae6349fbdf0ab2d8"
   integrity sha512-6b6HRrS117hh8+35ziL0DbCJgsDUQnORdWFzUwe923+mm2jj4qEYOB2YzhkEQ7BzTh5HWwz2flc4SsXpaLsVOw==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/tooltip@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/tooltip/-/tooltip-7.14.0.tgz#29830742911094ac9cd60c8cbab46bceff52bdbd"
@@ -2726,6 +2852,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/transfer@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/transfer/-/transfer-7.13.0.tgz#599875882a1f3e70c860bc2a2a675c73c364921c"
@@ -2748,6 +2875,8 @@
   resolved "https://registry.yarnpkg.com/@dhis2-ui/user-avatar/-/user-avatar-7.14.3.tgz#f266ad7e61a2fc6d05ed9fde72854e9c3b1b8098"
   integrity sha512-W/EFW2LsEuvHWL3qwv9GqbjoERV3mayHAlwaYY05VoOq6o0y2QnrRYXH7nYS6MGIpWw9WJ40927FNEeUB1/OcQ==
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/transfer@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/transfer/-/transfer-7.14.0.tgz#56baf1e4a6d28aafbb6fa0dabe27beb8c5b26f32"
@@ -2763,6 +2892,7 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2-ui/user-avatar@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/user-avatar/-/user-avatar-7.13.0.tgz#538397091699232bcd165dbfbb95ea5a3b05c4b1"
@@ -2774,6 +2904,8 @@
     classnames "^2.3.1"
     prop-types "^15.7.2"
 
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2-ui/user-avatar@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2-ui/user-avatar/-/user-avatar-7.14.0.tgz#82a2bd83d67446c60c1ff45d232cf27e15e8c13a"
@@ -2962,6 +3094,7 @@
     workbox-routing "^6.1.5"
     workbox-strategies "^6.1.5"
 
+<<<<<<< HEAD
 "@dhis2/ui-constants@7.14.3":
   version "7.14.3"
   resolved "https://registry.yarnpkg.com/@dhis2/ui-constants/-/ui-constants-7.14.3.tgz#eca78fac52af110d615625981ad18555b7c9adad"
@@ -2985,6 +3118,8 @@
     "@dhis2-ui/switch" "7.14.3"
     "@dhis2-ui/text-area" "7.14.3"
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2/ui-constants@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2/ui-constants/-/ui-constants-7.14.0.tgz#cde930a12422d9842027e1d90d8123223693be34"
@@ -2992,6 +3127,7 @@
   dependencies:
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2/ui-forms@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2/ui-forms/-/ui-forms-7.13.0.tgz#2af08427195ab4709f00547b47688f2e01d75103"
@@ -3072,6 +3208,8 @@
     "@dhis2/ui-forms" "7.14.3"
     "@dhis2/ui-icons" "7.14.3"
 =======
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@dhis2/ui-forms@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2/ui-forms/-/ui-forms-7.14.0.tgz#ee69bb9946f5abc1a99f8bba29491957ab3c57d4"
@@ -3092,17 +3230,12 @@
     prop-types "^15.7.2"
     react-final-form "^6.5.3"
 
-"@dhis2/ui-icons@7.13.0":
-  version "7.13.0"
-  resolved "https://registry.yarnpkg.com/@dhis2/ui-icons/-/ui-icons-7.13.0.tgz#8150b01d6bb8e8aa7c158a37842d5b1255134adf"
-  integrity sha512-o8W1Wtzrz4JfC6crHtj9uoBL6bDwl7lu4hpahllOrqd3gA6fMi3NI6asr6SRc9DOaRXJRWDzPwlsz1woZg5C5Q==
-
 "@dhis2/ui-icons@7.14.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2/ui-icons/-/ui-icons-7.14.0.tgz#047bf687258132262dd07178607fdfde6a86f8ac"
   integrity sha512-guyLbpfztIXcYhYbMr8+pM468OhEnFceq22T4Pv1UD6NfzMrwz82JcU7qdymn2uhrH7JR3qcEMUaVaVrylSMZA==
 
-"@dhis2/ui@^7.14.0":
+"@dhis2/ui@^7.14.0", "@dhis2/ui@^7.2.0":
   version "7.14.0"
   resolved "https://registry.yarnpkg.com/@dhis2/ui/-/ui-7.14.0.tgz#e90f4458697430b2fceb19c3578f3a898836ab84"
   integrity sha512-SMkvsBo/rBQ7e4kh+Os4uAgRqDHV6s46vrPW+Pk65fCYIQiDCnRHjn3jIB0rj7gal/t7Ex8yYz7t6I01gnb0Qg==
@@ -3156,6 +3289,7 @@
     "@dhis2/ui-icons" "7.14.0"
     prop-types "^15.7.2"
 
+<<<<<<< HEAD
 "@dhis2/ui@^7.2.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@dhis2/ui/-/ui-7.13.0.tgz#b967fd9867f5a989122d2d8b5a16f2feacfe9ab3"
@@ -3211,6 +3345,8 @@
 >>>>>>> test(data set selector): uncomment & fix test of network error
     prop-types "^15.7.2"
 
+=======
+>>>>>>> fix(context selection): typo & keep org unit selector filter value
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
