@@ -1,3 +1,10 @@
+.placeholder {
+    margin: 0;
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--colors-grey600);
+}
+
 .entries {
     margin: 0;
     padding: 0;

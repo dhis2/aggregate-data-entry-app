@@ -91,9 +91,17 @@ const AuditLog = ({ itemId }) => {
         )
     }
 
+    const { auditLog } = data
+
+    if (!Array.isArray(auditLog) || auditLog.length === 0) {
+        return (
+            <p className={styles.placeholder}>{i18n.t('No audit log for this data item.')}</p>
+        )
+    }
+
     return (
         <ul className={styles.entries}>
-            {data.auditLog
+            {auditLog
                 .sort((e1, e2) => e2.at - e1.at)
                 .map((entry, index) => (
                     <li key={index} className={styles.entry}>
