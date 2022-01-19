@@ -9,6 +9,34 @@ const DATA_VALUE_MUTATION = {
     params: ({ ...params }) => ({ ...params }),
 }
 
+// Updates dataValue without mutating previousDataValues
+const updateDataValue = (previousDataValues, updatedDataValue, targetIndex) => {
+    const newDataValues = [...previousDataValues.dataValues.dataValues]
+    newDataValues[targetIndex] = updatedDataValue
+
+    return {
+        ...previousDataValues,
+        dataValues: {
+            ...previousDataValues.dataValues,
+            dataValues: newDataValues,
+        },
+    }
+}
+
+// Adds dataValue without mutating previousDataValues
+const addDataValue = (previousDataValues, newDataValue) => {
+    return {
+        ...previousDataValues,
+        dataValues: {
+            ...previousDataValues.dataValues,
+            dataValues: [
+                ...previousDataValues.dataValues.dataValues,
+                newDataValue,
+            ],
+        },
+    }
+}
+
 export const useDataValueMutation = () => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
@@ -39,40 +67,42 @@ export const useDataValueMutation = () => {
 
             // Optimistically update to the new value
             queryClient.setQueryData(dataValueQueryKey, () => {
-                const newDataValues =
-                    previousDataValues.dataValues.dataValues.map(
-                        (dataValue) => {
-                            const {
-                                categoryOptionCombo,
-                                dataElement,
-                                orgUnit,
-                                period,
-                            } = dataValue
-                            const { co, de, ou, pe, value } = newDataValue
-                            const match =
-                                categoryOptionCombo === co &&
-                                dataElement === de &&
-                                orgUnit === ou &&
-                                period === pe
-
-                            if (!match) {
-                                return dataValue
-                            }
-
-                            return {
-                                ...dataValue,
-                                value,
-                            }
-                        }
+                const matchIndex =
+                    previousDataValues.dataValues.dataValues.findIndex(
+                        (dataValue) =>
+                            dataValue.categoryOptionCombo === newDataValue.co &&
+                            dataValue.dataElement === newDataValue.de &&
+                            dataValue.orgUnit === newDataValue.ou &&
+                            dataValue.period === newDataValue.pe
                     )
+                const isNewValue = matchIndex === -1
 
-                // Ensure we don't mutate previousDataValues
-                return {
-                    ...previousDataValues,
-                    dataValues: {
-                        ...previousDataValues.dataValues,
-                        dataValues: newDataValues,
-                    },
+                // If the field was previously empty the dataValue won't exist yet
+                if (isNewValue) {
+                    const formattedNewDataValue = {
+                        attributeOptionCombo: attributeOptionComboId,
+                        categoryOptionCombo: newDataValue.co,
+                        dataElement: newDataValue.de,
+                        orgUnit: newDataValue.ou,
+                        period: newDataValue.pe,
+                        value: newDataValue.value,
+                    }
+
+                    return addDataValue(
+                        previousDataValues,
+                        formattedNewDataValue
+                    )
+                } else {
+                    const formattedNewDataValue = {
+                        ...previousDataValues.dataValues.dataValues[matchIndex],
+                        value: newDataValue.value,
+                    }
+
+                    return updateDataValue(
+                        previousDataValues,
+                        formattedNewDataValue,
+                        matchIndex
+                    )
                 }
             })
 
