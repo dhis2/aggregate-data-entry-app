@@ -38,35 +38,42 @@ export const useDataValueMutation = () => {
                 queryClient.getQueryData(dataValueQueryKey)
 
             // Optimistically update to the new value
-            queryClient.setQueryData(dataValueQueryKey, (oldDataValues) => {
-                const newDataValues = { ...oldDataValues }
+            queryClient.setQueryData(dataValueQueryKey, () => {
+                const newDataValues =
+                    previousDataValues.dataValues.dataValues.map(
+                        (dataValue) => {
+                            const {
+                                categoryOptionCombo,
+                                dataElement,
+                                orgUnit,
+                                period,
+                            } = dataValue
+                            const { co, de, ou, pe, value } = newDataValue
+                            const match =
+                                categoryOptionCombo === co &&
+                                dataElement === de &&
+                                orgUnit === ou &&
+                                period === pe
 
-                newDataValues.dataValues.dataValues =
-                    oldDataValues.dataValues.dataValues.map((dataValue) => {
-                        const {
-                            categoryOptionCombo,
-                            dataElement,
-                            orgUnit,
-                            period,
-                        } = dataValue
-                        const { co, de, ou, pe, value } = newDataValue
-                        const match =
-                            categoryOptionCombo === co &&
-                            dataElement === de &&
-                            orgUnit === ou &&
-                            period === pe
+                            if (!match) {
+                                return dataValue
+                            }
 
-                        if (!match) {
-                            return dataValue
+                            return {
+                                ...dataValue,
+                                value,
+                            }
                         }
+                    )
 
-                        return {
-                            ...dataValue,
-                            value,
-                        }
-                    })
-
-                return newDataValues
+                // Ensure we don't mutate previousDataValues
+                return {
+                    ...previousDataValues,
+                    dataValues: {
+                        ...previousDataValues.dataValues,
+                        dataValues: newDataValues,
+                    },
+                }
             })
 
             return { previousDataValues, dataValueQueryKey }
