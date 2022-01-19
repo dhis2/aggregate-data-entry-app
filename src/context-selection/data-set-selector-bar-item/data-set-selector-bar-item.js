@@ -18,12 +18,11 @@ export default function DataSetSelectorBarItem() {
         ? i18n.t('Error occurred while loading data set info')
         : dataSet.data?.displayName
 
-    const renderMenu = (
+    const renderMenu =
         selectableDataSets.called &&
         !selectableDataSets.loading &&
         !selectableDataSets.error &&
         selectableDataSets.data
-    )
 
     return (
         <SelectorBarItem
@@ -33,8 +32,7 @@ export default function DataSetSelectorBarItem() {
             setOpen={setDataSetOpen}
             noValueMessage={i18n.t('Choose a data set')}
         >
-            {selectableDataSets.loading &&
-                i18n.t('Fetching data sets')}
+            {selectableDataSets.loading && i18n.t('Fetching data sets')}
 
             {selectableDataSets.error &&
                 i18n.t('Error occurred while loading data sets')}

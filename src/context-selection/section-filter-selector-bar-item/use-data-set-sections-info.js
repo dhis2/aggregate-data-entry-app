@@ -21,17 +21,12 @@ export default function useDataSetSectionsInfo() {
         data,
     } = useQuery(queryKey, { enabled: !!dataSetId })
 
-    const dataSetSectionsInfo = data?.dataSet.sections.map(
-        ({ id, displayName }) => ({
-            value: id,
-            label: displayName,
-        })
-    )
+    const dataSet = data?.dataSet
 
     return {
         called: !isIdle,
+        data: dataSet,
         loading,
         error,
-        data: dataSetSectionsInfo,
     }
 }

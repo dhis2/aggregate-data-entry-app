@@ -28,12 +28,11 @@ export default function AttributeOptionComboSelectorBarItem() {
         return null
     }
 
-    const renderMenu = (
+    const renderMenu =
         categoryCombination.called &&
         !categoryCombination.loading &&
         !categoryCombination.error &&
         categoryCombination.data
-    )
 
     return (
         <SelectorBarItem

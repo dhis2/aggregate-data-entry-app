@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-19T18:49:51.050Z\n"
-"PO-Revision-Date: 2022-01-19T18:49:51.050Z\n"
+"POT-Creation-Date: 2022-01-19T21:50:12.926Z\n"
+"PO-Revision-Date: 2022-01-19T21:50:12.926Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -92,6 +92,9 @@ msgstr "Period"
 
 msgid "Choose a period"
 msgstr "Choose a period"
+
+msgid "Show all sections"
+msgstr "Show all sections"
 
 msgid "Section filter"
 msgstr "Section filter"
@@ -208,6 +211,9 @@ msgstr ""
 
 msgid "There was a problem loading the audit log for this data item"
 msgstr "There was a problem loading the audit log for this data item"
+
+msgid "No audit log for this data item."
+msgstr "No audit log for this data item."
 
 msgid "Audit log"
 msgstr "Audit log"

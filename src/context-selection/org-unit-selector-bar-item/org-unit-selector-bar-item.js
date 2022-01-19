@@ -1,5 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, OrganisationUnitTree, SelectorBarItem } from '@dhis2/ui'
+import {
+    CircularLoader,
+    OrganisationUnitTree,
+    SelectorBarItem,
+} from '@dhis2/ui'
 import React, { useState } from 'react'
 import {
     useAttributeOptionComboSelection,
@@ -32,7 +36,9 @@ const RootLoading = () => (
 )
 
 // @TODO: Expose this component in the UI library
-const RootError = ({ error }) => ( // eslint-disable-line
+const RootError = (
+    { error } // eslint-disable-line
+) => (
     <div data-test={`-error`}>
         {i18n.t('Error: {{ ERRORMESSAGE }}', {
             ERRORMESSAGE: error,
@@ -70,13 +76,12 @@ export default function OrganisationUnitSetSelectorBarItem() {
         orgUnitPathsByName: orgUnitPathsByName.data,
         dataSetOrgUnitPaths: dataSetOrgUnitPaths.data,
     })
-    const orgUnitPathsByNameLoading = (
+    const orgUnitPathsByNameLoading =
         // Either a filter has been set but the hook
         // hasn't been called yet
         (filter !== '' && !orgUnitPathsByName.called) ||
         // or it's actually loading
         orgUnitPathsByName.loading
-    )
 
     return (
         <DisabledTooltip>
@@ -97,9 +102,9 @@ export default function OrganisationUnitSetSelectorBarItem() {
                         {orgUnitPathsByNameLoading && <RootLoading />}
 
                         {!orgUnitPathsByNameLoading &&
-                            orgUnitPathsByName.error &&
-                            <RootError error={orgUnitPathsByName.error} />
-                        }
+                            orgUnitPathsByName.error && (
+                                <RootError error={orgUnitPathsByName.error} />
+                            )}
 
                         {!orgUnitPathsByNameLoading &&
                             !!filter &&
@@ -107,26 +112,28 @@ export default function OrganisationUnitSetSelectorBarItem() {
                             i18n.t('No organisation units could be found')}
 
                         {!orgUnitPathsByNameLoading &&
-                            (!filter || !!filteredOrgUnitPaths.length) &&
-                            <OrganisationUnitTree
-                                singleSelection
-                                filter={filteredOrgUnitPaths}
-                                roots={userOrgUnits.data || []}
-                                selected={selected}
-                                expanded={expanded}
-                                handleExpand={handleExpand}
-                                handleCollapse={handleCollapse}
-                                onChange={({ id }, e) => {
-                                    // Not sure why this is necessary, but when not done,
-                                    // it causes bugs in the UI
-                                    e.stopPropagation()
+                            (!filter || !!filteredOrgUnitPaths.length) && (
+                                <OrganisationUnitTree
+                                    singleSelection
+                                    filter={filteredOrgUnitPaths}
+                                    roots={userOrgUnits.data || []}
+                                    selected={selected}
+                                    expanded={expanded}
+                                    handleExpand={handleExpand}
+                                    handleCollapse={handleCollapse}
+                                    onChange={({ id }, e) => {
+                                        // Not sure why this is necessary, but when not done,
+                                        // it causes bugs in the UI
+                                        e.stopPropagation()
 
-                                    setOrgUnitId(id)
-                                    setOrgUnitOpen(false)
-                                    setAttributeOptionComboSelection([])
-                                }}
-                            />
-                        }
+                                        setOrgUnitId(id)
+                                        setOrgUnitOpen(false)
+                                        setAttributeOptionComboSelection(
+                                            undefined
+                                        )
+                                    }}
+                                />
+                            )}
                     </div>
                 </div>
             </SelectorBarItem>

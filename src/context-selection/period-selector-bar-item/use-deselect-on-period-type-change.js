@@ -27,7 +27,7 @@ export default function useDeselectOnPeriodTypeChange() {
             !errorDataSetPeriodType &&
             previousPeriodType !== periodType
         ) {
-            setAttributeOptionComboSelection([])
+            setAttributeOptionComboSelection(undefined)
             setPreviousPeriodType(periodType)
         }
     }, [
