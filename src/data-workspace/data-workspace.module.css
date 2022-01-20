@@ -1,0 +1,6 @@
+.wrapper {
+    background-color: #fff;
+    min-width: 600px;
+    padding: 8px;
+    overflow: scroll;
+}
