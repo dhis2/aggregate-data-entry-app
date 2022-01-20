@@ -27,8 +27,6 @@ const App = () => {
                         main={<DataWorkspace />}
                         sidebar=""
                         footer=""
-                        // Todo: make dynamic after working on workspace
-                        showSidebar={false}
                         showFooter
                     />
                 </QueryParamProvider>

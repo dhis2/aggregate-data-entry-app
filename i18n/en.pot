@@ -225,6 +225,3 @@ msgstr "Financial year (Start July)"
 
 msgid "Financial year (Start April)"
 msgstr "Financial year (Start April)"
-
-msgid "Type here to filter in this section"
-msgstr "Type here to filter in this section"
