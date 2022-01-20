@@ -1,7 +1,10 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
-import { useContextSelection } from '../context-selection/index.js'
-import { dataValueSetQuery, useAttributeOptionCombo } from './data-workspace.js'
+import { useContextSelection } from '../../context-selection/index.js'
+import {
+    dataValueSetQuery,
+    useAttributeOptionCombo,
+} from '../data-workspace.js'
 
 const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
@@ -10,7 +13,11 @@ const DATA_VALUE_MUTATION = {
 }
 
 // Updates dataValue without mutating previousDataValueSet
-const updateDataValue = (previousDataValueSet, updatedDataValue, targetIndex) => {
+const updateDataValue = (
+    previousDataValueSet,
+    updatedDataValue,
+    targetIndex
+) => {
     const newDataValues = [...previousDataValueSet.dataValueSet.dataValues]
     newDataValues[targetIndex] = updatedDataValue
 
@@ -94,7 +101,9 @@ export const useDataValueMutation = () => {
                     )
                 } else {
                     const formattedNewDataValue = {
-                        ...previousDataValueSet.dataValueSet.dataValues[matchIndex],
+                        ...previousDataValueSet.dataValueSet.dataValues[
+                            matchIndex
+                        ],
                         value: newDataValue.value,
                     }
 
