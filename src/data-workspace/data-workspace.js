@@ -2,15 +2,15 @@ import { CircularLoader } from '@dhis2/ui'
 import React, { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
-import { FinalFormWrapper } from './data-entry-cell/index.js'
-import styles from './data-workspace.module.css'
-import { EntryForm } from './entry-form.js'
-import { useMetadata } from './metadata-context.js'
+import { useMetadata } from '../metadata/index.js'
 import {
     getCoCByCategoryOptions,
     getDataSetById,
     getCategoryComboById,
-} from './selectors.js'
+} from '../metadata/selectors.js'
+import { FinalFormWrapper } from './data-entry-cell/index.js'
+import styles from './data-workspace.module.css'
+import { EntryForm } from './entry-form.js'
 
 const query = {
     dataSet: {

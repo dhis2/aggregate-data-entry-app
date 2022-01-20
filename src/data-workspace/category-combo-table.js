@@ -9,15 +9,15 @@ import {
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
-import styles from './category-combo-table.module.css'
-import { DataEntryCell, useActiveCell } from './data-entry-cell/index.js'
-import { useMetadata } from './metadata-context.js'
+import { useMetadata } from '../metadata/index.js'
 import {
     getCategoriesByCategoryComboId,
     getCategoryOptionsByCategoryId,
     getCoCByCategoryOptions,
-} from './selectors.js'
-import { cartesian } from './utils.js'
+} from '../metadata/selectors.js'
+import { cartesian } from '../shared/utils.js'
+import styles from './category-combo-table.module.css'
+import { DataEntryCell, useActiveCell } from './data-entry-cell/index.js'
 
 export const CategoryComboTable = ({
     categoryCombo,
