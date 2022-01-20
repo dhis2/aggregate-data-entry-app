@@ -1,7 +1,7 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
-import { dataValueQuery, useAttributeOptionCombo } from './data-workspace.js'
+import { dataValueSetQuery, useAttributeOptionCombo } from './data-workspace.js'
 
 const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
@@ -9,28 +9,28 @@ const DATA_VALUE_MUTATION = {
     params: ({ ...params }) => ({ ...params }),
 }
 
-// Updates dataValue without mutating previousDataValues
-const updateDataValue = (previousDataValues, updatedDataValue, targetIndex) => {
-    const newDataValues = [...previousDataValues.dataValues.dataValues]
+// Updates dataValue without mutating previousDataValueSet
+const updateDataValue = (previousDataValueSet, updatedDataValue, targetIndex) => {
+    const newDataValues = [...previousDataValueSet.dataValueSet.dataValues]
     newDataValues[targetIndex] = updatedDataValue
 
     return {
-        ...previousDataValues,
-        dataValues: {
-            ...previousDataValues.dataValues,
+        ...previousDataValueSet,
+        dataValueSet: {
+            ...previousDataValueSet.dataValueSet,
             dataValues: newDataValues,
         },
     }
 }
 
-// Adds dataValue without mutating previousDataValues
-const addDataValue = (previousDataValues, newDataValue) => {
+// Adds dataValue without mutating previousDataValueSet
+const addDataValue = (previousDataValueSet, newDataValue) => {
     return {
-        ...previousDataValues,
-        dataValues: {
-            ...previousDataValues.dataValues,
+        ...previousDataValueSet,
+        dataValueSet: {
+            ...previousDataValueSet.dataValueSet,
             dataValues: [
-                ...previousDataValues.dataValues.dataValues,
+                ...previousDataValueSet.dataValueSet.dataValues,
                 newDataValue,
             ],
         },
@@ -43,8 +43,8 @@ export const useDataValueMutation = () => {
     const attributeOptionComboId = useAttributeOptionCombo()
     const engine = useDataEngine()
 
-    const dataValueQueryKey = [
-        dataValueQuery,
+    const dataValueSetQueryKey = [
+        dataValueSetQuery,
         {
             dataSetId,
             periodId,
@@ -59,16 +59,16 @@ export const useDataValueMutation = () => {
         // Optimistic update of the react-query cache
         onMutate: async (newDataValue) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-            await queryClient.cancelQueries(dataValueQueryKey)
+            await queryClient.cancelQueries(dataValueSetQueryKey)
 
             // Snapshot the previous value
-            const previousDataValues =
-                queryClient.getQueryData(dataValueQueryKey)
+            const previousDataValueSet =
+                queryClient.getQueryData(dataValueSetQueryKey)
 
             // Optimistically update to the new value
-            queryClient.setQueryData(dataValueQueryKey, () => {
+            queryClient.setQueryData(dataValueSetQueryKey, () => {
                 const matchIndex =
-                    previousDataValues.dataValues.dataValues.findIndex(
+                    previousDataValueSet.dataValueSet.dataValues.findIndex(
                         (dataValue) =>
                             dataValue.categoryOptionCombo === newDataValue.co &&
                             dataValue.dataElement === newDataValue.de &&
@@ -89,36 +89,36 @@ export const useDataValueMutation = () => {
                     }
 
                     return addDataValue(
-                        previousDataValues,
+                        previousDataValueSet,
                         formattedNewDataValue
                     )
                 } else {
                     const formattedNewDataValue = {
-                        ...previousDataValues.dataValues.dataValues[matchIndex],
+                        ...previousDataValueSet.dataValueSet.dataValues[matchIndex],
                         value: newDataValue.value,
                     }
 
                     return updateDataValue(
-                        previousDataValues,
+                        previousDataValueSet,
                         formattedNewDataValue,
                         matchIndex
                     )
                 }
             })
 
-            return { previousDataValues, dataValueQueryKey }
+            return { previousDataValueSet, dataValueSetQueryKey }
         },
         // If the mutation fails, use the context returned from onMutate to roll back
         onError: (err, newDataValue, context) => {
             queryClient.setQueryData(
-                context.dataValueQueryKey,
-                context.previousDataValues
+                context.dataValueSetQueryKey,
+                context.previousDataValueSet
             )
         },
         // Always refetch after error or success
         // eslint-disable-next-line max-params
         onSettled: (newDataValue, error, variables, context) => {
-            queryClient.invalidateQueries(context.dataValueQueryKey)
+            queryClient.invalidateQueries(context.dataValueSetQueryKey)
         },
         retry: 1,
     })
