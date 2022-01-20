@@ -139,7 +139,7 @@ export const DataWorkspace = () => {
         },
     ])
 
-    const { available, metadata, setMetadata } = useMetadata()
+    const { available, setMetadata } = useMetadata()
 
     useQuery([metadataQuery], {
         staleTime: 60 * 24 * 1000,
