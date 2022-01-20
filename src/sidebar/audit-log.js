@@ -16,7 +16,10 @@ const query = {
     },
 }
 
-// TODO: find better way to do this
+// Embedding HTML in the i18n keys is necessary in order to have correct
+// translations, instead of piecing together translated words. Once
+// react-i18next is supported, this can be replaced with the <Trans />
+// component.
 const renderMessage = ({ displayName, changeType, newValue, oldValue }) => {
     switch (changeType) {
         case 'UPDATE':
@@ -40,7 +43,10 @@ const renderMessage = ({ displayName, changeType, newValue, oldValue }) => {
                 }
             )
         default:
-            return `${displayName} ${changeType}`
+            return i18n.t('{{displayName}} {{changeType}}', {
+                displayName,
+                changeType,
+            })
     }
 }
 
@@ -95,7 +101,9 @@ const AuditLog = ({ itemId }) => {
 
     if (!Array.isArray(auditLog) || auditLog.length === 0) {
         return (
-            <p className={styles.placeholder}>{i18n.t('No audit log for this data item.')}</p>
+            <p className={styles.placeholder}>
+                {i18n.t('No audit log for this data item.')}
+            </p>
         )
     }
 
