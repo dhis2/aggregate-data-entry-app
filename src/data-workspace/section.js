@@ -19,7 +19,7 @@ import {
     groupDataElementsByCatComboInOrder,
 } from './selectors.js'
 
-export const FormSection = ({ section, getDataValue, globalFilterText }) => {
+export const FormSection = ({ section, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
     const { available, metadata } = useMetadata()
@@ -109,7 +109,7 @@ FormSection.propTypes = {
     section: sectionProps,
 }
 
-export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
+export const SectionForms = ({ dataSet, globalFilterText }) => {
     const [sectionId] = useSectionFilter()
     const filteredSections = sectionId
         ? dataSet.sections.filter((s) => s.id === sectionId)
