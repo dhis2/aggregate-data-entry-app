@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-20T12:13:21.686Z\n"
-"PO-Revision-Date: 2022-01-20T12:13:21.686Z\n"
+"POT-Creation-Date: 2022-01-20T21:40:34.735Z\n"
+"PO-Revision-Date: 2022-01-20T21:40:34.735Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -101,6 +101,37 @@ msgstr "Section filter"
 
 msgid "Choose a section filter"
 msgstr "Choose a section filter"
+
+msgid "1 item hidden by filter"
+msgstr "1 item hidden by filter"
+
+msgid "Not implemented"
+msgstr "Not implemented"
+
+msgid "This data set uses a custom form. Custom forms are not implemented yet."
+msgstr "This data set uses a custom form. Custom forms are not implemented yet."
+
+msgid "This data set has no assigned Data Elements"
+msgstr "This data set has no assigned Data Elements"
+
+msgid ""
+"There are no Data Elements in this data set. Adds some Data Elements to use "
+"this data set."
+msgstr ""
+"There are no Data Elements in this data set. Adds some Data Elements to use "
+"this data set."
+
+msgid "Filter fields in all sections"
+msgstr "Filter fields in all sections"
+
+msgid "Filter fields"
+msgstr "Filter fields"
+
+msgid "Clear filter"
+msgstr "Clear filter"
+
+msgid "Type here to filter in this section"
+msgstr "Type here to filter in this section"
 
 msgid "January"
 msgstr "January"

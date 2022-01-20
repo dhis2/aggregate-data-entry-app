@@ -6,6 +6,7 @@ import { QueryParamProvider } from 'use-query-params'
 import './app.css'
 import { ContextSelection } from '../context-selection/index.js'
 import { Sidebar } from '../sidebar/index.js'
+import { DataWorkspace } from '../data-workspace/index.js'
 import { Layout } from './layout/index.js'
 import useQueryClient from './use-query-client.js'
 
@@ -41,7 +42,7 @@ const App = () => {
                     <CssVariables colors theme spacers />
                     <Layout
                         header={<ContextSelection />}
-                        main=""
+                        main={<DataWorkspace />}
                         sidebar={
                             currentItem ? (
                                 <Sidebar

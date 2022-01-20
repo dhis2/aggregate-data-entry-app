@@ -1,6 +1,6 @@
 const config = {
     type: 'app',
-
+    title: 'Data Entry',
     pwa: { enabled: true },
 
     entryPoints: {
