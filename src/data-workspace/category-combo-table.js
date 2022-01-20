@@ -6,10 +6,11 @@ import {
     TableRow,
     TableCell,
 } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import styles from './category-combo-table.module.css'
-import { DataEntryCell } from './data-entry-cell.js'
+import { DataEntryCell, useActiveCell } from './data-entry-cell/index.js'
 import { useMetadata } from './metadata-context.js'
 import {
     getCategoriesByCategoryComboId,
@@ -26,6 +27,7 @@ export const CategoryComboTable = ({
     maxColumnsInSection,
 }) => {
     const { metadata } = useMetadata()
+    const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
     const categories = useMemo(
         () => getCategoriesByCategoryComboId(metadata, categoryCombo.id),
@@ -100,6 +102,19 @@ export const CategoryComboTable = ({
     })
     const itemsHiddenCnt = dataElements.length - filteredDataElements.length
 
+    // Is the active cell in this cat-combo table? Check to see if active
+    // data element is in this CCT
+    const isThisTableActive = dataElements.some(({ id }) => id === activeDeId)
+
+    // Find if this column header includes the active cell's column
+    const isHeaderActive = (headerIdx, headerColSpan) => {
+        const activeCellColIdx = sortedCOCs.findIndex(
+            (coc) => activeCocId === coc.id
+        )
+        const idxDiff = activeCellColIdx - headerIdx * headerColSpan
+        return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
+    }
+
     return (
         <TableBody>
             {rowToColumnsMap.map((colInfo) => {
@@ -118,7 +133,12 @@ export const CategoryComboTable = ({
                             return (
                                 <TableCellHead
                                     key={i}
-                                    className={styles.tableHeader}
+                                    className={cx(styles.tableHeader, {
+                                        [styles.active]: isHeaderActive(
+                                            i,
+                                            span
+                                        ),
+                                    })}
                                     colSpan={span.toString()}
                                 >
                                     {co.isDefault
@@ -136,7 +156,11 @@ export const CategoryComboTable = ({
             {filteredDataElements.map((de) => {
                 return (
                     <TableRow key={de.id}>
-                        <TableCell className={styles.dataElementName}>
+                        <TableCell
+                            className={cx(styles.dataElementName, {
+                                [styles.active]: de.id === activeDeId,
+                            })}
+                        >
                             {de.displayFormName}
                         </TableCell>
                         {sortedCOCs.map((coc) => (
@@ -185,7 +209,6 @@ CategoryComboTable.propTypes = {
         })
     ),
     filterText: PropTypes.string,
-    getDataValue: PropTypes.func,
     globalFilterText: PropTypes.string,
     maxColumnsInSection: PropTypes.number,
 }

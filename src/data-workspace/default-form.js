@@ -33,7 +33,7 @@ export const DefaultForm = ({ dataSet, getDataValue, globalFilterText }) => {
                     )}
                 </NoticeBox>
             )}
-            <Table className={styles.table}>
+            <Table className={styles.table} suppressZebraStriping>
                 {groupedDataElements.map(({ categoryCombo, dataElements }) => (
                     <CategoryComboTable
                         key={categoryCombo.id}
