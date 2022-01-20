@@ -1,0 +1,9 @@
+.filterWrapper {
+    display: flex;
+    align-items: center;
+    margin: 8px 0px 12px 0px;
+}
+
+.filterField {
+    width: 420px;
+}

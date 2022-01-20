@@ -28,6 +28,7 @@
 .main {
     overflow: auto;
     grid-area: main;
+    padding: 8px;
 }
 
 .sidebar {
