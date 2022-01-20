@@ -14,13 +14,13 @@ export default function useSelectorBarItemValue() {
         return i18n.t('An error loading the values occurred')
     }
 
-    if (!attributeOptionComboSelection.length) {
+    if (!Object.values(attributeOptionComboSelection).length) {
         return i18n.t('No selection!')
     }
 
     if (
         categoryCombination.data &&
-        attributeOptionComboSelection.length <
+        Object.values(attributeOptionComboSelection).length <
             categoryCombination.data.categories.length
     ) {
         return i18n.t('Partial selection!')
@@ -28,7 +28,7 @@ export default function useSelectorBarItemValue() {
 
     if (
         categoryCombination.data &&
-        attributeOptionComboSelection.length ===
+        Object.values(attributeOptionComboSelection).length ===
             categoryCombination.data.categories.length
     ) {
         return i18n.t('Complete selection!')
