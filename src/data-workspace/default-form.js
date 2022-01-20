@@ -2,13 +2,13 @@ import i18n from '@dhis2/d2-i18n'
 import { NoticeBox, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
-import { CategoryComboTable } from './category-combo-table.js'
-import { useMetadata } from './metadata-context.js'
-import styles from './section.module.css'
+import { useMetadata } from '../metadata/index.js'
 import {
     getDataElementsByDataSetId,
     groupDataElementsByCatCombo,
-} from './selectors.js'
+} from '../metadata/selectors.js'
+import { CategoryComboTable } from './category-combo-table.js'
+import styles from './section.module.css'
 
 export const DefaultForm = ({ dataSet, globalFilterText }) => {
     const { metadata } = useMetadata()

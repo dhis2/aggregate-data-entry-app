@@ -10,14 +10,14 @@ import {
 import PropTypes from 'prop-types'
 import React, { useState, useMemo } from 'react'
 import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
-import { CategoryComboTable } from './category-combo-table.js'
-import { useMetadata } from './metadata-context.js'
-import styles from './section.module.css'
+import { useMetadata } from '../metadata/index.js'
 import {
     getDataElementsBySection,
     groupDataElementsByCatCombo,
     groupDataElementsByCatComboInOrder,
-} from './selectors.js'
+} from '../metadata/selectors.js'
+import { CategoryComboTable } from './category-combo-table.js'
+import styles from './section.module.css'
 
 export const FormSection = ({ section, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children

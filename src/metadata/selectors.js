@@ -1,4 +1,4 @@
-import { cartesian } from './utils.js'
+import { cartesian } from '../shared/utils.js'
 
 export const getDataElements = (metadata) => metadata.dataElements
 
