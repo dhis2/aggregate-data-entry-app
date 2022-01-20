@@ -86,7 +86,6 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     }
 
     // todo: get data details (via getDataValue?)
-    // todo: on focus, set 'active cell' in context
     // todo: tooltip for invalid cells
     // todo: validate with `de.valueType` (started)
     // todo: implement other input types for different value types
