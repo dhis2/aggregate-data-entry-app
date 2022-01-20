@@ -50,10 +50,10 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
         }
         // Add attribute params to mutation if relevant
         if (!isDefaultAttributeCombo) {
-            // convert ['<catId>:<catOptId>', ...] into 'catOptId1;catOptId2':
-            const attributeOptionIdList = attributeOptionComboSelection
-                .map((aoc) => aoc.split(':')[1])
-                .join(';')
+            // Get a ';'-separated listed of attribute options
+            const attributeOptionIdList = Object.values(
+                attributeOptionComboSelection
+            ).join(';')
             mutationVars.cc = attributeComboId
             mutationVars.cp = attributeOptionIdList
         }
