@@ -10,7 +10,7 @@ import {
     groupDataElementsByCatCombo,
 } from './selectors.js'
 
-export const DefaultForm = ({ dataSet, getDataValue, globalFilterText }) => {
+export const DefaultForm = ({ dataSet, globalFilterText }) => {
     const { metadata } = useMetadata()
 
     const groupedDataElements = useMemo(() => {
@@ -39,7 +39,6 @@ export const DefaultForm = ({ dataSet, getDataValue, globalFilterText }) => {
                         key={categoryCombo.id}
                         categoryCombo={categoryCombo}
                         dataElements={dataElements}
-                        getDataValue={getDataValue}
                         globalFilterText={globalFilterText}
                     />
                 ))}
@@ -52,6 +51,5 @@ DefaultForm.propTypes = {
         displayName: PropTypes.string,
         id: PropTypes.string,
     }),
-    getDataValue: PropTypes.func,
     globalFilterText: PropTypes.string,
 }
