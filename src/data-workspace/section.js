@@ -85,7 +85,6 @@ export const FormSection = ({ section, getDataValue, globalFilterText }) => {
                         key={categoryCombo.id}
                         categoryCombo={categoryCombo}
                         dataElements={dataElements}
-                        getDataValue={getDataValue}
                         filterText={filterText}
                         globalFilterText={globalFilterText}
                         maxColumnsInSection={maxColumnsInSection}
@@ -102,12 +101,10 @@ const sectionProps = PropTypes.shape({
     description: PropTypes.string,
     disableDataElementAutoGroup: PropTypes.bool,
     displayName: PropTypes.string,
-    getDataValue: PropTypes.func,
     id: PropTypes.string,
 })
 
 FormSection.propTypes = {
-    getDataValue: PropTypes.func,
     globalFilterText: PropTypes.string,
     section: sectionProps,
 }
@@ -123,7 +120,6 @@ export const SectionForms = ({ dataSet, getDataValue, globalFilterText }) => {
                 <FormSection
                     section={s}
                     key={s.id}
-                    getDataValue={getDataValue}
                     globalFilterText={globalFilterText}
                 />
             ))}
@@ -135,6 +131,5 @@ SectionForms.propTypes = {
     dataSet: PropTypes.shape({
         sections: PropTypes.arrayOf(sectionProps),
     }),
-    getDataValue: PropTypes.func,
     globalFilterText: PropTypes.string,
 }

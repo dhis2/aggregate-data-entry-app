@@ -19,7 +19,7 @@ const formTypeToComponent = {
     CUSTOM: CustomForm,
 }
 
-export const EntryForm = ({ dataSet, getDataValue }) => {
+export const EntryForm = ({ dataSet }) => {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
 
     if (!dataSet) {
@@ -38,11 +38,7 @@ export const EntryForm = ({ dataSet, getDataValue }) => {
                     formType={formType}
                 />
             )}
-            <Component
-                dataSet={dataSet}
-                getDataValue={getDataValue}
-                globalFilterText={globalFilterText}
-            />
+            <Component dataSet={dataSet} globalFilterText={globalFilterText} />
         </div>
     )
 }
@@ -53,7 +49,6 @@ EntryForm.propTypes = {
         formType: PropTypes.string,
         id: PropTypes.string,
     }),
-    getDataValue: PropTypes.func,
 }
 
 const FilterField = ({ value, setFilterText, formType }) => (
