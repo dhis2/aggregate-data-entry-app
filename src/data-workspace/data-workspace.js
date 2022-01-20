@@ -24,8 +24,8 @@ const query = {
     },
 }
 
-export const dataValueQuery = {
-    dataValues: {
+export const dataValueSetQuery = {
+    dataValueSet: {
         resource: 'dataValueSets',
         params: ({
             dataSetId,
@@ -65,12 +65,12 @@ const metadataQuery = {
     },
 }
 
-const useDataValues = () => {
+const useDataValueSet = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
 
     return useQuery([
-        dataValueQuery,
+        dataValueSetQuery,
         {
             dataSetId,
             periodId,
@@ -147,25 +147,25 @@ export const DataWorkspace = () => {
         onSuccess: (data) => setMetadata(data.metadata),
     })
 
-    const dataValuesFetch = useDataValues()
-    console.log({ metadata }, { dataValues: dataValuesFetch.data }, { dataSet: dataSetFetch.data })
+    const dataValueSetFetch = useDataValueSet()
+    console.log({ metadata, dataValueSet: dataValueSetFetch.data, dataSet: dataSetFetch.data })
 
     const getDataValue = useCallback(
         (dataElementId, cocId) => {
-            return dataValuesFetch.data?.dataValues.find(
+            return dataValueSetFetch.data?.dataValueSet.dataValues.find(
                 (dv) =>
                     dv.dataElement === dataElementId &&
                     dv.categoryOptionCombo === cocId
             )
         },
-        [dataValuesFetch.data]
+        [dataValueSetFetch.data]
     )
 
     if (!dataSetId || !orgUnitId || !periodId || !attributeOptionComboId) {
         return null
     }
 
-    if (!available || dataSetFetch.isLoading || dataValuesFetch.isLoading) {
+    if (!available || dataSetFetch.isLoading || dataValueSetFetch.isLoading) {
         return <CircularLoader />
     }
 
@@ -177,7 +177,7 @@ export const DataWorkspace = () => {
         <div className="workspace-wrapper">
             <FinalFormWrapper
                 initialValues={mapDataValuesToFormInitialValues(
-                    dataValuesFetch.data.dataValues.dataValues
+                    dataValueSetFetch.data.dataValueSet.dataValues
                 )}
             >
                 <EntryForm
