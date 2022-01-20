@@ -129,9 +129,7 @@ const useAttributeOptionCombo = () => {
                 return categoryCombo.categoryOptionCombos[0]
             }
 
-            const selectedOptions = attributeOptionComboSelection.map(
-                (categoryOptStr) => categoryOptStr.split(':')[1]
-            )
+            const selectedOptions = Object.values(attributeOptionComboSelection)
 
             const attributeOptionCombo = getCoCByCategoryOptions(
                 metadata,

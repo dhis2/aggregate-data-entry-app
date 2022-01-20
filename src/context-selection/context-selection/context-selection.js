@@ -11,7 +11,9 @@ import useShouldHideClearButton from './use-should-hide-clear-button.js'
 export default function ContextSelector() {
     const hideClearButton = useShouldHideClearButton()
     const clearEntireSelection = useClearEntireSelection()
-    const onClearSelectionClick = hideClearButton ? undefined : clearEntireSelection
+    const onClearSelectionClick = hideClearButton
+        ? undefined
+        : clearEntireSelection
 
     return (
         <SelectorBar onClearSelectionClick={onClearSelectionClick}>

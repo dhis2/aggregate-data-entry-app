@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import {
-    ArrayParam,
+    ObjectParam,
     StringParam,
     useQueryParams,
     useQueryParam,
@@ -11,7 +11,7 @@ const PARAMS_SCHEMA = {
     dataSetId: StringParam,
     orgUnitId: StringParam,
     periodId: StringParam,
-    attributeOptionComboSelection: withDefault(ArrayParam, []),
+    attributeOptionComboSelection: withDefault(ObjectParam, {}),
     sectionFilter: StringParam,
 }
 
