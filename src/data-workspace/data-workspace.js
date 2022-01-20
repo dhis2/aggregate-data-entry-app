@@ -3,6 +3,7 @@ import React, { useMemo, useCallback } from 'react'
 import { useQuery } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
 import { FinalFormWrapper } from './data-entry-cell/index.js'
+import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { useMetadata } from './metadata-context.js'
 import {
@@ -147,18 +148,6 @@ export const DataWorkspace = () => {
     })
 
     const dataValueSetFetch = useDataValueSet()
-    console.log({ metadata, dataValueSet: dataValueSetFetch.data, dataSet: dataSetFetch.data })
-
-    const getDataValue = useCallback(
-        (dataElementId, cocId) => {
-            return dataValueSetFetch.data?.dataValueSet.dataValues.find(
-                (dv) =>
-                    dv.dataElement === dataElementId &&
-                    dv.categoryOptionCombo === cocId
-            )
-        },
-        [dataValueSetFetch.data]
-    )
 
     if (!dataSetId || !orgUnitId || !periodId || !attributeOptionComboId) {
         return null
@@ -173,27 +162,14 @@ export const DataWorkspace = () => {
     }
 
     return (
-        <div className="workspace-wrapper">
+        <div className={styles.wrapper}>
             <FinalFormWrapper
                 initialValues={mapDataValuesToFormInitialValues(
                     dataValueSetFetch.data.dataValueSet.dataValues
                 )}
             >
-                <EntryForm
-                    dataSet={dataSetFetch.data.dataSet}
-                    getDataValue={getDataValue}
-                />
+                <EntryForm dataSet={dataSetFetch.data.dataSet} />
             </FinalFormWrapper>
-            <style jsx>
-                {`
-                    .workspace-wrapper {
-                        background-color: #fff;
-                        min-width: 600px;
-                        padding: 8px;
-                        overflow: scroll;
-                    }
-                `}
-            </style>
         </div>
     )
 }
