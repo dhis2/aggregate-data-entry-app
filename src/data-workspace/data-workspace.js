@@ -1,5 +1,5 @@
 import { CircularLoader } from '@dhis2/ui'
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
 import { FinalFormWrapper } from './data-entry-cell/index.js'

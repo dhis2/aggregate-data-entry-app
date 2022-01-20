@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState, useMemo, useContext, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import React, { useState, useMemo, useContext } from 'react'
 import { hashArraysInObject } from './utils.js'
 
 const cachedMetadata = () => {
