@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useField } from 'react-final-form'
 import { useContextSelection } from '../../context-selection/index.js'
 import { useMetadata } from '../metadata-context.js'
-import { getDataSetById } from '../selectors.js'
+import { getCategoryComboById, getDataSetById } from '../selectors.js'
 import { useDataValueMutation } from '../use-data-value-mutation.js'
 import styles from './data-entry-cell.module.css'
 import { getValidatorByValueType } from './field-validation.js'
@@ -35,8 +35,10 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 
         const attributeComboId = getDataSetById(metadata, dataSetId)
             .categoryCombo.id
-        const isDefaultAttributeCombo =
-            metadata.categoryCombos[attributeComboId].isDefault
+        const isDefaultAttributeCombo = getCategoryComboById(
+            metadata,
+            attributeComboId
+        ).isDefault
 
         const mutationVars = {
             de: de.id,
