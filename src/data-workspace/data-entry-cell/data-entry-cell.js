@@ -6,9 +6,9 @@ import { useField } from 'react-final-form'
 import { useContextSelection } from '../../context-selection/index.js'
 import { useMetadata } from '../metadata-context.js'
 import { getCategoryComboById, getDataSetById } from '../selectors.js'
-import { useDataValueMutation } from '../use-data-value-mutation.js'
 import styles from './data-entry-cell.module.css'
 import { getValidatorByValueType } from './field-validation.js'
+import { useDataValueMutation } from './use-data-value-mutation.js'
 import { useFieldNavigation } from './use-field-navigation.js'
 
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
