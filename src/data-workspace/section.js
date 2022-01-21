@@ -47,51 +47,49 @@ export const FormSection = ({ section, globalFilterText }) => {
     }, [metadata, section])
 
     return (
-        <div className="wrapper">
-            <Table className={styles.table} suppressZebraStriping>
-                <TableHead>
-                    <TableRowHead>
-                        <TableCellHead colSpan="100%" className={styles.header}>
-                            <div className={styles.title}>
-                                {section.displayName}
+        <Table className={styles.table} suppressZebraStriping>
+            <TableHead>
+                <TableRowHead>
+                    <TableCellHead colSpan="100%" className={styles.header}>
+                        <div className={styles.title}>
+                            {section.displayName}
+                        </div>
+                        {section.description && (
+                            <div className={styles.description}>
+                                {section.description ||
+                                    'Placeholder section description'}
                             </div>
-                            {section.description && (
-                                <div className={styles.description}>
-                                    {section.description ||
-                                        'Placeholder section description'}
-                                </div>
+                        )}
+                    </TableCellHead>
+                </TableRowHead>
+                <TableRowHead>
+                    <TableCellHead colSpan="100%" className={styles.filter}>
+                        <IconFilter16 color={colors.grey600} />
+                        <input
+                            name="filter-input"
+                            type="text"
+                            placeholder={i18n.t(
+                                'Type here to filter in this section'
                             )}
-                        </TableCellHead>
-                    </TableRowHead>
-                    <TableRowHead>
-                        <TableCellHead colSpan="100%" className={styles.filter}>
-                            <IconFilter16 color={colors.grey600} />
-                            <input
-                                name="filter-input"
-                                type="text"
-                                placeholder={i18n.t(
-                                    'Type here to filter in this section'
-                                )}
-                                value={filterText}
-                                onChange={({ target }) =>
-                                    setFilterText(target.value)
-                                }
-                            />
-                        </TableCellHead>
-                    </TableRowHead>
-                </TableHead>
-                {groupedDataElements.map(({ categoryCombo, dataElements }) => (
-                    <CategoryComboTable
-                        key={categoryCombo.id}
-                        categoryCombo={categoryCombo}
-                        dataElements={dataElements}
-                        filterText={filterText}
-                        globalFilterText={globalFilterText}
-                        maxColumnsInSection={maxColumnsInSection}
-                    />
-                ))}
-            </Table>
-        </div>
+                            value={filterText}
+                            onChange={({ target }) =>
+                                setFilterText(target.value)
+                            }
+                        />
+                    </TableCellHead>
+                </TableRowHead>
+            </TableHead>
+            {groupedDataElements.map(({ categoryCombo, dataElements }) => (
+                <CategoryComboTable
+                    key={categoryCombo.id}
+                    categoryCombo={categoryCombo}
+                    dataElements={dataElements}
+                    filterText={filterText}
+                    globalFilterText={globalFilterText}
+                    maxColumnsInSection={maxColumnsInSection}
+                />
+            ))}
+        </Table>
     )
 }
 const sectionProps = PropTypes.shape({
@@ -115,7 +113,7 @@ export const SectionForms = ({ dataSet, globalFilterText }) => {
         ? dataSet.sections.filter((s) => s.id === sectionId)
         : dataSet.sections
     return (
-        <div>
+        <>
             {filteredSections.map((s) => (
                 <FormSection
                     section={s}
@@ -123,7 +121,7 @@ export const SectionForms = ({ dataSet, globalFilterText }) => {
                     globalFilterText={globalFilterText}
                 />
             ))}
-        </div>
+        </>
     )
 }
 

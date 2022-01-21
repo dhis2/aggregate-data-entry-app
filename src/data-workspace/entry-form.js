@@ -30,7 +30,7 @@ export const EntryForm = ({ dataSet }) => {
     const Component = formTypeToComponent[formType]
 
     return (
-        <div>
+        <>
             {formType !== FORM_TYPES.CUSTOM && (
                 <FilterField
                     value={globalFilterText}
@@ -39,7 +39,7 @@ export const EntryForm = ({ dataSet }) => {
                 />
             )}
             <Component dataSet={dataSet} globalFilterText={globalFilterText} />
-        </div>
+        </>
     )
 }
 
