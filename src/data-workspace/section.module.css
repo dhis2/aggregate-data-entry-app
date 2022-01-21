@@ -5,13 +5,17 @@
     height: 100% !important; 
 }
 
-.header {
-    background-color: var(--colors-grey800);
-    line-height: 20px;
-    padding: 8px !important;
+.headerCell {
+    padding: 0 !important;
     height: auto !important;
+    border: 1px solid var(--colors-grey400) !important;
 }
 
+.labelWrapper {
+    background-color: var(--colors-grey800);
+    line-height: 20px;
+    padding: 8px;
+}
 .title {
     color: var(--colors-grey050);
     font-weight: 400;
@@ -23,25 +27,25 @@
     margin-top: 2px;
     font-weight: 300;
 }
-.filter {
+
+.filterWrapper {
     display: flex;
     align-items: center;
+    gap: 8px;
+    padding: 8px;
     background-color: #fff;
     font-size: 13px;
     line-height: 15px !important;
-    padding: 8px !important;
-    gap: 8px;
-    height: auto !important;
 }
-.filter input {
+.filterInput {
     width: 100%;
     background: none;
     border: none;
     color: var(--colors-grey900);
 }
-.filter input::placeholder {
+.filterInput::placeholder {
     color: var(--colors-grey600);
 }
-.filter input:focus {
+.filterInput:focus {
     outline: none;
 }

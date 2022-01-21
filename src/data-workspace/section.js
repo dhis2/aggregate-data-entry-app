@@ -46,36 +46,47 @@ export const FormSection = ({ section, globalFilterText }) => {
         return [groupedDataElements, maxColumnsInSection]
     }, [metadata, section])
 
+    const filterInputId = `filter-input-${section.id}`
+
     return (
         <Table className={styles.table} suppressZebraStriping>
             <TableHead>
                 <TableRowHead>
-                    <TableCellHead colSpan="100%" className={styles.header}>
-                        <div className={styles.title}>
-                            {section.displayName}
-                        </div>
-                        {section.description && (
-                            <div className={styles.description}>
-                                {section.description ||
-                                    'Placeholder section description'}
+                    <TableCellHead colSpan="100%" className={styles.headerCell}>
+                        <div className={styles.labelWrapper}>
+                            <div className={styles.title}>
+                                {section.displayName}
                             </div>
-                        )}
+                            {section.description && (
+                                <div className={styles.description}>
+                                    {section.description ||
+                                        'Placeholder section description'}
+                                </div>
+                            )}
+                        </div>
                     </TableCellHead>
                 </TableRowHead>
                 <TableRowHead>
-                    <TableCellHead colSpan="100%" className={styles.filter}>
-                        <IconFilter16 color={colors.grey600} />
-                        <input
-                            name="filter-input"
-                            type="text"
-                            placeholder={i18n.t(
-                                'Type here to filter in this section'
-                            )}
-                            value={filterText}
-                            onChange={({ target }) =>
-                                setFilterText(target.value)
-                            }
-                        />
+                    <TableCellHead colSpan="100%" className={styles.headerCell}>
+                        <label
+                            htmlFor={filterInputId}
+                            className={styles.filterWrapper}
+                        >
+                            <IconFilter16 color={colors.grey600} />
+                            <input
+                                name={filterInputId}
+                                id={filterInputId}
+                                type="text"
+                                placeholder={i18n.t(
+                                    'Type here to filter in this section'
+                                )}
+                                value={filterText}
+                                onChange={({ target }) =>
+                                    setFilterText(target.value)
+                                }
+                                className={styles.filterInput}
+                            />
+                        </label>
                     </TableCellHead>
                 </TableRowHead>
             </TableHead>
