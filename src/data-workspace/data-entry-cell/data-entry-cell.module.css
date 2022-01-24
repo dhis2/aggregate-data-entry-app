@@ -34,9 +34,10 @@
     background: #fff !important;
 }
 
-.inputInvalid {
+.inputInvalid:not(:focus-visible) {
     background: var(--colors-red200);
     border: 1px solid var(--colors-red600);
+    padding: 7px 15px 7px 7px; /* Account for red border width */
 }
 .inputInvalid:hover {
     background: #ffb3bc;
