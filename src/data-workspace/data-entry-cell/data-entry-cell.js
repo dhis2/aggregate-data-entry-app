@@ -104,12 +104,17 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 
     return (
         <td className={styles.dataEntryCell}>
-            <ValidationTooltip invalid={meta.invalid} error={meta.error}>
+            <ValidationTooltip
+                invalid={meta.invalid}
+                error={meta.error}
+                active={meta.active}
+            >
                 {(tooltipProps) => (
                     <div className={styles.cellInnerWrapper} {...tooltipProps}>
                         <input
                             id={fieldName}
                             type="text"
+                            // The FinalForm props:
                             {...input}
                             onBlur={onBlur}
                             onKeyDown={onKeyDown}
