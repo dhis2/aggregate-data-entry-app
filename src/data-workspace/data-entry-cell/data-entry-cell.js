@@ -10,16 +10,16 @@ import {
     getDataSetById,
 } from '../../metadata/selectors.js'
 import styles from './data-entry-cell.module.css'
-import { getValidatorByValueType } from './field-validation.js'
 import { useDataValueMutation } from './use-data-value-mutation.js'
 import { useFieldNavigation } from './use-field-navigation.js'
 import { ValidationTooltip } from './validation-tooltip.js'
+import { VALUE_TYPES } from './value-types.js'
 
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldName = `${de.id}.${coc.id}`
-    const validate = getValidatorByValueType(de.valueType)
+    const { validate } = VALUE_TYPES[de.valueType]
     const { input, meta } = useField(fieldName, { validate })
 
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
