@@ -7,6 +7,7 @@ import './app.css'
 import { ContextSelection } from '../context-selection/index.js'
 import { DataWorkspace } from '../data-workspace/index.js'
 import { Layout } from './layout/index.js'
+import { MutationIndicator } from './mutation-indicator/index.js'
 import useQueryClient from './use-query-client.js'
 
 /**
@@ -26,7 +27,7 @@ const App = () => {
                         header={<ContextSelection />}
                         main={<DataWorkspace />}
                         sidebar=""
-                        footer=""
+                        footer={<MutationIndicator />}
                         showFooter
                     />
                 </QueryParamProvider>
