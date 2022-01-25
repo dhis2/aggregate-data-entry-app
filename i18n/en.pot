@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-18T08:54:08.887Z\n"
-"PO-Revision-Date: 2022-01-18T08:54:08.887Z\n"
+"POT-Creation-Date: 2022-01-25T13:04:06.580Z\n"
+"PO-Revision-Date: 2022-01-25T13:04:06.580Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -17,6 +17,12 @@ msgid ""
 msgstr ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
+
+msgid "There are {{ pendingMutations }} pending mutations"
+msgstr "There are {{ pendingMutations }} pending mutations"
+
+msgid "Synced"
+msgstr "Synced"
 
 msgid "Choose a data set"
 msgstr "Choose a data set"
