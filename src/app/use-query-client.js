@@ -15,6 +15,7 @@ const useQueryClient = () => {
         defaultOptions: {
             queries: {
                 queryFn,
+                refetchOnWindowFocus: false,
             },
         },
     })
