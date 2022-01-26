@@ -128,11 +128,6 @@ export const useDataValueMutation = () => {
                 context.previousDataValueSet
             )
         },
-        // Always refetch after error or success
-        // eslint-disable-next-line max-params
-        onSettled: (newDataValue, error, variables, context) => {
-            queryClient.invalidateQueries(context.dataValueSetQueryKey)
-        },
         retry: 1,
     })
 }
