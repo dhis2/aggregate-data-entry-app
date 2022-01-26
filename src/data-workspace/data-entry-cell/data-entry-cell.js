@@ -19,8 +19,8 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldName = `${de.id}.${coc.id}`
-    const { validate } = VALUE_TYPES[de.valueType]
-    const { input, meta } = useField(fieldName, { validate })
+    const { validate, ffType } = VALUE_TYPES[de.valueType]
+    const { input, meta } = useField(fieldName, { validate, type: ffType })
 
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
     const { focusNext, focusPrev } = useFieldNavigation(fieldName)
@@ -33,7 +33,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
         return null
     }
 
-    const syncData = () => {
+    const syncData = (value) => {
         const {
             dataSetId,
             orgUnitId,
@@ -54,7 +54,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             ds: dataSetId,
             ou: orgUnitId,
             pe: periodId,
-            value: input.value,
+            value,
         }
         // Add attribute params to mutation if relevant
         if (!isDefaultAttributeCombo) {
@@ -66,14 +66,15 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             mutationVars.cp = attributeOptionIdList
         }
 
-        mutate(mutationVars)
-        setLastSyncedValue(input.value)
+        // Here's where an error state could be set: ('onError')
+        mutate(mutationVars, { onSuccess: () => setLastSyncedValue(value) })
     }
 
     const onBlur = (event) => {
+        const value = input.value || input.checked
         // If this value has changed, sync it to server if valid
-        if (meta.dirty && input.value !== lastSyncedValue && meta.valid) {
-            syncData()
+        if (meta.dirty && value !== lastSyncedValue && meta.valid) {
+            syncData(value)
         }
         // Also invoke FinalForm's `onBlur`
         input.onBlur(event)
@@ -106,6 +107,8 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
         ? styles.inputSynced
         : null
 
+    const { Input } = VALUE_TYPES[de.valueType]
+
     return (
         <td className={styles.dataEntryCell}>
             <ValidationTooltip
@@ -115,7 +118,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             >
                 {(tooltipProps) => (
                     <div className={styles.cellInnerWrapper} {...tooltipProps}>
-                        <input
+                        <Input
                             id={fieldName}
                             type="text"
                             // The FinalForm props:

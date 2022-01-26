@@ -1,80 +1,94 @@
 // imported from ui-forms directly to avoid deprecation
+import { Checkbox } from '@dhis2/ui'
 import { number } from '@dhis2/ui-forms'
 import React from 'react'
 
 // todo: might need to handle styles here
 // todo: oof, gonna need to handle callback signatures btwn native inputs and UI elements
 
+// Adapt UI components to final form's callbacks
+const convertCallbackSignatures = (props) => ({
+    ...props,
+    onChange: (_, e) => props.onChange(e),
+    onFocus: (_, e) => props.onFocus(e),
+    onBlur: (_, e) => props.onBlur(e),
+})
+
 const TextInput = (props) => <input type="text" {...props} />
+// todo: needs to send 'true' or null; can't send 'false'
+const TrueOnlyCheckbox = (props) => (
+    <Checkbox {...convertCallbackSignatures(props)} />
+)
 
 export const VALUE_TYPES = Object.freeze({
     TEXT: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo (regular text)',
+        validate: () => {},
+        Input: TextInput,
     },
     LONG_TEXT: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo (large text box)',
+        validate: () => {},
+        Input: TextInput, // Todo: Large text box
     },
-    LETTER: { validate: () => console.log('todo: validate'), Input: 'todo' },
+    LETTER: { validate: () => {}, Input: TextInput },
     PHONE_NUMBER: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
-    EMAIL: { validate: () => console.log('todo: validate'), Input: 'todo' },
+    EMAIL: { validate: () => {}, Input: TextInput },
     BOOLEAN: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo (radios)',
+        validate: () => {},
+        Input: TextInput, // Todo: radios
     },
     TRUE_ONLY: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo (checkbox)',
+        validate: () => {},
+        Input: TrueOnlyCheckbox,
+        ffType: 'checkbox',
     },
-    DATE: { validate: () => console.log('todo: validate'), Input: 'todo' },
-    DATETIME: { validate: () => console.log('todo: validate'), Input: 'todo' },
-    TIME: { validate: () => console.log('todo: validate'), Input: 'todo' },
+    DATE: { validate: () => {}, Input: TextInput },
+    DATETIME: { validate: () => {}, Input: TextInput },
+    TIME: { validate: () => {}, Input: TextInput },
     NUMBER: { validate: number, Input: TextInput },
     UNIT_INTERVAL: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
     PERCENTAGE: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
-    INTEGER: { validate: () => console.log('todo: validate'), Input: 'todo' },
+    INTEGER: { validate: () => {}, Input: TextInput },
     INTEGER_POSITIVE: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
     INTEGER_NEGATIVE: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
     INTEGER_ZERO_OR_POSITIVE: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
     TRACKER_ASSOCIATE: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
-    USERNAME: { validate: () => console.log('todo: validate'), Input: 'todo' },
+    USERNAME: { validate: () => {}, Input: TextInput },
     COORDINATE: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
     ORGANISATION_UNIT: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
-    AGE: { validate: () => console.log('todo: validate'), Input: 'todo' },
-    URL: { validate: () => console.log('todo: validate'), Input: 'todo' },
+    AGE: { validate: () => {}, Input: TextInput },
+    URL: { validate: () => {}, Input: TextInput },
     FILE_RESOURCE: {
-        validate: () => console.log('todo: validate'),
-        Input: 'todo',
+        validate: () => {},
+        Input: TextInput,
     },
-    IMAGE: { validate: () => console.log('todo: validate'), Input: 'todo' },
+    IMAGE: { validate: () => {}, Input: TextInput },
 })
 
 // These are the data value types found on the demo DB
