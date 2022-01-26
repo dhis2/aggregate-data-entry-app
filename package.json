@@ -47,7 +47,7 @@
         "prop-types": "^15.7.2",
         "query-string": "^7.0.1",
         "react-final-form": "^6.5.7",
-        "react-query": "^3.34.5",
+        "react-query": "3.34.5",
         "react-router-dom": "^5",
         "use-query-params": "^1.2.3"
     }
