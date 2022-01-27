@@ -19,8 +19,9 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldName = `${de.id}.${coc.id}`
-    const { validate, ffFieldType } = VALUE_TYPES[de.valueType]
-    const { input, meta } = useField(fieldName, { validate, type: ffFieldType })
+    const { validate } = VALUE_TYPES[de.valueType]
+    // todo: subscription
+    const { meta } = useField(fieldName, { validate })
 
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
     const { focusNext, focusPrev } = useFieldNavigation(fieldName)
@@ -70,16 +71,6 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
         mutate(mutationVars, { onSuccess: () => setLastSyncedValue(value) })
     }
 
-    const onBlur = (event) => {
-        const value = input.value || input.checked
-        // If this value has changed, sync it to server if valid
-        if (meta.dirty && value !== lastSyncedValue && meta.valid) {
-            syncData(value)
-        }
-        // Also invoke FinalForm's `onBlur`
-        input.onBlur(event)
-    }
-
     const onKeyDown = (event) => {
         const { key, shiftKey } = event
         if (key === 'Enter' && shiftKey) {
@@ -118,18 +109,13 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                 {(tooltipProps) => (
                     <div className={styles.cellInnerWrapper} {...tooltipProps}>
                         <Input
-                            id={fieldName}
-                            type="text"
-                            // The FinalForm props:
-                            {...input}
-                            onBlur={onBlur}
-                            // todo: disabled if 'readOnly'
-                            // disabled={true}
+                            name={fieldName}
                             className={cx(styles.input, inputStateClassName)}
-                            // These are for new 'Input' modular design; WIP
-                            onKeyDown={onKeyDown}
                             syncData={syncData}
                             lastSyncedValue={lastSyncedValue}
+                            onKeyDown={onKeyDown}
+                            // todo: disabled if 'readOnly'
+                            // disabled={true}
                         />
                         <div className={styles.topRightIndicator}>
                             {isLoading ? (
