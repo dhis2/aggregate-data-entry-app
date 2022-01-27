@@ -19,8 +19,8 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldName = `${de.id}.${coc.id}`
-    const { validate, ffType } = VALUE_TYPES[de.valueType]
-    const { input, meta } = useField(fieldName, { validate, type: ffType })
+    const { validate, ffFieldType } = VALUE_TYPES[de.valueType]
+    const { input, meta } = useField(fieldName, { validate, type: ffFieldType })
 
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
     const { focusNext, focusPrev } = useFieldNavigation(fieldName)
