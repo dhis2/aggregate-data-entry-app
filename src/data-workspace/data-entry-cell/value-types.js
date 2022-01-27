@@ -16,7 +16,33 @@ const convertCallbackSignatures = (props) => ({
     onBlur: (_, e) => props.onBlur(e),
 })
 
-const TextInput = (props) => <input type="text" {...props} />
+const TextInput = (props) => {
+    const { name, syncData, className, onKeyDown, lastSyncedValue } = props
+    const { input, meta } = useField(name, {
+        subscription: { value: true, dirty: true, valid: true },
+    })
+
+    const handleBlur = () => {
+        const { value } = input
+        const { dirty, valid } = meta
+        if (dirty && valid && value !== lastSyncedValue) {
+            syncData(value)
+        }
+    }
+
+    return (
+        <input
+            type="text"
+            className={className}
+            {...input}
+            onBlur={(e) => {
+                handleBlur()
+                input.onBlur(e)
+            }}
+            onKeyDown={onKeyDown}
+        />
+    )
+}
 const InputProps = {
     name: PropTypes.string.isRequired,
     syncData: PropTypes.func.isRequired,
@@ -24,8 +50,15 @@ const InputProps = {
     lastSyncedValue: PropTypes.any,
     onKeyDown: PropTypes.func,
 }
+TextInput.propTypes = InputProps
 
-const TrueOnlyCheckbox = ({ name, syncData, className, onKeyDown, lastSyncedValue }) => {
+const TrueOnlyCheckbox = ({
+    name,
+    syncData,
+    className,
+    onKeyDown,
+    lastSyncedValue,
+}) => {
     const { input, meta } = useField(name, {
         type: 'checkbox',
         subscription: { value: true, dirty: true, valid: true },
