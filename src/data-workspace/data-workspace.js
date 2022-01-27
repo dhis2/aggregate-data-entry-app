@@ -155,7 +155,6 @@ export const DataWorkspace = () => {
 
     useQuery([metadataQuery], {
         staleTime: 60 * 24 * 1000,
-        refetchOnWindowFocus: false,
         onSuccess: (data) => setMetadata(data.metadata),
     })
 
