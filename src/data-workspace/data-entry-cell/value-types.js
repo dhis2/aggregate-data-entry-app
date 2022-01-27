@@ -201,12 +201,10 @@ export const VALUE_TYPES = Object.freeze({
     BOOLEAN: {
         validate: () => {},
         Input: BooleanRadios,
-        ffFieldType: 'radio',
     },
     TRUE_ONLY: {
         validate: () => {},
         Input: TrueOnlyCheckbox,
-        ffFieldType: 'checkbox',
     },
     DATE: { validate: () => {}, Input: TextInput },
     DATETIME: { validate: () => {}, Input: TextInput },
