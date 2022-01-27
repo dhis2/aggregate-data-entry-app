@@ -42,13 +42,12 @@ const TrueOnlyCheckbox = ({ name, syncData, className, onKeyDown, lastSyncedValu
             syncData(value)
         }
     }
-    const checkboxProps = convertCallbackSignatures(input)
 
     return (
         <div style={{ height: '100%', width: '100%' }} onKeyDown={onKeyDown}>
             <Checkbox
                 className={className}
-                {...checkboxProps}
+                {...convertCallbackSignatures(input)}
                 onBlur={(e) => {
                     handleBlur()
                     input.onBlur(e)
