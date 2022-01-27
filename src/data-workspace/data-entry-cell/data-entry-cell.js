@@ -54,7 +54,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             ds: dataSetId,
             ou: orgUnitId,
             pe: periodId,
-            value,
+            value: value || '', // Empty values need an empty string
         }
         // Add attribute params to mutation if relevant
         if (!isDefaultAttributeCombo) {
@@ -95,7 +95,6 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     }
 
     // todo: get data details (via getDataValue?)
-    // todo: tooltip for invalid cells
     // todo: validate with `de.valueType` (started)
     // todo: implement other input types for different value types
     // todo: implement read-only cells
@@ -124,10 +123,13 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                             // The FinalForm props:
                             {...input}
                             onBlur={onBlur}
-                            onKeyDown={onKeyDown}
                             // todo: disabled if 'readOnly'
                             // disabled={true}
                             className={cx(styles.input, inputStateClassName)}
+                            // These are for new 'Input' modular design; WIP
+                            onKeyDown={onKeyDown}
+                            syncData={syncData}
+                            lastSyncedValue={lastSyncedValue}
                         />
                         <div className={styles.topRightIndicator}>
                             {isLoading ? (
