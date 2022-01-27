@@ -6,10 +6,9 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useField, useForm } from 'react-final-form'
 
-// todo: might need to handle styles here
-// todo: oof, gonna need to handle callback signatures btwn native inputs and UI elements
+// todo: refactor styles here
 
-// Adapt UI components to final form's callbacks
+// Adapt UI components to Final Form's callbacks
 const convertCallbackSignatures = (props) => ({
     ...props,
     onChange: (_, e) => props.onChange(e),
@@ -18,12 +17,47 @@ const convertCallbackSignatures = (props) => ({
 })
 
 const TextInput = (props) => <input type="text" {...props} />
-
-// todo: needs to send 'true' or ''; can't send 'false'
-const TrueOnlyCheckbox = (props) => {
-    const checkboxProps = convertCallbackSignatures(props)
-    return <Checkbox {...checkboxProps} />
+const InputProps = {
+    name: PropTypes.string.isRequired,
+    syncData: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    lastSyncedValue: PropTypes.any,
+    onKeyDown: PropTypes.func,
 }
+
+const TrueOnlyCheckbox = ({ name, syncData, className, onKeyDown, lastSyncedValue }) => {
+    const { input, meta } = useField(name, {
+        type: 'checkbox',
+        subscription: { value: true, dirty: true, valid: true },
+    })
+
+    // todo: clicking outside the checkbox but in the cell changes the value but also
+    // triggers onBlur - clicking on checkbox itself only changes the value
+
+    const handleBlur = () => {
+        // For 'True only', can only send 'true' (or '1') or ''
+        const value = input.checked ? 'true' : ''
+        const { dirty, valid } = meta
+        if (dirty && valid && value !== lastSyncedValue) {
+            syncData(value)
+        }
+    }
+    const checkboxProps = convertCallbackSignatures(input)
+
+    return (
+        <div style={{ height: '100%', width: '100%' }} onKeyDown={onKeyDown}>
+            <Checkbox
+                className={className}
+                {...checkboxProps}
+                onBlur={(e) => {
+                    handleBlur()
+                    input.onBlur(e)
+                }}
+            />
+        </div>
+    )
+}
+TrueOnlyCheckbox.propTypes = InputProps
 
 // Looks like this needs TWO useField instances...
 // ? Will this fail to reflect a value on the server if it's not exactly `true` or `false`?
@@ -115,13 +149,7 @@ const BooleanRadios = ({
         </div>
     )
 }
-BooleanRadios.propTypes = {
-    lastSyncedValue: PropTypes.any.isRequired,
-    name: PropTypes.string.isRequired,
-    syncData: PropTypes.func.isRequired,
-    className: PropTypes.string,
-    onKeyDown: PropTypes.func,
-}
+BooleanRadios.propTypes = InputProps
 
 export const VALUE_TYPES = Object.freeze({
     TEXT: {
