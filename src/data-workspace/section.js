@@ -6,6 +6,8 @@ import {
     TableCellHead,
     TableHead,
     TableRowHead,
+    Tab,
+    TabBar,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, useMemo } from 'react'
@@ -123,6 +125,16 @@ export const SectionForms = ({ dataSet, globalFilterText }) => {
     const filteredSections = sectionId
         ? dataSet.sections.filter((s) => s.id === sectionId)
         : dataSet.sections
+
+    if (dataSet.renderAsTabs) {
+        return (
+            <TabbedSectionForms
+                globalFilterText={globalFilterText}
+                sections={dataSet.sections}
+            />
+        )
+    }
+
     return (
         <>
             {filteredSections.map((s) => (
@@ -138,7 +150,43 @@ export const SectionForms = ({ dataSet, globalFilterText }) => {
 
 SectionForms.propTypes = {
     dataSet: PropTypes.shape({
+        renderAsTabs: PropTypes.bool,
         sections: PropTypes.arrayOf(sectionProps),
     }),
     globalFilterText: PropTypes.string,
+}
+
+const TabbedSectionForms = ({ sections, globalFilterText }) => {
+    const [sectionId, setSelectedId] = useSectionFilter()
+
+    const section = sectionId
+        ? sections.find((s) => s.id === sectionId)
+        : sections[0]
+
+    return (
+        <div>
+            <TabBar className={styles.sectionTab}>
+                {sections.map((s) => (
+                    <Tab
+                        key={s.id}
+                        selected={s.id === section.id}
+                        onClick={() => setSelectedId(s.id)}
+                    >
+                        {s.displayName}
+                    </Tab>
+                ))}
+            </TabBar>
+
+            <FormSection
+                section={section}
+                key={section.id}
+                globalFilterText={globalFilterText}
+            />
+        </div>
+    )
+}
+
+TabbedSectionForms.propTypes = {
+    globalFilterText: PropTypes.string,
+    sections: PropTypes.arrayOf(sectionProps),
 }
