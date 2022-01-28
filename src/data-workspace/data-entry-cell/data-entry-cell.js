@@ -15,7 +15,8 @@ import { useFieldNavigation } from './use-field-navigation.js'
 import { ValidationTooltip } from './validation-tooltip.js'
 import { VALUE_TYPES } from './value-types.js'
 
-const TopRightIndicator = ({ isLoading, synced }) => {
+/** Three dots or triangle in top-right corener of cell */
+const SyncStatusIndicator = ({ isLoading, synced }) => {
     return (
         <div className={styles.topRightIndicator}>
             {isLoading ? (
@@ -26,19 +27,20 @@ const TopRightIndicator = ({ isLoading, synced }) => {
         </div>
     )
 }
-TopRightIndicator.propTypes = {
+SyncStatusIndicator.propTypes = {
     isLoading: PropTypes.bool,
     synced: PropTypes.bool,
 }
 
-const BottomLeftIndicator = ({ isComment }) => {
+/** Grey triangle in bottom left of cell */
+const CommentIndicator = ({ isComment }) => {
     return (
         <div className={styles.bottomLeftIndicator}>
             {isComment && <div className={styles.bottomLeftTriangle} />}
         </div>
     )
 }
-BottomLeftIndicator.propTypes = { isComment: PropTypes.bool }
+CommentIndicator.propTypes = { isComment: PropTypes.bool }
 
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
@@ -143,12 +145,12 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                             onKeyDown={onKeyDown}
                             // disabled={true}
                         />
-                        <TopRightIndicator
+                        <SyncStatusIndicator
                             isLoading={isLoading}
                             synced={synced}
                         />
                         {/* todo: show indicator if there is a comment */}
-                        <BottomLeftIndicator isComment={false} />
+                        <CommentIndicator isComment={false} />
                     </div>
                 )}
             </ValidationTooltip>
