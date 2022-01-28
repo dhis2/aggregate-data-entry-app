@@ -31,22 +31,24 @@ TopRightIndicator.propTypes = {
     synced: PropTypes.bool,
 }
 
-const BottomLeftIndicator = () => {
-    // todo: render based on comment status
+const BottomLeftIndicator = ({ isComment }) => {
     return (
         <div className={styles.bottomLeftIndicator}>
-            {false && <div className={styles.bottomLeftTriangle} />}
+            {isComment && <div className={styles.bottomLeftTriangle} />}
         </div>
     )
 }
+BottomLeftIndicator.propTypes = { isComment: PropTypes.bool }
 
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldName = `${de.id}.${coc.id}`
     const { validate } = VALUE_TYPES[de.valueType]
-    // todo: subscription
-    const { meta } = useField(fieldName, { validate })
+    const { meta } = useField(fieldName, {
+        validate,
+        subscription: { valid: true, invalid: true, error: true, active: true },
+    })
 
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
     const { focusNext, focusPrev } = useFieldNavigation(fieldName)
@@ -145,8 +147,8 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                             isLoading={isLoading}
                             synced={synced}
                         />
-                        {/* todo: show triangle if there is a comment */}
-                        <BottomLeftIndicator />
+                        {/* todo: show indicator if there is a comment */}
+                        <BottomLeftIndicator isComment={false} />
                     </div>
                 )}
             </ValidationTooltip>
