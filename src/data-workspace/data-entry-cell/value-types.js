@@ -1,10 +1,10 @@
 import i18n from '@dhis2/d2-i18n'
 import { Checkbox, Radio, Button } from '@dhis2/ui'
 // imported from ui-forms directly to avoid deprecation
-import { number } from '@dhis2/ui-forms'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField, useForm } from 'react-final-form'
+import { number, integer, integerPositive, integerZeroOrPositive } from './validators.js'
 
 // todo: refactor styles here
 
@@ -218,9 +218,9 @@ export const VALUE_TYPES = Object.freeze({
         validate: () => {},
         Input: TextInput,
     },
-    INTEGER: { validate: () => {}, Input: TextInput },
+    INTEGER: { validate: integer, Input: TextInput },
     INTEGER_POSITIVE: {
-        validate: () => {},
+        validate: integerPositive,
         Input: TextInput,
     },
     INTEGER_NEGATIVE: {
@@ -228,14 +228,14 @@ export const VALUE_TYPES = Object.freeze({
         Input: TextInput,
     },
     INTEGER_ZERO_OR_POSITIVE: {
-        validate: () => {},
+        validate: integerZeroOrPositive,
         Input: TextInput,
     },
     TRACKER_ASSOCIATE: {
         validate: () => {},
         Input: TextInput,
     },
-    USERNAME: { validate: () => {}, Input: TextInput },
+    USERNAME: { validate: () => {}, Input: TextInput }, //dhis2Username
     COORDINATE: {
         validate: () => {},
         Input: TextInput,
@@ -253,17 +253,18 @@ export const VALUE_TYPES = Object.freeze({
     IMAGE: { validate: () => {}, Input: TextInput },
 })
 
+// todo: remove these when done
 // These are the data value types found on the demo DB
 // eslint-disable-next-line no-unused-vars
 const prioritized = [
     'NUMBER',
     'TRUE_ONLY',
     'BOOLEAN',
+    'INTEGER',
     'INTEGER_POSITIVE',
     'INTEGER_ZERO_OR_POSITIVE',
-    'INTEGER',
     'LONG_TEXT',
-    'TIME',
-    'DATE',
-    'FILE_RESOURCE',
+    'TIME', // needs validator (and input?)
+    'DATE', // needs validator (and input?)
+    'FILE_RESOURCE', // needs input
 ]
