@@ -3,7 +3,7 @@ import {
     createMinNumber,
     composeValidators,
     createMaxNumber,
-    createNumberRange
+    createNumberRange,
 } from '@dhis2/ui-forms'
 
 /**
