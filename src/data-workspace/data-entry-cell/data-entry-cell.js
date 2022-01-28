@@ -15,6 +15,31 @@ import { useFieldNavigation } from './use-field-navigation.js'
 import { ValidationTooltip } from './validation-tooltip.js'
 import { VALUE_TYPES } from './value-types.js'
 
+const TopRightIndicator = ({ isLoading, synced }) => {
+    return (
+        <div className={styles.topRightIndicator}>
+            {isLoading ? (
+                <IconMore16 color={colors.grey700} />
+            ) : synced ? (
+                <div className={styles.topRightTriangle} />
+            ) : null}
+        </div>
+    )
+}
+TopRightIndicator.propTypes = {
+    isLoading: PropTypes.bool,
+    synced: PropTypes.bool,
+}
+
+const BottomLeftIndicator = () => {
+    // todo: render based on comment status
+    return (
+        <div className={styles.bottomLeftIndicator}>
+            {false && <div className={styles.bottomLeftTriangle} />}
+        </div>
+    )
+}
+
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
@@ -86,8 +111,8 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     }
 
     // todo: get data details (via getDataValue?)
-    // todo: validate with `de.valueType` (started)
-    // todo: implement other input types for different value types
+    // todo: validate with `de.valueType` (wip)
+    // todo: implement other input types for different value types (wip)
     // todo: implement read-only cells
 
     const synced = meta.valid && !isIdle && !isLoading && !isError
@@ -114,22 +139,14 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                             syncData={syncData}
                             lastSyncedValue={lastSyncedValue}
                             onKeyDown={onKeyDown}
-                            // todo: disabled if 'readOnly'
                             // disabled={true}
                         />
-                        <div className={styles.topRightIndicator}>
-                            {isLoading ? (
-                                <IconMore16 color={colors.grey700} />
-                            ) : synced ? (
-                                <div className={styles.topRightTriangle} />
-                            ) : null}
-                        </div>
-                        <div className={styles.bottomLeftIndicator}>
-                            {/* todo: show grey600 6x6 triangle if there is a comment */}
-                            {false && (
-                                <div className={styles.bottomLeftTriangle} />
-                            )}
-                        </div>
+                        <TopRightIndicator
+                            isLoading={isLoading}
+                            synced={synced}
+                        />
+                        {/* todo: show triangle if there is a comment */}
+                        <BottomLeftIndicator />
                     </div>
                 )}
             </ValidationTooltip>
