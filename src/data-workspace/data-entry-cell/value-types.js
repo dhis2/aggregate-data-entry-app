@@ -1,9 +1,14 @@
 import { TextInput, TrueOnlyCheckbox, BooleanRadios } from './inputs.js'
 import {
+    dhis2Username,
+    email,
     number,
     integer,
     integerPositive,
     integerZeroOrPositive,
+    integerNegative,
+    internationalPhoneNumber,
+    percentage,
 } from './validators.js'
 
 // todo: remove these when done
@@ -31,12 +36,18 @@ export const VALUE_TYPES = Object.freeze({
         validate: () => {},
         Input: TextInput, // Todo: Large text box
     },
-    LETTER: { validate: () => {}, Input: TextInput },
-    PHONE_NUMBER: {
-        validate: () => {}, // international phone number
+    LETTER: {
+        validate: () => {},
         Input: TextInput,
     },
-    EMAIL: { validate: () => {}, Input: TextInput },
+    PHONE_NUMBER: {
+        validate: internationalPhoneNumber,
+        Input: TextInput,
+    },
+    EMAIL: {
+        validate: email,
+        Input: TextInput,
+    },
     BOOLEAN: {
         validate: () => {},
         Input: BooleanRadios,
@@ -45,25 +56,40 @@ export const VALUE_TYPES = Object.freeze({
         validate: () => {},
         Input: TrueOnlyCheckbox,
     },
-    DATE: { validate: () => {}, Input: TextInput },
-    DATETIME: { validate: () => {}, Input: TextInput },
-    TIME: { validate: () => {}, Input: TextInput },
-    NUMBER: { validate: number, Input: TextInput },
+    DATE: {
+        validate: () => {},
+        Input: TextInput,
+    },
+    DATETIME: {
+        validate: () => {},
+        Input: TextInput,
+    },
+    TIME: {
+        validate: () => {},
+        Input: TextInput,
+    },
+    NUMBER: {
+        validate: number,
+        Input: TextInput,
+    },
     UNIT_INTERVAL: {
         validate: () => {},
         Input: TextInput,
     },
     PERCENTAGE: {
-        validate: () => {},
+        validate: percentage,
         Input: TextInput,
     },
-    INTEGER: { validate: integer, Input: TextInput },
+    INTEGER: {
+        validate: integer,
+        Input: TextInput,
+    },
     INTEGER_POSITIVE: {
         validate: integerPositive,
         Input: TextInput,
     },
     INTEGER_NEGATIVE: {
-        validate: () => {},
+        validate: integerNegative,
         Input: TextInput,
     },
     INTEGER_ZERO_OR_POSITIVE: {
@@ -74,7 +100,10 @@ export const VALUE_TYPES = Object.freeze({
         validate: () => {},
         Input: TextInput,
     },
-    USERNAME: { validate: () => {}, Input: TextInput }, //dhis2Username
+    USERNAME: {
+        validate: dhis2Username,
+        Input: TextInput,
+    },
     COORDINATE: {
         validate: () => {},
         Input: TextInput,
@@ -83,11 +112,20 @@ export const VALUE_TYPES = Object.freeze({
         validate: () => {},
         Input: TextInput,
     },
-    AGE: { validate: () => {}, Input: TextInput },
-    URL: { validate: () => {}, Input: TextInput },
+    AGE: {
+        validate: () => {},
+        Input: TextInput,
+    },
+    URL: {
+        validate: () => {},
+        Input: TextInput,
+    },
     FILE_RESOURCE: {
         validate: () => {},
         Input: TextInput,
     },
-    IMAGE: { validate: () => {}, Input: TextInput },
+    IMAGE: {
+        validate: () => {},
+        Input: TextInput,
+    },
 })

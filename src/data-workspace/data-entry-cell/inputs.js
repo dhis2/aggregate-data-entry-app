@@ -95,11 +95,11 @@ export const TrueOnlyCheckbox = ({
 }
 TrueOnlyCheckbox.propTypes = InputProps
 
-// Looks like this needs TWO useField instances...
 // ? Will this fail to reflect a value on the server if it's not exactly `true` or `false`?
 // todo: may need to handle that when mapping server values to form initial values, e.g.
+// Currently it's working okay
 // boolean: accepts 1, 0, 'true', 'false'
-// if (dv.valueType === boolean) { formValue = dv.value ... etc }
+// Ex: if (dv.valueType === boolean) { formValue = dv.value ... etc }
 // does `isEqual` prop help make 1/true and 0/false/'' equal?
 export const BooleanRadios = ({
     name,

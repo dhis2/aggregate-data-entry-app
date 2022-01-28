@@ -1,4 +1,10 @@
-import { number, integer, createMinNumber, composeValidators } from '@dhis2/ui-forms'
+import {
+    integer,
+    createMinNumber,
+    composeValidators,
+    createMaxNumber,
+    createNumberRange
+} from '@dhis2/ui-forms'
 
 /**
  * todo:
@@ -7,9 +13,11 @@ import { number, integer, createMinNumber, composeValidators } from '@dhis2/ui-f
  * FILE_RESOURCE?
  */
 
-export { number, integer }
+export * from '@dhis2/ui-forms'
 export const integerPositive = composeValidators(integer, createMinNumber(1))
 export const integerZeroOrPositive = composeValidators(
     integer,
     createMinNumber(0)
 )
+export const integerNegative = composeValidators(integer, createMaxNumber(-1))
+export const percentage = createNumberRange(0, 100)
