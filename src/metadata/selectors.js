@@ -5,6 +5,10 @@ export const getDataElements = (metadata) => metadata.dataElements
 export const getDataElementById = (metadata, id) =>
     getDataElements(metadata)[id]
 
+export const getOptionSets = (metadata) => metadata.optionSets
+
+export const getOptionSetById = (metadata, id) => getOptionSets(metadata)[id]
+
 export const getCategories = (metadata) => metadata.categories
 
 export const getCategoryCombos = (metadata) => metadata.categoryCombos
