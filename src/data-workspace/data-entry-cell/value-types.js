@@ -1,4 +1,9 @@
-import { TextInput, TrueOnlyCheckbox, BooleanRadios, OptionSet } from './inputs.js'
+import {
+    TextInput,
+    TrueOnlyCheckbox,
+    BooleanRadios,
+    OptionSet,
+} from './inputs.js'
 import {
     dhis2Username,
     email,
