@@ -1,4 +1,4 @@
-import { TextInput, TrueOnlyCheckbox, BooleanRadios } from './inputs.js'
+import { TextInput, TrueOnlyCheckbox, BooleanRadios, OptionSet } from './inputs.js'
 import {
     dhis2Username,
     email,
@@ -10,6 +10,15 @@ import {
     internationalPhoneNumber,
     percentage,
 } from './validators.js'
+
+/** Use an OptionSet if relevant; else use input type below */
+export function getInputByDataElement(de) {
+    if (de.optionSetValue) {
+        return OptionSet
+    } else {
+        return VALUE_TYPES[de.valueType].Input
+    }
+}
 
 // todo: remove these when done
 // These are the data value types found on the demo DB

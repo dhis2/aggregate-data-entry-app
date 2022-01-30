@@ -13,7 +13,7 @@ import styles from './data-entry-cell.module.css'
 import { useDataValueMutation } from './use-data-value-mutation.js'
 import { useFieldNavigation } from './use-field-navigation.js'
 import { ValidationTooltip } from './validation-tooltip.js'
-import { VALUE_TYPES } from './value-types.js'
+import { getInputByDataElement, VALUE_TYPES } from './value-types.js'
 
 /** Three dots or triangle in top-right corener of cell */
 const SyncStatusIndicator = ({ isLoading, synced }) => {
@@ -126,7 +126,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
         ? styles.inputSynced
         : null
 
-    const { Input } = VALUE_TYPES[de.valueType]
+    const Input = getInputByDataElement(de)
 
     return (
         <td className={styles.dataEntryCell}>
@@ -139,6 +139,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                     <div className={styles.cellInnerWrapper} {...tooltipProps}>
                         <Input
                             name={fieldName}
+                            dataElement={de}
                             className={cx(styles.input, inputStateClassName)}
                             syncData={syncData}
                             lastSyncedValue={lastSyncedValue}

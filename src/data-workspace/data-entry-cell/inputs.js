@@ -1,9 +1,17 @@
 import i18n from '@dhis2/d2-i18n'
-import { Checkbox, Radio, Button } from '@dhis2/ui'
+import {
+    Checkbox,
+    Radio,
+    Button,
+    SingleSelect,
+    SingleSelectOption,
+} from '@dhis2/ui'
 // imported from ui-forms directly to avoid deprecation
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField, useForm } from 'react-final-form'
+import { useMetadata } from '../../metadata/index.js'
+import { getOptionSetById } from '../../metadata/selectors.js'
 
 // todo: refactor styles here
 
@@ -186,3 +194,77 @@ export const BooleanRadios = ({
     )
 }
 BooleanRadios.propTypes = InputProps
+
+export const OptionSet = ({
+    name,
+    syncData,
+    className,
+    lastSyncedValue,
+    onKeyDown,
+    dataElement,
+}) => {
+    const { input } = useField(name, { subscription: { value: true } })
+    const { metadata } = useMetadata()
+
+    const handleChange = (value) => {
+        // For a select using onChange, don't need to check valid or dirty, respectively
+        if (value !== lastSyncedValue) {
+            syncData(value)
+        }
+    }
+
+    const optionSet = getOptionSetById(metadata, dataElement.optionSet.id)
+    // filter out 'null' options
+    const options = optionSet.options.filter((opt) => !!opt)
+
+    // todo: can't be accessed by focusPrev and focusNext because it's not an input
+    // onBlur handler doesn't work
+    // Why is there not an `input` element in the component tree? onBlur doesn't really work (should be called on close)
+    // When using `clearble` prop, the clear button should have some margin-left & lose the margin-right - on .root-children .root-right
+    return (
+        <div
+            onKeyDown={onKeyDown}
+            className={className}
+            style={{ display: 'flex', alignItems: 'center' }}
+        >
+            <SingleSelect
+                name={input.name}
+                selected={input.value || ''}
+                onChange={({ selected }) => {
+                    input.onChange(selected)
+                    handleChange(selected)
+                }}
+                onFocus={() => {
+                    // onBlur here helps buggy onFocus work correctly
+                    input.onBlur()
+                    input.onFocus()
+                }}
+                onBlur={() => input.onBlur()}
+            >
+                {options.map(({ name }) => (
+                    <SingleSelectOption key={name} label={name} value={name} />
+                ))}
+            </SingleSelect>
+            {input.value && (
+                <Button
+                    small
+                    {...input}
+                    onClick={() => {
+                        input.onChange('')
+                        handleChange('')
+                    }}
+                >
+                    {i18n.t('Clear')}
+                </Button>
+            )}
+        </div>
+    )
+}
+OptionSet.propTypes = {
+    ...InputProps,
+    dataElement: PropTypes.shape({
+        optionSet: PropTypes.shape({
+            id: PropTypes.string,
+        }),
+    }),
+}
