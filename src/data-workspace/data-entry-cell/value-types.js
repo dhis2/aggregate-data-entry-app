@@ -16,6 +16,7 @@ import {
     internationalPhoneNumber,
     percentage,
     url,
+    unitInterval,
 } from './validators.js'
 
 /** Use an OptionSet if relevant; else use input type below */
@@ -89,7 +90,7 @@ export const VALUE_TYPES = Object.freeze({
         Input: BasicInput,
     },
     UNIT_INTERVAL: {
-        validate: () => {}, // todo
+        validate: unitInterval,
         Input: BasicInput,
     },
     PERCENTAGE: {
@@ -132,7 +133,8 @@ export const VALUE_TYPES = Object.freeze({
         Input: BasicInput,
     },
     AGE: {
-        validate: () => {}, // todo
+        // todo
+        validate: () => {},
         Input: BasicInput,
     },
     URL: {

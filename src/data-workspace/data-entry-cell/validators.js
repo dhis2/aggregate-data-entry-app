@@ -21,3 +21,4 @@ export const integerZeroOrPositive = composeValidators(
 )
 export const integerNegative = composeValidators(integer, createMaxNumber(-1))
 export const percentage = createNumberRange(0, 100)
+export const unitInterval = createNumberRange(0, 1)
