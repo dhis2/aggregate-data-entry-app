@@ -228,7 +228,9 @@ export const OptionSet = ({
             style={{ display: 'flex', alignItems: 'center' }}
         >
             <SingleSelect
+                dense
                 name={input.name}
+                placeholder={i18n.t('Choose an option')}
                 selected={input.value || ''}
                 onChange={({ selected }) => {
                     input.onChange(selected)
