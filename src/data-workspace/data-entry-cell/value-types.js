@@ -1,8 +1,9 @@
 import {
-    TextInput,
+    BasicInput,
     TrueOnlyCheckbox,
     BooleanRadios,
     OptionSet,
+    withInputType,
 } from './inputs.js'
 import {
     dhis2Username,
@@ -14,6 +15,7 @@ import {
     integerNegative,
     internationalPhoneNumber,
     percentage,
+    url,
 } from './validators.js'
 
 /** Use an OptionSet if relevant; else use input type below */
@@ -43,103 +45,108 @@ const prioritized = [
 
 export const VALUE_TYPES = Object.freeze({
     TEXT: {
-        validate: () => {}, // < 50,000 chars
-        Input: TextInput,
+        validate: () => {}, // todo: < 50,000 chars
+        Input: BasicInput,
     },
     LONG_TEXT: {
         validate: () => {},
-        Input: TextInput, // Todo: Large text box
+        Input: BasicInput, // Todo: Large text box
     },
     LETTER: {
-        validate: () => {},
-        Input: TextInput,
+        validate: () => {}, // todo
+        Input: BasicInput,
     },
     PHONE_NUMBER: {
         validate: internationalPhoneNumber,
-        Input: TextInput,
+        Input: withInputType(BasicInput, 'tel'),
     },
     EMAIL: {
         validate: email,
-        Input: TextInput,
+        Input: withInputType(BasicInput, 'email'),
     },
     BOOLEAN: {
-        validate: () => {},
+        validate: () => {}, // todo?
         Input: BooleanRadios,
     },
     TRUE_ONLY: {
-        validate: () => {},
+        validate: () => {}, // todo?
         Input: TrueOnlyCheckbox,
     },
     DATE: {
-        validate: () => {},
-        Input: TextInput,
+        validate: () => {}, // todo (in case browser doesn't support special input)
+        Input: withInputType(BasicInput, 'date'),
     },
     DATETIME: {
-        validate: () => {},
-        Input: TextInput,
+        validate: () => {}, // todo (in case browser doesn't support special input)
+        Input: withInputType(BasicInput, 'datetime-local'),
     },
     TIME: {
-        validate: () => {},
-        Input: TextInput,
+        validate: () => {}, // todo (in case browser doesn't support special input)
+        Input: withInputType(BasicInput, 'time'),
     },
     NUMBER: {
         validate: number,
-        Input: TextInput,
+        Input: BasicInput,
     },
     UNIT_INTERVAL: {
-        validate: () => {},
-        Input: TextInput,
+        validate: () => {}, // todo
+        Input: BasicInput,
     },
     PERCENTAGE: {
         validate: percentage,
-        Input: TextInput,
+        Input: BasicInput,
     },
     INTEGER: {
         validate: integer,
-        Input: TextInput,
+        Input: BasicInput,
     },
     INTEGER_POSITIVE: {
         validate: integerPositive,
-        Input: TextInput,
+        Input: BasicInput,
     },
     INTEGER_NEGATIVE: {
         validate: integerNegative,
-        Input: TextInput,
+        Input: BasicInput,
     },
     INTEGER_ZERO_OR_POSITIVE: {
         validate: integerZeroOrPositive,
-        Input: TextInput,
+        Input: BasicInput,
     },
     TRACKER_ASSOCIATE: {
+        // todo
         validate: () => {},
-        Input: TextInput,
+        Input: BasicInput,
     },
     USERNAME: {
         validate: dhis2Username,
-        Input: TextInput,
+        Input: BasicInput,
     },
     COORDINATE: {
+        // todo
         validate: () => {},
-        Input: TextInput,
+        Input: BasicInput,
     },
     ORGANISATION_UNIT: {
+        // todo
         validate: () => {},
-        Input: TextInput,
+        Input: BasicInput,
     },
     AGE: {
-        validate: () => {},
-        Input: TextInput,
+        validate: () => {}, // todo
+        Input: BasicInput,
     },
     URL: {
-        validate: () => {},
-        Input: TextInput,
+        validate: url,
+        Input: withInputType(BasicInput, 'url'),
     },
     FILE_RESOURCE: {
+        // todo
         validate: () => {},
-        Input: TextInput,
+        Input: BasicInput,
     },
     IMAGE: {
+        // todo
         validate: () => {},
-        Input: TextInput,
+        Input: BasicInput,
     },
 })

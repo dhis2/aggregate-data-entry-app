@@ -23,12 +23,19 @@ const convertCallbackSignatures = (props) => ({
     onBlur: (_, e) => props.onBlur(e),
 })
 
-export const TextInput = ({
+export const withInputType = (Component, inputType) => {
+    return function InputWithType(props) {
+        return <Component {...props} inputType={inputType} />
+    }
+}
+
+export const BasicInput = ({
     name,
     syncData,
     className,
     onKeyDown,
     lastSyncedValue,
+    inputType,
 }) => {
     const { input, meta } = useField(name, {
         subscription: { value: true, dirty: true, valid: true },
@@ -44,7 +51,7 @@ export const TextInput = ({
 
     return (
         <input
-            type="text"
+            type={inputType || 'text'}
             className={className}
             {...input}
             onBlur={(e) => {
@@ -62,7 +69,7 @@ const InputProps = {
     lastSyncedValue: PropTypes.any,
     onKeyDown: PropTypes.func,
 }
-TextInput.propTypes = InputProps
+BasicInput.propTypes = { ...InputProps, inputType: PropTypes.string }
 
 export const TrueOnlyCheckbox = ({
     name,
@@ -265,8 +272,7 @@ export const OptionSet = ({
 OptionSet.propTypes = {
     ...InputProps,
     dataElement: PropTypes.shape({
-        optionSet: PropTypes.shape({
-            id: PropTypes.string,
-        }),
-    }),
+        optionSet: PropTypes.shape({ id: PropTypes.string }),
+        valueType: PropTypes.string,
+    }).isRequired,
 }
