@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { MenuSelect } from '../menu-select/index.js'
 import { useSectionFilter } from '../use-context-selection/index.js'
 import useDataSetSectionsInfo from './use-data-set-sections-info.js'
@@ -18,6 +18,14 @@ export default function SectionFilterSelectorBarItem() {
 
     useOnDependentParamsChange(deselect)
 
+    useEffect(() => {
+        const dataSet = dataSetSectionsInfo.data
+        const sections = dataSet?.sections
+        if (dataSet?.renderAsTabs && !sectionFilter && sections?.length) {
+            setSectionFilter(sections[0].id)
+        }
+    }, [dataSetSectionsInfo, sectionFilter])
+
     const shouldComponentRenderNull = useShouldComponentRenderNull()
     if (shouldComponentRenderNull) {
         return null
@@ -34,10 +42,14 @@ export default function SectionFilterSelectorBarItem() {
             label: displayName,
         })) || []
 
-    const selectableOptions = [
-        { value: '', label: i18n.t('Show all sections') },
-        ...sectionOptions,
-    ]
+    const selectableOptions = sectionOptions.concat({
+        value: undefined,
+        label: i18n.t('Show all sections'),
+    })
+
+    if (dataSetSectionsInfo.data?.renderAsTabs) {
+        selectableOptions.shift()
+    }
 
     return (
         <SelectorBarItem
@@ -46,7 +58,7 @@ export default function SectionFilterSelectorBarItem() {
             value={sectionFilterValue}
             open={open}
             setOpen={setOpen}
-            noValueMessage={i18n.t('Choose a section filter')}
+            noValueMessage={i18n.t('Show all sections')}
         >
             {renderMenu ? (
                 <MenuSelect

@@ -9,7 +9,7 @@ export default function MenuSelect({ values, selected, onChange }) {
             <Menu>
                 {values.map(({ value, label }) => (
                     <MenuItem
-                        key={value}
+                        key={value || label}
                         label={label}
                         active={selected === value}
                         onClick={() => onChange({ selected: value })}
@@ -24,9 +24,10 @@ MenuSelect.propTypes = {
     values: PropTypes.arrayOf(
         PropTypes.shape({
             label: PropTypes.string.isRequired,
-            value: PropTypes.string.isRequired,
+            value: PropTypes.string,
         })
     ).isRequired,
     onChange: PropTypes.func.isRequired,
     selected: PropTypes.string,
 }
+10
