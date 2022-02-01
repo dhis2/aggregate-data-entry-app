@@ -6,12 +6,13 @@ import {
     SingleSelect,
     SingleSelectOption,
 } from '@dhis2/ui'
-// imported from ui-forms directly to avoid deprecation
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField, useForm } from 'react-final-form'
 import { useMetadata } from '../../metadata/index.js'
 import { getOptionSetById } from '../../metadata/selectors.js'
+import styles from './inputs.module.css'
 
 // todo: refactor styles here
 
@@ -231,29 +232,35 @@ export const OptionSet = ({
     return (
         <div
             onKeyDown={onKeyDown}
-            className={className}
-            style={{ display: 'flex', alignItems: 'center' }}
+            className={cx(className, styles.selectFlexWrapper)}
         >
-            <SingleSelect
-                dense
-                name={input.name}
-                placeholder={i18n.t('Choose an option')}
-                selected={input.value || ''}
-                onChange={({ selected }) => {
-                    input.onChange(selected)
-                    handleChange(selected)
-                }}
-                onFocus={() => {
-                    // onBlur here helps buggy onFocus work correctly
-                    input.onBlur()
-                    input.onFocus()
-                }}
-                onBlur={() => input.onBlur()}
-            >
-                {options.map(({ name }) => (
-                    <SingleSelectOption key={name} label={name} value={name} />
-                ))}
-            </SingleSelect>
+            <div className={styles.selectFlexItem}>
+                <SingleSelect
+                    dense
+                    className={styles.select}
+                    name={input.name}
+                    placeholder={i18n.t('Choose an option')}
+                    selected={input.value || ''}
+                    onChange={({ selected }) => {
+                        input.onChange(selected)
+                        handleChange(selected)
+                    }}
+                    onFocus={() => {
+                        // onBlur here helps buggy onFocus work correctly
+                        input.onBlur()
+                        input.onFocus()
+                    }}
+                    onBlur={() => input.onBlur()}
+                >
+                    {options.map(({ name }) => (
+                        <SingleSelectOption
+                            key={name}
+                            label={name}
+                            value={name}
+                        />
+                    ))}
+                </SingleSelect>
+            </div>
             {input.value && (
                 <Button
                     small

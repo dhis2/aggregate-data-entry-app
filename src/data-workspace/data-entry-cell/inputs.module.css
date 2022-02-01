@@ -1,0 +1,12 @@
+.selectFlexWrapper {
+    display: flex;
+    gap: 8px;
+    /* Align button and select */
+    align-items: baseline;
+}
+
+.selectFlexItem {
+    flex-grow: 1;
+    /* Adjusts for extra margin on SingleSelect */
+    margin-right: -8px;
+}
