@@ -3,8 +3,8 @@ import { QueryClient } from 'react-query'
 import { createWebStoragePersistor } from 'react-query/createWebStoragePersistor-experimental'
 import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
 
-// Persisted data will garbage collected after this time
-const MAX_CACHE_AGE = Infinity
+// Persisted data will be garbage collected after this time
+const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 31 // One month
 
 const useQueryClient = () => {
     const engine = useDataEngine()
@@ -36,6 +36,13 @@ const useQueryClient = () => {
         persistor: localStoragePersistor,
         maxAge: MAX_CACHE_AGE,
         dehydrateOptions: {
+            shouldDehydrateMutation: (mutation) => {
+                const isSuccess = mutation.state.status === 'success'
+                const isError = mutation.state.status === 'error'
+                const isDone = isSuccess || isError
+
+                return !isDone
+            },
             dehydrateMutations: true,
             dehydrateQueries: true,
         },
