@@ -5,7 +5,7 @@ import React from 'react'
 import { CustomForm } from './custom-form.js'
 import { DefaultForm } from './default-form.js'
 import styles from './entry-form.module.css'
-import { SectionForms } from './section.js'
+import { SectionForm } from './section/index.js'
 
 const FORM_TYPES = {
     DEFAULT: 'DEFAULT',
@@ -15,7 +15,7 @@ const FORM_TYPES = {
 
 const formTypeToComponent = {
     DEFAULT: DefaultForm,
-    SECTION: SectionForms,
+    SECTION: SectionForm,
     CUSTOM: CustomForm,
 }
 
