@@ -5,13 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2022-01-28T10:27:38.035Z\n"
-"PO-Revision-Date: 2022-01-28T10:27:38.035Z\n"
-=======
-"POT-Creation-Date: 2022-01-19T10:18:31.185Z\n"
-"PO-Revision-Date: 2022-01-19T10:18:31.185Z\n"
->>>>>>> fix(context selection): typo & keep org unit selector filter value
+"POT-Creation-Date: 2022-01-28T10:44:04.910Z\n"
+"PO-Revision-Date: 2022-01-28T10:44:04.910Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
