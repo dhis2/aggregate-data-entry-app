@@ -124,6 +124,18 @@ msgstr "This data set uses a custom form. Custom forms are not implemented yet."
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
 
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Choose an option"
+msgstr "Choose an option"
+
 msgid "This data set has no assigned Data Elements"
 msgstr "This data set has no assigned Data Elements"
 
