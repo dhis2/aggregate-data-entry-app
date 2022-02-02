@@ -48,7 +48,7 @@ export const PeriodSelectorBarItem = () => {
     useDeselectOnPeriodTypeChange()
 
     return (
-        <div>
+        <div data-test="period-selector">
             <DisabledTooltip>
                 <SelectorBarItem
                     disabled={!dataSetId}
