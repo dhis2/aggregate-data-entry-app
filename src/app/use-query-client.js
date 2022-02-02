@@ -2,6 +2,7 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import { QueryClient } from 'react-query'
 import { createWebStoragePersistor } from 'react-query/createWebStoragePersistor-experimental'
 import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
+import { dataValueSetQuery } from '../data-workspace/data-workspace.js'
 
 // Persisted data will be garbage collected after this time
 const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 31 // One month
@@ -36,12 +37,15 @@ const useQueryClient = () => {
         persistor: localStoragePersistor,
         maxAge: MAX_CACHE_AGE,
         dehydrateOptions: {
-            shouldDehydrateMutation: (mutation) => {
-                const isSuccess = mutation.state.status === 'success'
-                const isError = mutation.state.status === 'error'
-                const isDone = isSuccess || isError
+            shouldDehydrateQuery: (query) => {
+                const isDataValueSetQuery =
+                    query.queryKey[0] === dataValueSetQuery
+                const isSuccess = query.state.status === 'success'
 
-                return !isDone
+                return isDataValueSetQuery && isSuccess
+            },
+            shouldDehydrateMutation: (mutation) => {
+                return mutation.state.isPaused
             },
             dehydrateMutations: true,
             dehydrateQueries: true,
