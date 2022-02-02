@@ -1,9 +1,15 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
+import { parsePeriodId } from '../../shared/index.js'
 import { useDataSetPeriodType } from '../period-selector-bar-item/index.js'
-import {
-    useAttributeOptionComboSelection,
-    useDataSetId,
-} from '../use-context-selection/index.js'
+import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
+
+const convertPeriodIdToPeriodType = periodId => {
+    if (!periodId) {
+        return ''
+    }
+
+    return parsePeriodId(periodId)?.periodType?.type || ''
+}
 
 /**
  * If the period type changes, we need to deselect the current selection. As
@@ -11,30 +17,28 @@ import {
  * logic into the category option combo module
  */
 export default function useDeselectOnPeriodTypeChange() {
-    const initialExecution = useRef(true)
-    const [previousPeriodType, setPreviousPeriodType] = useState('')
+    const [periodId, setPeriodId] =
+        usePeriodId()
+    const [previousPeriodType, setPreviousPeriodType] = useState(
+        convertPeriodIdToPeriodType(periodId)
+    )
     const [dataSetId] = useDataSetId()
-    const { loadingDataSetPeriodType, errorDataSetPeriodType, periodType } =
-        useDataSetPeriodType()
-    const [, setAttributeOptionComboSelection] =
-        useAttributeOptionComboSelection()
+    const dataSetPeriodType = useDataSetPeriodType()
 
     useEffect(() => {
-        if (initialExecution.current) {
-            initialExecution.current = false
-        } else if (
-            !loadingDataSetPeriodType &&
-            !errorDataSetPeriodType &&
-            previousPeriodType !== periodType
+        if (
+            !dataSetPeriodType.loading &&
+            !dataSetPeriodType.error &&
+            previousPeriodType !== dataSetPeriodType.data
         ) {
-            setAttributeOptionComboSelection(undefined)
-            setPreviousPeriodType(periodType)
+            setPeriodId(undefined)
+            setPreviousPeriodType(dataSetPeriodType.data)
         }
     }, [
-        loadingDataSetPeriodType,
-        errorDataSetPeriodType,
+        dataSetPeriodType.loading,
+        dataSetPeriodType.error,
+        dataSetPeriodType.data,
         dataSetId,
-        initialExecution,
         previousPeriodType,
     ])
 }

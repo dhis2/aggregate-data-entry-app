@@ -15,6 +15,7 @@ export default function useDataSetPeriodType() {
     const [dataSetId] = useDataSetId()
     const queryKey = [QUERY_DATA_SET, { id: dataSetId }]
     const {
+        isIdle,
         isLoading: loading,
         error,
         data,
@@ -23,6 +24,7 @@ export default function useDataSetPeriodType() {
     const dataSetPeriodType = data?.dataSet.periodType
 
     return {
+        called: !isIdle,
         loading,
         error,
         data: dataSetPeriodType,
