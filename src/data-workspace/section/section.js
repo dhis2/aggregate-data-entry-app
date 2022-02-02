@@ -89,9 +89,9 @@ export const SectionFormSection = ({ section, globalFilterText }) => {
                     </TableCellHead>
                 </TableRowHead>
             </TableHead>
-            {groupedDataElements.map(({ categoryCombo, dataElements }) => (
+            {groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
                 <CategoryComboTable
-                    key={categoryCombo.id}
+                    key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
                     categoryCombo={categoryCombo}
                     dataElements={dataElements}
                     filterText={filterText}
