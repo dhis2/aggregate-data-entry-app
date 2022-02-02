@@ -2,7 +2,7 @@ import { Tab, TabBar } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useSectionFilter } from '../../context-selection/use-context-selection/use-context-selection.js'
-import { SectionFormSection } from './section.js'
+import { SectionFormSection, sectionProps } from './section.js'
 import styles from './section.module.css'
 
 export const SectionForm = ({ dataSet, globalFilterText }) => {
@@ -32,16 +32,6 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
         </>
     )
 }
-
-const sectionProps = PropTypes.shape({
-    dataSet: PropTypes.shape({
-        id: PropTypes.string,
-    }),
-    description: PropTypes.string,
-    disableDataElementAutoGroup: PropTypes.bool,
-    displayName: PropTypes.string,
-    id: PropTypes.string,
-})
 
 SectionForm.propTypes = {
     dataSet: PropTypes.shape({

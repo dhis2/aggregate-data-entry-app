@@ -102,7 +102,8 @@ export const SectionFormSection = ({ section, globalFilterText }) => {
         </Table>
     )
 }
-const sectionProps = PropTypes.shape({
+
+export const sectionProps = PropTypes.shape({
     dataSet: PropTypes.shape({
         id: PropTypes.string,
     }),

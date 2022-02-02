@@ -5,7 +5,7 @@ import React from 'react'
 import { CustomForm } from './custom-form.js'
 import { DefaultForm } from './default-form.js'
 import styles from './entry-form.module.css'
-import { SectionForm } from './section/index.js'
+import { SectionForm } from './section-form/index.js'
 
 const FORM_TYPES = {
     DEFAULT: 'DEFAULT',
