@@ -3,13 +3,19 @@
     width: 100%;
 }
 
+.radioFlexWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+}
+
 .selectFlexWrapper {
     display: flex;
     gap: 8px;
     /* Align button and select */
     align-items: baseline;
 }
-
 .selectFlexItem {
     flex-grow: 1;
     /* Adjusts for extra margin on SingleSelect */

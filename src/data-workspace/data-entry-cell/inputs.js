@@ -159,13 +159,7 @@ export const BooleanRadios = ({
 
     return (
         <div
-            className={className}
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '8px',
-            }}
+            className={cx(className, styles.radioFlexWrapper)}
             // Keydown for keyboard nav works nicely on wrapper
             onKeyDown={onKeyDown}
         >
