@@ -38,7 +38,7 @@ Given("a data set and an org unit have been selected but loading the org unit's 
 })
 
 When('the user hovers the org unit selector', () => {
-    cy.get('button > .label:contains("Organisation unit")').trigger(
+    cy.get('[data-test="org-unit-selector"] button > .label').trigger(
         'mouseover'
     )
 })
