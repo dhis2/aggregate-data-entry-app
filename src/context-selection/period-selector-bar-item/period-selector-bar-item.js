@@ -58,16 +58,18 @@ export const PeriodSelectorBarItem = () => {
                     setOpen={setPeriodOpen}
                     noValueMessage={i18n.t('Choose a period')}
                 >
-                    {year ? (
+                    {dataSetPeriodType.data && year ? (
                         <>
-                            <YearNavigator
-                                maxYear={maxYear}
-                                year={year}
-                                onYearChange={(year) => {
-                                    setPeriodId(null)
-                                    setYear(year)
-                                }}
-                            />
+                            {dataSetPeriodType.data !== 'Yearly' && (
+                                <YearNavigator
+                                    maxYear={maxYear}
+                                    year={year}
+                                    onYearChange={(year) => {
+                                        setPeriodId(null)
+                                        setYear(year)
+                                    }}
+                                />
+                            )}
 
                             <PeriodMenu
                                 onChange={({ selected }) => {
