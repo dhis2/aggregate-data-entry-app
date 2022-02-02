@@ -97,7 +97,7 @@ export const TrueOnlyCheckbox = ({
     }
 
     return (
-        <div style={{ height: '100%', width: '100%' }} onKeyDown={onKeyDown}>
+        <div className={styles.keyDownListenerWrapper} onKeyDown={onKeyDown}>
             <Checkbox
                 className={className}
                 {...convertCallbackSignatures(input)}

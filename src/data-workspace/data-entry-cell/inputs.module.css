@@ -1,3 +1,8 @@
+.keyDownListenerWrapper {
+    height: 100%;
+    width: 100%;
+}
+
 .selectFlexWrapper {
     display: flex;
     gap: 8px;
