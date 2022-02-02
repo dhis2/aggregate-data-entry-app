@@ -39,6 +39,7 @@ export const BasicInput = ({
     inputType,
 }) => {
     const { input, meta } = useField(name, {
+        type: inputType,
         subscription: { value: true, dirty: true, valid: true },
     })
 
@@ -52,7 +53,6 @@ export const BasicInput = ({
 
     return (
         <input
-            type={inputType || 'text'}
             className={className}
             {...input}
             onBlur={(e) => {
