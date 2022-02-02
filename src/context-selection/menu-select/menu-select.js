@@ -10,7 +10,8 @@ export default function MenuSelect({ values, selected, dataTest, onChange }) {
                 {values.map(({ value, label }) => (
                     <MenuItem
                         key={value || label}
-                        label={label}
+                        dataValue={value}
+                        label={<span data-value={value}>{label}</span>}
                         active={selected === value}
                         onClick={() => onChange({ selected: value })}
                     />
