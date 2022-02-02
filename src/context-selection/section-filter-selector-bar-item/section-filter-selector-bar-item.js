@@ -53,7 +53,7 @@ export default function SectionFilterSelectorBarItem() {
     return (
         <SelectorBarItem
             disabled={loading || dataSetSectionsInfo.error}
-            label={i18n.t('Section filter')}
+            label={i18n.t('Section')}
             value={sectionFilterValue}
             open={open}
             setOpen={setOpen}
