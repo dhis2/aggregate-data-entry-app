@@ -38,7 +38,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
     const selectorBarItemValue = useSelectorBarItemValue()
     const selected = orgUnit.data ? [orgUnit.data.path] : []
     const disabled = !dataSetId
-    const filteredOrgUnitPaths = filter ? [] : orgUnitPathsByName.data
+    const filteredOrgUnitPaths = filter ? orgUnitPathsByName.data : []
     const orgUnitPathsByNameLoading =
         // Either a filter has been set but the hook
         // hasn't been called yet
