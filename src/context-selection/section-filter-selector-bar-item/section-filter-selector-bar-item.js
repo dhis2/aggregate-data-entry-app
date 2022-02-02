@@ -18,6 +18,7 @@ export default function SectionFilterSelectorBarItem() {
 
     useOnDependentParamsChange(deselect)
 
+    // select first section if renderAsTabs === true
     useEffect(() => {
         const dataSet = dataSetSectionsInfo.data
         const sections = dataSet?.sections
@@ -42,14 +43,12 @@ export default function SectionFilterSelectorBarItem() {
             label: displayName,
         })) || []
 
-    const selectableOptions = sectionOptions.concat({
-        value: undefined,
-        label: i18n.t('Show all sections'),
-    })
-
-    if (dataSetSectionsInfo.data?.renderAsTabs) {
-        selectableOptions.shift()
-    }
+    const selectableOptions = dataSetSectionsInfo.data?.renderAsTabs
+        ? sectionOptions
+        : sectionOptions.concat({
+              value: undefined,
+              label: i18n.t('Show all sections'),
+          })
 
     return (
         <SelectorBarItem
