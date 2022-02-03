@@ -15,7 +15,7 @@ import {
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 
-const query = {
+const dataSetsQuery = {
     dataSet: {
         resource: 'dataSets',
         id: ({ id }) => id,
@@ -145,7 +145,7 @@ export const DataWorkspace = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
     const dataSetFetch = useQuery([
-        query,
+        dataSetsQuery,
         {
             id: dataSetId,
         },
