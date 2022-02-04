@@ -9,17 +9,16 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, useMemo } from 'react'
-import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
-import { useMetadata } from '../metadata/index.js'
+import { useMetadata } from '../../metadata/index.js'
 import {
     getDataElementsBySection,
     groupDataElementsByCatCombo,
     groupDataElementsByCatComboInOrder,
-} from '../metadata/selectors.js'
-import { CategoryComboTable } from './category-combo-table.js'
+} from '../../metadata/selectors.js'
+import { CategoryComboTable } from '../category-combo-table.js'
 import styles from './section.module.css'
 
-export const FormSection = ({ section, globalFilterText }) => {
+export const SectionFormSection = ({ section, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
     const { available, metadata } = useMetadata()
@@ -90,9 +89,9 @@ export const FormSection = ({ section, globalFilterText }) => {
                     </TableCellHead>
                 </TableRowHead>
             </TableHead>
-            {groupedDataElements.map(({ categoryCombo, dataElements }) => (
+            {groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
                 <CategoryComboTable
-                    key={categoryCombo.id}
+                    key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
                     categoryCombo={categoryCombo}
                     dataElements={dataElements}
                     filterText={filterText}
@@ -103,7 +102,8 @@ export const FormSection = ({ section, globalFilterText }) => {
         </Table>
     )
 }
-const sectionProps = PropTypes.shape({
+
+export const sectionProps = PropTypes.shape({
     dataSet: PropTypes.shape({
         id: PropTypes.string,
     }),
@@ -113,32 +113,7 @@ const sectionProps = PropTypes.shape({
     id: PropTypes.string,
 })
 
-FormSection.propTypes = {
+SectionFormSection.propTypes = {
     globalFilterText: PropTypes.string,
     section: sectionProps,
-}
-
-export const SectionForms = ({ dataSet, globalFilterText }) => {
-    const [sectionId] = useSectionFilter()
-    const filteredSections = sectionId
-        ? dataSet.sections.filter((s) => s.id === sectionId)
-        : dataSet.sections
-    return (
-        <>
-            {filteredSections.map((s) => (
-                <FormSection
-                    section={s}
-                    key={s.id}
-                    globalFilterText={globalFilterText}
-                />
-            ))}
-        </>
-    )
-}
-
-SectionForms.propTypes = {
-    dataSet: PropTypes.shape({
-        sections: PropTypes.arrayOf(sectionProps),
-    }),
-    globalFilterText: PropTypes.string,
 }
