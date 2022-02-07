@@ -38,7 +38,7 @@ export default function SectionFilterSelectorBarItem() {
         dataSetSectionsInfo.data
 
     const sectionOptions =
-        dataSetSectionsInfo.data?.sections.map(({ id, displayName }) => ({
+        dataSetSectionsInfo.data?.sections?.map(({ id, displayName }) => ({
             value: id,
             label: displayName,
         })) || []

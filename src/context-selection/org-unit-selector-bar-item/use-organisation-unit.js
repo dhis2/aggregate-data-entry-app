@@ -1,4 +1,4 @@
-import { useQuery, onlineManager } from 'react-query'
+import { useQuery } from 'react-query'
 import { useOrgUnitId } from '../use-context-selection/index.js'
 
 const QUERY_ORG_UNIT = {
@@ -12,14 +12,13 @@ const QUERY_ORG_UNIT = {
 }
 
 export default function useOrgUnit() {
-    const isOnline = onlineManager.isOnline()
     const [orgUnitId] = useOrgUnitId()
     const queryKey = [QUERY_ORG_UNIT, { id: orgUnitId }]
     const {
         isLoading: loading,
         error,
         data,
-    } = useQuery(queryKey, { enabled: !!orgUnitId && isOnline })
+    } = useQuery(queryKey, { enabled: !!orgUnitId })
 
     const orgUnit = data?.orgUnit
 

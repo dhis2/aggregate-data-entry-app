@@ -11,7 +11,7 @@ const QUERY_USER_ORG_UNITS = {
 
 export default function useUserOrgUnits() {
     const { isLoading: loading, error, data } = useQuery([QUERY_USER_ORG_UNITS])
-    const userOrgUnits = data?.orgUnits.organisationUnits.map(({ id }) => id)
+    const userOrgUnits = data?.orgUnits?.organisationUnits?.map(({ id }) => id)
 
     return {
         data: userOrgUnits,

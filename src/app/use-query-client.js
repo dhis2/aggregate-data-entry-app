@@ -1,14 +1,13 @@
 import { useDataEngine } from '@dhis2/app-runtime'
-import { useQueryClient } from 'react-query'
-import { createWebStoragePersistor } from 'react-query/createWebStoragePersistor-experimental'
-import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
+import { QueryClient } from 'react-query'
+import { createWebStoragePersister } from 'react-query/createWebStoragePersister'
+import { persistQueryClient } from 'react-query/persistQueryClient'
 
 // Persisted data will be garbage collected after this time
 const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 31 // One month
 
-const useConfigureQueryClient = () => {
+const useQueryClient = () => {
     const engine = useDataEngine()
-    const queryClient = useQueryClient()
 
     // https://react-query.tanstack.com/guides/query-keys
     const queryFn = ({ queryKey }) => {
@@ -16,23 +15,28 @@ const useConfigureQueryClient = () => {
         return engine.query(query, { variables })
     }
 
-    // https://react-query.tanstack.com/guides/default-query-function
-    queryClient.setDefaultOptions({
-        queries: {
-            queryFn,
-            refetchOnWindowFocus: false,
-            // Needs to be equal or higher than the persisted cache maxAge
-            cacheTime: MAX_CACHE_AGE,
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                queryFn,
+                refetchOnWindowFocus: false,
+                // Needs to be equal or higher than the persisted cache maxAge
+                cacheTime: MAX_CACHE_AGE,
+                networkMode: 'offlineFirst',
+            },
+            mutations: {
+                networkMode: 'offlineFirst',
+            },
         },
     })
 
-    const localStoragePersistor = createWebStoragePersistor({
+    const localStoragePersister = createWebStoragePersister({
         storage: window.localStorage,
     })
 
     persistQueryClient({
         queryClient,
-        persistor: localStoragePersistor,
+        persister: localStoragePersister,
         maxAge: MAX_CACHE_AGE,
         dehydrateOptions: {
             shouldDehydrateQuery: (query) => {
@@ -45,6 +49,8 @@ const useConfigureQueryClient = () => {
             dehydrateQueries: true,
         },
     })
+
+    return queryClient
 }
 
-export default useConfigureQueryClient
+export default useQueryClient
