@@ -4,7 +4,13 @@ const config = {
     pwa: {
         enabled: true,
         caching: {
-            patternsToOmitFromAppShell: ['dataValueSets'],
+            patternsToOmitFromAppShell: [
+                'dataSets',
+                'dataValueSets',
+                'me',
+                'metadata',
+                'organisationUnits',
+            ],
         },
     },
     entryPoints: {
