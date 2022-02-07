@@ -1,0 +1,14 @@
+.selectorBar :global(.controls) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+}
+
+.selectorBarItems {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.optionsButton {
+    padding-right: var(--spacers-dp8);
+}
