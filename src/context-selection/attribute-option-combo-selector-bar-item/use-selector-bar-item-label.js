@@ -1,8 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
-import useCategoryCombination from './use-category-combination.js'
 
-export default function useSelectorBarItemLabel() {
-    const categoryCombination = useCategoryCombination()
+export default function useSelectorBarItemLabel(categoryCombination) {
 
     if (!categoryCombination.called || categoryCombination.loading) {
         return i18n.t('Loading categories...')
