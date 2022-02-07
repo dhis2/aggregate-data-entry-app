@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery, onlineManager } from 'react-query'
 import { useDataSetId } from '../use-context-selection/index.js'
 
 const QUERY_CATEGORY_COMBINATION = {
@@ -14,6 +14,7 @@ const QUERY_CATEGORY_COMBINATION = {
 }
 
 export default function useCategoryCombination() {
+    const isOnline = onlineManager.isOnline()
     const [dataSetId] = useDataSetId()
     const queryKey = [QUERY_CATEGORY_COMBINATION, { id: dataSetId }]
     const {
@@ -21,7 +22,7 @@ export default function useCategoryCombination() {
         isLoading: loading,
         error,
         data,
-    } = useQuery(queryKey, { enabled: !!dataSetId })
+    } = useQuery(queryKey, { enabled: !!dataSetId && isOnline })
 
     return {
         called: !isIdle,

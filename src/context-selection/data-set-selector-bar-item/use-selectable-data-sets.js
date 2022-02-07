@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery, onlineManager } from 'react-query'
 
 const QUERY_SELECTABLE_DATA_SETS = {
     dataSets: {
@@ -10,12 +10,13 @@ const QUERY_SELECTABLE_DATA_SETS = {
 }
 
 export default function useSelectableDataSets() {
+    const isOnline = onlineManager.isOnline()
     const {
         isIdle,
         isLoading: loading,
         error,
         data,
-    } = useQuery([QUERY_SELECTABLE_DATA_SETS])
+    } = useQuery([QUERY_SELECTABLE_DATA_SETS], { enabled: isOnline })
 
     // @TODO: How to handle pages / large lists?
     // Nested as this is "page-able"

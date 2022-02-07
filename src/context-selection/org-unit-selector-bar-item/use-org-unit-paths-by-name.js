@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, onlineManager } from 'react-query'
 
 const QUERY_SEARCH_ORG_UNITS = {
     orgUnits: {
@@ -13,13 +13,14 @@ const QUERY_SEARCH_ORG_UNITS = {
 }
 
 export default function useOrgUnitPathsByName(searchTerm) {
+    const isOnline = onlineManager.isOnline()
     const queryKey = [QUERY_SEARCH_ORG_UNITS, { searchTerm }]
     const {
         isIdle,
         isLoading: loading,
         error,
         data,
-    } = useQuery(queryKey, { enabled: !!searchTerm })
+    } = useQuery(queryKey, { enabled: !!searchTerm && isOnline })
 
     const paths = useMemo(() => {
         if (!data) {

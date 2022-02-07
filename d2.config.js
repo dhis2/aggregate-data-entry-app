@@ -7,7 +7,6 @@ const config = {
             patternsToOmitFromAppShell: [
                 'dataSets',
                 'dataValueSets',
-                'me',
                 'metadata',
                 'organisationUnits',
             ],

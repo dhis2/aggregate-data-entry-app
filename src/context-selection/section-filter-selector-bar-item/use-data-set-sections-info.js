@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery, onlineManager } from 'react-query'
 import { useDataSetId } from '../use-context-selection/index.js'
 
 const QUERY_DATA_SET_SECTIONS_INFO = {
@@ -12,6 +12,7 @@ const QUERY_DATA_SET_SECTIONS_INFO = {
 }
 
 export default function useDataSetSectionsInfo() {
+    const isOnline = onlineManager.isOnline()
     const [dataSetId] = useDataSetId()
     const queryKey = [QUERY_DATA_SET_SECTIONS_INFO, { id: dataSetId }]
     const {
@@ -19,7 +20,7 @@ export default function useDataSetSectionsInfo() {
         isLoading: loading,
         error,
         data,
-    } = useQuery(queryKey, { enabled: !!dataSetId })
+    } = useQuery(queryKey, { enabled: !!dataSetId && isOnline })
 
     const dataSet = data?.dataSet
 

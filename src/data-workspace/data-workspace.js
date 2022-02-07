@@ -1,6 +1,6 @@
 import { CircularLoader } from '@dhis2/ui'
 import React, { useMemo } from 'react'
-import { useQuery, useIsMutating } from 'react-query'
+import { useQuery, useIsMutating, onlineManager } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
 import { useMetadata } from '../metadata/index.js'
 import {
@@ -70,6 +70,7 @@ const metadataQuery = {
 }
 
 const useDataValueSet = () => {
+    const isOnline = onlineManager.isOnline()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
     const activeMutations = useIsMutating({
@@ -88,7 +89,7 @@ const useDataValueSet = () => {
         ],
         {
             // Only enable this query if there are no ongoing mutations
-            enabled: activeMutations === 0,
+            enabled: activeMutations === 0 && isOnline,
         }
     )
 }
@@ -142,21 +143,29 @@ export const useAttributeOptionCombo = () => {
 }
 
 export const DataWorkspace = () => {
+    const isOnline = onlineManager.isOnline()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
-    const dataSetFetch = useQuery([
-        dataSetsQuery,
-        {
-            id: dataSetId,
-        },
-    ])
+    const dataSetFetch = useQuery(
+        [
+            dataSetsQuery,
+            {
+                id: dataSetId,
+            },
+        ],
+        { enabled: isOnline }
+    )
 
     const { available, setMetadata } = useMetadata()
 
-    useQuery([metadataQuery], {
-        staleTime: 60 * 24 * 1000,
-        onSuccess: (data) => setMetadata(data.metadata),
-    })
+    useQuery(
+        [metadataQuery],
+        {
+            staleTime: 60 * 24 * 1000,
+            onSuccess: (data) => setMetadata(data.metadata),
+        },
+        { enabled: isOnline }
+    )
 
     const dataValueSetFetch = useDataValueSet()
 
