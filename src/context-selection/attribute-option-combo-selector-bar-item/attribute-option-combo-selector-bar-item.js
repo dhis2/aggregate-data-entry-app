@@ -35,23 +35,25 @@ export default function AttributeOptionComboSelectorBarItem() {
         categoryCombination.data
 
     return (
-        <SelectorBarItem
-            label={label}
-            value={valueLabel}
-            open={open}
-            setOpen={setOpen}
-            noValueMessage={i18n.t('Choose a data set')}
-        >
-            {categoryCombination.error &&
-                i18n.t('An error occurred loading the categories')}
+        <div data-test="attribute-option-combo-selector">
+            <SelectorBarItem
+                label={label}
+                value={valueLabel}
+                open={open}
+                setOpen={setOpen}
+                noValueMessage={i18n.t('Choose a data set')}
+            >
+                {categoryCombination.error &&
+                    i18n.t('An error occurred loading the categories')}
 
-            {renderMenu && (
-                <CategoriesMenu
-                    close={() => setOpen(false)}
-                    selected={selected}
-                    onChange={onChange}
-                />
-            )}
-        </SelectorBarItem>
+                {renderMenu && (
+                    <CategoriesMenu
+                        close={() => setOpen(false)}
+                        selected={selected}
+                        onChange={onChange}
+                    />
+                )}
+            </SelectorBarItem>
+        </div>
     )
 }
