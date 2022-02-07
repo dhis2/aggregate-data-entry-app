@@ -1,5 +1,5 @@
 import { CssVariables } from '@dhis2/ui'
-import React from 'react'
+import React, { useState } from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import './app.css'
@@ -16,6 +16,21 @@ import useConfigureQueryClient from './use-configure-query-client.js'
  */
 const App = () => {
     useConfigureQueryClient()
+    const [selectionHasNoFormMessage, setSelectionHasNoFormMessage] = useState(
+        ''
+    )
+
+    const contextSelection = (
+        <ContextSelection
+            setSelectionHasNoFormMessage={setSelectionHasNoFormMessage}
+        />
+    )
+
+    const dataWorkspace = (
+        <DataWorkspace
+            selectionHasNoFormMessage={selectionHasNoFormMessage}
+        />
+    )
 
     return (
         <Router>
