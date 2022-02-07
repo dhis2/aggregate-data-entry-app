@@ -23,8 +23,6 @@ Given('a data set and an org unit have been selected', () => {
 })
 
 Given("a data set and an org unit have been selected but loading the org unit's data will fail", () => {
-    const url = `/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd`
-
     cy.intercept(
         'GET',
         new RegExp(
@@ -33,7 +31,7 @@ Given("a data set and an org unit have been selected but loading the org unit's 
         { statusCode: 404, body: '404 Not Found!' }
     )
 
-    cy.visit(url)
+    cy.visit('/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd')
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
