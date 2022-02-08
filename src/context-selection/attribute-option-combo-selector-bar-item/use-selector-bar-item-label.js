@@ -12,5 +12,9 @@ export default function useSelectorBarItemLabel(categoryCombination) {
         })
     }
 
+    if (categoryCombination.data?.isDefault) {
+        return i18n.t('Default attribute combo')
+    }
+
     return categoryCombination.data?.displayName
 }

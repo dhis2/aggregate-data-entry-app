@@ -60,6 +60,7 @@ export default function AttributeOptionComboSelectorBarItem({
     return (
         <div data-test="attribute-option-combo-selector">
             <SelectorBarItem
+                disabled={categoryCombination.data?.isDefault}
                 label={label}
                 value={valueLabel}
                 open={open}

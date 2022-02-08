@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-28T10:44:04.910Z\n"
-"PO-Revision-Date: 2022-01-28T10:44:04.910Z\n"
+"POT-Creation-Date: 2022-02-08T10:42:18.576Z\n"
+"PO-Revision-Date: 2022-02-08T10:42:18.576Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -24,6 +24,13 @@ msgstr "There are {{ pendingMutations }} pending mutations"
 msgid "Synced"
 msgstr "Synced"
 
+msgid ""
+"At least of the the categories does not have any options due to the options "
+"not spanning over the entire selected period"
+msgstr ""
+"At least of the the categories does not have any options due to the options "
+"not spanning over the entire selected period"
+
 msgid "Choose a data set"
 msgstr "Choose a data set"
 
@@ -39,20 +46,20 @@ msgstr "Hide menu"
 msgid "Attribute option combination: An error occurred"
 msgstr "Attribute option combination: An error occurred"
 
+msgid "Default attribute combo"
+msgstr "Default attribute combo"
+
 msgid "Loading..."
 msgstr "Loading..."
 
 msgid "An error loading the values occurred"
 msgstr "An error loading the values occurred"
 
-msgid "No selection!"
-msgstr "No selection!"
+msgid "0 selections"
+msgstr "0 selections"
 
-msgid "Partial selection!"
-msgstr "Partial selection!"
-
-msgid "Complete selection!"
-msgstr "Complete selection!"
+msgid "{{amount}} selections"
+msgstr "{{amount}} selections"
 
 msgid "Data set"
 msgstr "Data set"
@@ -135,6 +142,9 @@ msgstr "Filter fields"
 
 msgid "Clear filter"
 msgstr "Clear filter"
+
+msgid "The current selection does not have a form"
+msgstr "The current selection does not have a form"
 
 msgid "Type here to filter in this section"
 msgstr "Type here to filter in this section"

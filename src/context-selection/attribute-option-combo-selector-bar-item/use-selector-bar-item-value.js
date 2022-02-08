@@ -12,6 +12,10 @@ export default function useSelectorBarItemValue(categoryCombination) {
         return i18n.t('An error loading the values occurred')
     }
 
+    if (categoryCombination.data?.isDefault) {
+        return ''
+    }
+
     if (
         !Object.values(attributeOptionComboSelection).length ||
         !categoryCombination.data
