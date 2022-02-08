@@ -4,16 +4,18 @@ import {
     composeValidators,
     createMaxNumber,
     createNumberRange,
+    createMaxCharacterLength,
 } from '@dhis2/ui-forms'
 
 /**
  * todo:
  * TIME
  * DATE
- * FILE_RESOURCE?
+ * DATETIME
  */
 
-export * from '@dhis2/ui-forms'
+export const text = createMaxCharacterLength(50000)
+export const letter = createMaxCharacterLength(1)
 export const integerPositive = composeValidators(integer, createMinNumber(1))
 export const integerZeroOrPositive = composeValidators(
     integer,

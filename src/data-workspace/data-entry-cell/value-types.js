@@ -1,4 +1,11 @@
 import {
+    email,
+    number,
+    integer,
+    internationalPhoneNumber,
+    url,
+} from '@dhis2/ui-forms'
+import {
     BasicInput,
     TrueOnlyCheckbox,
     BooleanRadios,
@@ -6,16 +13,12 @@ import {
     withInputType,
 } from './inputs.js'
 import {
-    dhis2Username,
-    email,
-    number,
-    integer,
+    text,
+    letter,
     integerPositive,
     integerZeroOrPositive,
     integerNegative,
-    internationalPhoneNumber,
     percentage,
-    url,
     unitInterval,
 } from './validators.js'
 
@@ -28,33 +31,17 @@ export function getInputByDataElement(de) {
     }
 }
 
-// todo: remove these when done
-// These are the data value types found on the demo DB
-// eslint-disable-next-line no-unused-vars
-const prioritized = [
-    'NUMBER',
-    'TRUE_ONLY',
-    'BOOLEAN',
-    'INTEGER',
-    'INTEGER_POSITIVE',
-    'INTEGER_ZERO_OR_POSITIVE',
-    'LONG_TEXT',
-    'TIME', // needs validator (and input?)
-    'DATE', // needs validator (and input?)
-    'FILE_RESOURCE', // needs input
-]
-
 export const VALUE_TYPES = Object.freeze({
     TEXT: {
-        validate: () => {}, // todo: < 50,000 chars
+        validate: text,
         Input: BasicInput,
     },
     LONG_TEXT: {
-        validate: () => {},
+        validate: null,
         Input: BasicInput, // Todo: Large text box
     },
     LETTER: {
-        validate: () => {}, // todo
+        validate: letter,
         Input: BasicInput,
     },
     PHONE_NUMBER: {
@@ -66,11 +53,11 @@ export const VALUE_TYPES = Object.freeze({
         Input: withInputType(BasicInput, 'email'),
     },
     BOOLEAN: {
-        validate: () => {}, // todo?
+        validate: null,
         Input: BooleanRadios,
     },
     TRUE_ONLY: {
-        validate: () => {}, // todo?
+        validate: null,
         Input: TrueOnlyCheckbox,
     },
     DATE: {
@@ -78,11 +65,11 @@ export const VALUE_TYPES = Object.freeze({
         Input: withInputType(BasicInput, 'date'),
     },
     DATETIME: {
-        validate: () => {}, // todo (in case browser doesn't support special input)
+        validate: () => {}, // todo " "
         Input: withInputType(BasicInput, 'datetime-local'),
     },
     TIME: {
-        validate: () => {}, // todo (in case browser doesn't support special input)
+        validate: () => {}, // todo " "
         Input: withInputType(BasicInput, 'time'),
     },
     NUMBER: {
@@ -113,42 +100,24 @@ export const VALUE_TYPES = Object.freeze({
         validate: integerZeroOrPositive,
         Input: BasicInput,
     },
-    TRACKER_ASSOCIATE: {
-        // todo
-        validate: () => {},
-        Input: BasicInput,
-    },
-    USERNAME: {
-        validate: dhis2Username,
-        Input: BasicInput,
-    },
-    COORDINATE: {
-        // todo
-        validate: () => {},
-        Input: BasicInput,
-    },
-    ORGANISATION_UNIT: {
-        // todo
-        validate: () => {},
-        Input: BasicInput,
-    },
-    AGE: {
-        // todo
-        validate: () => {},
-        Input: BasicInput,
-    },
     URL: {
         validate: url,
         Input: withInputType(BasicInput, 'url'),
     },
+    // todo
     FILE_RESOURCE: {
-        // todo
         validate: () => {},
         Input: BasicInput,
     },
+    // todo
     IMAGE: {
-        // todo
         validate: () => {},
         Input: BasicInput,
     },
+    // Value types not supported for aggregate data:
+    // ORGANISATION_UNIT
+    // TRACKER_ASSOCIATE
+    // COORDINATE
+    // USERNAME
+    // AGE
 })
