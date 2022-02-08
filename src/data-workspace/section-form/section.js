@@ -9,17 +9,16 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, useMemo } from 'react'
-import { useSectionFilter } from '../context-selection/use-context-selection/use-context-selection.js'
-import { useMetadata } from '../metadata/index.js'
+import { useMetadata } from '../../metadata/index.js'
 import {
     getDataElementsBySection,
     groupDataElementsByCatCombo,
     groupDataElementsByCatComboInOrder,
-} from '../metadata/selectors.js'
-import { CategoryComboTable } from './category-combo-table.js'
+} from '../../metadata/selectors.js'
+import { CategoryComboTable } from '../category-combo-table.js'
 import styles from './section.module.css'
 
-export const FormSection = ({ section, globalFilterText }) => {
+export const SectionFormSection = ({ section, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
     const { available, metadata } = useMetadata()
@@ -46,12 +45,14 @@ export const FormSection = ({ section, globalFilterText }) => {
         return [groupedDataElements, maxColumnsInSection]
     }, [metadata, section])
 
+    const filterInputId = `filter-input-${section.id}`
+
     return (
-        <div className="wrapper">
-            <Table className={styles.table} suppressZebraStriping>
-                <TableHead>
-                    <TableRowHead>
-                        <TableCellHead colSpan="100%" className={styles.header}>
+        <Table className={styles.table} suppressZebraStriping>
+            <TableHead>
+                <TableRowHead>
+                    <TableCellHead colSpan="100%" className={styles.headerCell}>
+                        <div className={styles.labelWrapper}>
                             <div className={styles.title}>
                                 {section.displayName}
                             </div>
@@ -61,13 +62,19 @@ export const FormSection = ({ section, globalFilterText }) => {
                                         'Placeholder section description'}
                                 </div>
                             )}
-                        </TableCellHead>
-                    </TableRowHead>
-                    <TableRowHead>
-                        <TableCellHead colSpan="100%" className={styles.filter}>
+                        </div>
+                    </TableCellHead>
+                </TableRowHead>
+                <TableRowHead>
+                    <TableCellHead colSpan="100%" className={styles.headerCell}>
+                        <label
+                            htmlFor={filterInputId}
+                            className={styles.filterWrapper}
+                        >
                             <IconFilter16 color={colors.grey600} />
                             <input
-                                name="filter-input"
+                                name={filterInputId}
+                                id={filterInputId}
                                 type="text"
                                 placeholder={i18n.t(
                                     'Type here to filter in this section'
@@ -76,25 +83,27 @@ export const FormSection = ({ section, globalFilterText }) => {
                                 onChange={({ target }) =>
                                     setFilterText(target.value)
                                 }
+                                className={styles.filterInput}
                             />
-                        </TableCellHead>
-                    </TableRowHead>
-                </TableHead>
-                {groupedDataElements.map(({ categoryCombo, dataElements }) => (
-                    <CategoryComboTable
-                        key={categoryCombo.id}
-                        categoryCombo={categoryCombo}
-                        dataElements={dataElements}
-                        filterText={filterText}
-                        globalFilterText={globalFilterText}
-                        maxColumnsInSection={maxColumnsInSection}
-                    />
-                ))}
-            </Table>
-        </div>
+                        </label>
+                    </TableCellHead>
+                </TableRowHead>
+            </TableHead>
+            {groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
+                <CategoryComboTable
+                    key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
+                    categoryCombo={categoryCombo}
+                    dataElements={dataElements}
+                    filterText={filterText}
+                    globalFilterText={globalFilterText}
+                    maxColumnsInSection={maxColumnsInSection}
+                />
+            ))}
+        </Table>
     )
 }
-const sectionProps = PropTypes.shape({
+
+export const sectionProps = PropTypes.shape({
     dataSet: PropTypes.shape({
         id: PropTypes.string,
     }),
@@ -104,32 +113,7 @@ const sectionProps = PropTypes.shape({
     id: PropTypes.string,
 })
 
-FormSection.propTypes = {
+SectionFormSection.propTypes = {
     globalFilterText: PropTypes.string,
     section: sectionProps,
-}
-
-export const SectionForms = ({ dataSet, globalFilterText }) => {
-    const [sectionId] = useSectionFilter()
-    const filteredSections = sectionId
-        ? dataSet.sections.filter((s) => s.id === sectionId)
-        : dataSet.sections
-    return (
-        <div>
-            {filteredSections.map((s) => (
-                <FormSection
-                    section={s}
-                    key={s.id}
-                    globalFilterText={globalFilterText}
-                />
-            ))}
-        </div>
-    )
-}
-
-SectionForms.propTypes = {
-    dataSet: PropTypes.shape({
-        sections: PropTypes.arrayOf(sectionProps),
-    }),
-    globalFilterText: PropTypes.string,
 }

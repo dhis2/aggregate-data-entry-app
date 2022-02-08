@@ -6,7 +6,7 @@ const QUERY_DATA_SET_SECTIONS_INFO = {
         resource: 'dataSets',
         id: ({ id }) => id,
         params: {
-            fields: ['formType', 'sections[id,displayName]'],
+            fields: ['formType', 'sections[id,displayName]', 'renderAsTabs'],
         },
     },
 }

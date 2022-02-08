@@ -92,11 +92,12 @@ describe('<AuditLog />', () => {
                 },
             ],
         }
-        const { getByRole, getAllByRole, queryByRole, getByText, container } = render(
-            <CustomDataProvider data={mockData}>
-                <AuditLog itemId="item-1" />
-            </CustomDataProvider>
-        )
+        const { getByRole, getAllByRole, queryByRole, getByText, container } =
+            render(
+                <CustomDataProvider data={mockData}>
+                    <AuditLog itemId="item-1" />
+                </CustomDataProvider>
+            )
 
         // Expand and wait for data to load
         userEvent.click(container.querySelector('summary'))
@@ -108,12 +109,20 @@ describe('<AuditLog />', () => {
         expect(getByRole('list')).toBeInTheDocument()
         expect(getAllByRole('listitem')).toHaveLength(mockData.auditLog.length)
         for (const entry of mockData.auditLog) {
-            expect(getByText(entry.displayName, { exact: false })).toBeInTheDocument()
-            expect(getByText(entry.oldValue, { exact: false })).toBeInTheDocument()
+            expect(
+                getByText(entry.displayName, { exact: false })
+            ).toBeInTheDocument()
+            expect(
+                getByText(entry.oldValue, { exact: false })
+            ).toBeInTheDocument()
             if (entry.newValue) {
-                expect(getByText(entry.newValue, { exact: false })).toBeInTheDocument()
+                expect(
+                    getByText(entry.newValue, { exact: false })
+                ).toBeInTheDocument()
             }
-            expect(getByText(entry.changeType, { exact: false })).toBeInTheDocument()
+            expect(
+                getByText(entry.changeType, { exact: false })
+            ).toBeInTheDocument()
         }
     })
 })

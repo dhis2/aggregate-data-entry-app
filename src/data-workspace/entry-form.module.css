@@ -1,7 +1,13 @@
+.table {
+    /* overrides fullwidth(100%)- UI-styling */
+    min-width: 240px !important;
+    /* Weird req for allowing <td> cell contents to be 100% cell height */
+    height: 100% !important;
+}
+
 .filterWrapper {
     display: flex;
     align-items: center;
-    margin: 8px 0px 12px 0px;
 }
 
 .filterField {

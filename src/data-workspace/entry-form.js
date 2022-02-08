@@ -5,7 +5,7 @@ import React from 'react'
 import { CustomForm } from './custom-form.js'
 import { DefaultForm } from './default-form.js'
 import styles from './entry-form.module.css'
-import { SectionForms } from './section.js'
+import { SectionForm } from './section-form/index.js'
 
 const FORM_TYPES = {
     DEFAULT: 'DEFAULT',
@@ -15,7 +15,7 @@ const FORM_TYPES = {
 
 const formTypeToComponent = {
     DEFAULT: DefaultForm,
-    SECTION: SectionForms,
+    SECTION: SectionForm,
     CUSTOM: CustomForm,
 }
 
@@ -30,7 +30,7 @@ export const EntryForm = ({ dataSet }) => {
     const Component = formTypeToComponent[formType]
 
     return (
-        <div>
+        <>
             {formType !== FORM_TYPES.CUSTOM && (
                 <FilterField
                     value={globalFilterText}
@@ -39,7 +39,7 @@ export const EntryForm = ({ dataSet }) => {
                 />
             )}
             <Component dataSet={dataSet} globalFilterText={globalFilterText} />
-        </div>
+        </>
     )
 }
 

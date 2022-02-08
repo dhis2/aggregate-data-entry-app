@@ -13,6 +13,7 @@ import styles from './data-entry-cell.module.css'
 import { getValidatorByValueType } from './field-validation.js'
 import { useDataValueMutation } from './use-data-value-mutation.js'
 import { useFieldNavigation } from './use-field-navigation.js'
+import { ValidationTooltip } from './validation-tooltip.js'
 
 export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
@@ -103,28 +104,40 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 
     return (
         <td className={styles.dataEntryCell}>
-            <div className={styles.cellInnerWrapper}>
-                <input
-                    className={cx(styles.input, inputStateClassName)}
-                    type="text"
-                    {...input}
-                    onBlur={onBlur}
-                    onKeyDown={onKeyDown}
-                    // todo: disabled if 'readOnly'
-                    // disabled={true}
-                />
-                <div className={styles.topRightIndicator}>
-                    {isLoading ? (
-                        <IconMore16 color={colors.grey700} />
-                    ) : synced ? (
-                        <div className={styles.topRightTriangle} />
-                    ) : null}
-                </div>
-                <div className={styles.bottomLeftIndicator}>
-                    {/* todo: show grey600 6x6 triangle if there is a comment */}
-                    {false && <div className={styles.bottomLeftTriangle} />}
-                </div>
-            </div>
+            <ValidationTooltip
+                invalid={meta.invalid}
+                error={meta.error}
+                active={meta.active}
+            >
+                {(tooltipProps) => (
+                    <div className={styles.cellInnerWrapper} {...tooltipProps}>
+                        <input
+                            id={fieldName}
+                            type="text"
+                            // The FinalForm props:
+                            {...input}
+                            onBlur={onBlur}
+                            onKeyDown={onKeyDown}
+                            // todo: disabled if 'readOnly'
+                            // disabled={true}
+                            className={cx(styles.input, inputStateClassName)}
+                        />
+                        <div className={styles.topRightIndicator}>
+                            {isLoading ? (
+                                <IconMore16 color={colors.grey700} />
+                            ) : synced ? (
+                                <div className={styles.topRightTriangle} />
+                            ) : null}
+                        </div>
+                        <div className={styles.bottomLeftIndicator}>
+                            {/* todo: show grey600 6x6 triangle if there is a comment */}
+                            {false && (
+                                <div className={styles.bottomLeftTriangle} />
+                            )}
+                        </div>
+                    </div>
+                )}
+            </ValidationTooltip>
         </td>
     )
 }

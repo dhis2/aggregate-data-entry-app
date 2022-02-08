@@ -9,6 +9,7 @@ export function FinalFormWrapper({ children, initialValues }) {
                 console.log({ values, form })
             }}
             initialValues={initialValues}
+            keepDirtyOnReinitialize
         >
             {() => children}
         </Form>

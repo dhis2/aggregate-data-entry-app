@@ -22,7 +22,9 @@ describe('<Limits />', () => {
             </CustomDataProvider>
         )
 
-        expect(getByText('Minimum and maximum limits (disabled)')).toBeInTheDocument()
+        expect(
+            getByText('Minimum and maximum limits (disabled)')
+        ).toBeInTheDocument()
     })
 
     it('renders a loading spinner whilst loading the item limits', async () => {

@@ -6,6 +6,8 @@ import {
     useAttributeOptionCombo,
 } from '../data-workspace.js'
 
+export const DATA_VALUE_MUTATION_KEY = 'DATA_VALUE_MUTATION_KEY'
+
 const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
     type: 'create',
@@ -63,6 +65,8 @@ export const useDataValueMutation = () => {
         engine.mutate(DATA_VALUE_MUTATION, { variables })
 
     return useMutation(mutationFn, {
+        // Used to identify whether this mutation is running
+        mutationKey: DATA_VALUE_MUTATION_KEY,
         // Optimistic update of the react-query cache
         onMutate: async (newDataValue) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
@@ -123,11 +127,6 @@ export const useDataValueMutation = () => {
                 context.dataValueSetQueryKey,
                 context.previousDataValueSet
             )
-        },
-        // Always refetch after error or success
-        // eslint-disable-next-line max-params
-        onSettled: (newDataValue, error, variables, context) => {
-            queryClient.invalidateQueries(context.dataValueSetQueryKey)
         },
         retry: 1,
     })

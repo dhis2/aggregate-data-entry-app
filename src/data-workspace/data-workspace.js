@@ -1,6 +1,6 @@
 import { CircularLoader } from '@dhis2/ui'
 import React, { useMemo } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, useIsMutating } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
 import { useMetadata } from '../metadata/index.js'
 import {
@@ -8,16 +8,19 @@ import {
     getDataSetById,
     getCategoryComboById,
 } from '../metadata/selectors.js'
-import { FinalFormWrapper } from './data-entry-cell/index.js'
+import {
+    FinalFormWrapper,
+    DATA_VALUE_MUTATION_KEY,
+} from './data-entry-cell/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 
-const query = {
+const dataSetsQuery = {
     dataSet: {
         resource: 'dataSets',
         id: ({ id }) => id,
         params: {
-            fields: `id,name,displayName,displayFormName,formType,renderAsTabs,
+            fields: `id,name,displayName,displayFormName,formType,renderAsTabs,renderHorizontally,
             dataSetElements[dataElement[id,name,formName,
             categoryCombo[id,name,categories[id,displayName,categoryOptions[id,displayName]],categoryOptionCombos[id,name]]]],
             sections[:owner,displayName,categoryCombos[id,categories[id,displayName,categoryOptions[id,displayName]]]]`,
@@ -69,16 +72,25 @@ const metadataQuery = {
 const useDataValueSet = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
+    const activeMutations = useIsMutating({
+        mutationKey: DATA_VALUE_MUTATION_KEY,
+    })
 
-    return useQuery([
-        dataValueSetQuery,
+    return useQuery(
+        [
+            dataValueSetQuery,
+            {
+                dataSetId,
+                periodId,
+                orgUnitId,
+                attributeOptionComboId,
+            },
+        ],
         {
-            dataSetId,
-            periodId,
-            orgUnitId,
-            attributeOptionComboId,
-        },
-    ])
+            // Only enable this query if there are no ongoing mutations
+            enabled: activeMutations === 0,
+        }
+    )
 }
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
@@ -133,7 +145,7 @@ export const DataWorkspace = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
     const dataSetFetch = useQuery([
-        query,
+        dataSetsQuery,
         {
             id: dataSetId,
         },
@@ -143,7 +155,6 @@ export const DataWorkspace = () => {
 
     useQuery([metadataQuery], {
         staleTime: 60 * 24 * 1000,
-        refetchOnWindowFocus: false,
         onSuccess: (data) => setMetadata(data.metadata),
     })
 

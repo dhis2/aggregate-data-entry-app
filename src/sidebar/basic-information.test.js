@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import moment from 'moment'
 import React from 'react'
 import BasicInformation from './basic-information.js'
-import userEvent from '@testing-library/user-event'
 
 const noop = () => {}
 
@@ -92,8 +92,12 @@ describe('<BasicInformation />', () => {
             />
         )
 
-        expect(getByText(item.lastUpdated.userDisplayName, { exact: false })).toBeInTheDocument()
-        expect(getByText(moment(item.lastUpdated.at).fromNow(), { exact: false })).toBeInTheDocument()
+        expect(
+            getByText(item.lastUpdated.userDisplayName, { exact: false })
+        ).toBeInTheDocument()
+        expect(
+            getByText(moment(item.lastUpdated.at).fromNow(), { exact: false })
+        ).toBeInTheDocument()
     })
 
     it('renders a message if the item is marked for follow-up', () => {
@@ -108,19 +112,24 @@ describe('<BasicInformation />', () => {
             markedForFollowup: true,
         }
         const handleUnmarkForFollowupSpy = jest.fn()
-        const { getByText, queryByText, getByRole, queryByRole, rerender } = render(
-            <BasicInformation
-                item={item}
-                onMarkForFollowup={noop}
-                onUnmarkForFollowup={handleUnmarkForFollowupSpy}
-            />
-        )
+        const { getByText, queryByText, getByRole, queryByRole, rerender } =
+            render(
+                <BasicInformation
+                    item={item}
+                    onMarkForFollowup={noop}
+                    onUnmarkForFollowup={handleUnmarkForFollowupSpy}
+                />
+            )
 
         expect(getByText('Marked for follow-up')).toBeInTheDocument()
-        expect(getByRole('button', { name: 'Unmark for follow-up' })).toBeInTheDocument()
+        expect(
+            getByRole('button', { name: 'Unmark for follow-up' })
+        ).toBeInTheDocument()
         userEvent.click(getByRole('button', { name: 'Unmark for follow-up' }))
         expect(handleUnmarkForFollowupSpy).toHaveBeenCalled()
-        expect(queryByRole('button', { name: 'Mark for follow-up' })).not.toBeInTheDocument()
+        expect(
+            queryByRole('button', { name: 'Mark for follow-up' })
+        ).not.toBeInTheDocument()
 
         const item2 = {
             ...item,
@@ -136,8 +145,12 @@ describe('<BasicInformation />', () => {
         )
 
         expect(queryByText('Marked for follow-up')).not.toBeInTheDocument()
-        expect(queryByRole('button', { name: 'Unmark for follow-up' })).not.toBeInTheDocument()
-        expect(getByRole('button', { name: 'Mark for follow-up' })).toBeInTheDocument()
+        expect(
+            queryByRole('button', { name: 'Unmark for follow-up' })
+        ).not.toBeInTheDocument()
+        expect(
+            getByRole('button', { name: 'Mark for follow-up' })
+        ).toBeInTheDocument()
         userEvent.click(getByRole('button', { name: 'Mark for follow-up' }))
         expect(handleMarkForFollowupSpy).toHaveBeenCalled()
     })

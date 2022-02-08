@@ -8,7 +8,7 @@ import {
     groupDataElementsByCatCombo,
 } from '../metadata/selectors.js'
 import { CategoryComboTable } from './category-combo-table.js'
-import styles from './section.module.css'
+import styles from './entry-form.module.css'
 
 export const DefaultForm = ({ dataSet, globalFilterText }) => {
     const { metadata } = useMetadata()

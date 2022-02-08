@@ -1,14 +1,14 @@
 import { CssVariables } from '@dhis2/ui'
 import React from 'react'
-import { QueryClientProvider } from 'react-query'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import './app.css'
 import { ContextSelection } from '../context-selection/index.js'
-import { Sidebar } from '../sidebar/index.js'
 import { DataWorkspace } from '../data-workspace/index.js'
+import { Sidebar } from '../sidebar/index.js'
 import { Layout } from './layout/index.js'
-import useQueryClient from './use-query-client.js'
+import { MutationIndicator } from './mutation-indicator/index.js'
+import useConfigureQueryClient from './use-configure-query-client.js'
 
 /**
  * "use-query-params" requires a router. It suggests react-router-dom in the
@@ -16,7 +16,7 @@ import useQueryClient from './use-query-client.js'
  * react-router-dom@6, so I have do go with react-router-dom@^5
  */
 const App = () => {
-    const queryClient = useQueryClient()
+    useConfigureQueryClient()
 
     // TODO: fetch this instead of hardcoding
     const currentItem = {
@@ -36,32 +36,28 @@ const App = () => {
     const showSidebar = !!currentItem
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <Router>
-                <QueryParamProvider ReactRouterRoute={Route}>
-                    <CssVariables colors theme spacers />
-                    <Layout
-                        header={<ContextSelection />}
-                        main={<DataWorkspace />}
-                        sidebar={
-                            currentItem ? (
-                                <Sidebar
-                                    item={currentItem}
-                                    onMarkForFollowup={handleMarkForFollowup}
-                                    onUnmarkForFollowup={
-                                        handleUnmarkForFollowup
-                                    }
-                                    onClose={handleSidebarClose}
-                                />
-                            ) : null
-                        }
-                        showSidebar={showSidebar}
-                        footer=""
-                        showFooter
-                    />
-                </QueryParamProvider>
-            </Router>
-        </QueryClientProvider>
+        <Router>
+            <QueryParamProvider ReactRouterRoute={Route}>
+                <CssVariables colors spacers theme />
+                <Layout
+                    header={<ContextSelection />}
+                    main={<DataWorkspace />}
+                    sidebar={
+                        currentItem ? (
+                            <Sidebar
+                                item={currentItem}
+                                onMarkForFollowup={handleMarkForFollowup}
+                                onUnmarkForFollowup={handleUnmarkForFollowup}
+                                onClose={handleSidebarClose}
+                            />
+                        ) : null
+                    }
+                    showSidebar={showSidebar}
+                    footer={<MutationIndicator />}
+                    showFooter
+                />
+            </QueryParamProvider>
+        </Router>
     )
 }
 

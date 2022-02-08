@@ -12,9 +12,7 @@ import {
 } from '../use-context-selection/index.js'
 import DebouncedSearchInput from './debounced-search-input.js'
 import DisabledTooltip from './disabled-tooltip.js'
-import getFilteredOrgUnitPaths from './get-filtered-org-unit-paths.js'
 import css from './org-unit-selector-bar-item.module.css'
-import useDataSetOrgUnitPaths from './use-data-set-org-unit-paths.js'
 import useExpandedState from './use-expanded-state.js'
 import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
 import useOrgUnit from './use-organisation-unit.js'
@@ -66,16 +64,12 @@ export default function OrganisationUnitSetSelectorBarItem() {
     // lowest level, Task: Figure out if only the lowest levels should be
     // selectable, if the levels above are missing from the response or whether
     // all parent units are automatically selectable as well
-    const dataSetOrgUnitPaths = useDataSetOrgUnitPaths()
+    // const dataSetOrgUnitPaths = useDataSetOrgUnitPaths()
 
     const selectorBarItemValue = useSelectorBarItemValue()
     const selected = orgUnit.data ? [orgUnit.data.path] : []
     const disabled = !dataSetId
-    const filteredOrgUnitPaths = getFilteredOrgUnitPaths({
-        filter,
-        orgUnitPathsByName: orgUnitPathsByName.data,
-        dataSetOrgUnitPaths: dataSetOrgUnitPaths.data,
-    })
+    const filteredOrgUnitPaths = filter ? [] : orgUnitPathsByName.data
     const orgUnitPathsByNameLoading =
         // Either a filter has been set but the hook
         // hasn't been called yet

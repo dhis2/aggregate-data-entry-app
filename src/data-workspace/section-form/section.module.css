@@ -2,16 +2,20 @@
     /* overrides fullwidth(100%)- UI-styling */
     min-width: 240px !important;
     /* Weird req for allowing <td> cell contents to be 100% cell height */
-    height: 100% !important; 
+    height: 100% !important;
 }
 
-.header {
+.headerCell {
+    padding: 0 !important;
+    height: auto !important;
+    border: 1px solid var(--colors-grey400) !important;
+}
+
+.labelWrapper {
     background-color: var(--colors-grey800);
     line-height: 20px;
-    padding: 8px !important;
-    height: auto !important;
+    padding: 8px;
 }
-
 .title {
     color: var(--colors-grey050);
     font-weight: 400;
@@ -23,25 +27,29 @@
     margin-top: 2px;
     font-weight: 300;
 }
-.filter {
+
+.filterWrapper {
     display: flex;
     align-items: center;
+    gap: 8px;
+    padding: 8px;
     background-color: #fff;
     font-size: 13px;
     line-height: 15px !important;
-    padding: 8px !important;
-    gap: 8px;
-    height: auto !important;
 }
-.filter input {
+.filterInput {
     width: 100%;
     background: none;
     border: none;
     color: var(--colors-grey900);
 }
-.filter input::placeholder {
+.filterInput::placeholder {
     color: var(--colors-grey600);
 }
-.filter input:focus {
+.filterInput:focus {
     outline: none;
+}
+
+.sectionTab {
+    margin-bottom: 8px;
 }
