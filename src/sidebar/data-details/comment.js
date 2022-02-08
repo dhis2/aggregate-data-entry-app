@@ -9,9 +9,9 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
+import ToggleableUnit from '../toggleable-unit.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
-import ToggleableUnit from './toggleable-unit.js'
 
 // TODO
 const query = {

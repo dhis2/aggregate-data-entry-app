@@ -3,9 +3,9 @@ import { Button, IconFlag16, IconFlag24, colors } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
+import unitStyles from '../unit.module.css'
 import styles from './basic-information.module.css'
 import ItemPropType from './item-prop-type.js'
-import unitStyles from './unit.module.css'
 
 const BasicInformation = ({ item, onMarkForFollowup, onUnmarkForFollowup }) => (
     <div className={unitStyles.unit}>

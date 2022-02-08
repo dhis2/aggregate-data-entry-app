@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './title.module.css'
 
-const Title = ({ onClose }) => (
+const Title = ({ title, onClose }) => (
     <header className={styles.wrapper}>
-        <span className={styles.title}>{i18n.t('Details')}</span>
+        <span className={styles.title}>{title}</span>
         <button
             className={styles.closeButton}
             title={i18n.t('Close details sidebar')}
@@ -18,6 +18,7 @@ const Title = ({ onClose }) => (
 )
 
 Title.propTypes = {
+    title: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
 }
 

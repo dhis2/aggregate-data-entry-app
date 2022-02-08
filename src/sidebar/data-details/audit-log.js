@@ -4,9 +4,9 @@ import { CircularLoader } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
+import ToggleableUnit from '../toggleable-unit.js'
 import styles from './audit-log.module.css'
 import LoadingError from './loading-error.js'
-import ToggleableUnit from './toggleable-unit.js'
 
 // TODO
 const query = {

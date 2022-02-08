@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-08T12:02:45.867Z\n"
-"PO-Revision-Date: 2022-02-08T12:02:45.867Z\n"
+"POT-Creation-Date: 2022-02-08T14:59:38.638Z\n"
+"PO-Revision-Date: 2022-02-08T14:59:38.638Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -68,6 +68,18 @@ msgstr "Fetching data sets"
 
 msgid "Error occurred while loading data sets"
 msgstr "Error occurred while loading data sets"
+
+msgid "Options"
+msgstr "Options"
+
+msgid "Print form with values"
+msgstr "Print form with values"
+
+msgid "Print empty form"
+msgstr "Print empty form"
+
+msgid "Help"
+msgstr "Help"
 
 msgid "Search org units"
 msgstr "Search org units"
