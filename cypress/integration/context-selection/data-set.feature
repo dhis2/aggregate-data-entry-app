@@ -9,15 +9,17 @@ Feature: A data set can be selected
         And a data set has been selected
         Then a value-label should be displayed
 
-    Scenario: The selectable data sets are being loaded
-        Given the selectable data sets are being loaded
-        When the user opens the menu
-        Then nothing but a loading message should be displayed
+    # This will change once we have the new endpoint, so I'm skipping this one
+    # Scenario: The selectable data sets are being loaded
+    #     Given the selectable data sets are being loaded
+    #     When the user opens the menu
+    #     Then nothing but a loading message should be displayed
 
-    Scenario: The selectable data sets could not be loaded
-        Given loading the selectable data sets failed
-        When the user opens the menu
-        Then nothing but an error message should be displayed
+    # This will change once we have the new endpoint, so I'm skipping this one
+    # Scenario: The selectable data sets could not be loaded
+    #     Given loading the selectable data sets failed
+    #     When the user opens the menu
+    #     Then nothing but an error message should be displayed
 
     Scenario: No selectable data sets exist
         Given no selectable data set exists
