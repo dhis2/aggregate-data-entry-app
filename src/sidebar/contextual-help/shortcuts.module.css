@@ -1,0 +1,17 @@
+.helpItem {
+    composes: helpItem from './contextual-help.module.css';
+}
+
+.shortcut, .shortcutKey {
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 16px;
+    color: var(--colors-grey900);
+}
+
+.shortcutKey {
+    background: var(--colors-grey100);
+    border: 1px solid var(--colors-grey300);
+    padding: 4px;
+    border-radius: 2px;
+}

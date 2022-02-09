@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-08T14:59:38.638Z\n"
-"PO-Revision-Date: 2022-02-08T14:59:38.638Z\n"
+"POT-Creation-Date: 2022-02-09T11:41:47.868Z\n"
+"PO-Revision-Date: 2022-02-09T11:41:47.868Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -240,6 +240,40 @@ msgstr "Financial year (Start July)"
 
 msgid "Financial year (Start April)"
 msgstr "Financial year (Start April)"
+
+msgid "Cell reference"
+msgstr "Cell reference"
+
+msgid ""
+"<span class=\"{{class}}\">{{shortcut1}}</span> or <span "
+"class=\"{{class}\">{{shortcut2}}</span>"
+msgstr ""
+"<span class=\"{{class}}\">{{shortcut1}}</span> or <span "
+"class=\"{{class}\">{{shortcut2}}</span>"
+
+msgid "Shortcuts"
+msgstr "Shortcuts"
+
+msgid "Show details"
+msgstr "Show details"
+
+msgid "Shift + Enter"
+msgstr "Shift + Enter"
+
+msgid "Double click"
+msgstr "Double click"
+
+msgid "Go to next cell"
+msgstr "Go to next cell"
+
+msgid "Tab"
+msgstr "Tab"
+
+msgid "Go to previous cell"
+msgstr "Go to previous cell"
+
+msgid "Shift + Tab"
+msgstr "Shift + Tab"
 
 msgid ""
 "{{displayName}} <span class=\"{{typeClass}}\">updated</span> to "
