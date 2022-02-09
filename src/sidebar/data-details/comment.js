@@ -89,6 +89,7 @@ const Comment = ({ itemId }) => {
                             <Button
                                 small
                                 secondary
+                                disabled={submitting}
                                 onClick={() => setEditing(false)}
                             >
                                 {i18n.t('Cancel')}
