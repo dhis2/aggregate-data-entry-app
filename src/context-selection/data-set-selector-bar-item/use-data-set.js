@@ -4,7 +4,6 @@ import { useDataSetId } from '../use-context-selection/index.js'
 const QUERY_DATA_SET = {
     dataSet: {
         resource: 'dataSets',
-        id: ({ id }) => id,
         params: {
             fields: ['id', 'displayName'],
         },

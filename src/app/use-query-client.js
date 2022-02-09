@@ -1,7 +1,7 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { QueryClient } from 'react-query'
-import { createWebStoragePersister } from 'react-query/createWebStoragePersister'
 import { persistQueryClient } from 'react-query/persistQueryClient'
+import createIDBPersister from './persister.js'
 
 // Persisted data will be garbage collected after this time
 const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 31 // One month
@@ -30,13 +30,11 @@ const useQueryClient = () => {
         },
     })
 
-    const localStoragePersister = createWebStoragePersister({
-        storage: window.localStorage,
-    })
+    const persister = createIDBPersister()
 
     persistQueryClient({
         queryClient,
-        persister: localStoragePersister,
+        persister,
         maxAge: MAX_CACHE_AGE,
         dehydrateOptions: {
             shouldDehydrateQuery: (query) => {
