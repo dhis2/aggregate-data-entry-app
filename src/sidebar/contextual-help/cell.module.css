@@ -1,0 +1,39 @@
+.cell {
+    composes: dataEntryCell from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.cellInnerWrapper {
+    composes: cellInnerWrapper from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.input {
+    composes: input from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.inputDisabled {
+    background: var(--colors-grey300);
+}
+
+.inputInvalid {
+    composes: inputInvalid from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.inputSynced {
+    composes: inputSynced from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.topRightIndicator {
+    composes: topRightIndicator from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.bottomLeftIndicator {
+    composes: bottomLeftIndicator from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.topRightTriangle {
+    composes: topRightTriangle from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.bottomLeftTriangle {
+    composes: bottomLeftTriangle from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}

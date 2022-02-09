@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-09T11:41:47.868Z\n"
-"PO-Revision-Date: 2022-02-09T11:41:47.868Z\n"
+"POT-Creation-Date: 2022-02-09T14:08:22.446Z\n"
+"PO-Revision-Date: 2022-02-09T14:08:22.446Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -244,12 +244,27 @@ msgstr "Financial year (Start April)"
 msgid "Cell reference"
 msgstr "Cell reference"
 
+msgid "Saved and synced to server"
+msgstr "Saved and synced to server"
+
+msgid "Waiting to sync, saved locally"
+msgstr "Waiting to sync, saved locally"
+
+msgid "Data item has a comment"
+msgstr "Data item has a comment"
+
+msgid "Invalid value, not saved"
+msgstr "Invalid value, not saved"
+
+msgid "Locked, not editable"
+msgstr "Locked, not editable"
+
 msgid ""
 "<span class=\"{{class}}\">{{shortcut1}}</span> or <span "
-"class=\"{{class}\">{{shortcut2}}</span>"
+"class=\"{{class}}\">{{shortcut2}}</span>"
 msgstr ""
 "<span class=\"{{class}}\">{{shortcut1}}</span> or <span "
-"class=\"{{class}\">{{shortcut2}}</span>"
+"class=\"{{class}}\">{{shortcut2}}</span>"
 
 msgid "Shortcuts"
 msgstr "Shortcuts"
