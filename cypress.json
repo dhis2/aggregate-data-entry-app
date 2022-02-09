@@ -9,6 +9,5 @@
     },
     "experimentalInteractiveRunEvents": true,
     "testFiles": "**/*.feature",
-    "defaultCommandTimeout": 20000,
-    "ignoreTestFiles": ["section-filter.feature"]
+    "defaultCommandTimeout": 20000
 }
