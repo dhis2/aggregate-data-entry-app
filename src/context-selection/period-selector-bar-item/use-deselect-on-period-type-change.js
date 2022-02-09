@@ -30,7 +30,10 @@ export default function useDeselectOnPeriodTypeChange() {
             !dataSetPeriodType.error &&
             previousPeriodType !== dataSetPeriodType.data
         ) {
-            setPeriodId(undefined)
+            if (periodId) {
+                setPeriodId(undefined)
+            }
+
             setPreviousPeriodType(dataSetPeriodType.data)
         }
     }, [
@@ -38,6 +41,7 @@ export default function useDeselectOnPeriodTypeChange() {
         dataSetPeriodType.error,
         dataSetPeriodType.data,
         dataSetId,
+        periodId,
         previousPeriodType,
     ])
 }

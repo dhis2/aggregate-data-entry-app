@@ -53,5 +53,8 @@
         "react-query": "3.34.5",
         "react-router-dom": "^5",
         "use-query-params": "^1.2.3"
+    },
+    "resolutions": {
+        "react-query": "3.34.5"
     }
 }
