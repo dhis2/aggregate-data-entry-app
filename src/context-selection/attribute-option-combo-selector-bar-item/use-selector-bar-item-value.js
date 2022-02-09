@@ -24,6 +24,6 @@ export default function useSelectorBarItemValue(categoryCombination) {
     }
 
     return i18n.t('{{amount}} selections', {
-        amount: Object.values(attributeOptionComboSelection).length
+        amount: Object.values(attributeOptionComboSelection).length,
     })
 }

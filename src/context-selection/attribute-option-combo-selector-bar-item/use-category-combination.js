@@ -13,7 +13,11 @@ const QUERY_CATEGORY_COMBINATION = {
     },
 }
 
-const isOptionWithinPeriod = ({ periodStartDate, periodEndDate, categoryOption }) => {
+const isOptionWithinPeriod = ({
+    periodStartDate,
+    periodEndDate,
+    categoryOption,
+}) => {
     // option has not start and end dates
     if (!categoryOption.startDate && !categoryOption.endDate) {
         return true
@@ -62,9 +66,9 @@ export default function useCategoryCombination() {
         const periodEndDate = new Date(period.endDate)
 
         const { categories } = data.dataSet.categoryCombo
-        const categoriesWithFilteredOptions = categories.map(category => ({
+        const categoriesWithFilteredOptions = categories.map((category) => ({
             ...category,
-            categoryOptions: category.categoryOptions.filter(categoryOption =>
+            categoryOptions: category.categoryOptions.filter((categoryOption) =>
                 isOptionWithinPeriod({
                     periodStartDate,
                     periodEndDate,

@@ -38,7 +38,9 @@ export default function PeriodMenu({ periodType, year, onChange }) {
                 <MenuItem
                     active={period.id === selectedPeriod?.id}
                     key={period.id}
-                    label={<span data-value={period.id}>{period.displayName}</span>}
+                    label={
+                        <span data-value={period.id}>{period.displayName}</span>
+                    }
                     onClick={() => onChange({ selected: period.id })}
                 />
             ))}

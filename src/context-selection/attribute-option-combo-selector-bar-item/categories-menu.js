@@ -3,7 +3,6 @@ import { Button, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import css from './categories-menu.module.css'
-import useCategoryCombination from './use-category-combination.js'
 
 export default function CategoriesMenu({
     categoryCombination,

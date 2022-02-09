@@ -10,9 +10,12 @@ import useSelectorBarItemLabel from './use-selector-bar-item-label.js'
 import useSelectorBarItemValue from './use-selector-bar-item-value.js'
 import useShouldComponentRenderNull from './use-should-component-render-null.js'
 
-const hasCategoryNoOptions = category => category.categoryOptions.length === 0
+const hasCategoryNoOptions = (category) => category.categoryOptions.length === 0
 
-const useSetSelectionHasNoFormMessage = (categoryCombo, setSelectionHasNoFormMessage) => {
+const useSetSelectionHasNoFormMessage = (
+    categoryCombo,
+    setSelectionHasNoFormMessage
+) => {
     useEffect(() => {
         if (categoryCombo?.categories.some(hasCategoryNoOptions)) {
             setSelectionHasNoFormMessage(
@@ -32,7 +35,8 @@ export default function AttributeOptionComboSelectorBarItem({
     const [open, setOpen] = useState(false)
     const categoryCombination = useCategoryCombination()
     const { deselectAll, select, selected } = useSelected()
-    const shouldComponentRenderNull = useShouldComponentRenderNull(categoryCombination)
+    const shouldComponentRenderNull =
+        useShouldComponentRenderNull(categoryCombination)
     const label = useSelectorBarItemLabel(categoryCombination)
     const valueLabel = useSelectorBarItemValue(categoryCombination)
     const onChange = ({ selected, categoryId }) =>

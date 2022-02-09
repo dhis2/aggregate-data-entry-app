@@ -22,18 +22,21 @@ Given('a data set and an org unit have been selected', () => {
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
-Given("a data set and an org unit have been selected but loading the org unit's data will fail", () => {
-    cy.intercept(
-        'GET',
-        new RegExp(
-            `organisationUnits/ImspTQPwCqd[?]fields=id,displayName,path$`
-        ),
-        { statusCode: 404, body: '404 Not Found!' }
-    )
+Given(
+    "a data set and an org unit have been selected but loading the org unit's data will fail",
+    () => {
+        cy.intercept(
+            'GET',
+            new RegExp(
+                `organisationUnits/ImspTQPwCqd[?]fields=id,displayName,path$`
+            ),
+            { statusCode: 404, body: '404 Not Found!' }
+        )
 
-    cy.visit('/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd')
-    cy.get('[data-test="data-set-selector"]').should('exist')
-})
+        cy.visit('/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd')
+        cy.get('[data-test="data-set-selector"]').should('exist')
+    }
+)
 
 When('the user hovers the org unit selector', () => {
     cy.get('[data-test="org-unit-selector"] button > .label').trigger(
@@ -52,25 +55,18 @@ Then('a no-value-label should be displayed', () => {
     cy.contains('Choose a organisation unit').should('exist')
 })
 
-Then(
-    'a loading message should be displayed while loading its data',
-    () => {
-        cy.contains('Fetching organisation unit info').should(
-            'exist'
-        )
-    }
-)
+Then('a loading message should be displayed while loading its data', () => {
+    cy.contains('Fetching organisation unit info').should('exist')
+})
 
 Then('its value-label should be displayed', () => {
-    getOrgUnitSelectorValueLabelByContent('Sierra Leone').should(
-        'exist'
-    )
+    getOrgUnitSelectorValueLabelByContent('Sierra Leone').should('exist')
 })
 
 Then('an error message should be displayed', () => {
-    cy.contains(
-        'Error occurred while loading organisation unit info'
-    ).should('exist')
+    cy.contains('Error occurred while loading organisation unit info').should(
+        'exist'
+    )
 })
 
 When('the user opens the org unit selector', () => {
@@ -96,9 +92,7 @@ When('selects an org unit', () => {
 Then(
     "the org unit's display name should be displayed as selected value",
     () => {
-        getOrgUnitSelectorValueLabelByContent('Sierra Leone').should(
-            'exist'
-        )
+        getOrgUnitSelectorValueLabelByContent('Sierra Leone').should('exist')
     }
 )
 
@@ -122,10 +116,7 @@ Then(
         cy.get(
             `[data-test="org-unit-selector-tree-node-label"]:contains("Sierra Leone")`
         )
-            .invoke(
-                'parents',
-                '[data-test="org-unit-selector-tree-node"]'
-            )
+            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
             .find('[data-test="org-unit-selector-tree-node-toggle"]')
             .click()
 
@@ -133,10 +124,7 @@ Then(
         cy.get(
             `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali")`
         )
-            .invoke(
-                'parents',
-                '[data-test="org-unit-selector-tree-node"]'
-            )
+            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
             .first() // Ignore the node of Sierra Leone
             .find('[data-test="org-unit-selector-tree-node-toggle"]')
             .should('exist')
@@ -145,10 +133,7 @@ Then(
         cy.get(
             `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali")`
         )
-            .invoke(
-                'parents',
-                '[data-test="org-unit-selector-tree-node"]'
-            )
+            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
             .first() // Ignore the node of Sierra Leone
             .find('[data-test="org-unit-selector-tree-node-toggle"]')
             .click()
@@ -157,10 +142,7 @@ Then(
         cy.get(
             `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali Sebora")`
         )
-            .invoke(
-                'parents',
-                '[data-test="org-unit-selector-tree-node"]'
-            )
+            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
             .first() // Ignore the node of Sierra Leone and Bombali
             .find('[data-test="org-unit-selector-tree-node-icon"]')
             .should('not.exist')
@@ -169,10 +151,7 @@ Then(
         cy.get(
             `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali Sebora")`
         )
-            .invoke(
-                'parents',
-                '[data-test="org-unit-selector-tree-node"]'
-            )
+            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
             .first() // Ignore the node of Sierra Leone and Bombali
             .find('[data-test="org-unit-selector-tree-node-toggle"]')
             .should('not.exist')
@@ -189,10 +168,7 @@ When('the user expands the root org unit', () => {
     cy.get(
         `[data-test="org-unit-selector-tree-node-label"]:contains("Sierra Leone")`
     )
-        .invoke(
-            'parents',
-            '[data-test="org-unit-selector-tree-node"]'
-        )
+        .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
         .find('[data-test="org-unit-selector-tree-node-toggle"]')
         .click()
 })
@@ -212,9 +188,7 @@ When('the user closes the org unit selector', () => {
 })
 
 Then('the org unit tree should be hidden', () => {
-    cy.get('[data-test="org-unit-selector-tree"]').should(
-        'not.exist'
-    )
+    cy.get('[data-test="org-unit-selector-tree"]').should('not.exist')
 })
 
 Then('the filter should still be set', () => {

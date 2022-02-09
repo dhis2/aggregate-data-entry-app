@@ -16,9 +16,8 @@ import useConfigureQueryClient from './use-configure-query-client.js'
  */
 const App = () => {
     useConfigureQueryClient()
-    const [selectionHasNoFormMessage, setSelectionHasNoFormMessage] = useState(
-        ''
-    )
+    const [selectionHasNoFormMessage, setSelectionHasNoFormMessage] =
+        useState('')
 
     const contextSelection = (
         <ContextSelection
@@ -27,9 +26,7 @@ const App = () => {
     )
 
     const dataWorkspace = (
-        <DataWorkspace
-            selectionHasNoFormMessage={selectionHasNoFormMessage}
-        />
+        <DataWorkspace selectionHasNoFormMessage={selectionHasNoFormMessage} />
     )
 
     return (
