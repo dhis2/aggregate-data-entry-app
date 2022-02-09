@@ -16,13 +16,15 @@ Feature: Category options for each category in the category combination connecte
         Given a data set, org unit & period have been selected but the data set does not have any categories connected to it
         Then the selector should not be displayed
 
-    Scenario: The category combination is being loaded
-        Given a data set, org unit & period have been selected
-        Then the selector should be displayed once the categories and options have been loaded
+    # This will change once we have the new endpoint, so I'm skipping this one
+    # Scenario: The category combination is being loaded
+    #     Given a data set, org unit & period have been selected
+    #     Then the selector should be displayed once the categories and options have been loaded
 
-    Scenario: Loading the category combination fails
-        Given a data set, org unit & period have been selected but loading the category combination fails
-        Then the selector should not be displayed
+    # This will change once we have the new endpoint, so I'm skipping this one
+    # Scenario: Loading the category combination fails
+    #     Given a data set, org unit & period have been selected but loading the category combination fails
+    #     Then the selector should not be displayed
 
     Scenario: No option has been selected
         Given a data set, org unit and period have been selected and there are some categories connected to the data set
