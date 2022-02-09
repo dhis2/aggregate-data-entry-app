@@ -16,6 +16,7 @@
         "lint:staged": "d2-style check --staged",
         "cypress:start": "REACT_APP_NODE_ENV=test yarn start:nobrowser",
         "cypress:open:live": "yarn cypress open --env networkMode=live",
+        "cypress:run:live": "yarn cypress run --env networkMode=live",
         "cypress:run:capture": "yarn cypress run --env dhis2ApiVersion=38,networkMode=capture",
         "cypress:run:stub": "yarn cypress run --env dhis2ApiVersion=38,networkMode=stub",
         "cypress:prepare": "start-server-and-test 'yarn cypress:start' http://localhost:3000",

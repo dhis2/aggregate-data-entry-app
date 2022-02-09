@@ -41,7 +41,6 @@ Feature: A section filter can be selected
         Then that section should be selected
         And the section id should be reflected in the url
 
-    @focus
     Scenario: The data set is a tabbed sectioned form
         Given a data set, org unit and period have been selected and the data set has a tabbed sectioned form
         Then the first section should be selected by default
