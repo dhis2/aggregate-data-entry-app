@@ -10,43 +10,68 @@ Given('a data set but no period has been selected yet', () => {
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
-Given('a data set, org unit and period have been selected and the data set does not have sections', () => {
-    cy.visit('/#/?dataSetId=rsyjyJmYD4J&orgUnitId=ImspTQPwCqd&periodId=2021April')
-    cy.get('[data-test="data-set-selector"]').should('exist')
-})
+Given(
+    'a data set, org unit and period have been selected and the data set does not have sections',
+    () => {
+        cy.visit(
+            '/#/?dataSetId=rsyjyJmYD4J&orgUnitId=ImspTQPwCqd&periodId=2021April'
+        )
+        cy.get('[data-test="data-set-selector"]').should('exist')
+    }
+)
 
-Given('a data set, org unit and period have been selected and the data set has a custom form', () => {
-    cy.visit('/#/?dataSetId=TuL8IOPzpHh&orgUnitId=ImspTQPwCqd&periodId=202112')
-    cy.get('[data-test="data-set-selector"]').should('exist')
-})
+Given(
+    'a data set, org unit and period have been selected and the data set has a custom form',
+    () => {
+        cy.visit(
+            '/#/?dataSetId=TuL8IOPzpHh&orgUnitId=ImspTQPwCqd&periodId=202112'
+        )
+        cy.get('[data-test="data-set-selector"]').should('exist')
+    }
+)
 
-Given('a data set, org unit and period have been selected and the data set has a tabbed sectioned form', () => {
-    cy.intercept(
-        'GET',
-        new RegExp('dataSets/V8MHeZHIrcP[?].*renderAsTabs'),
-        req => {
-            req.continue(res => {
-                res.send({
-                    ...res.body,
-                    renderAsTabs: true,
+Given(
+    'a data set, org unit and period have been selected and the data set has a tabbed sectioned form',
+    () => {
+        cy.intercept(
+            'GET',
+            new RegExp('dataSets/V8MHeZHIrcP[?].*renderAsTabs'),
+            (req) => {
+                req.continue((res) => {
+                    res.send({
+                        ...res.body,
+                        renderAsTabs: true,
+                    })
                 })
-            })
-        }
-    )
+            }
+        )
 
-    cy.visit('/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021')
-    cy.get('[data-test="data-set-selector"]').should('exist')
-})
+        cy.visit(
+            '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021'
+        )
+        cy.get('[data-test="data-set-selector"]').should('exist')
+    }
+)
 
-Given('a data set, org unit and period have been selected and the data set has some sections', () => {
-    cy.visit('/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021')
-    cy.get('[data-test="data-set-selector"]').should('exist')
-})
+Given(
+    'a data set, org unit and period have been selected and the data set has some sections',
+    () => {
+        cy.visit(
+            '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021'
+        )
+        cy.get('[data-test="data-set-selector"]').should('exist')
+    }
+)
 
-Given('a data set, org unit and period have been selected and the data set is of type default', () => {
-    cy.visit('/#/?dataSetId=rsyjyJmYD4J&orgUnitId=ImspTQPwCqd&periodId=2021April')
-    cy.get('[data-test="data-set-selector"]').should('exist')
-})
+Given(
+    'a data set, org unit and period have been selected and the data set is of type default',
+    () => {
+        cy.visit(
+            '/#/?dataSetId=rsyjyJmYD4J&orgUnitId=ImspTQPwCqd&periodId=2021April'
+        )
+        cy.get('[data-test="data-set-selector"]').should('exist')
+    }
+)
 
 Given('no data set has been selected yet', () => {
     cy.visit('/')
@@ -56,7 +81,7 @@ Given('no data set has been selected yet', () => {
 When('the user selects a section', () => {
     cy.get('[data-test="section-filter-selector"]').click()
     cy.get('[data-test="menu-select"] li:nth-child(2) [data-value]').then(
-        el => {
+        (el) => {
             const $el = Cypress.$(el)
             const id = $el.attr('data-value')
             const displayName = $el.text()
@@ -92,7 +117,7 @@ Then('the first section should be selected by default', () => {
     // get the first option's text
     cy.get('[data-test="menu-select"] li:nth-child(1)')
         .invoke('text')
-        .then(optionLabel => {
+        .then((optionLabel) => {
             // The selector should have that label
             // As the menu is rendered in a portal,
             // this selector wouldn't yield any element

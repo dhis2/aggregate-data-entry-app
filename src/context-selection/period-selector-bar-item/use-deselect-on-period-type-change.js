@@ -3,7 +3,7 @@ import { parsePeriodId } from '../../shared/index.js'
 import { useDataSetPeriodType } from '../period-selector-bar-item/index.js'
 import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
 
-const convertPeriodIdToPeriodType = periodId => {
+const convertPeriodIdToPeriodType = (periodId) => {
     if (!periodId) {
         return ''
     }
@@ -17,8 +17,7 @@ const convertPeriodIdToPeriodType = periodId => {
  * logic into the category option combo module
  */
 export default function useDeselectOnPeriodTypeChange() {
-    const [periodId, setPeriodId] =
-        usePeriodId()
+    const [periodId, setPeriodId] = usePeriodId()
     const [previousPeriodType, setPreviousPeriodType] = useState(
         convertPeriodIdToPeriodType(periodId)
     )
