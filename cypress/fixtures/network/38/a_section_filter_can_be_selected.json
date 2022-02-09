@@ -373,10 +373,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1
-        ]
+        "responseLookup": [0, 1]
     },
     {
         "path": "/api/38/dataValueSets?dataSet=vc6nF5yZsPR&period=2021&orgUnit=ImspTQPwCqd&attributeOptionCombo=HllvX50cXC0",
@@ -482,11 +479,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1,
-            2
-        ]
+        "responseLookup": [0, 1, 2]
     },
     {
         "path": "/api/38/dataValueSets?dataSet=vc6nF5yZsPR&orgUnit=ImspTQPwCqd&attributeOptionCombo=HllvX50cXC0",
