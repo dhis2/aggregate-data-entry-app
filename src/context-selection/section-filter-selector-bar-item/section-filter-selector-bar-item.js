@@ -51,26 +51,28 @@ export default function SectionFilterSelectorBarItem() {
           })
 
     return (
-        <SelectorBarItem
-            disabled={loading || dataSetSectionsInfo.error}
-            label={i18n.t('Section')}
-            value={sectionFilterValue}
-            open={open}
-            setOpen={setOpen}
-            noValueMessage={i18n.t('Show all sections')}
-        >
-            {renderMenu ? (
-                <MenuSelect
-                    values={selectableOptions}
-                    selected={sectionFilter}
-                    onChange={({ selected }) => {
-                        setSectionFilter(selected)
-                        setOpen(false)
-                    }}
-                />
-            ) : (
-                <div />
-            )}
-        </SelectorBarItem>
+        <div data-test="section-filter-selector">
+            <SelectorBarItem
+                disabled={loading || dataSetSectionsInfo.error}
+                label={i18n.t('Section')}
+                value={sectionFilterValue}
+                open={open}
+                setOpen={setOpen}
+                noValueMessage={i18n.t('Show all sections')}
+            >
+                {renderMenu ? (
+                    <MenuSelect
+                        values={selectableOptions}
+                        selected={sectionFilter}
+                        onChange={({ selected }) => {
+                            setSectionFilter(selected)
+                            setOpen(false)
+                        }}
+                    />
+                ) : (
+                    <div data-test="section-filter-selector-no-menu" />
+                )}
+            </SelectorBarItem>
+        </div>
     )
 }

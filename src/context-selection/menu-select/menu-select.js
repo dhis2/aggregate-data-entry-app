@@ -21,6 +21,10 @@ export default function MenuSelect({ values, selected, dataTest, onChange }) {
     )
 }
 
+MenuSelect.defaultProps = {
+    dataTest: 'menu-select',
+}
+
 MenuSelect.propTypes = {
     values: PropTypes.arrayOf(
         PropTypes.shape({
