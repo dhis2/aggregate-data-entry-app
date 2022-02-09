@@ -33,19 +33,6 @@ Given(
 Given(
     'a data set, org unit and period have been selected and the data set has a tabbed sectioned form',
     () => {
-        cy.intercept(
-            'GET',
-            new RegExp('dataSets/V8MHeZHIrcP[?].*renderAsTabs'),
-            (req) => {
-                req.continue((res) => {
-                    res.send({
-                        ...res.body,
-                        renderAsTabs: true,
-                    })
-                })
-            }
-        )
-
         cy.visit(
             '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021'
         )
@@ -57,7 +44,7 @@ Given(
     'a data set, org unit and period have been selected and the data set has some sections',
     () => {
         cy.visit(
-            '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021'
+            '/#/?dataSetId=vc6nF5yZsPR&orgUnitId=ImspTQPwCqd&periodId=2021'
         )
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
