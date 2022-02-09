@@ -37,8 +37,8 @@ const App = () => {
             <QueryParamProvider ReactRouterRoute={Route}>
                 <CssVariables colors spacers theme />
                 <Layout
-                    header={<ContextSelection />}
-                    main={<DataWorkspace />}
+                    header={contextSelection}
+                    main={dataWorkspace}
                     sidebar=""
                     footer={<MutationIndicator />}
                     showFooter
