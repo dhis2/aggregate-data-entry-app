@@ -6,7 +6,9 @@ import Title from './title.js'
 describe('<Title />', () => {
     it('renders a close button', () => {
         const handleCloseSpy = jest.fn()
-        const { getByRole } = render(<Title onClose={handleCloseSpy} />)
+        const { getByRole } = render(
+            <Title title="Test title" onClose={handleCloseSpy} />
+        )
 
         expect(getByRole('button')).toBeInTheDocument()
         userEvent.click(getByRole('button'))
