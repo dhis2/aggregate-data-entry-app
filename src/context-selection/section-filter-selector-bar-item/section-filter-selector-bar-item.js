@@ -45,10 +45,9 @@ export default function SectionFilterSelectorBarItem() {
 
     const selectableOptions = dataSetSectionsInfo.data?.renderAsTabs
         ? sectionOptions
-        : sectionOptions.concat({
-              value: undefined,
-              label: i18n.t('Show all sections'),
-          })
+        : [{ value: undefined, label: i18n.t('Show all sections')}].concat(
+            ...sectionOptions
+        )
 
     return (
         <div data-test="section-filter-selector">
