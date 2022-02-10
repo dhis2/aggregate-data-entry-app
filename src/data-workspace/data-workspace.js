@@ -15,59 +15,22 @@ import {
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 
-const dataSetsQuery = {
-    dataSet: {
-        resource: 'dataSets',
-        id: ({ id }) => id,
-        params: {
-            fields: `id,name,displayName,displayFormName,formType,renderAsTabs,renderHorizontally,
-            dataSetElements[dataElement[id,name,formName,
-            categoryCombo[id,name,categories[id,displayName,categoryOptions[id,displayName]],categoryOptionCombos[id,name]]]],
-            sections[:owner,displayName,categoryCombos[id,categories[id,displayName,categoryOptions[id,displayName]]]]`,
-        },
-    },
-}
-
-export const dataValueSetQuery = {
+export const createDataValueSetsQuery = ({
+    dataSetId,
+    periodId,
+    orgUnitId,
+    attributeOptionComboId,
+}) => ({
     dataValueSet: {
         resource: 'dataValueSets',
-        params: ({
-            dataSetId,
-            periodId,
-            orgUnitId,
-            attributeOptionComboId,
-        }) => ({
+        params: {
             dataSet: dataSetId,
             period: periodId,
             orgUnit: orgUnitId,
             attributeOptionCombo: attributeOptionComboId,
-        }),
-    },
-}
-
-const metadataQuery = {
-    metadata: {
-        resource: 'metadata',
-        params: {
-            // Note: on dataSet.dataSetElement, the categoryCombo property is
-            // included because it can mean it's overriding the data element's
-            // native categoryCombo. It can sometimes be absent from the data
-            // set element
-            'dataSets:fields':
-                'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
-            'dataElements:fields': 'id,displayFormName,categoryCombo,valueType',
-            'sections:fields':
-                'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
-            'categoryCombos:fields':
-                'id,skipTotal,categories~pluck,categoryOptionCombos~pluck,isDefault',
-            'categories:fields': 'id,displayFormName,categoryOptions~pluck',
-            'categoryOptions:fields':
-                'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
-            'categoryOptionCombos:fields':
-                'id,categoryOptions~pluck,categoryCombo,name',
         },
     },
-}
+})
 
 const useDataValueSet = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
@@ -78,13 +41,12 @@ const useDataValueSet = () => {
 
     return useQuery(
         [
-            dataValueSetQuery,
-            {
+            createDataValueSetsQuery({
                 dataSetId,
                 periodId,
                 orgUnitId,
                 attributeOptionComboId,
-            },
+            }),
         ],
         {
             // Only enable this query if there are no ongoing mutations
@@ -145,18 +107,55 @@ export const DataWorkspace = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
     const dataSetFetch = useQuery([
-        dataSetsQuery,
         {
-            id: dataSetId,
+            dataSet: {
+                resource: 'dataSets',
+                id: dataSetId,
+                params: {
+                    fields: `id,name,displayName,displayFormName,formType,renderAsTabs,renderHorizontally,
+            dataSetElements[dataElement[id,name,formName,
+            categoryCombo[id,name,categories[id,displayName,categoryOptions[id,displayName]],categoryOptionCombos[id,name]]]],
+            sections[:owner,displayName,categoryCombos[id,categories[id,displayName,categoryOptions[id,displayName]]]]`,
+                },
+            },
         },
     ])
 
     const { available, setMetadata } = useMetadata()
 
-    useQuery([metadataQuery], {
-        staleTime: 60 * 24 * 1000,
-        onSuccess: (data) => setMetadata(data.metadata),
-    })
+    useQuery(
+        [
+            {
+                metadata: {
+                    resource: 'metadata',
+                    params: {
+                        // Note: on dataSet.dataSetElement, the categoryCombo property is
+                        // included because it can mean it's overriding the data element's
+                        // native categoryCombo. It can sometimes be absent from the data
+                        // set element
+                        'dataSets:fields':
+                            'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
+                        'dataElements:fields':
+                            'id,displayFormName,categoryCombo,valueType',
+                        'sections:fields':
+                            'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
+                        'categoryCombos:fields':
+                            'id,skipTotal,categories~pluck,categoryOptionCombos~pluck,isDefault',
+                        'categories:fields':
+                            'id,displayFormName,categoryOptions~pluck',
+                        'categoryOptions:fields':
+                            'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
+                        'categoryOptionCombos:fields':
+                            'id,categoryOptions~pluck,categoryCombo,name',
+                    },
+                },
+            },
+        ],
+        {
+            staleTime: 60 * 24 * 1000,
+            onSuccess: (data) => setMetadata(data.metadata),
+        }
+    )
 
     const dataValueSetFetch = useDataValueSet()
 
