@@ -32,7 +32,7 @@ export const useMetadata = () => {
         ],
         {
             staleTime: 60 * 24 * 1000,
-            onSuccess: (data) => setMetadata(data.metadata),
+            onSuccess: data => setMetadata(data),
         }
     )
 }
