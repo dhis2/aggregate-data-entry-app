@@ -7,18 +7,15 @@ export default function useUserOrgUnits() {
         data,
     } = useQuery(
         [
+            'me',
             {
-                orgUnits: {
-                    resource: 'me',
-                    params: {
-                        fields: ['organisationUnits[id]'],
-                    },
+                params: {
+                    fields: ['organisationUnits[id]'],
                 },
             },
         ],
         {
-            select: (data) =>
-                data.orgUnits.organisationUnits.map(({ id }) => id),
+            select: (data) => data.organisationUnits.map(({ id }) => id),
         }
     )
 

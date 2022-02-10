@@ -2,15 +2,13 @@ import { useQuery } from 'react-query'
 import { useDataSetId } from '../use-context-selection/index.js'
 
 export default function useDataSetPeriodType() {
-    const [dataSetId] = useDataSetId()
+    const [id] = useDataSetId()
     const queryKey = [
+        'dataSets',
         {
-            dataSet: {
-                resource: 'dataSets',
-                id: dataSetId,
-                params: {
-                    fields: ['periodType'],
-                },
+            id,
+            params: {
+                fields: ['periodType'],
             },
         },
     ]
@@ -20,8 +18,8 @@ export default function useDataSetPeriodType() {
         error,
         data,
     } = useQuery(queryKey, {
-        enabled: !!dataSetId,
-        select: (data) => data.dataSet.periodType,
+        enabled: !!id,
+        select: (data) => data.periodType,
     })
 
     return {

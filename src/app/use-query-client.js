@@ -11,8 +11,16 @@ const useQueryClient = () => {
 
     // https://react-query.tanstack.com/guides/query-keys
     const queryFn = ({ queryKey }) => {
-        const [query, variables] = queryKey
-        return engine.query(query, { variables })
+        const [resource, { params, id }] = queryKey
+        const appRuntimeQuery = {
+            [resource]: {
+                resource,
+                id,
+                params,
+            },
+        }
+
+        return engine.query(appRuntimeQuery).then((data) => data[resource])
     }
 
     const queryClient = new QueryClient({

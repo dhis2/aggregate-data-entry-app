@@ -2,14 +2,12 @@ import { useQuery } from 'react-query'
 
 export default function useOrgUnitPathsByName(searchTerm) {
     const queryKey = [
+        'organisationUnits',
         {
-            orgUnits: {
-                resource: 'organisationUnits',
-                params: {
-                    fields: ['path'],
-                    filter: `displayName:ilike:${searchTerm}`,
-                    paging: false,
-                },
+            params: {
+                fields: ['path'],
+                filter: `displayName:ilike:${searchTerm}`,
+                paging: false,
             },
         },
     ]
@@ -20,9 +18,7 @@ export default function useOrgUnitPathsByName(searchTerm) {
         data,
     } = useQuery(queryKey, {
         enabled: !!searchTerm,
-        initialData: [],
-        select: (data) =>
-            data.orgUnits.organisationUnits.map(({ path }) => path),
+        select: (data) => data.organisationUnits.map(({ path }) => path),
     })
 
     return {
