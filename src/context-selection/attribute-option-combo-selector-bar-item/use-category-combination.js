@@ -35,17 +35,16 @@ const isOptionWithinPeriod = ({
 export default function useCategoryCombination() {
     const [periodId] = usePeriodId()
     const [dataSetId] = useDataSetId()
+    const params = {
+        fields: [
+            'categoryCombo[isDefault,displayName, categories[id, displayName, categoryOptions[id, displayName]]]',
+        ],
+    }
     const queryKey = [
+        'dataSets',
         {
-            dataSet: {
-                resource: 'dataSets',
-                id: dataSetId,
-                params: {
-                    fields: [
-                        'categoryCombo[isDefault,displayName, categories[id, displayName, categoryOptions[id, displayName]]]',
-                    ],
-                },
-            },
+            id: dataSetId,
+            params,
         },
     ]
     const {
@@ -57,14 +56,14 @@ export default function useCategoryCombination() {
         enabled: !!dataSetId,
         select: (data) => {
             if (!data || !periodId) {
-                return data?.dataSet.categoryCombo
+                return data?.categoryCombo
             }
 
             const period = parsePeriodId(periodId)
             const periodStartDate = new Date(period.startDate)
             const periodEndDate = new Date(period.endDate)
 
-            const { categories } = data.dataSet.categoryCombo
+            const { categories } = data.categoryCombo
             const categoriesWithFilteredOptions = categories.map(
                 (category) => ({
                     ...category,
@@ -80,7 +79,7 @@ export default function useCategoryCombination() {
             )
 
             return {
-                ...data.dataSet.categoryCombo,
+                ...data.categoryCombo,
                 categories: categoriesWithFilteredOptions,
             }
         },

@@ -1,10 +1,7 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
-import {
-    createDataValueSetsQuery,
-    useAttributeOptionCombo,
-} from '../data-workspace.js'
+import { useAttributeOptionCombo } from '../use-attribute-option-combo.js'
 
 export const DATA_VALUE_MUTATION_KEY = 'DATA_VALUE_MUTATION_KEY'
 
@@ -43,16 +40,19 @@ const addDataValue = (previousDataValueSet, newDataValue) => {
 export const useDataValueMutation = () => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const attributeOptionComboId = useAttributeOptionCombo()
+    const attributeOptionCombo = useAttributeOptionCombo()
     const engine = useDataEngine()
 
     const dataValueSetQueryKey = [
-        createDataValueSetsQuery({
-            dataSetId,
-            periodId,
-            orgUnitId,
-            attributeOptionComboId,
-        }),
+        'dataValueSets',
+        {
+            params: {
+                dataSet: dataSetId,
+                period: periodId,
+                orgUnit: orgUnitId,
+                attributeOptionCombo,
+            },
+        },
     ]
     const mutationFn = (variables) =>
         engine.mutate(
@@ -91,7 +91,7 @@ export const useDataValueMutation = () => {
                 // If the field was previously empty the dataValue won't exist yet
                 if (isNewValue) {
                     const formattedNewDataValue = {
-                        attributeOptionCombo: attributeOptionComboId,
+                        attributeOptionCombo,
                         categoryOptionCombo: newDataValue.co,
                         dataElement: newDataValue.de,
                         orgUnit: newDataValue.ou,

@@ -2,15 +2,13 @@ import { useQuery } from 'react-query'
 import { useDataSetId } from '../use-context-selection/index.js'
 
 export default function useDataSetOrgUnitPaths() {
-    const [dataSetId] = useDataSetId()
+    const [id] = useDataSetId()
     const queryKey = [
+        'dataSets',
         {
-            dataSet: {
-                resource: 'dataSets',
-                id: dataSetId,
-                params: {
-                    fields: ['organisationUnits[path]'],
-                },
+            id,
+            params: {
+                fields: ['organisationUnits[path]'],
             },
         },
     ]
@@ -19,9 +17,8 @@ export default function useDataSetOrgUnitPaths() {
         error,
         data,
     } = useQuery(queryKey, {
-        enabled: !!dataSetId,
-        select: (data) =>
-            data.dataSet.organisationUnits.map(({ path }) => path),
+        enabled: !!id,
+        select: (data) => data.organisationUnits.map(({ path }) => path),
     })
 
     return {
