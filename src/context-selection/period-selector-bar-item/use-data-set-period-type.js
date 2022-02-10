@@ -1,32 +1,33 @@
 import { useQuery } from 'react-query'
 import { useDataSetId } from '../use-context-selection/index.js'
 
-const QUERY_DATA_SET = {
-    dataSet: {
-        resource: 'dataSets',
-        id: ({ id }) => id,
-        params: {
-            fields: ['periodType'],
-        },
-    },
-}
-
 export default function useDataSetPeriodType() {
     const [dataSetId] = useDataSetId()
-    const queryKey = [QUERY_DATA_SET, { id: dataSetId }]
+    const queryKey = [
+        {
+            dataSet: {
+                resource: 'dataSets',
+                id: dataSetId,
+                params: {
+                    fields: ['periodType'],
+                },
+            },
+        },
+    ]
     const {
         isIdle,
         isLoading: loading,
         error,
         data,
-    } = useQuery(queryKey, { enabled: !!dataSetId })
-
-    const dataSetPeriodType = data?.dataSet.periodType
+    } = useQuery(queryKey, {
+        enabled: !!dataSetId,
+        select: (data) => data.dataSet.periodType,
+    })
 
     return {
         called: !isIdle,
         loading,
         error,
-        data: dataSetPeriodType,
+        data,
     }
 }

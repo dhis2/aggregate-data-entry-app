@@ -2,17 +2,11 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
 import {
-    dataValueSetQuery,
+    createDataValueSetsQuery,
     useAttributeOptionCombo,
 } from '../data-workspace.js'
 
 export const DATA_VALUE_MUTATION_KEY = 'DATA_VALUE_MUTATION_KEY'
-
-const DATA_VALUE_MUTATION = {
-    resource: 'dataValues',
-    type: 'create',
-    params: ({ ...params }) => ({ ...params }),
-}
 
 // Updates dataValue without mutating previousDataValueSet
 const updateDataValue = (
@@ -53,16 +47,22 @@ export const useDataValueMutation = () => {
     const engine = useDataEngine()
 
     const dataValueSetQueryKey = [
-        dataValueSetQuery,
-        {
+        createDataValueSetsQuery({
             dataSetId,
             periodId,
             orgUnitId,
             attributeOptionComboId,
-        },
+        }),
     ]
     const mutationFn = (variables) =>
-        engine.mutate(DATA_VALUE_MUTATION, { variables })
+        engine.mutate(
+            {
+                resource: 'dataValues',
+                type: 'create',
+                params: ({ ...params }) => ({ ...params }),
+            },
+            { variables }
+        )
 
     return useMutation(mutationFn, {
         // Used to identify whether this mutation is running
