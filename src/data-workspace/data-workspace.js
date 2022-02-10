@@ -1,41 +1,43 @@
-import { CircularLoader } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { CircularLoader, NoticeBox } from '@dhis2/ui'
+import PropTypes from 'prop-types'
 import React from 'react'
-import { useContextSelection } from '../context-selection/index.js'
-import { useMetadata as useMetadataContext } from '../metadata/index.js'
 import { FinalFormWrapper } from './data-entry-cell/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
-import { useAttributeOptionCombo } from './use-attribute-option-combo.js'
 import { useDataSet } from './use-data-set.js'
-import { useDataValueSet } from './use-data-value-set.js'
-import { useMetadata } from './use-metadata.js'
+import { useInitialDataValues } from './use-initial-data-values.js'
 
-export const DataWorkspace = () => {
-    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const attributeOptionComboId = useAttributeOptionCombo()
+export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const dataSetFetch = useDataSet()
-    const dataValueSetFetch = useDataValueSet()
-    const { available } = useMetadataContext()
+    const initialDataValuesFetch = useInitialDataValues()
 
-    useMetadata()
+    if (selectionHasNoFormMessage) {
+        const title = i18n.t('The current selection does not have a form')
+        return <NoticeBox title={title}>{selectionHasNoFormMessage}</NoticeBox>
+    }
 
-    if (!dataSetId || !orgUnitId || !periodId || !attributeOptionComboId) {
+    if (dataSetFetch.isIdle || initialDataValuesFetch.isIdle) {
         return null
     }
 
-    if (!available || dataSetFetch.isLoading || dataValueSetFetch.isLoading) {
+    if (dataSetFetch.isLoading || initialDataValuesFetch.isLoading) {
         return <CircularLoader />
     }
 
-    if (dataSetFetch.error) {
+    if (dataSetFetch.error || initialDataValuesFetch.error) {
         return 'Error!'
     }
 
     return (
         <div className={styles.wrapper}>
-            <FinalFormWrapper initialValues={dataValueSetFetch.data}>
+            <FinalFormWrapper initialValues={initialDataValuesFetch.data}>
                 <EntryForm dataSet={dataSetFetch.data} />
             </FinalFormWrapper>
         </div>
     )
+}
+
+DataWorkspace.propTypes = {
+    selectionHasNoFormMessage: PropTypes.string,
 }

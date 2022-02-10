@@ -10,13 +10,14 @@ import {
 // TODO: this should probably be handled by useContextSelection-hook
 // should not need this when api support CC and CP instead of cocId
 export const useAttributeOptionCombo = () => {
-    const { available, metadata } = useMetadata()
+    const { isLoading, isError, data } = useMetadata()
     const [{ dataSetId, attributeOptionComboSelection }] = useContextSelection()
+
     const cocId = useMemo(() => {
-        if (available && dataSetId) {
-            const dataSet = getDataSetById(metadata, dataSetId)
+        if (!isLoading && !isError && dataSetId) {
+            const dataSet = getDataSetById(data, dataSetId)
             const categoryCombo = getCategoryComboById(
-                metadata,
+                data,
                 dataSet.categoryCombo.id
             )
             if (categoryCombo.isDefault) {
@@ -27,15 +28,16 @@ export const useAttributeOptionCombo = () => {
             const selectedOptions = Object.values(attributeOptionComboSelection)
 
             const attributeOptionCombo = getCoCByCategoryOptions(
-                metadata,
+                data,
                 dataSet.categoryCombo.id,
                 selectedOptions
             )
 
             return attributeOptionCombo?.id
         }
+
         return null
-    }, [dataSetId, attributeOptionComboSelection, metadata, available])
+    }, [dataSetId, attributeOptionComboSelection, data, isLoading, isError])
 
     return cocId
 }
