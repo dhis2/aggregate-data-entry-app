@@ -5,6 +5,10 @@ import { useAttributeOptionCombo } from './use-attribute-option-combo.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
 function mapDataValuesToFormInitialValues(dataValues) {
+    if (!dataValues) {
+        return {}
+    }
+
     const formInitialValues = dataValues.reduce(
         (acc, { dataElement, categoryOptionCombo, value }) => {
             if (!acc[dataElement]) {
@@ -19,7 +23,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
     return formInitialValues
 }
 
-export const useDataValueSet = () => {
+export const useInitialDataValues = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionCombo = useAttributeOptionCombo()
     const activeMutations = useIsMutating({
@@ -36,10 +40,19 @@ export const useDataValueSet = () => {
             },
         },
     ]
+    const hasParameters =
+        !!dataSetId && !!orgUnitId && !!periodId && !!attributeOptionCombo
+    console.log({
+        hasParameters,
+        dataSetId,
+        orgUnitId,
+        periodId,
+        attributeOptionCombo,
+    })
 
     return useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
-        enabled: activeMutations === 0,
-        select: (data) => mapDataValuesToFormInitialValues(data.dataValues)
+        enabled: activeMutations === 0 && hasParameters,
+        select: (data) => mapDataValuesToFormInitialValues(data.dataValues),
     })
 }

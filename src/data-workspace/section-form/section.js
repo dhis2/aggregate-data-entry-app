@@ -8,7 +8,7 @@ import {
     TableRowHead,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { useMetadata } from '../../metadata/index.js'
 import {
     getDataElementsBySection,
@@ -21,30 +21,26 @@ import styles from './section.module.css'
 export const SectionFormSection = ({ section, globalFilterText }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
-    const { available, metadata } = useMetadata()
+    const { isLoading, isError, data } = useMetadata()
 
-    if (!available) {
+    if (isLoading || isError) {
         return null
     }
 
-    const [groupedDataElements, maxColumnsInSection] = useMemo(() => {
-        const dataElements = getDataElementsBySection(
-            metadata,
-            section.dataSet.id,
-            section.id
-        )
-        const groupedDataElements = section.disableDataElementAutoGroup
-            ? groupDataElementsByCatComboInOrder(metadata, dataElements)
-            : groupDataElementsByCatCombo(metadata, dataElements)
+    const dataElements = getDataElementsBySection(
+        data,
+        section.dataSet.id,
+        section.id
+    )
+    const groupedDataElements = section.disableDataElementAutoGroup
+        ? groupDataElementsByCatComboInOrder(data, dataElements)
+        : groupDataElementsByCatCombo(data, dataElements)
 
-        const maxColumnsInSection = Math.max(
-            ...groupedDataElements.map(
-                (grp) => grp.categoryCombo.categoryOptionCombos.length
-            )
+    const maxColumnsInSection = Math.max(
+        ...groupedDataElements.map(
+            (grp) => grp.categoryCombo.categoryOptionCombos.length
         )
-        return [groupedDataElements, maxColumnsInSection]
-    }, [metadata, section])
-
+    )
     const filterInputId = `filter-input-${section.id}`
 
     return (
@@ -103,17 +99,15 @@ export const SectionFormSection = ({ section, globalFilterText }) => {
     )
 }
 
-export const sectionProps = PropTypes.shape({
-    dataSet: PropTypes.shape({
-        id: PropTypes.string,
-    }),
-    description: PropTypes.string,
-    disableDataElementAutoGroup: PropTypes.bool,
-    displayName: PropTypes.string,
-    id: PropTypes.string,
-})
-
 SectionFormSection.propTypes = {
     globalFilterText: PropTypes.string,
-    section: sectionProps,
+    section: PropTypes.shape({
+        dataSet: PropTypes.shape({
+            id: PropTypes.string,
+        }),
+        description: PropTypes.string,
+        disableDataElementAutoGroup: PropTypes.bool,
+        displayName: PropTypes.string,
+        id: PropTypes.string,
+    }),
 }

@@ -2,8 +2,15 @@ import { cartesian } from '../shared/utils.js'
 
 export const getDataElements = (metadata) => metadata.dataElements
 
-export const getDataElementById = (metadata, id) =>
-    getDataElements(metadata)[id]
+export const getDataElementById = (metadata, id) => {
+    const dataElements = getDataElements(metadata)
+
+    if (!dataElements) {
+        return null
+    }
+
+    return dataElements[id]
+}
 
 export const getCategories = (metadata) => metadata.categories
 
@@ -99,6 +106,10 @@ export const groupDataElementsByCatComboInOrder = (metadata, dataElements) => {
 }
 
 export const groupDataElementsByCatCombo = (metadata, dataElements) => {
+    if (!dataElements) {
+        return []
+    }
+
     const categoryCombos = dataElements.reduce((ccs, de) => {
         const cc = de.categoryCombo
         if (!ccs[cc.id]) {
@@ -113,6 +124,7 @@ export const groupDataElementsByCatCombo = (metadata, dataElements) => {
         }
         return ccs
     }, {})
+
     return Object.values(categoryCombos)
 }
 

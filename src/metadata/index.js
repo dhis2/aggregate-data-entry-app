@@ -1,1 +1,1 @@
-export * from './metadata-context.js'
+export { useMetadata } from './use-metadata.js'
