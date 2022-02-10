@@ -10,22 +10,6 @@ import { useDataSet } from './use-data-set.js'
 import { useDataValueSet } from './use-data-value-set.js'
 import { useMetadata } from './use-metadata.js'
 
-// Form value object structure: { [dataElementId]: { [cocId]: value } }
-function mapDataValuesToFormInitialValues(dataValues) {
-    const formInitialValues = dataValues.reduce(
-        (acc, { dataElement, categoryOptionCombo, value }) => {
-            if (!acc[dataElement]) {
-                acc[dataElement] = { [categoryOptionCombo]: value }
-            } else {
-                acc[dataElement][categoryOptionCombo] = value
-            }
-            return acc
-        },
-        {}
-    )
-    return formInitialValues
-}
-
 export const DataWorkspace = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionComboId = useAttributeOptionCombo()
@@ -49,12 +33,8 @@ export const DataWorkspace = () => {
 
     return (
         <div className={styles.wrapper}>
-            <FinalFormWrapper
-                initialValues={mapDataValuesToFormInitialValues(
-                    dataValueSetFetch.data.dataValueSet.dataValues
-                )}
-            >
-                <EntryForm dataSet={dataSetFetch.data.dataSet} />
+            <FinalFormWrapper initialValues={dataValueSetFetch.data}>
+                <EntryForm dataSet={dataSetFetch.data} />
             </FinalFormWrapper>
         </div>
     )
