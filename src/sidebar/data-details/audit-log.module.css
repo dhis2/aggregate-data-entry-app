@@ -32,12 +32,3 @@
 .entryTimeAgo {
     color: var(--colors-grey600);
 }
-
-.entryType, .entryTypeDeleted {
-    font-family: 'Roboto Mono', monospace;
-    background: var(--colors-grey300);
-}
-
-.entryTypeDeleted {
-    background: var(--colors-yellow100);
-}

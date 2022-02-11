@@ -8,19 +8,10 @@ import styles from './shortcuts.module.css'
 const Shortcut = ({ name, shortcut1, shortcut2 }) => (
     <div className={styles.helpItem}>
         <div>{name}</div>
-        <div
-            className={styles.shortcut}
-            dangerouslySetInnerHTML={{
-                __html: i18n.t(
-                    '<span class="{{class}}">{{shortcut1}}</span> or <span class="{{class}}">{{shortcut2}}</span>',
-                    {
-                        class: styles.shortcutKey,
-                        shortcut1,
-                        shortcut2,
-                    }
-                ),
-            }}
-        ></div>
+        <div className={styles.shortcutKeys}>
+            <span className={styles.shortcutKey}>{shortcut1}</span>
+            <span className={styles.shortcutKey}>{shortcut2}</span>
+        </div>
     </div>
 )
 

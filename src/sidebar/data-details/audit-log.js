@@ -1,6 +1,6 @@
 import { useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader } from '@dhis2/ui'
+import { CircularLoader, Tooltip } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
@@ -16,37 +16,25 @@ const query = {
     },
 }
 
-// Embedding HTML in the i18n keys is necessary in order to have correct
-// translations, instead of piecing together translated words. Once
-// react-i18next is supported, this can be replaced with the <Trans />
-// component.
 const renderMessage = ({ displayName, changeType, newValue, oldValue }) => {
     switch (changeType) {
         case 'UPDATE':
             return i18n.t(
-                '{{displayName}} <span class="{{typeClass}}">updated</span> to {{newValue}} (was {{oldValue}})',
+                '{{displayName}} updated to {{newValue}} (was {{oldValue}})',
                 {
                     displayName,
-                    typeClass: styles.entryType,
                     newValue,
                     oldValue,
                 }
             )
         case 'DELETE':
-            return i18n.t(
-                '{{displayName}} <span class="{{typeClass}}">deleted</span> (was {{oldValue}})',
-                {
-                    displayName,
-                    typeClass: styles.entryTypeDeleted,
-                    newValue,
-                    oldValue,
-                }
-            )
-        default:
-            return i18n.t('{{displayName}} {{changeType}}', {
+            return i18n.t('{{displayName}} deleted (was {{oldValue}})', {
                 displayName,
-                changeType,
+                newValue,
+                oldValue,
             })
+        default:
+            return `${displayName} ${changeType}`
     }
 }
 
@@ -55,11 +43,10 @@ const Entry = ({ entry }) => {
 
     return (
         <>
-            <span
-                className={styles.entryMessage}
-                dangerouslySetInnerHTML={{ __html: renderMessage(entry) }}
-            ></span>
-            <span className={styles.entryTimeAgo}>{timeAgo}</span>
+            <span className={styles.entryMessage}>{renderMessage(entry)}</span>
+            <Tooltip content={entry.at.toString()}>
+                <span className={styles.entryTimeAgo}>{timeAgo}</span>
+            </Tooltip>
         </>
     )
 }

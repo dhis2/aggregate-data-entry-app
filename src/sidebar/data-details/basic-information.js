@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { Button, IconFlag16, IconFlag24, colors } from '@dhis2/ui'
+import { Button, Tooltip, IconFlag16, IconFlag24, colors } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -24,10 +24,12 @@ const BasicInformation = ({ item, onMarkForFollowup, onUnmarkForFollowup }) => (
                 })}
             </li>
             <li>
-                {i18n.t('Last updated {{- timeAgo}} by {{- name}}', {
-                    timeAgo: moment(item.lastUpdated.at).fromNow(),
-                    name: item.lastUpdated.userDisplayName,
-                })}
+                <Tooltip content={item.lastUpdated.at.toString()}>
+                    {i18n.t('Last updated {{- timeAgo}} by {{- name}}', {
+                        timeAgo: moment(item.lastUpdated.at).fromNow(),
+                        name: item.lastUpdated.userDisplayName,
+                    })}
+                </Tooltip>
             </li>
             {item.markedForFollowup ? (
                 <li className={styles.markedForFollowup}>
