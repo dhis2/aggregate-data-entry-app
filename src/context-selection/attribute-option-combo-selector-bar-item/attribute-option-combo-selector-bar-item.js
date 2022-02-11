@@ -20,7 +20,7 @@ const useSetSelectionHasNoFormMessage = (
         if (categoryCombo?.categories.some(hasCategoryNoOptions)) {
             setSelectionHasNoFormMessage(
                 i18n.t(
-                    'At least of the the categories does not have any options due to the options not spanning over the entire selected period'
+                    'At least one of the categories does not have any options due to the options not spanning over the entire selected period'
                 )
             )
         } else {
