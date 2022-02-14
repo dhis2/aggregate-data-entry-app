@@ -33,12 +33,14 @@ export default function PeriodMenu({ periodType, year, onChange }) {
     const periods = getPeriods({ periodType, year, dateFormat })
 
     return (
-        <Menu dense className={classes.menu}>
+        <Menu dense className={classes.menu} dataTest="period-selector-menu">
             {periods.map((period) => (
                 <MenuItem
                     active={period.id === selectedPeriod?.id}
                     key={period.id}
-                    label={period.displayName}
+                    label={
+                        <span data-value={period.id}>{period.displayName}</span>
+                    }
                     onClick={() => onChange({ selected: period.id })}
                 />
             ))}

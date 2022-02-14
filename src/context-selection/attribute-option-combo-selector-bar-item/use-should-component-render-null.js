@@ -3,7 +3,6 @@ import {
     useOrgUnitId,
     usePeriodId,
 } from '../use-context-selection/index.js'
-import useCategoryCombination from './use-category-combination.js'
 
 /*
  * `categoryCombination.loading` does not mean that "null" should be rendered.
@@ -14,18 +13,19 @@ import useCategoryCombination from './use-category-combination.js'
  * should not render `null`, then it's most likely not going to change when
  * reloading
  */
-export default function useShouldComponentRenderNull() {
+export default function useShouldComponentRenderNull(categoryCombination) {
     const [dataSetId] = useDataSetId()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
-    const categoryCombination = useCategoryCombination()
 
     return (
         !dataSetId ||
         !periodId ||
         !orgUnitId ||
         !categoryCombination.called ||
-        !categoryCombination.data?.categories.length ||
-        categoryCombination.data?.isDefault
+        // if it is the default combo,
+        // then it doesn't matter if there are categories or not
+        (!categoryCombination.data?.isDefault &&
+            !categoryCombination.data?.categories.length)
     )
 }

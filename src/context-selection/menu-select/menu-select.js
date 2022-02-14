@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import css from './menu-select.module.css'
 
-export default function MenuSelect({ values, selected, onChange }) {
+export default function MenuSelect({ values, selected, dataTest, onChange }) {
     return (
-        <div className={css.menuSelect}>
+        <div className={css.menuSelect} data-test={dataTest}>
             <Menu>
                 {values.map(({ value, label }) => (
                     <MenuItem
                         key={value || label}
-                        label={label}
+                        dataValue={value}
+                        label={<span data-value={value}>{label}</span>}
                         active={selected === value}
                         onClick={() => onChange({ selected: value })}
                     />
@@ -18,6 +19,10 @@ export default function MenuSelect({ values, selected, onChange }) {
             </Menu>
         </div>
     )
+}
+
+MenuSelect.defaultProps = {
+    dataTest: 'menu-select',
 }
 
 MenuSelect.propTypes = {
@@ -28,6 +33,7 @@ MenuSelect.propTypes = {
         })
     ).isRequired,
     onChange: PropTypes.func.isRequired,
+    dataTest: PropTypes.string,
     selected: PropTypes.string,
 }
 10

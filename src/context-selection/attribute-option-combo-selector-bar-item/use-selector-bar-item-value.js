@@ -1,10 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
 import { useAttributeOptionComboSelection } from '../use-context-selection/index.js'
-import useCategoryCombination from './use-category-combination.js'
 
-export default function useSelectorBarItemValue() {
+export default function useSelectorBarItemValue(categoryCombination) {
     const [attributeOptionComboSelection] = useAttributeOptionComboSelection()
-    const categoryCombination = useCategoryCombination()
 
     if (!categoryCombination.called || categoryCombination.loading) {
         return i18n.t('Loading...')
@@ -14,33 +12,18 @@ export default function useSelectorBarItemValue() {
         return i18n.t('An error loading the values occurred')
     }
 
-    if (!Object.values(attributeOptionComboSelection).length) {
-        return i18n.t('No selection!')
+    if (categoryCombination.data?.isDefault) {
+        return ''
     }
 
     if (
-        categoryCombination.data &&
-        Object.values(attributeOptionComboSelection).length <
-            categoryCombination.data.categories.length
+        !Object.values(attributeOptionComboSelection).length ||
+        !categoryCombination.data
     ) {
-        return i18n.t('Partial selection!')
+        return i18n.t('0 selections')
     }
 
-    if (
-        categoryCombination.data &&
-        Object.values(attributeOptionComboSelection).length ===
-            categoryCombination.data.categories.length
-    ) {
-        return i18n.t('Complete selection!')
-    }
-
-    const error = new Error('Case not implemented!')
-
-    if (process.env.NODE_ENV !== 'production') {
-        throw error
-    } else {
-        console.error(error)
-    }
-
-    return ''
+    return i18n.t('{{amount}} selections', {
+        amount: Object.values(attributeOptionComboSelection).length,
+    })
 }

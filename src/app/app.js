@@ -1,5 +1,5 @@
 import { CssVariables } from '@dhis2/ui'
-import React from 'react'
+import React, { useState } from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import './app.css'
@@ -13,11 +13,23 @@ import useConfigureQueryClient from './use-configure-query-client.js'
 
 const WrappedLayout = () => {
     const { visible: showSidebar } = useSidebar()
+    const [selectionHasNoFormMessage, setSelectionHasNoFormMessage] =
+        useState('')
+
+    const contextSelection = (
+        <ContextSelection
+            setSelectionHasNoFormMessage={setSelectionHasNoFormMessage}
+        />
+    )
+
+    const dataWorkspace = (
+        <DataWorkspace selectionHasNoFormMessage={selectionHasNoFormMessage} />
+    )
 
     return (
         <Layout
-            header={<ContextSelection />}
-            main={<DataWorkspace />}
+            header={contextSelection}
+            main={dataWorkspace}
             sidebar={showSidebar && <Sidebar />}
             showSidebar={showSidebar}
             footer={<MutationIndicator />}

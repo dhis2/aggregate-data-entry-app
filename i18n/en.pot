@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-09T14:08:22.446Z\n"
-"PO-Revision-Date: 2022-02-09T14:08:22.446Z\n"
+"POT-Creation-Date: 2022-02-14T10:10:02.956Z\n"
+"PO-Revision-Date: 2022-02-14T10:10:02.956Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -24,6 +24,13 @@ msgstr "There are {{ pendingMutations }} pending mutations"
 msgid "Synced"
 msgstr "Synced"
 
+msgid ""
+"At least one of the categories does not have any options due to the options "
+"not spanning over the entire selected period"
+msgstr ""
+"At least one of the categories does not have any options due to the options "
+"not spanning over the entire selected period"
+
 msgid "Choose a data set"
 msgstr "Choose a data set"
 
@@ -39,26 +46,20 @@ msgstr "Hide menu"
 msgid "Attribute option combination: An error occurred"
 msgstr "Attribute option combination: An error occurred"
 
+msgid "Default attribute combo"
+msgstr "Default attribute combo"
+
 msgid "Loading..."
 msgstr "Loading..."
 
 msgid "An error loading the values occurred"
 msgstr "An error loading the values occurred"
 
-msgid "No selection!"
-msgstr "No selection!"
+msgid "0 selections"
+msgstr "0 selections"
 
-msgid "Partial selection!"
-msgstr "Partial selection!"
-
-msgid "Complete selection!"
-msgstr "Complete selection!"
-
-msgid "Fetching data set info"
-msgstr "Fetching data set info"
-
-msgid "Error occurred while loading data set info"
-msgstr "Error occurred while loading data set info"
+msgid "{{amount}} selections"
+msgstr "{{amount}} selections"
 
 msgid "Data set"
 msgstr "Data set"
@@ -68,6 +69,9 @@ msgstr "Fetching data sets"
 
 msgid "Error occurred while loading data sets"
 msgstr "Error occurred while loading data sets"
+
+msgid "There are no data sets available!"
+msgstr "There are no data sets available!"
 
 msgid "Options"
 msgstr "Options"
@@ -84,11 +88,8 @@ msgstr "Help"
 msgid "Search org units"
 msgstr "Search org units"
 
-msgid "You must choose a data set first"
-msgstr "You must choose a data set first"
-
-msgid "Error: {{ ERRORMESSAGE }}"
-msgstr "Error: {{ ERRORMESSAGE }}"
+msgid "Choose a data set first"
+msgstr "Choose a data set first"
 
 msgid "Organisation unit"
 msgstr "Organisation unit"
@@ -110,6 +111,12 @@ msgstr "Period"
 
 msgid "Choose a period"
 msgstr "Choose a period"
+
+msgid "Fetching data set info"
+msgstr "Fetching data set info"
+
+msgid "Error occurred while loading data set info"
+msgstr "Error occurred while loading data set info"
 
 msgid "Show all sections"
 msgstr "Show all sections"
@@ -144,6 +151,9 @@ msgstr "Filter fields"
 
 msgid "Clear filter"
 msgstr "Clear filter"
+
+msgid "The current selection does not have a form"
+msgstr "The current selection does not have a form"
 
 msgid "Type here to filter in this section"
 msgstr "Type here to filter in this section"
@@ -259,13 +269,6 @@ msgstr "Invalid value, not saved"
 msgid "Locked, not editable"
 msgstr "Locked, not editable"
 
-msgid ""
-"<span class=\"{{class}}\">{{shortcut1}}</span> or <span "
-"class=\"{{class}}\">{{shortcut2}}</span>"
-msgstr ""
-"<span class=\"{{class}}\">{{shortcut1}}</span> or <span "
-"class=\"{{class}}\">{{shortcut2}}</span>"
-
 msgid "Shortcuts"
 msgstr "Shortcuts"
 
@@ -290,22 +293,11 @@ msgstr "Go to previous cell"
 msgid "Shift + Tab"
 msgstr "Shift + Tab"
 
-msgid ""
-"{{displayName}} <span class=\"{{typeClass}}\">updated</span> to "
-"{{newValue}} (was {{oldValue}})"
-msgstr ""
-"{{displayName}} <span class=\"{{typeClass}}\">updated</span> to "
-"{{newValue}} (was {{oldValue}})"
+msgid "{{displayName}} updated to {{newValue}} (was {{oldValue}})"
+msgstr "{{displayName}} updated to {{newValue}} (was {{oldValue}})"
 
-msgid ""
-"{{displayName}} <span class=\"{{typeClass}}\">deleted</span> (was "
-"{{oldValue}})"
-msgstr ""
-"{{displayName}} <span class=\"{{typeClass}}\">deleted</span> (was "
-"{{oldValue}})"
-
-msgid "{{displayName}} {{changeType}}"
-msgstr "{{displayName}} {{changeType}}"
+msgid "{{displayName}} deleted (was {{oldValue}})"
+msgstr "{{displayName}} deleted (was {{oldValue}})"
 
 msgid "There was a problem loading the audit log for this data item"
 msgstr "There was a problem loading the audit log for this data item"

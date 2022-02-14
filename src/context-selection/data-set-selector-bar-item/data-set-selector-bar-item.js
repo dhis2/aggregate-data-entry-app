@@ -6,47 +6,75 @@ import { useDataSetId } from '../use-context-selection/index.js'
 import useDataSet from './use-data-set.js'
 import useSelectableDataSets from './use-selectable-data-sets.js'
 
+/**
+ * @TODO: How to indicate that the data set is being loaded
+ *  -> Talk to @joe-cooper
+ *
+ * @TODO: How to indicate that the selecatable data sets are being loaded
+ *  -> Talk to @joe-cooper
+ */
 export default function DataSetSelectorBarItem() {
     const [dataSetOpen, setDataSetOpen] = useState(false)
     const [dataSetId, setDataSetId] = useDataSetId()
+    // Select the first item if there's only one
+    const selectOnlyItemOnComplete = (data) => {
+        if (data.dataSets?.dataSets?.length === 1) {
+            const { id } = data.dataSets?.dataSets[0]
+            setDataSetId(id)
+        }
+    }
     const dataSet = useDataSet()
-    const selectableDataSets = useSelectableDataSets()
+    const selectableDataSets = useSelectableDataSets(selectOnlyItemOnComplete)
 
-    const selectorBarItemValue = dataSet.loading
-        ? i18n.t('Fetching data set info')
-        : dataSet.error
-        ? i18n.t('Error occurred while loading data set info')
-        : dataSet.data?.displayName
-
-    const renderMenu =
+    const isDoneLoading =
         selectableDataSets.called &&
         !selectableDataSets.loading &&
-        !selectableDataSets.error &&
-        selectableDataSets.data
+        !selectableDataSets.error
+
+    const showLoadingMessage =
+        !selectableDataSets.called || !!selectableDataSets.loading
 
     return (
-        <SelectorBarItem
-            label={i18n.t('Data set')}
-            value={dataSetId ? selectorBarItemValue : undefined}
-            open={dataSetOpen}
-            setOpen={setDataSetOpen}
-            noValueMessage={i18n.t('Choose a data set')}
-        >
-            {selectableDataSets.loading && i18n.t('Fetching data sets')}
+        <div data-test="data-set-selector">
+            <SelectorBarItem
+                label={i18n.t('Data set')}
+                value={dataSetId ? dataSet.data?.displayName : undefined}
+                open={dataSetOpen}
+                setOpen={setDataSetOpen}
+                noValueMessage={i18n.t('Choose a data set')}
+            >
+                <div data-test="data-set-selector-contents">
+                    {showLoadingMessage && (
+                        <span data-test="data-set-selector-loading-msg">
+                            {i18n.t('Fetching data sets')}
+                        </span>
+                    )}
 
-            {selectableDataSets.error &&
-                i18n.t('Error occurred while loading data sets')}
+                    {selectableDataSets.error && (
+                        <span data-test="data-set-selector-error-msg">
+                            {i18n.t('Error occurred while loading data sets')}
+                        </span>
+                    )}
 
-            {renderMenu && (
-                <MenuSelect
-                    values={selectableDataSets.data}
-                    selected={dataSetId}
-                    onChange={({ selected }) => {
-                        setDataSetId(selected)
-                        setDataSetOpen(false)
-                    }}
-                />
-            )}
-        </SelectorBarItem>
+                    {isDoneLoading && !selectableDataSets.data?.length && (
+                        <span data-test="data-set-selector-none-available-msg">
+                            {i18n.t('There are no data sets available!')}
+                        </span>
+                    )}
+
+                    {isDoneLoading && !!selectableDataSets.data?.length && (
+                        <MenuSelect
+                            values={selectableDataSets.data || []}
+                            selected={dataSetId}
+                            dataTest="data-set-selector-menu"
+                            onChange={({ selected }) => {
+                                setDataSetId(selected)
+                                setDataSetOpen(false)
+                            }}
+                        />
+                    )}
+                </div>
+            </SelectorBarItem>
+        </div>
     )
 }

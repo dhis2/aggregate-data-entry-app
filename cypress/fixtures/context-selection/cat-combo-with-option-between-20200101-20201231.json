@@ -1,0 +1,104 @@
+{
+    "categoryCombo": {
+        "isDefault": false,
+        "displayName": "Implementing Partner and Projects",
+        "categories": [
+            {
+                "id": "LFsZ8v5v7rq",
+                "displayName": "Implementing Partner",
+                "categoryOptions": [
+                    {
+                        "id": "C6nZpLKjEJr",
+                        "endDate": "2020-12-31T23:59:59.999",
+                        "displayName": "African Medical and Research Foundation",
+                        "startDate": "2020-01-01T00:00:00.000"
+                    },
+                    {
+                        "id": "CW81uF03hvV",
+                        "displayName": "AIDSRelief Consortium"
+                    },
+                    {
+                        "id": "B3nxOazOO2G",
+                        "displayName": "APHIAplus"
+                    },
+                    {
+                        "id": "RkbOhHwiOgW",
+                        "displayName": "CARE International"
+                    },
+                    {
+                        "id": "TY5rBQzlBRa",
+                        "displayName": "Family Health International"
+                    },
+                    {
+                        "id": "hERJraxV8D9",
+                        "displayName": "Hope Worldwide"
+                    },
+                    {
+                        "id": "g3bcPGD5Q5i",
+                        "displayName": "International Rescue Committee"
+                    },
+                    {
+                        "id": "yfWXlxYNbhy",
+                        "displayName": "IntraHealth International"
+                    },
+                    {
+                        "id": "yrwgRxRhBoU",
+                        "displayName": "Path"
+                    },
+                    {
+                        "id": "VLFVaH1MwnF",
+                        "displayName": "Pathfinder International"
+                    },
+                    {
+                        "id": "e5YBV5F5iUd",
+                        "displayName": "Plan International"
+                    },
+                    {
+                        "id": "XK6u6cJCR0t",
+                        "displayName": "Population Services International"
+                    },
+                    {
+                        "id": "xwZ2u3WyQR0",
+                        "displayName": "Unicef"
+                    },
+                    {
+                        "id": "LEWNFo4Qrrs",
+                        "displayName": "World Concern"
+                    },
+                    {
+                        "id": "xEunk8LPzkb",
+                        "displayName": "World Relief"
+                    },
+                    {
+                        "id": "uilaJSyXt7d",
+                        "displayName": "World Vision"
+                    }
+                ]
+            },
+            {
+                "id": "yY2bQYqNt0o",
+                "displayName": "Project",
+                "categoryOptions": [
+                    {
+                        "id": "i4Nbp8S2G6A",
+                        "displayName": "Improve access to clean water",
+                        "startDate": "2016-04-01T00:00:00.000"
+                    },
+                    {
+                        "id": "yMj2MnmNI8L",
+                        "displayName": "Improve access to medicines"
+                    },
+                    {
+                        "id": "OUUdG3sdOqb",
+                        "endDate": "2016-10-01T00:00:00.000",
+                        "displayName": "Provide access to primary health care"
+                    },
+                    {
+                        "id": "M58XdOfhiJ7",
+                        "displayName": "Provide access to basic education"
+                    }
+                ]
+            }
+        ]
+    }
+}

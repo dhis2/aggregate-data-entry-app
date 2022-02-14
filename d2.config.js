@@ -2,7 +2,7 @@ const config = {
     type: 'app',
     title: 'Data Entry',
     pwa: {
-        enabled: true,
+        enabled: process.env.REACT_APP_NODE_ENV !== 'test',
         caching: {
             patternsToOmitFromAppShell: ['dataValueSets'],
         },

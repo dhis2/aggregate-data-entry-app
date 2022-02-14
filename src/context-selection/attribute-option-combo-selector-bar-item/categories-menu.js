@@ -3,11 +3,13 @@ import { Button, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import css from './categories-menu.module.css'
-import useCategoryCombination from './use-category-combination.js'
 
-export default function CategoriesMenu({ close, selected, onChange }) {
-    const categoryCombination = useCategoryCombination()
-
+export default function CategoriesMenu({
+    categoryCombination,
+    close,
+    selected,
+    onChange,
+}) {
     if (!categoryCombination.called || categoryCombination.loading) {
         return i18n.t('Loading categories...')
     }
@@ -63,6 +65,12 @@ export default function CategoriesMenu({ close, selected, onChange }) {
 }
 
 CategoriesMenu.propTypes = {
+    categoryCombination: PropTypes.shape({
+        called: PropTypes.bool.isRequired,
+        loading: PropTypes.bool.isRequired,
+        data: PropTypes.object,
+        error: PropTypes.instanceOf(Error),
+    }).isRequired,
     close: PropTypes.func.isRequired,
     selected: PropTypes.objectOf(PropTypes.string).isRequired,
     onChange: PropTypes.func.isRequired,

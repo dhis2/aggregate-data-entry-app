@@ -14,19 +14,22 @@
         "format:staged": "d2-style apply --staged",
         "lint": "d2-style check",
         "lint:staged": "d2-style check --staged",
+        "cypress:start": "REACT_APP_NODE_ENV=test yarn start:nobrowser",
         "cypress:open:live": "yarn cypress open --env networkMode=live",
+        "cypress:run:live": "yarn cypress run --env networkMode=live",
         "cypress:run:capture": "yarn cypress run --env dhis2ApiVersion=38,networkMode=capture",
         "cypress:run:stub": "yarn cypress run --env dhis2ApiVersion=38,networkMode=stub",
-        "cypress:prepare": "start-server-and-test 'yarn start:nobrowser' http://localhost:3000",
+        "cypress:prepare": "start-server-and-test 'yarn cypress:start' http://localhost:3000",
         "cypress:live": "yarn cypress:prepare 'yarn cypress:open:live'",
         "cypress:capture": "yarn cypress:prepare 'yarn cypress:run:capture'",
-        "cypress:stub": "yarn cypress:prepare 'yarn cypress:run:stub'"
+        "cypress:stub": "yarn cypress:prepare 'yarn cypress:run:stub'",
+        "jgs:start": "BROWSER=none yarn start --proxy https://debug.dhis2.org/dev"
     },
     "devDependencies": {
         "@dhis2/cli-app-scripts": "^8.3.2",
         "@dhis2/cli-style": "^10.1.1",
-        "@dhis2/cypress-commands": "^9.0.1",
-        "@dhis2/cypress-plugins": "^9.0.1",
+        "@dhis2/cypress-commands": "^9.0.2",
+        "@dhis2/cypress-plugins": "^9.0.2",
         "@testing-library/jest-dom": "^5.15.1",
         "@testing-library/react": "^12.1.2",
         "@testing-library/react-hooks": "^7.0.2",
@@ -51,5 +54,8 @@
         "react-query": "3.34.5",
         "react-router-dom": "^5",
         "use-query-params": "^1.2.3"
+    },
+    "resolutions": {
+        "react-query": "3.34.5"
     }
 }

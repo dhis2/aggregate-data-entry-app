@@ -7,7 +7,7 @@ import {
     withDefault,
 } from 'use-query-params'
 
-const PARAMS_SCHEMA = {
+export const PARAMS_SCHEMA = {
     dataSetId: StringParam,
     orgUnitId: StringParam,
     periodId: StringParam,
@@ -47,11 +47,11 @@ export function useClearEntireSelection() {
 
     return useCallback(() => {
         setSelectionContext({
-            dataSetId: '',
-            orgUnitId: '',
-            periodId: '',
-            attributeOptionComboSelection: [],
-            sectionFilter: '',
+            dataSetId: undefined,
+            orgUnitId: undefined,
+            periodId: undefined,
+            attributeOptionComboSelection: undefined,
+            sectionFilter: undefined,
         })
     }, [setSelectionContext])
 }
