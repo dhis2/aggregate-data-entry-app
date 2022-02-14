@@ -5,10 +5,6 @@ import { useAttributeOptionCombo } from './use-attribute-option-combo.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
 function mapDataValuesToFormInitialValues(dataValues) {
-    if (!dataValues) {
-        return {}
-    }
-
     const formInitialValues = dataValues.reduce(
         (acc, { dataElement, categoryOptionCombo, value }) => {
             if (!acc[dataElement]) {
@@ -42,17 +38,14 @@ export const useInitialDataValues = () => {
     ]
     const hasParameters =
         !!dataSetId && !!orgUnitId && !!periodId && !!attributeOptionCombo
-    console.log({
-        hasParameters,
-        dataSetId,
-        orgUnitId,
-        periodId,
-        attributeOptionCombo,
-    })
 
     return useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
         enabled: activeMutations === 0 && hasParameters,
-        select: (data) => mapDataValuesToFormInitialValues(data.dataValues),
+        select: (data) =>
+            // It's possible for the backend to return a response that does not have dataValues
+            data.dataValues
+                ? mapDataValuesToFormInitialValues(data.dataValues)
+                : {},
     })
 }
