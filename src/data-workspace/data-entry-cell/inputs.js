@@ -24,9 +24,9 @@ const convertCallbackSignatures = (props) => ({
     onBlur: (_, e) => props.onBlur(e),
 })
 
-export const withInputType = (Component, inputType) => {
-    return function InputWithType(props) {
-        return <Component {...props} inputType={inputType} />
+export const withAddlProps = (Component, addlProps) => {
+    return function InputWithAddlProps(props) {
+        return <Component {...props} {...addlProps} />
     }
 }
 
