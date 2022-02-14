@@ -53,7 +53,7 @@ export default function useCategoryCombination() {
         error,
         data,
     } = useQuery(queryKey, {
-        enabled: !!dataSetId,
+        enabled: !!dataSetId && !!periodId,
         select: (data) => {
             if (!data || !periodId) {
                 return data?.categoryCombo
