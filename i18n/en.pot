@@ -121,6 +121,9 @@ msgstr "Not implemented"
 msgid "This data set uses a custom form. Custom forms are not implemented yet."
 msgstr "This data set uses a custom form. Custom forms are not implemented yet."
 
+msgid "The current selection does not have a form"
+msgstr "The current selection does not have a form"
+
 msgid "This data set has no assigned Data Elements"
 msgstr "This data set has no assigned Data Elements"
 
@@ -139,9 +142,6 @@ msgstr "Filter fields"
 
 msgid "Clear filter"
 msgstr "Clear filter"
-
-msgid "The current selection does not have a form"
-msgstr "The current selection does not have a form"
 
 msgid "Type here to filter in this section"
 msgstr "Type here to filter in this section"
