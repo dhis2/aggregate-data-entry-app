@@ -120,10 +120,10 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // todo: implement read-only cells
 
     const synced = meta.valid && !isIdle && !isLoading && !isError
-    const inputStateClassName = meta.invalid
-        ? styles.inputInvalid
+    const cellStateClassName = meta.invalid
+        ? styles.invalid
         : synced
-        ? styles.inputSynced
+        ? styles.synced
         : null
 
     const Input = getInputByDataElement(de)
@@ -136,11 +136,21 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                 active={meta.active}
             >
                 {(tooltipProps) => (
-                    <div className={styles.cellInnerWrapper} {...tooltipProps}>
+                    <div
+                        className={cx(
+                            styles.cellInnerWrapper,
+                            cellStateClassName,
+                            {
+                                [styles.active]: meta.active,
+                                [styles.disabled]: false, // todo
+                            }
+                        )}
+                        {...tooltipProps}
+                    >
                         <Input
                             name={fieldName}
                             dataElement={de}
-                            className={cx(styles.input, inputStateClassName)}
+                            // className={styles.input}
                             syncData={syncData}
                             lastSyncedValue={lastSyncedValue}
                             onKeyDown={onKeyDown}

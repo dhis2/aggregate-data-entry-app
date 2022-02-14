@@ -6,7 +6,6 @@ import {
     SingleSelect,
     SingleSelectOption,
 } from '@dhis2/ui'
-import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField, useForm } from 'react-final-form'
@@ -14,7 +13,7 @@ import { useMetadata } from '../../metadata/index.js'
 import { getOptionSetById } from '../../metadata/selectors.js'
 import styles from './inputs.module.css'
 
-// todo: refactor styles here
+// todo: refactor styles here /
 
 // Adapt UI components to Final Form's callbacks
 const convertCallbackSignatures = (props) => ({
@@ -33,7 +32,6 @@ export const withAddlProps = (Component, addlProps) => {
 export const BasicInput = ({
     name,
     syncData,
-    className,
     onKeyDown,
     lastSyncedValue,
     inputType,
@@ -53,7 +51,7 @@ export const BasicInput = ({
 
     return (
         <input
-            className={className}
+            className={styles.basicInput}
             {...input}
             onBlur={(e) => {
                 handleBlur()
@@ -66,7 +64,6 @@ export const BasicInput = ({
 const InputProps = {
     name: PropTypes.string.isRequired,
     syncData: PropTypes.func.isRequired,
-    className: PropTypes.string,
     lastSyncedValue: PropTypes.any,
     onKeyDown: PropTypes.func,
 }
@@ -75,7 +72,6 @@ BasicInput.propTypes = { ...InputProps, inputType: PropTypes.string }
 export const TrueOnlyCheckbox = ({
     name,
     syncData,
-    className,
     onKeyDown,
     lastSyncedValue,
 }) => {
@@ -99,7 +95,8 @@ export const TrueOnlyCheckbox = ({
     return (
         <div className={styles.keyDownListenerWrapper} onKeyDown={onKeyDown}>
             <Checkbox
-                className={className}
+                // todo: custom styles
+                className={styles.basicInput}
                 {...convertCallbackSignatures(input)}
                 onBlur={(e) => {
                     handleBlur()
@@ -120,7 +117,6 @@ TrueOnlyCheckbox.propTypes = InputProps
 export const BooleanRadios = ({
     name,
     syncData,
-    className,
     lastSyncedValue,
     onKeyDown,
 }) => {
@@ -159,7 +155,7 @@ export const BooleanRadios = ({
 
     return (
         <div
-            className={cx(className, styles.radioFlexWrapper)}
+            className={styles.radioFlexWrapper}
             // Keydown for keyboard nav works nicely on wrapper
             onKeyDown={onKeyDown}
         >
@@ -200,7 +196,6 @@ BooleanRadios.propTypes = InputProps
 export const OptionSet = ({
     name,
     syncData,
-    className,
     lastSyncedValue,
     onKeyDown,
     dataElement,
@@ -224,10 +219,7 @@ export const OptionSet = ({
     // Why is there not an `input` element in the component tree? onBlur doesn't really work (should be called on close)
     // When using `clearble` prop, the clear button should have some margin-left & lose the margin-right - on .root-children .root-right
     return (
-        <div
-            onKeyDown={onKeyDown}
-            className={cx(className, styles.selectFlexWrapper)}
-        >
+        <div onKeyDown={onKeyDown} className={styles.selectFlexWrapper}>
             <div className={styles.selectFlexItem}>
                 <SingleSelect
                     dense

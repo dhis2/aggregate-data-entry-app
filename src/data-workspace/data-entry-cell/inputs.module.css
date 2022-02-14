@@ -1,20 +1,42 @@
-.keyDownListenerWrapper {
+/* Composable classes */
+.hw100 {
     height: 100%;
     width: 100%;
 }
+.padding {
+    padding: 8px 16px 8px 8px;
+}
+
+.basicInput {
+    composes: hw100 padding;
+    background: none;
+    border: none;
+}
+.basicInput:focus-visible {
+    /* Hide default focus styles; handled by wrapper */
+    outline: none;
+}
+
+/* todo: checkbox wrapper styles */
+/* todo: remove focus styles on UI components */
+
+.keyDownListenerWrapper {
+    composes: hw100;
+}
 
 .radioFlexWrapper {
+    composes: hw100 padding;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px;
 }
 
 .selectFlexWrapper {
+    composes: hw100 padding;
     display: flex;
-    gap: 8px;
     /* Align button and select */
     align-items: baseline;
+    gap: 8px;
 }
 .selectFlexItem {
     flex-grow: 1;
