@@ -27,7 +27,11 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
 
     const { mutate, isIdle, isLoading, isError } = useDataValueMutation()
     const [dataEntryContext] = useContextSelection()
-    const { metadata } = useMetadata()
+    const metadataFetch = useMetadata()
+
+    if (metadataFetch.isLoading || metadataFetch.isError) {
+        return null
+    }
 
     const syncData = () => {
         const {
@@ -37,10 +41,10 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             attributeOptionComboSelection,
         } = dataEntryContext
 
-        const attributeComboId = getDataSetById(metadata, dataSetId)
+        const attributeComboId = getDataSetById(metadataFetch.data, dataSetId)
             .categoryCombo.id
         const isDefaultAttributeCombo = getCategoryComboById(
-            metadata,
+            metadataFetch.data,
             attributeComboId
         ).isDefault
 
