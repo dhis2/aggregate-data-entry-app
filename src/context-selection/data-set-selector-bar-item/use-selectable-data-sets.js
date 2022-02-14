@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 
-export default function useSelectableDataSets(onSuccess) {
+export default function useSelectableDataSets({ onSuccess }) {
     const queryKey = [
         'dataSets',
         {
