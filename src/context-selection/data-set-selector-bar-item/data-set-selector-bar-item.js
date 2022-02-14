@@ -19,7 +19,7 @@ export default function DataSetSelectorBarItem() {
     // Select the first item if there's only one
     const selectOnlyItemOnComplete = (data) => {
         if (data.dataSets?.length === 1) {
-            const { id } = data.dataSets?.dataSets[0]
+            const { id } = data.dataSets[0]
             setDataSetId(id)
         }
     }
