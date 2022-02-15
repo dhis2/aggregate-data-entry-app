@@ -3,12 +3,12 @@
     height: 100%;
     width: 100%;
 }
-.padding {
+.cellPadding {
     padding: 8px 16px 8px 8px;
 }
 
 .basicInput {
-    composes: hw100 padding;
+    composes: hw100 cellPadding;
     background: none;
     border: none;
 }
@@ -25,14 +25,14 @@
 }
 
 .radioFlexWrapper {
-    composes: hw100 padding;
+    composes: hw100 cellPadding;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .selectFlexWrapper {
-    composes: hw100 padding;
+    composes: hw100 cellPadding;
     display: flex;
     /* Align button and select */
     align-items: baseline;
@@ -40,6 +40,4 @@
 }
 .selectFlexItem {
     flex-grow: 1;
-    /* Adjusts for extra margin on SingleSelect */
-    margin-right: -8px;
 }
