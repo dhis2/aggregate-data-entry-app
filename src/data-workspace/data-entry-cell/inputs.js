@@ -13,8 +13,6 @@ import { useMetadata } from '../../metadata/index.js'
 import { getOptionSetById } from '../../metadata/selectors.js'
 import styles from './inputs.module.css'
 
-// todo: refactor styles here /
-
 // Adapt UI components to Final Form's callbacks
 const convertCallbackSignatures = (props) => ({
     ...props,
@@ -93,10 +91,8 @@ export const TrueOnlyCheckbox = ({
     }
 
     return (
-        <div className={styles.keyDownListenerWrapper} onKeyDown={onKeyDown}>
+        <div className={styles.checkboxWrapper} onKeyDown={onKeyDown}>
             <Checkbox
-                // todo: custom styles
-                className={styles.basicInput}
                 {...convertCallbackSignatures(input)}
                 onBlur={(e) => {
                     handleBlur()

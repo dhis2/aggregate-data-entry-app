@@ -17,11 +17,12 @@
     outline: none;
 }
 
-/* todo: checkbox wrapper styles */
 /* todo: remove focus styles on UI components */
 
-.keyDownListenerWrapper {
-    composes: hw100;
+.checkboxWrapper {
+    composes: hw100 cellPadding;
+    display: flex;
+    align-items: center;
 }
 
 .radioFlexWrapper {
