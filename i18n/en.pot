@@ -136,6 +136,12 @@ msgstr "Clear"
 msgid "Choose an option"
 msgstr "Choose an option"
 
+msgid "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
+msgstr "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
+
+msgid "Please provide a valid time in the format HH{{c}}MM"
+msgstr "Please provide a valid time in the format HH{{c}}MM"
+
 msgid "This data set has no assigned Data Elements"
 msgstr "This data set has no assigned Data Elements"
 

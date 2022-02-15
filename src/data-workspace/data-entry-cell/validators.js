@@ -43,13 +43,16 @@ export const dateTime = (value) => {
     return dateRegex.test(date) && timeRegex.test(time)
         ? undefined
         : i18n.t(
-              'Please provide a valid date and time in the format YYYY-MM-DD HH:MM'
+              'Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM',
+              { c: ':' }
           )
 }
 export const time = (value) =>
     timeRegex.test(value)
         ? undefined
-        : i18n.t('Please provide a valid time in the format HH:MM')
+        : i18n.t('Please provide a valid time in the format HH{{c}}MM', {
+              c: ':',
+          })
 
 export const integerPositive = composeValidators(integer, createMinNumber(1))
 export const integerZeroOrPositive = composeValidators(
