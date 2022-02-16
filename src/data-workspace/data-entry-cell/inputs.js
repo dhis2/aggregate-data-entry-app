@@ -208,6 +208,8 @@ export const BooleanRadios = ({
             />
             <Button
                 small
+                secondary
+                className={styles.whiteButton}
                 {...clearButtonProps}
                 onClick={clearButtonProps.onChange}
                 onBlur={(_, e) => {
@@ -244,9 +246,7 @@ export const OptionSet = ({
     const options = optionSet.options.filter((opt) => !!opt)
 
     // todo: can't be accessed by focusPrev and focusNext because it's not an input
-    // onBlur handler doesn't work
-    // Why is there not an `input` element in the component tree? onBlur doesn't really work (should be called on close)
-    // When using `clearble` prop, the clear button should have some margin-left & lose the margin-right - on .root-children .root-right
+    // todo: onBlur handler doesn't work, meaning the cell stays active
     return (
         <div onKeyDown={onKeyDown} className={styles.selectFlexWrapper}>
             <div className={styles.selectFlexItem}>
@@ -279,6 +279,8 @@ export const OptionSet = ({
             {input.value && (
                 <Button
                     small
+                    secondary
+                    className={styles.whiteButton}
                     {...input}
                     onClick={() => {
                         input.onChange('')
