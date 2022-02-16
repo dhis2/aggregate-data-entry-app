@@ -1,3 +1,5 @@
+/* todo: remove focus styles on UI components */
+
 /* Composable classes */
 .hw100 {
     height: 100%;
@@ -17,7 +19,12 @@
     outline: none;
 }
 
-/* todo: remove focus styles on UI components */
+/* The resize property on this could be changed later. */
+/* See https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ */
+.longText {
+    composes: basicInput;
+    resize: none;
+}
 
 .checkboxWrapper {
     composes: hw100 cellPadding;

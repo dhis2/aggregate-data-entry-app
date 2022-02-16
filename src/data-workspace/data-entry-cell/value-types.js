@@ -11,6 +11,7 @@ import {
     BooleanRadios,
     OptionSet,
     withAddlProps,
+    LongText,
 } from './inputs.js'
 import {
     text,
@@ -41,7 +42,7 @@ export const VALUE_TYPES = Object.freeze({
     },
     LONG_TEXT: {
         validate: null,
-        Input: BasicInput, // Todo: Large text box
+        Input: LongText,
     },
     LETTER: {
         validate: letter,

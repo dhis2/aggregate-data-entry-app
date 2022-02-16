@@ -1,8 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
 import {
+    Button,
     Checkbox,
     Radio,
-    Button,
     SingleSelect,
     SingleSelectOption,
 } from '@dhis2/ui'
@@ -35,6 +35,7 @@ export const BasicInput = ({
     inputType,
 }) => {
     const { input, meta } = useField(name, {
+        // input type gets added to native `input` attributes:
         type: inputType,
         subscription: { value: true, dirty: true, valid: true },
     })
@@ -59,13 +60,44 @@ export const BasicInput = ({
         />
     )
 }
-const InputProps = {
+const InputPropTypes = {
     name: PropTypes.string.isRequired,
     syncData: PropTypes.func.isRequired,
     lastSyncedValue: PropTypes.any,
     onKeyDown: PropTypes.func,
 }
-BasicInput.propTypes = { ...InputProps, inputType: PropTypes.string }
+BasicInput.propTypes = {
+    ...InputPropTypes,
+    inputType: PropTypes.string,
+}
+
+export const LongText = ({ name, syncData, onKeyDown, lastSyncedValue }) => {
+    const { input, meta } = useField(name, {
+        subscription: { value: true, dirty: true, valid: true },
+    })
+
+    const handleBlur = () => {
+        const { value } = input
+        const { dirty, valid } = meta
+        if (dirty && valid && value !== lastSyncedValue) {
+            syncData(value)
+        }
+    }
+
+    return (
+        <textarea
+            className={styles.longText}
+            rows="4"
+            {...input}
+            onBlur={(e) => {
+                handleBlur()
+                input.onBlur(e)
+            }}
+            onKeyDown={onKeyDown}
+        />
+    )
+}
+LongText.propTypes = InputPropTypes
 
 export const TrueOnlyCheckbox = ({
     name,
@@ -78,9 +110,7 @@ export const TrueOnlyCheckbox = ({
         subscription: { value: true, dirty: true, valid: true },
     })
 
-    // todo: clicking outside the checkbox but in the cell changes the value but also
-    // triggers onBlur - clicking on checkbox itself only changes the value
-
+    // todo: checking then unchecking the box will send a single unnecessary POST
     const handleBlur = () => {
         // For 'True only', can only send 'true' (or '1') or ''
         const value = input.checked ? 'true' : ''
@@ -103,7 +133,7 @@ export const TrueOnlyCheckbox = ({
         </div>
     )
 }
-TrueOnlyCheckbox.propTypes = InputProps
+TrueOnlyCheckbox.propTypes = InputPropTypes
 
 // ? Will this fail to reflect a value on the server if it's not exactly `true` or `false`?
 // todo: may need to handle that when mapping server values to form initial values, e.g.
@@ -190,7 +220,7 @@ export const BooleanRadios = ({
         </div>
     )
 }
-BooleanRadios.propTypes = InputProps
+BooleanRadios.propTypes = InputPropTypes
 
 export const OptionSet = ({
     name,
@@ -262,7 +292,7 @@ export const OptionSet = ({
     )
 }
 OptionSet.propTypes = {
-    ...InputProps,
+    ...InputPropTypes,
     dataElement: PropTypes.shape({
         optionSet: PropTypes.shape({ id: PropTypes.string }),
         valueType: PropTypes.string,
