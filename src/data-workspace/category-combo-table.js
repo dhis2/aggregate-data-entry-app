@@ -163,8 +163,6 @@ export const CategoryComboTable = ({
                             {de.displayFormName}
                         </TableCell>
                         {sortedCOCs.map((coc) => (
-                            // todo: may want to pass getDataValue into DataEntryCell
-                            // to access "Data Item Details" (comment, followup, name, etc)
                             <DataEntryCell
                                 key={coc.id}
                                 dataElement={de}
@@ -178,8 +176,8 @@ export const CategoryComboTable = ({
                 )
             })}
             {itemsHiddenCnt > 0 && (
-                <TableRow className={styles.hiddenByFilterRow}>
-                    <TableCell className="hiddenByFilterCell">
+                <TableRow>
+                    <TableCell className={styles.hiddenByFilterCell} colSpan="100%">
                         {itemsHiddenCnt === 1
                             ? i18n.t('1 item hidden by filter')
                             : i18n.t('{{count}} items hidden by filter', {
