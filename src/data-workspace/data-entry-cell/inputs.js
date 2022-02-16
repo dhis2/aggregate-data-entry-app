@@ -164,14 +164,12 @@ export const BooleanRadios = ({
         subscription: { value: true },
     })
     const form = useForm()
+    const fieldState = form.getFieldState(name)
 
     const clearButtonProps = convertCallbackSignatures(clearField.input)
     delete clearButtonProps.type
-    // Is there an imperative way to set the field value?
-    // A: ya, form.change(name, value) - but the other input props are useful
 
     const handleBlur = () => {
-        const fieldState = form.getFieldState(name)
         const { dirty, valid } = fieldState
         const value = fieldState.value || ''
         // If this value has changed, sync it to server if valid
@@ -206,19 +204,28 @@ export const BooleanRadios = ({
                     noField.input.onBlur(e)
                 }}
             />
-            <Button
-                small
-                secondary
-                className={styles.whiteButton}
-                {...clearButtonProps}
-                onClick={clearButtonProps.onChange}
-                onBlur={(_, e) => {
-                    handleBlur()
-                    clearField.input.onBlur(e)
-                }}
-            >
-                {i18n.t('Clear')}
-            </Button>
+            {fieldState?.value && (
+                <Button
+                    small
+                    secondary
+                    className={styles.whiteButton}
+                    // callback signatures are transformed above
+                    {...clearButtonProps}
+                    // on click, set field value to '', sync, and blur
+                    onClick={() => {
+                        clearField.input.onChange('')
+                        syncData('')
+                        clearField.input.onBlur()
+                    }}
+                    // probably not used, but included as back-up to onClick:
+                    onBlur={() => {
+                        handleBlur()
+                        clearField.input.onBlur()
+                    }}
+                >
+                    {i18n.t('Clear')}
+                </Button>
+            )}
         </div>
     )
 }
