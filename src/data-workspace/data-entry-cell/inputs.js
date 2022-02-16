@@ -93,6 +93,7 @@ export const TrueOnlyCheckbox = ({
     return (
         <div className={styles.checkboxWrapper} onKeyDown={onKeyDown}>
             <Checkbox
+                dense
                 {...convertCallbackSignatures(input)}
                 onBlur={(e) => {
                     handleBlur()
@@ -156,6 +157,7 @@ export const BooleanRadios = ({
             onKeyDown={onKeyDown}
         >
             <Radio
+                dense
                 label={i18n.t('Yes')}
                 value={'true'}
                 {...convertCallbackSignatures(yesField.input)}
@@ -165,6 +167,7 @@ export const BooleanRadios = ({
                 }}
             />
             <Radio
+                dense
                 label={i18n.t('No')}
                 value={'false'}
                 {...convertCallbackSignatures(noField.input)}
