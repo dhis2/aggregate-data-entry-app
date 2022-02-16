@@ -3,8 +3,7 @@ import { QueryClient } from 'react-query'
 import { persistQueryClient } from 'react-query/persistQueryClient'
 import createIDBPersister from './persister.js'
 
-// Persisted data will be garbage collected after this time
-const MAX_CACHE_AGE = 1000 * 60 * 60 * 24 * 31 // One month
+const queryClient = new QueryClient()
 
 const useQueryClient = () => {
     const engine = useDataEngine()
@@ -23,14 +22,11 @@ const useQueryClient = () => {
         return engine.query(appRuntimeQuery).then((data) => data[resource])
     }
 
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                queryFn,
-                refetchOnWindowFocus: false,
-                // Needs to be equal or higher than the persisted cache maxAge
-                cacheTime: MAX_CACHE_AGE,
-            },
+    queryClient.setDefaultOptions({
+        queries: {
+            queryFn,
+            refetchOnWindowFocus: false,
+            cacheTime: Infinity,
         },
     })
 
@@ -39,7 +35,7 @@ const useQueryClient = () => {
     persistQueryClient({
         queryClient,
         persister,
-        maxAge: MAX_CACHE_AGE,
+        maxAge: Infinity,
         dehydrateOptions: {
             dehydrateMutations: true,
             dehydrateQueries: true,
