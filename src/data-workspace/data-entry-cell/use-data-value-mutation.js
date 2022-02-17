@@ -24,10 +24,7 @@ const updateDataValue = (
 const addDataValue = (previousDataValueSet, newDataValue) => {
     return {
         ...previousDataValueSet,
-        dataValues: [
-            ...previousDataValueSet.dataValues,
-            newDataValue,
-        ],
+        dataValues: [...previousDataValueSet.dataValues, newDataValue],
     }
 }
 
@@ -72,14 +69,13 @@ export const useDataValueMutation = () => {
 
             // Optimistically update to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
-                const matchIndex =
-                    previousDataValueSet.dataValues.findIndex(
-                        (dataValue) =>
-                            dataValue.categoryOptionCombo === newDataValue.co &&
-                            dataValue.dataElement === newDataValue.de &&
-                            dataValue.orgUnit === newDataValue.ou &&
-                            dataValue.period === newDataValue.pe
-                    )
+                const matchIndex = previousDataValueSet.dataValues.findIndex(
+                    (dataValue) =>
+                        dataValue.categoryOptionCombo === newDataValue.co &&
+                        dataValue.dataElement === newDataValue.de &&
+                        dataValue.orgUnit === newDataValue.ou &&
+                        dataValue.period === newDataValue.pe
+                )
                 const isNewValue = matchIndex === -1
 
                 // If the field was previously empty the dataValue won't exist yet
@@ -99,9 +95,7 @@ export const useDataValueMutation = () => {
                     )
                 } else {
                     const formattedNewDataValue = {
-                        ...previousDataValueSet.dataValues[
-                            matchIndex
-                        ],
+                        ...previousDataValueSet.dataValues[matchIndex],
                         value: newDataValue.value,
                     }
 

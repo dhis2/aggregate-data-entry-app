@@ -47,5 +47,7 @@ export const useInitialDataValues = () => {
             data.dataValues
                 ? mapDataValuesToFormInitialValues(data.dataValues)
                 : {},
+        // Only fetch whilst offline, to prevent optimistic updates from being overwritten
+        networkMode: 'online',
     })
 }
