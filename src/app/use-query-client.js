@@ -44,10 +44,9 @@ const useQueryClient = () => {
             dehydrateQueries: true,
             shouldDehydrateQuery: (query) => {
                 const isSuccess = query.state.status === 'success'
-                const isOfflineFirst =
-                    query.options.networkMode === 'offlineFirst'
+                const isOnline = query.options.networkMode === 'online'
 
-                return isSuccess && !isOfflineFirst
+                return isSuccess && isOnline
             },
         },
     })
