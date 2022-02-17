@@ -15,7 +15,7 @@ import { useFieldNavigation } from './use-field-navigation.js'
 import { ValidationTooltip } from './validation-tooltip.js'
 import { getInputByDataElement, VALUE_TYPES } from './value-types.js'
 
-/** Three dots or triangle in top-right corener of cell */
+/** Three dots or triangle in top-right corner of cell */
 const SyncStatusIndicator = ({ isLoading, synced }) => {
     return (
         <div className={styles.topRightIndicator}>
@@ -115,8 +115,6 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     }
 
     // todo: get data details (via getDataValue?)
-    // todo: validate with `de.valueType` (wip)
-    // todo: implement other input types for different value types (wip)
     // todo: implement read-only cells
 
     const synced = meta.valid && !isIdle && !isLoading && !isError
