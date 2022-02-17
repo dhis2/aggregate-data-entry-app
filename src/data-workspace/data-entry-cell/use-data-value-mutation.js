@@ -11,15 +11,12 @@ const updateDataValue = (
     updatedDataValue,
     targetIndex
 ) => {
-    const newDataValues = [...previousDataValueSet.dataValueSet.dataValues]
+    const newDataValues = [...previousDataValueSet.dataValues]
     newDataValues[targetIndex] = updatedDataValue
 
     return {
         ...previousDataValueSet,
-        dataValueSet: {
-            ...previousDataValueSet.dataValueSet,
-            dataValues: newDataValues,
-        },
+        dataValues: newDataValues,
     }
 }
 
@@ -27,13 +24,10 @@ const updateDataValue = (
 const addDataValue = (previousDataValueSet, newDataValue) => {
     return {
         ...previousDataValueSet,
-        dataValueSet: {
-            ...previousDataValueSet.dataValueSet,
-            dataValues: [
-                ...previousDataValueSet.dataValueSet.dataValues,
-                newDataValue,
-            ],
-        },
+        dataValues: [
+            ...previousDataValueSet.dataValues,
+            newDataValue,
+        ],
     }
 }
 
@@ -79,7 +73,7 @@ export const useDataValueMutation = () => {
             // Optimistically update to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
                 const matchIndex =
-                    previousDataValueSet.dataValueSet.dataValues.findIndex(
+                    previousDataValueSet.dataValues.findIndex(
                         (dataValue) =>
                             dataValue.categoryOptionCombo === newDataValue.co &&
                             dataValue.dataElement === newDataValue.de &&
@@ -105,7 +99,7 @@ export const useDataValueMutation = () => {
                     )
                 } else {
                     const formattedNewDataValue = {
-                        ...previousDataValueSet.dataValueSet.dataValues[
+                        ...previousDataValueSet.dataValues[
                             matchIndex
                         ],
                         value: newDataValue.value,
