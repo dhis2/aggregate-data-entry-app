@@ -102,10 +102,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1
-        ]
+        "responseLookup": [0, 1]
     },
     {
         "path": "/api/38/dataSets/lyLU2wR22tC?fields=periodType",
@@ -211,9 +208,6 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1
-        ]
+        "responseLookup": [0, 1]
     }
 ]

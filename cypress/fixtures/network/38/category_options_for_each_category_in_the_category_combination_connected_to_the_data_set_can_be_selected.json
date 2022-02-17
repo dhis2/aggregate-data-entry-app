@@ -275,12 +275,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1,
-            2,
-            3
-        ]
+        "responseLookup": [0, 1, 2, 3]
     },
     {
         "path": "/api/38/metadata?dataSets%3Afields=id%2CdisplayFormName%2CformType%2CdataSetElements%5BdataElement%2CcategoryCombo%5D%2CcategoryCombo%2Csections~pluck&dataElements%3Afields=id%2CdisplayFormName%2CcategoryCombo%2CvalueType&sections%3Afields=id%2CdisplayName%2CsortOrder%2CshowRowTotals%2CshowColumnTotals%2CdisableDataElementAutoGroup%2CgreyedFields%5Bid%5D%2CcategoryCombos~pluck%2CdataElements~pluck%2Cindicators~pluck&categoryCombos%3Afields=id%2CskipTotal%2Ccategories~pluck%2CcategoryOptionCombos~pluck%2CisDefault&categories%3Afields=id%2CdisplayFormName%2CcategoryOptions~pluck&categoryOptions%3Afields=id%2CdisplayFormName%2CcategoryOptionCombos~pluck%2CcategoryOptionGroups~pluck%2CisDefault&categoryOptionCombos%3Afields=id%2CcategoryOptions~pluck%2CcategoryCombo%2Cname",
@@ -317,10 +312,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1
-        ]
+        "responseLookup": [0, 1]
     },
     {
         "path": "/api/38/dataSets/BfMAe6Itzgt?fields=id,displayName",

@@ -211,16 +211,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7
-        ]
+        "responseLookup": [0, 1, 2, 3, 4, 5, 6, 7]
     },
     {
         "path": "/api/38/organisationUnits/ImspTQPwCqd?fields=id,displayName,path",
@@ -295,14 +286,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5
-        ]
+        "responseLookup": [0, 1, 2, 3, 4, 5]
     },
     {
         "path": "/api/38/organisationUnits/ImspTQPwCqd?fields=displayName,path,id&paging=false",

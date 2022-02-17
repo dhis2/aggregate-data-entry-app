@@ -239,11 +239,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1,
-            2
-        ]
+        "responseLookup": [0, 1, 2]
     },
     {
         "path": "/api/38/dataSets/vc6nF5yZsPR?fields=formType,sections%5Bid%2CdisplayName%5D,renderAsTabs",
@@ -315,10 +311,7 @@
             "x-xss-protection": "1; mode=block",
             "x-frame-options": "SAMEORIGIN"
         },
-        "responseLookup": [
-            0,
-            1
-        ]
+        "responseLookup": [0, 1]
     },
     {
         "path": "/api/38/dataSets/V8MHeZHIrcP?fields=id,displayName",
