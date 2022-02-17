@@ -26,7 +26,10 @@ const useQueryClient = () => {
         queries: {
             queryFn,
             refetchOnWindowFocus: false,
+            // Inactive queries were being garbage collected immediately unless set to Infinity
             cacheTime: Infinity,
+            // https://react-query-alpha.tanstack.com/guides/network-mode
+            networkMode: 'offlineFirst',
         },
     })
 
@@ -39,6 +42,12 @@ const useQueryClient = () => {
         dehydrateOptions: {
             dehydrateMutations: true,
             dehydrateQueries: true,
+            shouldDehydrateQuery: (query) => {
+                const isSuccess = query.state.status === 'success'
+                const isOfflineFirst = query.options.networkMode === 'offlineFirst'
+
+                return isSuccess && !isOfflineFirst
+            },
         },
     })
 
