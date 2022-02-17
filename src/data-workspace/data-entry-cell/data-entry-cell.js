@@ -11,7 +11,6 @@ import {
 } from '../../metadata/selectors.js'
 import styles from './data-entry-cell.module.css'
 import { useDataValueMutation } from './use-data-value-mutation.js'
-import { useFieldNavigation } from './use-field-navigation.js'
 import { ValidationTooltip } from './validation-tooltip.js'
 import { getInputByDataElement, VALUE_TYPES } from './value-types.js'
 
@@ -53,7 +52,6 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     })
 
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
-    const { focusNext, focusPrev } = useFieldNavigation(fieldName)
 
     const { mutate, isIdle, isLoading, isError } = useDataValueMutation()
     const [dataEntryContext] = useContextSelection()
@@ -101,17 +99,11 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     }
 
     const onKeyDown = (event) => {
+        // field navigation is handled by KeyboardNavManager
         const { key, shiftKey } = event
         if (key === 'Enter' && shiftKey) {
             // todo: open data item details
-        } else if (key === 'ArrowDown' || key === 'Enter') {
-            event.preventDefault()
-            focusNext()
-        } else if (key === 'ArrowUp') {
-            event.preventDefault()
-            focusPrev()
         }
-        // tab and shift-tab on their own work as expected
     }
 
     // todo: get data details (via getDataValue?)

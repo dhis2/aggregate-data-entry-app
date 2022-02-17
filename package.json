@@ -54,6 +54,7 @@
         "react-final-form": "^6.5.7",
         "react-query": "4.0.0-alpha.10",
         "react-router-dom": "^5",
+        "tabbable": "^5.2.1",
         "use-query-params": "^1.2.3"
     },
     "resolutions": {

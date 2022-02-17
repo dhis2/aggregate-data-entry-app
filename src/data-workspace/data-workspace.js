@@ -3,6 +3,7 @@ import { CircularLoader, NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { FinalFormWrapper } from './data-entry-cell/index.js'
+import { KeyboardNavManager } from './data-entry-cell/keyboard-nav-manager.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { useDataSet } from './use-data-set.js'
@@ -30,11 +31,13 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     return (
-        <div className={styles.wrapper}>
+        <KeyboardNavManager>
             <FinalFormWrapper initialValues={initialDataValuesFetch.data}>
-                <EntryForm dataSet={dataSetFetch.data} />
+                <div className={styles.wrapper}>
+                    <EntryForm dataSet={dataSetFetch.data} />
+                </div>
             </FinalFormWrapper>
-        </div>
+        </KeyboardNavManager>
     )
 }
 
