@@ -8,12 +8,6 @@ import {
     createMaxCharacterLength,
 } from '@dhis2/ui-forms'
 
-/**
- * todo:
- * DATE
- * DATETIME
- */
-
 export const text = createMaxCharacterLength(50000)
 export const letter = createMaxCharacterLength(1)
 

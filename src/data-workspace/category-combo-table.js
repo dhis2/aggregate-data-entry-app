@@ -177,7 +177,10 @@ export const CategoryComboTable = ({
             })}
             {itemsHiddenCnt > 0 && (
                 <TableRow>
-                    <TableCell className={styles.hiddenByFilterCell} colSpan="100%">
+                    <TableCell
+                        className={styles.hiddenByFilterCell}
+                        colSpan="100%"
+                    >
                         {itemsHiddenCnt === 1
                             ? i18n.t('1 item hidden by filter')
                             : i18n.t('{{count}} items hidden by filter', {

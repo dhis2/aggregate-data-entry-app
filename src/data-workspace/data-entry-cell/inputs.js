@@ -252,8 +252,8 @@ export const OptionSet = ({
     // filter out 'null' options
     const options = optionSet.options.filter((opt) => !!opt)
 
-    // todo: can't be accessed by focusPrev and focusNext because it's not an input
-    // todo: onBlur handler doesn't work, meaning the cell stays active
+    // todo: onBlur handler doesn't work, meaning the cell stays active.
+    // may need to build from scratch
     return (
         <div onKeyDown={onKeyDown} className={styles.selectFlexWrapper}>
             <div className={styles.selectFlexItem}>
