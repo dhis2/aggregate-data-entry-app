@@ -140,7 +140,6 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                         <Input
                             name={fieldName}
                             dataElement={de}
-                            // className={styles.input}
                             syncData={syncData}
                             lastSyncedValue={lastSyncedValue}
                             onKeyDown={onKeyDown}
