@@ -37,7 +37,7 @@ export default function useCategoryCombination() {
     const [dataSetId] = useDataSetId()
     const params = {
         fields: [
-            'categoryCombo[isDefault,displayName, categories[id, displayName, categoryOptions[id, displayName]]]',
+            'categoryCombo[isDefault,displayName,categories[id,displayName,categoryOptions[id,displayName,startDate,endDate]]]',
         ],
     }
     const queryKey = [
