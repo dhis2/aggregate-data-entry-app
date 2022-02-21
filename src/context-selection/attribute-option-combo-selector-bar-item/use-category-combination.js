@@ -55,10 +55,6 @@ export default function useCategoryCombination() {
     } = useQuery(queryKey, {
         enabled: !!dataSetId && !!periodId,
         select: (data) => {
-            if (!data || !periodId) {
-                return data?.categoryCombo
-            }
-
             const period = parsePeriodId(periodId)
             const periodStartDate = new Date(period.startDate)
             const periodEndDate = new Date(period.endDate)
