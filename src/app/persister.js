@@ -1,15 +1,18 @@
 import { get, set, del } from 'idb-keyval'
+import throttle from 'lodash.throttle'
 
 /**
  * Creates an Indexed DB persister
  * @see https://react-query.tanstack.com/plugins/persistQueryClient#building-a-persistor
  * @see https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
  */
+
 const createIDBPersister = (idbValidKey = 'reactQuery') => {
+    // Throttle persisting by a second
+    const persistClient = throttle((client) => set(idbValidKey, client), 1000)
+
     return {
-        persistClient: (client) => {
-            return set(idbValidKey, client)
-        },
+        persistClient,
         restoreClient: () => {
             return get(idbValidKey)
         },
