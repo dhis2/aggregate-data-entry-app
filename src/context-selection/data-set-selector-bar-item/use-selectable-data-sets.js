@@ -16,6 +16,9 @@ export default function useSelectableDataSets({ onSuccess }) {
         data,
     } = useQuery(queryKey, {
         onSuccess,
+
+        // @TODO: How to handle pages / large lists?
+        // Nested as this is "page-able"
         select: (data) =>
             data.dataSets.map((dataSet) => ({
                 ...dataSet,
