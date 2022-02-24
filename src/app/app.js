@@ -8,7 +8,7 @@ import { ContextSelection } from '../context-selection/index.js'
 import { DataWorkspace } from '../data-workspace/index.js'
 import { Layout } from './layout/index.js'
 import { MutationIndicator } from './mutation-indicator/index.js'
-import useQueryClient from './use-query-client.js'
+import useQueryClient from './query-client/use-query-client.js'
 
 /**
  * "use-query-params" requires a router. It suggests react-router-dom in the
