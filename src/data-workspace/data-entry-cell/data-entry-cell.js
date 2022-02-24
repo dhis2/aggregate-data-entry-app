@@ -48,7 +48,13 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     const { validate } = VALUE_TYPES[de.valueType]
     const { meta } = useField(fieldName, {
         validate,
-        subscription: { valid: true, invalid: true, error: true, active: true },
+        subscription: {
+            valid: true,
+            initial: true,
+            invalid: true,
+            error: true,
+            active: true,
+        },
     })
 
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
