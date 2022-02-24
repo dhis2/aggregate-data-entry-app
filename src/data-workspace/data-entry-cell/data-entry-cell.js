@@ -67,7 +67,8 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
         return null
     }
 
-    const syncData = (value) => {
+    // gets de, co, ds, ou, and pe params for dataValues or dataValues/file
+    const getDataValueParams = () => {
         const {
             dataSetId,
             orgUnitId,
@@ -82,13 +83,12 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             attributeComboId
         ).isDefault
 
-        const mutationVars = {
+        const dvParams = {
             de: de.id,
             co: coc.id,
             ds: dataSetId,
             ou: orgUnitId,
             pe: periodId,
-            value: value || '', // Empty values need an empty string
         }
         // Add attribute params to mutation if relevant
         if (!isDefaultAttributeCombo) {
@@ -96,12 +96,20 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             const attributeOptionIdList = Object.values(
                 attributeOptionComboSelection
             ).join(';')
-            mutationVars.cc = attributeComboId
-            mutationVars.cp = attributeOptionIdList
+            dvParams.cc = attributeComboId
+            dvParams.cp = attributeOptionIdList
         }
 
+        return dvParams
+    }
+
+    const syncData = (value) => {
         // Here's where an error state could be set: ('onError')
-        mutate(mutationVars, { onSuccess: () => setLastSyncedValue(value) })
+        mutate(
+            // Empty values need an empty string
+            { ...getDataValueParams(), value: value || '' },
+            { onSuccess: () => setLastSyncedValue(value) }
+        )
     }
 
     const onKeyDown = (event) => {
