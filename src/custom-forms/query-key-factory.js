@@ -1,18 +1,18 @@
 const queryKeyFactory = {
-    all: () => [
+    metadata: [
         'metadata',
         {
             params: {
-                'dataSets:fields': 'id,formType,version',
+                'dataSets:fields': 'dataEntryForm[id],formType,version',
             },
         },
     ],
-    htmlCode: (id) => [
-        'metadata',
+    byId: (id) => [
+        'dataEntryForms',
         {
+            id,
             params: {
-                'dataSets:fields': 'dataEntryForm[htmlCode],version',
-                filter: `id:eq:${id}`,
+                fields: 'htmlCode,version',
             },
         },
     ],

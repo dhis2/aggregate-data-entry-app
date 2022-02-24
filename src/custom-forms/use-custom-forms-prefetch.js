@@ -1,29 +1,31 @@
 import { useQuery, useQueryClient } from 'react-query'
-import customForm from './query-key-factory.js'
+import keys from './query-key-factory.js'
 
 const useCustomFormsPrefetch = () => {
     const queryClient = useQueryClient()
-    const { isSuccess, data } = useQuery(customForm.all(), {
+    const { isSuccess, data } = useQuery(keys.metadata, {
         select: (data) => data.dataSets,
     })
 
     if (isSuccess) {
-        // dataSet ids for dataSets that have a custom form
-        const customFormDataSets = data.filter(
-            (dataSet) => dataSet.formType === 'CUSTOM'
-        )
+        const customForms = data
+            .filter((dataSet) => dataSet.formType === 'CUSTOM')
+            .map((dataSet) => ({
+                id: dataSet.dataEntryForm.id,
+                version: dataSet.version,
+            }))
 
-        for (const dataSet of customFormDataSets) {
-            const queryKey = customForm.htmlCode(dataSet.id)
+        for (const customForm of customForms) {
+            const queryKey = keys.byId(customForm.id)
+            const cachedCustomForm = queryClient.getQueryData(queryKey)
 
-            // Prefetch and skip the rest of the block if there's no cached data
-            const cachedHtmlCode = queryClient.getQueryData(queryKey)
-            if (!cachedHtmlCode) {
+            if (!cachedCustomForm) {
                 queryClient.prefetchQuery(queryKey)
                 continue
             }
 
-            const versionMatch = cachedHtmlCode.version === dataSet.version
+            const versionMatch = cachedCustomForm.version === customForm.version
+
             if (!versionMatch) {
                 queryClient.prefetchQuery(queryKey)
             }
