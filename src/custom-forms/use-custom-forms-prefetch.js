@@ -9,13 +9,24 @@ const useCustomFormsPrefetch = () => {
 
     if (isSuccess) {
         // dataSet ids for dataSets that have a custom form
-        const dataSetIds = data
-            .filter((dataSet) => dataSet.formType === 'CUSTOM')
-            .filter((dataSet) => dataSet?.id)
-            .map((dataSet) => dataSet.id)
+        const customFormDataSets = data.filter(
+            (dataSet) => dataSet.formType === 'CUSTOM'
+        )
 
-        for (const id of dataSetIds) {
-            queryClient.prefetchQuery(customForm.htmlCode(id))
+        for (const dataSet of customFormDataSets) {
+            const queryKey = customForm.htmlCode(dataSet.id)
+
+            // Prefetch and skip the rest of the block if there's no cached data
+            const cachedHtmlCode = queryClient.getQueryData(queryKey)
+            if (!cachedHtmlCode) {
+                queryClient.prefetchQuery(queryKey)
+                continue
+            }
+
+            const versionMatch = cachedHtmlCode.version === dataSet.version
+            if (!versionMatch) {
+                queryClient.prefetchQuery(queryKey)
+            }
         }
     }
 }
