@@ -11,12 +11,15 @@ import DebouncedSearchInput from './debounced-search-input.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import css from './org-unit-selector-bar-item.module.css'
 import useExpandedState from './use-expanded-state.js'
+import useLoadOfflineLevels from './use-load-offline-levels.js'
 import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
 import useOrgUnit from './use-organisation-unit.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
 
 export default function OrganisationUnitSetSelectorBarItem() {
+    useLoadOfflineLevels()
+
     const [filter, setFilter] = useState('')
     const orgUnitPathsByName = useOrgUnitPathsByName(filter)
 
