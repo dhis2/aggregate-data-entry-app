@@ -155,6 +155,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                             name={fieldName}
                             dataElement={de}
                             syncData={syncData}
+                            getDataValueParams={getDataValueParams}
                             lastSyncedValue={lastSyncedValue}
                             onKeyDown={onKeyDown}
                             // disabled={true}

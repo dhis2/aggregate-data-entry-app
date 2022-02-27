@@ -5,6 +5,13 @@ import { useAttributeOptionCombo } from '../use-attribute-option-combo.js'
 
 export const DATA_VALUE_MUTATION_KEY = 'DATA_VALUE_MUTATION_KEY'
 
+const DATA_VALUE_MUTATION = {
+    resource: 'dataValues',
+    type: 'create',
+    // todo: switch to data
+    data: data => data,
+}
+
 // Updates dataValue without mutating previousDataValueSet
 const updateDataValue = (
     previousDataValueSet,

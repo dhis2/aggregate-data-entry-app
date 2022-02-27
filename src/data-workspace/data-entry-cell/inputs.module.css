@@ -55,3 +55,22 @@
 .selectFlexItem {
     flex-grow: 1;
 }
+
+.fileInputWrapper {
+    composes: hw100 densePadding;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.fileInput {
+    /* Fixes extra padding at the bottom of the UI component */
+    margin-bottom: -4px;
+}
+.fileSummary {
+    display: flex;
+    align-items: center;
+}
+.deleteFileButton {
+    composes: whiteButton;
+    margin-left: 8px;
+}

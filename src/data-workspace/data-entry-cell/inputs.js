@@ -60,7 +60,7 @@ export const BasicInput = ({
         />
     )
 }
-const InputPropTypes = {
+export const InputPropTypes = {
     name: PropTypes.string.isRequired,
     syncData: PropTypes.func.isRequired,
     lastSyncedValue: PropTypes.any,
