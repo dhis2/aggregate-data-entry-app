@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { hashArraysInObject } from './utils.js'
 
 export const useMetadata = () => {
-    const queryKey = [
+    const metaDataQueryKey = [
         'metadata',
         {
             params: {
@@ -26,6 +26,9 @@ export const useMetadata = () => {
             },
         },
     ]
+
+    //TODO: why does this not work without second arg?
+    const queryKey = ['dataSetMetadata', {}]
 
     return useQuery(queryKey, {
         select: (data) => hashArraysInObject(data),

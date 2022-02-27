@@ -43,13 +43,13 @@ export const CategoryComboTable = ({
 
     if (
         computedCategoryOptions.length !==
-        categoryCombo.categoryOptionCombos.length
+        categoryCombo.categoryOptionCombos?.length
     ) {
         console.warn(
             `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server. 
             Please regenerate categoryOptionCombos. 
             Computed: ${computedCategoryOptions.length}
-            Server: ${categoryCombo.categoryOptionCombos.length})`
+            Server: ${categoryCombo.categoryOptionCombos?.length})`
         )
     }
     // Computes the span and repeats for each columns in a category-row.

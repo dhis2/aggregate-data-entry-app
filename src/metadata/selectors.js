@@ -19,12 +19,13 @@ export const getDataSetById = (metadata, dataSetId) =>
     getDataSets(metadata)?.[dataSetId]
 
 export const getSections = (metadata) => metadata.sections
+export const getSectionById = (metadata, dataSetId, sectionId) =>
+    getDataSetById(metadata, dataSetId).sections.find((s) => s.id === sectionId)
 
 export const getSectionsByDataSetId = (metadata, dataSetId) => {
-    const sections = getSections(metadata)
     const dataSet = getDataSetById(metadata, dataSetId)
 
-    return dataSet.sections.map((sId) => sections[sId])
+    return dataSet.sections
 }
 
 export const getDataElementsByDataSetId = (metadata, dataSetId) => {
@@ -47,7 +48,7 @@ export const getDataElementsByDataSetId = (metadata, dataSetId) => {
 }
 
 export const getDataElementsBySection = (metadata, dataSetId, sectionId) => {
-    const section = getSections(metadata)[sectionId]
+    const section = getSectionById(metadata, dataSetId, sectionId)
     // need dataSetId to get dataElements from the dataSet, as there can be catCombo overrides
     const dataSetElements = getDataElementsByDataSetId(metadata, dataSetId)
 
@@ -126,7 +127,8 @@ export const getCategoryById = (metadata, id) => {
 }
 
 export const getCategoryComboById = (metadata, id) => {
-    return getCategoryCombos(metadata)[id]
+    const combo = getCategoryCombos(metadata)[id]
+    return combo
 }
 
 export const getCategoryOptionById = (metadata, id) => {
@@ -140,8 +142,10 @@ export const getCategoryOptionsByCoCId = (metadata, cocId) => {
     )
 }
 
-export const getCategoryOptionComboById = (metadata, id) => {
-    return getCategoryOptionCombos(metadata)[id]
+export const getCategoryOptionComboById = (metadata, cocId, comboId) => {
+    return getCategoryComboById(metadata, comboId).categoryOptionCombos?.find(
+        (coc) => coc.id === cocId
+    )
 }
 
 export const getCategoriesByCategoryComboId = (metadata, categoryComboId) => {
@@ -165,10 +169,8 @@ export const getCategoryOptionCombosByCategoryComboId = (
     catComboId
 ) => {
     const categoryCombo = getCategoryComboById(metadata, catComboId)
-    const categoryOptionCombos = categoryCombo?.categoryOptionCombos.map(
-        (cocId) => getCategoryOptionComboById(metadata, cocId)
-    )
-    return categoryOptionCombos
+    const categoryOptionCombos = categoryCombo?.categoryOptionCombos
+    return categoryOptionCombos || []
 }
 
 /**

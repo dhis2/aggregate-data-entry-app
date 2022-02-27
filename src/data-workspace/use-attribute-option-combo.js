@@ -22,7 +22,7 @@ export const useAttributeOptionCombo = () => {
             )
             if (categoryCombo.isDefault) {
                 // if default catCombo, selected should be default coc as well
-                return categoryCombo.categoryOptionCombos[0]
+                return undefined // categoryCombo.categoryOptionCombos[0]
             }
 
             const selectedOptions = Object.values(attributeOptionComboSelection)

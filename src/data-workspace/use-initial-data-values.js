@@ -37,7 +37,10 @@ export const useInitialDataValues = () => {
         },
     ]
     const hasParameters =
-        !!dataSetId && !!orgUnitId && !!periodId && !!attributeOptionCombo
+        !!dataSetId &&
+        !!orgUnitId &&
+        !!periodId &&
+        attributeOptionCombo !== null //undefined means default catoptcombo
 
     return useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
