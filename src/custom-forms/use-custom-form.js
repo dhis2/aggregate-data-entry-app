@@ -7,7 +7,11 @@ const useCustomForm = ({ id, version }) => {
     }
 
     return useQuery(keys.byId(id), {
-        meta: { version },
+        meta: {
+            version,
+            persist: true,
+        },
+        networkMode: 'online',
     })
 }
 

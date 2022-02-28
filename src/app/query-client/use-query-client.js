@@ -45,9 +45,9 @@ const useQueryClient = () => {
             dehydrateQueries: true,
             shouldDehydrateQuery: (query) => {
                 const isSuccess = query.state.status === 'success'
-                const isOnline = query.options.networkMode === 'online'
+                const shouldPersist = query?.meta?.persist === true
 
-                return isSuccess && isOnline
+                return isSuccess && shouldPersist
             },
         },
     })

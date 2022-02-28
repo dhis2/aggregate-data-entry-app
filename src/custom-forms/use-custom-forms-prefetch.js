@@ -19,7 +19,10 @@ const useCustomFormsPrefetch = () => {
             if (!cachedCustomForm) {
                 // Set the version on the query metadata so we can use that for comparing
                 queryClient.prefetchQuery(queryKey, {
-                    meta: { version: customForm.version },
+                    meta: {
+                        version: customForm.version,
+                        persist: true,
+                    },
                 })
             }
         }

@@ -49,5 +49,8 @@ export const useInitialDataValues = () => {
                 : {},
         // Only fetch whilst offline, to prevent optimistic updates from being overwritten
         networkMode: 'online',
+        meta: {
+            persist: true,
+        },
     })
 }
