@@ -3,7 +3,7 @@ import keys from './query-key-factory.js'
 
 const useCustomFormsPrefetch = () => {
     const queryClient = useQueryClient()
-    const { isSuccess, data } = useQuery(keys.metadata, {
+    const { isSuccess, data } = useQuery(keys.all, {
         select: (data) => data.dataSets,
     })
 
@@ -17,17 +17,18 @@ const useCustomFormsPrefetch = () => {
 
         for (const customForm of customForms) {
             const queryKey = keys.byId(customForm.id)
-            const cachedCustomForm = queryClient.getQueryData(queryKey)
+
+            // Search the cache for a custom form with a matching version
+            const cachedCustomForm = queryClient.getQueryData(queryKey, {
+                predicate: (query) =>
+                    customForm.version === query?.meta?.version,
+            })
 
             if (!cachedCustomForm) {
-                queryClient.prefetchQuery(queryKey)
-                continue
-            }
-
-            const versionMatch = cachedCustomForm.version === customForm.version
-
-            if (!versionMatch) {
-                queryClient.prefetchQuery(queryKey)
+                // Set the version on the query metadata so we can use that for comparing
+                queryClient.prefetchQuery(queryKey, {
+                    meta: { version: customForm.version },
+                })
             }
         }
     }

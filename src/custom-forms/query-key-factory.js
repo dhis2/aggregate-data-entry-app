@@ -1,9 +1,9 @@
 const queryKeyFactory = {
-    metadata: [
-        'metadata',
+    all: [
+        'dataSets',
         {
             params: {
-                'dataSets:fields': 'dataEntryForm[id],formType,version',
+                fields: 'dataEntryForm[id],formType,version',
             },
         },
     ],
@@ -12,7 +12,7 @@ const queryKeyFactory = {
         {
             id,
             params: {
-                fields: 'htmlCode,version',
+                fields: 'htmlCode',
             },
         },
     ],
