@@ -10,13 +10,12 @@ const useQueryClient = () => {
 
     // https://react-query.tanstack.com/guides/query-keys
     const queryFn = ({ queryKey }) => {
-        const resource = queryKey[0]
-        const options = queryKey.length > 1 ? queryKey[1] : {}
+        const [resource, options] = queryKey
         const appRuntimeQuery = {
             [resource]: {
                 resource,
-                id: options.id,
-                params: options.params,
+                id: options?.id,
+                params: options?.params,
             },
         }
 
