@@ -15,12 +15,12 @@ import { ValidationTooltip } from './validation-tooltip.js'
 import { getInputByDataElement, VALUE_TYPES } from './value-types.js'
 
 /** Three dots or triangle in top-right corner of cell */
-const SyncStatusIndicator = ({ isLoading, synced }) => {
+const SyncStatusIndicator = ({ isLoading, isSynced }) => {
     return (
         <div className={styles.topRightIndicator}>
             {isLoading ? (
                 <IconMore16 color={colors.grey700} />
-            ) : synced ? (
+            ) : isSynced ? (
                 <div className={styles.topRightTriangle} />
             ) : null}
         </div>
@@ -28,7 +28,7 @@ const SyncStatusIndicator = ({ isLoading, synced }) => {
 }
 SyncStatusIndicator.propTypes = {
     isLoading: PropTypes.bool,
-    synced: PropTypes.bool,
+    isSynced: PropTypes.bool,
 }
 
 /** Grey triangle in bottom left of cell */
@@ -56,8 +56,11 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             active: true,
         },
     })
-
     const [lastSyncedValue, setLastSyncedValue] = useState(meta.initial)
+
+    // Some values for file inputs to handle:
+    const [isFileSynced, setIsFileSynced] = useState(false)
+    const [isFileLoading, setIsFileLoading] = useState(false)
 
     const { mutate, isIdle, isLoading, isError } = useDataValueMutation()
     const [dataEntryContext] = useContextSelection()
@@ -123,10 +126,15 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // todo: get data details (via getDataValue?)
     // todo: implement read-only cells
 
-    const synced = meta.valid && !isIdle && !isLoading && !isError
+    const isFileInput =
+        de.valueType === 'FILE_RESOURCE' || de.valueType === 'IMAGE'
+
+    const isSynced = isFileInput
+        ? !isFileLoading && isFileSynced
+        : meta.valid && !isIdle && !isLoading && !isError
     const cellStateClassName = meta.invalid
         ? styles.invalid
-        : synced
+        : isSynced
         ? styles.synced
         : null
 
@@ -153,16 +161,19 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                     >
                         <Input
                             name={fieldName}
-                            dataElement={de}
-                            syncData={syncData}
-                            getDataValueParams={getDataValueParams}
-                            lastSyncedValue={lastSyncedValue}
                             onKeyDown={onKeyDown}
-                            // disabled={true}
+                            // disabled={true} (todo)
+                            // props for most inputs:
+                            syncData={syncData}
+                            lastSyncedValue={lastSyncedValue}
+                            // props for file inputs, which use different mutations:
+                            getDataValueParams={getDataValueParams}
+                            setIsFileSynced={setIsFileSynced}
+                            setIsFileLoading={setIsFileLoading}
                         />
                         <SyncStatusIndicator
-                            isLoading={isLoading}
-                            synced={synced}
+                            isLoading={isLoading || isFileLoading}
+                            isSynced={isSynced}
                         />
                         {/* todo: show indicator if there is a comment */}
                         <CommentIndicator isComment={false} />

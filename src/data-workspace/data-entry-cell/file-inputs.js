@@ -5,7 +5,6 @@ import { colors, Button, FileInput, IconAttachment16 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { InputPropTypes } from './inputs.js'
 import styles from './inputs.module.css'
 
 // This endpoint doesn't support field filtering
@@ -15,14 +14,13 @@ const FILE_META_QUERY = {
         id: ({ id }) => id,
     },
 }
-// Need to do two-step process due to api/dataValues/file limitations
-// (see usage below)
-// https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_sending_individual_data_values
 const UPLOAD_FILE_MUTATION = {
     resource: 'dataValues/file',
     type: 'create',
     data: (data) => data,
 }
+// This needs to be used for file-type data values; sending an empty 'value' prop
+// doesn't work to clear the file
 const DELETE_FILE_MUTATION = {
     resource: 'dataValues',
     type: 'delete',
@@ -35,17 +33,16 @@ const getFileSize = (file) => {
 
 export const FileResourceInput = ({
     name,
-    syncData,
-    lastSyncedValue,
     onKeyDown,
     image,
     getDataValueParams,
+    setIsFileLoading,
+    setIsFileSynced,
 }) => {
     const { input, meta } = useField(name, {
-        // todo: pick one of pristine or dirty
         subscription: {
             value: true,
-            inital: true,
+            // inital: true, // not working for some reason
             pristine: true,
             onFocus: true,
             onBlur: true,
@@ -55,8 +52,8 @@ export const FileResourceInput = ({
     const [file, setFile] = React.useState()
     // todo: use reactQuery
     const {
-        loading: fileMetaLoading,
-        error: fileMetaError,
+        // loading: fileMetaLoading,
+        // error: fileMetaError,
         refetch: getFileMeta,
     } = useDataQuery(FILE_META_QUERY, {
         lazy: true,
@@ -67,30 +64,40 @@ export const FileResourceInput = ({
             })
         },
     })
-    const [uploadFile, { loading: uploading }] =
-        useDataMutation(UPLOAD_FILE_MUTATION)
-    const [deleteFile] = useDataMutation(DELETE_FILE_MUTATION)
+    const [uploadFile] = useDataMutation(UPLOAD_FILE_MUTATION, {
+        onComplete: () => {
+            setIsFileLoading(false)
+            setIsFileSynced(true)
+        },
+    })
+    const [deleteFile] = useDataMutation(DELETE_FILE_MUTATION, {
+        onComplete: () => {
+            setIsFileLoading(false)
+            setIsFileSynced(true)
+        },
+    })
 
     React.useEffect(() => {
         // If a file is already stored for this data value, fetch some metadata
         // (input.value will be populated with a fileResource UID)
-        if (input.value && typeof input.value === 'string') {
+        if (input.value && typeof input.value === 'string' && meta.pristine) {
+            // todo: this fires once if there's stale data, getting a 404
             getFileMeta({ id: input.value })
         }
-    }, [])
+    }, [input.value])
 
     // todo: handle data value sets weirdness?
 
     const handleChange = ({ files }) => {
         const newFile = files[0]
-        console.log({ newFile })
         setFile(newFile)
         input.onChange(newFile)
         input.onBlur()
         if (newFile instanceof File) {
-            // todo: need to optimistically update RQ cache
+            // todo: optimistically update RQ cache
+            setIsFileLoading(true)
+            setIsFileSynced(false)
             uploadFile({ file: newFile, ...getDataValueParams() })
-            // todo: set sync status; update lastSyncedValue
         }
     }
 
@@ -98,9 +105,10 @@ export const FileResourceInput = ({
         setFile(null)
         input.onChange('')
         input.onBlur()
+        setIsFileSynced(false)
+        setIsFileLoading(true)
+        // todo: optimistically update RQ cache
         deleteFile(getDataValueParams())
-        // todo: need to optimistically update RQ cache
-        // todo: set sync status; update lastSyncedValue
     }
 
     // styles:
@@ -141,7 +149,14 @@ export const FileResourceInput = ({
         </div>
     )
 }
-FileResourceInput.propTypes = InputPropTypes
+FileResourceInput.propTypes = {
+    getDataValueParams: PropTypes.func,
+    image: PropTypes.bool,
+    name: PropTypes.string,
+    setIsFileLoading: PropTypes.func,
+    setIsFileSynced: PropTypes.func,
+    onKeyDown: PropTypes.func,
+}
 
 export const ImageInput = (props) => {
     return <FileResourceInput {...props} image />
