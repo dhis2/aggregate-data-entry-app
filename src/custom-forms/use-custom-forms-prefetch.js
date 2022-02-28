@@ -1,21 +1,13 @@
-import { useQuery, useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import keys from './query-key-factory.js'
+import useCustomForms from './use-custom-forms.js'
 
 const useCustomFormsPrefetch = () => {
     const queryClient = useQueryClient()
-    const { isSuccess, data } = useQuery(keys.all, {
-        select: (data) => data.dataSets,
-    })
+    const { isSuccess, data } = useCustomForms()
 
     if (isSuccess) {
-        const customForms = data
-            .filter((dataSet) => dataSet.formType === 'CUSTOM')
-            .map((dataSet) => ({
-                id: dataSet.dataEntryForm.id,
-                version: dataSet.version,
-            }))
-
-        for (const customForm of customForms) {
+        for (const customForm of data) {
             const queryKey = keys.byId(customForm.id)
 
             // Search the cache for a custom form with a matching version
