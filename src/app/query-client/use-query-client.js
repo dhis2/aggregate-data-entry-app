@@ -10,12 +10,12 @@ const useQueryClient = () => {
 
     // https://react-query.tanstack.com/guides/query-keys
     const queryFn = ({ queryKey }) => {
-        const [resource, { params, id }] = queryKey
+        const [resource, options] = queryKey
         const appRuntimeQuery = {
             [resource]: {
                 resource,
-                id,
-                params,
+                id: options?.id,
+                params: options?.params,
             },
         }
 
@@ -44,9 +44,9 @@ const useQueryClient = () => {
             dehydrateQueries: true,
             shouldDehydrateQuery: (query) => {
                 const isSuccess = query.state.status === 'success'
-                const isOnline = query.options.networkMode === 'online'
+                const shouldPersist = query?.meta?.persist === true
 
-                return isSuccess && isOnline
+                return isSuccess && shouldPersist
             },
         },
     })
