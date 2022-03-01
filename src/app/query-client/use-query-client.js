@@ -12,11 +12,15 @@ const useQueryClient = () => {
     const queryFn = ({ queryKey }) => {
         const [resource, options] = queryKey
         const appRuntimeQuery = {
-            [resource]: {
-                resource,
-                id: options?.id,
-                params: options?.params,
-            },
+            [resource]: { resource },
+        }
+
+        if (options?.id) {
+            appRuntimeQuery[resource].id = options.id
+        }
+
+        if (options?.params) {
+            appRuntimeQuery[resource].params = options.params
         }
 
         return engine.query(appRuntimeQuery).then((data) => data[resource])
