@@ -42,27 +42,15 @@ export const FileResourceInput = ({
     const { input, meta } = useField(name, {
         subscription: {
             value: true,
-            // inital: true, // not working for some reason
             pristine: true,
             onFocus: true,
             onBlur: true,
             onChange: true,
         },
     })
-    const [file, setFile] = React.useState()
     // todo: use reactQuery
-    const {
-        // loading: fileMetaLoading,
-        // error: fileMetaError,
-        refetch: getFileMeta,
-    } = useDataQuery(FILE_META_QUERY, {
+    const { data, refetch: getFileMeta } = useDataQuery(FILE_META_QUERY, {
         lazy: true,
-        onComplete: ({ fileResource }) => {
-            setFile({
-                name: fileResource.name,
-                size: fileResource.contentLength,
-            })
-        },
     })
     const [uploadFile] = useDataMutation(UPLOAD_FILE_MUTATION, {
         onComplete: () => {
@@ -80,17 +68,17 @@ export const FileResourceInput = ({
     React.useEffect(() => {
         // If a file is already stored for this data value, fetch some metadata
         // (input.value will be populated with a fileResource UID)
-        if (input.value && typeof input.value === 'string' && meta.pristine) {
+        if (input.value && meta.pristine && typeof input.value === 'string') {
             // todo: this fires once if there's stale data, getting a 404
             getFileMeta({ id: input.value })
         }
+        // Note that while offline, the dataValueSets response will be updated
+        // such that the value of this data item is { name, size } (instead of
+        // just an ID), so the meta info can be shown for the pending upload
     }, [input.value])
-
-    // todo: handle data value sets weirdness?
 
     const handleChange = ({ files }) => {
         const newFile = files[0]
-        setFile(newFile)
         input.onChange(newFile)
         input.onBlur()
         if (newFile instanceof File) {
@@ -102,7 +90,6 @@ export const FileResourceInput = ({
     }
 
     const handleDelete = () => {
-        setFile(null)
         input.onChange('')
         input.onBlur()
         setIsFileSynced(false)
@@ -110,6 +97,16 @@ export const FileResourceInput = ({
         // todo: optimistically update RQ cache
         deleteFile(getDataValueParams())
     }
+
+    const inputValueHasFileMeta = !!input.value.name && !!input.value.size
+    const file = data
+        ? {
+              name: data.fileResource.name,
+              size: data.fileResource.contentLength,
+          }
+        : inputValueHasFileMeta
+        ? input.value
+        : null
 
     // styles:
     // todo: make file input button `secondary` style to match design spec
