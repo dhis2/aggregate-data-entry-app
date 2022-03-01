@@ -12,8 +12,8 @@ import React, { useState } from 'react'
 import { useMetadata } from '../../metadata/index.js'
 import {
     getDataElementsBySection,
-    groupDataElementsByCatCombo,
-    groupDataElementsByCatComboInOrder,
+    getGroupedDataElementsByCatCombo,
+    getGroupedDataElementsByCatComboInOrder,
 } from '../../metadata/selectors.js'
 import { CategoryComboTable } from '../category-combo-table.js'
 import styles from './section.module.css'
@@ -33,8 +33,8 @@ export const SectionFormSection = ({ section, globalFilterText }) => {
         section.id
     )
     const groupedDataElements = section.disableDataElementAutoGroup
-        ? groupDataElementsByCatComboInOrder(data, dataElements)
-        : groupDataElementsByCatCombo(data, dataElements)
+        ? getGroupedDataElementsByCatComboInOrder(data, dataElements)
+        : getGroupedDataElementsByCatCombo(data, dataElements)
 
     const maxColumnsInSection = Math.max(
         ...groupedDataElements.map(

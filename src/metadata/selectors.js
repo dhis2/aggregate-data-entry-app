@@ -1,229 +1,213 @@
-import { cartesian } from '../shared/utils.js'
+import { createCachedSelector } from 're-reselect'
+import { createSelector } from 'reselect'
 
-export const getDataElements = (metadata) => metadata.dataElements
+// Helper to group array items by an identifier
 
-export const getDataElementById = (metadata, id) =>
-    getDataElements(metadata)[id]
+const groupBy = (input, getIdentifier) =>
+    input.reduce((grouped, item) => {
+        const identifier = getIdentifier(item)
 
-export const getOptionSets = (metadata) => metadata.optionSets
+        grouped[identifier] = grouped[identifier] ?? []
+        grouped[identifier].push(item)
 
-export const getOptionSetById = (metadata, id) => getOptionSets(metadata)[id]
+        return grouped
+    }, {})
+
+// Simple input selectors
 
 export const getCategories = (metadata) => metadata.categories
-
 export const getCategoryCombos = (metadata) => metadata.categoryCombos
-
-export const getCategoryOptions = (metadata) => metadata.categoryOptions
-
 export const getCategoryOptionCombos = (metadata) =>
     metadata.categoryOptionCombos
-
+export const getCategoryOptions = (metadata) => metadata.categoryOptions
+export const getDataElements = (metadata) => metadata.dataElements
 export const getDataSets = (metadata) => metadata.dataSets
-export const getDataSetById = (metadata, dataSetId) =>
-    getDataSets(metadata)?.[dataSetId]
-
 export const getSections = (metadata) => metadata.sections
+export const getOptionSets = (metadata) => metadata.optionSets
 
-export const getSectionsByDataSetId = (metadata, dataSetId) => {
-    const sections = getSections(metadata)
-    const dataSet = getDataSetById(metadata, dataSetId)
+// Select by id
 
-    return dataSet.sections.map((sId) => sections[sId])
-}
-
-export const getDataElementsByDataSetId = (metadata, dataSetId) => {
-    const dataElements = getDataSetById(
-        metadata,
-        dataSetId
-    )?.dataSetElements?.map((dse) => {
-        const dataElement = getDataElementById(metadata, dse.dataElement.id)
-        // catcombo for a dataelement can be overriden per dataSet
-        // in that case, dataSetElement.categoryCombo takes precedence
-        const dataElementCategoryCombo =
-            dse.categoryCombo ?? dataElement.categoryCombo
-        return {
-            ...dataElement,
-            categoryCombo: dataElementCategoryCombo,
-        }
-    })
-
-    return dataElements
-}
-
-export const getDataElementsBySection = (metadata, dataSetId, sectionId) => {
-    const section = getSections(metadata)[sectionId]
-    // need dataSetId to get dataElements from the dataSet, as there can be catCombo overrides
-    const dataSetElements = getDataElementsByDataSetId(metadata, dataSetId)
-
-    return section.dataElements.map((deId) =>
-        dataSetElements.find((dse) => dse.id === deId)
-    )
-}
-
-// Use IDs?
-// Most of the time, this should return only one catcombo
-// (Maybe don't need it if we use data element order from backend)
-export const getCategoryCombosByDataElements = (metadata, dataElements) => {
-    const categoryCombos = dataElements.reduce((ccs, de) => {
-        const cc = de.categoryCombo
-        if (!ccs[cc.id]) {
-            ccs[cc.id] = getCategoryComboById(metadata, cc.id)
-        }
-        return ccs
-    }, {})
-
-    return Object.values(categoryCombos)
-}
-
-export const groupDataElementsByCatComboInOrder = (metadata, dataElements) => {
-    // gather elements in order
-    // if catCombo is not the same as previous catCombo, it's grouped to a different catCombo
-
-    // eslint-disable-next-line max-params
-    return dataElements.reduce((acc, curr, ind, arr) => {
-        const prevDE = arr[ind - 1]
-        const prevGroup = acc[acc.length - 1]
-
-        if (
-            !prevGroup ||
-            (prevDE && prevDE.categoryCombo.id != curr.categoryCombo.id)
-        ) {
-            acc.push({
-                dataElements: [curr],
-                categoryCombo: getCategoryComboById(
-                    metadata,
-                    curr.categoryCombo.id
-                ),
-            })
-        } else {
-            acc[acc.length - 1].dataElements.push(curr)
-        }
-        return acc
-    }, [])
-}
-
-export const groupDataElementsByCatCombo = (metadata, dataElements) => {
-    const categoryCombos = dataElements.reduce((ccs, de) => {
-        const cc = de.categoryCombo
-        if (!ccs[cc.id]) {
-            const catCombo = getCategoryComboById(metadata, cc.id)
-
-            ccs[cc.id] = {
-                categoryCombo: catCombo,
-                dataElements: [de],
-            }
-        } else {
-            ccs[cc.id].dataElements.push(de)
-        }
-        return ccs
-    }, {})
-    return Object.values(categoryCombos)
-}
-
-export const getCategoryCombosByDataSetId = (metadata, dataSetId) => {
-    const dataElements = getDataElementsByDataSetId(metadata, dataSetId)
-    return getCategoryCombosByDataElements(dataElements)
-}
-
-export const getCategoryById = (metadata, id) => {
-    return getCategories(metadata)[id]
-}
-
-export const getCategoryComboById = (metadata, id) => {
-    return getCategoryCombos(metadata)[id]
-}
-
-export const getCategoryOptionById = (metadata, id) => {
-    return getCategoryOptions(metadata)[id]
-}
-
-export const getCategoryOptionsByCoCId = (metadata, cocId) => {
-    const coc = getCategoryOptionComboById(metadata, cocId)
-    return coc.categoryOptions.map((coId) =>
-        getCategoryOptionById(metadata, coId)
-    )
-}
-
-export const getCategoryOptionComboById = (metadata, id) => {
-    return getCategoryOptionCombos(metadata)[id]
-}
-
-export const getCategoriesByCategoryComboId = (metadata, categoryComboId) => {
-    const categoryCombo = getCategoryComboById(metadata, categoryComboId)
-    const categories = categoryCombo.categories.map((id) =>
-        getCategoryById(metadata, id)
-    )
-    return categories
-}
-
-export const getCategoryOptionsByCategoryId = (metadata, categoryId) => {
-    const category = getCategoryById(metadata, categoryId)
-    const categoryOptions = category.categoryOptions.map((optId) =>
-        getCategoryOptionById(metadata, optId)
-    )
-    return categoryOptions
-}
-
-export const getCategoryOptionCombosByCategoryComboId = (
-    metadata,
-    catComboId
-) => {
-    const categoryCombo = getCategoryComboById(metadata, catComboId)
-    const categoryOptionCombos = categoryCombo?.categoryOptionCombos.map(
-        (cocId) => getCategoryOptionComboById(metadata, cocId)
-    )
-    return categoryOptionCombos
-}
+export const getCategoryById = (metadata, id) => getCategories(metadata)[id]
+export const getOptionSetById = (metadata, id) => getOptionSets(metadata)[id]
+export const getSectionById = (metadata, id) => getSections(metadata)[id]
+export const getDataSetById = (metadata, id) => getDataSets(metadata)?.[id]
+export const getCategoryComboById = (metadata, id) =>
+    getCategoryCombos(metadata)[id]
 
 /**
- * Gets the correct ordering of categoryOptionCombos within a category combination
+ * Memoized selectors
+ * To clarify why some selectors are memoized and some aren't: only transformations
+ * that are cpu intensive, or transformations that result in the selector returning
+ * a new reference every time (.map for example) should be memoized.
+ *
+ * Selectors where a cache size of 1 is sufficient should be memoized with reselect,
+ * selectors that should have a cache per parameter (say an id) should use re-reselect.
+ */
+
+/**
  * @param {*} metadata
- * @param {*} catComboId
- * @returns
+ * @param {*} categoryComboId
  */
-export const getSortedCategoryOptionCombosByCategoryComboId = (
-    metadata,
-    catComboId
-) => {
-    const categories = getCategoriesByCategoryComboId(metadata, catComboId)
-
-    // get options for each category, these should be in sorted order
-    const allOptionsLists = categories.map((cat) => cat.categoryOptions)
-    // compute the  combination of category-catgoryOption- this basically computes the categoryCombinations
-    // result is a matrix of categoryOptions for each column in the categoryCombo
-    const optionCombinationOrder = cartesian(allOptionsLists)
-    return optionCombinationOrder.map((opts) =>
-        getCoCByCategoryOptions(metadata, catComboId, opts)
-    )
-}
+export const getCategoriesByCategoryComboId = createCachedSelector(
+    getCategoryComboById,
+    getCategories,
+    (categoryCombo, categories) =>
+        categoryCombo.categories.map((id) => categories[id])
+)((_, categoryComboId) => categoryComboId)
 
 /**
- * Tries to find the categoryOptionCombo with the given categoryOptions within
- * a category combination.
- * @param {} metadata
- * @param {*} catComboId
- * @param {*} categoryOptionIds
- * @returns
+ * @param {*} metadata
+ * @param {*} categoryId
  */
-export const getCoCByCategoryOptions = (
-    metadata,
-    catComboId,
-    categoryOptionIds
-) => {
-    const cocs = getCategoryOptionCombosByCategoryComboId(metadata, catComboId)
-    const sorted = [...categoryOptionIds].sort() //sort to check for equality
+export const getCategoryOptionsByCategoryId = createCachedSelector(
+    getCategoryById,
+    getCategoryOptions,
+    (category, categoryOptions) =>
+        category.categoryOptions.map((id) => categoryOptions[id])
+)((_, categoryId) => categoryId)
 
-    for (const coc of cocs) {
-        const sortedCatOptions = [...coc.categoryOptions].sort()
-        if (
-            sorted.length === sortedCatOptions.length &&
-            sortedCatOptions.every((id, ind) => id === sorted[ind])
-        ) {
-            return coc
+/**
+ * @param {*} metadata
+ * @param {*} categoryComboId
+ */
+export const getCategoryOptionCombosByCategoryComboId = createCachedSelector(
+    getCategoryComboById,
+    getCategoryOptionCombos,
+    (categoryCombo, categoryOptionCombos) =>
+        categoryCombo?.categoryOptionCombos.map(
+            (id) => categoryOptionCombos[id]
+        )
+)((_, categoryComboId) => categoryComboId)
+
+/**
+ * The categoryCombo for a dataElement can be overriden per dataSet. This selector
+ * will apply that override.
+ * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getDataElementsByDataSetId = createCachedSelector(
+    getDataElements,
+    getDataSetById,
+    (dataElements, dataSet) => {
+        if (!dataSet?.dataSetElements) {
+            // To stay consistent with the way this selector behaved previously
+            return undefined
         }
+
+        return dataSet.dataSetElements.map((dse) => {
+            const de = dataElements[dse.dataElement.id]
+
+            const categoryCombo = dse.categoryCombo ?? de.categoryCombo
+
+            return {
+                ...de,
+                categoryCombo,
+            }
+        })
     }
-    console.warn(
-        `Could not find categoryOptionCombo for catCombo ${catComboId}, with categoryOptions: ${categoryOptionIds.join()}`
-    )
-    return null
-}
+)((_, dataSetId) => dataSetId)
+
+/**
+ * This selector needs the dataSetId so it can use the getDataElementsByDataSetId selector,
+ * which will apply the correct categoryCombo overrides.
+ * @param {*} metadata
+ * @param {*} dataSetId
+ * @param {*} sectionId
+ */
+export const getDataElementsBySection = createCachedSelector(
+    (metadata, _, sectionId) => getSectionById(metadata, sectionId),
+    getDataElementsByDataSetId,
+    (section, dataElements) =>
+        section.dataElements.map((id) =>
+            dataElements.find((de) => de.id === id)
+        )
+)((_, dataSetId, sectionId) => `${dataSetId}:${sectionId}`)
+
+/**
+ * Returns an array of objects with dataElements and their associated categoryCombos. They
+ * are grouped by categoryComboId, every time the categoryComboId changes a new group is
+ * created.
+ * @param {*} metadata
+ * @param {*} dataElements
+ */
+export const getGroupedDataElementsByCatComboInOrder = createSelector(
+    (_, dataElements) => dataElements,
+    getCategoryCombos,
+    (dataElements, categoryCombos) => {
+        const grouped = []
+
+        dataElements.forEach((de, i) => {
+            const previousDe = dataElements[i - 1]
+            const lastGroup = grouped[grouped.length - 1]
+            const matchingId =
+                previousDe?.categoryCombo.id === de.categoryCombo.id
+
+            if (!lastGroup || !matchingId) {
+                grouped.push({
+                    dataElements: [de],
+                    categoryCombo: categoryCombos[de.categoryCombo.id],
+                })
+            } else {
+                lastGroup.dataElements.push(de)
+            }
+        })
+
+        return grouped
+    }
+)
+
+/**
+ * Returns an array of objects with dataElements and their associated categoryCombos. Unlike
+ * getGroupedDataElementsByCatComboInOrder, this selector will group all dataElements with the
+ * same categoryComboId together.
+ * @param {*} metadata
+ * @param {*} dataElements
+ */
+export const getGroupedDataElementsByCatCombo = createSelector(
+    (_, dataElements) => dataElements,
+    getCategoryCombos,
+    (dataElements, categoryCombos) => {
+        // Group dataElements by their categoryCombo id
+        const grouped = groupBy(dataElements, (de) => de.categoryCombo.id)
+
+        // Map to an array and include the associated categoryCombo
+        return Object.entries(grouped).map(
+            ([categoryComboId, dataElements]) => ({
+                dataElements,
+                categoryCombo: categoryCombos[categoryComboId],
+            })
+        )
+    }
+)
+
+/**
+ * Tries to find the categoryOptionCombo with the given categoryOptions within a category
+ * combination.
+ * @param {*} metadata
+ * @param {*} categoryComboId
+ * @param {*} categoryOptionIds
+ */
+export const getCoCByCategoryOptions = createCachedSelector(
+    getCategoryOptionCombosByCategoryComboId,
+    (_, categoryComboId) => categoryComboId,
+    (_, __, categoryOptionIds) => categoryOptionIds,
+    (categoryOptionCombos, categoryComboId, categoryOptionIds) => {
+        const targetIds = categoryOptionIds
+
+        for (const coc of categoryOptionCombos) {
+            const currentIds = coc.categoryOptions
+            const sameLength = targetIds.length === currentIds.length
+            const sameIds = targetIds.every((id) => currentIds.includes(id))
+
+            if (sameLength && sameIds) {
+                return coc
+            }
+        }
+
+        console.warn(
+            `Could not find categoryOptionCombo for catCombo ${categoryComboId}, with categoryOptions: ${categoryOptionIds.join()}`
+        )
+
+        return null
+    }
+)((_, categoryComboId) => categoryComboId)
