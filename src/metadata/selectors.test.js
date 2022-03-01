@@ -15,8 +15,8 @@ import {
     getDataSetById,
     getDataSets,
     getSections,
-    groupDataElementsByCatCombo,
-    groupDataElementsByCatComboInOrder,
+    getGroupedDataElementsByCatCombo,
+    getGroupedDataElementsByCatComboInOrder,
 } from './selectors.js'
 
 describe('simple selectors', () => {
@@ -343,7 +343,7 @@ describe('complex selectors that select by id', () => {
 })
 
 describe('selectors that group dataElements', () => {
-    describe('groupDataElementsByCatComboInOrder', () => {
+    describe('getGroupedDataElementsByCatComboInOrder', () => {
         it('returns the expected data', () => {
             const categoryComboOne = { id: 'one' }
             const categoryComboTwo = { id: 'two' }
@@ -374,12 +374,12 @@ describe('selectors that group dataElements', () => {
             ]
 
             expect(
-                groupDataElementsByCatComboInOrder(data, dataElements)
+                getGroupedDataElementsByCatComboInOrder(data, dataElements)
             ).toEqual(expected)
         })
     })
 
-    describe('groupDataElementsByCatCombo', () => {
+    describe('getGroupedDataElementsByCatCombo', () => {
         it('returns the expected data', () => {
             const categoryComboOne = { id: 'one' }
             const categoryComboTwo = { id: 'two' }
@@ -405,9 +405,9 @@ describe('selectors that group dataElements', () => {
                 },
             ]
 
-            expect(groupDataElementsByCatCombo(data, dataElements)).toEqual(
-                expected
-            )
+            expect(
+                getGroupedDataElementsByCatCombo(data, dataElements)
+            ).toEqual(expected)
         })
     })
 })

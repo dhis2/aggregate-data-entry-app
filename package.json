@@ -51,10 +51,12 @@
         "lodash.throttle": "^4.1.1",
         "prop-types": "^15.7.2",
         "query-string": "^7.0.1",
+        "re-reselect": "^4.0.0",
         "react-final-form": "^6.5.7",
         "react-query": "4.0.0-alpha.10",
         "react-router-dom": "^5",
         "tabbable": "^5.2.1",
+        "reselect": "^4.1.5",
         "use-query-params": "^1.2.3"
     },
     "resolutions": {

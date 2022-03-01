@@ -5,7 +5,7 @@ import React from 'react'
 import { useMetadata } from '../metadata/index.js'
 import {
     getDataElementsByDataSetId,
-    groupDataElementsByCatCombo,
+    getGroupedDataElementsByCatCombo,
 } from '../metadata/selectors.js'
 import { CategoryComboTable } from './category-combo-table.js'
 import styles from './entry-form.module.css'
@@ -18,7 +18,10 @@ export const DefaultForm = ({ dataSet, globalFilterText }) => {
     }
 
     const dataElements = getDataElementsByDataSetId(data, dataSet.id)
-    const groupedDataElements = groupDataElementsByCatCombo(data, dataElements)
+    const groupedDataElements = getGroupedDataElementsByCatCombo(
+        data,
+        dataElements
+    )
 
     return (
         <section className="wrapper">
