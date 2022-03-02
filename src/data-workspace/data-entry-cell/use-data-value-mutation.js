@@ -8,7 +8,30 @@ export const DATA_VALUE_MUTATION_KEY = 'DATA_VALUE_MUTATION_KEY'
 const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
     type: 'create',
-    data: data => data,
+    data: (data) => data,
+}
+const UPLOAD_FILE_MUTATION = {
+    resource: 'dataValues/file',
+    type: 'create',
+    data: (data) => data,
+}
+// This needs to be used for file-type data values; sending an empty 'value' prop
+// doesn't work to clear the file (todo: replace when backend changes)
+const DELETE_VALUE_MUTATION = {
+    resource: 'dataValues',
+    type: 'delete',
+    params: (params) => params,
+}
+
+export const MUTATION_TYPES = {
+    DEFAULT: 'DEFAULT',
+    FILE_UPLOAD: 'FILE_UPLOAD',
+    DELETE: 'DELETE',
+}
+const mutationsByType = {
+    DEFAULT: DATA_VALUE_MUTATION,
+    FILE_UPLOAD: UPLOAD_FILE_MUTATION,
+    DELETE: DELETE_VALUE_MUTATION,
 }
 
 // Updates dataValue without mutating previousDataValueSet
@@ -30,11 +53,30 @@ const updateDataValue = (
 const addDataValue = (previousDataValueSet, newDataValue) => {
     return {
         ...previousDataValueSet,
-        dataValues: [...previousDataValueSet.dataValues, newDataValue],
+        // dataValueSet.dataValues can be undefined
+        dataValues: previousDataValueSet.dataValues
+            ? [...previousDataValueSet.dataValues, newDataValue]
+            : [newDataValue],
     }
 }
 
-export const useDataValueMutation = () => {
+// Delete dataValue without mutating previousDataValueSet
+const deleteDataValue = (previousDataValueSet, matchIndex) => {
+    const { dataValues: previousDataValues } = previousDataValueSet.dataValueSet
+    const newDataValues = [
+        ...previousDataValues.slice(0, matchIndex),
+        ...previousDataValues.slice(matchIndex + 1),
+    ]
+    return {
+        ...previousDataValueSet,
+        dataValueSet: {
+            ...previousDataValueSet.dataValueSet,
+            dataValues: newDataValues,
+        },
+    }
+}
+
+export const useDataValueMutation = (mutationType = MUTATION_TYPES.DEFAULT) => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionCombo = useAttributeOptionCombo()
@@ -51,20 +93,15 @@ export const useDataValueMutation = () => {
             },
         },
     ]
+    // Use mutation appropriate to mutation type
     const mutationFn = (variables) =>
-        engine.mutate(
-            {
-                resource: 'dataValues',
-                type: 'create',
-                params: ({ ...params }) => ({ ...params }),
-            },
-            { variables }
-        )
+        engine.mutate(mutationsByType[mutationType], { variables })
 
     return useMutation(mutationFn, {
         // Used to identify whether this mutation is running
         mutationKey: DATA_VALUE_MUTATION_KEY,
         // Optimistic update of the react-query cache
+        // Mutation args correspond to new data value
         onMutate: async (newDataValue) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await queryClient.cancelQueries(dataValueSetQueryKey)
@@ -75,24 +112,41 @@ export const useDataValueMutation = () => {
 
             // Optimistically update to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
-                const matchIndex = previousDataValueSet.dataValues.findIndex(
+                // dataValueSet.dataValues can be undefined
+                const previousDataValues = previousDataValueSet.dataValues || []
+                const matchIndex = previousDataValues.findIndex(
                     (dataValue) =>
                         dataValue.categoryOptionCombo === newDataValue.co &&
                         dataValue.dataElement === newDataValue.de &&
                         dataValue.orgUnit === newDataValue.ou &&
                         dataValue.period === newDataValue.pe
                 )
-                const isNewValue = matchIndex === -1
+
+                if (mutationType === MUTATION_TYPES.DELETE) {
+                    return deleteDataValue(previousDataValueSet, matchIndex)
+                }
+
+                const isNewDataValue = matchIndex === -1
+                // If this is a file-type data value, set value to some file metadata
+                // so it's available offline. When DVSets is refetched, the value will
+                // be replaced by a UID that will be handled in the FileResourceInput components
+                const newValue =
+                    mutationType === MUTATION_TYPES.FILE_UPLOAD
+                        ? {
+                              name: newDataValue.file?.name,
+                              size: newDataValue.file?.size,
+                          }
+                        : newDataValue.value
 
                 // If the field was previously empty the dataValue won't exist yet
-                if (isNewValue) {
+                if (isNewDataValue) {
                     const formattedNewDataValue = {
                         attributeOptionCombo,
                         categoryOptionCombo: newDataValue.co,
                         dataElement: newDataValue.de,
                         orgUnit: newDataValue.ou,
                         period: newDataValue.pe,
-                        value: newDataValue.value,
+                        value: newValue,
                     }
 
                     return addDataValue(
@@ -101,8 +155,8 @@ export const useDataValueMutation = () => {
                     )
                 } else {
                     const formattedNewDataValue = {
-                        ...previousDataValueSet.dataValues[matchIndex],
-                        value: newDataValue.value,
+                        ...previousDataValues[matchIndex],
+                        value: newValue,
                     }
 
                     return updateDataValue(

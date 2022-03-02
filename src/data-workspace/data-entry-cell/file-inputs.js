@@ -1,11 +1,15 @@
 // todo: use RQ
-import { useDataMutation, useDataQuery } from '@dhis2/app-runtime'
+import { useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { colors, Button, FileInput, IconAttachment16 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
 import styles from './inputs.module.css'
+import {
+    MUTATION_TYPES,
+    useDataValueMutation,
+} from './use-data-value-mutation.js'
 
 // This endpoint doesn't support field filtering
 const FILE_META_QUERY = {
@@ -13,18 +17,6 @@ const FILE_META_QUERY = {
         resource: 'fileResources',
         id: ({ id }) => id,
     },
-}
-const UPLOAD_FILE_MUTATION = {
-    resource: 'dataValues/file',
-    type: 'create',
-    data: (data) => data,
-}
-// This needs to be used for file-type data values; sending an empty 'value' prop
-// doesn't work to clear the file
-const DELETE_FILE_MUTATION = {
-    resource: 'dataValues',
-    type: 'delete',
-    params: (params) => params,
 }
 
 const getFileSize = (file) => {
@@ -52,24 +44,15 @@ export const FileResourceInput = ({
     const { data, refetch: getFileMeta } = useDataQuery(FILE_META_QUERY, {
         lazy: true,
     })
-    const [uploadFile] = useDataMutation(UPLOAD_FILE_MUTATION, {
-        onComplete: () => {
-            setIsFileLoading(false)
-            setIsFileSynced(true)
-        },
-    })
-    const [deleteFile] = useDataMutation(DELETE_FILE_MUTATION, {
-        onComplete: () => {
-            setIsFileLoading(false)
-            setIsFileSynced(true)
-        },
-    })
+    const { mutate: uploadFile } = useDataValueMutation(
+        MUTATION_TYPES.FILE_UPLOAD
+    )
+    const { mutate: deleteFile } = useDataValueMutation(MUTATION_TYPES.DELETE)
 
     React.useEffect(() => {
         // If a file is already stored for this data value, fetch some metadata
         // (input.value will be populated with a fileResource UID)
         if (input.value && meta.pristine && typeof input.value === 'string') {
-            // todo: this fires once if there's stale data, getting a 404
             getFileMeta({ id: input.value })
         }
         // Note that while offline, the dataValueSets response will be updated
@@ -79,13 +62,24 @@ export const FileResourceInput = ({
 
     const handleChange = ({ files }) => {
         const newFile = files[0]
-        input.onChange(newFile)
+        input.onChange({ name: newFile.name, size: newFile.size })
         input.onBlur()
         if (newFile instanceof File) {
             // todo: optimistically update RQ cache
             setIsFileLoading(true)
             setIsFileSynced(false)
-            uploadFile({ file: newFile, ...getDataValueParams() })
+            uploadFile(
+                {
+                    file: newFile,
+                    ...getDataValueParams(),
+                },
+                {
+                    onSuccess: () => {
+                        setIsFileLoading(false)
+                        setIsFileSynced(true)
+                    },
+                }
+            )
         }
     }
 
@@ -94,18 +88,22 @@ export const FileResourceInput = ({
         input.onBlur()
         setIsFileSynced(false)
         setIsFileLoading(true)
-        // todo: optimistically update RQ cache
-        deleteFile(getDataValueParams())
+        deleteFile(getDataValueParams(), {
+            onSuccess: () => {
+                setIsFileLoading(false)
+                setIsFileSynced(true)
+            },
+        })
     }
 
     const inputValueHasFileMeta = !!input.value.name && !!input.value.size
-    const file = data
+    const file = inputValueHasFileMeta
+        ? input.value
+        : data && input.value // i.e. if value is a resource UID
         ? {
               name: data.fileResource.name,
               size: data.fileResource.contentLength,
           }
-        : inputValueHasFileMeta
-        ? input.value
         : null
 
     // styles:
