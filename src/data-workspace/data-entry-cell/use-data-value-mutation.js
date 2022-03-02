@@ -62,17 +62,14 @@ const addDataValue = (previousDataValueSet, newDataValue) => {
 
 // Delete dataValue without mutating previousDataValueSet
 const deleteDataValue = (previousDataValueSet, matchIndex) => {
-    const { dataValues: previousDataValues } = previousDataValueSet.dataValueSet
+    const previousDataValues = previousDataValueSet.dataValues
     const newDataValues = [
         ...previousDataValues.slice(0, matchIndex),
         ...previousDataValues.slice(matchIndex + 1),
     ]
     return {
         ...previousDataValueSet,
-        dataValueSet: {
-            ...previousDataValueSet.dataValueSet,
-            dataValues: newDataValues,
-        },
+        dataValues: newDataValues,
     }
 }
 
