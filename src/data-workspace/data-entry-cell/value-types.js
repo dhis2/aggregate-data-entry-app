@@ -11,7 +11,7 @@ import {
     TrueOnlyCheckbox,
     BooleanRadios,
     OptionSet,
-    withAddlProps,
+    withAdditionalProps,
     LongText,
 } from './inputs.js'
 import {
@@ -51,11 +51,11 @@ export const VALUE_TYPES = Object.freeze({
     },
     PHONE_NUMBER: {
         validate: internationalPhoneNumber,
-        Input: withAddlProps(BasicInput, { inputType: 'tel' }),
+        Input: withAdditionalProps(BasicInput, { inputType: 'tel' }),
     },
     EMAIL: {
         validate: email,
-        Input: withAddlProps(BasicInput, { inputType: 'email' }),
+        Input: withAdditionalProps(BasicInput, { inputType: 'email' }),
     },
     BOOLEAN: {
         validate: null,
@@ -67,15 +67,15 @@ export const VALUE_TYPES = Object.freeze({
     },
     DATE: {
         validate: null, // todo (in case browser doesn't support special input)
-        Input: withAddlProps(BasicInput, { inputType: 'date' }),
+        Input: withAdditionalProps(BasicInput, { inputType: 'date' }),
     },
     DATETIME: {
         validate: null, // todo " "
-        Input: withAddlProps(BasicInput, { inputType: 'datetime-local' }),
+        Input: withAdditionalProps(BasicInput, { inputType: 'datetime-local' }),
     },
     TIME: {
         validate: time,
-        Input: withAddlProps(BasicInput, { inputType: 'time' }),
+        Input: withAdditionalProps(BasicInput, { inputType: 'time' }),
     },
     NUMBER: {
         validate: number,
@@ -107,7 +107,7 @@ export const VALUE_TYPES = Object.freeze({
     },
     URL: {
         validate: url,
-        Input: withAddlProps(BasicInput, { inputType: 'url' }),
+        Input: withAdditionalProps(BasicInput, { inputType: 'url' }),
     },
     FILE_RESOURCE: {
         validate: null, // todo

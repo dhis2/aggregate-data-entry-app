@@ -21,7 +21,7 @@ const convertCallbackSignatures = (props) => ({
     onBlur: (_, e) => props.onBlur(e),
 })
 
-export const withAddlProps = (Component, addlProps) => {
+export const withAdditionalProps = (Component, addlProps) => {
     return function InputWithAddlProps(props) {
         return <Component {...props} {...addlProps} />
     }
