@@ -5,7 +5,7 @@ import {
     internationalPhoneNumber,
     url,
 } from '@dhis2/ui-forms'
-import { FileResourceInput } from './file-inputs.js'
+import { FileResourceInput, ImageInput } from './file-inputs.js'
 import {
     BasicInput,
     TrueOnlyCheckbox,
@@ -115,7 +115,7 @@ export const VALUE_TYPES = Object.freeze({
     },
     IMAGE: {
         validate: null, // todo
-        Input: FileResourceInput,
+        Input: ImageInput,
     },
     // Value types not supported for aggregate data:
     // ORGANISATION_UNIT
