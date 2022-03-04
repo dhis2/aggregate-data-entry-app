@@ -109,14 +109,12 @@ export const VALUE_TYPES = Object.freeze({
         validate: url,
         Input: withAddlProps(BasicInput, { inputType: 'url' }),
     },
-    // todo
     FILE_RESOURCE: {
-        validate: () => {},
+        validate: null, // todo
         Input: FileResourceInput,
     },
-    // todo
     IMAGE: {
-        validate: () => {},
+        validate: null, // todo
         Input: FileResourceInput,
     },
     // Value types not supported for aggregate data:
