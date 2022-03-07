@@ -31,8 +31,12 @@ export const FileResourceInput = ({
             onChange: true,
         },
     })
+    // When the app loads, if there's a file saved for this data value,
+    // the value of this input will be UID of a file resource as populated
+    // by the `dataValueSets` response. If that's the case, fetch some metadata
+    // about the file to show in the entry form:
     const { data } = useQuery(
-        // This endpoint doesn't support field filtering :(
+        // This endpoint doesn't support field filtering
         ['fileResources', { id: input.value }],
         {
             enabled:
