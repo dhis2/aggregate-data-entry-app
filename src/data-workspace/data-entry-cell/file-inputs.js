@@ -10,8 +10,8 @@ import {
     useDataValueMutation,
 } from './use-data-value-mutation.js'
 
-const getFileSize = (file) => {
-    return `${(file.size / 1024).toFixed(2)} KB`
+const formatFileSize = (size) => {
+    return `${(size / 1024).toFixed(2)} KB`
 }
 
 export const FileResourceInput = ({
@@ -99,7 +99,7 @@ export const FileResourceInput = ({
             {file ? (
                 <>
                     <IconAttachment16 color={colors.grey700} />
-                    {`${file.name} (${getFileSize(file)})`}
+                    {`${file.name} (${formatFileSize(file.size)})`}
                     <Button
                         small
                         secondary
