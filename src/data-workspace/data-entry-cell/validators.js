@@ -30,7 +30,7 @@ export const date = (value) => {
         : 'Please provide a valid date in the format YYYY-MM-DD'
 }
 export const dateTime = (value) => {
-    if (!value || value.lenth === 0) {
+    if (!value || value.length === 0) {
         return undefined
     }
     const [date, time] = value.split(' ')
@@ -42,7 +42,7 @@ export const dateTime = (value) => {
           )
 }
 export const time = (value) =>
-    timeRegex.test(value)
+    !value || timeRegex.test(value)
         ? undefined
         : i18n.t('Please provide a valid time in the format HH{{c}}MM', {
               c: ':',
