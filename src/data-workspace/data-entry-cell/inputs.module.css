@@ -6,6 +6,9 @@
 .cellPadding {
     padding: 8px 16px 8px 8px;
 }
+.whiteButton {
+    background-color: #fff !important;
+}
 /* For use in non-text cells: */
 .densePadding {
     padding: 1px 16px 1px 8px;
@@ -40,9 +43,8 @@
     align-items: center;
     gap: 8px;
 }
-
-.whiteButton {
-    background-color: #fff !important;
+.hidden {
+    visibility: hidden;
 }
 
 .selectFlexWrapper {

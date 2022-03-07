@@ -6,6 +6,7 @@ import {
     SingleSelect,
     SingleSelectOption,
 } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField, useForm } from 'react-final-form'
@@ -204,28 +205,28 @@ export const BooleanRadios = ({
                     noField.input.onBlur(e)
                 }}
             />
-            {fieldState?.value && (
-                <Button
-                    small
-                    secondary
-                    className={styles.whiteButton}
-                    // callback signatures are transformed above
-                    {...clearButtonProps}
-                    // on click, set field value to '', sync, and blur
-                    onClick={() => {
-                        clearField.input.onChange('')
-                        syncData('')
-                        clearField.input.onBlur()
-                    }}
-                    // probably not used, but included as back-up to onClick:
-                    onBlur={() => {
-                        handleBlur()
-                        clearField.input.onBlur()
-                    }}
-                >
-                    {i18n.t('Clear')}
-                </Button>
-            )}
+            <Button
+                small
+                secondary
+                className={cx(styles.whiteButton, {
+                    // If no value to clear, hide but still reserve space
+                    [styles.hidden]: !fieldState?.value,
+                })}
+                // Callback signatures are transformed above
+                {...clearButtonProps}
+                // On click, set field value to '', sync, and blur
+                onClick={() => {
+                    clearField.input.onChange('')
+                    syncData('')
+                    clearField.input.onBlur()
+                }}
+                onBlur={() => {
+                    handleBlur() // Probably handled by onClick, but included here for safety
+                    clearField.input.onBlur()
+                }}
+            >
+                {i18n.t('Clear')}
+            </Button>
         </div>
     )
 }
