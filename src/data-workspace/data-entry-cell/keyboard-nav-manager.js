@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { tabbable } from 'tabbable'
 
-// todo: should we skip filter fields and focus only inputs?
 // todo: does not work with `select` components (because focus gets trapped in portal?)
 
 /**

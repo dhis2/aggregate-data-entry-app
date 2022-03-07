@@ -98,7 +98,6 @@ export const useDataValueMutation = (mutationType = MUTATION_TYPES.DEFAULT) => {
         // Used to identify whether this mutation is running
         mutationKey: DATA_VALUE_MUTATION_KEY,
         // Optimistic update of the react-query cache
-        // Mutation args correspond to new data value
         onMutate: async (newDataValue) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await queryClient.cancelQueries(dataValueSetQueryKey)
