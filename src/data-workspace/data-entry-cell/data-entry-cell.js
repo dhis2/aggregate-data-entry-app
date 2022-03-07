@@ -165,6 +165,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
                             // disabled={true} (todo)
                             // props for most inputs:
                             syncData={syncData}
+                            dataElement={de}
                             lastSyncedValue={lastSyncedValue}
                             // props for file inputs, which use different mutations:
                             getDataValueParams={getDataValueParams}

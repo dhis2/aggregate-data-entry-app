@@ -240,7 +240,7 @@ export const OptionSet = ({
     dataElement,
 }) => {
     const { input } = useField(name, { subscription: { value: true } })
-    const { metadata } = useMetadata()
+    const { data: metadata } = useMetadata()
 
     const handleChange = (value) => {
         // For a select using onChange, don't need to check valid or dirty, respectively
@@ -293,6 +293,7 @@ export const OptionSet = ({
                     onClick={() => {
                         input.onChange('')
                         handleChange('')
+                        input.onBlur()
                     }}
                 >
                     {i18n.t('Clear')}
