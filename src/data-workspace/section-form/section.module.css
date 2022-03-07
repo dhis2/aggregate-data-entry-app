@@ -14,7 +14,7 @@
 .labelWrapper {
     background-color: var(--colors-grey800);
     line-height: 20px;
-    padding: 8px;
+    padding: 4px 8px;
 }
 .title {
     color: var(--colors-grey050);
