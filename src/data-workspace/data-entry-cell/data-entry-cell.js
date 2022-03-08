@@ -41,7 +41,7 @@ const CommentIndicator = ({ isComment }) => {
 }
 CommentIndicator.propTypes = { isComment: PropTypes.bool }
 
-export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
+export const DataEntryCell = React.memo(function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldName = `${de.id}.${coc.id}`
@@ -183,7 +183,7 @@ export function DataEntryCell({ dataElement: de, categoryOptionCombo: coc }) {
             </ValidationTooltip>
         </td>
     )
-}
+})
 DataEntryCell.propTypes = {
     categoryOptionCombo: PropTypes.shape({ id: PropTypes.string.isRequired })
         .isRequired,
