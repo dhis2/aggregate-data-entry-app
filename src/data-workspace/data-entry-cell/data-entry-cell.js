@@ -110,7 +110,7 @@ export const DataEntryCell = React.memo(function DataEntryCell({
     }
 
     const syncData = (value) => {
-        // Here's where an error state could be set: ('onError')
+        // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
             { ...getDataValueParams(), value: value || '' },
