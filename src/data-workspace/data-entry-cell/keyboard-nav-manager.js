@@ -4,6 +4,26 @@ import { tabbable } from 'tabbable'
 
 // todo: does not work with `select` components (because focus gets trapped in portal?)
 
+const focusNext = (rootNode) => {
+    // Need to get this list every time in case form changes
+    const tabbableElements = tabbable(rootNode)
+    const currentIdx = tabbableElements.indexOf(document.activeElement)
+    const nextIdx = (currentIdx + 1) % tabbableElements.length
+    const nextElement = tabbableElements[nextIdx]
+    nextElement.focus()
+    nextElement.select?.() // Select text, if possible
+}
+const focusPrev = (rootNode) => {
+    const tabbableElements = tabbable(rootNode)
+    const currentIdx = tabbableElements.indexOf(document.activeElement)
+    // %-operator doesn't work as desired with negatives in JS, so simple condition check instead:
+    const prevIdx =
+        currentIdx === 0 ? tabbableElements.length - 1 : currentIdx - 1
+    const prevElement = tabbableElements[prevIdx]
+    prevElement.focus()
+    prevElement.select?.()
+}
+
 /**
  * Emulates 'tab' behavior to focus next/previous fields in the workspace
  * with other keybinds
@@ -11,34 +31,14 @@ import { tabbable } from 'tabbable'
 export const KeyboardNavManager = ({ children }) => {
     const rootNodeRef = React.useRef()
 
-    const focusNext = () => {
-        // Need to get this list every time in case form changes
-        const tabbableElements = tabbable(rootNodeRef.current)
-        const currentIdx = tabbableElements.indexOf(document.activeElement)
-        const nextIdx = (currentIdx + 1) % tabbableElements.length
-        const nextElement = tabbableElements[nextIdx]
-        nextElement.focus()
-        nextElement.select?.() // Select text, if possible
-    }
-    const focusPrev = () => {
-        const tabbableElements = tabbable(rootNodeRef.current)
-        const currentIdx = tabbableElements.indexOf(document.activeElement)
-        // %-operator doesn't work as desired with negatives in JS, so simple condition check instead:
-        const prevIdx =
-            currentIdx === 0 ? tabbableElements.length - 1 : currentIdx - 1
-        const prevElement = tabbableElements[prevIdx]
-        prevElement.focus()
-        prevElement.select?.()
-    }
-
     const handleKeyDown = (event) => {
         const { key } = event
         if (key === 'ArrowDown' || key === 'Enter') {
             event.preventDefault()
-            focusNext()
+            focusNext(rootNodeRef.current)
         } else if (key === 'ArrowUp') {
             event.preventDefault()
-            focusPrev()
+            focusPrev(rootNodeRef.current)
         }
         // tab and shift-tab on their own work as expected
     }
