@@ -1,7 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import {
     Button,
-    Checkbox,
     Radio,
     SingleSelect,
     SingleSelectOption,
@@ -64,42 +63,6 @@ BasicInput.propTypes = {
     ...InputPropTypes,
     inputType: PropTypes.string,
 }
-
-export const TrueOnlyCheckbox = ({
-    name,
-    syncData,
-    onKeyDown,
-    lastSyncedValue,
-}) => {
-    const { input, meta } = useField(name, {
-        type: 'checkbox',
-        subscription: { value: true, dirty: true, valid: true },
-    })
-
-    // todo: checking then unchecking the box will send a single unnecessary POST
-    const handleBlur = () => {
-        // For 'True only', can only send 'true' (or '1') or ''
-        const value = input.checked ? 'true' : ''
-        const { dirty, valid } = meta
-        if (dirty && valid && value !== lastSyncedValue) {
-            syncData(value)
-        }
-    }
-
-    return (
-        <div className={styles.checkboxWrapper} onKeyDown={onKeyDown}>
-            <Checkbox
-                dense
-                {...convertCallbackSignatures(input)}
-                onBlur={(e) => {
-                    handleBlur()
-                    input.onBlur(e)
-                }}
-            />
-        </div>
-    )
-}
-TrueOnlyCheckbox.propTypes = InputPropTypes
 
 // ? Will this fail to reflect a value on the server if it's not exactly `true` or `false`?
 // todo: may need to handle that when mapping server values to form initial values, e.g.
