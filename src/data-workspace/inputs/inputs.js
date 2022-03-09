@@ -13,14 +13,7 @@ import { useField, useForm } from 'react-final-form'
 import { useMetadata } from '../../metadata/index.js'
 import { getOptionSetById } from '../../metadata/selectors.js'
 import styles from './inputs.module.css'
-
-// Adapt UI components to Final Form's callbacks
-const convertCallbackSignatures = (props) => ({
-    ...props,
-    onChange: (_, e) => props.onChange(e),
-    onFocus: (_, e) => props.onFocus(e),
-    onBlur: (_, e) => props.onBlur(e),
-})
+import { convertCallbackSignatures } from './utils.js'
 
 export const withAdditionalProps = (Component, addlProps) => {
     return function InputWithAddlProps(props) {
@@ -71,34 +64,6 @@ BasicInput.propTypes = {
     ...InputPropTypes,
     inputType: PropTypes.string,
 }
-
-export const LongText = ({ name, syncData, onKeyDown, lastSyncedValue }) => {
-    const { input, meta } = useField(name, {
-        subscription: { value: true, dirty: true, valid: true },
-    })
-
-    const handleBlur = () => {
-        const { value } = input
-        const { dirty, valid } = meta
-        if (dirty && valid && value !== lastSyncedValue) {
-            syncData(value)
-        }
-    }
-
-    return (
-        <textarea
-            className={styles.longText}
-            rows="4"
-            {...input}
-            onBlur={(e) => {
-                handleBlur()
-                input.onBlur(e)
-            }}
-            onKeyDown={onKeyDown}
-        />
-    )
-}
-LongText.propTypes = InputPropTypes
 
 export const TrueOnlyCheckbox = ({
     name,
