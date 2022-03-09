@@ -17,7 +17,6 @@ import {
     time,
     // dateTime,
 } from '../data-entry-cell/validators.js'
-import { FileResourceInput, ImageInput } from '../inputs/file-inputs.js'
 import {
     BasicInput,
     TrueOnlyCheckbox,
@@ -25,7 +24,9 @@ import {
     OptionSet,
     withAdditionalProps,
     LongText,
-} from '../inputs/inputs.js'
+    FileResourceInput,
+    ImageInput,
+} from '../inputs/index.js'
 
 /** Use an OptionSet if relevant; else use input type below */
 export function getInputByDataElement(de) {
