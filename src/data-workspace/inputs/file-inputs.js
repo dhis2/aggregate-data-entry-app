@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
 import { useQuery } from 'react-query'
-import styles from './inputs.module.css'
 import {
     MUTATION_TYPES,
     useDataValueMutation,
-} from './use-data-value-mutation.js'
+} from '../data-entry-cell/use-data-value-mutation.js'
+import styles from './inputs.module.css'
 
 const formatFileSize = (size) => {
     return `${(size / 1024).toFixed(2)} KB`

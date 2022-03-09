@@ -5,15 +5,6 @@ import {
     internationalPhoneNumber,
     url,
 } from '@dhis2/ui-forms'
-import { FileResourceInput, ImageInput } from './file-inputs.js'
-import {
-    BasicInput,
-    TrueOnlyCheckbox,
-    BooleanRadios,
-    OptionSet,
-    withAdditionalProps,
-    LongText,
-} from './inputs.js'
 import {
     text,
     letter,
@@ -25,7 +16,16 @@ import {
     // date,
     time,
     // dateTime,
-} from './validators.js'
+} from '../data-entry-cell/validators.js'
+import { FileResourceInput, ImageInput } from '../inputs/file-inputs.js'
+import {
+    BasicInput,
+    TrueOnlyCheckbox,
+    BooleanRadios,
+    OptionSet,
+    withAdditionalProps,
+    LongText,
+} from '../inputs/inputs.js'
 
 /** Use an OptionSet if relevant; else use input type below */
 export function getInputByDataElement(de) {
