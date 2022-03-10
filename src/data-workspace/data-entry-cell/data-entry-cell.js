@@ -47,15 +47,14 @@ export const DataEntryCell = React.memo(function DataEntryCell({
 }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
-    const fieldName = `${de.id}.${coc.id}`
+    const fieldname = `${de.id}.${coc.id}`
     const { validate } = VALUE_TYPES[de.valueType]
-    const { meta } = useField(fieldName, {
+    const { meta } = useField(fieldname, {
         validate,
         subscription: {
             valid: true,
             initial: true,
             invalid: true,
-            error: true,
             active: true,
         },
     })
@@ -145,44 +144,33 @@ export const DataEntryCell = React.memo(function DataEntryCell({
 
     return (
         <td className={styles.dataEntryCell}>
-            <ValidationTooltip
-                invalid={meta.invalid}
-                error={meta.error}
-                active={meta.active}
-            >
-                {(tooltipProps) => (
-                    <div
-                        className={cx(
-                            styles.cellInnerWrapper,
-                            cellStateClassName,
-                            {
-                                [styles.active]: meta.active,
-                                [styles.disabled]: false, // todo
-                            }
-                        )}
-                        {...tooltipProps}
-                    >
-                        <Input
-                            name={fieldName}
-                            onKeyDown={onKeyDown}
-                            // disabled={true} (todo)
-                            // props for most inputs:
-                            syncData={syncData}
-                            dataElement={de}
-                            lastSyncedValue={lastSyncedValue}
-                            // props for file inputs, which use different mutations:
-                            getDataValueParams={getDataValueParams}
-                            setIsFileSynced={setIsFileSynced}
-                            setIsFileLoading={setIsFileLoading}
-                        />
-                        <SyncStatusIndicator
-                            isLoading={isLoading || isFileLoading}
-                            isSynced={isSynced}
-                        />
-                        {/* todo: show indicator if there is a comment */}
-                        <CommentIndicator isComment={false} />
-                    </div>
-                )}
+            <ValidationTooltip fieldname={fieldname}>
+                <div
+                    className={cx(styles.cellInnerWrapper, cellStateClassName, {
+                        [styles.active]: meta.active,
+                        [styles.disabled]: false, // todo
+                    })}
+                >
+                    <Input
+                        name={fieldname}
+                        onKeyDown={onKeyDown}
+                        // disabled={true} (todo)
+                        // props for most inputs:
+                        syncData={syncData}
+                        dataElement={de}
+                        lastSyncedValue={lastSyncedValue}
+                        // props for file inputs, which use different mutations:
+                        getDataValueParams={getDataValueParams}
+                        setIsFileSynced={setIsFileSynced}
+                        setIsFileLoading={setIsFileLoading}
+                    />
+                    <SyncStatusIndicator
+                        isLoading={isLoading || isFileLoading}
+                        isSynced={isSynced}
+                    />
+                    {/* todo: show indicator if there is a comment */}
+                    <CommentIndicator isComment={false} />
+                </div>
             </ValidationTooltip>
         </td>
     )
