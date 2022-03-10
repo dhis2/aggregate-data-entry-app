@@ -19,7 +19,6 @@ export const FileResourceInput = ({
     onKeyDown,
     image,
     getDataValueParams,
-    setIsFileLoading,
     setIsFileSynced,
 }) => {
     const { input, meta } = useField(name, {
@@ -55,7 +54,6 @@ export const FileResourceInput = ({
         input.onChange({ name: newFile.name, size: newFile.size })
         input.onBlur()
         if (newFile instanceof File) {
-            setIsFileLoading(true)
             setIsFileSynced(false)
             uploadFile(
                 {
@@ -64,7 +62,6 @@ export const FileResourceInput = ({
                 },
                 {
                     onSuccess: () => {
-                        setIsFileLoading(false)
                         setIsFileSynced(true)
                     },
                 }
@@ -76,10 +73,8 @@ export const FileResourceInput = ({
         input.onChange('')
         input.onBlur()
         setIsFileSynced(false)
-        setIsFileLoading(true)
         deleteFile(getDataValueParams(), {
             onSuccess: () => {
-                setIsFileLoading(false)
                 setIsFileSynced(true)
             },
         })
@@ -137,7 +132,6 @@ FileResourceInput.propTypes = {
     getDataValueParams: PropTypes.func,
     image: PropTypes.bool,
     name: PropTypes.string,
-    setIsFileLoading: PropTypes.func,
     setIsFileSynced: PropTypes.func,
     onKeyDown: PropTypes.func,
 }

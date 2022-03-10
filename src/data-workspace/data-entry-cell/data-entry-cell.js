@@ -34,7 +34,6 @@ export const DataEntryCell = React.memo(function DataEntryCell({
 
     // Some values for file inputs to handle:
     const [isFileSynced, setIsFileSynced] = useState(false)
-    const [isFileLoading, setIsFileLoading] = useState(false)
 
     const { mutate, isIdle, isLoading, isError } = useDataValueMutation()
     const [dataEntryContext] = useContextSelection()
@@ -96,7 +95,7 @@ export const DataEntryCell = React.memo(function DataEntryCell({
     const isFileInput =
         de.valueType === 'FILE_RESOURCE' || de.valueType === 'IMAGE'
     const isSynced = isFileInput
-        ? !isFileLoading && isFileSynced
+        ? isFileSynced
         : meta.valid && !isIdle && !isLoading && !isError
 
     const Input = getInputByDataElement(de)
@@ -115,7 +114,6 @@ export const DataEntryCell = React.memo(function DataEntryCell({
                         // props for file inputs, which use different mutations:
                         getDataValueParams={getDataValueParams}
                         setIsFileSynced={setIsFileSynced}
-                        setIsFileLoading={setIsFileLoading}
                     />
                 </InnerWrapper>
             </ValidationTooltip>
