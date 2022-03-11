@@ -3,7 +3,7 @@ import { useField } from 'react-final-form'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
-export const LongText = ({ name, syncData, onKeyDown, lastSyncedValue }) => {
+export const LongText = ({ name, syncData, lastSyncedValue }) => {
     const { input, meta } = useField(name, {
         subscription: { value: true, dirty: true, valid: true },
     })
@@ -25,7 +25,6 @@ export const LongText = ({ name, syncData, onKeyDown, lastSyncedValue }) => {
                 handleBlur()
                 input.onBlur(e)
             }}
-            onKeyDown={onKeyDown}
         />
     )
 }

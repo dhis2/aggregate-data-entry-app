@@ -16,7 +16,6 @@ const formatFileSize = (size) => {
 
 export const FileResourceInput = ({
     name,
-    onKeyDown,
     image,
     getDataValueParams,
     setIsFileSynced,
@@ -94,7 +93,7 @@ export const FileResourceInput = ({
     // todo: make file input button `secondary` style to match design spec
     // todo: make file summary a clickable link to view the file (focusable)
     return (
-        <div className={styles.fileInputWrapper} onKeyDown={onKeyDown}>
+        <div className={styles.fileInputWrapper}>
             {file ? (
                 <>
                     <IconAttachment16 color={colors.grey700} />
@@ -133,7 +132,6 @@ FileResourceInput.propTypes = {
     image: PropTypes.bool,
     name: PropTypes.string,
     setIsFileSynced: PropTypes.func,
-    onKeyDown: PropTypes.func,
 }
 
 export const ImageInput = (props) => {

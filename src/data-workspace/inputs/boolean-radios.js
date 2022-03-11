@@ -16,7 +16,6 @@ export const BooleanRadios = ({
     name,
     syncData,
     lastSyncedValue,
-    onKeyDown,
 }) => {
     const yesField = useField(name, {
         type: 'radio',
@@ -52,8 +51,6 @@ export const BooleanRadios = ({
     return (
         <div
             className={styles.radioFlexWrapper}
-            // Keydown for keyboard nav works nicely on wrapper
-            onKeyDown={onKeyDown}
         >
             <Radio
                 dense

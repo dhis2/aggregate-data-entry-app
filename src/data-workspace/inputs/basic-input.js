@@ -12,7 +12,6 @@ export const withAdditionalProps = (Component, addlProps) => {
 export const BasicInput = ({
     name,
     syncData,
-    onKeyDown,
     lastSyncedValue,
     inputType,
 }) => {
@@ -38,7 +37,6 @@ export const BasicInput = ({
                 handleBlur()
                 input.onBlur(e)
             }}
-            onKeyDown={onKeyDown}
         />
     )
 }

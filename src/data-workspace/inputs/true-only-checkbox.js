@@ -7,7 +7,6 @@ import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 export const TrueOnlyCheckbox = ({
     name,
     syncData,
-    onKeyDown,
     lastSyncedValue,
 }) => {
     const { input, meta } = useField(name, {
@@ -26,7 +25,7 @@ export const TrueOnlyCheckbox = ({
     }
 
     return (
-        <div className={styles.checkboxWrapper} onKeyDown={onKeyDown}>
+        <div className={styles.checkboxWrapper}>
             <Checkbox
                 dense
                 {...convertCallbackSignatures(input)}

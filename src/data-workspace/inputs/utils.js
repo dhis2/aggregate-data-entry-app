@@ -15,10 +15,8 @@ export const InputPropTypes = {
     name: PropTypes.string.isRequired,
     syncData: PropTypes.func.isRequired,
     lastSyncedValue: PropTypes.any,
-    onKeyDown: PropTypes.func,
 }
 
-// Hm, should this live with
 export const withAdditionalProps = (Component, addlProps) => {
     return function InputWithAddlProps(props) {
         return <Component {...props} {...addlProps} />

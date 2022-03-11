@@ -12,7 +12,6 @@ export const OptionSet = ({
     name,
     syncData,
     lastSyncedValue,
-    onKeyDown,
     dataElement,
 }) => {
     const { input } = useField(name, { subscription: { value: true } })
@@ -32,7 +31,7 @@ export const OptionSet = ({
     // todo: onBlur handler doesn't work, meaning the cell stays active.
     // may need to build from scratch
     return (
-        <div onKeyDown={onKeyDown} className={styles.selectFlexWrapper}>
+        <div className={styles.selectFlexWrapper}>
             <div className={styles.selectFlexItem}>
                 <SingleSelect
                     dense
