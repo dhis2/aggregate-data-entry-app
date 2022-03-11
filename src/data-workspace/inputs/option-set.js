@@ -12,7 +12,7 @@ export const OptionSet = ({
     name,
     syncData,
     lastSyncedValue,
-    dataElement,
+    optionSetId,
 }) => {
     const { input } = useField(name, { subscription: { value: true } })
     const { data: metadata } = useMetadata()
@@ -24,7 +24,7 @@ export const OptionSet = ({
         }
     }
 
-    const optionSet = getOptionSetById(metadata, dataElement.optionSet.id)
+    const optionSet = getOptionSetById(metadata, optionSetId)
     // filter out 'null' options
     const options = optionSet.options.filter((opt) => !!opt)
 
@@ -79,8 +79,5 @@ export const OptionSet = ({
 }
 OptionSet.propTypes = {
     ...InputPropTypes,
-    dataElement: PropTypes.shape({
-        optionSet: PropTypes.shape({ id: PropTypes.string }),
-        valueType: PropTypes.string,
-    }).isRequired,
+    optionSetId: PropTypes.string,
 }

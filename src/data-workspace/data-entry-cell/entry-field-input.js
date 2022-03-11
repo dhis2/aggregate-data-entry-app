@@ -71,8 +71,7 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
         return (
             <OptionSet
                 name={fieldname}
-                // todo: give this optionSetId instead
-                dataElement={de}
+                optionSetId={de.optionSet.id}
                 lastSyncedValue={lastSyncedValue}
                 syncData={syncData}
             />
@@ -101,6 +100,9 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
 EntryFieldInput.propTypes = {
     dataElement: PropTypes.shape({
         id: PropTypes.string,
+        optionSet: PropTypes.shape({
+            id: PropTypes.string,
+        }),
         optionSetValue: PropTypes.bool,
         valueType: PropTypes.string,
     }),
