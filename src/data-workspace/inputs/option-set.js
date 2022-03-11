@@ -9,12 +9,12 @@ import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
 export const OptionSet = ({
-    name,
+    fieldname,
     syncData,
     lastSyncedValue,
     optionSetId,
 }) => {
-    const { input } = useField(name, { subscription: { value: true } })
+    const { input } = useField(fieldname, { subscription: { value: true } })
     const { data: metadata } = useMetadata()
 
     const handleChange = (value) => {

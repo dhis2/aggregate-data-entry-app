@@ -64,13 +64,12 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
         )
     }
 
-    // todo: rename name to fieldname
     // ? Give all these dataValueParams?
     // ? Give all these syncStatus?
     if (de.optionSetValue) {
         return (
             <OptionSet
-                name={fieldname}
+                fieldname={fieldname}
                 optionSetId={de.optionSet.id}
                 lastSyncedValue={lastSyncedValue}
                 syncData={syncData}
@@ -79,7 +78,7 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
     } else if (de.valueType === 'FILE_RESOURCE' || de.valueType === 'IMAGE') {
         return (
             <FileResourceInput
-                name={fieldname}
+                fieldname={fieldname}
                 dataValueParams={dataValueParams}
                 setSyncStatus={setSyncStatus}
                 image={de.valueType === 'IMAGE'}
@@ -90,7 +89,7 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
         const Input = VALUE_TYPES[de.valueType].Input
         return (
             <Input
-                name={fieldname}
+                fieldname={fieldname}
                 syncData={syncData}
                 lastSyncedValue={lastSyncedValue}
             />

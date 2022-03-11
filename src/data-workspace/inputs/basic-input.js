@@ -10,12 +10,12 @@ export const withAdditionalProps = (Component, addlProps) => {
 }
 
 export const BasicInput = ({
-    name,
+    fieldname,
     syncData,
     lastSyncedValue,
     inputType,
 }) => {
-    const { input, meta } = useField(name, {
+    const { input, meta } = useField(fieldname, {
         // input type gets added to native `input` attributes:
         type: inputType,
         subscription: { value: true, dirty: true, valid: true },
@@ -41,7 +41,7 @@ export const BasicInput = ({
     )
 }
 export const InputPropTypes = {
-    name: PropTypes.string.isRequired,
+    fieldname: PropTypes.string.isRequired,
     syncData: PropTypes.func.isRequired,
     lastSyncedValue: PropTypes.any,
     onKeyDown: PropTypes.func,

@@ -15,12 +15,12 @@ const formatFileSize = (size) => {
 }
 
 export const FileResourceInput = ({
-    name,
+    fieldname,
     image,
     dataValueParams,
     setSyncStatus,
 }) => {
-    const { input, meta } = useField(name, {
+    const { input, meta } = useField(fieldname, {
         // todo: validate
         subscription: {
             value: true,
@@ -130,8 +130,8 @@ export const FileResourceInput = ({
 }
 FileResourceInput.propTypes = {
     dataValueParams: PropTypes.objectOf(PropTypes.string),
+    fieldname: PropTypes.string,
     image: PropTypes.bool,
-    name: PropTypes.string,
     setSyncStatus: PropTypes.func,
 }
 

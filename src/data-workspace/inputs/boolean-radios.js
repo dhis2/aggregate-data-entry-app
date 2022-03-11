@@ -13,28 +13,28 @@ import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 // Ex: if (dv.valueType === boolean) { formValue = dv.value ... etc }
 // does `isEqual` prop help make 1/true and 0/false/'' equal?
 export const BooleanRadios = ({
-    name,
+    fieldname,
     syncData,
     lastSyncedValue,
 }) => {
-    const yesField = useField(name, {
+    const yesField = useField(fieldname, {
         type: 'radio',
         value: 'true',
         subscription: { value: true },
     })
-    const noField = useField(name, {
+    const noField = useField(fieldname, {
         type: 'radio',
         value: 'false',
         subscription: { value: true },
     })
     // Used for the 'clear' button, but works
-    const clearField = useField(name, {
+    const clearField = useField(fieldname, {
         type: 'radio',
         value: '',
         subscription: { value: true },
     })
     const form = useForm()
-    const fieldState = form.getFieldState(name)
+    const fieldState = form.getFieldState(fieldname)
 
     const clearButtonProps = convertCallbackSignatures(clearField.input)
     delete clearButtonProps.type

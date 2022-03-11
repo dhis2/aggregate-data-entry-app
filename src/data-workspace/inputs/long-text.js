@@ -3,8 +3,8 @@ import { useField } from 'react-final-form'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
-export const LongText = ({ name, syncData, lastSyncedValue }) => {
-    const { input, meta } = useField(name, {
+export const LongText = ({ fieldname, syncData, lastSyncedValue }) => {
+    const { input, meta } = useField(fieldname, {
         subscription: { value: true, dirty: true, valid: true },
     })
 

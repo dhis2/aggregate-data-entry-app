@@ -5,11 +5,11 @@ import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
 export const TrueOnlyCheckbox = ({
-    name,
+    fieldname,
     syncData,
     lastSyncedValue,
 }) => {
-    const { input, meta } = useField(name, {
+    const { input, meta } = useField(fieldname, {
         type: 'checkbox',
         subscription: { value: true, dirty: true, valid: true },
     })
