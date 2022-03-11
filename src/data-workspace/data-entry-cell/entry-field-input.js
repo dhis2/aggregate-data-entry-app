@@ -6,8 +6,9 @@ import {
     getCategoryComboById,
     getDataSetById,
 } from '../../metadata/selectors.js'
+import { OptionSet, FileResourceInput } from '../inputs/index.js'
 import { useDataValueMutation } from './use-data-value-mutation.js'
-import { getInputByDataElement } from './value-types.js'
+import { VALUE_TYPES } from './value-types.js'
 
 const useDataValueParams = ({ deId, cocId }) => {
     const [dataEntryContext] = useContextSelection()
@@ -47,17 +48,13 @@ const useDataValueParams = ({ deId, cocId }) => {
     return dvParams
 }
 
-export function EntryFieldInput({
-    fieldname,
-    dataElement: de,
-    setSyncStatus,
-}) {
+export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
     const [deId, cocId] = fieldname.split('.')
     const [lastSyncedValue, setLastSyncedValue] = useState()
     const dataValueParams = useDataValueParams({ deId, cocId })
 
+    // todo: move into lower level components
     const { mutate } = useDataValueMutation()
-
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
@@ -67,25 +64,45 @@ export function EntryFieldInput({
         )
     }
 
-    const Input = getInputByDataElement(de)
-
-    return (
-        <Input
-            name={fieldname}
-            // disabled={true} (todo)
-            // props for most inputs:
-            syncData={syncData}
-            dataElement={de}
-            lastSyncedValue={lastSyncedValue}
-            // props for file inputs, which use different mutations:
-            dataValueParams={dataValueParams}
-            setSyncStatus={setSyncStatus}
-        />
-    )
+    // todo: rename name to fieldname
+    // ? Give all these dataValueParams?
+    // ? Give all these syncStatus?
+    if (de.optionSetValue) {
+        return (
+            <OptionSet
+                name={fieldname}
+                // todo: give this optionSetId instead
+                dataElement={de}
+                lastSyncedValue={lastSyncedValue}
+                syncData={syncData}
+            />
+        )
+    } else if (de.valueType === 'FILE_RESOURCE' || de.valueType === 'IMAGE') {
+        return (
+            <FileResourceInput
+                name={fieldname}
+                dataValueParams={dataValueParams}
+                setSyncStatus={setSyncStatus}
+                image={de.valueType === 'IMAGE'}
+            />
+        )
+    } else {
+        // todo: inputComponentByValueType
+        const Input = VALUE_TYPES[de.valueType].Input
+        return (
+            <Input
+                name={fieldname}
+                syncData={syncData}
+                lastSyncedValue={lastSyncedValue}
+            />
+        )
+    }
 }
 EntryFieldInput.propTypes = {
     dataElement: PropTypes.shape({
         id: PropTypes.string,
+        optionSetValue: PropTypes.bool,
+        valueType: PropTypes.string,
     }),
     fieldname: PropTypes.string,
     setSyncStatus: PropTypes.func,

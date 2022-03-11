@@ -21,21 +21,11 @@ import {
     BasicInput,
     TrueOnlyCheckbox,
     BooleanRadios,
-    OptionSet,
     withAdditionalProps,
     LongText,
     FileResourceInput,
     ImageInput,
 } from '../inputs/index.js'
-
-/** Use an OptionSet if relevant; else use input type below */
-export function getInputByDataElement(de) {
-    if (de.optionSetValue) {
-        return OptionSet
-    } else {
-        return VALUE_TYPES[de.valueType].Input
-    }
-}
 
 export const VALUE_TYPES = Object.freeze({
     TEXT: {
