@@ -50,17 +50,31 @@ const useDataValueParams = ({ deId, cocId }) => {
 
 export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
     const [deId, cocId] = fieldname.split('.')
-    const [lastSyncedValue, setLastSyncedValue] = useState()
     const dataValueParams = useDataValueParams({ deId, cocId })
 
     // todo: move into lower level components
+    // 1. Add dvParams to props in each
+    // a) here
+    // b) each file
+    // 2. Copy below into each non-file component:
+    // a) basic
+    // b) boolean
+    // c) long-text
+    // d) option-set
+    // e) true-only
+    const [lastSyncedValue, setLastSyncedValue] = useState()
     const { mutate } = useDataValueMutation()
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
             { ...dataValueParams, value: value || '' },
-            { onSuccess: () => setLastSyncedValue(value) }
+            {
+                onSuccess: () => {
+                    setLastSyncedValue(value)
+                    setSyncStatus({ syncing: false, synced: true })
+                },
+            }
         )
     }
 
@@ -73,6 +87,10 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
                 optionSetId={de.optionSet.id}
                 lastSyncedValue={lastSyncedValue}
                 syncData={syncData}
+                // todo:
+                dataValueParams={dataValueParams}
+                // todo:
+                setSyncStatus={setSyncStatus}
             />
         )
     } else if (de.valueType === 'FILE_RESOURCE' || de.valueType === 'IMAGE') {
@@ -92,6 +110,10 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
                 fieldname={fieldname}
                 syncData={syncData}
                 lastSyncedValue={lastSyncedValue}
+                // todo:}
+                dataValueParams={dataValueParams}
+                // todo:
+                setSyncStatus={setSyncStatus}
             />
         )
     }
