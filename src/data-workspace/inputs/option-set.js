@@ -1,21 +1,38 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, SingleSelect, SingleSelectOption } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import { useField } from 'react-final-form'
 import { useMetadata } from '../../metadata/index.js'
 import { getOptionSetById } from '../../metadata/selectors.js'
+import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
 export const OptionSet = ({
     fieldname,
-    syncData,
-    lastSyncedValue,
     optionSetId,
+    dataValueParams,
+    setSyncStatus,
 }) => {
     const { input } = useField(fieldname, { subscription: { value: true } })
     const { data: metadata } = useMetadata()
+
+    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const { mutate } = useDataValueMutation()
+    const syncData = (value) => {
+        // todo: Here's where an error state could be set: ('onError')
+        mutate(
+            // Empty values need an empty string
+            { ...dataValueParams, value: value || '' },
+            {
+                onSuccess: () => {
+                    setLastSyncedValue(value)
+                    setSyncStatus({ syncing: false, synced: true })
+                },
+            }
+        )
+    }
 
     const handleChange = (value) => {
         // For a select using onChange, don't need to check valid or dirty, respectively

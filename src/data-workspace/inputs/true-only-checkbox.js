@@ -1,18 +1,35 @@
 import { Checkbox } from '@dhis2/ui'
-import React from 'react'
+import React, { useState } from 'react'
 import { useField } from 'react-final-form'
+import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
 export const TrueOnlyCheckbox = ({
     fieldname,
-    syncData,
-    lastSyncedValue,
+    dataValueParams,
+    setSyncStatus,
 }) => {
     const { input, meta } = useField(fieldname, {
         type: 'checkbox',
         subscription: { value: true, dirty: true, valid: true },
     })
+
+    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const { mutate } = useDataValueMutation()
+    const syncData = (value) => {
+        // todo: Here's where an error state could be set: ('onError')
+        mutate(
+            // Empty values need an empty string
+            { ...dataValueParams, value: value || '' },
+            {
+                onSuccess: () => {
+                    setLastSyncedValue(value)
+                    setSyncStatus({ syncing: false, synced: true })
+                },
+            }
+        )
+    }
 
     // todo: checking then unchecking the box will send a single unnecessary POST
     const handleBlur = () => {

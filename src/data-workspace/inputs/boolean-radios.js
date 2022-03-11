@@ -1,8 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
-import React from 'react'
+import React, { useState } from 'react'
 import { useField, useForm } from 'react-final-form'
+import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
@@ -14,8 +15,8 @@ import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 // does `isEqual` prop help make 1/true and 0/false/'' equal?
 export const BooleanRadios = ({
     fieldname,
-    syncData,
-    lastSyncedValue,
+    dataValueParams,
+    setSyncStatus,
 }) => {
     const yesField = useField(fieldname, {
         type: 'radio',
@@ -34,6 +35,23 @@ export const BooleanRadios = ({
         subscription: { value: true },
     })
     const form = useForm()
+
+    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const { mutate } = useDataValueMutation()
+    const syncData = (value) => {
+        // todo: Here's where an error state could be set: ('onError')
+        mutate(
+            // Empty values need an empty string
+            { ...dataValueParams, value: value || '' },
+            {
+                onSuccess: () => {
+                    setLastSyncedValue(value)
+                    setSyncStatus({ syncing: false, synced: true })
+                },
+            }
+        )
+    }
+
     const fieldState = form.getFieldState(fieldname)
 
     const clearButtonProps = convertCallbackSignatures(clearField.input)
@@ -49,9 +67,7 @@ export const BooleanRadios = ({
     }
 
     return (
-        <div
-            className={styles.radioFlexWrapper}
-        >
+        <div className={styles.radioFlexWrapper}>
             <Radio
                 dense
                 label={i18n.t('Yes')}
