@@ -6,7 +6,14 @@ import {
     getCategoryComboById,
     getDataSetById,
 } from '../../metadata/selectors.js'
-import { OptionSet, FileResourceInput } from '../inputs/index.js'
+import {
+    BasicInput,
+    BooleanRadios,
+    FileResourceInput,
+    LongText,
+    OptionSet,
+    TrueOnlyCheckbox,
+} from '../inputs/index.js'
 import { VALUE_TYPES } from './value-types.js'
 
 const useDataValueParams = ({ deId, cocId }) => {
@@ -51,36 +58,32 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
     const [deId, cocId] = fieldname.split('.')
     const dataValueParams = useDataValueParams({ deId, cocId })
 
-    // ? Give all these dataValueParams?
-    // ? Give all these syncStatus?
+    const sharedProps = { fieldname, dataValueParams, setSyncStatus }
+
+    // If this is an option set, return OptionSet component
     if (de.optionSetValue) {
-        return (
-            <OptionSet
-                fieldname={fieldname}
-                optionSetId={de.optionSet.id}
-                dataValueParams={dataValueParams}
-                setSyncStatus={setSyncStatus}
-            />
-        )
-    } else if (de.valueType === 'FILE_RESOURCE' || de.valueType === 'IMAGE') {
-        return (
-            <FileResourceInput
-                fieldname={fieldname}
-                dataValueParams={dataValueParams}
-                setSyncStatus={setSyncStatus}
-                image={de.valueType === 'IMAGE'}
-            />
-        )
-    } else {
-        // todo: inputComponentByValueType
-        const Input = VALUE_TYPES[de.valueType].Input
-        return (
-            <Input
-                fieldname={fieldname}
-                dataValueParams={dataValueParams}
-                setSyncStatus={setSyncStatus}
-            />
-        )
+        return <OptionSet {...sharedProps} optionSetId={de.optionSet.id} />
+    }
+    // Otherwise, check for the valueType
+    switch (de.valueType) {
+        case VALUE_TYPES.BOOLEAN: {
+            return <BooleanRadios {...sharedProps} />
+        }
+        case VALUE_TYPES.FILE_RESOURCE: {
+            return <FileResourceInput {...sharedProps} />
+        }
+        case VALUE_TYPES.IMAGE: {
+            return <FileResourceInput {...sharedProps} image />
+        }
+        case VALUE_TYPES.LONG_TEXT: {
+            return <LongText {...sharedProps} />
+        }
+        case VALUE_TYPES.TRUE_ONLY: {
+            return <TrueOnlyCheckbox {...sharedProps} />
+        }
+        default: {
+            return <BasicInput {...sharedProps} valueType={de.valueType} />
+        }
     }
 }
 EntryFieldInput.propTypes = {
