@@ -48,15 +48,15 @@ const useDataValueParams = ({ deId, cocId }) => {
 }
 
 export function EntryFieldInput({
-    name: fieldname,
+    fieldname,
     dataElement: de,
-    categoryOptionCombo: coc,
-    setIsFileSynced,
+    setSyncStatus,
 }) {
+    const [deId, cocId] = fieldname.split('.')
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const dataValueParams = useDataValueParams({ deId: de.id, cocId: coc.id })
+    const dataValueParams = useDataValueParams({ deId, cocId })
 
-    const { mutate, isIdle, isLoading, isError } = useDataValueMutation()
+    const { mutate } = useDataValueMutation()
 
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -78,18 +78,15 @@ export function EntryFieldInput({
             dataElement={de}
             lastSyncedValue={lastSyncedValue}
             // props for file inputs, which use different mutations:
-            getDataValueParams={() => dataValueParams}
-            setIsFileSynced={setIsFileSynced}
+            dataValueParams={dataValueParams}
+            setSyncStatus={setSyncStatus}
         />
     )
 }
 EntryFieldInput.propTypes = {
-    categoryOptionCombo: PropTypes.shape({
-        id: PropTypes.string,
-    }),
     dataElement: PropTypes.shape({
         id: PropTypes.string,
     }),
-    name: PropTypes.string,
-    setIsFileSynced: PropTypes.func,
+    fieldname: PropTypes.string,
+    setSyncStatus: PropTypes.func,
 }

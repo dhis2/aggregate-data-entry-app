@@ -37,7 +37,7 @@ CommentIndicator.propTypes = { isComment: PropTypes.bool }
  * This inner wrapper provides styles and layout for the entry field based on
  * its various states
  */
-export function InnerWrapper({ children, fieldname, isSynced }) {
+export function InnerWrapper({ children, fieldname, syncStatus }) {
     const [deId, cocId] = fieldname.split('.')
     const {
         meta: { active, invalid },
@@ -59,10 +59,9 @@ export function InnerWrapper({ children, fieldname, isSynced }) {
         }
     }
 
-    // todo: refactor out isSynced
     const cellStateClassName = invalid
         ? styles.invalid
-        : isSynced
+        : activeMutations === 0 && syncStatus.synced
         ? styles.synced
         : null
 
@@ -77,7 +76,7 @@ export function InnerWrapper({ children, fieldname, isSynced }) {
             {children}
             <SyncStatusIndicator
                 isLoading={activeMutations > 0}
-                isSynced={isSynced}
+                isSynced={syncStatus.synced}
             />
             {/* todo: show indicator if there is a comment */}
             <CommentIndicator isComment={false} />
@@ -87,5 +86,8 @@ export function InnerWrapper({ children, fieldname, isSynced }) {
 InnerWrapper.propTypes = {
     children: PropTypes.node,
     fieldname: PropTypes.string,
-    isSynced: PropTypes.bool,
+    syncStatus: PropTypes.shape({
+        synced: PropTypes.bool,
+        syncing: PropTypes.bool,
+    }),
 }

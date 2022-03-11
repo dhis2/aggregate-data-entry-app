@@ -17,10 +17,11 @@ const formatFileSize = (size) => {
 export const FileResourceInput = ({
     name,
     image,
-    getDataValueParams,
-    setIsFileSynced,
+    dataValueParams,
+    setSyncStatus,
 }) => {
     const { input, meta } = useField(name, {
+        // todo: validate
         subscription: {
             value: true,
             pristine: true,
@@ -53,15 +54,15 @@ export const FileResourceInput = ({
         input.onChange({ name: newFile.name, size: newFile.size })
         input.onBlur()
         if (newFile instanceof File) {
-            setIsFileSynced(false)
+            setSyncStatus({ syncing: true, synced: false })
             uploadFile(
                 {
                     file: newFile,
-                    ...getDataValueParams(),
+                    ...dataValueParams,
                 },
                 {
                     onSuccess: () => {
-                        setIsFileSynced(true)
+                        setSyncStatus({ syncing: false, synced: true })
                     },
                 }
             )
@@ -71,10 +72,10 @@ export const FileResourceInput = ({
     const handleDelete = () => {
         input.onChange('')
         input.onBlur()
-        setIsFileSynced(false)
-        deleteFile(getDataValueParams(), {
+        setSyncStatus({ syncing: true, synced: false })
+        deleteFile(dataValueParams, {
             onSuccess: () => {
-                setIsFileSynced(true)
+                setSyncStatus({ syncing: false, synced: true })
             },
         })
     }
@@ -128,10 +129,10 @@ export const FileResourceInput = ({
     )
 }
 FileResourceInput.propTypes = {
-    getDataValueParams: PropTypes.func,
+    dataValueParams: PropTypes.objectOf(PropTypes.string),
     image: PropTypes.bool,
     name: PropTypes.string,
-    setIsFileSynced: PropTypes.func,
+    setSyncStatus: PropTypes.func,
 }
 
 export const ImageInput = (props) => {
