@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-02T15:26:35.734Z\n"
-"PO-Revision-Date: 2022-03-02T15:26:35.734Z\n"
+"POT-Creation-Date: 2022-03-14T13:52:57.180Z\n"
+"PO-Revision-Date: 2022-03-14T13:52:57.180Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -121,33 +121,6 @@ msgstr "Not implemented"
 msgid "This data set uses a custom form. Custom forms are not implemented yet."
 msgstr "This data set uses a custom form. Custom forms are not implemented yet."
 
-msgid "Delete"
-msgstr "Delete"
-
-msgid "Upload an image"
-msgstr "Upload an image"
-
-msgid "Upload a file"
-msgstr "Upload a file"
-
-msgid "Yes"
-msgstr "Yes"
-
-msgid "No"
-msgstr "No"
-
-msgid "Clear"
-msgstr "Clear"
-
-msgid "Choose an option"
-msgstr "Choose an option"
-
-msgid "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
-msgstr "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
-
-msgid "Please provide a valid time in the format HH{{c}}MM"
-msgstr "Please provide a valid time in the format HH{{c}}MM"
-
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
 
@@ -169,6 +142,33 @@ msgstr "Filter fields"
 
 msgid "Clear filter"
 msgstr "Clear filter"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Upload an image"
+msgstr "Upload an image"
+
+msgid "Upload a file"
+msgstr "Upload a file"
+
+msgid "Choose an option"
+msgstr "Choose an option"
+
+msgid "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
+msgstr "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
+
+msgid "Please provide a valid time in the format HH{{c}}MM"
+msgstr "Please provide a valid time in the format HH{{c}}MM"
 
 msgid "Type here to filter in this section"
 msgstr "Type here to filter in this section"
