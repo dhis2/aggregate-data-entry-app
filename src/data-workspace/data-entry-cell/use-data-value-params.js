@@ -23,7 +23,7 @@ export const useDataValueParams = ({ deId, cocId }) => {
         attributeComboId
     ).isDefault
 
-    const dvParams = {
+    const dataValueParams = {
         de: deId,
         co: cocId,
         ds: dataSetId,
@@ -36,9 +36,9 @@ export const useDataValueParams = ({ deId, cocId }) => {
         const attributeOptionIdList = Object.values(
             attributeOptionComboSelection
         ).join(';')
-        dvParams.cc = attributeComboId
-        dvParams.cp = attributeOptionIdList
+        dataValueParams.cc = attributeComboId
+        dataValueParams.cp = attributeOptionIdList
     }
 
-    return dvParams
+    return dataValueParams
 }
