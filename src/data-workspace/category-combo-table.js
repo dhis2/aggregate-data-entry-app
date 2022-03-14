@@ -17,7 +17,11 @@ import {
 } from '../metadata/selectors.js'
 import { cartesian } from '../shared/utils.js'
 import styles from './category-combo-table.module.css'
-import { DataEntryCell, useActiveCell } from './data-entry-cell/index.js'
+import {
+    DataEntryCell,
+    DataEntryField,
+    useActiveCell,
+} from './data-entry-cell/index.js'
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -163,11 +167,12 @@ export const CategoryComboTable = ({
                             {de.displayFormName}
                         </TableCell>
                         {sortedCOCs.map((coc) => (
-                            <DataEntryCell
-                                key={coc.id}
-                                dataElement={de}
-                                categoryOptionCombo={coc}
-                            />
+                            <DataEntryCell key={coc.id}>
+                                <DataEntryField
+                                    dataElement={de}
+                                    categoryOptionCombo={coc}
+                                />
+                            </DataEntryCell>
                         ))}
                         {renderPaddedCells.map((_, i) => (
                             <PaddingCell key={i} className={styles.tableCell} />
