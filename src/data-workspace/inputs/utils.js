@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import React from 'react'
 
 /**
  * Adapt UI components to Final Form's callbacks
@@ -15,10 +14,4 @@ export const InputPropTypes = {
     dataValueParams: PropTypes.objectOf(PropTypes.string),
     lastSyncedValue: PropTypes.any,
     setSyncStatus: PropTypes.func,
-}
-
-export const withAdditionalProps = (Component, addlProps) => {
-    return function InputWithAddlProps(props) {
-        return <Component {...props} {...addlProps} />
-    }
 }
