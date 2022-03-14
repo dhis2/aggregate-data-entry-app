@@ -1,11 +1,5 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useContextSelection } from '../../context-selection/index.js'
-import { useMetadata } from '../../metadata/index.js'
-import {
-    getCategoryComboById,
-    getDataSetById,
-} from '../../metadata/selectors.js'
 import {
     BasicInput,
     BooleanRadios,
@@ -14,45 +8,8 @@ import {
     OptionSet,
     TrueOnlyCheckbox,
 } from '../inputs/index.js'
+import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
-
-const useDataValueParams = ({ deId, cocId }) => {
-    const [dataEntryContext] = useContextSelection()
-    const metadataFetch = useMetadata()
-
-    if (metadataFetch.isLoading || metadataFetch.isError) {
-        return null
-    }
-
-    const { dataSetId, orgUnitId, periodId, attributeOptionComboSelection } =
-        dataEntryContext
-
-    const attributeComboId = getDataSetById(metadataFetch.data, dataSetId)
-        .categoryCombo.id
-    const isDefaultAttributeCombo = getCategoryComboById(
-        metadataFetch.data,
-        attributeComboId
-    ).isDefault
-
-    const dvParams = {
-        de: deId,
-        co: cocId,
-        ds: dataSetId,
-        ou: orgUnitId,
-        pe: periodId,
-    }
-    // Add attribute params to mutation if relevant
-    if (!isDefaultAttributeCombo) {
-        // Get a ';'-separated listed of attribute options
-        const attributeOptionIdList = Object.values(
-            attributeOptionComboSelection
-        ).join(';')
-        dvParams.cc = attributeComboId
-        dvParams.cp = attributeOptionIdList
-    }
-
-    return dvParams
-}
 
 export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
     const [deId, cocId] = fieldname.split('.')
