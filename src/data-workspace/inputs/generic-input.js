@@ -52,7 +52,7 @@ const htmlTypeAttrsByValueType = {
     [VALUE_TYPES.URL]: 'url',
 }
 
-export const BasicInput = ({
+export const GenericInput = ({
     fieldname,
     dataValueParams,
     setSyncStatus,
@@ -98,7 +98,7 @@ export const BasicInput = ({
         />
     )
 }
-BasicInput.propTypes = {
+GenericInput.propTypes = {
     ...InputPropTypes,
     inputType: PropTypes.string,
 }

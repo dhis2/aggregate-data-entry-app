@@ -1,4 +1,4 @@
-export * from './basic-input.js'
+export * from './generic-input.js'
 export * from './boolean-radios.js'
 export * from './file-inputs.js'
 export * from './long-text.js'

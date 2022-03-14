@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {
-    BasicInput,
+    GenericInput,
     BooleanRadios,
     FileResourceInput,
     LongText,
@@ -39,7 +39,7 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
             return <TrueOnlyCheckbox {...sharedProps} />
         }
         default: {
-            return <BasicInput {...sharedProps} valueType={de.valueType} />
+            return <GenericInput {...sharedProps} valueType={de.valueType} />
         }
     }
 }
