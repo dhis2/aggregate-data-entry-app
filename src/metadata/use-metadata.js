@@ -13,7 +13,8 @@ export const useMetadata = () => {
                 'dataSets:fields':
                     'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
                 'dataElements:fields':
-                    'id,displayFormName,categoryCombo,valueType',
+                    'id,displayFormName,categoryCombo,valueType,optionSetValue,optionSet',
+                'optionSets:fields': 'id,options[id,name,sortOrder]',
                 'sections:fields':
                     'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
                 'categoryCombos:fields':

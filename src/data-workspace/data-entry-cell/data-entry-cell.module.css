@@ -1,3 +1,8 @@
+.validationTooltip {
+    height: 100%;
+    width: 100%;
+}
+
 .dataEntryCell {
     padding: 0px;
     min-width: 100px;
@@ -12,41 +17,35 @@
 .cellInnerWrapper {
     width: 100%;
     height: 100%;
+    /* Make this a coordinate context for corner indicators */
     position: relative;
 }
-
-.input {
-    width: 100%;
-    height: 100%;
-    background: none;
-    border: none;
-    padding: 8px 16px 8px 8px;
-}
-.input:disabled {
-    background: var(--colors-grey300);
-}
-.input:hover:not(:disabled) {
+.cellInnerWrapper:hover:not(.disabled) {
     outline: 1px solid #a0adba;
 }
-.input:focus-visible {
+
+.active {
     outline: 3px solid var(--theme-focus) !important;
     border: none !important;
     background: #fff !important;
 }
 
-.inputInvalid:not(:focus-visible) {
-    background: var(--colors-red200);
-    border: 1px solid var(--colors-red600);
-    padding: 7px 15px 7px 7px; /* Account for red border width */
+.disabled {
+    background: var(--colors-grey300);
 }
-.inputInvalid:hover {
+
+.invalid:not(.active) {
+    background: var(--colors-red200);
+    outline: 1px solid var(--colors-red600) !important;
+}
+.invalid:hover {
     background: #ffb3bc;
 }
 
-.inputSynced {
+.synced {
     background: var(--colors-green050);
 }
-.inputSynced:hover {
+.synced:hover {
     background: #d8eeda;
 }
 

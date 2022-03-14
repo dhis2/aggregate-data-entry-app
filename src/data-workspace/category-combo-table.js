@@ -17,7 +17,11 @@ import {
 } from '../metadata/selectors.js'
 import { cartesian } from '../shared/utils.js'
 import styles from './category-combo-table.module.css'
-import { DataEntryCell, useActiveCell } from './data-entry-cell/index.js'
+import {
+    DataEntryCell,
+    DataEntryField,
+    useActiveCell,
+} from './data-entry-cell/index.js'
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -163,13 +167,12 @@ export const CategoryComboTable = ({
                             {de.displayFormName}
                         </TableCell>
                         {sortedCOCs.map((coc) => (
-                            // todo: may want to pass getDataValue into DataEntryCell
-                            // to access "Data Item Details" (comment, followup, name, etc)
-                            <DataEntryCell
-                                key={coc.id}
-                                dataElement={de}
-                                categoryOptionCombo={coc}
-                            />
+                            <DataEntryCell key={coc.id}>
+                                <DataEntryField
+                                    dataElement={de}
+                                    categoryOptionCombo={coc}
+                                />
+                            </DataEntryCell>
                         ))}
                         {renderPaddedCells.map((_, i) => (
                             <PaddingCell key={i} className={styles.tableCell} />
@@ -178,8 +181,11 @@ export const CategoryComboTable = ({
                 )
             })}
             {itemsHiddenCnt > 0 && (
-                <TableRow className={styles.hiddenByFilterRow}>
-                    <TableCell className="hiddenByFilterCell">
+                <TableRow>
+                    <TableCell
+                        className={styles.hiddenByFilterCell}
+                        colSpan="100%"
+                    >
                         {itemsHiddenCnt === 1
                             ? i18n.t('1 item hidden by filter')
                             : i18n.t('{{count}} items hidden by filter', {

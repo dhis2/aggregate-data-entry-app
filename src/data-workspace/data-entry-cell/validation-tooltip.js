@@ -1,6 +1,8 @@
 import { Tooltip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { useField } from 'react-final-form'
+import styles from './data-entry-cell.module.css'
 
 /**
  * These components adapt the UI Tooltip component to be used for the
@@ -26,33 +28,43 @@ const TooltipManager = React.forwardRef(function TooltipManager(
     }, [invalid, active])
 
     // Only open the tooltip if the cell is invalid
-    const onMouseOver = () => {
+    const handleMouseOver = () => {
         if (invalid) {
             open()
         }
     }
     // Close on mouseout if invalid cell is not active
-    const onMouseOut = () => {
+    const handleMouseOut = () => {
         if (invalid && !active) {
             close()
         }
     }
 
-    return children({
-        onMouseOver,
-        onMouseOut,
-        ref,
-    })
+    return (
+        <div
+            className={styles.validationTooltip}
+            ref={ref}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+        >
+            {children}
+        </div>
+    )
 })
 TooltipManager.propTypes = {
     active: PropTypes.bool,
-    children: PropTypes.func,
+    children: PropTypes.node,
     invalid: PropTypes.bool,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
 }
 
-export const ValidationTooltip = ({ active, children, error, invalid }) => {
+export const ValidationTooltip = ({ children, fieldname }) => {
+    const {
+        meta: { invalid, error, active },
+    } = useField(fieldname, {
+        subscription: { invalid: true, error: true, active: true },
+    })
     const [content, setContent] = React.useState(error)
 
     // Keep tooltip content even when `error` is undefined so tooltip still has
@@ -74,8 +86,6 @@ export const ValidationTooltip = ({ active, children, error, invalid }) => {
     )
 }
 ValidationTooltip.propTypes = {
-    active: PropTypes.bool,
-    children: PropTypes.func,
-    error: PropTypes.string,
-    invalid: PropTypes.bool,
+    children: PropTypes.node,
+    fieldname: PropTypes.string,
 }

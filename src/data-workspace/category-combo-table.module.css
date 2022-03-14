@@ -1,9 +1,13 @@
-.border {
+.cellBase {
     border: 1px solid var(--colors-grey400) !important;
+    padding: 8px !important;
+    height: auto !important;
+    font-size: 13px !important;
+    line-height: 15px !important; 
 }
 
 .tableHeader {
-    composes: border;
+    composes: cellBase;
     background-color: var(--colors-grey200);
     font-weight: 500;
 }
@@ -15,7 +19,7 @@
 }
 
 .dataElementName {
-    composes: border;
+    composes: cellBase;
     min-width: 240px;
     max-width: 350px;
 }
@@ -25,12 +29,13 @@
 }
 
 .tableCell {
-    composes: border;
+    composes: cellBase;
     min-width: 100px;
 }
 
-.hiddenByFilterRow {
+.hiddenByFilterCell {
     color: var(--colors-grey600);
+    composes: cellBase;
 }
 
 .table td {
