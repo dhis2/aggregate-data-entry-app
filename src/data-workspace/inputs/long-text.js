@@ -4,11 +4,7 @@ import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
-export const LongText = ({
-    fieldname,
-    dataValueParams,
-    setSyncStatus,
-}) => {
+export const LongText = ({ fieldname, dataValueParams, setSyncStatus }) => {
     const { input, meta } = useField(fieldname, {
         subscription: { value: true, dirty: true, valid: true },
     })

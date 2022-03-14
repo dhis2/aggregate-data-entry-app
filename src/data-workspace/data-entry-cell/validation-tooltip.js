@@ -60,7 +60,9 @@ TooltipManager.propTypes = {
 }
 
 export const ValidationTooltip = ({ children, fieldname }) => {
-    const { meta: { invalid, error, active } } = useField(fieldname, {
+    const {
+        meta: { invalid, error, active },
+    } = useField(fieldname, {
         subscription: { invalid: true, error: true, active: true },
     })
     const [content, setContent] = React.useState(error)

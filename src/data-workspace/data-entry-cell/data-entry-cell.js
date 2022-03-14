@@ -12,7 +12,10 @@ export const DataEntryCell = React.memo(function DataEntryCell({
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldname = `${de.id}.${coc.id}`
-    const [syncStatus, setSyncStatus] = useState({ syncing: false, synced: false })
+    const [syncStatus, setSyncStatus] = useState({
+        syncing: false,
+        synced: false,
+    })
 
     // todo: get data details (via getDataValue?)
     // todo: implement read-only cells
