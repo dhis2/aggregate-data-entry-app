@@ -106,12 +106,6 @@ msgstr "1 item hidden by filter"
 msgid "Totals"
 msgstr "Totals"
 
-msgid "Not implemented"
-msgstr "Not implemented"
-
-msgid "This data set uses a custom form. Custom forms are not implemented yet."
-msgstr "This data set uses a custom form. Custom forms are not implemented yet."
-
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
 
