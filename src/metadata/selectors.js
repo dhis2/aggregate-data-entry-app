@@ -24,13 +24,17 @@ export const getDataElements = (metadata) => metadata.dataElements
 export const getDataSets = (metadata) => metadata.dataSets
 export const getSections = (metadata) => metadata.sections
 export const getOptionSets = (metadata) => metadata.optionSets
-
 // Select by id
 
 export const getCategoryById = (metadata, id) => getCategories(metadata)[id]
 export const getOptionSetById = (metadata, id) => getOptionSets(metadata)[id]
-export const getSectionById = (metadata, id) => getSections(metadata)[id]
 export const getDataSetById = (metadata, id) => getDataSets(metadata)?.[id]
+
+export const getSectionsByDataSetId = (metadata, dataSetId) => {
+    const dataSetSections = getDataSetById(metadata, dataSetId)?.sections
+    return dataSetSections ?? []
+}
+
 export const getCategoryComboById = (metadata, id) =>
     getCategoryCombos(metadata)[id]
 
@@ -43,6 +47,19 @@ export const getCategoryComboById = (metadata, id) =>
  * Selectors where a cache size of 1 is sufficient should be memoized with reselect,
  * selectors that should have a cache per parameter (say an id) should use re-reselect.
  */
+
+//(metadata, dataSetId, sectionId) => getSectionsByData
+
+/**
+ * @param {*} metadata
+ * @param {string} dataSetId
+ * @param {string} sectionId
+ */
+export const getSection = createCachedSelector(
+    getSectionsByDataSetId,
+    (_, __, sectionId) => sectionId,
+    (sections, sectionId) => sections.find((s) => s.id === sectionId)
+)((_, dataSetId, sectionId) => `${dataSetId}:${sectionId}`)
 
 /**
  * @param {*} metadata
@@ -115,7 +132,7 @@ export const getDataElementsByDataSetId = createCachedSelector(
  * @param {*} sectionId
  */
 export const getDataElementsBySection = createCachedSelector(
-    (metadata, _, sectionId) => getSectionById(metadata, sectionId),
+    getSection,
     getDataElementsByDataSetId,
     (section, dataElements) =>
         section.dataElements.map((id) =>

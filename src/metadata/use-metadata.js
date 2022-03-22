@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { hashArraysInObject } from './utils.js'
 
 export const useMetadata = () => {
-    const queryKey = [
+    const metadataQueryKey = [
         'metadata',
         {
             params: {
@@ -27,6 +27,8 @@ export const useMetadata = () => {
             },
         },
     ]
+
+    const queryKey = [`dataSetMetadata`]
 
     return useQuery(queryKey, {
         select: (data) => hashArraysInObject(data),
