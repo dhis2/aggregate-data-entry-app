@@ -1,27 +1,30 @@
+import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { hashArraysInObject } from './utils.js'
+
+const simpleQueryResultKeys = [
+    'error',
+    'errorUpdatedAt',
+    'isError',
+    'isFetched',
+    'isFetchedAfterMount',
+    'isFetching',
+    'isIdle',
+    'isLoading',
+    'isLoadingError',
+    'isPlaceholderData',
+    'isPreviousData',
+    'isRefetchError',
+    'isRefetching',
+    'isStale',
+    'isSuccess',
+]
 
 export const useMetadata = () => {
     const metadataQueryKey = [
         'metadata',
         {
             params: {
-                // Note: on dataSet.dataSetElement, the categoryCombo property is
-                // included because it can mean it's overriding the data element's
-                // native categoryCombo. It can sometimes be absent from the data
-                // set element
-                'dataSets:fields':
-                    'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
-                'dataElements:fields':
-                    'id,displayFormName,categoryCombo,valueType,optionSetValue,optionSet',
-                'optionSets:fields': 'id,options[id,name,sortOrder]',
-                'sections:fields':
-                    'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
-                'categoryCombos:fields':
-                    'id,skipTotal,categories~pluck,categoryOptionCombos~pluck,isDefault',
-                'categories:fields': 'id,displayFormName,categoryOptions~pluck',
-                'categoryOptions:fields':
-                    'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
                 'categoryOptionCombos:fields':
                     'id,categoryOptions~pluck,categoryCombo,name',
             },
@@ -30,7 +33,55 @@ export const useMetadata = () => {
 
     const queryKey = [`dataSetMetadata`]
 
-    return useQuery(queryKey, {
+    const metadataQuery = useQuery(queryKey, {
         select: (data) => hashArraysInObject(data),
     })
+
+    // We need a seperate categoryOptionsCombo query for attributeOptionCombos
+    // These are deliberately not included in /dataSetMetadata
+    // since this set can grow so large.
+    // This can be removed once the /dataValueSets API supports sending
+    // categoryOptions and categoryCombo instead of the attributeOptionCombo
+    // These are only used to find the selected attributeOptionCombo
+    // Other categoryOptionCombos (used for data-values) are included under `categoryCombo.categoryOptionCombos`
+    const categoryOptionsCombosQuery = useQuery(metadataQueryKey)
+
+    const mergedQueries = useMemo(() => {
+        const mergedSimpleProps = simpleQueryResultKeys.reduce(
+            ({ acc, currKey }) => {
+                acc[currKey] =
+                    metadataQuery[currKey] || categoryOptionsCombosQuery
+            },
+            {}
+        )
+
+        let data = undefined
+        if (metadataQuery.data && categoryOptionsCombosQuery.data) {
+            data = {
+                ...metadataQuery,
+                attributeOptionCombos: categoryOptionsCombosQuery.data,
+            }
+        }
+
+        return {
+            ...categoryOptionsCombosQuery,
+            ...metadataQuery,
+            mergedSimpleProps,
+            data,
+            failureCount: Math.max(
+                metadataQuery.failureCount,
+                categoryOptionsCombosQuery.failureCount
+            ),
+            refetch: (refetchOpts) => {
+                metadataQuery.refetch(refetchOpts)
+                categoryOptionsCombosQuery.refetch(refetchOpts)
+            },
+            remove: () => {
+                metadataQuery.remove()
+                categoryOptionsCombosQuery.remove()
+            },
+        }
+    }, [categoryOptionsCombosQuery, metadataQuery])
+
+    return mergedQueries
 }

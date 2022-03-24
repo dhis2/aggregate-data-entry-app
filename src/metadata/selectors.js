@@ -38,6 +38,11 @@ export const getSectionsByDataSetId = (metadata, dataSetId) => {
 export const getCategoryComboById = (metadata, id) =>
     getCategoryCombos(metadata)[id]
 
+export const getCategoryOptionCombosByCategoryComboId = (
+    metadata,
+    categoryComboId
+) => getCategoryComboById(metadata, categoryComboId)?.categoryOptionCombos
+
 /**
  * Memoized selectors
  * To clarify why some selectors are memoized and some aren't: only transformations
@@ -87,7 +92,7 @@ export const getCategoryOptionsByCategoryId = createCachedSelector(
  * @param {*} metadata
  * @param {*} categoryComboId
  */
-export const getCategoryOptionCombosByCategoryComboId = createCachedSelector(
+export const getAttributeOptionCombosByCategoryComboId = createCachedSelector(
     getCategoryComboById,
     getCategoryOptionCombos,
     (categoryCombo, categoryOptionCombos) =>
@@ -95,7 +100,6 @@ export const getCategoryOptionCombosByCategoryComboId = createCachedSelector(
             (id) => categoryOptionCombos[id]
         )
 )((_, categoryComboId) => categoryComboId)
-
 /**
  * The categoryCombo for a dataElement can be overriden per dataSet. This selector
  * will apply that override.
@@ -141,11 +145,12 @@ export const getDataElementsBySection = createCachedSelector(
 )((_, dataSetId, sectionId) => `${dataSetId}:${sectionId}`)
 
 /**
- * Returns an array of objects with dataElements and their associated categoryCombos. They
- * are grouped by categoryComboId, every time the categoryComboId changes a new group is
- * created.
+ * Returns an array of objects with dataElements and their associated categoryCombos.
+ * This keeps the defined dataElement order given, and groups neighbouring elements with the
+ * same categoryCombo in the same group. This is used in form-sections
+ * when `section.disableDataElementAutoGroup`is true
  * @param {*} metadata
- * @param {*} dataElements
+ * @param {*} dataElements - a list of dataElement -objects (result of )
  */
 export const getGroupedDataElementsByCatComboInOrder = createSelector(
     (_, dataElements) => dataElements,
