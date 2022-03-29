@@ -1,87 +1,31 @@
-import { useMemo } from 'react'
 import { useQuery } from 'react-query'
+import { createSelector } from 'reselect'
 import { hashArraysInObject } from './utils.js'
 
-const simpleQueryResultKeys = [
-    'error',
-    'errorUpdatedAt',
-    'isError',
-    'isFetched',
-    'isFetchedAfterMount',
-    'isFetching',
-    'isIdle',
-    'isLoading',
-    'isLoadingError',
-    'isPlaceholderData',
-    'isPreviousData',
-    'isRefetchError',
-    'isRefetching',
-    'isStale',
-    'isSuccess',
-]
+const selectorFunction = createSelector(
+    (data) => data,
+    (data) => {
+        // bug in API includes duplicate "default"-catCombo
+        // one has categoryOptionCombos, and the other is missing properties
+        // delete the one that is missing properties, so we ensure that the correct one is used
+        console.log('selector run')
+        const filtered = data.categoryCombos.filter(
+            (cc) => !(cc.isDefault && !cc.categoryOptionCombos)
+        )
+        const filteredData = { ...data, categoryCombos: filtered }
+
+        return hashArraysInObject(filteredData)
+    }
+)
+
+const queryOpts = {
+    refetchOnMount: false,
+    select: selectorFunction,
+    //staleTime: 1000 * 60 * 60 * 24,
+}
+const queryKey = [`dataSetMetadata`]
 
 export const useMetadata = () => {
-    const metadataQueryKey = [
-        'metadata',
-        {
-            params: {
-                'categoryOptionCombos:fields':
-                    'id,categoryOptions~pluck,categoryCombo,name',
-            },
-        },
-    ]
-
-    const queryKey = [`dataSetMetadata`]
-
-    const metadataQuery = useQuery(queryKey, {
-        select: (data) => hashArraysInObject(data),
-    })
-
-    // We need a seperate categoryOptionsCombo query for attributeOptionCombos
-    // These are deliberately not included in /dataSetMetadata
-    // since this set can grow so large.
-    // This can be removed once the /dataValueSets API supports sending
-    // categoryOptions and categoryCombo instead of the attributeOptionCombo
-    // These are only used to find the selected attributeOptionCombo
-    // Other categoryOptionCombos (used for data-values) are included under `categoryCombo.categoryOptionCombos`
-    const categoryOptionsCombosQuery = useQuery(metadataQueryKey)
-
-    const mergedQueries = useMemo(() => {
-        const mergedSimpleProps = simpleQueryResultKeys.reduce(
-            ({ acc, currKey }) => {
-                acc[currKey] =
-                    metadataQuery[currKey] || categoryOptionsCombosQuery
-            },
-            {}
-        )
-
-        let data = undefined
-        if (metadataQuery.data && categoryOptionsCombosQuery.data) {
-            data = {
-                ...metadataQuery,
-                attributeOptionCombos: categoryOptionsCombosQuery.data,
-            }
-        }
-
-        return {
-            ...categoryOptionsCombosQuery,
-            ...metadataQuery,
-            mergedSimpleProps,
-            data,
-            failureCount: Math.max(
-                metadataQuery.failureCount,
-                categoryOptionsCombosQuery.failureCount
-            ),
-            refetch: (refetchOpts) => {
-                metadataQuery.refetch(refetchOpts)
-                categoryOptionsCombosQuery.refetch(refetchOpts)
-            },
-            remove: () => {
-                metadataQuery.remove()
-                categoryOptionsCombosQuery.remove()
-            },
-        }
-    }, [categoryOptionsCombosQuery, metadataQuery])
-
-    return mergedQueries
+    const metadataQuery = useQuery(queryKey, queryOpts)
+    return metadataQuery
 }

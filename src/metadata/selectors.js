@@ -38,10 +38,21 @@ export const getSectionsByDataSetId = (metadata, dataSetId) => {
 export const getCategoryComboById = (metadata, id) =>
     getCategoryCombos(metadata)[id]
 
+/**
+ *
+ * @param {*} metadata
+ * @param {*} categoryComboId
+ * @returns categoryOptionCombos in catCombo. Returns null if catCombo with given id does not exist.
+ * Returns undefined if catCombo is missing categoryOptionCombos-property, which should indicate that
+ * catCombo is default.
+ */
 export const getCategoryOptionCombosByCategoryComboId = (
     metadata,
     categoryComboId
-) => getCategoryComboById(metadata, categoryComboId)?.categoryOptionCombos
+) => {
+    const catCombo = getCategoryComboById(metadata, categoryComboId)
+    return catCombo ? catCombo.categoryOptionCombos : null
+}
 
 /**
  * Memoized selectors
@@ -181,7 +192,7 @@ export const getGroupedDataElementsByCatComboInOrder = createSelector(
 /**
  * Returns an array of objects with dataElements and their associated categoryCombos. Unlike
  * getGroupedDataElementsByCatComboInOrder, this selector will group all dataElements with the
- * same categoryComboId together.
+ * same categoryComboId together, ignoring dataElement-order.
  * @param {*} metadata
  * @param {*} dataElements
  */
@@ -191,7 +202,6 @@ export const getGroupedDataElementsByCatCombo = createSelector(
     (dataElements, categoryCombos) => {
         // Group dataElements by their categoryCombo id
         const grouped = groupBy(dataElements, (de) => de.categoryCombo.id)
-
         // Map to an array and include the associated categoryCombo
         return Object.entries(grouped).map(
             ([categoryComboId, dataElements]) => ({
@@ -233,3 +243,28 @@ export const getCoCByCategoryOptions = createCachedSelector(
         return null
     }
 )((_, categoryComboId) => categoryComboId)
+
+export const findAoCByCategoryOptions = createSelector(
+    (attributeCoCs) => attributeCoCs,
+    (_, categoryComboId) => categoryComboId,
+    (_, __, categoryOptionIds) => categoryOptionIds,
+    (attributeCoCs, categoryComboId, categoryOptionIds) => {
+        for (const coc of attributeCoCs) {
+            const currentIds = coc.categoryOptions
+            const sameLength = categoryOptionIds.length === currentIds.length
+            const sameIds = categoryOptionIds.every((id) =>
+                currentIds.includes(id)
+            )
+
+            if (sameLength && sameIds) {
+                return coc
+            }
+        }
+
+        console.warn(
+            `Could not find attributeOptionCombo for catCombo ${categoryComboId}, with options: ${categoryOptionIds.join()}`
+        )
+
+        return null
+    }
+)
