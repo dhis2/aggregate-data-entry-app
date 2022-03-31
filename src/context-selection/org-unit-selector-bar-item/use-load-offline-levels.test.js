@@ -34,6 +34,8 @@ describe('useLoadOfflineLevels', () => {
             { offlineLevels: 1, id: 'bar' },
         ],
     }
+
+    useOrganisationUnitLevels.mockImplementation(() => ({}))
     useOfflineLevelsToLoad.mockImplementation(() => offlineLevelToLoad)
 
     afterEach(() => {
@@ -45,6 +47,7 @@ describe('useLoadOfflineLevels', () => {
     it('should call "loadOfflineLevel" for each offline level to load', async () => {
         const { result, waitForNextUpdate } = renderHook(useLoadOfflineLevels)
 
+        expect(result.current).toBe(false)
         await waitForNextUpdate()
 
         expect(loadOfflineLevel).toHaveBeenCalledTimes(2)
@@ -59,10 +62,6 @@ describe('useLoadOfflineLevels', () => {
             id: 'bar',
         })
 
-        expect(result.current).toEqual({
-            loading: false,
-            error: undefined,
-            data: true,
-        })
+        expect(result.current).toBe(true)
     })
 })

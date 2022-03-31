@@ -13,18 +13,18 @@ export default function getOfflineLevelsToLoad({
     organisationUnitLevels,
     userOrganisationUnits,
 }) {
-    return userOrganisationUnits.reduce((acc, userOrgUnit) => {
-        const foundLevel = organisationUnitLevels.find(
-            (orgUnitLevel) => orgUnitLevel.level === userOrgUnit.level
-        )
+    return userOrganisationUnits
+        .map((userOrgUnit) => {
+            const foundLevel = organisationUnitLevels.find(
+                (orgUnitLevel) => orgUnitLevel.level === userOrgUnit.level
+            )
 
-        if (!foundLevel) {
-            return acc
-        }
-
-        return [
-            ...acc,
-            { id: userOrgUnit.id, offlineLevels: foundLevel.offlineLevels },
-        ]
-    }, [])
+            if (foundLevel) {
+                return {
+                    id: userOrgUnit.id,
+                    offlineLevels: foundLevel.offlineLevels,
+                }
+            }
+        })
+        .filter((value) => !!value)
 }
