@@ -43,8 +43,8 @@ export const getCategoryComboById = (metadata, id) =>
  * @param {*} metadata
  * @param {*} categoryComboId
  * @returns categoryOptionCombos in catCombo. Returns null if catCombo with given id does not exist.
- * Returns undefined if catCombo is missing categoryOptionCombos-property, which should indicate that
- * catCombo is default.
+ * Returns undefined if catCombo is missing categoryOptionCombos-property, which may happen if
+ * categoryCombo is an 'ATTRIBUTE'-combo.
  */
 export const getCategoryOptionCombosByCategoryComboId = (
     metadata,
@@ -192,7 +192,7 @@ export const getGroupedDataElementsByCatComboInOrder = createSelector(
 /**
  * Returns an array of objects with dataElements and their associated categoryCombos. Unlike
  * getGroupedDataElementsByCatComboInOrder, this selector will group all dataElements with the
- * same categoryComboId together, ignoring dataElement-order.
+ * same categoryComboId together.
  * @param {*} metadata
  * @param {*} dataElements
  */
@@ -202,6 +202,7 @@ export const getGroupedDataElementsByCatCombo = createSelector(
     (dataElements, categoryCombos) => {
         // Group dataElements by their categoryCombo id
         const grouped = groupBy(dataElements, (de) => de.categoryCombo.id)
+
         // Map to an array and include the associated categoryCombo
         return Object.entries(grouped).map(
             ([categoryComboId, dataElements]) => ({

@@ -38,7 +38,7 @@ export const SectionFormSection = ({ section, globalFilterText }) => {
 
     const maxColumnsInSection = Math.max(
         ...groupedDataElements.map(
-            (grp) => grp.categoryCombo.categoryOptionCombos.length
+            (grp) => grp.categoryCombo.categoryOptionCombos?.length || 1
         )
     )
     const filterInputId = `filter-input-${section.id}`
