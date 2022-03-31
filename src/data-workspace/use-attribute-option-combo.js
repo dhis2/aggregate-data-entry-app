@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import { useContextSelection } from '../context-selection/index.js'
 import { useMetadata, useAttributeMetadata } from '../metadata/index.js'
 import {
-    getCoCByCategoryOptions,
     getDataSetById,
     getCategoryComboById,
     findAoCByCategoryOptions,
