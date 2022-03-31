@@ -32,13 +32,15 @@ export default async function loadOfflineLevel({
     const { children: childrenSize } = orgData.orgUnit
     const nextOfflineLevels = offlineLevels - 1
 
-    let children
-    if (childrenSize) {
-        const orgChildren = await dataEngine.query(QUERY_ORG_CHILDREN_FROM_UI, {
-            variables,
-        })
-        children = orgChildren.orgUnit.children
+    if (!childrenSize) {
+        return
     }
+
+    const orgChildren = await dataEngine.query(QUERY_ORG_CHILDREN_FROM_UI, {
+        variables,
+    })
+
+    const children = orgChildren.orgUnit.children
 
     if (
         children &&

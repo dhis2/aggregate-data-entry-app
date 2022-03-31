@@ -12,14 +12,12 @@ export default function useOfflineLevelsToLoad(organisationUnitLevels) {
     ]
 
     return useQuery(queryKey, {
-        enable:
-            organisationUnitLevels.data &&
-            // Only fetch the user's org units when there are any offline levels
-            organisationUnitLevels.data.length,
+        // Only fetch the user's org units when there are any offline levels
+        enable: organisationUnitLevels?.length,
         select: ({ organisationUnits: userOrganisationUnits }) => {
             return getOfflineLevelsToLoad({
                 userOrganisationUnits,
-                organisationUnitLevels: organisationUnitLevels.data,
+                organisationUnitLevels,
             })
         },
     })
