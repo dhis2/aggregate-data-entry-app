@@ -185,11 +185,8 @@ describe('complex selectors that select by id', () => {
             const data = {
                 categoryCombos: {
                     [categoryComboId]: {
-                        categoryOptionCombos: [categoryOptionCombo.id],
+                        categoryOptionCombos: [categoryOptionCombo],
                     },
-                },
-                categoryOptionCombos: {
-                    [categoryOptionCombo.id]: categoryOptionCombo,
                 },
             }
 
@@ -206,7 +203,7 @@ describe('complex selectors that select by id', () => {
 
             expect(
                 getCategoryOptionCombosByCategoryComboId(data, categoryComboId)
-            ).toBeUndefined()
+            ).toBeNull()
         })
     })
 
@@ -328,10 +325,8 @@ describe('complex selectors that select by id', () => {
                 dataSets: {
                     [dataSetId]: {
                         dataSetElements: [dataSetElement],
+                        sections: [section],
                     },
-                },
-                sections: {
-                    [sectionId]: section,
                 },
             }
 
@@ -416,16 +411,25 @@ describe('getCoCByCategoryOptions', () => {
     it('returns the expected categoryOptionCombo when ids are in the same order', () => {
         const categoryComboId = 'categoryComboId'
         const categoryOptionIds = ['one', 'two']
-        const expected = { categoryOptions: categoryOptionIds }
+        const expected = {
+            id: 'cocId',
+            categoryOptions: ['one', 'two'],
+        }
 
         const data = {
             categoryCombos: {
                 [categoryComboId]: {
-                    categoryOptionCombos: ['id'],
+                    categoryOptionCombos: [
+                        {
+                            id: 'cocId',
+                            categoryOptions: ['one', 'two'],
+                        },
+                        {
+                            id: 'noMatchId',
+                            categoryOptions: ['one', 'two', 'three'],
+                        },
+                    ],
                 },
-            },
-            categoryOptionCombos: {
-                id: expected,
             },
         }
 
@@ -438,17 +442,24 @@ describe('getCoCByCategoryOptions', () => {
         const categoryComboId = 'categoryComboId'
         const categoryOptionIds = ['one', 'two']
         const expected = {
-            categoryOptions: [categoryOptionIds[1], categoryOptionIds[0]],
+            id: 'cocId',
+            categoryOptions: ['two', 'one'],
         }
 
         const data = {
             categoryCombos: {
                 [categoryComboId]: {
-                    categoryOptionCombos: ['id'],
+                    categoryOptionCombos: [
+                        {
+                            id: 'cocId',
+                            categoryOptions: ['two', 'one'],
+                        },
+                        {
+                            id: 'noMatchId',
+                            categoryOptions: ['one', 'two', 'three'],
+                        },
+                    ],
                 },
-            },
-            categoryOptionCombos: {
-                id: expected,
             },
         }
 
@@ -459,17 +470,21 @@ describe('getCoCByCategoryOptions', () => {
 
     it('returns null when there is no categoryOptionCombo with a matching set of ids', () => {
         const categoryComboId = 'categoryComboId'
-        const categoryOptionIds = ['one', 'two']
+        const categoryOptionIds = ['one', 'two', 'four']
 
         const data = {
             categoryCombos: {
                 [categoryComboId]: {
-                    categoryOptionCombos: ['id'],
-                },
-            },
-            categoryOptionCombos: {
-                id: {
-                    categoryOptions: [],
+                    categoryOptionCombos: [
+                        {
+                            id: 'cocId',
+                            categoryOptions: ['two', 'one'],
+                        },
+                        {
+                            id: 'noMatchId',
+                            categoryOptions: ['one', 'two', 'three'],
+                        },
+                    ],
                 },
             },
         }
