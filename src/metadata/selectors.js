@@ -17,8 +17,7 @@ const groupBy = (input, getIdentifier) =>
 
 export const getCategories = (metadata) => metadata.categories
 export const getCategoryCombos = (metadata) => metadata.categoryCombos
-export const getCategoryOptionCombos = (metadata) =>
-    metadata.categoryOptionCombos
+
 export const getCategoryOptions = (metadata) => metadata.categoryOptions
 export const getDataElements = (metadata) => metadata.dataElements
 export const getDataSets = (metadata) => metadata.dataSets
@@ -64,8 +63,6 @@ export const getCategoryOptionCombosByCategoryComboId = (
  * selectors that should have a cache per parameter (say an id) should use re-reselect.
  */
 
-//(metadata, dataSetId, sectionId) => getSectionsByData
-
 /**
  * @param {*} metadata
  * @param {string} dataSetId
@@ -105,7 +102,6 @@ export const getCategoryOptionsByCategoryId = createCachedSelector(
  */
 export const getAttributeOptionCombosByCategoryComboId = createCachedSelector(
     getCategoryComboById,
-    getCategoryOptionCombos,
     (categoryCombo, categoryOptionCombos) =>
         categoryCombo?.categoryOptionCombos.map(
             (id) => categoryOptionCombos[id]
@@ -161,7 +157,7 @@ export const getDataElementsBySection = createCachedSelector(
  * same categoryCombo in the same group. This is used in form-sections
  * when `section.disableDataElementAutoGroup`is true
  * @param {*} metadata
- * @param {*} dataElements - a list of dataElement -objects (result of )
+ * @param {*} dataElements - a list of dataElement -objects (result of getDataElementsBySection)
  */
 export const getGroupedDataElementsByCatComboInOrder = createSelector(
     (_, dataElements) => dataElements,
