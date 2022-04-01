@@ -4,7 +4,6 @@ import {
     getCategoryById,
     getCategoryComboById,
     getCategoryCombos,
-    getCategoryOptionCombos,
     getCategoryOptionCombosByCategoryComboId,
     getCategoryOptions,
     getCategoryOptionsByCategoryId,
@@ -35,15 +34,6 @@ describe('simple selectors', () => {
             const data = { categoryCombos: expected }
 
             expect(getCategoryCombos(data)).toBe(expected)
-        })
-    })
-
-    describe('getCategoryOptionCombos', () => {
-        it('returns the expected data', () => {
-            const expected = 'expected'
-            const data = { categoryOptionCombos: expected }
-
-            expect(getCategoryOptionCombos(data)).toBe(expected)
         })
     })
 

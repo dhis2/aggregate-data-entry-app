@@ -10,7 +10,7 @@ import {
 // TODO: this should probably be handled by useContextSelection-hook
 // should not need this when api support CC and CP instead of cocId
 export const useAttributeOptionCombo = () => {
-    const { isLoading, isError, data } = useMetadata()
+    const { data } = useMetadata()
     const attributeMetadata = useAttributeMetadata()
     const [{ dataSetId, attributeOptionComboSelection }] = useContextSelection()
 
@@ -39,14 +39,7 @@ export const useAttributeOptionCombo = () => {
         }
 
         return null
-    }, [
-        dataSetId,
-        attributeOptionComboSelection,
-        data,
-        isLoading,
-        isError,
-        attributeMetadata,
-    ])
+    }, [dataSetId, attributeOptionComboSelection, data, attributeMetadata])
 
     return cocId
 }
