@@ -1,30 +1,14 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { QueryClient } from 'react-query'
 import { persistQueryClient } from 'react-query/persistQueryClient'
+import createQueryFn from './create-query-fn.js'
 import createIDBPersister from './persister.js'
 
 const queryClient = new QueryClient()
 
 const useQueryClient = () => {
     const engine = useDataEngine()
-
-    // https://react-query.tanstack.com/guides/query-keys
-    const queryFn = ({ queryKey }) => {
-        const [resource, options] = queryKey
-        const appRuntimeQuery = {
-            [resource]: { resource },
-        }
-
-        if (options?.id) {
-            appRuntimeQuery[resource].id = options.id
-        }
-
-        if (options?.params) {
-            appRuntimeQuery[resource].params = options.params
-        }
-
-        return engine.query(appRuntimeQuery).then((data) => data[resource])
-    }
+    const queryFn = createQueryFn(engine)
 
     queryClient.setDefaultOptions({
         queries: {
