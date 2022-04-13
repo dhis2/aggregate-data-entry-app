@@ -3,84 +3,22 @@ import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
 import { dataValueSets } from '../query-key-factory.js'
 import { useAttributeOptionCombo } from '../use-attribute-option-combo.js'
+import { updateDataValue, addDataValue } from './pure-data-value-helpers.js'
 
-const DATA_VALUE_MUTATION = {
-    resource: 'dataValues',
-    type: 'create',
-    data: (data) => data,
-}
-const UPLOAD_FILE_MUTATION = {
-    resource: 'dataValues/file',
-    type: 'create',
-    data: (data) => data,
-}
-// This needs to be used for file-type data values; sending an empty 'value' prop
-// doesn't work to clear the file (todo: replace when backend changes)
-const DELETE_VALUE_MUTATION = {
-    resource: 'dataValues',
-    type: 'delete',
-    params: (params) => params,
-}
-
-export const MUTATION_TYPES = {
-    DEFAULT: 'DEFAULT',
-    FILE_UPLOAD: 'FILE_UPLOAD',
-    DELETE: 'DELETE',
-}
-const mutationsByType = {
-    DEFAULT: DATA_VALUE_MUTATION,
-    FILE_UPLOAD: UPLOAD_FILE_MUTATION,
-    DELETE: DELETE_VALUE_MUTATION,
-}
-
-// Updates dataValue without mutating previousDataValueSet
-const updateDataValue = (
-    previousDataValueSet,
-    updatedDataValue,
-    targetIndex
-) => {
-    const newDataValues = [...previousDataValueSet.dataValues]
-    newDataValues[targetIndex] = updatedDataValue
-
-    return {
-        ...previousDataValueSet,
-        dataValues: newDataValues,
-    }
-}
-
-// Adds dataValue without mutating previousDataValueSet
-const addDataValue = (previousDataValueSet, newDataValue) => {
-    return {
-        ...previousDataValueSet,
-        // dataValueSet.dataValues can be undefined
-        dataValues: previousDataValueSet.dataValues
-            ? [...previousDataValueSet.dataValues, newDataValue]
-            : [newDataValue],
-    }
-}
-
-// Delete dataValue without mutating previousDataValueSet
-const deleteDataValue = (previousDataValueSet, matchIndex) => {
-    const previousDataValues = previousDataValueSet.dataValues
-    const newDataValues = [
-        ...previousDataValues.slice(0, matchIndex),
-        ...previousDataValues.slice(matchIndex + 1),
-    ]
-    return {
-        ...previousDataValueSet,
-        dataValues: newDataValues,
-    }
-}
-
-export const useDataValueMutation = (mutationType = MUTATION_TYPES.DEFAULT) => {
+export const useUploadFileMutation = () => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionCombo = useAttributeOptionCombo()
     const engine = useDataEngine()
-
-    // Use mutation appropriate to mutation type
     const mutationFn = (variables) =>
-        engine.mutate(mutationsByType[mutationType], { variables })
+        engine.mutate(
+            {
+                resource: 'dataValues/file',
+                type: 'create',
+                data: (data) => data,
+            },
+            { variables }
+        )
 
     const dataValueSetQueryKey = dataValueSets.byIds({
         dataSetId,
@@ -113,21 +51,14 @@ export const useDataValueMutation = (mutationType = MUTATION_TYPES.DEFAULT) => {
                         dataValue.period === newDataValue.pe
                 )
 
-                if (mutationType === MUTATION_TYPES.DELETE) {
-                    return deleteDataValue(previousDataValueSet, matchIndex)
-                }
-
                 const isNewDataValue = matchIndex === -1
                 // If this is a file-type data value, set value to some file metadata
                 // so it's available offline. When DVSets is refetched, the value will
                 // be replaced by a UID that will be handled in the FileResourceInput components
-                const newValue =
-                    mutationType === MUTATION_TYPES.FILE_UPLOAD
-                        ? {
-                              name: newDataValue.file?.name,
-                              size: newDataValue.file?.size,
-                          }
-                        : newDataValue.value
+                const newValue = {
+                    name: newDataValue.file?.name,
+                    size: newDataValue.file?.size,
+                }
 
                 // If the field was previously empty the dataValue won't exist yet
                 if (isNewDataValue) {
