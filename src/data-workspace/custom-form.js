@@ -1,12 +1,10 @@
-import i18n from '@dhis2/d2-i18n'
-import { NoticeBox } from '@dhis2/ui'
 import parse from 'html-react-parser'
 import PropTypes from 'prop-types'
 import React from 'react'
 import useCustomForm from '../custom-forms/use-custom-form.js'
 import { getDataElementById } from '../metadata/selectors.js'
 import { useMetadata } from '../metadata/use-metadata.js'
-import { DataEntryCell } from './data-entry-cell/data-entry-cell.js'
+import { DataEntryField } from './data-entry-cell/index.js'
 
 const INPUT_TYPES = {
     ENTRYFIELD: 'ENTRYFIELD',
@@ -21,32 +19,49 @@ export const CustomForm = ({ dataSet }) => {
     })
     const { data: metadata } = useMetadata()
 
-    const getInputType = () => {}
-    const getCellPropsByInputType = () => {}
+    const getInputType = (domNode) => {
+        console.log({
+            domNode,
+            name: domNode.attribs.name,
+            id: domNode.attribs.id,
+        })
+        const { attribs } = domNode
+        if (attribs.id.startsWith('total')) {
+            return INPUT_TYPES.TOTAL
+        }
+        if (attribs.id.startsWith('indicator')) {
+            return INPUT_TYPES.INDICATOR
+        } else {
+            // id is in the format `${deId}-${cocId}-val`
+            const [deId, cocId, val] = attribs.id.split('-')
+            if (deId && cocId && val === 'val') {
+                return INPUT_TYPES.ENTRYFIELD
+            }
+        }
+    }
+    // const getCellPropsByInputType = () => {}
 
     const renderForm = (htmlCode) => {
         return parse(htmlCode, {
             replace: (domNode) => {
-                // Replace inputs
+                // Only check inputs
                 if (domNode.name !== 'input') {
                     return
                 }
-                console.log({ domNode })
-                
-                // Different types:
+
                 const inputType = getInputType(domNode)
-                const cellProps = getCellPropsByInputType(inputType)
+                // const cellProps = getCellPropsByInputType(inputType)
 
-                const [deId, cocId] = domNode.attribs.id.split('-')
-                const de = getDataElementById(metadata, deId)
-
-                // todo: handle read-only
-                return (
-                    <DataEntryCell
-                        dataElement={de}
-                        categoryOptionCombo={{ id: cocId }}
-                    />
-                )
+                if (inputType === INPUT_TYPES.ENTRYFIELD) {
+                    const [deId, cocId] = domNode.attribs.id.split('-')
+                    const dataElement = getDataElementById(metadata, deId)
+                    return (
+                        <DataEntryField
+                            dataElement={dataElement}
+                            categoryOptionCombo={{ id: cocId }}
+                        />
+                    )
+                }
             },
         })
     }
