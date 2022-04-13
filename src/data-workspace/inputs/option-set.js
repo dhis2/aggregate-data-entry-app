@@ -5,8 +5,8 @@ import React, { useState } from 'react'
 import { useField } from 'react-final-form'
 import { useMetadata } from '../../metadata/index.js'
 import { getOptionSetById } from '../../metadata/selectors.js'
-import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import styles from './inputs.module.css'
+import useDataValueMutation from './use-data-value-mutation.js'
 import { InputPropTypes } from './utils.js'
 
 export const OptionSet = ({

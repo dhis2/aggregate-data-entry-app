@@ -3,8 +3,8 @@ import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
 import React, { useState } from 'react'
 import { useField, useForm } from 'react-final-form'
-import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import styles from './inputs.module.css'
+import useDataValueMutation from './use-data-value-mutation.js'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
 // ? Will this fail to reflect a value on the server if it's not exactly `true` or `false`?
@@ -113,4 +113,5 @@ export const BooleanRadios = ({
         </div>
     )
 }
+
 BooleanRadios.propTypes = InputPropTypes

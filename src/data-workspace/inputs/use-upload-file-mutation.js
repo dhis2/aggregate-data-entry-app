@@ -5,7 +5,7 @@ import { dataValueSets } from '../query-key-factory.js'
 import { useAttributeOptionCombo } from '../use-attribute-option-combo.js'
 import { updateDataValue, addDataValue } from './pure-data-value-helpers.js'
 
-export const useUploadFileMutation = () => {
+const useUploadFileMutation = () => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionCombo = useAttributeOptionCombo()
@@ -101,3 +101,5 @@ export const useUploadFileMutation = () => {
         retry: 1,
     })
 }
+
+export default useUploadFileMutation

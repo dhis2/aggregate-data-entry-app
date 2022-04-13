@@ -5,7 +5,7 @@ import { dataValueSets } from '../query-key-factory.js'
 import { useAttributeOptionCombo } from '../use-attribute-option-combo.js'
 import { deleteDataValue } from './pure-data-value-helpers.js'
 
-export const useDeleteValueMutation = () => {
+const useDeleteValueMutation = () => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionCombo = useAttributeOptionCombo()
@@ -66,3 +66,5 @@ export const useDeleteValueMutation = () => {
         retry: 1,
     })
 }
+
+export default useDeleteValueMutation

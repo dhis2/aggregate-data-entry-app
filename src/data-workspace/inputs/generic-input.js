@@ -8,9 +8,9 @@ import {
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import { VALUE_TYPES } from '../data-entry-cell/value-types.js'
 import styles from './inputs.module.css'
+import useDataValueMutation from './use-data-value-mutation.js'
 import { InputPropTypes } from './utils.js'
 import {
     // date,

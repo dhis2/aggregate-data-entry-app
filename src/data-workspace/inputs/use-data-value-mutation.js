@@ -5,7 +5,7 @@ import { dataValueSets } from '../query-key-factory.js'
 import { useAttributeOptionCombo } from '../use-attribute-option-combo.js'
 import { updateDataValue, addDataValue } from './pure-data-value-helpers.js'
 
-export const useDataValueMutation = () => {
+const useDataValueMutation = () => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionCombo = useAttributeOptionCombo()
@@ -98,3 +98,5 @@ export const useDataValueMutation = () => {
         retry: 1,
     })
 }
+
+export default useDataValueMutation
