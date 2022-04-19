@@ -22,6 +22,7 @@ export const useAttributeOptionCombo = () => {
                 data,
                 dataSet.categoryCombo.id
             )
+            console.log('seleced combo', categoryCombo)
             const attributeOptionCombos =
                 attributeMetadata.data.categoryOptionCombos
             if (categoryCombo.isDefault) {
@@ -42,4 +43,30 @@ export const useAttributeOptionCombo = () => {
     }, [dataSetId, attributeOptionComboSelection, data, attributeMetadata])
 
     return cocId
+}
+
+export const useAttributeParams = () => {
+    const { data } = useMetadata()
+    const [{ dataSetId, attributeOptionComboSelection }] = useContextSelection()
+
+    const ret = {
+        attributeCombo: undefined,
+        attributeOptions: undefined,
+    }
+
+    if (data) {
+        const dataSet = getDataSetById(data, dataSetId)
+        const catComboId = dataSet.categoryCombo.id
+
+        const selectedOptions = Object.values(
+            attributeOptionComboSelection
+        ).join(',')
+
+        return {
+            attributeCombo: catComboId,
+            attributeOptions: selectedOptions,
+        }
+    }
+
+    return ret
 }
