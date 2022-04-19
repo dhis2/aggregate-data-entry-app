@@ -4,16 +4,7 @@ import { hashArraysInObject } from './utils.js'
 
 const selectorFunction = createSelector(
     (data) => data,
-    (data) => {
-        // bug in API includes duplicate "default"-catCombo
-        // one has categoryOptionCombos, and the other is missing properties
-        // delete the one that is missing properties, so we ensure that the correct one is used
-        const filteredCategoryCombos = data.categoryCombos.filter(
-            (cc) => !(cc.isDefault && !cc.categoryOptionCombos)
-        )
-        const filteredData = { ...data, categoryCombos: filteredCategoryCombos }
-        return hashArraysInObject(filteredData)
-    }
+    (data) => hashArraysInObject(data)
 )
 
 const queryKey = [`dataSetMetadata`]
