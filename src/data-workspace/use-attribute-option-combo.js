@@ -52,19 +52,23 @@ export const useAttributeParams = () => {
     const ret = {
         attributeCombo: undefined,
         attributeOptions: undefined,
+        validSelection: false,
     }
 
-    if (data) {
+    if (data && dataSetId) {
         const dataSet = getDataSetById(data, dataSetId)
         const catComboId = dataSet.categoryCombo.id
+        const categoryCombo = getCategoryComboById(data, catComboId)
 
-        const selectedOptions = Object.values(
-            attributeOptionComboSelection
-        ).join(',')
+        const selectedOptions = Object.values(attributeOptionComboSelection)
+        // all categories in catCombo should have a selection
+        const validSelection =
+            categoryCombo.categories.length === selectedOptions.length
 
         return {
             attributeCombo: catComboId,
             attributeOptions: selectedOptions,
+            validSelection,
         }
     }
 

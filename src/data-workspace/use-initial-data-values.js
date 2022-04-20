@@ -24,7 +24,8 @@ export const useInitialDataValues = () => {
     const activeMutations = useIsMutating({
         mutationKey: DATA_VALUE_MUTATION_KEY,
     })
-    const { attributeCombo, attributeOptions } = useAttributeParams()
+    const { attributeCombo, attributeOptions, validSelection } =
+        useAttributeParams()
 
     const queryKey = [
         'dataValueSets',
@@ -39,7 +40,7 @@ export const useInitialDataValues = () => {
         },
     ]
     const hasParameters =
-        !!dataSetId && !!orgUnitId && !!periodId && !!attributeCombo
+        !!dataSetId && !!orgUnitId && !!periodId && validSelection
 
     return useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
