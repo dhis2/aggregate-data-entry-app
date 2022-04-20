@@ -97,17 +97,6 @@ export const getCategoryOptionsByCategoryId = createCachedSelector(
 )((_, categoryId) => categoryId)
 
 /**
- * @param {*} metadata
- * @param {*} categoryComboId
- */
-export const getAttributeOptionCombosByCategoryComboId = createCachedSelector(
-    getCategoryComboById,
-    (categoryCombo, categoryOptionCombos) =>
-        categoryCombo?.categoryOptionCombos.map(
-            (id) => categoryOptionCombos[id]
-        )
-)((_, categoryComboId) => categoryComboId)
-/**
  * The categoryCombo for a dataElement can be overriden per dataSet. This selector
  * will apply that override.
  * @param {*} metadata
@@ -240,28 +229,3 @@ export const getCoCByCategoryOptions = createCachedSelector(
         return null
     }
 )((_, categoryComboId) => categoryComboId)
-
-export const findAoCByCategoryOptions = createSelector(
-    (attributeCoCs) => attributeCoCs,
-    (_, categoryComboId) => categoryComboId,
-    (_, __, categoryOptionIds) => categoryOptionIds,
-    (attributeCoCs, categoryComboId, categoryOptionIds) => {
-        for (const coc of attributeCoCs) {
-            const currentIds = coc.categoryOptions
-            const sameLength = categoryOptionIds.length === currentIds.length
-            const sameIds = categoryOptionIds.every((id) =>
-                currentIds.includes(id)
-            )
-
-            if (sameLength && sameIds) {
-                return coc
-            }
-        }
-
-        console.warn(
-            `Could not find attributeOptionCombo for catCombo ${categoryComboId}, with options: ${categoryOptionIds.join()}`
-        )
-
-        return null
-    }
-)
