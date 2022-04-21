@@ -1,8 +1,8 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
-import { useAttributeParams } from '../use-attribute-option-combo.js'
 import { dataValueSets } from '../query-key-factory.js'
+import { useAttributeParams } from '../use-attribute-option-combo.js'
 
 const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
