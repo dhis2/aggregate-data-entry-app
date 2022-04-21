@@ -5,7 +5,7 @@
     "env": {
         "dhis2DataTestPrefix": "dhis2-dataentry",
         "networkMode": "live",
-        "dhis2ApiVersion": "38"
+        "dhis2ApiVersion": "39"
     },
     "experimentalInteractiveRunEvents": true,
     "testFiles": "**/*.feature",

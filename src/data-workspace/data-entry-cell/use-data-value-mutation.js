@@ -2,8 +2,7 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
 import { useAttributeParams } from '../use-attribute-option-combo.js'
-
-export const DATA_VALUE_MUTATION_KEY = 'DATA_VALUE_MUTATION_KEY'
+import { dataValueSets } from '../query-key-factory.js'
 
 const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
@@ -79,25 +78,21 @@ export const useDataValueMutation = (mutationType = MUTATION_TYPES.DEFAULT) => {
     const { attributeCombo, attributeOptions } = useAttributeParams()
     const engine = useDataEngine()
 
-    const dataValueSetQueryKey = [
-        'dataValueSets',
-        {
-            params: {
-                dataSet: dataSetId,
-                period: periodId,
-                orgUnit: orgUnitId,
-                attributeCombo,
-                attributeOptions,
-            },
-        },
-    ]
     // Use mutation appropriate to mutation type
     const mutationFn = (variables) =>
         engine.mutate(mutationsByType[mutationType], { variables })
 
+    const dataValueSetQueryKey = dataValueSets.byIds({
+        dataSetId,
+        periodId,
+        orgUnitId,
+        attributeCombo,
+        attributeOptions,
+    })
+
     return useMutation(mutationFn, {
         // Used to identify whether this mutation is running
-        mutationKey: DATA_VALUE_MUTATION_KEY,
+        mutationKey: dataValueSetQueryKey,
         // Optimistic update of the react-query cache
         onMutate: async (newDataValue) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
