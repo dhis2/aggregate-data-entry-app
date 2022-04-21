@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { useContextSelection } from '../context-selection/index.js'
 import { useMetadata } from '../metadata/index.js'
 import { getDataSetById, getCategoryComboById } from '../metadata/selectors.js'
