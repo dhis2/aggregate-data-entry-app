@@ -1,7 +1,9 @@
 import { useQuery, useIsMutating } from 'react-query'
-import { useContextSelection } from '../context-selection/index.js'
+import {
+    useContextSelection,
+    useAttributeParams,
+} from '../context-selection/index.js'
 import { dataValueSets } from './query-key-factory.js'
-import { useAttributeParams } from './use-attribute-option-combo.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
 function mapDataValuesToFormInitialValues(dataValues) {

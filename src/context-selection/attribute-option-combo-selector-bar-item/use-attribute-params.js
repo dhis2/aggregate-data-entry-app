@@ -1,6 +1,13 @@
-import { useContextSelection } from '../context-selection/index.js'
-import { useMetadata } from '../metadata/index.js'
-import { getDataSetById, getCategoryComboById } from '../metadata/selectors.js'
+import { useMetadata } from '../../metadata/index.js'
+import {
+    getDataSetById,
+    getCategoryComboById,
+} from '../../metadata/selectors.js'
+import { useContextSelection } from '../use-context-selection/index.js'
+
+/**
+ * Finds the attributeComboId for the current attribute-option selection
+ */
 
 export const useAttributeParams = () => {
     const { data } = useMetadata()
