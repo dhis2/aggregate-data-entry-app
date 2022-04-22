@@ -7,7 +7,7 @@ const selectorFunction = createSelector(
     (data) => hashArraysInObject(data)
 )
 
-const queryKey = [`dataSetMetadata`]
+const queryKey = [`/dataEntry/metadata`]
 
 const queryOpts = {
     refetchOnMount: false,
