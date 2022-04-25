@@ -17,8 +17,8 @@
         "cypress:start": "REACT_APP_NODE_ENV=test yarn start:nobrowser",
         "cypress:open:live": "yarn cypress open --env networkMode=live",
         "cypress:run:live": "yarn cypress run --env networkMode=live",
-        "cypress:run:capture": "yarn cypress run --env dhis2ApiVersion=38,networkMode=capture",
-        "cypress:run:stub": "yarn cypress run --env dhis2ApiVersion=38,networkMode=stub",
+        "cypress:run:capture": "yarn cypress run --env networkMode=capture",
+        "cypress:run:stub": "yarn cypress run --env networkMode=stub",
         "cypress:prepare": "start-server-and-test 'yarn cypress:start' http://localhost:3000",
         "cypress:live": "yarn cypress:prepare 'yarn cypress:open:live'",
         "cypress:capture": "yarn cypress:prepare 'yarn cypress:run:capture'",
@@ -42,21 +42,27 @@
         "start-server-and-test": "^1.14.0"
     },
     "dependencies": {
-        "@dhis2/app-runtime": "^3.2.6",
-        "@dhis2/ui": "^7.16.0",
+        "@dhis2/app-runtime": "^3.3.0",
+        "@dhis2/ui": "^8.0.0",
         "@dhis2/ui-forms": "^7.12.0",
         "classnames": "^2.3.1",
         "final-form": "^4.20.6",
         "history": "^5.1.0",
+        "idb-keyval": "^6.1.0",
+        "lodash.throttle": "^4.1.1",
         "prop-types": "^15.7.2",
         "query-string": "^7.0.1",
+        "re-reselect": "^4.0.0",
         "react-final-form": "^6.5.7",
-        "react-query": "3.34.5",
+        "react-query": "4.0.0-alpha.10",
         "react-router-dom": "^5",
+        "tabbable": "^5.2.1",
+        "reselect": "^4.1.5",
         "use-query-params": "^1.2.3"
     },
     "resolutions": {
-        "react-query": "3.34.5",
+        "@dhis2/ui": "^8.0.0",
+        "react-query": "4.0.0-alpha.10",
         "react-error-overlay": "6.0.9"
     }
 }

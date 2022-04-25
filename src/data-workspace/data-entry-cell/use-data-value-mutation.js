@@ -1,17 +1,36 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
-import {
-    dataValueSetQuery,
-    useAttributeOptionCombo,
-} from '../data-workspace.js'
-
-export const DATA_VALUE_MUTATION_KEY = 'DATA_VALUE_MUTATION_KEY'
+import { dataValueSets } from '../query-key-factory.js'
+import { useAttributeOptionCombo } from '../use-attribute-option-combo.js'
 
 const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
     type: 'create',
-    params: ({ ...params }) => ({ ...params }),
+    data: (data) => data,
+}
+const UPLOAD_FILE_MUTATION = {
+    resource: 'dataValues/file',
+    type: 'create',
+    data: (data) => data,
+}
+// This needs to be used for file-type data values; sending an empty 'value' prop
+// doesn't work to clear the file (todo: replace when backend changes)
+const DELETE_VALUE_MUTATION = {
+    resource: 'dataValues',
+    type: 'delete',
+    params: (params) => params,
+}
+
+export const MUTATION_TYPES = {
+    DEFAULT: 'DEFAULT',
+    FILE_UPLOAD: 'FILE_UPLOAD',
+    DELETE: 'DELETE',
+}
+const mutationsByType = {
+    DEFAULT: DATA_VALUE_MUTATION,
+    FILE_UPLOAD: UPLOAD_FILE_MUTATION,
+    DELETE: DELETE_VALUE_MUTATION,
 }
 
 // Updates dataValue without mutating previousDataValueSet
@@ -20,15 +39,12 @@ const updateDataValue = (
     updatedDataValue,
     targetIndex
 ) => {
-    const newDataValues = [...previousDataValueSet.dataValueSet.dataValues]
+    const newDataValues = [...previousDataValueSet.dataValues]
     newDataValues[targetIndex] = updatedDataValue
 
     return {
         ...previousDataValueSet,
-        dataValueSet: {
-            ...previousDataValueSet.dataValueSet,
-            dataValues: newDataValues,
-        },
+        dataValues: newDataValues,
     }
 }
 
@@ -36,37 +52,46 @@ const updateDataValue = (
 const addDataValue = (previousDataValueSet, newDataValue) => {
     return {
         ...previousDataValueSet,
-        dataValueSet: {
-            ...previousDataValueSet.dataValueSet,
-            dataValues: [
-                ...previousDataValueSet.dataValueSet.dataValues,
-                newDataValue,
-            ],
-        },
+        // dataValueSet.dataValues can be undefined
+        dataValues: previousDataValueSet.dataValues
+            ? [...previousDataValueSet.dataValues, newDataValue]
+            : [newDataValue],
     }
 }
 
-export const useDataValueMutation = () => {
+// Delete dataValue without mutating previousDataValueSet
+const deleteDataValue = (previousDataValueSet, matchIndex) => {
+    const previousDataValues = previousDataValueSet.dataValues
+    const newDataValues = [
+        ...previousDataValues.slice(0, matchIndex),
+        ...previousDataValues.slice(matchIndex + 1),
+    ]
+    return {
+        ...previousDataValueSet,
+        dataValues: newDataValues,
+    }
+}
+
+export const useDataValueMutation = (mutationType = MUTATION_TYPES.DEFAULT) => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const attributeOptionComboId = useAttributeOptionCombo()
+    const attributeOptionCombo = useAttributeOptionCombo()
     const engine = useDataEngine()
 
-    const dataValueSetQueryKey = [
-        dataValueSetQuery,
-        {
-            dataSetId,
-            periodId,
-            orgUnitId,
-            attributeOptionComboId,
-        },
-    ]
+    // Use mutation appropriate to mutation type
     const mutationFn = (variables) =>
-        engine.mutate(DATA_VALUE_MUTATION, { variables })
+        engine.mutate(mutationsByType[mutationType], { variables })
+
+    const dataValueSetQueryKey = dataValueSets.byIds({
+        dataSetId,
+        periodId,
+        orgUnitId,
+        attributeOptionCombo,
+    })
 
     return useMutation(mutationFn, {
         // Used to identify whether this mutation is running
-        mutationKey: DATA_VALUE_MUTATION_KEY,
+        mutationKey: dataValueSetQueryKey,
         // Optimistic update of the react-query cache
         onMutate: async (newDataValue) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
@@ -78,25 +103,41 @@ export const useDataValueMutation = () => {
 
             // Optimistically update to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
-                const matchIndex =
-                    previousDataValueSet.dataValueSet.dataValues.findIndex(
-                        (dataValue) =>
-                            dataValue.categoryOptionCombo === newDataValue.co &&
-                            dataValue.dataElement === newDataValue.de &&
-                            dataValue.orgUnit === newDataValue.ou &&
-                            dataValue.period === newDataValue.pe
-                    )
-                const isNewValue = matchIndex === -1
+                // dataValueSet.dataValues can be undefined
+                const previousDataValues = previousDataValueSet.dataValues || []
+                const matchIndex = previousDataValues.findIndex(
+                    (dataValue) =>
+                        dataValue.categoryOptionCombo === newDataValue.co &&
+                        dataValue.dataElement === newDataValue.de &&
+                        dataValue.orgUnit === newDataValue.ou &&
+                        dataValue.period === newDataValue.pe
+                )
+
+                if (mutationType === MUTATION_TYPES.DELETE) {
+                    return deleteDataValue(previousDataValueSet, matchIndex)
+                }
+
+                const isNewDataValue = matchIndex === -1
+                // If this is a file-type data value, set value to some file metadata
+                // so it's available offline. When DVSets is refetched, the value will
+                // be replaced by a UID that will be handled in the FileResourceInput components
+                const newValue =
+                    mutationType === MUTATION_TYPES.FILE_UPLOAD
+                        ? {
+                              name: newDataValue.file?.name,
+                              size: newDataValue.file?.size,
+                          }
+                        : newDataValue.value
 
                 // If the field was previously empty the dataValue won't exist yet
-                if (isNewValue) {
+                if (isNewDataValue) {
                     const formattedNewDataValue = {
-                        attributeOptionCombo: attributeOptionComboId,
+                        attributeOptionCombo,
                         categoryOptionCombo: newDataValue.co,
                         dataElement: newDataValue.de,
                         orgUnit: newDataValue.ou,
                         period: newDataValue.pe,
-                        value: newDataValue.value,
+                        value: newValue,
                     }
 
                     return addDataValue(
@@ -105,10 +146,8 @@ export const useDataValueMutation = () => {
                     )
                 } else {
                     const formattedNewDataValue = {
-                        ...previousDataValueSet.dataValueSet.dataValues[
-                            matchIndex
-                        ],
-                        value: newDataValue.value,
+                        ...previousDataValues[matchIndex],
+                        value: newValue,
                     }
 
                     return updateDataValue(

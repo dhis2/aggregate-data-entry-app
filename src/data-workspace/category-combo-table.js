@@ -8,7 +8,7 @@ import {
 } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useMetadata } from '../metadata/index.js'
 import {
     getCategoriesByCategoryComboId,
@@ -17,7 +17,11 @@ import {
 } from '../metadata/selectors.js'
 import { cartesian } from '../shared/utils.js'
 import styles from './category-combo-table.module.css'
-import { DataEntryCell, useActiveCell } from './data-entry-cell/index.js'
+import {
+    DataEntryCell,
+    DataEntryField,
+    useActiveCell,
+} from './data-entry-cell/index.js'
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -26,21 +30,20 @@ export const CategoryComboTable = ({
     globalFilterText,
     maxColumnsInSection,
 }) => {
-    const { metadata } = useMetadata()
+    const { isLoading, isError, data } = useMetadata()
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
-    const categories = useMemo(
-        () => getCategoriesByCategoryComboId(metadata, categoryCombo.id),
-        [metadata, categoryCombo]
-    )
+    if (isLoading || isError) {
+        return null
+    }
+
+    const categories = getCategoriesByCategoryComboId(data, categoryCombo.id)
 
     // each element is a combination of category-options for a particular column
     // this results in lists of category-options in the same order as headers are rendered
     // the result is a client side computation of categoryOption-combinations
-    const computedCategoryOptions = useMemo(() => {
-        const optionsIdLists = categories.map((cat) => cat.categoryOptions)
-        return cartesian(optionsIdLists)
-    }, [categories, cartesian])
+    const optionsIdLists = categories.map((cat) => cat.categoryOptions)
+    const computedCategoryOptions = cartesian(optionsIdLists)
 
     if (
         computedCategoryOptions.length !==
@@ -57,7 +60,7 @@ export const CategoryComboTable = ({
     // Repeats are the number of times the options in a category needs to be rendered per category-row
     let catColSpan = computedCategoryOptions.length
     const rowToColumnsMap = categories.map((c) => {
-        const categoryOptions = getCategoryOptionsByCategoryId(metadata, c.id)
+        const categoryOptions = getCategoryOptionsByCategoryId(data, c.id)
         const nrOfOptions = c.categoryOptions.length
         if (nrOfOptions > 0 && catColSpan >= nrOfOptions) {
             catColSpan = catColSpan / nrOfOptions
@@ -84,7 +87,7 @@ export const CategoryComboTable = ({
     // find categoryOptionCombos by category-options
     const sortedCOCs = computedCategoryOptions
         .map((options) =>
-            getCoCByCategoryOptions(metadata, categoryCombo.id, options)
+            getCoCByCategoryOptions(data, categoryCombo.id, options)
         )
         .filter((coc) => !!coc)
 
@@ -164,13 +167,12 @@ export const CategoryComboTable = ({
                             {de.displayFormName}
                         </TableCell>
                         {sortedCOCs.map((coc) => (
-                            // todo: may want to pass getDataValue into DataEntryCell
-                            // to access "Data Item Details" (comment, followup, name, etc)
-                            <DataEntryCell
-                                key={coc.id}
-                                dataElement={de}
-                                categoryOptionCombo={coc}
-                            />
+                            <DataEntryCell key={coc.id}>
+                                <DataEntryField
+                                    dataElement={de}
+                                    categoryOptionCombo={coc}
+                                />
+                            </DataEntryCell>
                         ))}
                         {renderPaddedCells.map((_, i) => (
                             <PaddingCell key={i} className={styles.tableCell} />
@@ -179,8 +181,11 @@ export const CategoryComboTable = ({
                 )
             })}
             {itemsHiddenCnt > 0 && (
-                <TableRow className={styles.hiddenByFilterRow}>
-                    <TableCell className="hiddenByFilterCell">
+                <TableRow>
+                    <TableCell
+                        className={styles.hiddenByFilterCell}
+                        colSpan="100%"
+                    >
                         {itemsHiddenCnt === 1
                             ? i18n.t('1 item hidden by filter')
                             : i18n.t('{{count}} items hidden by filter', {

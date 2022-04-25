@@ -1,17 +1,6 @@
-import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { parsePeriodId } from '../../shared/index.js'
 import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
-
-const QUERY_CATEGORY_COMBINATION = {
-    dataSet: {
-        resource: 'dataSets',
-        id: ({ id }) => id,
-        params: {
-            fields: 'categoryCombo[isDefault,displayName,categories[id,displayName,categoryOptions[id,displayName,startDate,endDate]]]',
-        },
-    },
-}
 
 const isOptionWithinPeriod = ({
     periodStartDate,
@@ -46,47 +35,56 @@ const isOptionWithinPeriod = ({
 export default function useCategoryCombination() {
     const [periodId] = usePeriodId()
     const [dataSetId] = useDataSetId()
-    const queryKey = [QUERY_CATEGORY_COMBINATION, { id: dataSetId }]
+    const params = {
+        fields: [
+            'categoryCombo[isDefault,displayName,categories[id,displayName,categoryOptions[id,displayName,startDate,endDate]]]',
+        ],
+    }
+    const queryKey = [
+        'dataSets',
+        {
+            id: dataSetId,
+            params,
+        },
+    ]
     const {
         isIdle,
         isLoading: loading,
         error,
         data,
     } = useQuery(queryKey, {
-        enabled: !!dataSetId,
-    })
+        enabled: !!dataSetId && !!periodId,
+        select: (data) => {
+            const period = parsePeriodId(periodId)
+            const periodStartDate = new Date(period.startDate)
+            const periodEndDate = new Date(period.endDate)
 
-    const categoryCombo = useMemo(() => {
-        if (!data || !periodId) {
-            return data?.dataSet.categoryCombo
-        }
-
-        const period = parsePeriodId(periodId)
-        const periodStartDate = new Date(period.startDate)
-        const periodEndDate = new Date(period.endDate)
-
-        const { categories } = data.dataSet.categoryCombo
-        const categoriesWithFilteredOptions = categories.map((category) => ({
-            ...category,
-            categoryOptions: category.categoryOptions.filter((categoryOption) =>
-                isOptionWithinPeriod({
-                    periodStartDate,
-                    periodEndDate,
-                    categoryOption,
+            const { categories } = data.categoryCombo
+            const categoriesWithFilteredOptions = categories.map(
+                (category) => ({
+                    ...category,
+                    categoryOptions: category.categoryOptions.filter(
+                        (categoryOption) =>
+                            isOptionWithinPeriod({
+                                periodStartDate,
+                                periodEndDate,
+                                categoryOption,
+                            })
+                    ),
                 })
-            ),
-        }))
+            )
 
-        return {
-            ...data.dataSet.categoryCombo,
-            categories: categoriesWithFilteredOptions,
-        }
-    }, [data, periodId])
+            return {
+                ...data.categoryCombo,
+                categories: categoriesWithFilteredOptions,
+            }
+        },
+    })
 
     return {
         called: !isIdle,
         loading,
         error,
-        data: categoryCombo,
+        data,
     }
 }

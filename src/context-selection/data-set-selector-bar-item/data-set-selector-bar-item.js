@@ -16,15 +16,19 @@ import useSelectableDataSets from './use-selectable-data-sets.js'
 export default function DataSetSelectorBarItem() {
     const [dataSetOpen, setDataSetOpen] = useState(false)
     const [dataSetId, setDataSetId] = useDataSetId()
+
     // Select the first item if there's only one
     const selectOnlyItemOnComplete = (data) => {
-        if (data.dataSets?.dataSets?.length === 1) {
-            const { id } = data.dataSets?.dataSets[0]
+        if (data?.length === 1) {
+            const { id } = data[0]
             setDataSetId(id)
         }
     }
+
     const dataSet = useDataSet()
-    const selectableDataSets = useSelectableDataSets(selectOnlyItemOnComplete)
+    const selectableDataSets = useSelectableDataSets({
+        onSuccess: selectOnlyItemOnComplete,
+    })
 
     const isDoneLoading =
         selectableDataSets.called &&

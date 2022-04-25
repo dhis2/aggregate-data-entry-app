@@ -147,14 +147,29 @@ Then(
             .find('[data-test="org-unit-selector-tree-node-icon"]')
             .should('not.exist')
 
-        // "Bombali Sebora" should not have children
+        // "Bombali Sebora" should still indicate that it has children
         cy.get(
             `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali Sebora")`
         )
             .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
             .first() // Ignore the node of Sierra Leone and Bombali
             .find('[data-test="org-unit-selector-tree-node-toggle"]')
-            .should('not.exist')
+            .should('exist')
+
+        // a no children message should not be displayed
+        cy.contains('No children match filter').should('not.exist')
+
+        // Open Bombali Sebora
+        cy.get(
+            `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali Sebora")`
+        )
+            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
+            .first()
+            .find('[data-test="org-unit-selector-tree-node-toggle"]')
+            .click()
+
+        // a no children message should be displayed
+        cy.contains('No children match filter').should('exist')
 
         // There should be exactly three nodes
         cy.get('[data-test="org-unit-selector-tree-node"]').should(
