@@ -18,7 +18,11 @@ import {
 import { CategoryComboTable } from '../category-combo-table.js'
 import styles from './section.module.css'
 
-export const SectionFormSection = ({ section, globalFilterText }) => {
+export const SectionFormSection = ({
+    section,
+    dataSetId,
+    globalFilterText,
+}) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
     const { isLoading, isError, data } = useMetadata()
@@ -27,11 +31,7 @@ export const SectionFormSection = ({ section, globalFilterText }) => {
         return null
     }
 
-    const dataElements = getDataElementsBySection(
-        data,
-        section.dataSet.id,
-        section.id
-    )
+    const dataElements = getDataElementsBySection(data, dataSetId, section.id)
     const groupedDataElements = section.disableDataElementAutoGroup
         ? getGroupedDataElementsByCatComboInOrder(data, dataElements)
         : getGroupedDataElementsByCatCombo(data, dataElements)
@@ -100,6 +100,7 @@ export const SectionFormSection = ({ section, globalFilterText }) => {
 }
 
 SectionFormSection.propTypes = {
+    dataSetId: PropTypes.string,
     globalFilterText: PropTypes.string,
     section: PropTypes.shape({
         dataSet: PropTypes.shape({
