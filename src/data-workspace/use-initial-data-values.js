@@ -2,6 +2,7 @@ import { useQuery, useIsMutating } from 'react-query'
 import {
     useContextSelection,
     useAttributeParams,
+    useIsValidSelection,
 } from '../context-selection/index.js'
 import { dataValueSets } from './query-key-factory.js'
 
@@ -23,8 +24,8 @@ function mapDataValuesToFormInitialValues(dataValues) {
 
 export const useInitialDataValues = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const { attributeCombo, attributeOptions, validSelection } =
-        useAttributeParams()
+    const { attributeCombo, attributeOptions } = useAttributeParams()
+    const isValidSelection = useIsValidSelection()
 
     const queryKey = dataValueSets.byIds({
         dataSetId,
@@ -36,12 +37,10 @@ export const useInitialDataValues = () => {
     const activeMutations = useIsMutating({
         mutationKey: queryKey,
     })
-    const hasParameters =
-        !!dataSetId && !!orgUnitId && !!periodId && validSelection
 
     return useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
-        enabled: activeMutations === 0 && hasParameters,
+        enabled: activeMutations === 0 && isValidSelection,
         select: (data) =>
             // It's possible for the backend to return a response that does not have dataValues
             data.dataValues
