@@ -37,7 +37,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
 
 SectionForm.propTypes = {
     dataSet: PropTypes.shape({
-        id: PropTypes.bool,
+        id: PropTypes.string,
         renderAsTabs: PropTypes.bool,
         sections: PropTypes.arrayOf(
             PropTypes.shape({

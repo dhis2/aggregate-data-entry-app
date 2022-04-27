@@ -10,15 +10,21 @@ import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
 import { KeyboardNavManager } from './keyboard-nav-manager.js'
 import { useInitialDataValues } from './use-initial-data-values.js'
+import { useIsValidSelection } from '../context-selection/index.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const [{ dataSetId }] = useContextSelection()
     const { isLoading, isError, data } = useMetadata()
     const initialDataValuesFetch = useInitialDataValues()
+    const isValidSelection = useIsValidSelection()
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
         return <NoticeBox title={title}>{selectionHasNoFormMessage}</NoticeBox>
+    }
+
+    if (!isValidSelection) {
+        return null
     }
 
     if (isLoading || initialDataValuesFetch.isLoading) {
