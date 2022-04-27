@@ -2,7 +2,10 @@ import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useContextSelection } from '../context-selection/index.js'
+import {
+    useContextSelection,
+    useIsValidSelection,
+} from '../context-selection/index.js'
 import { useMetadata } from '../metadata/index.js'
 import { getDataSetById } from '../metadata/selectors.js'
 import styles from './data-workspace.module.css'
@@ -10,7 +13,6 @@ import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
 import { KeyboardNavManager } from './keyboard-nav-manager.js'
 import { useInitialDataValues } from './use-initial-data-values.js'
-import { useIsValidSelection } from '../context-selection/index.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const [{ dataSetId }] = useContextSelection()
