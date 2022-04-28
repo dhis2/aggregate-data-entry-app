@@ -9,12 +9,7 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { useMetadata } from '../../metadata/index.js'
-import {
-    getDataElementsBySection,
-    getGroupedDataElementsByCatCombo,
-    getGroupedDataElementsByCatComboInOrder,
-} from '../../metadata/selectors.js'
+import { useMetadata, selectors } from '../../metadata/index.js'
 import { CategoryComboTable } from '../category-combo-table.js'
 import styles from './section.module.css'
 
@@ -31,10 +26,14 @@ export const SectionFormSection = ({
         return null
     }
 
-    const dataElements = getDataElementsBySection(data, dataSetId, section.id)
+    const dataElements = selectors.getDataElementsBySection(
+        data,
+        dataSetId,
+        section.id
+    )
     const groupedDataElements = section.disableDataElementAutoGroup
-        ? getGroupedDataElementsByCatComboInOrder(data, dataElements)
-        : getGroupedDataElementsByCatCombo(data, dataElements)
+        ? selectors.getGroupedDataElementsByCatComboInOrder(data, dataElements)
+        : selectors.getGroupedDataElementsByCatCombo(data, dataElements)
 
     const maxColumnsInSection = Math.max(
         ...groupedDataElements.map(

@@ -31,7 +31,7 @@ export function usePeriodId() {
  *
  * @returns the selected attribute-options in the shape of
  * ```{
- *   categoryId: categoryOptionId
+ *   [categoryId: String]: String // categoryOptionId
  * }```
  *
  */

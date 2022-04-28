@@ -9,12 +9,7 @@ import {
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useMetadata } from '../metadata/index.js'
-import {
-    getCategoriesByCategoryComboId,
-    getCategoryOptionsByCategoryId,
-    getCoCByCategoryOptions,
-} from '../metadata/selectors.js'
+import { useMetadata, selectors } from '../metadata/index.js'
 import { cartesian } from '../shared/utils.js'
 import styles from './category-combo-table.module.css'
 import {
@@ -37,7 +32,10 @@ export const CategoryComboTable = ({
         return null
     }
 
-    const categories = getCategoriesByCategoryComboId(data, categoryCombo.id)
+    const categories = selectors.getCategoriesByCategoryComboId(
+        data,
+        categoryCombo.id
+    )
 
     // each element is a combination of category-options for a particular column
     // this results in lists of category-options in the same order as headers are rendered
@@ -60,7 +58,10 @@ export const CategoryComboTable = ({
     // Repeats are the number of times the options in a category needs to be rendered per category-row
     let catColSpan = computedCategoryOptions.length
     const rowToColumnsMap = categories.map((c) => {
-        const categoryOptions = getCategoryOptionsByCategoryId(data, c.id)
+        const categoryOptions = selectors.getCategoryOptionsByCategoryId(
+            data,
+            c.id
+        )
         const nrOfOptions = c.categoryOptions.length
         if (nrOfOptions > 0 && catColSpan >= nrOfOptions) {
             catColSpan = catColSpan / nrOfOptions
@@ -87,7 +88,7 @@ export const CategoryComboTable = ({
     // find categoryOptionCombos by category-options
     const sortedCOCs = computedCategoryOptions
         .map((options) =>
-            getCoCByCategoryOptions(data, categoryCombo.id, options)
+            selectors.getCoCByCategoryOptions(data, categoryCombo.id, options)
         )
         .filter((coc) => !!coc)
 

@@ -6,8 +6,7 @@ import {
     useContextSelection,
     useIsValidSelection,
 } from '../context-selection/index.js'
-import { useMetadata } from '../metadata/index.js'
-import { getDataSetById } from '../metadata/selectors.js'
+import { useMetadata, selectors } from '../metadata/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
@@ -41,7 +40,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return null
     }
 
-    const dataSet = getDataSetById(data, dataSetId)
+    const dataSet = selectors.getDataSetById(data, dataSetId)
     if (!dataSet) {
         console.warn('Could not find dataSet with ID', dataSetId)
         return 'Error!'

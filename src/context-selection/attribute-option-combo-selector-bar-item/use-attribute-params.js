@@ -1,8 +1,4 @@
-import { useMetadata } from '../../metadata/index.js'
-import {
-    getDataSetById,
-    getCategoryComboById,
-} from '../../metadata/selectors.js'
+import { useMetadata, selectors } from '../../metadata/index.js'
 import { useContextSelection } from '../use-context-selection/index.js'
 
 /**
@@ -14,9 +10,9 @@ export const useAttributeParams = () => {
     const [{ dataSetId, attributeOptionComboSelection }] = useContextSelection()
 
     if (data && dataSetId) {
-        const dataSet = getDataSetById(data, dataSetId)
+        const dataSet = selectors.getDataSetById(data, dataSetId)
         const catComboId = dataSet.categoryCombo.id
-        const categoryCombo = getCategoryComboById(data, catComboId)
+        const categoryCombo = selectors.getCategoryComboById(data, catComboId)
 
         const selectedOptions = Object.values(attributeOptionComboSelection)
         // all categories in catCombo should have a selection
