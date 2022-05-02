@@ -20,9 +20,9 @@ export const SectionFormSection = ({
 }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
-    const { isLoading, isError, data } = useMetadata()
+    const { data } = useMetadata()
 
-    if (isLoading || isError) {
+    if (!data) {
         return null
     }
 

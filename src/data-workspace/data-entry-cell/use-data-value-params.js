@@ -5,7 +5,7 @@ export const useDataValueParams = ({ deId, cocId }) => {
     const [dataEntryContext] = useContextSelection()
     const metadataFetch = useMetadata()
 
-    if (metadataFetch.isLoading || metadataFetch.isError) {
+    if (!metadataFetch.data) {
         return null
     }
 

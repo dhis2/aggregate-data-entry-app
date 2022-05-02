@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, NoticeBox } from '@dhis2/ui'
+import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {
@@ -15,7 +15,7 @@ import { useInitialDataValues } from './use-initial-data-values.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const [{ dataSetId }] = useContextSelection()
-    const { isLoading, isError, data } = useMetadata()
+    const { data } = useMetadata()
     const initialDataValuesFetch = useInitialDataValues()
     const isValidSelection = useIsValidSelection()
 
@@ -28,11 +28,15 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return null
     }
 
-    if (isLoading || initialDataValuesFetch.isLoading) {
-        return <CircularLoader />
+    if (initialDataValuesFetch.isLoading) {
+        return (
+            <CenteredContent>
+                <CircularLoader />
+            </CenteredContent>
+        )
     }
 
-    if (isError || initialDataValuesFetch.error) {
+    if (initialDataValuesFetch.error) {
         return 'Error!'
     }
 

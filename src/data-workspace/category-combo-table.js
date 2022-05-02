@@ -25,10 +25,10 @@ export const CategoryComboTable = ({
     globalFilterText,
     maxColumnsInSection,
 }) => {
-    const { isLoading, isError, data } = useMetadata()
+    const { data } = useMetadata()
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
-    if (isLoading || isError) {
+    if (!data) {
         return null
     }
 
