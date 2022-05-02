@@ -8,13 +8,11 @@ import {
     PAGE_STYLES,
 } from './iframe-assets.js'
 
-const createScriptTag = (baseUrl, script) =>
-    `<script src="${baseUrl + script}" type="text/javascript"></script>`
+const createScriptTag = (script) =>
+    `<script src="${script}" type="text/javascript"></script>`
 
-const createLinkTag = (baseUrl, media, styleSheet) =>
-    `<link type="text/css" rel="stylesheet" media="${media}" href="${
-        baseUrl + styleSheet
-    }" >`
+const createLinkTag = (media, styleSheet) =>
+    `<link type="text/css" rel="stylesheet" media="${media}" href="${styleSheet}" >`
 
 const fixRelativePaths = (baseUrl, html) =>
     html.replace(/(src|href)="..\//g, '$1' + `="${baseUrl}/`)
@@ -25,11 +23,9 @@ const wrapHtmlInTemplate = (baseUrl, html) => `
         <head>
             <meta charset="utf-8">
             ${CSS_FILES.map(({ media, styleSheet }) =>
-                createLinkTag(baseUrl, media, styleSheet)
+                createLinkTag(media, styleSheet)
             ).join('\n')}
-            ${SCRIPT_FILES.map((script) =>
-                createScriptTag(baseUrl, script)
-            ).join('\n')}
+            ${SCRIPT_FILES.map((script) => createScriptTag(script)).join('\n')}
             
             ${PAGE_SCRIPTS}
 
@@ -43,7 +39,7 @@ const wrapHtmlInTemplate = (baseUrl, html) => `
     </html>
 `
 
-const HtmlReport = ({ html }) => {
+const CustomFormIframe = ({ html }) => {
     const { baseUrl } = useConfig()
     const iframeRef = useRef(null)
     const [iframeHasLoaded, setIframeHasLoaded] = useState(false)
@@ -86,7 +82,7 @@ const HtmlReport = ({ html }) => {
             width="100%"
             height={height}
             seamless={true}
-            sandbox="allow-same-origin allow-scripts allow-modals allow-downloads"
+            // sandbox="allow-same-origin allow-scripts allow-modals allow-downloads"
             onLoad={() => setIframeHasLoaded(true)}
         >
             <style jsx>{`
@@ -99,8 +95,8 @@ const HtmlReport = ({ html }) => {
     )
 }
 
-HtmlReport.propTypes = {
+CustomFormIframe.propTypes = {
     html: PropTypes.string.isRequired,
 }
 
-export default HtmlReport
+export default CustomFormIframe
