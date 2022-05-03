@@ -22,10 +22,9 @@ export default function useShouldComponentRenderNull(categoryCombination) {
         !dataSetId ||
         !periodId ||
         !orgUnitId ||
-        !categoryCombination.called ||
         // if it is the default combo,
         // then it doesn't matter if there are categories or not
-        (!categoryCombination.data?.isDefault &&
-            !categoryCombination.data?.categories.length)
+        (!categoryCombination.isDefault &&
+            !categoryCombination.categories.length)
     )
 }
