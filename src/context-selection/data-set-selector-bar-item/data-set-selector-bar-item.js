@@ -1,82 +1,95 @@
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
-import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import { selectors, useMetadata } from '../../metadata/index.js'
 import { MenuSelect } from '../menu-select/index.js'
 import { useDataSetId } from '../use-context-selection/index.js'
-import useDataSet from './use-data-set.js'
-import useSelectableDataSets from './use-selectable-data-sets.js'
 
-/**
- * @TODO: How to indicate that the data set is being loaded
- *  -> Talk to @joe-cooper
- *
- * @TODO: How to indicate that the selecatable data sets are being loaded
- *  -> Talk to @joe-cooper
- */
-export default function DataSetSelectorBarItem() {
-    const [dataSetOpen, setDataSetOpen] = useState(false)
-    const [dataSetId, setDataSetId] = useDataSetId()
-
-    // Select the first item if there's only one
-    const selectOnlyItemOnComplete = (data) => {
-        if (data?.length === 1) {
-            const { id } = data[0]
-            setDataSetId(id)
-        }
+const DataSetSelectorBarDropDownContent = ({
+    dataSets,
+    dataSetId,
+    dataSet,
+    onChange,
+}) => {
+    if (dataSetId && !dataSet) {
+        return (
+            <span data-test="data-set-selector-no-dataset-for-id-msg">
+                {i18n.t('Could not find a data set for the selected id')}
+            </span>
+        )
     }
 
-    const dataSet = useDataSet()
-    const selectableDataSets = useSelectableDataSets({
-        onSuccess: selectOnlyItemOnComplete,
-    })
+    if (!dataSets.length) {
+        return (
+                <span data-test="data-set-selector-none-available-msg">
+                    {i18n.t('There are no data sets available!')}
+                </span>
+        )
+    }
 
-    const isDoneLoading =
-        selectableDataSets.called &&
-        !selectableDataSets.loading &&
-        !selectableDataSets.error
+    return (
+        <MenuSelect
+            values={dataSets || []}
+            selected={dataSetId}
+            dataTest="data-set-selector-menu"
+            onChange={onChange}
+        />
+    )
+}
 
-    const showLoadingMessage =
-        !selectableDataSets.called || !!selectableDataSets.loading
+DataSetSelectorBarDropDownContent.propTypes = {
+    dataSet: PropTypes.object,
+    dataSetId: PropTypes.string,
+    dataSets: PropTypes.array,
+    onChange: PropTypes.func,
+}
+
+export default function DataSetSelectorBarItem() {
+    const { data: metadata } = useMetadata()
+    const [dataSetOpen, setDataSetOpen] = useState(false)
+    const [dataSetId, setDataSetId] = useDataSetId()
+    const dataSets = Object.values(selectors.getDataSets(metadata))
+    const selectableDataSets = dataSets
+        .map(({ id, displayName }) => ({
+            label: displayName,
+            value: id,
+        }))
+        .sort((left, right) => left.label.localeCompare(right.label))
+    const dataSet = dataSets.find(({ id }) => id === dataSetId)
+
+    // Select the first item if there's only one
+    useEffect(
+        () => {
+            if (selectableDataSets.length === 1) {
+                const { id } = selectableDataSets[0]
+                setDataSetId(id)
+            }
+        },
+        // We need to do this only once
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    )
 
     return (
         <div data-test="data-set-selector">
             <SelectorBarItem
                 label={i18n.t('Data set')}
-                value={dataSetId ? dataSet.data?.displayName : undefined}
+                value={dataSetId ? dataSet.displayName : undefined}
                 open={dataSetOpen}
                 setOpen={setDataSetOpen}
                 noValueMessage={i18n.t('Choose a data set')}
             >
                 <div data-test="data-set-selector-contents">
-                    {showLoadingMessage && (
-                        <span data-test="data-set-selector-loading-msg">
-                            {i18n.t('Fetching data sets')}
-                        </span>
-                    )}
-
-                    {selectableDataSets.error && (
-                        <span data-test="data-set-selector-error-msg">
-                            {i18n.t('Error occurred while loading data sets')}
-                        </span>
-                    )}
-
-                    {isDoneLoading && !selectableDataSets.data?.length && (
-                        <span data-test="data-set-selector-none-available-msg">
-                            {i18n.t('There are no data sets available!')}
-                        </span>
-                    )}
-
-                    {isDoneLoading && !!selectableDataSets.data?.length && (
-                        <MenuSelect
-                            values={selectableDataSets.data || []}
-                            selected={dataSetId}
-                            dataTest="data-set-selector-menu"
-                            onChange={({ selected }) => {
-                                setDataSetId(selected)
-                                setDataSetOpen(false)
-                            }}
-                        />
-                    )}
+                    <DataSetSelectorBarDropDownContent
+                        dataSets={selectableDataSets}
+                        dataSetId={dataSetId}
+                        dataSet={dataSet}
+                        onChange={({ selected }) => {
+                            setDataSetId(selected)
+                            setDataSetOpen(false)
+                        }}
+                    />
                 </div>
             </SelectorBarItem>
         </div>
