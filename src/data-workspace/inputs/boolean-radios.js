@@ -17,19 +17,33 @@ export const BooleanRadios = ({
     fieldname,
     dataValueParams,
     setSyncStatus,
+    onFocus,
 }) => {
-    const yesField = useField(fieldname, {
+    const useFieldWithPatchedOnFocus = (...args) => {
+        const { input, ...rest } = useField(...args)
+        return {
+            ...rest,
+            input: {
+                ...input,
+                onFocus: (...args) => {
+                    input.onFocus(...args)
+                    onFocus(...args)
+                }
+            }
+        }
+    }
+    const yesField = useFieldWithPatchedOnFocus(fieldname, {
         type: 'radio',
         value: 'true',
         subscription: { value: true },
     })
-    const noField = useField(fieldname, {
+    const noField = useFieldWithPatchedOnFocus(fieldname, {
         type: 'radio',
         value: 'false',
         subscription: { value: true },
     })
     // Used for the 'clear' button, but works
-    const clearField = useField(fieldname, {
+    const clearField = useFieldWithPatchedOnFocus(fieldname, {
         type: 'radio',
         value: '',
         subscription: { value: true },
@@ -113,4 +127,5 @@ export const BooleanRadios = ({
         </div>
     )
 }
+
 BooleanRadios.propTypes = InputPropTypes

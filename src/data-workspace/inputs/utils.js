@@ -14,4 +14,5 @@ export const InputPropTypes = {
     dataValueParams: PropTypes.objectOf(PropTypes.string),
     lastSyncedValue: PropTypes.any,
     setSyncStatus: PropTypes.func,
+    onFocus: PropTypes.func,
 }

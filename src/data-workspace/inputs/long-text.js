@@ -4,7 +4,7 @@ import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
-export const LongText = ({ fieldname, dataValueParams, setSyncStatus }) => {
+export const LongText = ({ fieldname, dataValueParams, setSyncStatus, onFocus }) => {
     const { input, meta } = useField(fieldname, {
         subscription: { value: true, dirty: true, valid: true },
     })
@@ -38,6 +38,10 @@ export const LongText = ({ fieldname, dataValueParams, setSyncStatus }) => {
             className={styles.longText}
             rows="4"
             {...input}
+            onFocus={(...args) => {
+                input.onFocus(...args)
+                onFocus(...args)
+            }}
             onBlur={(e) => {
                 handleBlur()
                 input.onBlur(e)

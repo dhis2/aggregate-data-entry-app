@@ -14,6 +14,7 @@ export const OptionSet = ({
     optionSetId,
     dataValueParams,
     setSyncStatus,
+    onFocus,
 }) => {
     const { input } = useField(fieldname, { subscription: { value: true } })
     const { data: metadata } = useMetadata()
@@ -60,8 +61,9 @@ export const OptionSet = ({
                         input.onChange(selected)
                         handleChange(selected)
                     }}
-                    onFocus={() => {
+                    onFocus={(...args) => {
                         // onBlur here helps buggy onFocus work correctly
+                        onFocus(...args)
                         input.onBlur()
                         input.onFocus()
                     }}
