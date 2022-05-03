@@ -15,10 +15,16 @@ export const useAttributeParams = () => {
         const categoryCombo = selectors.getCategoryComboById(data, catComboId)
 
         const selectedOptions = Object.values(attributeOptionComboSelection)
+
+        if (categoryCombo.isDefault) {
+            // we don't need to supply attributeCombo/options when it's default
+            return {
+                validSelection: true,
+            }
+        }
         // all categories in catCombo should have a selection
         const validSelection =
             categoryCombo.categories.length === selectedOptions.length
-
         return {
             attributeCombo: catComboId,
             attributeOptions: selectedOptions,
