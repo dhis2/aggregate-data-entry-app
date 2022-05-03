@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { tabbable } from 'tabbable'
+import { useSidebar } from '../sidebar/index.js'
 
 // todo: does not work with `select` components (because focus gets trapped in portal?)
 
@@ -27,20 +28,24 @@ const focusPrev = (rootNode) => {
 /**
  * Emulates 'tab' behavior to focus next/previous fields in the workspace
  * with other keybinds
+ * tab and shift-tab on their own work as expected
  */
 export const KeyboardNavManager = ({ children }) => {
     const rootNodeRef = React.useRef()
+    const { showDataDetails } = useSidebar()
 
     const handleKeyDown = (event) => {
-        const { key } = event
-        if (key === 'ArrowDown' || key === 'Enter') {
+        const { key, shiftKey } = event
+
+        if (shiftKey && key === 'Enter') {
+            showDataDetails()
+        } else if (key === 'ArrowDown' || key === 'Enter') {
             event.preventDefault()
             focusNext(rootNodeRef.current)
         } else if (key === 'ArrowUp') {
             event.preventDefault()
             focusPrev(rootNodeRef.current)
         }
-        // tab and shift-tab on their own work as expected
     }
 
     return (
@@ -49,6 +54,7 @@ export const KeyboardNavManager = ({ children }) => {
         </div>
     )
 }
+
 KeyboardNavManager.propTypes = {
     children: PropTypes.node,
 }
