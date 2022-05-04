@@ -1,4 +1,5 @@
-import useDataSetSectionsInfo from './use-data-set-sections-info.js'
+import { selectors, useMetadata } from '../../metadata/index.js'
+import { useDataSetId } from '../use-context-selection/index.js'
 
 /*
  * `dataSetSectionsInfo.loading` does not mean that "null" should be rendered.
@@ -10,11 +11,13 @@ import useDataSetSectionsInfo from './use-data-set-sections-info.js'
  * reloading
  */
 export default function useShouldComponentRenderNull() {
-    const dataSetSectionsInfo = useDataSetSectionsInfo()
+    const [dataSetId] = useDataSetId()
+    const { data: metadata } = useMetadata()
+    const dataSet = selectors.getDataSets(metadata)[dataSetId]
 
     return (
-        !dataSetSectionsInfo.called ||
-        'SECTION' !== dataSetSectionsInfo.data?.formType ||
-        dataSetSectionsInfo.data?.sections.length === 0
+        !dataSet ||
+        'SECTION' !== dataSet.formType ||
+        dataSet.sections.length === 0
     )
 }
