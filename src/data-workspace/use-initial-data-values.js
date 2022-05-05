@@ -1,10 +1,10 @@
 import { useQuery, useIsMutating } from 'react-query'
 import {
     useContextSelection,
-    useAttributeParams,
     useIsValidSelection,
 } from '../context-selection/index.js'
 import { dataValueSets } from './query-key-factory.js'
+import { useApiAttributeParams } from './use-api-attribute-params.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
 function mapDataValuesToFormInitialValues(dataValues) {
@@ -24,7 +24,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
 
 export const useInitialDataValues = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const { attributeCombo, attributeOptions } = useAttributeParams()
+    const { attributeCombo, attributeOptions } = useApiAttributeParams()
     const isValidSelection = useIsValidSelection()
 
     const queryKey = dataValueSets.byIds({

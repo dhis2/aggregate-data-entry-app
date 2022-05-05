@@ -1,10 +1,8 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
-import {
-    useContextSelection,
-    useAttributeParams,
-} from '../../context-selection/index.js'
+import { useContextSelection } from '../../context-selection/index.js'
 import { dataValueSets } from '../query-key-factory.js'
+import { useApiAttributeParams } from '../use-api-attribute-params.js'
 
 const DATA_VALUE_MUTATION = {
     resource: 'dataValues',
@@ -77,7 +75,7 @@ const deleteDataValue = (previousDataValueSet, matchIndex) => {
 export const useDataValueMutation = (mutationType = MUTATION_TYPES.DEFAULT) => {
     const queryClient = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const { attributeCombo, attributeOptions } = useAttributeParams()
+    const { attributeCombo, attributeOptions } = useApiAttributeParams()
     const engine = useDataEngine()
 
     // Use mutation appropriate to mutation type
