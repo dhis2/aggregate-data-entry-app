@@ -3,8 +3,7 @@ import { Button, SingleSelect, SingleSelectOption } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useMetadata } from '../../metadata/index.js'
-import { getOptionSetById } from '../../metadata/selectors.js'
+import { useMetadata, selectors } from '../../metadata/index.js'
 import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
@@ -41,7 +40,7 @@ export const OptionSet = ({
         }
     }
 
-    const optionSet = getOptionSetById(metadata, optionSetId)
+    const optionSet = selectors.getOptionSetById(metadata, optionSetId)
     // filter out 'null' options
     const options = optionSet.options.filter((opt) => !!opt)
 

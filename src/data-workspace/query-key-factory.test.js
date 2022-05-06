@@ -7,7 +7,8 @@ describe('dataValueSets', () => {
                 dataSetId: 'dataSetId',
                 periodId: 'periodId',
                 orgUnitId: 'orgUnitId',
-                attributeOptionCombo: 'attributeOptionCombo',
+                attributeCombo: 'attributeCombo',
+                attributeOptions: 'attributeOptions',
             })
 
             expect(queryKey).toMatchInlineSnapshot(`
@@ -15,7 +16,8 @@ describe('dataValueSets', () => {
                   "dataValueSets",
                   Object {
                     "params": Object {
-                      "attributeOptionCombo": "attributeOptionCombo",
+                      "attributeCombo": "attributeCombo",
+                      "attributeOptions": "attributeOptions",
                       "dataSet": "dataSetId",
                       "orgUnit": "orgUnitId",
                       "period": "periodId",

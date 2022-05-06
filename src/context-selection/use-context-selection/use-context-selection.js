@@ -27,6 +27,14 @@ export function usePeriodId() {
     return useQueryParam('periodId', PARAMS_SCHEMA.periodId)
 }
 
+/**
+ *
+ * @returns the selected attribute-options in the shape of
+ * ```{
+ *   [categoryId: String]: String // categoryOptionId
+ * }```
+ *
+ */
 export function useAttributeOptionComboSelection() {
     return useQueryParam(
         'attributeOptionComboSelection',
