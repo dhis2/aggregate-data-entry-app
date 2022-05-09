@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { selectors, useMetadata } from '../../metadata/index.js'
 import { useDataSetId } from '../use-context-selection/index.js'
 import CategoriesMenu from './categories-menu.js'
+import useCategoriesWithOptionsWithinPeriod from './use-categories-with-options-within-period.js'
 import useOnDependentParamsChange from './use-on-dependent-params-change.js'
 import useSelected from './use-selected.js'
 import useSelectorBarItemLabel from './use-selector-bar-item-label.js'
@@ -14,11 +15,11 @@ import useShouldComponentRenderNull from './use-should-component-render-null.js'
 const hasCategoryNoOptions = (category) => category.categoryOptions.length === 0
 
 const useSetSelectionHasNoFormMessage = (
-    categories,
+    categoryWithNoOptionsExists,
     setSelectionHasNoFormMessage
 ) => {
     useEffect(() => {
-        if (categories.some(hasCategoryNoOptions)) {
+        if (categoryWithNoOptionsExists) {
             setSelectionHasNoFormMessage(
                 i18n.t(
                     'At least one of the categories does not have any options due to the options not spanning over the entire selected period'
@@ -27,22 +28,9 @@ const useSetSelectionHasNoFormMessage = (
         } else {
             setSelectionHasNoFormMessage('')
         }
-    }, [categories, setSelectionHasNoFormMessage])
-}
+    }, [categoryWithNoOptionsExists, setSelectionHasNoFormMessage])
 
-const getCategoriesByIds = (categories, ids) => {
-    const categoriesByIds = {}
-    ids.forEach(id => (categoriesByIds[id] = categories[id]))
-    return Object.values(categoriesByIds)
-}
-
-const resolveCategoryOptionIds = (categories, categoryOptions) => {
-    return categories.map(category => ({
-        ...category,
-        categoryOptions: category.categoryOptions.map(
-            id => categoryOptions[id]
-        ),
-    }))
+    return categoryWithNoOptionsExists
 }
 
 export default function AttributeOptionComboSelectorBarItem({
@@ -55,16 +43,10 @@ export default function AttributeOptionComboSelectorBarItem({
     const categoryComboId = dataSet?.categoryCombo.id
     const categoryCombos = selectors.getCategoryCombos(metadata)
     const categoryCombo = categoryCombos[categoryComboId]
-    const categoryIds = categoryCombo?.categories || []
-    const categories = selectors.getCategories(metadata)
-    const relevantCategories = getCategoriesByIds(categories, categoryIds)
-    const categoryOptions = selectors.getCategoryOptions(metadata)
-    const relevantCategoriesWithOptions = resolveCategoryOptionIds(relevantCategories, categoryOptions)
+    const relevantCategoriesWithOptions = useCategoriesWithOptionsWithinPeriod()
 
     const [open, setOpen] = useState(false)
     const { deselectAll, select, selected } = useSelected()
-    const shouldComponentRenderNull =
-        useShouldComponentRenderNull(categoryCombo)
     const label = useSelectorBarItemLabel(categoryCombo)
     const valueLabel = useSelectorBarItemValue(categoryCombo)
     const onChange = ({ selected, categoryId }) =>
@@ -73,9 +55,13 @@ export default function AttributeOptionComboSelectorBarItem({
             categoryId,
         })
 
+    const categoryWithNoOptionsExists = relevantCategoriesWithOptions.some(hasCategoryNoOptions)
+    const shouldComponentRenderNull =
+        useShouldComponentRenderNull(categoryCombo, categoryWithNoOptionsExists)
+
     useOnDependentParamsChange(deselectAll)
     useSetSelectionHasNoFormMessage(
-        relevantCategories,
+        categoryWithNoOptionsExists,
         setSelectionHasNoFormMessage
     )
 
