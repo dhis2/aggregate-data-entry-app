@@ -25,10 +25,10 @@ Given(
     () => {
         cy.intercept(
             'GET',
-            new RegExp('dataSets/lyLU2wR22tC[?]fields=categoryCombo'),
+            /api[/]39[/]dataEntry[/]metadata/,
             {
                 fixture:
-                    'context-selection/cat-combo-with-all-options-of-one-cat-between-20200101-20201231.json',
+                    'context-selection/metadata-with-cat-combo-with-all-options-of-one-cat-between-20200101-20201231.json',
             }
         )
 
@@ -44,10 +44,10 @@ Given(
     () => {
         cy.intercept(
             'GET',
-            new RegExp('dataSets/lyLU2wR22tC[?]fields=categoryCombo'),
+            /api[/]39[/]dataEntry[/]metadata/,
             {
                 fixture:
-                    'context-selection/cat-combo-with-option-between-20200101-20201231.json',
+                    'context-selection/metadata-with-cat-combo-with-option-between-20200101-20201231.json',
             }
         )
 
@@ -145,6 +145,10 @@ Then('the selector should not be displayed', () => {
     cy.get('[data-test="attribute-option-combo-selector"]').should('not.exist')
 })
 
+Then('a disabled default attribute combo selector should be displayed', () => {
+    cy.get('[data-test="attribute-option-combo-selector"] > button:disabled').should('exist')
+})
+
 Then(
     'the selector should be displayed once the categories and options have been loaded',
     () => {
@@ -160,7 +164,7 @@ Then('the selector should show that zero items have been selected', () => {
 
 Then('the selector should show that some items have been selected', () => {
     cy.get('[data-test="dhis2-ui-selectorbar"]')
-        .contains('1 selections')
+        .contains('1 selection')
         .should('exist')
 })
 
