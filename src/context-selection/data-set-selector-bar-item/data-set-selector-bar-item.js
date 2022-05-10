@@ -59,14 +59,11 @@ export default function DataSetSelectorBarItem() {
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
     // Select the first item if there's only one
-    useEffect(
-        () => {
-            if (dataSets.length === 1) {
-                setDataSetId(dataSets[0].id)
-            }
-        },
-        [dataSets, setDataSetId]
-    )
+    useEffect(() => {
+        if (dataSets.length === 1) {
+            setDataSetId(dataSets[0].id)
+        }
+    }, [dataSets, setDataSetId])
 
     return (
         <div data-test="data-set-selector">

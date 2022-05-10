@@ -104,9 +104,8 @@ export const getCategoryComboByDataSetId = createCachedSelector(
 export const getCategoriesByDataSetId = createCachedSelector(
     getCategoryComboByDataSetId,
     getCategories,
-    (categoryCombo, categories) => categoryCombo?.categories.map(
-        (id) => categories[id]
-    ) || []
+    (categoryCombo, categories) =>
+        categoryCombo?.categories.map((id) => categories[id]) || []
 )((_, categoryComboId) => categoryComboId)
 
 /**

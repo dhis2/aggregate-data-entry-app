@@ -50,7 +50,10 @@ export default function useCategoriesWithOptionsWithinPeriod() {
         return []
     }
 
-    const relevantCategories = selectors.getCategoriesByDataSetId(metadata, dataSetId)
+    const relevantCategories = selectors.getCategoriesByDataSetId(
+        metadata,
+        dataSetId
+    )
     const categoryOptions = selectors.getCategoryOptions(metadata)
     const relevantCategoriesWithOptions = resolveCategoryOptionIds(
         relevantCategories,

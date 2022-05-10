@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
-import React, { useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { selectors, useMetadata } from '../../metadata/index.js'
 import { MenuSelect } from '../menu-select/index.js'
 import {
@@ -14,7 +14,10 @@ import useShouldComponentRenderNull from './use-should-component-render-null.js'
 export default function SectionFilterSelectorBarItem() {
     const [open, setOpen] = useState(false)
     const [sectionFilter, setSectionFilter] = useSectionFilter()
-    const deselect = () => setSectionFilter(undefined)
+    const deselect = useCallback(
+        () => setSectionFilter(undefined),
+        [setSectionFilter]
+    )
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
