@@ -8,6 +8,6 @@
         "dhis2ApiVersion": "39"
     },
     "experimentalInteractiveRunEvents": true,
-    "testFiles": "**/*.feature",
+    "testFiles": ["**/*.feature.js", "**/*.feature"],
     "defaultCommandTimeout": 20000
 }
