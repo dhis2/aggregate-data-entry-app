@@ -32,12 +32,6 @@ const isOptionWithinPeriod = ({
     return true
 }
 
-const getCategoriesByIds = (categories, ids) => {
-    const categoriesByIds = {}
-    ids.forEach((id) => (categoriesByIds[id] = categories[id]))
-    return Object.values(categoriesByIds)
-}
-
 const resolveCategoryOptionIds = (categories, categoryOptions) => {
     return categories.map((category) => ({
         ...category,
@@ -56,14 +50,7 @@ export default function useCategoriesWithOptionsWithinPeriod() {
         return []
     }
 
-    const dataSets = selectors.getDataSets(metadata) || ''
-    const dataSet = dataSets[dataSetId]
-    const categoryComboId = dataSet?.categoryCombo.id
-    const categoryCombos = selectors.getCategoryCombos(metadata)
-    const categoryCombo = categoryCombos[categoryComboId]
-    const categoryIds = categoryCombo?.categories || []
-    const categories = selectors.getCategories(metadata)
-    const relevantCategories = getCategoriesByIds(categories, categoryIds)
+    const relevantCategories = selectors.getCategoriesByDataSetId(metadata, dataSetId)
     const categoryOptions = selectors.getCategoryOptions(metadata)
     const relevantCategoriesWithOptions = resolveCategoryOptionIds(
         relevantCategories,

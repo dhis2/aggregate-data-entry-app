@@ -17,8 +17,7 @@ export default function SectionFilterSelectorBarItem() {
     const deselect = () => setSectionFilter(undefined)
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
-    const dataSet = selectors.getDataSets(metadata)[dataSetId]
-    // const dataSetSectionsInfo = useDataSetSectionsInfo()
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const sectionFilterValue = useSelectorBarItemValue()
 
     useOnDependentParamsChange(deselect)

@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
-import { useMetadata } from '../../metadata/index.js'
+import { selectors, useMetadata } from '../../metadata/index.js'
 import { usePeriod } from '../../shared/index.js'
 import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
 import computeMaxYear from './compute-max-year.js'
@@ -18,7 +18,7 @@ export const PeriodSelectorBarItem = () => {
     const [periodId, setPeriodId] = usePeriodId()
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
-    const dataSet = metadata.dataSets[dataSetId]
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const dataSetPeriodType = dataSet?.periodType
 
     const [maxYear, setMaxYear] = useState(() =>

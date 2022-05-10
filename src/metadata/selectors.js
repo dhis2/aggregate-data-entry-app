@@ -87,6 +87,30 @@ export const getCategoriesByCategoryComboId = createCachedSelector(
 
 /**
  * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getCategoryComboByDataSetId = createCachedSelector(
+    getDataSetById,
+    getCategoryCombos,
+    (dataSet, categoryCombos) => {
+        return categoryCombos?.[dataSet.categoryCombo.id]
+    }
+)((_, categoryComboId) => categoryComboId)
+
+/**
+ * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getCategoriesByDataSetId = createCachedSelector(
+    getCategoryComboByDataSetId,
+    getCategories,
+    (categoryCombo, categories) => categoryCombo?.categories.map(
+        (id) => categories[id]
+    ) || []
+)((_, categoryComboId) => categoryComboId)
+
+/**
+ * @param {*} metadata
  * @param {*} categoryId
  */
 export const getCategoryOptionsByCategoryId = createCachedSelector(

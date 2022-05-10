@@ -56,7 +56,7 @@ export default function DataSetSelectorBarItem() {
             value: id,
         }))
         .sort((left, right) => left.label.localeCompare(right.label))
-    const dataSet = dataSets.find(({ id }) => id === dataSetId)
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
     // Select the first item if there's only one
     useEffect(

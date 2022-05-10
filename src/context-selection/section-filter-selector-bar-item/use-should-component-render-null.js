@@ -10,7 +10,7 @@ export default function useShouldComponentRenderNull() {
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const { data: metadata } = useMetadata()
-    const dataSet = selectors.getDataSets(metadata)[dataSetId]
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
     return (
         !dataSet ||

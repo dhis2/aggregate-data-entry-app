@@ -38,11 +38,7 @@ export default function AttributeOptionComboSelectorBarItem({
 }) {
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
-    const dataSets = selectors.getDataSets(metadata) || ''
-    const dataSet = dataSets[dataSetId]
-    const categoryComboId = dataSet?.categoryCombo.id
-    const categoryCombos = selectors.getCategoryCombos(metadata)
-    const categoryCombo = categoryCombos[categoryComboId]
+    const categoryCombo = selectors.getCategoryComboByDataSetId(metadata, dataSetId)
     const relevantCategoriesWithOptions = useCategoriesWithOptionsWithinPeriod()
 
     const [open, setOpen] = useState(false)
