@@ -59,22 +59,16 @@ export default function DataSetSelectorBarItem() {
     const dataSet = dataSets.find(({ id }) => id === dataSetId)
 
     // Select the first item if there's only one
-    const [dev, setDev] = useState('initial value')
     useEffect(
         () => {
             if (dataSets.length === 1) {
                 setDataSetId(dataSets[0].id)
-                setDev(`Set value to ${dataSets[0].id}`)
-            } else {
-                setDev(`Length not 1: ${dataSets.length === 1}`)
             }
         },
         // We need to do this only once
         // eslint-disable-next-line react-hooks/exhaustive-deps
         []
     )
-
-    console.log('> dev', dev)
 
     return (
         <div data-test="data-set-selector">
