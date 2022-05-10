@@ -65,9 +65,7 @@ export default function DataSetSelectorBarItem() {
                 setDataSetId(dataSets[0].id)
             }
         },
-        // We need to do this only once
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
+        [dataSets, setDataSetId]
     )
 
     return (
