@@ -4,7 +4,10 @@ import {
     usePeriodId,
 } from '../use-context-selection/index.js'
 
-export default function useShouldComponentRenderNull(categoryCombination, categoryWithNoOptionsExists) {
+export default function useShouldComponentRenderNull(
+    categoryCombination,
+    categoryWithNoOptionsExists
+) {
     const [dataSetId] = useDataSetId()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()

@@ -22,9 +22,9 @@ const DataSetSelectorBarDropDownContent = ({
 
     if (!dataSets.length) {
         return (
-                <span data-test="data-set-selector-none-available-msg">
-                    {i18n.t('There are no data sets available!')}
-                </span>
+            <span data-test="data-set-selector-none-available-msg">
+                {i18n.t('There are no data sets available!')}
+            </span>
         )
     }
 

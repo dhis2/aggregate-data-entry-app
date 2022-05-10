@@ -13,30 +13,28 @@ export default function CategoriesMenu({
     return (
         <div className={css.container}>
             <div className={css.inputs}>
-                {categories.map(
-                    ({ id, displayName, categoryOptions }) => (
-                        <div className={css.input} key={id}>
-                            <SingleSelectField
-                                label={displayName}
-                                selected={selected[id]}
-                                onChange={({ selected }) =>
-                                    onChange({
-                                        categoryId: id,
-                                        selected,
-                                    })
-                                }
-                            >
-                                {categoryOptions.map(({ id, displayName }) => (
-                                    <SingleSelectOption
-                                        key={id}
-                                        value={id}
-                                        label={displayName}
-                                    />
-                                ))}
-                            </SingleSelectField>
-                        </div>
-                    )
-                )}
+                {categories.map(({ id, displayName, categoryOptions }) => (
+                    <div className={css.input} key={id}>
+                        <SingleSelectField
+                            label={displayName}
+                            selected={selected[id]}
+                            onChange={({ selected }) =>
+                                onChange({
+                                    categoryId: id,
+                                    selected,
+                                })
+                            }
+                        >
+                            {categoryOptions.map(({ id, displayName }) => (
+                                <SingleSelectOption
+                                    key={id}
+                                    value={id}
+                                    label={displayName}
+                                />
+                            ))}
+                        </SingleSelectField>
+                    </div>
+                ))}
             </div>
 
             <Button

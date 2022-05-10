@@ -55,9 +55,12 @@ export default function AttributeOptionComboSelectorBarItem({
             categoryId,
         })
 
-    const categoryWithNoOptionsExists = relevantCategoriesWithOptions.some(hasCategoryNoOptions)
-    const shouldComponentRenderNull =
-        useShouldComponentRenderNull(categoryCombo, categoryWithNoOptionsExists)
+    const categoryWithNoOptionsExists =
+        relevantCategoriesWithOptions.some(hasCategoryNoOptions)
+    const shouldComponentRenderNull = useShouldComponentRenderNull(
+        categoryCombo,
+        categoryWithNoOptionsExists
+    )
 
     useOnDependentParamsChange(deselectAll)
     useSetSelectionHasNoFormMessage(

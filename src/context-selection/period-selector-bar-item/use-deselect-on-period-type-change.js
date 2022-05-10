@@ -23,9 +23,7 @@ export default function useDeselectOnPeriodTypeChange(dataSetPeriodType) {
     const [dataSetId] = useDataSetId()
 
     useEffect(() => {
-        if (
-            previousPeriodType !== dataSetPeriodType
-        ) {
+        if (previousPeriodType !== dataSetPeriodType) {
             if (periodId) {
                 setPeriodId(undefined)
             }

@@ -3,7 +3,10 @@ import { SelectorBarItem } from '@dhis2/ui'
 import React, { useState, useEffect } from 'react'
 import { selectors, useMetadata } from '../../metadata/index.js'
 import { MenuSelect } from '../menu-select/index.js'
-import { useDataSetId, useSectionFilter } from '../use-context-selection/index.js'
+import {
+    useDataSetId,
+    useSectionFilter,
+} from '../use-context-selection/index.js'
 import useOnDependentParamsChange from './use-on-dependent-params-change.js'
 import useSelectorBarItemValue from './use-selector-bar-item-value.js'
 import useShouldComponentRenderNull from './use-should-component-render-null.js'

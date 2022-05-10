@@ -34,15 +34,15 @@ const isOptionWithinPeriod = ({
 
 const getCategoriesByIds = (categories, ids) => {
     const categoriesByIds = {}
-    ids.forEach(id => (categoriesByIds[id] = categories[id]))
+    ids.forEach((id) => (categoriesByIds[id] = categories[id]))
     return Object.values(categoriesByIds)
 }
 
 const resolveCategoryOptionIds = (categories, categoryOptions) => {
-    return categories.map(category => ({
+    return categories.map((category) => ({
         ...category,
         categoryOptions: category.categoryOptions.map(
-            id => categoryOptions[id]
+            (id) => categoryOptions[id]
         ),
     }))
 }
@@ -65,20 +65,22 @@ export default function useCategoriesWithOptionsWithinPeriod() {
     const categories = selectors.getCategories(metadata)
     const relevantCategories = getCategoriesByIds(categories, categoryIds)
     const categoryOptions = selectors.getCategoryOptions(metadata)
-    const relevantCategoriesWithOptions = resolveCategoryOptionIds(relevantCategories, categoryOptions)
+    const relevantCategoriesWithOptions = resolveCategoryOptionIds(
+        relevantCategories,
+        categoryOptions
+    )
     const period = parsePeriodId(periodId)
     const periodStartDate = new Date(period.startDate)
     const periodEndDate = new Date(period.endDate)
 
-    return relevantCategoriesWithOptions.map(category => ({
+    return relevantCategoriesWithOptions.map((category) => ({
         ...category,
-        categoryOptions: category.categoryOptions.filter(
-            (categoryOption) =>
-                isOptionWithinPeriod({
-                    periodStartDate,
-                    periodEndDate,
-                    categoryOption,
-                })
+        categoryOptions: category.categoryOptions.filter((categoryOption) =>
+            isOptionWithinPeriod({
+                periodStartDate,
+                periodEndDate,
+                categoryOption,
+            })
         ),
     }))
 }

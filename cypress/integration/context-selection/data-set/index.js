@@ -63,12 +63,13 @@ Given('only one selectable data set exists', () => {
 
 When('selects a data set', () => {
     cy.fixture('context-selection/metadata-complete').then(({ dataSets }) => {
-        cy
-            .get('[data-test="data-set-selector-menu"] li:first-child')
+        cy.get('[data-test="data-set-selector-menu"] li:first-child')
             .click()
             .invoke('text')
-            .then(label => {
-                const dataSet = dataSets.find(({ displayName }) => displayName === label)
+            .then((label) => {
+                const dataSet = dataSets.find(
+                    ({ displayName }) => displayName === label
+                )
                 cy.wrap(dataSet).as('selectedDataSet')
             })
     })
@@ -114,13 +115,11 @@ Then('nothing but an error message should be displayed', () => {
 })
 
 Then('the only available data set should be selected', () => {
-    cy.fixture('context-selection/metadata-complete').then(
-        ({ dataSets }) => {
-            const [dataSet] = dataSets
-            const { displayName } = dataSet
-            getDataSetSelectorValueLabelByContent(displayName).should('exist')
-        }
-    )
+    cy.fixture('context-selection/metadata-complete').then(({ dataSets }) => {
+        const [dataSet] = dataSets
+        const { displayName } = dataSet
+        getDataSetSelectorValueLabelByContent(displayName).should('exist')
+    })
 })
 
 Then(
