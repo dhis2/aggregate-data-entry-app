@@ -8,15 +8,17 @@ import {
 } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
-import { useMetadata, selectors } from '../metadata/index.js'
-import { cartesian } from '../shared/utils.js'
-import styles from './category-combo-table.module.css'
+import React, { useMemo } from 'react'
+import { useMetadata, selectors } from '../../metadata/index.js'
+import { cartesian } from '../../shared/utils.js'
 import {
     DataEntryCell,
     DataEntryField,
     useActiveCell,
-} from './data-entry-cell/index.js'
+} from '../data-entry-cell/index.js'
+import { RowTotals } from '../table-totals/row-totals.js'
+import { useValueMatrix } from '../use-value-matrix.js'
+import styles from './category-combo-table.module.css'
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -28,20 +30,32 @@ export const CategoryComboTable = ({
     const { data } = useMetadata()
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
-    if (!data) {
-        return null
-    }
-
     const categories = selectors.getCategoriesByCategoryComboId(
         data,
         categoryCombo.id
     )
 
-    // each element is a combination of category-options for a particular column
-    // this results in lists of category-options in the same order as headers are rendered
-    // the result is a client side computation of categoryOption-combinations
-    const optionsIdLists = categories.map((cat) => cat.categoryOptions)
-    const computedCategoryOptions = cartesian(optionsIdLists)
+    const [sortedCOCs, computedCategoryOptions] = useMemo(() => {
+        // each element is a combination of category-options for a particular column
+        // this results in lists of category-options in the same order as headers are rendered
+        // the result is a client side computation of categoryOption-combinations
+        const optionsIdLists = categories.map((cat) => cat.categoryOptions)
+        const computedCategoryOptions = cartesian(optionsIdLists)
+        // find categoryOptionCombos by category-options
+        const cocs = computedCategoryOptions
+            .map((options) =>
+                selectors.getCoCByCategoryOptions(
+                    data,
+                    categoryCombo.id,
+                    options
+                )
+            )
+            .filter((coc) => !!coc)
+
+        return [cocs, computedCategoryOptions]
+    }, [categories, selectors])
+    console.log(sortedCOCs, computedCategoryOptions)
+    const valueMatrix = useValueMatrix(dataElements, sortedCOCs)
 
     if (
         computedCategoryOptions.length !==
@@ -84,13 +98,6 @@ export const CategoryComboTable = ({
         }
         return c
     })
-
-    // find categoryOptionCombos by category-options
-    const sortedCOCs = computedCategoryOptions
-        .map((options) =>
-            selectors.getCoCByCategoryOptions(data, categoryCombo.id, options)
-        )
-        .filter((coc) => !!coc)
 
     const renderPaddedCells =
         maxColumnsInSection > 0
@@ -181,6 +188,7 @@ export const CategoryComboTable = ({
                     </TableRow>
                 )
             })}
+            <RowTotals dataElements={dataElements} sortedCOCs={sortedCOCs} />
             {itemsHiddenCnt > 0 && (
                 <TableRow>
                     <TableCell
@@ -217,6 +225,8 @@ CategoryComboTable.propTypes = {
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
     maxColumnsInSection: PropTypes.number,
+    renderRowTotals: PropTypes.bool,
+    renderColumnTotals: PropTypes.bool,
 }
 
 const PaddingCell = () => <TableCell className={styles.paddingCell}></TableCell>
