@@ -1,7 +1,9 @@
 import {
     getCategories,
     getCategoriesByCategoryComboId,
+    getCategoriesByDataSetId,
     getCategoryById,
+    getCategoryComboByDataSetId,
     getCategoryComboById,
     getCategoryCombos,
     getCategoryOptionCombosByCategoryComboId,
@@ -13,9 +15,9 @@ import {
     getDataElementsBySection,
     getDataSetById,
     getDataSets,
-    getSections,
     getGroupedDataElementsByCatCombo,
     getGroupedDataElementsByCatComboInOrder,
+    getSections,
 } from './selectors.js'
 
 describe('simple selectors', () => {
@@ -325,6 +327,179 @@ describe('complex selectors that select by id', () => {
             ).toEqual(expected)
         })
     })
+
+    describe('getCategoryComboByDataSetId', () => {
+        let consoleWarnSpy
+
+        beforeAll(() => {
+            consoleWarnSpy = jest
+                .spyOn(console, 'warn')
+                .mockImplementation(() => {})
+        })
+
+        beforeEach(() => {
+            consoleWarnSpy.mockClear()
+        })
+
+        afterAll(() => {
+            consoleWarnSpy.mockRestore()
+        })
+
+        it('returns the expected data', () => {
+            const dataSetId = 'data-set-foo'
+            const categoryComboId = 'category-combo-foo'
+
+            const data = {
+                dataSets: {
+                    [dataSetId]: {
+                        categoryCombo: { id: categoryComboId },
+                    },
+                },
+                categoryCombos: {
+                    [categoryComboId]: {
+                        id: categoryComboId,
+                        categories: [],
+                    },
+                },
+            }
+
+            const actual = getCategoryComboByDataSetId(data, dataSetId)
+            const expected = { id: categoryComboId, categories: [] }
+            expect(actual).toEqual(expected)
+        })
+
+        it('returns undefined when the data set does not have a category combo', () => {
+            const dataSetId = 'data-set-foo'
+            const categoryComboId = 'category-combo-foo'
+
+            const data = {
+                dataSets: {
+                    [dataSetId]: {
+                        id: dataSetId,
+                    },
+                },
+                categoryCombos: {
+                    [categoryComboId]: {
+                        id: categoryComboId,
+                        categories: [],
+                    },
+                },
+            }
+
+            const actual = getCategoryComboByDataSetId(data, dataSetId)
+            const expected = undefined
+            expect(actual).toEqual(expected)
+            expect(consoleWarnSpy).toHaveBeenCalledWith(
+                `Data set with id ${dataSetId} does not have a category combo`
+            )
+        })
+
+        it("returns undefined when the data set's category combo does not exist", () => {
+            const dataSetId = 'data-set-foo'
+            const categoryComboId = 'category-combo-foo'
+
+            const data = {
+                dataSets: {
+                    [dataSetId]: {
+                        id: dataSetId,
+                        categoryCombo: { id: 'category-combo-bar' },
+                    },
+                },
+                categoryCombos: {
+                    [categoryComboId]: {
+                        id: categoryComboId,
+                        categories: [],
+                    },
+                },
+            }
+
+            const actual = getCategoryComboByDataSetId(data, dataSetId)
+            const expected = undefined
+            expect(actual).toEqual(expected)
+            expect(consoleWarnSpy).toHaveBeenCalledWith(
+                `Could not find a category combo for data set with id ${dataSetId}`
+            )
+        })
+    })
+
+    describe('getCategoriesByDataSetId', () => {
+        let consoleWarnSpy
+
+        beforeAll(() => {
+            consoleWarnSpy = jest
+                .spyOn(console, 'warn')
+                .mockImplementation(() => {})
+        })
+
+        beforeEach(() => {
+            consoleWarnSpy.mockClear()
+        })
+
+        afterAll(() => {
+            consoleWarnSpy.mockRestore()
+        })
+
+        it('returns the expected data', () => {
+            const dataSetId = 'data-set-foo'
+            const categoryComboId = 'category-combo-foo'
+            const categoryOneId = 'category-foo'
+            const categoryTwoId = 'category-bar'
+
+            const data = {
+                dataSets: {
+                    [dataSetId]: {
+                        categoryCombo: { id: categoryComboId },
+                    },
+                },
+                categoryCombos: {
+                    [categoryComboId]: {
+                        id: categoryComboId,
+                        categories: [categoryOneId, categoryTwoId],
+                    },
+                },
+                categories: {
+                    [categoryOneId]: { id: categoryOneId },
+                    [categoryTwoId]: { id: categoryTwoId },
+                },
+            }
+
+            const actual = getCategoriesByDataSetId(data, dataSetId)
+            const expected = [{ id: categoryOneId }, { id: categoryTwoId }]
+            expect(actual).toEqual(expected)
+        })
+
+        it('returns an empty array when the category combo does not exist', () => {
+            const dataSetId = 'data-set-foo'
+            const categoryComboId = 'category-combo-foo'
+            const categoryOneId = 'category-foo'
+            const categoryTwoId = 'category-bar'
+
+            const data = {
+                dataSets: {
+                    [dataSetId]: {
+                        categoryCombo: { id: 'category-combo-bar' },
+                    },
+                },
+                categoryCombos: {
+                    [categoryComboId]: {
+                        id: categoryComboId,
+                        categories: [categoryOneId, categoryTwoId],
+                    },
+                },
+                categories: {
+                    [categoryOneId]: { id: categoryOneId },
+                    [categoryTwoId]: { id: categoryTwoId },
+                },
+            }
+
+            const actual = getCategoriesByDataSetId(data, dataSetId)
+            const expected = []
+            expect(actual).toEqual(expected)
+            expect(consoleWarnSpy).toHaveBeenCalledWith(
+                `Could not find categories for data set with id ${dataSetId}`
+            )
+        })
+    })
 })
 
 describe('selectors that group dataElements', () => {
@@ -398,6 +573,22 @@ describe('selectors that group dataElements', () => {
 })
 
 describe('getCoCByCategoryOptions', () => {
+    let consoleWarnSpy
+
+    beforeAll(() => {
+        consoleWarnSpy = jest
+            .spyOn(console, 'warn')
+            .mockImplementation(() => {})
+    })
+
+    beforeEach(() => {
+        consoleWarnSpy.mockClear()
+    })
+
+    afterAll(() => {
+        consoleWarnSpy.mockRestore()
+    })
+
     it('returns the expected categoryOptionCombo when ids are in the same order', () => {
         const categoryComboId = 'categoryComboId'
         const categoryOptionIds = ['one', 'two']
@@ -479,8 +670,14 @@ describe('getCoCByCategoryOptions', () => {
             },
         }
 
-        expect(
-            getCoCByCategoryOptions(data, categoryComboId, categoryOptionIds)
-        ).toBeNull()
+        const actual = getCoCByCategoryOptions(
+            data,
+            categoryComboId,
+            categoryOptionIds
+        )
+        expect(actual).toBeNull()
+        expect(consoleWarnSpy).toHaveBeenCalledWith(
+            `Could not find categoryOptionCombo for catCombo ${categoryComboId}, with categoryOptions: ${categoryOptionIds.join()}`
+        )
     })
 })

@@ -87,6 +87,56 @@ export const getCategoriesByCategoryComboId = createCachedSelector(
 
 /**
  * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getCategoryComboByDataSetId = createCachedSelector(
+    getDataSetById,
+    getCategoryCombos,
+    (_, dataSetId) => dataSetId,
+    (dataSet, categoryCombos, dataSetId) => {
+        if (!dataSet?.categoryCombo?.id) {
+            console.warn(
+                `Data set with id ${dataSetId} does not have a category combo`
+            )
+
+            return undefined
+        }
+
+        const categoryCombo = categoryCombos[dataSet?.categoryCombo?.id]
+
+        if (!categoryCombo) {
+            console.warn(
+                `Could not find a category combo for data set with id ${dataSetId}`
+            )
+        }
+
+        return categoryCombo
+    }
+)((_, dataSetId) => dataSetId)
+
+/**
+ * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getCategoriesByDataSetId = createCachedSelector(
+    (metadata) => metadata,
+    getCategoryComboByDataSetId,
+    (_, dataSetId) => dataSetId,
+    (metadata, categoryCombo, dataSetId) => {
+        if (!categoryCombo?.id) {
+            console.warn(
+                `Could not find categories for data set with id ${dataSetId}`
+            )
+
+            return []
+        }
+
+        return getCategoriesByCategoryComboId(metadata, categoryCombo.id)
+    }
+)((_, dataSetId) => dataSetId)
+
+/**
+ * @param {*} metadata
  * @param {*} categoryId
  */
 export const getCategoryOptionsByCategoryId = createCachedSelector(

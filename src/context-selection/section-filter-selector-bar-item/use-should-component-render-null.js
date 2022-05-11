@@ -1,20 +1,22 @@
-import useDataSetSectionsInfo from './use-data-set-sections-info.js'
+import { selectors, useMetadata } from '../../metadata/index.js'
+import {
+    useDataSetId,
+    useOrgUnitId,
+    usePeriodId,
+} from '../use-context-selection/index.js'
 
-/*
- * `dataSetSectionsInfo.loading` does not mean that "null" should be rendered.
- * This happens automatically during the first loading as
- * `'SECTION' !== dataSetSectionsInfo.data?.formType` resolves to `true`.
- *
- * But when data is stale and this function has determined that the component
- * should not render `null`, then it's most likely not going to change when
- * reloading
- */
 export default function useShouldComponentRenderNull() {
-    const dataSetSectionsInfo = useDataSetSectionsInfo()
+    const [dataSetId] = useDataSetId()
+    const [orgUnitId] = useOrgUnitId()
+    const [periodId] = usePeriodId()
+    const { data: metadata } = useMetadata()
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
     return (
-        !dataSetSectionsInfo.called ||
-        'SECTION' !== dataSetSectionsInfo.data?.formType ||
-        dataSetSectionsInfo.data?.sections.length === 0
+        !dataSet ||
+        !orgUnitId ||
+        !periodId ||
+        'SECTION' !== dataSet.formType ||
+        dataSet.sections.length === 0
     )
 }

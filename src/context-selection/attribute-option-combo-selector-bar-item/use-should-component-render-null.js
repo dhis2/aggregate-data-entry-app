@@ -4,16 +4,10 @@ import {
     usePeriodId,
 } from '../use-context-selection/index.js'
 
-/*
- * `categoryCombination.loading` does not mean that "null" should be rendered.
- * This happens automatically during the first loading as
- * `!categoryCombination.data?.categories.length` resolves to `true`.
- *
- * But when data is stale and this function has determined that the component
- * should not render `null`, then it's most likely not going to change when
- * reloading
- */
-export default function useShouldComponentRenderNull(categoryCombination) {
+export default function useShouldComponentRenderNull(
+    categoryCombination,
+    categoryWithNoOptionsExists
+) {
     const [dataSetId] = useDataSetId()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
@@ -22,10 +16,10 @@ export default function useShouldComponentRenderNull(categoryCombination) {
         !dataSetId ||
         !periodId ||
         !orgUnitId ||
-        !categoryCombination.called ||
+        categoryWithNoOptionsExists ||
         // if it is the default combo,
         // then it doesn't matter if there are categories or not
-        (!categoryCombination.data?.isDefault &&
-            !categoryCombination.data?.categories.length)
+        (!categoryCombination.isDefault &&
+            !categoryCombination.categories.length)
     )
 }

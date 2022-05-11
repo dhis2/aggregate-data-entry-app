@@ -4,23 +4,21 @@ import { useAttributeOptionComboSelection } from '../use-context-selection/index
 export default function useSelectorBarItemValue(categoryCombination) {
     const [attributeOptionComboSelection] = useAttributeOptionComboSelection()
 
-    if (!categoryCombination.called || categoryCombination.loading) {
-        return i18n.t('Loading...')
-    }
-
-    if (categoryCombination.error) {
-        return i18n.t('An error loading the values occurred')
-    }
-
-    if (categoryCombination.data?.isDefault) {
+    if (categoryCombination?.isDefault) {
         return ''
     }
 
     if (
         !Object.values(attributeOptionComboSelection).length ||
-        !categoryCombination.data
+        !categoryCombination
     ) {
         return i18n.t('0 selections')
+    }
+
+    const amount = Object.values(attributeOptionComboSelection).length
+
+    if (amount === 1) {
+        return i18n.t('1 selection')
     }
 
     return i18n.t('{{amount}} selections', {
