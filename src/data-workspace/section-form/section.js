@@ -92,6 +92,8 @@ export const SectionFormSection = ({
                     filterText={filterText}
                     globalFilterText={globalFilterText}
                     maxColumnsInSection={maxColumnsInSection}
+                    renderRowTotals={section.showRowTotals}
+                    renderColumnTotals={section.showColumnTotals}
                 />
             ))}
         </Table>
@@ -109,5 +111,7 @@ SectionFormSection.propTypes = {
         disableDataElementAutoGroup: PropTypes.bool,
         displayName: PropTypes.string,
         id: PropTypes.string,
+        showColumnTotals: PropTypes.bool,
+        showRowTotals: PropTypes.bool,
     }),
 }
