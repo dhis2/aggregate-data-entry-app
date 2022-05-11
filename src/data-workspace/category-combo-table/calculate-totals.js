@@ -1,8 +1,8 @@
 export const calculateColumnTotals = (matrix) =>
-    matrix.reduce((rows, currRow) =>
-        rows.map((val, i) => {
+    matrix.reduce((totals, currRow) =>
+        totals.map((currTotal, i) => {
             const a = Number(currRow[i]) || 0
-            const b = Number(val) || 0
+            const b = Number(currTotal) || 0
             return a + b
         })
     )

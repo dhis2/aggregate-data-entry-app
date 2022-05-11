@@ -14,26 +14,15 @@ export const useValueMatrix = (dataElements, sortedCOCs) => {
         },
     })
 
-    console.log('use value matrix')
-
     if (!dataElements || !sortedCOCs) {
         return []
     }
 
-    //console.log('calc')
-    const ret = useMemo(
+    return useMemo(
         () =>
-            dataElements.map((de) => {
-                console.log('calc')
-                return sortedCOCs.map((coc) =>
-                    getIn(values, `${de.id}.${coc.id}`)
-                )
-            }),
+            dataElements.map((de) =>
+                sortedCOCs.map((coc) => getIn(values, `${de.id}.${coc.id}`))
+            ),
         [dataElements, sortedCOCs]
     )
-    // return dataElements.map((de) => {
-    //     console.log('calc')
-    //     return sortedCOCs.map((coc) => getIn(values, `${de.id}.${coc.id}`))
-    // })
-    return ret
 }
