@@ -16,9 +16,12 @@ import {
     DataEntryField,
     useActiveCell,
 } from '../data-entry-cell/index.js'
-import { RowTotals } from '../table-totals/row-totals.js'
-import { useValueMatrix } from '../use-value-matrix.js'
+import {
+    calculateColumnTotals,
+    calculateRowTotals,
+} from './calculate-totals.js'
 import styles from './category-combo-table.module.css'
+import { useValueMatrix } from './use-value-matrix.js'
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -26,6 +29,8 @@ export const CategoryComboTable = ({
     filterText,
     globalFilterText,
     maxColumnsInSection,
+    renderRowTotals,
+    renderColumnTotals,
 }) => {
     const { data } = useMetadata()
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
@@ -125,6 +130,10 @@ export const CategoryComboTable = ({
         const idxDiff = activeCellColIdx - headerIdx * headerColSpan
         return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
     }
+    console.log(valueMatrix)
+    const rowTotals = renderRowTotals && calculateRowTotals(valueMatrix)
+    const columnTotals =
+        renderColumnTotals && calculateColumnTotals(valueMatrix)
 
     return (
         <TableBody>
@@ -164,7 +173,7 @@ export const CategoryComboTable = ({
                     </TableRowHead>
                 )
             })}
-            {filteredDataElements.map((de) => {
+            {filteredDataElements.map((de, i) => {
                 return (
                     <TableRow key={de.id}>
                         <TableCell
@@ -185,10 +194,20 @@ export const CategoryComboTable = ({
                         {renderPaddedCells.map((_, i) => (
                             <PaddingCell key={i} className={styles.tableCell} />
                         ))}
+                        {renderRowTotals && (
+                            <TableCell>{rowTotals[i]}</TableCell>
+                        )}
                     </TableRow>
                 )
             })}
-            <RowTotals dataElements={dataElements} sortedCOCs={sortedCOCs} />
+            {columnTotals && (
+                <TableRow>
+                    <PaddingCell className={styles.tableCell} />
+                    {columnTotals.map((c, i) => (
+                        <TableCell key={i}>{c}</TableCell>
+                    ))}
+                </TableRow>
+            )}
             {itemsHiddenCnt > 0 && (
                 <TableRow>
                     <TableCell
@@ -225,8 +244,8 @@ CategoryComboTable.propTypes = {
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
     maxColumnsInSection: PropTypes.number,
-    renderRowTotals: PropTypes.bool,
     renderColumnTotals: PropTypes.bool,
+    renderRowTotals: PropTypes.bool,
 }
 
 const PaddingCell = () => <TableCell className={styles.paddingCell}></TableCell>
