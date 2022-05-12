@@ -12,12 +12,6 @@ Feature: A section filter can be selected
         Given a data set but no period has been selected yet
         Then the section filter selector should not be displayed
 
-    # This will change once we have the new endpoint, so I'm skipping this one
-    # Scenario: The data set's section info is being loaded
-
-    # This will change once we have the new endpoint, so I'm skipping this one
-    # Scenario: Loading the data set's section info fails
-
     Scenario: The data set has no sections
         Given a data set, org unit and period have been selected and the data set does not have sections
         Then the section filter selector should not be displayed

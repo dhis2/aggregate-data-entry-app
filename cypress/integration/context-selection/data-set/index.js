@@ -1,101 +1,78 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 
-const SELECTABLE_DATA_SETS_REQ_URI_REGEX = /dataSets[?]/
-
 const getDataSetSelectorValueLabelByContent = (selectorValueLabel) => {
     return cy.getSelectorValueLabelByContent('Data set', selectorValueLabel)
 }
 
-Given('a data set has been selected', () => {
-    cy.fixture('context-selection/selectable-data-sets').then(
-        ({ dataSets }) => {
-            const dataSet = dataSets.find(({ id }) => id === 'lyLU2wR22tC')
+Given('one of some selectable data sets has been selected', () => {
+    cy.fixture('context-selection/metadata-complete').then((metadata) => {
+        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+            body: metadata,
+        }).as('selectableDataSetsRequest')
 
-            if (!dataSet) {
-                throw new Error('This should really exist!')
-            }
+        const selectedDataSet = metadata.dataSets[0]
+        cy.wrap(selectedDataSet).as('selectedDataSet')
 
-            cy.wrap(dataSet).as('selectedDataSet')
-        }
-    )
-
-    cy.visitAndLoad('/#/?dataSetId=lyLU2wR22tC')
-})
-
-Given('loading the selectable data sets failed', () => {
-    cy.intercept(/dataSets/, { statusCode: 404, body: '404 Not Found!' }).as(
-        'selectableDataSetsRequest'
-    )
-
-    cy.visitAndLoad('/')
-})
-
-Given('loading the selectable data sets is done', () => {
-    cy.visitAndLoad('/')
-
-    // open menu
-    cy.get('[data-test="data-set-selector"] button').click()
-
-    // Either "empty response" or <MenuSelect /> should exist
-    cy.get(
-        `
-        [data-test="data-set-selector-menu"],
-        [data-test="data-set-selector-none-available-msg"]
-    `
-    ).should('exist')
-
-    // Close the menu again - was only opened to check for existence of the
-    // above elements
-    cy.get('[data-test="dhis2-uicore-layer"]').click('topRight')
+        cy.visitAndLoad(`/#/?dataSetId=${selectedDataSet.id}`)
+    })
 })
 
 Given('no data set has been selected yet', () => {
+    cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+        fixture: 'context-selection/metadata-complete',
+    }).as('selectableDataSetsRequest')
+
     cy.visitAndLoad('/')
 })
 
 Given('no selectable data set exists', () => {
-    const response = { dataSets: [] }
+    cy.fixture('context-selection/metadata-complete').then((metadata) => {
+        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+            body: {
+                ...metadata,
+                dataSets: [],
+            },
+        }).as('selectableDataSetsRequest')
 
-    cy.intercept('GET', SELECTABLE_DATA_SETS_REQ_URI_REGEX, {
-        body: response,
-    }).as('selectableDataSetsRequest')
+        cy.visitAndLoad('/')
+    })
 })
 
-Given('only one selectable data set exists', () => {
-    const fixture = 'context-selection/selectable-data-sets-one-only'
-
-    cy.intercept('GET', SELECTABLE_DATA_SETS_REQ_URI_REGEX, { fixture }).as(
-        'selectableDataSetsRequest'
-    )
-})
-
-Given('some selectable data set exists', () => {
-    const fixture = 'context-selection/selectable-data-sets'
-
-    cy.intercept('GET', SELECTABLE_DATA_SETS_REQ_URI_REGEX, { fixture }).as(
-        'selectableDataSetsRequest'
-    )
-})
-
-Given('the selectable data sets are being loaded', () => {
-    const fixture = 'context-selection/selectable-data-sets'
-
-    cy.intercept('GET', SELECTABLE_DATA_SETS_REQ_URI_REGEX, {
-        fixture,
-        delay: 100000,
+Given('some selectable data sets exists', () => {
+    cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+        fixture: 'context-selection/metadata-complete',
     }).as('selectableDataSetsRequest')
 
     cy.visitAndLoad('/')
 })
 
-When('selects a data set', () => {
-    cy.fixture('context-selection/selectable-data-sets').then(
-        ({ dataSets }) => {
-            cy.wrap(dataSets[0]).as('selectedDataSet')
+Given('only one selectable data set exists', () => {
+    cy.fixture('context-selection/metadata-complete').then((metadata) => {
+        const response = {
+            ...metadata,
+            dataSets: metadata.dataSets.slice(0, 1),
         }
-    )
 
-    cy.get('[data-test="data-set-selector-menu"] li:first-child').click()
+        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+            body: response,
+        }).as('selectableDataSetsRequest')
+
+        cy.visitAndLoad('/')
+    })
+})
+
+When('selects a data set', () => {
+    cy.fixture('context-selection/metadata-complete').then(({ dataSets }) => {
+        cy.get('[data-test="data-set-selector-menu"] li:first-child')
+            .click()
+            .invoke('text')
+            .then((label) => {
+                const dataSet = dataSets.find(
+                    ({ displayName }) => displayName === label
+                )
+                cy.wrap(dataSet).as('selectedDataSet')
+            })
+    })
 })
 
 When('the user opens the menu', () => {
@@ -116,11 +93,7 @@ Then('a no-value-label should be displayed', () => {
 })
 
 Then('a value-label should be displayed', () => {
-    cy.get('@selectedDataSet').then((selectedDataSet) => {
-        getDataSetSelectorValueLabelByContent(
-            selectedDataSet.displayName
-        ).should('exist')
-    })
+    cy.contains('Choose a data set').should('not.exist')
 })
 
 Then('nothing but a loading message should be displayed', () => {
@@ -142,13 +115,11 @@ Then('nothing but an error message should be displayed', () => {
 })
 
 Then('the only available data set should be selected', () => {
-    cy.fixture('context-selection/selectable-data-sets-one-only').then(
-        ({ dataSets }) => {
-            const [dataSet] = dataSets
-            const { displayName } = dataSet
-            getDataSetSelectorValueLabelByContent(displayName).should('exist')
-        }
-    )
+    cy.fixture('context-selection/metadata-complete').then(({ dataSets }) => {
+        const [dataSet] = dataSets
+        const { displayName } = dataSet
+        getDataSetSelectorValueLabelByContent(displayName).should('exist')
+    })
 })
 
 Then(

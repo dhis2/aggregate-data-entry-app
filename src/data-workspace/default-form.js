@@ -2,11 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { NoticeBox, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useMetadata } from '../metadata/index.js'
-import {
-    getDataElementsByDataSetId,
-    getGroupedDataElementsByCatCombo,
-} from '../metadata/selectors.js'
+import { useMetadata, selectors } from '../metadata/index.js'
 import { CategoryComboTable } from './category-combo-table.js'
 import styles from './entry-form.module.css'
 
@@ -17,8 +13,8 @@ export const DefaultForm = ({ dataSet, globalFilterText }) => {
         return null
     }
 
-    const dataElements = getDataElementsByDataSetId(data, dataSet.id)
-    const groupedDataElements = getGroupedDataElementsByCatCombo(
+    const dataElements = selectors.getDataElementsByDataSetId(data, dataSet.id)
+    const groupedDataElements = selectors.getGroupedDataElementsByCatCombo(
         data,
         dataElements
     )

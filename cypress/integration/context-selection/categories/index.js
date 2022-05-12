@@ -23,14 +23,10 @@ Given('a data set, org unit & period have been selected', () => {
 Given(
     "a data set, org unit & period have been selected and the current date is outside the range of all of the option's validity dates of one category",
     () => {
-        cy.intercept(
-            'GET',
-            new RegExp('dataSets/lyLU2wR22tC[?]fields=categoryCombo'),
-            {
-                fixture:
-                    'context-selection/cat-combo-with-all-options-of-one-cat-between-20200101-20201231.json',
-            }
-        )
+        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+            fixture:
+                'context-selection/metadata-with-cat-combo-with-all-options-of-one-cat-between-20200101-20201231.json',
+        })
 
         cy.visit(
             '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202212'
@@ -42,14 +38,10 @@ Given(
 Given(
     "a data set, org unit & period have been selected and the current date is outside the range of one of the category option's validity dates",
     () => {
-        cy.intercept(
-            'GET',
-            new RegExp('dataSets/lyLU2wR22tC[?]fields=categoryCombo'),
-            {
-                fixture:
-                    'context-selection/cat-combo-with-option-between-20200101-20201231.json',
-            }
-        )
+        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+            fixture:
+                'context-selection/metadata-with-cat-combo-with-option-between-20200101-20201231.json',
+        })
 
         cy.visit(
             '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202212'
@@ -145,6 +137,12 @@ Then('the selector should not be displayed', () => {
     cy.get('[data-test="attribute-option-combo-selector"]').should('not.exist')
 })
 
+Then('a disabled default attribute combo selector should be displayed', () => {
+    cy.get(
+        '[data-test="attribute-option-combo-selector"] > button:disabled'
+    ).should('exist')
+})
+
 Then(
     'the selector should be displayed once the categories and options have been loaded',
     () => {
@@ -160,7 +158,7 @@ Then('the selector should show that zero items have been selected', () => {
 
 Then('the selector should show that some items have been selected', () => {
     cy.get('[data-test="dhis2-ui-selectorbar"]')
-        .contains('1 selections')
+        .contains('1 selection')
         .should('exist')
 })
 

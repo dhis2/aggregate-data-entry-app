@@ -17,22 +17,41 @@ const groupBy = (input, getIdentifier) =>
 
 export const getCategories = (metadata) => metadata.categories
 export const getCategoryCombos = (metadata) => metadata.categoryCombos
-export const getCategoryOptionCombos = (metadata) =>
-    metadata.categoryOptionCombos
+
 export const getCategoryOptions = (metadata) => metadata.categoryOptions
 export const getDataElements = (metadata) => metadata.dataElements
 export const getDataSets = (metadata) => metadata.dataSets
 export const getSections = (metadata) => metadata.sections
 export const getOptionSets = (metadata) => metadata.optionSets
-
 // Select by id
 
 export const getCategoryById = (metadata, id) => getCategories(metadata)[id]
 export const getOptionSetById = (metadata, id) => getOptionSets(metadata)[id]
-export const getSectionById = (metadata, id) => getSections(metadata)[id]
 export const getDataSetById = (metadata, id) => getDataSets(metadata)?.[id]
+
+export const getSectionsByDataSetId = (metadata, dataSetId) => {
+    const dataSetSections = getDataSetById(metadata, dataSetId)?.sections
+    return dataSetSections ?? []
+}
+
 export const getCategoryComboById = (metadata, id) =>
     getCategoryCombos(metadata)[id]
+
+/**
+ *
+ * @param {*} metadata
+ * @param {*} categoryComboId
+ * @returns categoryOptionCombos in catCombo. Returns null if catCombo with given id does not exist.
+ * Returns undefined if catCombo is missing categoryOptionCombos-property, which may happen if
+ * categoryCombo is an 'ATTRIBUTE'-combo.
+ */
+export const getCategoryOptionCombosByCategoryComboId = (
+    metadata,
+    categoryComboId
+) => {
+    const catCombo = getCategoryComboById(metadata, categoryComboId)
+    return catCombo ? catCombo.categoryOptionCombos : null
+}
 
 /**
  * Memoized selectors
@@ -43,6 +62,17 @@ export const getCategoryComboById = (metadata, id) =>
  * Selectors where a cache size of 1 is sufficient should be memoized with reselect,
  * selectors that should have a cache per parameter (say an id) should use re-reselect.
  */
+
+/**
+ * @param {*} metadata
+ * @param {string} dataSetId
+ * @param {string} sectionId
+ */
+export const getSection = createCachedSelector(
+    getSectionsByDataSetId,
+    (_, __, sectionId) => sectionId,
+    (sections, sectionId) => sections.find((s) => s.id === sectionId)
+)((_, dataSetId, sectionId) => `${dataSetId}:${sectionId}`)
 
 /**
  * @param {*} metadata
@@ -57,6 +87,56 @@ export const getCategoriesByCategoryComboId = createCachedSelector(
 
 /**
  * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getCategoryComboByDataSetId = createCachedSelector(
+    getDataSetById,
+    getCategoryCombos,
+    (_, dataSetId) => dataSetId,
+    (dataSet, categoryCombos, dataSetId) => {
+        if (!dataSet?.categoryCombo?.id) {
+            console.warn(
+                `Data set with id ${dataSetId} does not have a category combo`
+            )
+
+            return undefined
+        }
+
+        const categoryCombo = categoryCombos[dataSet?.categoryCombo?.id]
+
+        if (!categoryCombo) {
+            console.warn(
+                `Could not find a category combo for data set with id ${dataSetId}`
+            )
+        }
+
+        return categoryCombo
+    }
+)((_, dataSetId) => dataSetId)
+
+/**
+ * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getCategoriesByDataSetId = createCachedSelector(
+    (metadata) => metadata,
+    getCategoryComboByDataSetId,
+    (_, dataSetId) => dataSetId,
+    (metadata, categoryCombo, dataSetId) => {
+        if (!categoryCombo?.id) {
+            console.warn(
+                `Could not find categories for data set with id ${dataSetId}`
+            )
+
+            return []
+        }
+
+        return getCategoriesByCategoryComboId(metadata, categoryCombo.id)
+    }
+)((_, dataSetId) => dataSetId)
+
+/**
+ * @param {*} metadata
  * @param {*} categoryId
  */
 export const getCategoryOptionsByCategoryId = createCachedSelector(
@@ -65,19 +145,6 @@ export const getCategoryOptionsByCategoryId = createCachedSelector(
     (category, categoryOptions) =>
         category.categoryOptions.map((id) => categoryOptions[id])
 )((_, categoryId) => categoryId)
-
-/**
- * @param {*} metadata
- * @param {*} categoryComboId
- */
-export const getCategoryOptionCombosByCategoryComboId = createCachedSelector(
-    getCategoryComboById,
-    getCategoryOptionCombos,
-    (categoryCombo, categoryOptionCombos) =>
-        categoryCombo?.categoryOptionCombos.map(
-            (id) => categoryOptionCombos[id]
-        )
-)((_, categoryComboId) => categoryComboId)
 
 /**
  * The categoryCombo for a dataElement can be overriden per dataSet. This selector
@@ -115,7 +182,7 @@ export const getDataElementsByDataSetId = createCachedSelector(
  * @param {*} sectionId
  */
 export const getDataElementsBySection = createCachedSelector(
-    (metadata, _, sectionId) => getSectionById(metadata, sectionId),
+    getSection,
     getDataElementsByDataSetId,
     (section, dataElements) =>
         section.dataElements.map((id) =>
@@ -124,11 +191,12 @@ export const getDataElementsBySection = createCachedSelector(
 )((_, dataSetId, sectionId) => `${dataSetId}:${sectionId}`)
 
 /**
- * Returns an array of objects with dataElements and their associated categoryCombos. They
- * are grouped by categoryComboId, every time the categoryComboId changes a new group is
- * created.
+ * Returns an array of objects with dataElements and their associated categoryCombos.
+ * This keeps the defined dataElement order given, and groups neighbouring elements with the
+ * same categoryCombo in the same group. This is used in form-sections
+ * when `section.disableDataElementAutoGroup`is true
  * @param {*} metadata
- * @param {*} dataElements
+ * @param {*} dataElements - a list of dataElement -objects (result of getDataElementsBySection)
  */
 export const getGroupedDataElementsByCatComboInOrder = createSelector(
     (_, dataElements) => dataElements,

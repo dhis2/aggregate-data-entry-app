@@ -5,46 +5,36 @@ import React from 'react'
 import css from './categories-menu.module.css'
 
 export default function CategoriesMenu({
-    categoryCombination,
+    categories,
     close,
     selected,
     onChange,
 }) {
-    if (!categoryCombination.called || categoryCombination.loading) {
-        return i18n.t('Loading categories...')
-    }
-
-    if (categoryCombination.error) {
-        return i18n.t('An error occurred loading the categories')
-    }
-
     return (
         <div className={css.container}>
             <div className={css.inputs}>
-                {categoryCombination.data?.categories.map(
-                    ({ id, displayName, categoryOptions }) => (
-                        <div className={css.input} key={id}>
-                            <SingleSelectField
-                                label={displayName}
-                                selected={selected[id]}
-                                onChange={({ selected }) =>
-                                    onChange({
-                                        categoryId: id,
-                                        selected,
-                                    })
-                                }
-                            >
-                                {categoryOptions.map(({ id, displayName }) => (
-                                    <SingleSelectOption
-                                        key={id}
-                                        value={id}
-                                        label={displayName}
-                                    />
-                                ))}
-                            </SingleSelectField>
-                        </div>
-                    )
-                )}
+                {categories.map(({ id, displayName, categoryOptions }) => (
+                    <div className={css.input} key={id}>
+                        <SingleSelectField
+                            label={displayName}
+                            selected={selected[id]}
+                            onChange={({ selected }) =>
+                                onChange({
+                                    categoryId: id,
+                                    selected,
+                                })
+                            }
+                        >
+                            {categoryOptions.map(({ id, displayName }) => (
+                                <SingleSelectOption
+                                    key={id}
+                                    value={id}
+                                    label={displayName}
+                                />
+                            ))}
+                        </SingleSelectField>
+                    </div>
+                ))}
             </div>
 
             <Button
@@ -65,12 +55,18 @@ export default function CategoriesMenu({
 }
 
 CategoriesMenu.propTypes = {
-    categoryCombination: PropTypes.shape({
-        called: PropTypes.bool.isRequired,
-        loading: PropTypes.bool.isRequired,
-        data: PropTypes.object,
-        error: PropTypes.instanceOf(Error),
-    }).isRequired,
+    categories: PropTypes.arrayOf(
+        PropTypes.shape({
+            categoryOptions: PropTypes.arrayOf(
+                PropTypes.shape({
+                    displayName: PropTypes.string.isRequired,
+                    id: PropTypes.string.isRequired,
+                })
+            ).isRequired,
+            displayName: PropTypes.string.isRequired,
+            id: PropTypes.string.isRequired,
+        })
+    ).isRequired,
     close: PropTypes.func.isRequired,
     selected: PropTypes.objectOf(PropTypes.string).isRequired,
     onChange: PropTypes.func.isRequired,

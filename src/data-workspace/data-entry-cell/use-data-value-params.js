@@ -1,24 +1,22 @@
 import { useContextSelection } from '../../context-selection/index.js'
-import { useMetadata } from '../../metadata/index.js'
-import {
-    getCategoryComboById,
-    getDataSetById,
-} from '../../metadata/selectors.js'
+import { useMetadata, selectors } from '../../metadata/index.js'
 
 export const useDataValueParams = ({ deId, cocId }) => {
     const [dataEntryContext] = useContextSelection()
     const metadataFetch = useMetadata()
 
-    if (metadataFetch.isLoading || metadataFetch.isError) {
+    if (!metadataFetch.data) {
         return null
     }
 
     const { dataSetId, orgUnitId, periodId, attributeOptionComboSelection } =
         dataEntryContext
 
-    const attributeComboId = getDataSetById(metadataFetch.data, dataSetId)
-        .categoryCombo.id
-    const isDefaultAttributeCombo = getCategoryComboById(
+    const attributeComboId = selectors.getDataSetById(
+        metadataFetch.data,
+        dataSetId
+    ).categoryCombo.id
+    const isDefaultAttributeCombo = selectors.getCategoryComboById(
         metadataFetch.data,
         attributeComboId
     ).isDefault

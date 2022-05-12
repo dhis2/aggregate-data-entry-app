@@ -1,34 +1,21 @@
 import { useQuery } from 'react-query'
+import { createSelector } from 'reselect'
 import { hashArraysInObject } from './utils.js'
 
-export const useMetadata = () => {
-    const queryKey = [
-        'metadata',
-        {
-            params: {
-                // Note: on dataSet.dataSetElement, the categoryCombo property is
-                // included because it can mean it's overriding the data element's
-                // native categoryCombo. It can sometimes be absent from the data
-                // set element
-                'dataSets:fields':
-                    'id,displayFormName,formType,dataSetElements[dataElement,categoryCombo],categoryCombo,sections~pluck',
-                'dataElements:fields':
-                    'id,displayFormName,categoryCombo,valueType,optionSetValue,optionSet',
-                'optionSets:fields': 'id,options[id,name,sortOrder]',
-                'sections:fields':
-                    'id,displayName,sortOrder,showRowTotals,showColumnTotals,disableDataElementAutoGroup,greyedFields[id],categoryCombos~pluck,dataElements~pluck,indicators~pluck',
-                'categoryCombos:fields':
-                    'id,skipTotal,categories~pluck,categoryOptionCombos~pluck,isDefault',
-                'categories:fields': 'id,displayFormName,categoryOptions~pluck',
-                'categoryOptions:fields':
-                    'id,displayFormName,categoryOptionCombos~pluck,categoryOptionGroups~pluck,isDefault',
-                'categoryOptionCombos:fields':
-                    'id,categoryOptions~pluck,categoryCombo,name',
-            },
-        },
-    ]
+const selectorFunction = createSelector(
+    (data) => data,
+    (data) => hashArraysInObject(data)
+)
 
-    return useQuery(queryKey, {
-        select: (data) => hashArraysInObject(data),
-    })
+const queryKey = [`/dataEntry/metadata`]
+
+const queryOpts = {
+    refetchOnMount: false,
+    select: selectorFunction,
+    staleTime: 24 * 60 * 60 * 1000,
+}
+
+export const useMetadata = () => {
+    const metadataQuery = useQuery(queryKey, queryOpts)
+    return metadataQuery
 }

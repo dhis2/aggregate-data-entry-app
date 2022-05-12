@@ -19,5 +19,5 @@ export default function useOnDependentParamsChange(cb) {
         } else {
             cb()
         }
-    }, [dataSetId, orgUnitId, periodId, attributeOptionComboSelection])
+    }, [cb, dataSetId, orgUnitId, periodId, attributeOptionComboSelection])
 }

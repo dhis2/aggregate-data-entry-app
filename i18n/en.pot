@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-14T13:52:57.180Z\n"
-"PO-Revision-Date: 2022-03-14T13:52:57.180Z\n"
+"POT-Creation-Date: 2022-05-12T08:01:53.637Z\n"
+"PO-Revision-Date: 2022-05-12T08:01:53.637Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -34,44 +34,29 @@ msgstr ""
 msgid "Choose a data set"
 msgstr "Choose a data set"
 
-msgid "An error occurred loading the categories"
-msgstr "An error occurred loading the categories"
-
-msgid "Loading categories..."
-msgstr "Loading categories..."
-
 msgid "Hide menu"
 msgstr "Hide menu"
-
-msgid "Attribute option combination: An error occurred"
-msgstr "Attribute option combination: An error occurred"
 
 msgid "Default attribute combo"
 msgstr "Default attribute combo"
 
-msgid "Loading..."
-msgstr "Loading..."
-
-msgid "An error loading the values occurred"
-msgstr "An error loading the values occurred"
-
 msgid "0 selections"
 msgstr "0 selections"
+
+msgid "1 selection"
+msgstr "1 selection"
 
 msgid "{{amount}} selections"
 msgstr "{{amount}} selections"
 
-msgid "Data set"
-msgstr "Data set"
-
-msgid "Fetching data sets"
-msgstr "Fetching data sets"
-
-msgid "Error occurred while loading data sets"
-msgstr "Error occurred while loading data sets"
+msgid "Could not find a data set for the selected id"
+msgstr "Could not find a data set for the selected id"
 
 msgid "There are no data sets available!"
 msgstr "There are no data sets available!"
+
+msgid "Data set"
+msgstr "Data set"
 
 msgid "Options"
 msgstr "Options"
@@ -112,17 +97,17 @@ msgstr "Period"
 msgid "Choose a period"
 msgstr "Choose a period"
 
-msgid "Fetching data set info"
-msgstr "Fetching data set info"
-
-msgid "Error occurred while loading data set info"
-msgstr "Error occurred while loading data set info"
-
 msgid "Show all sections"
 msgstr "Show all sections"
 
 msgid "Section"
 msgstr "Section"
+
+msgid "Fetching data set info"
+msgstr "Fetching data set info"
+
+msgid "Error occurred while loading data set info"
+msgstr "Error occurred while loading data set info"
 
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"

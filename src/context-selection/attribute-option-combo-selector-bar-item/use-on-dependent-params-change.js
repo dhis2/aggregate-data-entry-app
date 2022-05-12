@@ -17,5 +17,5 @@ export default function useOnDependentParamsChange(cb) {
         } else {
             cb()
         }
-    }, [dataSetId, orgUnitId, periodId])
+    }, [cb, dataSetId, orgUnitId, periodId])
 }

@@ -16,6 +16,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
             <TabbedSectionForm
                 globalFilterText={globalFilterText}
                 sections={dataSet.sections}
+                dataSetId={dataSet.id}
             />
         )
     }
@@ -25,6 +26,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
             {filteredSections.map((s) => (
                 <SectionFormSection
                     section={s}
+                    dataSetId={dataSet.id}
                     key={s.id}
                     globalFilterText={globalFilterText}
                 />
@@ -35,6 +37,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
 
 SectionForm.propTypes = {
     dataSet: PropTypes.shape({
+        id: PropTypes.string,
         renderAsTabs: PropTypes.bool,
         sections: PropTypes.arrayOf(
             PropTypes.shape({
@@ -51,7 +54,7 @@ SectionForm.propTypes = {
     globalFilterText: PropTypes.string,
 }
 
-const TabbedSectionForm = ({ sections, globalFilterText }) => {
+const TabbedSectionForm = ({ dataSetId, sections, globalFilterText }) => {
     const [sectionId, setSelectedId] = useSectionFilter()
 
     const section = sectionId
@@ -74,6 +77,7 @@ const TabbedSectionForm = ({ sections, globalFilterText }) => {
 
             <SectionFormSection
                 section={section}
+                dataSetId={dataSetId}
                 key={section.id}
                 globalFilterText={globalFilterText}
             />
@@ -82,6 +86,7 @@ const TabbedSectionForm = ({ sections, globalFilterText }) => {
 }
 
 TabbedSectionForm.propTypes = {
+    dataSetId: PropTypes.string,
     globalFilterText: PropTypes.string,
     sections: PropTypes.arrayOf(
         PropTypes.shape({
