@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { AttributeOptionComboSelectorBarItem } from '../attribute-option-combo-selector-bar-item/index.js'
 import { DataSetSelectorBarItem } from '../data-set-selector-bar-item/index.js'
-import { OptionsButton } from '../options-button/index.js'
 import { OrgUnitSetSelectorBarItem } from '../org-unit-selector-bar-item/index.js'
 import { PeriodSelectorBarItem } from '../period-selector-bar-item/index.js'
 import { SectionFilterSelectorBarItem } from '../section-filter-selector-bar-item/index.js'
 import { useClearEntireSelection } from '../use-context-selection/index.js'
-import styles from './context-selection.module.css'
+import RightHandSideContent from './right-hand-side-content.js'
 import useShouldHideClearButton from './use-should-hide-clear-button.js'
 
 export default function ContextSelector({ setSelectionHasNoFormMessage }) {
@@ -24,21 +23,16 @@ export default function ContextSelector({ setSelectionHasNoFormMessage }) {
 
     return (
         <SelectorBar
-            className={styles.selectorBar}
             onClearSelectionClick={onClearSelectionClick}
+            additionalContent={<RightHandSideContent />}
         >
-            <div className={styles.selectorBarItems}>
-                <DataSetSelectorBarItem />
-                <OrgUnitSetSelectorBarItem />
-                <PeriodSelectorBarItem />
-                <AttributeOptionComboSelectorBarItem
-                    setSelectionHasNoFormMessage={setSelectionHasNoFormMessage}
-                />
-                <SectionFilterSelectorBarItem />
-            </div>
-            <div className={styles.optionsButton}>
-                <OptionsButton />
-            </div>
+            <DataSetSelectorBarItem />
+            <OrgUnitSetSelectorBarItem />
+            <PeriodSelectorBarItem />
+            <AttributeOptionComboSelectorBarItem
+                setSelectionHasNoFormMessage={setSelectionHasNoFormMessage}
+            />
+            <SectionFilterSelectorBarItem />
         </SelectorBar>
     )
 }
