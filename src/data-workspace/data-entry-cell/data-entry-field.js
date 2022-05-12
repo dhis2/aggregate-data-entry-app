@@ -25,6 +25,7 @@ export const DataEntryField = React.memo(function DataEntryField({
                 <EntryFieldInput
                     fieldname={fieldname}
                     dataElement={de}
+                    categoryOptionCombo={coc}
                     setSyncStatus={setSyncStatus}
                 />
             </InnerWrapper>

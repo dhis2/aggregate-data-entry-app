@@ -1,4 +1,10 @@
 export {
+    useDataSetId,
+    useOrgUnitId,
+    usePeriodId,
+    useAttributeOptionComboSelection,
+    useSectionFilter,
+    useClearEntireSelection,
     useContextSelection,
     useIsValidSelection,
 } from './use-context-selection/index.js'

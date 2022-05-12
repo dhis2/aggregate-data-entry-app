@@ -11,12 +11,12 @@ import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
 import { KeyboardNavManager } from './keyboard-nav-manager.js'
-import { useInitialDataValues } from './use-initial-data-values.js'
+import { useDataValueSet } from './use-data-value-set.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const [{ dataSetId }] = useContextSelection()
     const { data } = useMetadata()
-    const initialDataValuesFetch = useInitialDataValues()
+    const initialDataValuesFetch = useDataValueSet()
     const isValidSelection = useIsValidSelection()
 
     if (selectionHasNoFormMessage) {
@@ -52,7 +52,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     return (
         <KeyboardNavManager>
-            <FinalFormWrapper initialValues={initialDataValuesFetch.data}>
+            <FinalFormWrapper dataValueSet={initialDataValuesFetch.data}>
                 <div className={styles.wrapper}>
                     <EntryForm dataSet={dataSet} />
                 </div>

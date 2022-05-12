@@ -1,4 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
+import PropTypes from 'prop-types'
 import React from 'react'
 import { useCurrentItem } from '../current-item-provider/index.js'
 import { useSidebar } from './context/index.js'
@@ -7,44 +8,37 @@ import { DataDetails } from './data-details/index.js'
 import styles from './sidebar.module.css'
 import Title from './title.js'
 
-const useContent = () => {
-    const { contentType } = useSidebar()
-    const currentItem = useCurrentItem()
+// TODO: onMarkForFollowup
+// TODO: onUnmarkForFollowup
+function Content({ contentType }) {
+    const { currentItem } = useCurrentItem()
 
-    switch (contentType) {
-        case 'DATA_DETAILS':
-            // TODO: onMarkForFollowup
-            // TODO: onUnmarkForFollowup
-            return {
-                title: i18n.t('Details'),
-                content: (
-                    <DataDetails
-                        item={currentItem}
-                        onMarkForFollowup={() => {}}
-                        onUnmarkForFollowup={() => {}}
-                    />
-                ),
-            }
-        case 'CONTEXTUAL_HELP':
-            return {
-                title: i18n.t('Help'),
-                content: <ContextualHelp />,
-            }
-        default:
-            throw new Error(`Unknown sidebar content type: '${contentType}'`)
+    if (contentType === 'DATA_DETAILS') {
+        return (
+            <DataDetails
+                item={currentItem}
+                onMarkForFollowup={() => {}}
+                onUnmarkForFollowup={() => {}}
+            />
+        )
     }
+
+    return <ContextualHelp />
 }
 
-const Sidebar = () => {
-    const { close } = useSidebar()
-    const { title, content } = useContent()
+Content.propTypes = {
+    contentType: PropTypes.oneOf(['DATA_DETAILS', 'CONTEXTUAL_HELP']),
+}
+
+export default function Sidebar() {
+    const { contentType, close } = useSidebar()
+    const title =
+        contentType === 'DATA_DETAILS' ? i18n.t('Details') : i18n.t('Help')
 
     return (
         <div className={styles.wrapper}>
             <Title title={title} onClose={close} />
-            {content}
+            <Content contentType={contentType} />
         </div>
     )
 }
-
-export default Sidebar

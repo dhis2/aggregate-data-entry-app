@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
 
+// code: PropTypes.string,
 export default PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    lastUpdated: PropTypes.shape({
-        at: PropTypes.instanceOf(Date).isRequired,
-        userDisplayName: PropTypes.string.isRequired,
-    }).isRequired,
-    markedForFollowup: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
+    categoryOptionCombo: PropTypes.string,
+    comment: PropTypes.string,
+    dataElement: PropTypes.string,
+    followup: PropTypes.bool,
+    lastUpdated: PropTypes.string,
+    name: PropTypes.string,
+    storedBy: PropTypes.string,
+    value: PropTypes.any,
 })

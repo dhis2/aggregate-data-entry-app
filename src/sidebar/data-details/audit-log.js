@@ -1,20 +1,10 @@
-import { useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, Tooltip } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import React from 'react'
 import ToggleableUnit from '../toggleable-unit.js'
 import styles from './audit-log.module.css'
-import LoadingError from './loading-error.js'
-
-// TODO
-const query = {
-    auditLog: {
-        resource: 'auditLog',
-        id: ({ id }) => id,
-    },
-}
 
 const renderMessage = ({ displayName, changeType, newValue, oldValue }) => {
     switch (changeType) {
@@ -61,64 +51,37 @@ Entry.propTypes = {
     }).isRequired,
 }
 
-const AuditLog = ({ itemId }) => {
-    const { called, loading, error, data, refetch } = useDataQuery(query, {
-        lazy: true,
-    })
-
-    useEffect(() => {
-        refetch({ id: itemId })
-    }, [itemId])
-
-    if (!called || loading) {
-        return <CircularLoader small />
-    }
-
-    if (error) {
-        return (
-            <LoadingError
-                title={i18n.t(
-                    'There was a problem loading the audit log for this data item'
-                )}
-            />
-        )
-    }
-
-    const { auditLog } = data
-
-    if (!Array.isArray(auditLog) || auditLog.length === 0) {
-        return (
-            <p className={styles.placeholder}>
-                {i18n.t('No audit log for this data item.')}
-            </p>
-        )
-    }
+const AuditLogUnit = ({ loading, auditLog }) => {
+    const isEmptyAuditLog = !Array.isArray(auditLog) || auditLog.length === 0
 
     return (
-        <ul className={styles.entries}>
-            {auditLog
-                .sort((e1, e2) => e2.at - e1.at)
-                .map((entry, index) => (
-                    <li key={index} className={styles.entry}>
-                        <Entry entry={entry} />
-                    </li>
-                ))}
-        </ul>
+        <ToggleableUnit title={i18n.t('Audit log')}>
+            {loading && <CircularLoader small />}
+
+            {!loading && isEmptyAuditLog && (
+                <p className={styles.placeholder}>
+                    {i18n.t('No audit log for this data item.')}
+                </p>
+            )}
+
+            {!loading && !isEmptyAuditLog && (
+                <ul className={styles.entries}>
+                    {auditLog
+                        .sort((e1, e2) => e2.at - e1.at)
+                        .map((entry, index) => (
+                            <li key={index} className={styles.entry}>
+                                <Entry entry={entry} />
+                            </li>
+                        ))}
+                </ul>
+            )}
+        </ToggleableUnit>
     )
 }
 
-AuditLog.propTypes = {
-    itemId: PropTypes.string.isRequired,
-}
-
-const AuditLogUnit = ({ itemId }) => (
-    <ToggleableUnit title={i18n.t('Audit log')}>
-        <AuditLog itemId={itemId} />
-    </ToggleableUnit>
-)
-
 AuditLogUnit.propTypes = {
-    itemId: PropTypes.string.isRequired,
+    auditLog: PropTypes.array,
+    loading: PropTypes.bool,
 }
 
 export default AuditLogUnit

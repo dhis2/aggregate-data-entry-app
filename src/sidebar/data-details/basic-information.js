@@ -11,34 +11,36 @@ const BasicInformation = ({ item, onMarkForFollowup, onUnmarkForFollowup }) => (
     <div className={unitStyles.unit}>
         <h1 className={unitStyles.title}>{item.name}</h1>
         <ul className={styles.elements}>
-            <li>
-                {i18n.t('Code: {{code}}', {
-                    code: item.code,
-                    nsSeparator: '-:-',
-                })}
-            </li>
+            {item.code && (
+                <li>
+                    {i18n.t('Code: {{code}}', {
+                        code: item.code,
+                        nsSeparator: '-:-',
+                    })}
+                </li>
+            )}
             <li>
                 {i18n.t('ID: {{id}}', {
-                    id: item.id,
+                    id: item.dataElement,
                     nsSeparator: '-:-',
                 })}
             </li>
             <li>
-                <Tooltip content={item.lastUpdated.at.toString()}>
+                <Tooltip content={item.lastUpdated.toString()}>
                     {i18n.t('Last updated {{- timeAgo}} by {{- name}}', {
-                        timeAgo: moment(item.lastUpdated.at).fromNow(),
-                        name: item.lastUpdated.userDisplayName,
+                        timeAgo: moment(item.lastUpdated).fromNow(),
+                        name: item.storedBy,
                     })}
                 </Tooltip>
             </li>
-            {item.markedForFollowup ? (
+            {item.followup ? (
                 <li className={styles.markedForFollowup}>
                     <IconFlag16 color={colors.yellow700} />
                     {i18n.t('Marked for follow-up')}
                 </li>
             ) : null}
         </ul>
-        {item.markedForFollowup ? (
+        {item.followup ? (
             <Button small secondary onClick={onUnmarkForFollowup}>
                 {i18n.t('Unmark for follow-up')}
             </Button>

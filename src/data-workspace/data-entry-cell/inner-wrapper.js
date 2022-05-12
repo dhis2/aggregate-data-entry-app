@@ -51,14 +51,6 @@ export function InnerWrapper({ children, fieldname, syncStatus }) {
         },
     })
 
-    const handleKeyDown = (event) => {
-        // field navigation is handled by KeyboardNavManager
-        const { key, shiftKey } = event
-        if (key === 'Enter' && shiftKey) {
-            // todo: open data item details
-        }
-    }
-
     const cellStateClassName = invalid
         ? styles.invalid
         : activeMutations === 0 && syncStatus.synced
@@ -71,7 +63,6 @@ export function InnerWrapper({ children, fieldname, syncStatus }) {
                 [styles.active]: active,
                 [styles.disabled]: false, // todo
             })}
-            onKeyDown={handleKeyDown}
         >
             {children}
             <SyncStatusIndicator

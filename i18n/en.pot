@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-12T08:01:53.637Z\n"
-"PO-Revision-Date: 2022-05-12T08:01:53.637Z\n"
+"POT-Creation-Date: 2022-05-12T08:28:57.634Z\n"
+"PO-Revision-Date: 2022-05-12T08:28:57.634Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -311,14 +311,11 @@ msgstr "{{displayName}} updated to {{newValue}} (was {{oldValue}})"
 msgid "{{displayName}} deleted (was {{oldValue}})"
 msgstr "{{displayName}} deleted (was {{oldValue}})"
 
-msgid "There was a problem loading the audit log for this data item"
-msgstr "There was a problem loading the audit log for this data item"
+msgid "Audit log"
+msgstr "Audit log"
 
 msgid "No audit log for this data item."
 msgstr "No audit log for this data item."
-
-msgid "Audit log"
-msgstr "Audit log"
 
 msgid "Code: {{code}}"
 msgstr "Code: {{code}}"
@@ -353,6 +350,9 @@ msgstr "Save comment"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Comment"
+msgstr "Comment"
+
 msgid "No comment for this data item."
 msgstr "No comment for this data item."
 
@@ -362,8 +362,11 @@ msgstr "Edit comment"
 msgid "Add comment"
 msgstr "Add comment"
 
-msgid "Comment"
-msgstr "Comment"
+msgid "Something went wrong loading the history and audit log"
+msgstr "Something went wrong loading the history and audit log"
+
+msgid "History"
+msgstr "History"
 
 msgid "There was a problem saving the data item limits."
 msgstr "There was a problem saving the data item limits."

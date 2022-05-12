@@ -1,4 +1,5 @@
 export * from './error-message/index.js'
+export { useApiAttributeParams } from './use-api-attribute-params.js'
 export * from './fixed-periods/index.js'
 export * from './period/index.js'
 export * from './utils.js'
