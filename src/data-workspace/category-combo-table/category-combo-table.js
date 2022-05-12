@@ -139,16 +139,15 @@ export const CategoryComboTable = ({
     return (
         <TableBody>
             {rowToColumnsMap.map((colInfo, i) => {
-                const { span, columns } = colInfo
+                const { span, columns, category } = colInfo
                 return (
-                    <TableRowHead key={colInfo.category.id}>
+                    <TableRowHead key={category.id}>
                         <TableCellHead
                             className={styles.categoryNameHeader}
                             colSpan={'1'}
                         >
-                            {colInfo.category.displayFormName === 'default'
-                                ? ''
-                                : colInfo.category.displayFormName}
+                            {category.displayFormName !== 'default' &&
+                                category.displayFormName}
                         </TableCellHead>
                         {columns.map((co, i) => {
                             return (
@@ -163,7 +162,7 @@ export const CategoryComboTable = ({
                                     colSpan={span.toString()}
                                 >
                                     {co.isDefault
-                                        ? 'Value'
+                                        ? i18n.t('Value')
                                         : co.displayFormName}
                                 </TableCellHead>
                             )
