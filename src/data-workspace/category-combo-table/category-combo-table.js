@@ -201,6 +201,7 @@ export const CategoryComboTable = ({
             {renderColumnTotals && (
                 <ColumnTotals
                     columnTotals={columnTotals}
+                    paddedCells={renderPaddedCells}
                     renderTotalSum={renderRowTotals && renderColumnTotals}
                 />
             )}
