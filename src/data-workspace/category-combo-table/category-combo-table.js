@@ -21,6 +21,7 @@ import {
     calculateRowTotals,
 } from './calculate-totals.js'
 import styles from './category-combo-table.module.css'
+import { TotalCell, TotalHeader, ColumnTotals } from './total-cells.js'
 import { useValueMatrix } from './use-value-matrix.js'
 
 export const CategoryComboTable = ({
@@ -40,14 +41,14 @@ export const CategoryComboTable = ({
         categoryCombo.id
     )
 
-    const [sortedCOCs, computedCategoryOptions] = useMemo(() => {
+    const sortedCOCs = useMemo(() => {
         // each element is a combination of category-options for a particular column
         // this results in lists of category-options in the same order as headers are rendered
         // the result is a client side computation of categoryOption-combinations
         const optionsIdLists = categories.map((cat) => cat.categoryOptions)
         const computedCategoryOptions = cartesian(optionsIdLists)
         // find categoryOptionCombos by category-options
-        const cocs = computedCategoryOptions
+        return computedCategoryOptions
             .map((options) =>
                 selectors.getCoCByCategoryOptions(
                     data,
@@ -56,26 +57,21 @@ export const CategoryComboTable = ({
                 )
             )
             .filter((coc) => !!coc)
+    }, [data, categories, selectors])
 
-        return [cocs, computedCategoryOptions]
-    }, [categories, selectors])
-    console.log(sortedCOCs, computedCategoryOptions)
     const valueMatrix = useValueMatrix(dataElements, sortedCOCs)
 
-    if (
-        computedCategoryOptions.length !==
-        categoryCombo.categoryOptionCombos?.length
-    ) {
+    if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
         console.warn(
             `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server. 
             Please regenerate categoryOptionCombos. 
-            Computed: ${computedCategoryOptions.length}
+            Computed: ${sortedCOCs.length}
             Server: ${categoryCombo.categoryOptionCombos.length})`
         )
     }
     // Computes the span and repeats for each columns in a category-row.
     // Repeats are the number of times the options in a category needs to be rendered per category-row
-    let catColSpan = computedCategoryOptions.length
+    let catColSpan = sortedCOCs.length
     const rowToColumnsMap = categories.map((c) => {
         const categoryOptions = selectors.getCategoryOptionsByCategoryId(
             data,
@@ -84,8 +80,7 @@ export const CategoryComboTable = ({
         const nrOfOptions = c.categoryOptions.length
         if (nrOfOptions > 0 && catColSpan >= nrOfOptions) {
             catColSpan = catColSpan / nrOfOptions
-            const repeat =
-                computedCategoryOptions.length / (catColSpan * nrOfOptions)
+            const repeat = sortedCOCs.length / (catColSpan * nrOfOptions)
 
             const columnsToRender = new Array(repeat)
                 .fill(0)
@@ -130,14 +125,14 @@ export const CategoryComboTable = ({
         const idxDiff = activeCellColIdx - headerIdx * headerColSpan
         return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
     }
-    console.log(valueMatrix)
+
     const rowTotals = renderRowTotals && calculateRowTotals(valueMatrix)
     const columnTotals =
         renderColumnTotals && calculateColumnTotals(valueMatrix)
 
     return (
         <TableBody>
-            {rowToColumnsMap.map((colInfo) => {
+            {rowToColumnsMap.map((colInfo, i) => {
                 const { span, columns } = colInfo
                 return (
                     <TableRowHead key={colInfo.category.id}>
@@ -170,6 +165,9 @@ export const CategoryComboTable = ({
                         {renderPaddedCells.map((_, i) => (
                             <PaddingCell key={i} />
                         ))}
+                        {renderRowTotals && i === 0 && (
+                            <TotalHeader rowSpan={categories.length} />
+                        )}
                     </TableRowHead>
                 )
             })}
@@ -195,18 +193,16 @@ export const CategoryComboTable = ({
                             <PaddingCell key={i} className={styles.tableCell} />
                         ))}
                         {renderRowTotals && (
-                            <TableCell>{rowTotals[i]}</TableCell>
+                            <TotalCell>{rowTotals[i]}</TotalCell>
                         )}
                     </TableRow>
                 )
             })}
-            {columnTotals && (
-                <TableRow>
-                    <PaddingCell className={styles.tableCell} />
-                    {columnTotals.map((c, i) => (
-                        <TableCell key={i}>{c}</TableCell>
-                    ))}
-                </TableRow>
+            {renderColumnTotals && (
+                <ColumnTotals
+                    columnTotals={columnTotals}
+                    renderTotalSum={renderRowTotals && renderColumnTotals}
+                />
             )}
             {itemsHiddenCnt > 0 && (
                 <TableRow>
