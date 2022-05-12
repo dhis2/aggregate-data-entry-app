@@ -57,7 +57,7 @@ export const CategoryComboTable = ({
                 )
             )
             .filter((coc) => !!coc)
-    }, [data, categories, selectors])
+    }, [data, categories, categoryCombo, selectors])
 
     const valueMatrix = useValueMatrix(dataElements, sortedCOCs)
 
