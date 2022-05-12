@@ -7,22 +7,18 @@ import { useFormState } from 'react-final-form'
  * @param {*} dataElements dataElements in order as rendered in table, these are "rows"
  * @param {*} sortedCOCs categoryOptionCombos in order as rendered in table, these are the "columns"
  */
-export const useValueMatrix = (dataElements, sortedCOCs) => {
+export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
     const { values } = useFormState({
         subscription: {
             values: true,
         },
     })
 
-    if (!dataElements || !sortedCOCs) {
-        return []
-    }
-
     return useMemo(
         () =>
             dataElements.map((de) =>
                 sortedCOCs.map((coc) => getIn(values, `${de.id}.${coc.id}`))
             ),
-        [dataElements, sortedCOCs]
+        [dataElements, sortedCOCs, values]
     )
 }
