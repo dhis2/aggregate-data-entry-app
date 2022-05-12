@@ -46,3 +46,13 @@
 .paddingCell {
     composes: tableHeader;
 }
+
+.totalCell {
+    composes: tableCell;
+    background: var(--colors-grey300);
+}
+
+.totalHeader {
+    composes: totalCell;
+    font-weight: initial;
+}
