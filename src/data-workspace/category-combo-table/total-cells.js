@@ -22,7 +22,7 @@ TotalHeader.propTypes = {
     rowSpan: propTypes.number,
 }
 
-export const ColumnTotals = ({ columnTotals, renderTotalSum }) => {
+export const ColumnTotals = ({ columnTotals, renderTotalSum, paddedCells }) => {
     return (
         <TableRow>
             <TableCellHead className={styles.totalHeader}>
@@ -30,6 +30,9 @@ export const ColumnTotals = ({ columnTotals, renderTotalSum }) => {
             </TableCellHead>
             {columnTotals.map((v, i) => (
                 <TotalCell key={i}>{v}</TotalCell>
+            ))}
+            {paddedCells.map((_, i) => (
+                <TotalCell key={i} />
             ))}
             {renderTotalSum && (
                 <TotalCell>
@@ -42,5 +45,6 @@ export const ColumnTotals = ({ columnTotals, renderTotalSum }) => {
 
 ColumnTotals.propTypes = {
     columnTotals: propTypes.arrayOf(propTypes.number),
+    paddedCells: propTypes.array,
     renderTotalSum: propTypes.bool,
 }
