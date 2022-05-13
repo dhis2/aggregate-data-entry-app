@@ -16,13 +16,8 @@ import {
     DataEntryField,
     useActiveCell,
 } from '../data-entry-cell/index.js'
-import {
-    calculateColumnTotals,
-    calculateRowTotals,
-} from './calculate-totals.js'
 import styles from './category-combo-table.module.css'
-import { TotalCell, TotalHeader, ColumnTotals } from './total-cells.js'
-import { useValueMatrix } from './use-value-matrix.js'
+import { TotalHeader, ColumnTotals, RowTotal } from './total-cells.js'
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -58,8 +53,6 @@ export const CategoryComboTable = ({
             )
             .filter((coc) => !!coc)
     }, [data, categories, categoryCombo, selectors])
-
-    const valueMatrix = useValueMatrix(dataElements, sortedCOCs)
 
     if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
         console.warn(
@@ -132,10 +125,6 @@ export const CategoryComboTable = ({
         return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
     }
 
-    const rowTotals = renderRowTotals && calculateRowTotals(valueMatrix)
-    const columnTotals =
-        renderColumnTotals && calculateColumnTotals(valueMatrix)
-
     return (
         <TableBody>
             {rowToColumnsMap.map((colInfo, i) => {
@@ -198,16 +187,21 @@ export const CategoryComboTable = ({
                             <PaddingCell key={i} className={styles.tableCell} />
                         ))}
                         {renderRowTotals && (
-                            <TotalCell>{rowTotals[i]}</TotalCell>
+                            <RowTotal
+                                dataElements={dataElements}
+                                categoryOptionCombos={sortedCOCs}
+                                row={i}
+                            />
                         )}
                     </TableRow>
                 )
             })}
             {renderColumnTotals && (
                 <ColumnTotals
-                    columnTotals={columnTotals}
                     paddedCells={renderPaddedCells}
                     renderTotalSum={renderRowTotals && renderColumnTotals}
+                    dataElements={dataElements}
+                    categoryOptionCombos={sortedCOCs}
                 />
             )}
             {itemsHiddenCnt > 0 && (
