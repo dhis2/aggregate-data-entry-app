@@ -7,7 +7,6 @@ import ToggleableUnit from '../toggleable-unit.js'
 import styles from './audit-log.module.css'
 
 const renderMessage = ({ modifiedBy, auditType, value, prevValue }) => {
-    console.log('> prevValue', prevValue)
     if (auditType === 'UPDATE' && typeof prevValue === 'undefined') {
         return i18n.t('{{user}} set to {{value}}', { user: modifiedBy, value })
     }
