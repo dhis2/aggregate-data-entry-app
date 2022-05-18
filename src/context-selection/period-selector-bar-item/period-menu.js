@@ -3,12 +3,30 @@ import { Menu, MenuItem } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { getFixedPeriodsByTypeAndYear, usePeriod } from '../../shared/index.js'
+import { getCurrentDate, getFixedPeriodsByTypeAndYear, usePeriod } from '../../shared/index.js'
 import { usePeriodId } from '../use-context-selection/index.js'
 import classes from './period-menu.module.css'
 
-const getPeriods = ({ periodType, year, dateFormat }) =>
-    getFixedPeriodsByTypeAndYear({
+const filterFuturePeriods = (periods) => {
+    const array = []
+    const now = getCurrentDate()
+
+    for (let i = 0; i < periods.length; i++) {
+        const startDate = new Date(periods[i].startDate)
+        const endDate = new Date(periods[i].endDate)
+        const nowAfterOrOnStartDate = startDate <= now
+        const endDateBeforeOrOnNow = endDate <= now
+
+        if (nowAfterOrOnStartDate && endDateBeforeOrOnNow) {
+            array.push(periods[i])
+        }
+    }
+
+    return array
+}
+
+const getPeriods = ({ periodType, year, dateFormat }) => {
+    const fixedPeriods = getFixedPeriodsByTypeAndYear({
         periodType,
         year,
         formatYyyyMmDd: (date) => {
@@ -21,8 +39,13 @@ const getPeriods = ({ periodType, year, dateFormat }) =>
         },
         config: {
             reversePeriods: true,
+            filterFuturePeriods: true,
         },
+        filterFuturePeriods,
     })
+
+    return fixedPeriods
+}
 
 export default function PeriodMenu({ periodType, year, onChange }) {
     const [periodId] = usePeriodId()
