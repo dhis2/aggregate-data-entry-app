@@ -1,10 +1,11 @@
 import i18n from '@dhis2/d2-i18n'
 import { NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useOrgUnitId, usePeriodId } from '../../context-selection/index.js'
+import { useOrgUnitId, usePeriodId, useIsValidSelection } from '../../context-selection/index.js'
 import { useApiAttributeParams } from '../../shared/index.js'
+import { useSidebar } from '../context/index.js'
 import queryKeyFactory from '../query-key-factory.js'
 import ToggleableUnit from '../toggleable-unit.js'
 import AuditLog from './audit-log.js'
@@ -23,6 +24,9 @@ export default function DataDetails({
     const [orgUnitId] = useOrgUnitId()
     const { attributeCombo, attributeOptions } = useApiAttributeParams()
 
+    const isValidSelection = useIsValidSelection()
+    const [prevIsValidSelection, setPrevIsValidSelection] = useState(isValidSelection)
+
     const dataValueContextQueryKey = queryKeyFactory.dataValueContext.byParams({
         dataElementId: item.dataElement,
         periodId: periodId,
@@ -32,7 +36,30 @@ export default function DataDetails({
         categoryOptionComboId: item.categoryOptionCombo,
     })
 
-    const dataValueContext = useQuery(dataValueContextQueryKey)
+    const dataValueContext = useQuery(dataValueContextQueryKey, {
+        enabled: isValidSelection,
+    })
+
+    const sidebar = useSidebar()
+    useEffect(
+        () => {
+            // When valid -> invalid, then close
+            if (prevIsValidSelection && !isValidSelection) {
+                sidebar.close()
+            }
+
+            // If different, override prev value with current value
+            if (prevIsValidSelection !== isValidSelection) {
+                setPrevIsValidSelection(isValidSelection)
+            }
+        },
+        [
+            prevIsValidSelection,
+            setPrevIsValidSelection,
+            isValidSelection,
+            sidebar,
+        ]
+    )
 
     return (
         <>
