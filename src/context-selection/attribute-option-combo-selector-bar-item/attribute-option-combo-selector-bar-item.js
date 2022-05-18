@@ -45,7 +45,7 @@ export default function AttributeOptionComboSelectorBarItem({
     const relevantCategoriesWithOptions = useCategoriesWithOptionsWithinPeriod()
 
     const [open, setOpen] = useState(false)
-    const { deselectAll, select, selected } = useSelected()
+    const { deselectAll, select, selected } = useSelected(relevantCategoriesWithOptions)
     const label = useSelectorBarItemLabel(categoryCombo)
     const valueLabel = useSelectorBarItemValue(categoryCombo)
     const onChange = ({ selected, categoryId }) =>
