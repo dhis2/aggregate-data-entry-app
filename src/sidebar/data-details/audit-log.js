@@ -6,35 +6,38 @@ import React from 'react'
 import ToggleableUnit from '../toggleable-unit.js'
 import styles from './audit-log.module.css'
 
-const renderMessage = ({ displayName, changeType, newValue, oldValue }) => {
-    switch (changeType) {
-        case 'UPDATE':
-            return i18n.t(
-                '{{displayName}} updated to {{newValue}} (was {{oldValue}})',
-                {
-                    displayName,
-                    newValue,
-                    oldValue,
-                }
-            )
-        case 'DELETE':
-            return i18n.t('{{displayName}} deleted (was {{oldValue}})', {
-                displayName,
-                newValue,
-                oldValue,
-            })
-        default:
-            return `${displayName} ${changeType}`
+const renderMessage = ({ modifiedBy, auditType, value, prevValue }) => {
+    console.log('> prevValue', prevValue)
+    if (auditType === 'UPDATE' && typeof prevValue === 'undefined') {
+        return i18n.t('{{user}} set to {{value}}', { user: modifiedBy, value })
     }
+
+    if (auditType === 'UPDATE') {
+        return i18n.t('{{user}} updated to {{value}} (was {{prevValue}})', {
+            user: modifiedBy,
+            value,
+            prevValue,
+        })
+    }
+
+    if (auditType === 'DELETE') {
+        return i18n.t('{{user}} deleted (was {{prevValue}})', {
+            user: modifiedBy,
+            value,
+            prevValue,
+        })
+    }
+
+    return auditType
 }
 
 const Entry = ({ entry }) => {
-    const timeAgo = moment(entry.at).fromNow()
+    const timeAgo = moment(entry.created).fromNow()
 
     return (
         <>
             <span className={styles.entryMessage}>{renderMessage(entry)}</span>
-            <Tooltip content={entry.at.toString()}>
+            <Tooltip content={entry.created}>
                 <span className={styles.entryTimeAgo}>{timeAgo}</span>
             </Tooltip>
         </>
@@ -43,16 +46,20 @@ const Entry = ({ entry }) => {
 
 Entry.propTypes = {
     entry: PropTypes.shape({
-        at: PropTypes.instanceOf(Date).isRequired,
-        changeType: PropTypes.oneOf(['UPDATE', 'DELETE']).isRequired,
-        displayName: PropTypes.string.isRequired,
-        newValue: PropTypes.any,
-        oldValue: PropTypes.any,
+        auditType: PropTypes.oneOf(['UPDATE', 'DELETE']).isRequired,
+        created: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
+        prevValue: PropTypes.number,
     }).isRequired,
 }
 
-const AuditLogUnit = ({ loading, auditLog }) => {
-    const isEmptyAuditLog = !Array.isArray(auditLog) || auditLog.length === 0
+const AuditLogUnit = ({ loading, audits }) => {
+    const isEmptyAuditLog = !Array.isArray(audits) || audits.length === 0
+    const newToOldAuditLog = audits.sort((left, right) => {
+        const lCreated = new Date(left.created)
+        const rCreated = new Date(right.created)
+        return lCreated === rCreated ? 0 : lCreated < rCreated ? 1 : -1
+    })
 
     return (
         <ToggleableUnit title={i18n.t('Audit log')}>
@@ -66,21 +73,46 @@ const AuditLogUnit = ({ loading, auditLog }) => {
 
             {!loading && !isEmptyAuditLog && (
                 <ul className={styles.entries}>
-                    {auditLog
-                        .sort((e1, e2) => e2.at - e1.at)
-                        .map((entry, index) => (
+                    {!newToOldAuditLog.length && (
+                        <span>{i18n.t('No audit log for this data item')}</span>
+                    )}
+
+                    {newToOldAuditLog.map((entry, index, all) => {
+                        const payload = {
+                            ...entry,
+                            prevValue: all[index + 1]?.value,
+                        }
+
+                        return (
                             <li key={index} className={styles.entry}>
-                                <Entry entry={entry} />
+                                <Entry entry={payload} />
                             </li>
-                        ))}
+                        )
+                    })}
                 </ul>
             )}
         </ToggleableUnit>
     )
 }
 
+AuditLogUnit.defaultProps = {
+    audits: [],
+}
+
 AuditLogUnit.propTypes = {
-    auditLog: PropTypes.array,
+    audits: PropTypes.arrayOf(
+        PropTypes.shape({
+            attributeOptionCombo: PropTypes.string,
+            auditType: PropTypes.string,
+            categoryOptionCombo: PropTypes.string,
+            created: PropTypes.string,
+            dataElement: PropTypes.string,
+            modifiedBy: PropTypes.string,
+            orgUnit: PropTypes.string,
+            period: PropTypes.string,
+            value: PropTypes.string,
+        })
+    ),
     loading: PropTypes.bool,
 }
 
