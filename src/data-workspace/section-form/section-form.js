@@ -5,7 +5,7 @@ import { useSectionFilter } from '../../context-selection/use-context-selection/
 import { SectionFormSection } from './section.js'
 import styles from './section.module.css'
 
-export const SectionForm = ({ dataSet, globalFilterText }) => {
+export const SectionForm = ({ dataSet, globalFilterText, onFocus }) => {
     const [sectionId] = useSectionFilter()
     const filteredSections = sectionId
         ? dataSet.sections.filter((s) => s.id === sectionId)
@@ -17,6 +17,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
                 globalFilterText={globalFilterText}
                 sections={dataSet.sections}
                 dataSetId={dataSet.id}
+                onFocus={onFocus}
             />
         )
     }
@@ -29,6 +30,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
                     dataSetId={dataSet.id}
                     key={s.id}
                     globalFilterText={globalFilterText}
+                    onFocus={onFocus}
                 />
             ))}
         </>
@@ -52,9 +54,15 @@ SectionForm.propTypes = {
         ),
     }),
     globalFilterText: PropTypes.string,
+    onFocus: PropTypes.func,
 }
 
-const TabbedSectionForm = ({ dataSetId, sections, globalFilterText }) => {
+const TabbedSectionForm = ({
+    dataSetId,
+    sections,
+    globalFilterText,
+    onFocus,
+}) => {
     const [sectionId, setSelectedId] = useSectionFilter()
 
     const section = sectionId
@@ -80,6 +88,7 @@ const TabbedSectionForm = ({ dataSetId, sections, globalFilterText }) => {
                 dataSetId={dataSetId}
                 key={section.id}
                 globalFilterText={globalFilterText}
+                onFocus={onFocus}
             />
         </div>
     )
@@ -99,4 +108,5 @@ TabbedSectionForm.propTypes = {
             id: PropTypes.string,
         })
     ),
+    onFocus: PropTypes.func,
 }

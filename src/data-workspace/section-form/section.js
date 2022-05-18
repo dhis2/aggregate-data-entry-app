@@ -17,6 +17,7 @@ export const SectionFormSection = ({
     section,
     dataSetId,
     globalFilterText,
+    onFocus,
 }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
@@ -92,6 +93,7 @@ export const SectionFormSection = ({
                     filterText={filterText}
                     globalFilterText={globalFilterText}
                     maxColumnsInSection={maxColumnsInSection}
+                    onFocus={onFocus}
                 />
             ))}
         </Table>
@@ -110,4 +112,5 @@ SectionFormSection.propTypes = {
         displayName: PropTypes.string,
         id: PropTypes.string,
     }),
+    onFocus: PropTypes.func,
 }

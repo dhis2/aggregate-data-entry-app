@@ -48,8 +48,8 @@ Entry.propTypes = {
     entry: PropTypes.shape({
         auditType: PropTypes.oneOf(['UPDATE', 'DELETE']).isRequired,
         created: PropTypes.string.isRequired,
-        value: PropTypes.number.isRequired,
-        prevValue: PropTypes.number,
+        value: PropTypes.string.isRequired,
+        prevValue: PropTypes.string,
     }).isRequired,
 }
 

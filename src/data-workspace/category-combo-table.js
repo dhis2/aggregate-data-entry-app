@@ -24,6 +24,7 @@ export const CategoryComboTable = ({
     filterText,
     globalFilterText,
     maxColumnsInSection,
+    onFocus,
 }) => {
     const { data } = useMetadata()
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
@@ -48,8 +49,8 @@ export const CategoryComboTable = ({
         categoryCombo.categoryOptionCombos?.length
     ) {
         console.warn(
-            `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server. 
-            Please regenerate categoryOptionCombos. 
+            `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server.
+            Please regenerate categoryOptionCombos.
             Computed: ${computedCategoryOptions.length}
             Server: ${categoryCombo.categoryOptionCombos.length})`
         )
@@ -172,6 +173,7 @@ export const CategoryComboTable = ({
                                 <DataEntryField
                                     dataElement={de}
                                     categoryOptionCombo={coc}
+                                    onFocus={onFocus}
                                 />
                             </DataEntryCell>
                         ))}
@@ -217,6 +219,7 @@ CategoryComboTable.propTypes = {
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
     maxColumnsInSection: PropTypes.number,
+    onFocus: PropTypes.func,
 }
 
 const PaddingCell = () => <TableCell className={styles.paddingCell}></TableCell>

@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { NoticeBox } from '@dhis2/ui'
+import { CircularLoader, NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
@@ -75,19 +75,33 @@ export default function DataDetails({
 
             {/* <Limits itemId={item.id} itemType={item.type} /> */}
 
+            {dataValueContext.isLoading && (
+                <ToggleableUnit
+                    title={i18n.t('History and audit')}
+                    initiallyOpen
+                >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContext: 'center' }}>
+                        <CircularLoader small />
+                    </div>
+                </ToggleableUnit>
+            )}
+
             {dataValueContext.error && (
-                <ToggleableUnit initiallyOpen>
+                <ToggleableUnit
+                    title={i18n.t('History and audit')}
+                    initiallyOpen
+                >
                     <NoticeBox
                         title={i18n.t(
                             'Something went wrong loading the history and audit log'
                         )}
                     >
-                        {dataValueContext.error}
+                        <p>{dataValueContext.error.message}</p>
                     </NoticeBox>
                 </ToggleableUnit>
             )}
 
-            {!dataValueContext.error && (
+            {dataValueContext.data && (
                 <>
                     <HistoryUnit
                         loading={

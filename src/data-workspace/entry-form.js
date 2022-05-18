@@ -1,7 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useRef } from 'react'
+import { useForm } from 'react-final-form'
+import { useSidebar } from '../sidebar/index.js'
 import { CustomForm } from './custom-form.js'
 import { DefaultForm } from './default-form.js'
 import styles from './entry-form.module.css'
@@ -21,6 +23,9 @@ const formTypeToComponent = {
 
 export const EntryForm = ({ dataSet }) => {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
+    const form = useForm()
+    const sidebar = useSidebar()
+    const prevActiveFieldRef = useRef(form.getState().active)
 
     if (!dataSet) {
         return null
@@ -28,6 +33,16 @@ export const EntryForm = ({ dataSet }) => {
 
     const formType = dataSet.formType
     const Component = formTypeToComponent[formType]
+
+    const closeSidebarOnFieldChange = () => {
+        const prevActiveField = prevActiveFieldRef.current
+        const activeField = form.getState().active
+
+        if (sidebar.visible && prevActiveField !== activeField) {
+            sidebar.close()
+            prevActiveFieldRef.current = activeField
+        }
+    }
 
     return (
         <>
@@ -38,7 +53,11 @@ export const EntryForm = ({ dataSet }) => {
                     formType={formType}
                 />
             )}
-            <Component dataSet={dataSet} globalFilterText={globalFilterText} />
+            <Component
+                dataSet={dataSet}
+                globalFilterText={globalFilterText}
+                onFocus={closeSidebarOnFieldChange}
+            />
         </>
     )
 }

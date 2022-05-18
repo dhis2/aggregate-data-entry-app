@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-12T08:28:57.634Z\n"
-"PO-Revision-Date: 2022-05-12T08:28:57.634Z\n"
+"POT-Creation-Date: 2022-05-18T09:11:33.357Z\n"
+"PO-Revision-Date: 2022-05-18T09:11:33.357Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -305,17 +305,23 @@ msgstr "Go to previous cell"
 msgid "Shift + Tab"
 msgstr "Shift + Tab"
 
-msgid "{{displayName}} updated to {{newValue}} (was {{oldValue}})"
-msgstr "{{displayName}} updated to {{newValue}} (was {{oldValue}})"
+msgid "{{user}} set to {{value}}"
+msgstr "{{user}} set to {{value}}"
 
-msgid "{{displayName}} deleted (was {{oldValue}})"
-msgstr "{{displayName}} deleted (was {{oldValue}})"
+msgid "{{user}} updated to {{value}} (was {{prevValue}})"
+msgstr "{{user}} updated to {{value}} (was {{prevValue}})"
+
+msgid "{{user}} deleted (was {{prevValue}})"
+msgstr "{{user}} deleted (was {{prevValue}})"
 
 msgid "Audit log"
 msgstr "Audit log"
 
 msgid "No audit log for this data item."
 msgstr "No audit log for this data item."
+
+msgid "No audit log for this data item"
+msgstr "No audit log for this data item"
 
 msgid "Code: {{code}}"
 msgstr "Code: {{code}}"
@@ -361,6 +367,9 @@ msgstr "Edit comment"
 
 msgid "Add comment"
 msgstr "Add comment"
+
+msgid "History and audit"
+msgstr "History and audit"
 
 msgid "Something went wrong loading the history and audit log"
 msgstr "Something went wrong loading the history and audit log"
