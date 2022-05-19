@@ -2,10 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { TableCell, TableCellHead, TableRow } from '@dhis2/ui'
 import propTypes from 'prop-types'
 import React, { useMemo } from 'react'
-import {
-    calculateColumnTotals,
-    calculateRowTotals,
-} from './calculate-totals.js'
+import { calculateColumnTotals, calculateRowTotal } from './calculate-totals.js'
 import styles from './category-combo-table.module.css'
 import { useValueMatrix } from './use-value-matrix.js'
 
@@ -29,13 +26,12 @@ TotalHeader.propTypes = {
 
 export const RowTotal = ({ dataElements, categoryOptionCombos, row }) => {
     const matrix = useValueMatrix(dataElements, categoryOptionCombos)
-    const rowTotals = useMemo(() => {
-        return calculateRowTotals(matrix)
-    }, [matrix])
+    const rowTotal = useMemo(
+        () => calculateRowTotal(matrix, row),
+        [matrix, row]
+    )
 
-    const currentTotal = rowTotals[row]
-
-    return <TotalCell>{currentTotal}</TotalCell>
+    return <TotalCell>{rowTotal}</TotalCell>
 }
 
 RowTotal.propTypes = {
@@ -51,7 +47,8 @@ export const ColumnTotals = ({
     categoryOptionCombos,
 }) => {
     const matrix = useValueMatrix(dataElements, categoryOptionCombos)
-    const columnTotals = calculateColumnTotals(matrix)
+    const columnTotals = useMemo(() => calculateColumnTotals(matrix), [matrix])
+
     return (
         <TableRow>
             <TableCellHead className={styles.totalHeader}>

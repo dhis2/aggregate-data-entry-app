@@ -9,10 +9,11 @@ export const calculateColumnTotals = (matrix) =>
               })
           )
 
-export const calculateRowTotals = (matrix) =>
-    matrix.map((row) =>
-        row.reduce((acc, curr) => {
-            const a = Number(curr) || 0
-            return acc + a
-        }, 0)
-    )
+const sum = (acc, curr) => {
+    const a = Number(curr) || 0
+    const b = Number(acc) || 0
+    return a + b
+}
+
+export const calculateRowTotal = (matrix, row = matrix.length) =>
+    matrix[row].reduce(sum)
