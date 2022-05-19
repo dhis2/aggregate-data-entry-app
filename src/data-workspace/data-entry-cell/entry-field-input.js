@@ -45,7 +45,6 @@ export function EntryFieldInput({
     dataElement: de,
     categoryOptionCombo: coc,
     setSyncStatus,
-    onFocus: onFocusProp,
 }) {
     const { id: deId } = de
     const { id: cocId } = coc
@@ -59,10 +58,7 @@ export function EntryFieldInput({
         dataValueSet,
     })
 
-    const onFocus = () => {
-        onFocusProp()
-        setCurrentItem(currentItem)
-    }
+    const onFocus = () => setCurrentItem(currentItem)
 
     const sharedProps = { fieldname, dataValueParams, setSyncStatus, onFocus }
 
@@ -108,5 +104,4 @@ EntryFieldInput.propTypes = {
     }),
     fieldname: PropTypes.string,
     setSyncStatus: PropTypes.func,
-    onFocus: PropTypes.func,
 }

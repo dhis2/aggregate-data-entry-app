@@ -6,7 +6,7 @@ import { useMetadata, selectors } from '../metadata/index.js'
 import { CategoryComboTable } from './category-combo-table.js'
 import styles from './entry-form.module.css'
 
-export const DefaultForm = ({ dataSet, globalFilterText, onFocus }) => {
+export const DefaultForm = ({ dataSet, globalFilterText }) => {
     const { isLoading, isError, data } = useMetadata()
 
     if (isLoading || isError) {
@@ -40,7 +40,6 @@ export const DefaultForm = ({ dataSet, globalFilterText, onFocus }) => {
                         categoryCombo={categoryCombo}
                         dataElements={dataElements}
                         globalFilterText={globalFilterText}
-                        onFocus={onFocus}
                     />
                 ))}
             </Table>
@@ -54,5 +53,4 @@ DefaultForm.propTypes = {
         id: PropTypes.string,
     }),
     globalFilterText: PropTypes.string,
-    onFocus: PropTypes.func,
 }

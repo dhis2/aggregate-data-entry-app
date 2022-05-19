@@ -28,8 +28,8 @@ export const BooleanRadios = ({
                 onFocus: (...args) => {
                     input.onFocus(...args)
                     onFocus(...args)
-                }
-            }
+                },
+            },
         }
     }
     const yesField = useFieldWithPatchedOnFocus(fieldname, {

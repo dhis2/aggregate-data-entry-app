@@ -7,7 +7,6 @@ import { ValidationTooltip } from './validation-tooltip.js'
 export const DataEntryField = React.memo(function DataEntryField({
     dataElement: de,
     categoryOptionCombo: coc,
-    onFocus,
 }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
@@ -28,7 +27,6 @@ export const DataEntryField = React.memo(function DataEntryField({
                     dataElement={de}
                     categoryOptionCombo={coc}
                     setSyncStatus={setSyncStatus}
-                    onFocus={onFocus}
                 />
             </InnerWrapper>
         </ValidationTooltip>
@@ -42,5 +40,4 @@ DataEntryField.propTypes = {
         id: PropTypes.string.isRequired,
         valueType: PropTypes.string,
     }).isRequired,
-    onFocus: PropTypes.func,
 }

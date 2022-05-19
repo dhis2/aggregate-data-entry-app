@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { tabbable } from 'tabbable'
-import { useSidebar } from '../sidebar/index.js'
+import { useRightHandPanelContext } from '../right-hand-panel/index.js'
+import { dataDetailsSidebarId } from './constants.js'
 
 // todo: does not work with `select` components (because focus gets trapped in portal?)
 
@@ -32,13 +33,13 @@ const focusPrev = (rootNode) => {
  */
 export const KeyboardNavManager = ({ children }) => {
     const rootNodeRef = React.useRef()
-    const { showDataDetails } = useSidebar()
+    const rightHandPanel = useRightHandPanelContext()
 
     const handleKeyDown = (event) => {
         const { key, shiftKey } = event
 
         if (shiftKey && key === 'Enter') {
-            showDataDetails()
+            rightHandPanel.show(dataDetailsSidebarId)
         } else if (key === 'ArrowDown' || key === 'Enter') {
             event.preventDefault()
             focusNext(rootNodeRef.current)

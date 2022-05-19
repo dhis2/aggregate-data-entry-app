@@ -3,7 +3,11 @@ import { Menu, MenuItem } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { getCurrentDate, getFixedPeriodsByTypeAndYear, usePeriod } from '../../shared/index.js'
+import {
+    getCurrentDate,
+    getFixedPeriodsByTypeAndYear,
+    usePeriod,
+} from '../../shared/index.js'
 import { usePeriodId } from '../use-context-selection/index.js'
 import classes from './period-menu.module.css'
 

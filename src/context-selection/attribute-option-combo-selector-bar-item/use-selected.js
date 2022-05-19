@@ -6,33 +6,35 @@ export default function useSelected(relevantCategoriesWithOptions) {
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
 
-    const deselectAll = useCallback(
-        () => {
-            const nextAocSelection = Object.fromEntries(
-                Object.entries(attributeOptionComboSelection).filter(
-                    ([categoryId, optionId]) => {
-                        return relevantCategoriesWithOptions.find(
-                            category => category.id === categoryId &&
+    const deselectAll = useCallback(() => {
+        const nextAocSelection = Object.fromEntries(
+            Object.entries(attributeOptionComboSelection).filter(
+                ([categoryId, optionId]) => {
+                    return relevantCategoriesWithOptions.find(
+                        (category) =>
+                            category.id === categoryId &&
                             category.categoryOptions.find(
-                                (categoryOption) => categoryOption.id === optionId
+                                (categoryOption) =>
+                                    categoryOption.id === optionId
                             )
-                        )
-                    }
-                )
+                    )
+                }
             )
+        )
 
-            if (JSON.stringify(nextAocSelection) === JSON.stringify(attributeOptionComboSelection)) {
-                return
-            }
+        if (
+            JSON.stringify(nextAocSelection) ===
+            JSON.stringify(attributeOptionComboSelection)
+        ) {
+            return
+        }
 
-            return setAttributeOptionComboSelection(nextAocSelection)
-        },
-        [
-            relevantCategoriesWithOptions,
-            attributeOptionComboSelection,
-            setAttributeOptionComboSelection,
-        ]
-    )
+        return setAttributeOptionComboSelection(nextAocSelection)
+    }, [
+        relevantCategoriesWithOptions,
+        attributeOptionComboSelection,
+        setAttributeOptionComboSelection,
+    ])
 
     const select = useCallback(
         ({ value, categoryId }) => {

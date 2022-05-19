@@ -1,19 +1,12 @@
-import i18n from '@dhis2/d2-i18n'
-import { Button, InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useRef } from 'react'
-import { useForm } from 'react-final-form'
-import { useSidebar } from '../sidebar/index.js'
+import React, { useEffect, useRef } from 'react'
+import { useFormState } from 'react-final-form'
+import { useRightHandPanelContext } from '../right-hand-panel/index.js'
+import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form.js'
 import { DefaultForm } from './default-form.js'
-import styles from './entry-form.module.css'
+import FilterField from './filter-field.js'
 import { SectionForm } from './section-form/index.js'
-
-const FORM_TYPES = {
-    DEFAULT: 'DEFAULT',
-    SECTION: 'SECTION',
-    CUSTOM: 'CUSTOM',
-}
 
 const formTypeToComponent = {
     DEFAULT: DefaultForm,
@@ -21,28 +14,41 @@ const formTypeToComponent = {
     CUSTOM: CustomForm,
 }
 
+function useCloseSidebarOnFieldChange() {
+    const rightHandPanel = useRightHandPanelContext()
+    const subscribe = { active: true }
+    const formState = useFormState({ subscribe })
+    const prevActiveFieldRef = useRef(formState.active)
+
+    useEffect(() => {
+        const prevActiveField = prevActiveFieldRef.current
+        const activeField = formState.active
+
+        if (
+            // Then panel is open
+            // This also ensures that there was a previously focused field
+            rightHandPanel.id &&
+            // The user didn't focus another input
+            !!activeField &&
+            // The previously focused item and the currently focused item are
+            // not the same
+            prevActiveField !== activeField
+        ) {
+            rightHandPanel.hide()
+        }
+
+        if (prevActiveFieldRef.current !== activeField) {
+            prevActiveFieldRef.current = activeField
+        }
+    }, [prevActiveFieldRef, formState.active, rightHandPanel])
+}
+
 export const EntryForm = ({ dataSet }) => {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
-    const form = useForm()
-    const sidebar = useSidebar()
-    const prevActiveFieldRef = useRef(form.getState().active)
-
-    if (!dataSet) {
-        return null
-    }
-
     const formType = dataSet.formType
     const Component = formTypeToComponent[formType]
 
-    const closeSidebarOnFieldChange = () => {
-        const prevActiveField = prevActiveFieldRef.current
-        const activeField = form.getState().active
-
-        if (sidebar.visible && prevActiveField !== activeField) {
-            sidebar.close()
-            prevActiveFieldRef.current = activeField
-        }
-    }
+    useCloseSidebarOnFieldChange()
 
     return (
         <>
@@ -53,11 +59,8 @@ export const EntryForm = ({ dataSet }) => {
                     formType={formType}
                 />
             )}
-            <Component
-                dataSet={dataSet}
-                globalFilterText={globalFilterText}
-                onFocus={closeSidebarOnFieldChange}
-            />
+
+            <Component dataSet={dataSet} globalFilterText={globalFilterText} />
         </>
     )
 }
@@ -68,30 +71,4 @@ EntryForm.propTypes = {
         formType: PropTypes.string,
         id: PropTypes.string,
     }),
-}
-
-const FilterField = ({ value, setFilterText, formType }) => (
-    <div className={styles.filterWrapper}>
-        <InputField
-            name="filter-input"
-            className={styles.filterField}
-            type="text"
-            placeholder={
-                formType === FORM_TYPES.SECTION
-                    ? i18n.t('Filter fields in all sections')
-                    : i18n.t('Filter fields')
-            }
-            value={value}
-            onChange={({ value }) => setFilterText(value)}
-        />
-        <Button secondary small name="Clear" onClick={() => setFilterText('')}>
-            {i18n.t('Clear filter')}
-        </Button>
-    </div>
-)
-
-FilterField.propTypes = {
-    formType: PropTypes.string,
-    setFilterText: PropTypes.func,
-    value: PropTypes.string,
 }

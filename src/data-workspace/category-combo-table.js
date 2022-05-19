@@ -24,7 +24,6 @@ export const CategoryComboTable = ({
     filterText,
     globalFilterText,
     maxColumnsInSection,
-    onFocus,
 }) => {
     const { data } = useMetadata()
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
@@ -173,7 +172,6 @@ export const CategoryComboTable = ({
                                 <DataEntryField
                                     dataElement={de}
                                     categoryOptionCombo={coc}
-                                    onFocus={onFocus}
                                 />
                             </DataEntryCell>
                         ))}
@@ -219,7 +217,6 @@ CategoryComboTable.propTypes = {
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
     maxColumnsInSection: PropTypes.number,
-    onFocus: PropTypes.func,
 }
 
 const PaddingCell = () => <TableCell className={styles.paddingCell}></TableCell>

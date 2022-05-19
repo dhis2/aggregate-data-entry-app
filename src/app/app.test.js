@@ -3,7 +3,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { CurrentItemProvider } from '../current-item-provider/index.js'
-import { SidebarProvider } from '../sidebar/index.js'
 import App from './app.js'
 
 const queryClient = new QueryClient()
@@ -16,9 +15,7 @@ describe('<App />', () => {
             <DataProvider>
                 <QueryClientProvider client={queryClient}>
                     <CurrentItemProvider>
-                        <SidebarProvider>
-                            <App />
-                        </SidebarProvider>
+                        <App />
                     </CurrentItemProvider>
                 </QueryClientProvider>
             </DataProvider>,

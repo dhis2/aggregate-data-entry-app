@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-18T09:11:33.357Z\n"
-"PO-Revision-Date: 2022-05-18T09:11:33.357Z\n"
+"POT-Creation-Date: 2022-05-18T13:43:15.496Z\n"
+"PO-Revision-Date: 2022-05-18T13:43:15.496Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -49,18 +49,6 @@ msgstr "1 selection"
 msgid "{{amount}} selections"
 msgstr "{{amount}} selections"
 
-msgid "Could not find a data set for the selected id"
-msgstr "Could not find a data set for the selected id"
-
-msgid "There are no data sets available!"
-msgstr "There are no data sets available!"
-
-msgid "Data set"
-msgstr "Data set"
-
-msgid "Options"
-msgstr "Options"
-
 msgid "Print form with values"
 msgstr "Print form with values"
 
@@ -69,6 +57,60 @@ msgstr "Print empty form"
 
 msgid "Help"
 msgstr "Help"
+
+msgid "Options"
+msgstr "Options"
+
+msgid "Cell reference"
+msgstr "Cell reference"
+
+msgid "Saved and synced to server"
+msgstr "Saved and synced to server"
+
+msgid "Waiting to sync, saved locally"
+msgstr "Waiting to sync, saved locally"
+
+msgid "Data item has a comment"
+msgstr "Data item has a comment"
+
+msgid "Invalid value, not saved"
+msgstr "Invalid value, not saved"
+
+msgid "Locked, not editable"
+msgstr "Locked, not editable"
+
+msgid "Shortcuts"
+msgstr "Shortcuts"
+
+msgid "Show details"
+msgstr "Show details"
+
+msgid "Shift + Enter"
+msgstr "Shift + Enter"
+
+msgid "Double click"
+msgstr "Double click"
+
+msgid "Go to next cell"
+msgstr "Go to next cell"
+
+msgid "Tab"
+msgstr "Tab"
+
+msgid "Go to previous cell"
+msgstr "Go to previous cell"
+
+msgid "Shift + Tab"
+msgstr "Shift + Tab"
+
+msgid "Could not find a data set for the selected id"
+msgstr "Could not find a data set for the selected id"
+
+msgid "There are no data sets available!"
+msgstr "There are no data sets available!"
+
+msgid "Data set"
+msgstr "Data set"
 
 msgid "Search org units"
 msgstr "Search org units"
@@ -117,6 +159,120 @@ msgstr "Not implemented"
 
 msgid "This data set uses a custom form. Custom forms are not implemented yet."
 msgstr "This data set uses a custom form. Custom forms are not implemented yet."
+
+msgid "{{user}} set to {{value}}"
+msgstr "{{user}} set to {{value}}"
+
+msgid "{{user}} updated to {{value}} (was {{prevValue}})"
+msgstr "{{user}} updated to {{value}} (was {{prevValue}})"
+
+msgid "{{user}} deleted (was {{prevValue}})"
+msgstr "{{user}} deleted (was {{prevValue}})"
+
+msgid "Audit log"
+msgstr "Audit log"
+
+msgid "No audit log for this data item."
+msgstr "No audit log for this data item."
+
+msgid "No audit log for this data item"
+msgstr "No audit log for this data item"
+
+msgid "Code: {{code}}"
+msgstr "Code: {{code}}"
+
+msgid "ID: {{id}}"
+msgstr "ID: {{id}}"
+
+msgid "Last updated {{- timeAgo}} by {{- name}}"
+msgstr "Last updated {{- timeAgo}} by {{- name}}"
+
+msgid "Marked for follow-up"
+msgstr "Marked for follow-up"
+
+msgid "Unmark for follow-up"
+msgstr "Unmark for follow-up"
+
+msgid "Mark for follow-up"
+msgstr "Mark for follow-up"
+
+msgid "There was a problem saving the data item comment."
+msgstr "There was a problem saving the data item comment."
+
+msgid "There was a problem loading the comment for this data item"
+msgstr "There was a problem loading the comment for this data item"
+
+msgid "Saving..."
+msgstr "Saving..."
+
+msgid "Save comment"
+msgstr "Save comment"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Comment"
+msgstr "Comment"
+
+msgid "No comment for this data item."
+msgstr "No comment for this data item."
+
+msgid "Edit comment"
+msgstr "Edit comment"
+
+msgid "Add comment"
+msgstr "Add comment"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "History and audit"
+msgstr "History and audit"
+
+msgid "Something went wrong loading the history and audit log"
+msgstr "Something went wrong loading the history and audit log"
+
+msgid "History"
+msgstr "History"
+
+msgid "There was a problem saving the data item limits."
+msgstr "There was a problem saving the data item limits."
+
+msgid "There was a problem deleting the data item limits."
+msgstr "There was a problem deleting the data item limits."
+
+msgid "Delete limits"
+msgstr "Delete limits"
+
+msgid "There was a problem loading the limits for this data item"
+msgstr "There was a problem loading the limits for this data item"
+
+msgid "Average value: {{avg}}"
+msgstr "Average value: {{avg}}"
+
+msgid "Minimum"
+msgstr "Minimum"
+
+msgid "Maximum"
+msgstr "Maximum"
+
+msgid "Save limits"
+msgstr "Save limits"
+
+msgid "No limits set for this data item."
+msgstr "No limits set for this data item."
+
+msgid "Add limits"
+msgstr "Add limits"
+
+msgid "Edit limits"
+msgstr "Edit limits"
+
+msgid "Minimum and maximum limits"
+msgstr "Minimum and maximum limits"
+
+msgid "Try again, or contact your system administrator."
+msgstr "Try again, or contact your system administrator."
 
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
@@ -262,162 +418,6 @@ msgstr "Financial year (Start July)"
 
 msgid "Financial year (Start April)"
 msgstr "Financial year (Start April)"
-
-msgid "Cell reference"
-msgstr "Cell reference"
-
-msgid "Saved and synced to server"
-msgstr "Saved and synced to server"
-
-msgid "Waiting to sync, saved locally"
-msgstr "Waiting to sync, saved locally"
-
-msgid "Data item has a comment"
-msgstr "Data item has a comment"
-
-msgid "Invalid value, not saved"
-msgstr "Invalid value, not saved"
-
-msgid "Locked, not editable"
-msgstr "Locked, not editable"
-
-msgid "Shortcuts"
-msgstr "Shortcuts"
-
-msgid "Show details"
-msgstr "Show details"
-
-msgid "Shift + Enter"
-msgstr "Shift + Enter"
-
-msgid "Double click"
-msgstr "Double click"
-
-msgid "Go to next cell"
-msgstr "Go to next cell"
-
-msgid "Tab"
-msgstr "Tab"
-
-msgid "Go to previous cell"
-msgstr "Go to previous cell"
-
-msgid "Shift + Tab"
-msgstr "Shift + Tab"
-
-msgid "{{user}} set to {{value}}"
-msgstr "{{user}} set to {{value}}"
-
-msgid "{{user}} updated to {{value}} (was {{prevValue}})"
-msgstr "{{user}} updated to {{value}} (was {{prevValue}})"
-
-msgid "{{user}} deleted (was {{prevValue}})"
-msgstr "{{user}} deleted (was {{prevValue}})"
-
-msgid "Audit log"
-msgstr "Audit log"
-
-msgid "No audit log for this data item."
-msgstr "No audit log for this data item."
-
-msgid "No audit log for this data item"
-msgstr "No audit log for this data item"
-
-msgid "Code: {{code}}"
-msgstr "Code: {{code}}"
-
-msgid "ID: {{id}}"
-msgstr "ID: {{id}}"
-
-msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr "Last updated {{- timeAgo}} by {{- name}}"
-
-msgid "Marked for follow-up"
-msgstr "Marked for follow-up"
-
-msgid "Unmark for follow-up"
-msgstr "Unmark for follow-up"
-
-msgid "Mark for follow-up"
-msgstr "Mark for follow-up"
-
-msgid "There was a problem saving the data item comment."
-msgstr "There was a problem saving the data item comment."
-
-msgid "There was a problem loading the comment for this data item"
-msgstr "There was a problem loading the comment for this data item"
-
-msgid "Saving..."
-msgstr "Saving..."
-
-msgid "Save comment"
-msgstr "Save comment"
-
-msgid "Cancel"
-msgstr "Cancel"
-
-msgid "Comment"
-msgstr "Comment"
-
-msgid "No comment for this data item."
-msgstr "No comment for this data item."
-
-msgid "Edit comment"
-msgstr "Edit comment"
-
-msgid "Add comment"
-msgstr "Add comment"
-
-msgid "History and audit"
-msgstr "History and audit"
-
-msgid "Something went wrong loading the history and audit log"
-msgstr "Something went wrong loading the history and audit log"
-
-msgid "History"
-msgstr "History"
-
-msgid "There was a problem saving the data item limits."
-msgstr "There was a problem saving the data item limits."
-
-msgid "There was a problem deleting the data item limits."
-msgstr "There was a problem deleting the data item limits."
-
-msgid "Delete limits"
-msgstr "Delete limits"
-
-msgid "There was a problem loading the limits for this data item"
-msgstr "There was a problem loading the limits for this data item"
-
-msgid "Average value: {{avg}}"
-msgstr "Average value: {{avg}}"
-
-msgid "Minimum"
-msgstr "Minimum"
-
-msgid "Maximum"
-msgstr "Maximum"
-
-msgid "Save limits"
-msgstr "Save limits"
-
-msgid "No limits set for this data item."
-msgstr "No limits set for this data item."
-
-msgid "Add limits"
-msgstr "Add limits"
-
-msgid "Edit limits"
-msgstr "Edit limits"
-
-msgid "Minimum and maximum limits"
-msgstr "Minimum and maximum limits"
-
-msgid "Try again, or contact your system administrator."
-msgstr "Try again, or contact your system administrator."
-
-msgid "Details"
-msgstr "Details"
 
 msgid "Close details sidebar"
 msgstr "Close details sidebar"
