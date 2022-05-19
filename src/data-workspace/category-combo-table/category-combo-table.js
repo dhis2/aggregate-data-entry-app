@@ -52,19 +52,13 @@ export const CategoryComboTable = ({
                 )
             )
             .filter((coc) => !!coc)
-    }, [data, categories, categoryCombo, selectors])
+    }, [data, categories, categoryCombo])
 
     if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
         console.warn(
-<<<<<<< HEAD
             `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server.
             Please regenerate categoryOptionCombos.
-            Computed: ${computedCategoryOptions.length}
-=======
-            `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server. 
-            Please regenerate categoryOptionCombos. 
             Computed: ${sortedCOCs.length}
->>>>>>> b614f63... fix: add styling to total-cells
             Server: ${categoryCombo.categoryOptionCombos.length})`
         )
     }

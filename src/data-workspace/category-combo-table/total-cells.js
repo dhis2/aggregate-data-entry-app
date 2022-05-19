@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { TableCell, TableCellHead, TableRow } from '@dhis2/ui'
 import propTypes from 'prop-types'
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
     calculateColumnTotals,
     calculateRowTotals,
@@ -29,7 +29,10 @@ TotalHeader.propTypes = {
 
 export const RowTotal = ({ dataElements, categoryOptionCombos, row }) => {
     const matrix = useValueMatrix(dataElements, categoryOptionCombos)
-    const rowTotals = calculateRowTotals(matrix)
+    const rowTotals = useMemo(() => {
+        return calculateRowTotals(matrix)
+    }, [matrix])
+
     const currentTotal = rowTotals[row]
 
     return <TotalCell>{currentTotal}</TotalCell>
@@ -62,7 +65,7 @@ export const ColumnTotals = ({
             ))}
             {renderTotalSum && (
                 <TotalCell>
-                    {columnTotals.reduce((acc, curr) => acc + curr)}
+                    {columnTotals.reduce((acc, curr) => acc + curr, 0)}
                 </TotalCell>
             )}
         </TableRow>

@@ -1,5 +1,5 @@
 export const calculateColumnTotals = (matrix) =>
-    matrix.length === 1
+    matrix.length < 2
         ? matrix[0].map((v) => Number(v) || 0)
         : matrix.reduce((totals, currRow) =>
               totals.map((currTotal, i) => {
