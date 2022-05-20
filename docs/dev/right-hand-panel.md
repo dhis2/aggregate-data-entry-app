@@ -5,11 +5,12 @@ of the actual main area.
 
 ## Table of Contents
 
-* [The right hand panel](#the-righthandpanel)
-* [Creating a sidebar](#creating-a-sidebar)
-* [Rendering a sidebar](#rendering-a-sidebar)
+-   [The right hand panel](#the-righthandpanel)
+-   [Creating a sidebar](#creating-a-sidebar)
+-   [Rendering a sidebar](#rendering-a-sidebar)
 
 <a name="the-righthandpanel"></a>
+
 ## The right hand panel
 
 The right hand panel is rendered by the `<App />` component in `src/app/app.js`.
@@ -37,6 +38,7 @@ right side of the context selector) just needs to render the sidebar just right
 next to the dropdown menu item (see [options-button.js](../../src/context-selection/context-selection/options-button.js))
 
 <a name="creating-a-sidebar"></a>
+
 ## Creating a sidebar
 
 The `src/sidebar` folder exports the necessary UI components to build a
@@ -50,11 +52,11 @@ export default function YourSidebar({ onClose }) {
     return (
         <Sidebar>
             <Title onClose={onClose}></Title>
-            
+
             <ToggleableUnit title={i18n.t('Section 1')}>
                 Sidebar content
             </ToggleableUnit>
-            
+
             <ToggleableUnit title={i18n.t('Section 2')}>
                 Other sidebar content
             </ToggleableUnit>
@@ -64,6 +66,7 @@ export default function YourSidebar({ onClose }) {
 ```
 
 <a name="rendering-a-sidebar"></a>
+
 ## Rendering a sidebar
 
 Now that there is a sidebar component, it needs to be rendered. It will be
