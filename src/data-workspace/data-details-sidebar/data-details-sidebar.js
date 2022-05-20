@@ -47,7 +47,9 @@ export default function DataDetailsSidebar() {
 
     return (
         <Sidebar>
-            <Title title={i18n.t('Details')} onClose={rightHandPanel.hide} />
+            <Title onClose={rightHandPanel.hide}>
+                {i18n.t('Details')}
+            </Title>
 
             <BasicInformation
                 item={item}

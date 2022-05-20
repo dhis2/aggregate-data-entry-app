@@ -10,7 +10,9 @@ export default function ContextualHelpSidebar() {
 
     return (
         <Sidebar>
-            <Title title={i18n.t('Help')} onClose={rightHandPanel.hide} />
+            <Title onClose={rightHandPanel.hide}>
+                {i18n.t('Help')}
+            </Title>
             <CellReference />
             <Shortcuts />
         </Sidebar>

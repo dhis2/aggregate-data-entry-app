@@ -24,7 +24,7 @@ export const dataValueContext = {
         dataElementId,
         periodId,
         orgUnitId,
-        categoryOptionIds,
+        categoryOptionIds = [],
         categoryComboId,
         categoryOptionComboId,
     }) => [

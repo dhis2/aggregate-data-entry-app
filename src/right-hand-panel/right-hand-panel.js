@@ -1,12 +1,15 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { portalElementId } from './constants.js'
 import styles from './right-hand-panel.module.css'
 
-class PortalAnchor extends PureComponent {
-    render() {
-        return <div id={portalElementId} className={styles.anchorPortal} />
-    }
-}
+const PortalAnchor = React.memo(function PortalAnchor() {
+    return (
+        <div
+            id={portalElementId}
+            className={styles.anchorPortal}
+        />
+    )
+})
 
 export default function RightHandPanel() {
     return (
