@@ -19,6 +19,7 @@ export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
         return dataElements.map((de) =>
             sortedCOCs.map((coc) => getIn(values, `${de.id}.${coc.id}`))
         )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataElements, sortedCOCs, active])
 
     return matrix
