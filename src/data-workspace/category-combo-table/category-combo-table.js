@@ -52,7 +52,7 @@ export const CategoryComboTable = ({
                 )
             )
             .filter((coc) => !!coc)
-    }, [data, categories, categoryCombo, selectors])
+    }, [data, categories, categoryCombo])
 
     if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
         console.warn(

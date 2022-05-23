@@ -91,16 +91,14 @@ msgstr "Show all sections"
 msgid "Section"
 msgstr "Section"
 
-<<<<<<< HEAD
 msgid "Fetching data set info"
 msgstr "Fetching data set info"
 
 msgid "Error occurred while loading data set info"
 msgstr "Error occurred while loading data set info"
-=======
+
 msgid "Value"
 msgstr "Value"
->>>>>>> a5e9bb8 (fix: fix totals initialValue)
 
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
