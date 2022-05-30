@@ -19,6 +19,8 @@ export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
         return dataElements.map((de) =>
             sortedCOCs.map((coc) => getIn(values, `${de.id}.${coc.id}`))
         )
+        // active is updated onBlur, so this only when blurred
+        // can change to `values` if we want to update on each value-change
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataElements, sortedCOCs, active])
 
