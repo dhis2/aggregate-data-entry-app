@@ -7,7 +7,7 @@ describe('<Title />', () => {
     it('renders a close button', () => {
         const handleCloseSpy = jest.fn()
         const { getByRole } = render(
-            <Title title="Test title" onClose={handleCloseSpy} />
+            <Title onClose={handleCloseSpy}>Test title</Title>
         )
 
         expect(getByRole('button')).toBeInTheDocument()

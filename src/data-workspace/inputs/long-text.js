@@ -8,6 +8,7 @@ export const LongText = ({
     fieldname,
     dataValueParams,
     setSyncStatus,
+    onKeyDown,
     onFocus,
 }) => {
     const { input, meta } = useField(fieldname, {
@@ -45,13 +46,15 @@ export const LongText = ({
             {...input}
             onFocus={(...args) => {
                 input.onFocus(...args)
-                onFocus(...args)
+                onFocus?.(...args)
             }}
             onBlur={(e) => {
                 handleBlur()
                 input.onBlur(e)
             }}
+            onKeyDown={onKeyDown}
         />
     )
 }
+
 LongText.propTypes = InputPropTypes

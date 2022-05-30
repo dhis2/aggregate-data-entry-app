@@ -7,13 +7,13 @@ import {
     usePeriodId,
     useIsValidSelection,
 } from '../../context-selection/index.js'
-import { useCurrentItem } from '../../current-item-provider/index.js'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import {
-    useApiAttributeParams,
     Sidebar,
     Title,
     ToggleableUnit,
+    useApiAttributeParams,
+    useCurrentItemContext,
 } from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
 import AuditLog from './audit-log.js'
@@ -22,7 +22,7 @@ import Comment from './comment.js'
 import HistoryUnit from './history-unit.js'
 
 export default function DataDetailsSidebar() {
-    const { currentItem: item } = useCurrentItem()
+    const { item } = useCurrentItemContext()
     const onMarkForFollowup = () => null
     const onUnmarkForFollowup = () => null
     const [periodId] = usePeriodId()

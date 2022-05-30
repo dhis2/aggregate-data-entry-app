@@ -57,6 +57,7 @@ export const GenericInput = ({
     dataValueParams,
     setSyncStatus,
     valueType,
+    onKeyDown,
     onFocus,
 }) => {
     const [lastSyncedValue, setLastSyncedValue] = useState()
@@ -95,12 +96,13 @@ export const GenericInput = ({
             type={htmlTypeAttrsByValueType[valueType]}
             onFocus={(...args) => {
                 input.onFocus(...args)
-                onFocus(...args)
+                onFocus?.(...args)
             }}
             onBlur={(e) => {
                 handleBlur()
                 input.onBlur(e)
             }}
+            onKeyDown={onKeyDown}
         />
     )
 }

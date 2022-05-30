@@ -1,3 +1,4 @@
+export * from './current-item-provider/index.js'
 export * from './error-message/index.js'
 export { useApiAttributeParams } from './use-api-attribute-params.js'
 export * from './fixed-periods/index.js'

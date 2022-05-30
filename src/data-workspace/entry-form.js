@@ -6,7 +6,6 @@ import { DefaultForm } from './default-form.js'
 import FilterField from './filter-field.js'
 import { SectionForm } from './section-form/index.js'
 import useCloseRightHandPanelOnSelectionChange from './use-close-right-hand-panel-on-selection-change.js'
-import useCloseSidebarOnFieldChange from './use-close-sidebar-on-field-change.js'
 
 const formTypeToComponent = {
     DEFAULT: DefaultForm,
@@ -19,7 +18,6 @@ export const EntryForm = ({ dataSet }) => {
     const formType = dataSet.formType
     const Component = formTypeToComponent[formType]
 
-    useCloseSidebarOnFieldChange()
     useCloseRightHandPanelOnSelectionChange()
 
     return (

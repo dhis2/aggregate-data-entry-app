@@ -2,7 +2,7 @@ import { DataProvider } from '@dhis2/app-runtime'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { CurrentItemProvider } from '../current-item-provider/index.js'
+import { CurrentItemProvider } from '../shared/index.js'
 import App from './app.js'
 
 const queryClient = new QueryClient()

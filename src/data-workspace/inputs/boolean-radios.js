@@ -17,6 +17,7 @@ export const BooleanRadios = ({
     fieldname,
     dataValueParams,
     setSyncStatus,
+    onKeyDown,
     onFocus,
 }) => {
     const useFieldWithPatchedOnFocus = (...args) => {
@@ -27,7 +28,7 @@ export const BooleanRadios = ({
                 ...input,
                 onFocus: (...args) => {
                     input.onFocus(...args)
-                    onFocus(...args)
+                    onFocus?.(...args)
                 },
             },
         }
@@ -37,11 +38,13 @@ export const BooleanRadios = ({
         value: 'true',
         subscription: { value: true },
     })
+
     const noField = useFieldWithPatchedOnFocus(fieldname, {
         type: 'radio',
         value: 'false',
         subscription: { value: true },
     })
+
     // Used for the 'clear' button, but works
     const clearField = useFieldWithPatchedOnFocus(fieldname, {
         type: 'radio',
@@ -91,6 +94,7 @@ export const BooleanRadios = ({
                     handleBlur()
                     yesField.input.onBlur(e)
                 }}
+                onKeyDown={onKeyDown}
             />
             <Radio
                 dense
@@ -101,6 +105,7 @@ export const BooleanRadios = ({
                     handleBlur()
                     noField.input.onBlur(e)
                 }}
+                onKeyDown={onKeyDown}
             />
             <Button
                 small
@@ -121,6 +126,7 @@ export const BooleanRadios = ({
                     handleBlur() // Probably handled by onClick, but included here for safety
                     clearField.input.onBlur()
                 }}
+                onKeyDown={onKeyDown}
             >
                 {i18n.t('Clear')}
             </Button>

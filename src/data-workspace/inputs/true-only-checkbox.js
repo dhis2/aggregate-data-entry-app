@@ -9,6 +9,7 @@ export const TrueOnlyCheckbox = ({
     fieldname,
     dataValueParams,
     setSyncStatus,
+    onKeyDown,
     onFocus,
 }) => {
     const { input, meta } = useField(fieldname, {
@@ -49,12 +50,13 @@ export const TrueOnlyCheckbox = ({
                 {...convertCallbackSignatures(input)}
                 onFocus={(...args) => {
                     input.onFocus(...args)
-                    onFocus(...args)
+                    onFocus?.(...args)
                 }}
                 onBlur={(e) => {
                     handleBlur()
                     input.onBlur(e)
                 }}
+                onKeyDown={onKeyDown}
             />
         </div>
     )

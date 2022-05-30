@@ -7,13 +7,9 @@ import {
     useIsValidSelection,
 } from '../context-selection/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
-import { RightHandPanelPortal } from '../right-hand-panel/index.js'
-import { dataDetailsSidebarId } from './constants.js'
-import { DataDetailsSidebar } from './data-details-sidebar/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { KeyboardNavManager } from './keyboard-nav-manager.js'
 import { useDataValueSet } from './use-data-value-set.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
@@ -54,19 +50,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     return (
-        <>
-            <KeyboardNavManager>
-                <FinalFormWrapper dataValueSet={initialDataValuesFetch.data}>
-                    <div className={styles.wrapper}>
-                        <EntryForm dataSet={dataSet} />
-                    </div>
-                </FinalFormWrapper>
-            </KeyboardNavManager>
-
-            <RightHandPanelPortal id={dataDetailsSidebarId}>
-                <DataDetailsSidebar />
-            </RightHandPanelPortal>
-        </>
+        <FinalFormWrapper dataValueSet={initialDataValuesFetch.data}>
+            <div id="data-workspace" className={styles.wrapper}>
+                <EntryForm dataSet={dataSet} />
+            </div>
+        </FinalFormWrapper>
     )
 }
 

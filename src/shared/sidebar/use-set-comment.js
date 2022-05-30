@@ -3,7 +3,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../context-selection/index.js'
-import { useCurrentItem } from '../current-item-provider/index.js'
 import {
     dataValueSets,
     useAttributeOptionCombo,
@@ -31,12 +30,11 @@ const MUTATION_SET_COMMENT = {
 
 // @TODO: This needs to be implemented correctly once we have an api to update
 //        the comment properly
-export default function useSetComment() {
+export default function useSetComment(currentItem) {
     const queryClient = useQueryClient()
     const engine = useDataEngine()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const attributeOptionCombo = useAttributeOptionCombo()
-    const { currentItem } = useCurrentItem()
 
     // Use mutation appropriate to mutation type
     const mutationFn = (variables) =>
