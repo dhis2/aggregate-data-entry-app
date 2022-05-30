@@ -121,7 +121,7 @@ export const CategoryComboTable = ({
 
     return (
         <TableBody>
-            {rowToColumnsMap.map((colInfo, i) => {
+            {rowToColumnsMap.map((colInfo, colInfoIndex) => {
                 const { span, columns, category } = colInfo
                 return (
                     <TableRowHead key={category.id}>
@@ -132,13 +132,13 @@ export const CategoryComboTable = ({
                             {category.displayFormName !== 'default' &&
                                 category.displayFormName}
                         </TableCellHead>
-                        {columns.map((co, i) => {
+                        {columns.map((co, columnIndex) => {
                             return (
                                 <TableCellHead
-                                    key={i}
+                                    key={columnIndex}
                                     className={cx(styles.tableHeader, {
                                         [styles.active]: isHeaderActive(
-                                            i,
+                                            columnIndex,
                                             span
                                         ),
                                     })}
@@ -153,7 +153,7 @@ export const CategoryComboTable = ({
                         {renderPaddedCells.map((_, i) => (
                             <PaddingCell key={i} />
                         ))}
-                        {renderRowTotals && i === 0 && (
+                        {renderRowTotals && colInfoIndex === 0 && (
                             <TotalHeader rowSpan={categories.length} />
                         )}
                     </TableRowHead>
