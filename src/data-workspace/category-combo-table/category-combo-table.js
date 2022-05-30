@@ -28,11 +28,11 @@ export const CategoryComboTable = ({
     renderRowTotals,
     renderColumnTotals,
 }) => {
-    const { data } = useMetadata()
+    const { data: metadata } = useMetadata()
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
     const categories = selectors.getCategoriesByCategoryComboId(
-        data,
+        metadata,
         categoryCombo.id
     )
 
@@ -46,13 +46,13 @@ export const CategoryComboTable = ({
         return computedCategoryOptions
             .map((options) =>
                 selectors.getCoCByCategoryOptions(
-                    data,
+                    metadata,
                     categoryCombo.id,
                     options
                 )
             )
             .filter((coc) => !!coc)
-    }, [data, categories, categoryCombo])
+    }, [metadata, categories, categoryCombo])
 
     if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
         console.warn(
@@ -67,7 +67,7 @@ export const CategoryComboTable = ({
     let catColSpan = sortedCOCs.length
     const rowToColumnsMap = categories.map((c) => {
         const categoryOptions = selectors.getCategoryOptionsByCategoryId(
-            data,
+            metadata,
             c.id
         )
         const nrOfOptions = c.categoryOptions.length
