@@ -37,7 +37,7 @@ CommentIndicator.propTypes = { isComment: PropTypes.bool }
  * This inner wrapper provides styles and layout for the entry field based on
  * its various states
  */
-export function InnerWrapper({ children, fieldname, syncStatus }) {
+export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
     const [deId, cocId] = fieldname.split('.')
     const {
         meta: { active, invalid },
@@ -61,7 +61,7 @@ export function InnerWrapper({ children, fieldname, syncStatus }) {
         <div
             className={cx(styles.cellInnerWrapper, cellStateClassName, {
                 [styles.active]: active,
-                [styles.disabled]: false, // todo
+                [styles.disabled]: disabled,
             })}
         >
             {children}
@@ -76,6 +76,7 @@ export function InnerWrapper({ children, fieldname, syncStatus }) {
 }
 InnerWrapper.propTypes = {
     children: PropTypes.node,
+    disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     syncStatus: PropTypes.shape({
         synced: PropTypes.bool,

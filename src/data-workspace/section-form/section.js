@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
 import { CategoryComboTable } from '../category-combo-table/index.js'
+import { getFieldId } from '../get-field-id.js'
 import styles from './section.module.css'
 
 export const SectionFormSection = ({
@@ -40,8 +41,17 @@ export const SectionFormSection = ({
             (grp) => grp.categoryCombo.categoryOptionCombos?.length || 1
         )
     )
-    const filterInputId = `filter-input-${section.id}`
 
+    const greyedFieldsMap = section.greyedFields.reduce((acc, greyedField) => {
+        const key = getFieldId(
+            greyedField.dataElement,
+            greyedField.categoryOptionCombo
+        )
+        acc[key] = true
+        return acc
+    }, {})
+
+    const filterInputId = `filter-input-${section.id}`
     return (
         <Table className={styles.table} suppressZebraStriping>
             <TableHead>
@@ -94,6 +104,7 @@ export const SectionFormSection = ({
                     maxColumnsInSection={maxColumnsInSection}
                     renderRowTotals={section.showRowTotals}
                     renderColumnTotals={section.showColumnTotals}
+                    greyedFields={greyedFieldsMap}
                 />
             ))}
         </Table>
@@ -110,6 +121,7 @@ SectionFormSection.propTypes = {
         description: PropTypes.string,
         disableDataElementAutoGroup: PropTypes.bool,
         displayName: PropTypes.string,
+        greyedFields: PropTypes.array,
         id: PropTypes.string,
         showColumnTotals: PropTypes.bool,
         showRowTotals: PropTypes.bool,

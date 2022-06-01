@@ -16,6 +16,7 @@ import {
     DataEntryField,
     useActiveCell,
 } from '../data-entry-cell/index.js'
+import { getFieldId } from '../get-field-id.js'
 import styles from './category-combo-table.module.css'
 import { TotalHeader, ColumnTotals, RowTotal } from './total-cells.js'
 
@@ -24,6 +25,7 @@ export const CategoryComboTable = ({
     dataElements,
     filterText,
     globalFilterText,
+    greyedFields,
     maxColumnsInSection,
     renderRowTotals,
     renderColumnTotals,
@@ -119,6 +121,14 @@ export const CategoryComboTable = ({
         return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
     }
 
+    const isFieldGreyed = (de, coc) => {
+        if (!greyedFields) {
+            return false
+        }
+        const key = getFieldId(de, coc)
+        return greyedFields[key] || false
+    }
+
     return (
         <TableBody>
             {rowToColumnsMap.map((colInfo, colInfoIndex) => {
@@ -174,6 +184,7 @@ export const CategoryComboTable = ({
                                 <DataEntryField
                                     dataElement={de}
                                     categoryOptionCombo={coc}
+                                    disabled={isFieldGreyed(de, coc)}
                                 />
                             </DataEntryCell>
                         ))}
@@ -233,6 +244,8 @@ CategoryComboTable.propTypes = {
     ),
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
+    /** Greyed fields is an object-map where [deId.cocId]: true if that field is greyed/disabled */
+    greyedFields: PropTypes.object,
     maxColumnsInSection: PropTypes.number,
     renderColumnTotals: PropTypes.bool,
     renderRowTotals: PropTypes.bool,
