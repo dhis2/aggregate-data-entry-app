@@ -1,4 +1,5 @@
 import React from 'react'
+import { getDataElementById } from '../../metadata/selectors.js'
 import { DataEntryField } from '../data-entry-cell/index.js'
 
 const INPUT_TYPES = {
@@ -31,7 +32,7 @@ export const replaceInputNode = (domNode, metadata) => {
 
     if (inputType === INPUT_TYPES.ENTRYFIELD) {
         const [deId, cocId] = domNode.attribs.id.split('-')
-        const dataElement = metadata.dataElements[deId]
+        const dataElement = getDataElementById(metadata, deId)
         return (
             <DataEntryField
                 dataElement={dataElement}
