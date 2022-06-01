@@ -1,0 +1,25 @@
+.customForm table {
+    border-collapse: collapse;
+    height: 100%;
+}
+.customForm :global(td) {
+    border: 1px solid var(--colors-grey400);
+    font-size: 13px;
+    line-height: 15px;
+    height: auto;
+}
+.customForm :global(td:empty) {
+    background-color: var(--colors-grey100);
+    cursor: not-allowed;
+}
+.customForm :global(td.dhis2-data-entry-app-custom-form-label-cell) {
+    padding: 8px;
+}
+.customForm :global(th) {
+    border: 1px solid var(--colors-grey400);
+    padding: 8px;
+    background-color: var(--colors-grey200);
+    height: auto;
+    font-size: 13px;
+    line-height: 15px;
+}
