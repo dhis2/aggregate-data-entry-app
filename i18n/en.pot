@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-10T14:44:36.727Z\n"
-"PO-Revision-Date: 2022-05-10T14:44:36.727Z\n"
+"POT-Creation-Date: 2022-05-19T14:21:57.113Z\n"
+"PO-Revision-Date: 2022-05-19T14:21:57.113Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -97,8 +97,14 @@ msgstr "Fetching data set info"
 msgid "Error occurred while loading data set info"
 msgstr "Error occurred while loading data set info"
 
+msgid "Value"
+msgstr "Value"
+
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
+
+msgid "Totals"
+msgstr "Totals"
 
 msgid "Not implemented"
 msgstr "Not implemented"

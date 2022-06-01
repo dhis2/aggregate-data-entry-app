@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
-import { CategoryComboTable } from '../category-combo-table.js'
+import { CategoryComboTable } from '../category-combo-table/index.js'
 import styles from './section.module.css'
 
 export const SectionFormSection = ({
@@ -92,6 +92,8 @@ export const SectionFormSection = ({
                     filterText={filterText}
                     globalFilterText={globalFilterText}
                     maxColumnsInSection={maxColumnsInSection}
+                    renderRowTotals={section.showRowTotals}
+                    renderColumnTotals={section.showColumnTotals}
                 />
             ))}
         </Table>
@@ -109,5 +111,7 @@ SectionFormSection.propTypes = {
         disableDataElementAutoGroup: PropTypes.bool,
         displayName: PropTypes.string,
         id: PropTypes.string,
+        showColumnTotals: PropTypes.bool,
+        showRowTotals: PropTypes.bool,
     }),
 }
