@@ -23,6 +23,5 @@ export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
         // can change to `values` if we want to update on each value-change
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataElements, sortedCOCs, active])
-
     return matrix
 }
