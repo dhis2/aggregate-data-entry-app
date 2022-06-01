@@ -1,7 +1,7 @@
 {
-    "count": 930,
-    "totalResponseSize": 4032663,
-    "duplicates": 828,
+    "count": 938,
+    "totalResponseSize": 4033095,
+    "duplicates": 841,
     "nonDeterministicResponses": 103,
     "apiVersion": "39",
     "fixtureFiles": [
