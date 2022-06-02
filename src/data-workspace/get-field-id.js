@@ -3,10 +3,17 @@ export const getFieldId = (de, coc) => {
 }
 
 export const getFieldIdComponents = (fieldId) => {
-    const [dataElement, categoryOptionCombo] = fieldId.split('.')
+    if (!fieldId) {
+        return {
+            dataElementId: null,
+            categoryOptionComboId: null,
+        }
+    }
+
+    const [dataElementId, categoryOptionComboId] = fieldId.split('.')
 
     return {
-        dataElement,
-        categoryOptionCombo,
+        dataElementId,
+        categoryOptionComboId,
     }
 }
