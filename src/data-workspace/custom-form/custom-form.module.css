@@ -23,3 +23,36 @@
     font-size: 13px;
     line-height: 15px;
 }
+/*
+Implement dark top-headers but use very conservative selectors to
+prevent accidentally applying this style to cells in the table body
+<table>
+    <tr />          YES
+    <tr />          NO
+</table>              
+
+<table>
+    <tbody>
+        <tr />      YES
+        <tr />      NO
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr />      YES
+        <tr />      YES
+    </thead>               
+    <tbody>
+        <tr />      NO
+        <tr />      NO
+    </tbody>               
+</table>     
+*/
+.customForm :global(table) > :global(tr:first-child) > :global(th),  
+.customForm :global(table) > :global(tbody:first-child) > :global(tr:first-child) > :global(th),
+.customForm :global(table) > :global(thead) > :global(tr) > :global(th) {
+    background-color: var(--colors-grey800);
+    border-color: var(--colors-grey800);
+    color: var(--colors-white);
+}
