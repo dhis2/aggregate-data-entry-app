@@ -12,6 +12,7 @@ export const parseHtmlToReact = (htmlCode, metadata) =>
                 case 'td':
                     return replaceTdNode(domNode)
                 case 'script':
+                    // remove script tags
                     return <></>
                 default:
                     return undefined

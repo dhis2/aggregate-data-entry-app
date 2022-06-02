@@ -5,6 +5,11 @@ import { useMetadata } from '../../metadata/use-metadata.js'
 import styles from './custom-form.module.css'
 import { parseHtmlToReact } from './parse-html-to-react.js'
 
+/**
+ * This implementation of custom forms only supports custom
+ * HTML and CSS. It does not support custom logic (JavaScript).
+ * For more info see ./docs/custom-froms.md
+ */
 export const CustomForm = ({ dataSet }) => {
     const { data: customForm } = useCustomForm({
         id: dataSet.dataEntryForm.id,
