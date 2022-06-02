@@ -10,6 +10,7 @@ export const LongText = ({
     setSyncStatus,
     onKeyDown,
     onFocus,
+    disabled,
 }) => {
     const { input, meta } = useField(fieldname, {
         subscription: { value: true, dirty: true, valid: true },
@@ -53,6 +54,7 @@ export const LongText = ({
                 input.onBlur(e)
             }}
             onKeyDown={onKeyDown}
+            disabled={disabled}
         />
     )
 }

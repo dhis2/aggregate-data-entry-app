@@ -121,7 +121,7 @@ export const CategoryComboTable = ({
         return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
     }
 
-    const isFieldGreyed = (de, coc) => {
+    const isGreyedField = (de, coc) => {
         if (!greyedFields) {
             return false
         }
@@ -184,7 +184,7 @@ export const CategoryComboTable = ({
                                 <DataEntryField
                                     dataElement={de}
                                     categoryOptionCombo={coc}
-                                    disabled={isFieldGreyed(de, coc)}
+                                    disabled={isGreyedField(de, coc)}
                                 />
                             </DataEntryCell>
                         ))}

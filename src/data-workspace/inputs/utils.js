@@ -13,6 +13,7 @@ export const convertCallbackSignatures = (props) => ({
 export const InputPropTypes = {
     onKeyDown: PropTypes.func.isRequired,
     dataValueParams: PropTypes.objectOf(PropTypes.string),
+    disabled: PropTypes.bool,
     lastSyncedValue: PropTypes.any,
     setSyncStatus: PropTypes.func,
     onFocus: PropTypes.func,

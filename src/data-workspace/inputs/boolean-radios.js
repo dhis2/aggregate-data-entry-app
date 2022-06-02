@@ -16,6 +16,7 @@ import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 export const BooleanRadios = ({
     fieldname,
     dataValueParams,
+    disabled,
     setSyncStatus,
     onKeyDown,
     onFocus,
@@ -95,6 +96,7 @@ export const BooleanRadios = ({
                     yesField.input.onBlur(e)
                 }}
                 onKeyDown={onKeyDown}
+                disabled={disabled}
             />
             <Radio
                 dense
@@ -106,6 +108,7 @@ export const BooleanRadios = ({
                     noField.input.onBlur(e)
                 }}
                 onKeyDown={onKeyDown}
+                disabled={disabled}
             />
             <Button
                 small
@@ -127,6 +130,7 @@ export const BooleanRadios = ({
                     clearField.input.onBlur()
                 }}
                 onKeyDown={onKeyDown}
+                disabled={disabled}
             >
                 {i18n.t('Clear')}
             </Button>
