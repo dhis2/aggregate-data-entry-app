@@ -22,14 +22,14 @@ export default function useSelected(relevantCategoriesWithOptions) {
             )
         )
 
-        if (
-            JSON.stringify(nextAocSelection) ===
-            JSON.stringify(attributeOptionComboSelection)
-        ) {
-            return
-        }
-
-        return setAttributeOptionComboSelection(nextAocSelection)
+        setAttributeOptionComboSelection(
+            JSON.stringify(nextAocSelection) === '{}'
+                // passing an empty object will result in an infinite loop,
+                // breaking the app. Additionally `undefined` will remove
+                // the parameter from the url
+                ? undefined
+                : nextAocSelection
+        )
     }, [
         relevantCategoriesWithOptions,
         attributeOptionComboSelection,
