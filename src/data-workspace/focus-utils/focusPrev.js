@@ -1,7 +1,7 @@
 import { tabbable } from 'tabbable'
 
 // Need to get tabbable list every time in case form changes
-export default function focusNext() {
+export default function focusPrev() {
     const rootNode = document.getElementById('data-workspace')
     const tabbableElements = tabbable(rootNode)
     const currentIndex = tabbableElements.indexOf(document.activeElement)
