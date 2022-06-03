@@ -15,10 +15,10 @@ import { useDataValueSet } from '../use-data-value-set.js'
 import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
 
-function useCreateCurrentItem({ de, coc, dataValueSet }) {
+function createCurrentItem({ de, coc, dataValueSet }) {
     if (dataValueSet.data[de.id]?.[coc.id]) {
         return {
-            ...dataValueSet.data[de.id]?.[coc.id],
+            ...dataValueSet.data[de.id][coc.id],
             categoryOptionCombo: coc.id,
             name: de.displayName,
             code: de.code,
@@ -27,13 +27,13 @@ function useCreateCurrentItem({ de, coc, dataValueSet }) {
 
     return {
         categoryOptionCombo: coc.id,
-        comment: null,
         dataElement: de.id,
-        followup: false,
-        lastUpdated: '',
         name: de.displayName,
+        lastUpdated: '',
+        followup: false,
+        comment: null,
         storedBy: null,
-        code: '@TODO: Implement code',
+        code: null,
     }
 }
 
@@ -89,7 +89,7 @@ export function EntryFieldInput({
     const { id: cocId } = coc
     const dataValueParams = useDataValueParams({ deId, cocId })
     const dataValueSet = useDataValueSet()
-    const currentItem = useCreateCurrentItem({
+    const currentItem = createCurrentItem({
         fieldname,
         de,
         coc,
