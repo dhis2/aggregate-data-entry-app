@@ -1,5 +1,8 @@
+import { CssVariables } from '@dhis2/ui'
 import React from 'react'
 import { QueryClientProvider } from 'react-query'
+import { HashRouter as Router, Route } from 'react-router-dom'
+import { QueryParamProvider } from 'use-query-params'
 import { CurrentItemProvider } from '../current-item-provider/index.js'
 import { RightHandPanelProvider } from '../right-hand-panel/index.js'
 import App from './app.js'
@@ -9,13 +12,20 @@ const AppWrapper = () => {
     const queryClient = useQueryClient()
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <CurrentItemProvider>
-                <RightHandPanelProvider>
-                    <App />
-                </RightHandPanelProvider>
-            </CurrentItemProvider>
-        </QueryClientProvider>
+        <>
+            <CssVariables colors spacers theme />
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <QueryParamProvider ReactRouterRoute={Route}>
+                        <CurrentItemProvider>
+                            <RightHandPanelProvider>
+                                <App />
+                            </RightHandPanelProvider>
+                        </CurrentItemProvider>
+                    </QueryParamProvider>
+                </Router>
+            </QueryClientProvider>
+        </>
     )
 }
 

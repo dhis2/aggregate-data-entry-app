@@ -1,7 +1,4 @@
-import { CssVariables } from '@dhis2/ui'
 import React, { useState } from 'react'
-import { HashRouter as Router, Route } from 'react-router-dom'
-import { QueryParamProvider } from 'use-query-params'
 import './app.css'
 import { ContextSelection } from '../context-selection/index.js'
 import { DataWorkspace } from '../data-workspace/index.js'
@@ -34,21 +31,16 @@ const App = () => {
     )
 
     return (
-        <Router>
-            <QueryParamProvider ReactRouterRoute={Route}>
-                <CssVariables colors spacers theme />
-                <LoadApp>
-                    <Layout
-                        header={contextSelection}
-                        main={dataWorkspace}
-                        sidebar={<RightHandPanel />}
-                        showSidebar={!!id}
-                        footer={<MutationIndicator />}
-                        showFooter
-                    />
-                </LoadApp>
-            </QueryParamProvider>
-        </Router>
+        <LoadApp>
+            <Layout
+                header={contextSelection}
+                main={dataWorkspace}
+                sidebar={<RightHandPanel />}
+                showSidebar={!!id}
+                footer={<MutationIndicator />}
+                showFooter
+            />
+        </LoadApp>
     )
 }
 
