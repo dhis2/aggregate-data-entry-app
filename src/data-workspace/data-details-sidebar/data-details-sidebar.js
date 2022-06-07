@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, NoticeBox } from '@dhis2/ui'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useQuery } from 'react-query'
 import {
     useOrgUnitId,
@@ -30,8 +30,7 @@ export default function DataDetailsSidebar() {
     const { attributeCombo, attributeOptions } = useApiAttributeParams()
 
     const isValidSelection = useIsValidSelection()
-    const [prevIsValidSelection, setPrevIsValidSelection] =
-        useState(isValidSelection)
+    const rightHandPanel = useRightHandPanelContext()
 
     const dataValueContextQueryKey = queryKeyFactory.dataValueContext.byParams({
         dataElementId: item.dataElement,
@@ -45,24 +44,6 @@ export default function DataDetailsSidebar() {
     const dataValueContext = useQuery(dataValueContextQueryKey, {
         enabled: isValidSelection,
     })
-
-    const rightHandPanel = useRightHandPanelContext()
-    useEffect(() => {
-        // When valid -> invalid, then close
-        if (prevIsValidSelection && !isValidSelection) {
-            rightHandPanel.hide()
-        }
-
-        // If different, override prev value with current value
-        if (prevIsValidSelection !== isValidSelection) {
-            setPrevIsValidSelection(isValidSelection)
-        }
-    }, [
-        prevIsValidSelection,
-        setPrevIsValidSelection,
-        isValidSelection,
-        rightHandPanel,
-    ])
 
     return (
         <Sidebar>

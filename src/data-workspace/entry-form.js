@@ -1,46 +1,17 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useRef } from 'react'
-import { useFormState } from 'react-final-form'
-import { useRightHandPanelContext } from '../right-hand-panel/index.js'
+import React from 'react'
 import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form.js'
 import { DefaultForm } from './default-form.js'
 import FilterField from './filter-field.js'
 import { SectionForm } from './section-form/index.js'
+import useCloseRightHandPanelOnSelectionChange from './use-close-right-hand-panel-on-selection-change.js'
+import useCloseSidebarOnFieldChange from './use-close-sidebar-on-field-change.js'
 
 const formTypeToComponent = {
     DEFAULT: DefaultForm,
     SECTION: SectionForm,
     CUSTOM: CustomForm,
-}
-
-function useCloseSidebarOnFieldChange() {
-    const rightHandPanel = useRightHandPanelContext()
-    const subscribe = { active: true }
-    const formState = useFormState({ subscribe })
-    const prevActiveFieldRef = useRef(formState.active)
-
-    useEffect(() => {
-        const prevActiveField = prevActiveFieldRef.current
-        const activeField = formState.active
-
-        if (
-            // Then panel is open
-            // This also ensures that there was a previously focused field
-            rightHandPanel.id &&
-            // The user didn't focus another input
-            !!activeField &&
-            // The previously focused item and the currently focused item are
-            // not the same
-            prevActiveField !== activeField
-        ) {
-            rightHandPanel.hide()
-        }
-
-        if (prevActiveFieldRef.current !== activeField) {
-            prevActiveFieldRef.current = activeField
-        }
-    }, [prevActiveFieldRef, formState.active, rightHandPanel])
 }
 
 export const EntryForm = ({ dataSet }) => {
@@ -49,6 +20,7 @@ export const EntryForm = ({ dataSet }) => {
     const Component = formTypeToComponent[formType]
 
     useCloseSidebarOnFieldChange()
+    useCloseRightHandPanelOnSelectionChange()
 
     return (
         <>
