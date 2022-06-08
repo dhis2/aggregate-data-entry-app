@@ -6,11 +6,16 @@ import { DataSetSelectorBarItem } from '../data-set-selector-bar-item/index.js'
 import { OrgUnitSetSelectorBarItem } from '../org-unit-selector-bar-item/index.js'
 import { PeriodSelectorBarItem } from '../period-selector-bar-item/index.js'
 import { SectionFilterSelectorBarItem } from '../section-filter-selector-bar-item/index.js'
-import { useClearEntireSelection } from '../use-context-selection/index.js'
+import {
+    useClearEntireSelection,
+    useManageInterParamDependencies,
+} from '../use-context-selection/index.js'
 import RightHandSideContent from './right-hand-side-content.js'
 import useShouldHideClearButton from './use-should-hide-clear-button.js'
 
 export default function ContextSelector({ setSelectionHasNoFormMessage }) {
+    useManageInterParamDependencies()
+
     const hideClearButton = useShouldHideClearButton()
     const clearEntireSelection = useClearEntireSelection()
     const onClearSelectionClick = () => {

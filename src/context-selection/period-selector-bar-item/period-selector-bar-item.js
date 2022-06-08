@@ -7,7 +7,6 @@ import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
 import computeMaxYear from './compute-max-year.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
-import useDeselectOnPeriodTypeChange from './use-deselect-on-period-type-change.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import YearNavigator from './year-navigator.js'
 
@@ -47,8 +46,6 @@ export const PeriodSelectorBarItem = () => {
 
     const selectorBarItemValue = useSelectorBarItemValue()
 
-    useDeselectOnPeriodTypeChange(dataSetPeriodType)
-
     return (
         <div data-test="period-selector">
             <DisabledTooltip>
@@ -67,7 +64,7 @@ export const PeriodSelectorBarItem = () => {
                                     maxYear={maxYear}
                                     year={year}
                                     onYearChange={(year) => {
-                                        setPeriodId(null)
+                                        setPeriodId(undefined)
                                         setYear(year)
                                     }}
                                 />

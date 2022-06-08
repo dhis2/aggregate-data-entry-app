@@ -6,7 +6,6 @@ import { selectors, useMetadata } from '../../metadata/index.js'
 import { useDataSetId } from '../use-context-selection/index.js'
 import CategoriesMenu from './categories-menu.js'
 import useCategoriesWithOptionsWithinPeriod from './use-categories-with-options-within-period.js'
-import useOnDependentParamsChange from './use-on-dependent-params-change.js'
 import useSelected from './use-selected.js'
 import useSelectorBarItemLabel from './use-selector-bar-item-label.js'
 import useSelectorBarItemValue from './use-selector-bar-item-value.js'
@@ -63,7 +62,6 @@ export default function AttributeOptionComboSelectorBarItem({
         categoryWithNoOptionsExists
     )
 
-    useOnDependentParamsChange(deselectAll)
     useSetSelectionHasNoFormMessage(
         categoryWithNoOptionsExists,
         setSelectionHasNoFormMessage
