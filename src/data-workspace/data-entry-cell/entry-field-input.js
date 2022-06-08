@@ -16,7 +16,7 @@ import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
 
 function createCurrentItem({ de, coc, dataValueSet }) {
-    if (dataValueSet.data[de.id]?.[coc.id]) {
+    if (dataValueSet?.data[de.id]?.[coc.id]) {
         return {
             ...dataValueSet.data[de.id][coc.id],
             categoryOptionCombo: coc.id,
@@ -123,11 +123,7 @@ export function EntryFieldInput({
         onKeyDown,
     }
 
-    return (
-        <>
-            <InputComponent sharedProps={sharedProps} de={de} />
-        </>
-    )
+    return <InputComponent sharedProps={sharedProps} de={de} />
 }
 
 EntryFieldInput.propTypes = {
