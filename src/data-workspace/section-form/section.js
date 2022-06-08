@@ -42,14 +42,14 @@ export const SectionFormSection = ({
         )
     )
 
-    const greyedFieldsMap = section.greyedFields.reduce((acc, greyedField) => {
-        const key = getFieldId(
-            greyedField.dataElement,
-            greyedField.categoryOptionCombo
+    const greyedFields = new Set(
+        section.greyedFields.map((greyedField) =>
+            getFieldId(
+                greyedField.dataElement.id,
+                greyedField.categoryOptionCombo.id
+            )
         )
-        acc[key] = true
-        return acc
-    }, {})
+    )
 
     const filterInputId = `filter-input-${section.id}`
     return (
@@ -104,7 +104,7 @@ export const SectionFormSection = ({
                     maxColumnsInSection={maxColumnsInSection}
                     renderRowTotals={section.showRowTotals}
                     renderColumnTotals={section.showColumnTotals}
-                    greyedFields={greyedFieldsMap}
+                    greyedFields={greyedFields}
                 />
             ))}
         </Table>

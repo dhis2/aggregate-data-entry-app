@@ -12,7 +12,7 @@ export const DataEntryField = React.memo(function DataEntryField({
 }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
-    const fieldname = getFieldId(de, coc)
+    const fieldname = getFieldId(de.id, coc.id)
     const [syncStatus, setSyncStatus] = useState({
         syncing: false,
         synced: false,

@@ -1,8 +1,8 @@
-export const getFieldId = (de, coc) => {
-    return `${de.id}.${coc.id}`
+export const getFieldId = (dataElementId, categoryOptionComboId) => {
+    return `${dataElementId}.${categoryOptionComboId}`
 }
 
-export const getFieldIdComponents = (fieldId) => {
+export const parseFieldId = (fieldId) => {
     if (!fieldId) {
         return {
             dataElementId: null,

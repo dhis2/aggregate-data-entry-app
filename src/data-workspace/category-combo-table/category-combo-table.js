@@ -121,14 +121,6 @@ export const CategoryComboTable = ({
         return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
     }
 
-    const isGreyedField = (de, coc) => {
-        if (!greyedFields) {
-            return false
-        }
-        const key = getFieldId(de, coc)
-        return greyedFields[key] || false
-    }
-
     return (
         <TableBody>
             {rowToColumnsMap.map((colInfo, colInfoIndex) => {
@@ -184,7 +176,9 @@ export const CategoryComboTable = ({
                                 <DataEntryField
                                     dataElement={de}
                                     categoryOptionCombo={coc}
-                                    disabled={isGreyedField(de, coc)}
+                                    disabled={greyedFields?.has(
+                                        getFieldId(de.id, coc.id)
+                                    )}
                                 />
                             </DataEntryCell>
                         ))}
@@ -244,8 +238,8 @@ CategoryComboTable.propTypes = {
     ),
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
-    /** Greyed fields is an object-map where [deId.cocId]: true if that field is greyed/disabled */
-    greyedFields: PropTypes.object,
+    /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
+    greyedFields: PropTypes.instanceOf(Set),
     maxColumnsInSection: PropTypes.number,
     renderColumnTotals: PropTypes.bool,
     renderRowTotals: PropTypes.bool,
