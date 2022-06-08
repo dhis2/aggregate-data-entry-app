@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-30T08:56:40.940Z\n"
-"PO-Revision-Date: 2022-05-30T08:56:40.940Z\n"
+"POT-Creation-Date: 2022-06-08T13:13:22.311Z\n"
+"PO-Revision-Date: 2022-06-08T13:13:22.311Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -425,8 +425,8 @@ msgstr "Financial year (Start July)"
 msgid "Financial year (Start April)"
 msgstr "Financial year (Start April)"
 
-msgid "Close details sidebar"
-msgstr "Close details sidebar"
-
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (disabled)"
+
+msgid "Close details sidebar"
+msgstr "Close details sidebar"

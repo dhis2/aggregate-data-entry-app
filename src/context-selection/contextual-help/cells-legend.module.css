@@ -1,3 +1,0 @@
-.helpItem {
-    composes: helpItem from './contextual-help.module.css';
-}
