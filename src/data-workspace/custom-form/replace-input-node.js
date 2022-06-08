@@ -33,7 +33,7 @@ export const replaceInputNode = (domNode, metadata) => {
     if (inputType !== INPUT_TYPES.ENTRYFIELD) {
         return undefined
     }
-    
+
     const [deId, cocId] = domNode.attribs.id.split('-')
     const dataElement = getDataElementById(metadata, deId)
     return (
