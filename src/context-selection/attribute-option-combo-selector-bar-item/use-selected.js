@@ -2,39 +2,9 @@ import { useCallback } from 'react'
 import { useAttributeOptionComboSelection } from '../use-context-selection/index.js'
 import omit from './omit.js'
 
-export default function useSelected(relevantCategoriesWithOptions) {
+export default function useSelected() {
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
-
-    const deselectAll = useCallback(() => {
-        const nextAocSelection = Object.fromEntries(
-            Object.entries(attributeOptionComboSelection).filter(
-                ([categoryId, optionId]) => {
-                    return relevantCategoriesWithOptions.find(
-                        (category) =>
-                            category.id === categoryId &&
-                            category.categoryOptions.find(
-                                (categoryOption) =>
-                                    categoryOption.id === optionId
-                            )
-                    )
-                }
-            )
-        )
-
-        setAttributeOptionComboSelection(
-            JSON.stringify(nextAocSelection) === '{}'
-                // passing an empty object will result in an infinite loop,
-                // breaking the app. Additionally `undefined` will remove
-                // the parameter from the url
-                ? undefined
-                : nextAocSelection
-        )
-    }, [
-        relevantCategoriesWithOptions,
-        attributeOptionComboSelection,
-        setAttributeOptionComboSelection,
-    ])
 
     const select = useCallback(
         ({ value, categoryId }) => {
@@ -53,7 +23,6 @@ export default function useSelected(relevantCategoriesWithOptions) {
 
     return {
         select,
-        deselectAll,
         selected: attributeOptionComboSelection,
     }
 }

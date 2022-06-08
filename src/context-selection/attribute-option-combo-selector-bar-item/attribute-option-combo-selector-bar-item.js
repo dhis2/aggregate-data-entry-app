@@ -3,9 +3,8 @@ import { SelectorBarItem } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { selectors, useMetadata } from '../../metadata/index.js'
-import { useDataSetId } from '../use-context-selection/index.js'
+import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
 import CategoriesMenu from './categories-menu.js'
-import useCategoriesWithOptionsWithinPeriod from './use-categories-with-options-within-period.js'
 import useSelected from './use-selected.js'
 import useSelectorBarItemLabel from './use-selector-bar-item-label.js'
 import useSelectorBarItemValue from './use-selector-bar-item-value.js'
@@ -37,16 +36,20 @@ export default function AttributeOptionComboSelectorBarItem({
 }) {
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
+    const [periodId] = usePeriodId()
     const categoryCombo = selectors.getCategoryComboByDataSetId(
         metadata,
         dataSetId
     )
-    const relevantCategoriesWithOptions = useCategoriesWithOptionsWithinPeriod()
+    const relevantCategoriesWithOptions =
+        selectors.getCategoriesWithOptionsWithinPeriod(
+            metadata,
+            dataSetId,
+            periodId
+        )
 
     const [open, setOpen] = useState(false)
-    const { deselectAll, select, selected } = useSelected(
-        relevantCategoriesWithOptions
-    )
+    const { select, selected } = useSelected()
     const label = useSelectorBarItemLabel(categoryCombo)
     const valueLabel = useSelectorBarItemValue(categoryCombo)
     const onChange = ({ selected, categoryId }) =>
