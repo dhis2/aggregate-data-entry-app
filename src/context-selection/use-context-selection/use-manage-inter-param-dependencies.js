@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
-import { parsePeriodId } from '../../shared/index.js'
+import { parsePeriodId, filterObject } from '../../shared/index.js'
 import {
     usePeriodId,
     useAttributeOptionComboSelection,
@@ -105,18 +105,18 @@ function deselectAllUnavailableCategoryOptions({
     relevantCategoriesWithOptions,
     setAttributeOptionComboSelection,
 }) {
-    const nextAocSelection = Object.fromEntries(
-        Object.entries(attributeOptionComboSelection).filter(
-            ([categoryId, optionId]) => {
-                return relevantCategoriesWithOptions.find(
-                    (category) =>
-                        category.id === categoryId &&
-                        category.categoryOptions.find(
-                            (categoryOption) => categoryOption.id === optionId
-                        )
+    const nextAocSelection = filterObject(
+        attributeOptionComboSelection,
+        ([categoryId, optionId]) => relevantCategoriesWithOptions.find(
+            (category) =>
+                // when current iterating is the correct category
+                category.id === categoryId &&
+                // and the option still exists
+                category.categoryOptions.find(
+                    (categoryOption) => categoryOption.id === optionId
                 )
-            }
         )
+
     )
 
     // prevent infinite loop as the object reference it not stored

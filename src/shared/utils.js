@@ -19,3 +19,9 @@ export const cartesian = (args) => {
     return result
 }
 // [[1,2,3]. [1,2]] => [[1,1],[1,2],[2,1],[2,2],[3,1],[3,2]]
+
+export function filterObject(object, filterFn) {
+    return Object.fromEntries(
+        Object.entries(object).filter(filterFn)
+    )
+}
