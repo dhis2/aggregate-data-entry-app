@@ -11,7 +11,7 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import { ToggleableUnit } from '../../shared/index.js'
+import { ExpandableUnit } from '../../shared/index.js'
 import styles from './limits.module.css'
 import LoadingError from './loading-error.js'
 
@@ -210,12 +210,12 @@ Limits.propTypes = {
 }
 
 const LimitsUnit = ({ itemId, itemType }) => (
-    <ToggleableUnit
+    <ExpandableUnit
         title={i18n.t('Minimum and maximum limits')}
         disabled={itemType !== 'numerical'}
     >
         <Limits itemId={itemId} />
-    </ToggleableUnit>
+    </ExpandableUnit>
 )
 
 LimitsUnit.propTypes = {

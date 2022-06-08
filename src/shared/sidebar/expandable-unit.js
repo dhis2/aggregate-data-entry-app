@@ -3,9 +3,9 @@ import { IconChevronUp24, IconChevronDown24, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import styles from './toggleable-unit.module.css'
+import styles from './expandable-unit.module.css'
 
-const ToggleableUnit = ({ title, children, initiallyOpen, disabled }) => {
+const ExpandableUnit = ({ title, children, initiallyOpen, disabled }) => {
     const [open, setOpen] = useState(initiallyOpen)
     const chevronColor = disabled ? colors.grey400 : colors.grey700
     const handleClick = (event) => {
@@ -41,15 +41,15 @@ const ToggleableUnit = ({ title, children, initiallyOpen, disabled }) => {
     )
 }
 
-ToggleableUnit.propTypes = {
+ExpandableUnit.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.node,
     disabled: PropTypes.bool,
     initiallyOpen: PropTypes.bool,
 }
 
-ToggleableUnit.defaultProps = {
+ExpandableUnit.defaultProps = {
     initiallyOpen: false,
 }
 
-export default ToggleableUnit
+export default ExpandableUnit

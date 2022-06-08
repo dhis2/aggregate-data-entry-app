@@ -9,7 +9,7 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { ToggleableUnit } from '../../shared/index.js'
+import { ExpandableUnit } from '../../shared/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
@@ -87,14 +87,14 @@ export default function CommentUnit({ comment }) {
     }
 
     return (
-        <ToggleableUnit title={i18n.t('Comment')} initiallyOpen>
+        <ExpandableUnit title={i18n.t('Comment')} initiallyOpen>
             <p className={comment ? styles.comment : styles.placeholder}>
                 {comment ? comment : i18n.t('No comment for this data item.')}
             </p>
             <Button small secondary onClick={() => setEditing(true)}>
                 {comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
             </Button>
-        </ToggleableUnit>
+        </ExpandableUnit>
     )
 }
 

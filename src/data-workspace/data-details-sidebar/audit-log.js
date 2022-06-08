@@ -3,7 +3,7 @@ import { CircularLoader, Tooltip } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ToggleableUnit } from '../../shared/index.js'
+import { ExpandableUnit } from '../../shared/index.js'
 import styles from './audit-log.module.css'
 
 const renderMessage = ({ modifiedBy, auditType, value, prevValue }) => {
@@ -62,7 +62,7 @@ const AuditLogUnit = ({ loading, audits }) => {
     })
 
     return (
-        <ToggleableUnit title={i18n.t('Audit log')}>
+        <ExpandableUnit title={i18n.t('Audit log')}>
             {loading && <CircularLoader small />}
 
             {!loading && isEmptyAuditLog && (
@@ -91,7 +91,7 @@ const AuditLogUnit = ({ loading, audits }) => {
                     })}
                 </ul>
             )}
-        </ToggleableUnit>
+        </ExpandableUnit>
     )
 }
 

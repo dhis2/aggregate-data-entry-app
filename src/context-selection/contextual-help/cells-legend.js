@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Divider } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ToggleableUnit } from '../../shared/index.js'
+import { ExpandableUnit } from '../../shared/index.js'
 import Cell from './cell.js'
 import styles from './cells-legend.module.css'
 
@@ -24,7 +24,7 @@ CellsLegendSymbol.propTypes = {
 
 export default function CellsLegend() {
     return (
-        <ToggleableUnit title={i18n.t('Cell reference')} initiallyOpen>
+        <ExpandableUnit title={i18n.t('Cell reference')} initiallyOpen>
             <CellsLegendSymbol
                 name={i18n.t('Saved and synced to server')}
                 state="SYNCED"
@@ -46,6 +46,6 @@ export default function CellsLegend() {
             />
             <Divider />
             <CellsLegendSymbol name={i18n.t('Locked, not editable')} state="LOCKED" />
-        </ToggleableUnit>
+        </ExpandableUnit>
     )
 }

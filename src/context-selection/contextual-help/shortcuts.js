@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Divider } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ToggleableUnit } from '../../shared/index.js'
+import { ExpandableUnit } from '../../shared/index.js'
 import styles from './shortcuts.module.css'
 
 const Shortcut = ({ name, shortcut1, shortcut2 }) => (
@@ -22,7 +22,7 @@ Shortcut.propTypes = {
 }
 
 const Shortcuts = () => (
-    <ToggleableUnit title={i18n.t('Shortcuts')} initiallyOpen>
+    <ExpandableUnit title={i18n.t('Shortcuts')} initiallyOpen>
         <Shortcut
             name={i18n.t('Show details')}
             shortcut1={i18n.t('Shift + Enter')}
@@ -40,7 +40,7 @@ const Shortcuts = () => (
             shortcut1={i18n.t('Shift + Tab')}
             shortcut2="↑"
         />
-    </ToggleableUnit>
+    </ExpandableUnit>
 )
 
 export default Shortcuts

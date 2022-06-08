@@ -11,7 +11,7 @@ import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import {
     Sidebar,
     Title,
-    ToggleableUnit,
+    ExpandableUnit,
     useApiAttributeParams,
     useCurrentItemContext,
 } from '../../shared/index.js'
@@ -60,7 +60,7 @@ export default function DataDetailsSidebar() {
             {/* <Limits itemId={item.id} itemType={item.type} /> */}
 
             {dataValueContext.isLoading && (
-                <ToggleableUnit
+                <ExpandableUnit
                     title={i18n.t('History and audit')}
                     initiallyOpen
                 >
@@ -73,11 +73,11 @@ export default function DataDetailsSidebar() {
                     >
                         <CircularLoader small />
                     </div>
-                </ToggleableUnit>
+                </ExpandableUnit>
             )}
 
             {dataValueContext.error && (
-                <ToggleableUnit
+                <ExpandableUnit
                     title={i18n.t('History and audit')}
                     initiallyOpen
                 >
@@ -88,7 +88,7 @@ export default function DataDetailsSidebar() {
                     >
                         <p>{dataValueContext.error.message}</p>
                     </NoticeBox>
-                </ToggleableUnit>
+                </ExpandableUnit>
             )}
 
             {dataValueContext.data && (

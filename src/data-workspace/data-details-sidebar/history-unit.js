@@ -13,7 +13,7 @@ import {
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Line } from 'react-chartjs-2'
-import { parsePeriodId, ToggleableUnit } from '../../shared/index.js'
+import { parsePeriodId, ExpandableUnit } from '../../shared/index.js'
 
 ChartJS.register(
     CategoryScale,
@@ -66,13 +66,13 @@ export default function HistoryUnit({ history, loading }) {
     }
 
     return (
-        <ToggleableUnit title={i18n.t('History')}>
+        <ExpandableUnit title={i18n.t('History')}>
             {loading && <CircularLoader />}
             {!loading && !history?.length && '@TODO: Show ui for no history'}
             {!loading && history?.length && (
                 <Line options={options} data={data} />
             )}
-        </ToggleableUnit>
+        </ExpandableUnit>
     )
 }
 
