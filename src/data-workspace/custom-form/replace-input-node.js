@@ -30,14 +30,16 @@ export const replaceInputNode = (domNode, metadata) => {
     // Need to check with Kai what his intentions were with it.
     // const cellProps = getCellPropsByInputType(inputType)
 
-    if (inputType === INPUT_TYPES.ENTRYFIELD) {
-        const [deId, cocId] = domNode.attribs.id.split('-')
-        const dataElement = getDataElementById(metadata, deId)
-        return (
-            <DataEntryField
-                dataElement={dataElement}
-                categoryOptionCombo={{ id: cocId }}
-            />
-        )
+    if (inputType !== INPUT_TYPES.ENTRYFIELD) {
+        return undefined
     }
+    
+    const [deId, cocId] = domNode.attribs.id.split('-')
+    const dataElement = getDataElementById(metadata, deId)
+    return (
+        <DataEntryField
+            dataElement={dataElement}
+            categoryOptionCombo={{ id: cocId }}
+        />
+    )
 }
