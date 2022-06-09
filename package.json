@@ -26,7 +26,7 @@
         "jgs:start": "BROWSER=none yarn start --proxy https://debug.dhis2.org/dev"
     },
     "devDependencies": {
-        "@dhis2/cli-app-scripts": "^8.3.2",
+        "@dhis2/cli-app-scripts": "^9.0.1",
         "@dhis2/cli-style": "^10.1.1",
         "@dhis2/cypress-commands": "^9.0.2",
         "@dhis2/cypress-plugins": "^9.0.2",
@@ -55,12 +55,11 @@
         "react-final-form": "^6.5.7",
         "react-query": "4.0.0-alpha.10",
         "react-router-dom": "^5",
-        "tabbable": "^5.2.1",
         "reselect": "^4.1.5",
+        "tabbable": "^5.2.1",
         "use-query-params": "^1.2.3"
     },
     "resolutions": {
-        "@dhis2/ui": "^8.0.0",
         "react-query": "4.0.0-alpha.10",
         "react-error-overlay": "6.0.9"
     }
