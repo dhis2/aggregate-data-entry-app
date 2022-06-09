@@ -1,4 +1,4 @@
-import { CssVariables } from '@dhis2/ui'
+import { CssReset, CssVariables } from '@dhis2/ui'
 import React from 'react'
 import { QueryClientProvider } from 'react-query'
 import { HashRouter as Router, Route } from 'react-router-dom'
@@ -13,6 +13,7 @@ const AppWrapper = () => {
 
     return (
         <>
+            <CssReset />
             <CssVariables colors spacers theme />
             <QueryClientProvider client={queryClient}>
                 <Router>

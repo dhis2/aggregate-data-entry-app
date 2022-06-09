@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { FORM_TYPES } from './constants.js'
-import { CustomForm } from './custom-form.js'
+import { CustomForm } from './custom-form/index.js'
 import { DefaultForm } from './default-form.js'
 import FilterField from './filter-field.js'
 import { SectionForm } from './section-form/index.js'
