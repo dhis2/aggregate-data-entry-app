@@ -45,7 +45,10 @@ export default function CellsLegend() {
                 state="INVALID"
             />
             <Divider />
-            <CellsLegendSymbol name={i18n.t('Locked, not editable')} state="LOCKED" />
+            <CellsLegendSymbol
+                name={i18n.t('Locked, not editable')}
+                state="LOCKED"
+            />
         </ExpandableUnit>
     )
 }

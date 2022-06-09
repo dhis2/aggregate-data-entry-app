@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import {
     ObjectParam,
     StringParam,
@@ -6,8 +6,6 @@ import {
     useQueryParam,
     withDefault,
 } from 'use-query-params'
-import { useMetadata, selectors } from '../../metadata/index.js'
-import { parsePeriodId } from '../../shared/index.js'
 
 export const PARAMS_SCHEMA = {
     dataSetId: StringParam,

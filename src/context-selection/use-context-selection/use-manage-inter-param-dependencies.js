@@ -107,16 +107,16 @@ function deselectAllUnavailableCategoryOptions({
 }) {
     const nextAocSelection = filterObject(
         attributeOptionComboSelection,
-        ([categoryId, optionId]) => relevantCategoriesWithOptions.find(
-            (category) =>
-                // when current iterating is the correct category
-                category.id === categoryId &&
-                // and the option still exists
-                category.categoryOptions.find(
-                    (categoryOption) => categoryOption.id === optionId
-                )
-        )
-
+        ([categoryId, optionId]) =>
+            relevantCategoriesWithOptions.find(
+                (category) =>
+                    // when current iterating is the correct category
+                    category.id === categoryId &&
+                    // and the option still exists
+                    category.categoryOptions.find(
+                        (categoryOption) => categoryOption.id === optionId
+                    )
+            )
     )
 
     // prevent infinite loop as the object reference it not stored
