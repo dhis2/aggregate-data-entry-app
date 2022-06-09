@@ -1,4 +1,4 @@
-import { CssVariables } from '@dhis2/ui'
+import { CssReset, CssVariables } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
@@ -30,6 +30,7 @@ const App = () => {
     return (
         <Router>
             <QueryParamProvider ReactRouterRoute={Route}>
+                <CssReset />
                 <CssVariables colors spacers theme />
                 <LoadApp>
                     <Layout

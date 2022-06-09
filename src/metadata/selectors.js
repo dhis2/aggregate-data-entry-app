@@ -28,6 +28,8 @@ export const getOptionSets = (metadata) => metadata.optionSets
 export const getCategoryById = (metadata, id) => getCategories(metadata)[id]
 export const getOptionSetById = (metadata, id) => getOptionSets(metadata)[id]
 export const getDataSetById = (metadata, id) => getDataSets(metadata)?.[id]
+export const getDataElementById = (metadata, id) =>
+    getDataElements(metadata)?.[id]
 
 export const getSectionsByDataSetId = (metadata, dataSetId) => {
     const dataSetSections = getDataSetById(metadata, dataSetId)?.sections
