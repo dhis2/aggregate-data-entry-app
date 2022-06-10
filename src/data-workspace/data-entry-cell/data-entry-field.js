@@ -25,12 +25,14 @@ export const DataEntryField = React.memo(function DataEntryField({
                 <EntryFieldInput
                     fieldname={fieldname}
                     dataElement={de}
+                    categoryOptionCombo={coc}
                     setSyncStatus={setSyncStatus}
                 />
             </InnerWrapper>
         </ValidationTooltip>
     )
 })
+
 DataEntryField.propTypes = {
     categoryOptionCombo: PropTypes.shape({ id: PropTypes.string.isRequired })
         .isRequired,

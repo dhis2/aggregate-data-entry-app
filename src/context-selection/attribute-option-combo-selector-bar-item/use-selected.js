@@ -6,11 +6,6 @@ export default function useSelected() {
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
 
-    const deselectAll = useCallback(
-        () => setAttributeOptionComboSelection(undefined),
-        [setAttributeOptionComboSelection]
-    )
-
     const select = useCallback(
         ({ value, categoryId }) => {
             const nextSelected = !value
@@ -28,7 +23,6 @@ export default function useSelected() {
 
     return {
         select,
-        deselectAll,
         selected: attributeOptionComboSelection,
     }
 }

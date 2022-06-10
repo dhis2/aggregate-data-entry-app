@@ -1,0 +1,34 @@
+.placeholder {
+    margin: 0;
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--colors-grey600);
+}
+
+.entries {
+    margin: 0;
+    padding: 0;
+    list-style-position: inside
+}
+
+.entry {
+    margin-bottom: var(--spacers-dp8);
+}
+
+.entry::marker {
+    color: var(--colors-grey500);
+}
+
+.entryMessage, .entryTimeAgo {
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.entryMessage {
+    color: var(--colors-grey900);
+    margin-right: var(--spacers-dp4);
+}
+
+.entryTimeAgo {
+    color: var(--colors-grey600);
+}

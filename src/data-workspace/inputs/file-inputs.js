@@ -19,6 +19,8 @@ export const FileResourceInput = ({
     image,
     dataValueParams,
     setSyncStatus,
+    onKeyDown,
+    onFocus,
 }) => {
     const { input, meta } = useField(fieldname, {
         // todo: validate
@@ -30,6 +32,7 @@ export const FileResourceInput = ({
             onChange: true,
         },
     })
+
     // When the app loads, if there's a file saved for this data value,
     // the value of this input will be UID of a file resource as populated
     // by the `dataValueSets` response. If that's the case, fetch some metadata
@@ -104,8 +107,12 @@ export const FileResourceInput = ({
                         secondary
                         className={styles.deleteFileButton}
                         onClick={handleDelete}
-                        onFocus={input.onFocus}
+                        onFocus={(...args) => {
+                            input.onFocus(...args)
+                            onFocus?.(...args)
+                        }}
                         onBlur={input.onBlur}
+                        onKeyDown={onKeyDown}
                     >
                         {i18n.t('Delete')}
                     </Button>
@@ -115,8 +122,12 @@ export const FileResourceInput = ({
                     className={styles.fileInput}
                     name={input.name}
                     onChange={handleChange}
-                    onFocus={input.onFocus}
+                    onFocus={(...args) => {
+                        input.onFocus(...args)
+                        onFocus?.(...args)
+                    }}
                     onBlur={input.onBlur}
+                    onKeyDown={onKeyDown}
                     small
                     buttonLabel={
                         image
@@ -128,11 +139,14 @@ export const FileResourceInput = ({
         </div>
     )
 }
+
 FileResourceInput.propTypes = {
     dataValueParams: PropTypes.objectOf(PropTypes.string),
     fieldname: PropTypes.string,
     image: PropTypes.bool,
     setSyncStatus: PropTypes.func,
+    onFocus: PropTypes.func,
+    onKeyDown: PropTypes.func,
 }
 
 export const ImageInput = (props) => {

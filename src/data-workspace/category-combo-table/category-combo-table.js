@@ -56,8 +56,8 @@ export const CategoryComboTable = ({
 
     if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
         console.warn(
-            `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server. 
-            Please regenerate categoryOptionCombos. 
+            `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server.
+            Please regenerate categoryOptionCombos.
             Computed: ${sortedCOCs.length}
             Server: ${categoryCombo.categoryOptionCombos.length})`
         )

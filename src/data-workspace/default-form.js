@@ -6,7 +6,7 @@ import { useMetadata, selectors } from '../metadata/index.js'
 import { CategoryComboTable } from './category-combo-table/index.js'
 import styles from './entry-form.module.css'
 
-export const DefaultForm = ({ dataSet, globalFilterText }) => {
+export function DefaultForm({ dataSet, globalFilterText }) {
     const { isLoading, isError, data } = useMetadata()
 
     if (isLoading || isError) {

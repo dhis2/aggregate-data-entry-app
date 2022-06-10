@@ -57,11 +57,9 @@ export const GenericInput = ({
     dataValueParams,
     setSyncStatus,
     valueType,
+    onKeyDown,
+    onFocus,
 }) => {
-    const { input, meta } = useField(fieldname, {
-        validate: validatorsByValueType[valueType],
-        subscription: { value: true, dirty: true, valid: true },
-    })
     const [lastSyncedValue, setLastSyncedValue] = useState()
     const { mutate } = useDataValueMutation()
     const syncData = (value) => {
@@ -78,6 +76,11 @@ export const GenericInput = ({
         )
     }
 
+    const { input, meta } = useField(fieldname, {
+        validate: validatorsByValueType[valueType],
+        subscription: { value: true, dirty: true, valid: true },
+    })
+
     const handleBlur = () => {
         const { value } = input
         const { dirty, valid } = meta
@@ -91,13 +94,19 @@ export const GenericInput = ({
             {...input}
             className={styles.basicInput}
             type={htmlTypeAttrsByValueType[valueType]}
+            onFocus={(...args) => {
+                input.onFocus(...args)
+                onFocus?.(...args)
+            }}
             onBlur={(e) => {
                 handleBlur()
                 input.onBlur(e)
             }}
+            onKeyDown={onKeyDown}
         />
     )
 }
+
 GenericInput.propTypes = {
     ...InputPropTypes,
     inputType: PropTypes.string,

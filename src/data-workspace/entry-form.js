@@ -1,17 +1,11 @@
-import i18n from '@dhis2/d2-i18n'
-import { Button, InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
 import { DefaultForm } from './default-form.js'
-import styles from './entry-form.module.css'
+import FilterField from './filter-field.js'
 import { SectionForm } from './section-form/index.js'
-
-const FORM_TYPES = {
-    DEFAULT: 'DEFAULT',
-    SECTION: 'SECTION',
-    CUSTOM: 'CUSTOM',
-}
+import useCloseRightHandPanelOnSelectionChange from './use-close-right-hand-panel-on-selection-change.js'
 
 const formTypeToComponent = {
     DEFAULT: DefaultForm,
@@ -21,13 +15,10 @@ const formTypeToComponent = {
 
 export const EntryForm = ({ dataSet }) => {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
-
-    if (!dataSet) {
-        return null
-    }
-
     const formType = dataSet.formType
     const Component = formTypeToComponent[formType]
+
+    useCloseRightHandPanelOnSelectionChange()
 
     return (
         <>
@@ -38,6 +29,7 @@ export const EntryForm = ({ dataSet }) => {
                     formType={formType}
                 />
             )}
+
             <Component dataSet={dataSet} globalFilterText={globalFilterText} />
         </>
     )
@@ -49,30 +41,4 @@ EntryForm.propTypes = {
         formType: PropTypes.string,
         id: PropTypes.string,
     }),
-}
-
-const FilterField = ({ value, setFilterText, formType }) => (
-    <div className={styles.filterWrapper}>
-        <InputField
-            name="filter-input"
-            className={styles.filterField}
-            type="text"
-            placeholder={
-                formType === FORM_TYPES.SECTION
-                    ? i18n.t('Filter fields in all sections')
-                    : i18n.t('Filter fields')
-            }
-            value={value}
-            onChange={({ value }) => setFilterText(value)}
-        />
-        <Button secondary small name="Clear" onClick={() => setFilterText('')}>
-            {i18n.t('Clear filter')}
-        </Button>
-    </div>
-)
-
-FilterField.propTypes = {
-    formType: PropTypes.string,
-    setFilterText: PropTypes.func,
-    value: PropTypes.string,
 }

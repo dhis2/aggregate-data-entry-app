@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
+import { useCurrentItemContext } from '../../shared/index.js'
+import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,
     BooleanRadios,
@@ -8,19 +11,38 @@ import {
     OptionSet,
     TrueOnlyCheckbox,
 } from '../inputs/index.js'
+import { useDataValueSet } from '../use-data-value-set.js'
 import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
 
-export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
-    const [deId, cocId] = fieldname.split('.')
-    const dataValueParams = useDataValueParams({ deId, cocId })
+function createCurrentItem({ de, coc, dataValueSet }) {
+    if (dataValueSet?.data[de.id]?.[coc.id]) {
+        return {
+            ...dataValueSet.data[de.id][coc.id],
+            categoryOptionCombo: coc.id,
+            name: de.displayName,
+            code: de.code,
+        }
+    }
 
-    const sharedProps = { fieldname, dataValueParams, setSyncStatus }
+    return {
+        categoryOptionCombo: coc.id,
+        dataElement: de.id,
+        name: de.displayName,
+        lastUpdated: '',
+        followup: false,
+        comment: null,
+        storedBy: null,
+        code: null,
+    }
+}
 
+function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
     if (de.optionSetValue) {
         return <OptionSet {...sharedProps} optionSetId={de.optionSet.id} />
     }
+
     // Otherwise, check for the valueType
     switch (de.valueType) {
         case VALUE_TYPES.BOOLEAN: {
@@ -43,7 +65,71 @@ export function EntryFieldInput({ fieldname, dataElement: de, setSyncStatus }) {
         }
     }
 }
+
+InputComponent.propTypes = {
+    de: PropTypes.shape({
+        optionSet: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+        }),
+        optionSetValue: PropTypes.any,
+        valueType: PropTypes.string,
+    }).isRequired,
+    sharedProps: PropTypes.object.isRequired,
+}
+
+export function EntryFieldInput({
+    fieldname,
+    dataElement: de,
+    categoryOptionCombo: coc,
+    setSyncStatus,
+}) {
+    const currentItemContext = useCurrentItemContext()
+    const rightHandPanel = useRightHandPanelContext()
+    const { id: deId } = de
+    const { id: cocId } = coc
+    const dataValueParams = useDataValueParams({ deId, cocId })
+    const dataValueSet = useDataValueSet()
+    const currentItem = createCurrentItem({
+        fieldname,
+        de,
+        coc,
+        dataValueSet,
+    })
+
+    const onKeyDown = (event) => {
+        const { key, shiftKey } = event
+
+        if (shiftKey && key === 'Enter') {
+            currentItemContext.setItem(currentItem)
+            rightHandPanel.show('data-details')
+        } else if (key === 'ArrowDown' || key === 'Enter') {
+            event.preventDefault()
+            focusNext()
+        } else if (key === 'ArrowUp') {
+            event.preventDefault()
+            focusPrev()
+        }
+    }
+
+    const onFocus = () => {
+        rightHandPanel.hide()
+    }
+
+    const sharedProps = {
+        fieldname,
+        dataValueParams,
+        setSyncStatus,
+        onFocus,
+        onKeyDown,
+    }
+
+    return <InputComponent sharedProps={sharedProps} de={de} />
+}
+
 EntryFieldInput.propTypes = {
+    categoryOptionCombo: PropTypes.shape({
+        id: PropTypes.string,
+    }),
     dataElement: PropTypes.shape({
         id: PropTypes.string,
         optionSet: PropTypes.shape({

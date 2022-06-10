@@ -15,7 +15,9 @@ Given(
 )
 
 Given('a data set with period range "monthly" has been selected', () => {
-    cy.visit(`/#/?dataSetId=lyLU2wR22tC`)
+    // Using 2021 here because the current year will render a
+    // subset of the month's options (except for december)
+    cy.visit(`/#/?dataSetId=lyLU2wR22tC&periodId=202101`)
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 

@@ -3,18 +3,39 @@ import {
     useContextSelection,
     useIsValidSelection,
 } from '../context-selection/index.js'
+import { useApiAttributeParams } from '../shared/index.js'
 import { dataValueSets } from './query-key-factory.js'
-import { useApiAttributeParams } from './use-api-attribute-params.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
 function mapDataValuesToFormInitialValues(dataValues) {
     const formInitialValues = dataValues.reduce(
-        (acc, { dataElement, categoryOptionCombo, value }) => {
-            if (!acc[dataElement]) {
-                acc[dataElement] = { [categoryOptionCombo]: value }
-            } else {
-                acc[dataElement][categoryOptionCombo] = value
+        (
+            acc,
+            {
+                dataElement,
+                categoryOptionCombo,
+                value,
+                comment,
+                storedBy,
+                followup,
+                lastUpdated,
             }
+        ) => {
+            const dataValueData = {
+                value,
+                dataElement,
+                comment,
+                storedBy,
+                followup,
+                lastUpdated,
+            }
+
+            if (!acc[dataElement]) {
+                acc[dataElement] = { [categoryOptionCombo]: dataValueData }
+            } else {
+                acc[dataElement][categoryOptionCombo] = dataValueData
+            }
+
             return acc
         },
         {}
@@ -22,7 +43,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
     return formInitialValues
 }
 
-export const useInitialDataValues = () => {
+export const useDataValueSet = () => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const { attributeCombo, attributeOptions } = useApiAttributeParams()
     const isValidSelection = useIsValidSelection()
@@ -38,7 +59,7 @@ export const useInitialDataValues = () => {
         mutationKey: queryKey,
     })
 
-    return useQuery(queryKey, {
+    const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
         enabled: activeMutations === 0 && isValidSelection,
         select: (data) =>
@@ -52,4 +73,6 @@ export const useInitialDataValues = () => {
             persist: true,
         },
     })
+
+    return result
 }
