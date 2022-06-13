@@ -1,22 +1,8 @@
 export const dataValueSets = {
-    byIds: ({
-        dataSetId,
-        periodId,
-        orgUnitId,
-        attributeCombo,
-        attributeOptions,
-    }) => [
-        'dataValueSets',
-        {
-            params: {
-                dataSet: dataSetId,
-                period: periodId,
-                orgUnit: orgUnitId,
-                attributeCombo,
-                attributeOptions,
-            },
-        },
-    ],
+    byIds: ({ ds, pe, ou }) => {
+        const params = { ds, pe, ou }
+        return ['dataEntry/dataValues', { params }]
+    },
 }
 
 export const dataValueContext = {

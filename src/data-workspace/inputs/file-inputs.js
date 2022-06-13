@@ -5,9 +5,9 @@ import React from 'react'
 import { useField } from 'react-final-form'
 import { useQuery } from 'react-query'
 import {
-    MUTATION_TYPES,
-    useDataValueMutation,
-} from '../data-entry-cell/use-data-value-mutation.js'
+    useDeleteDataValueMutation,
+    useUploadDataValueFileMutation,
+} from '../use-data-value-mutation/index.js'
 import styles from './inputs.module.css'
 
 const formatFileSize = (size) => {
@@ -47,10 +47,8 @@ export const FileResourceInput = ({
                 typeof input.value === 'string',
         }
     )
-    const { mutate: uploadFile } = useDataValueMutation(
-        MUTATION_TYPES.FILE_UPLOAD
-    )
-    const { mutate: deleteFile } = useDataValueMutation(MUTATION_TYPES.DELETE)
+    const { mutate: uploadFile } = useUploadDataValueFileMutation()
+    const { mutate: deleteFile } = useDeleteDataValueMutation()
 
     const handleChange = ({ files }) => {
         const newFile = files[0]

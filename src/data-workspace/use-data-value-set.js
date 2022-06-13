@@ -3,7 +3,6 @@ import {
     useContextSelection,
     useIsValidSelection,
 } from '../context-selection/index.js'
-import { useApiAttributeParams } from '../shared/index.js'
 import { dataValueSets } from './query-key-factory.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
@@ -44,20 +43,11 @@ function mapDataValuesToFormInitialValues(dataValues) {
 }
 
 export const useDataValueSet = () => {
-    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const { attributeCombo, attributeOptions } = useApiAttributeParams()
+    const [{ dataSetId: ds, orgUnitId: ou, periodId: pe }] = useContextSelection()
     const isValidSelection = useIsValidSelection()
 
-    const queryKey = dataValueSets.byIds({
-        dataSetId,
-        periodId,
-        orgUnitId,
-        attributeCombo,
-        attributeOptions,
-    })
-    const activeMutations = useIsMutating({
-        mutationKey: queryKey,
-    })
+    const queryKey = dataValueSets.byIds({ ds, pe, ou })
+    const activeMutations = useIsMutating({ mutationKey: queryKey })
 
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
