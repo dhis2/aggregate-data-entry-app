@@ -50,7 +50,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     return (
-        <FinalFormWrapper dataValueSet={initialDataValuesFetch.data}>
+        <FinalFormWrapper dataValueSet={initialDataValuesFetch.data.dataValues}>
             <div id="data-workspace" className={styles.wrapper}>
                 <EntryForm dataSet={dataSet} />
             </div>
