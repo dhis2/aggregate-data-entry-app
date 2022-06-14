@@ -4,23 +4,19 @@ describe('dataValueSets', () => {
     describe('byIds', () => {
         it('generates the expected query key', () => {
             const queryKey = dataValueSets.byIds({
-                dataSetId: 'dataSetId',
-                periodId: 'periodId',
-                orgUnitId: 'orgUnitId',
-                attributeCombo: 'attributeCombo',
-                attributeOptions: 'attributeOptions',
+                ds: 'dataSetId',
+                pe: 'periodId',
+                ou: 'orgUnitId',
             })
 
             expect(queryKey).toMatchInlineSnapshot(`
                 Array [
-                  "dataValueSets",
+                  "dataEntry/dataValues",
                   Object {
                     "params": Object {
-                      "attributeCombo": "attributeCombo",
-                      "attributeOptions": "attributeOptions",
-                      "dataSet": "dataSetId",
-                      "orgUnit": "orgUnitId",
-                      "period": "periodId",
+                      "ds": "dataSetId",
+                      "ou": "orgUnitId",
+                      "pe": "periodId",
                     },
                   },
                 ]
