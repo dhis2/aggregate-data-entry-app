@@ -8,8 +8,8 @@ import {
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import { VALUE_TYPES } from '../data-entry-cell/value-types.js'
+import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 import {
@@ -61,7 +61,7 @@ export const GenericInput = ({
     onFocus,
 }) => {
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useDataValueMutation()
+    const { mutate } = useSetDataValueMutation()
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(

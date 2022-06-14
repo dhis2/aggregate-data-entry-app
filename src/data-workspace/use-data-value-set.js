@@ -3,11 +3,16 @@ import {
     useContextSelection,
     useIsValidSelection,
 } from '../context-selection/index.js'
-import { useApiAttributeParams } from '../shared/index.js'
 import { dataValueSets } from './query-key-factory.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
 function mapDataValuesToFormInitialValues(dataValues) {
+    // It's possible for the backend to return a response
+    // that does not have dataValues
+    if (!dataValues) {
+        return {}
+    }
+
     const formInitialValues = dataValues.reduce(
         (
             acc,
@@ -44,29 +49,21 @@ function mapDataValuesToFormInitialValues(dataValues) {
 }
 
 export const useDataValueSet = () => {
-    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const { attributeCombo, attributeOptions } = useApiAttributeParams()
+    const [{ dataSetId: ds, orgUnitId: ou, periodId: pe }] =
+        useContextSelection()
     const isValidSelection = useIsValidSelection()
 
-    const queryKey = dataValueSets.byIds({
-        dataSetId,
-        periodId,
-        orgUnitId,
-        attributeCombo,
-        attributeOptions,
-    })
-    const activeMutations = useIsMutating({
-        mutationKey: queryKey,
-    })
+    const queryKey = dataValueSets.byIds({ ds, pe, ou })
+    const activeMutations = useIsMutating({ mutationKey: queryKey })
 
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
         enabled: activeMutations === 0 && isValidSelection,
-        select: (data) =>
-            // It's possible for the backend to return a response that does not have dataValues
-            data.dataValues
-                ? mapDataValuesToFormInitialValues(data.dataValues)
-                : {},
+        select: (data) => {
+            const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
+            const minMaxValues = data.minMaxValues || {}
+            return { dataValues, minMaxValues }
+        },
         // Only fetch whilst offline, to prevent optimistic updates from being overwritten
         networkMode: 'online',
         meta: {
