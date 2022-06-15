@@ -1,13 +1,15 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, InputField } from '@dhis2/ui'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { FORM_TYPES } from './constants.js'
 import styles from './entry-form.module.css'
 
 export default function FilterField({ value, setFilterText, formType }) {
+    const wrapperClasses = classNames(styles.filterWrapper, 'hide-for-print')
     return (
-        <div className={styles.filterWrapper}>
+        <div className={wrapperClasses}>
             <InputField
                 name="filter-input"
                 className={styles.filterField}

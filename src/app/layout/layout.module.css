@@ -9,6 +9,16 @@
     transition: grid-template-columns 200ms ease-out;
 }
 
+@media print {
+    .wrapper :global(.controls) {
+        display: flex !important;
+        flex-direction: row;
+    }
+    .wrapper :global(.controls) :global(.clear-selections) {
+        display: none !important;
+    }
+}
+
 .wrapper.showSidebar {
     grid-template-columns: 1fr 380px;
 }
