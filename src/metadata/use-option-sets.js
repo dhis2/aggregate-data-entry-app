@@ -1,5 +1,8 @@
 import { useQueryClient, useQuery } from 'react-query'
 import keys from './option-set-query-key-factory.js'
+import { hashArraysInObject } from './utils.js'
+
+const FETCH_ALL_THRESHOLD = 200
 
 const useOptionSetsVersions = () => {
     return useQuery(keys.allVersions, {
@@ -7,79 +10,97 @@ const useOptionSetsVersions = () => {
     })
 }
 
+// This is the base query used to cache the optionSets
+// staleTime: Infinity prevents this from refetching
+// refetching is done by comparing versions
+export const useAllOptionSets = () => {
+    return useQuery(keys.all, {
+        meta: {
+            persist: true,
+        },
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        notifyOnChangeProps: ['data', 'error'],
+        select: (data) => {
+            console.log({ data })
+            const hashed = hashArraysInObject(data)
+            console.log({ hashed })
+            return hashed
+        },
+    })
+}
+
+export const useOptionSet = (optionSetId) => {
+    const optionSets = useAllOptionSets()
+    return optionSets[optionSetId]
+}
+
+const fetchAndUpdateOptionSets = async (
+    queryClient,
+    changedOptionSetIds,
+    forceAll
+) => {
+    if (forceAll) {
+        queryClient.prefetchQuery(keys.all, {
+            meta: {
+                persist: true,
+            },
+        })
+        return
+    }
+
+    const queryKey = keys.byIds(changedOptionSetIds)
+    const data = await queryClient.fetchQuery(queryKey, {
+        cacheTime: 5 * 60 * 1000,
+    })
+
+    // update cache with fresh optionSets
+    queryClient.setQueryData(keys.all, (prevData) => {
+        const updateOptionSets = [...data.optionSets]
+        const prevOptionSets = prevData?.optionSets || []
+        const newData = prevOptionSets.map((oldOS) => {
+            const updateOptionsIndex = updateOptionSets.findIndex(
+                (os) => os.id === oldOS.id
+            )
+            if (updateOptionsIndex > -1) {
+                const [newOS] = updateOptionSets.splice(updateOptionsIndex, 1)
+                return newOS
+            }
+            return oldOS
+        })
+        return {
+            optionSets: newData.concat(updateOptionSets),
+        }
+    })
+}
+
 export const useOptionSetsPrefetch = () => {
     const queryClient = useQueryClient()
     const { isSuccess, data: optionSetVersionsData } = useOptionSetsVersions()
-    console.log(queryClient)
-    console.log({ optionSetVersionsData })
-    if (isSuccess) {
-        const { optionSets } = optionSetVersionsData
-        const optionSetQueries = queryClient.getQueriesData(keys.all)
+    const { isSuccess: allSuccess, data: allOptionSetsData } =
+        useAllOptionSets()
 
-        console.log({ optionSetQueries })
-        console.log('all queries', queryClient.getQueriesData(['optionSets']))
-        const cache = queryClient.getQueryCache()
-        console.log(cache.queries)
-        const changedOptionSetIds = optionSets
-            .filter((os) => {
-                const matchingOptionQuery = optionSetQueries
-                    .filter(([, data]) => {
-                        const matchingOS = data?.optionSets.find(
-                            (optionSetData) => optionSetData.id === os.id
-                        )
-                        return matchingOS
-                    })
-                    .sort(([keyA], [keyB]) => {
-                        // filtered
-                        console.log({ keyA, keyB })
-                        const stateA = queryClient.getQueryState(keyA)
-                        const stateB = queryClient.getQueryState(keyB)
+    if (isSuccess && allSuccess) {
+        const { optionSets: optionSetVersions } = optionSetVersionsData
+        const { optionSets: allOptionSets } = allOptionSetsData
 
-                        console.log({ stateA, stateB })
-                        return stateA.dataUpdatedAt - stateB.dataUpdatedAt
-                    })[0]
-                // console.log({ matchingOptionQuery })
-                const matchingOptionSet =
-                    matchingOptionQuery?.[1].optionSets.find(
-                        (optionSetData) => optionSetData.id === os.id
-                    )
-
+        const changedOptionSetIds = optionSetVersions
+            .filter((versionOptionSet) => {
+                const matchingOptionSet = allOptionSets[versionOptionSet.id]
                 // refetch if not in cache or mismatching version
                 const refetch =
                     matchingOptionSet === undefined ||
-                    matchingOptionSet.version !== os.version
+                    matchingOptionSet.version !== versionOptionSet.version
                 return refetch
             })
             .map((os) => os.id)
 
-        console.log({ changedOptionSetIds })
-
         if (changedOptionSetIds.length > 0) {
-            const key =
-                changedOptionSetIds.length === optionSets.length
-                    ? keys.all
-                    : keys.byIds(changedOptionSetIds)
+            const fetchAll =
+                changedOptionSetIds.length === allOptionSets.length ||
+                changedOptionSetIds.length >= FETCH_ALL_THRESHOLD
 
-            console.log(
-                `Prefetching Using key ${JSON.stringify(key)}`,
-                changedOptionSetIds.length,
-                optionSets.length
-            )
-            queryClient
-                .prefetchQuery(key, {
-                    meta: {
-                        persist: true,
-                    },
-
-                    //staleTime: 24 * 60 * 60 * 1000,
-                    cacheTime: Infinity,
-                    networkMode: 'online',
-                })
-                .then((data) => {
-                    console.log('prefetched', data)
-                    //const d = queryClient.getQueriesData()
-                    //console.log('d', d)
-                })
+            fetchAndUpdateOptionSets(queryClient, changedOptionSetIds, fetchAll)
         }
     }
 }

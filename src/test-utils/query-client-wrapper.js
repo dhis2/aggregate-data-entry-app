@@ -1,12 +1,12 @@
 import { node } from 'prop-types'
 import React from 'react'
-import { setLogger, QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
-setLogger({
-    log: console.log,
-    warn: console.warn,
-    error: () => {},
-})
+// setLogger({
+//     log: console.log,
+//     warn: console.warn,
+//     error: () => {},
+// })
 
 const queryClientOptions = {
     defaultOptions: {

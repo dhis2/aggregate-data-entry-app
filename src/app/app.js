@@ -9,7 +9,6 @@ import {
 import { Layout } from './layout/index.js'
 import LoadApp from './load-app.js'
 import { MutationIndicator } from './mutation-indicator/index.js'
-
 /**
  * "use-query-params" requires a router. It suggests react-router-dom in the
  * docs, so that's why I chose that one. Unfortunately it doesn't work with

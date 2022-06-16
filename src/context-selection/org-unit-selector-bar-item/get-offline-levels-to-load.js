@@ -15,7 +15,7 @@ export default function getOfflineLevelsToLoad({
 }) {
     return userOrganisationUnits
         .map((userOrgUnit) => {
-            const foundLevel = organisationUnitLevels.find(
+            const foundLevel = organisationUnitLevels?.find(
                 (orgUnitLevel) => orgUnitLevel.level === userOrgUnit.level
             )
 
