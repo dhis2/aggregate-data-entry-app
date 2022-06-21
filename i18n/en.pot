@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-06-09T14:20:27.805Z\n"
-"PO-Revision-Date: 2022-06-09T14:20:27.805Z\n"
+"POT-Creation-Date: 2022-06-21T10:32:03.539Z\n"
+"PO-Revision-Date: 2022-06-21T10:32:03.539Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -23,6 +23,24 @@ msgstr "There are {{ pendingMutations }} pending mutations"
 
 msgid "Synced"
 msgstr "Synced"
+
+msgid "View details"
+msgstr "View details"
+
+msgid "Run validation"
+msgstr "Run validation"
+
+msgid "Mark incomplete"
+msgstr "Mark incomplete"
+
+msgid "Mark complete"
+msgstr "Mark complete"
+
+msgid "3 invalid values not saved"
+msgstr "3 invalid values not saved"
+
+msgid "Completed by"
+msgstr "Completed by"
 
 msgid ""
 "At least one of the categories does not have any options due to the options "

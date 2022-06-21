@@ -8,7 +8,7 @@ import {
 } from '../right-hand-panel/index.js'
 import { Layout } from './layout/index.js'
 import LoadApp from './load-app.js'
-import { MutationIndicator } from './mutation-indicator/index.js'
+// import { MutationIndicator } from './mutation-indicator/index.js'
 
 /**
  * "use-query-params" requires a router. It suggests react-router-dom in the
@@ -37,8 +37,7 @@ const App = () => {
                 main={dataWorkspace}
                 sidebar={<RightHandPanel />}
                 showSidebar={!!id}
-                footer={<MutationIndicator />}
-                showFooter
+                // footer={<MutationIndicator />}
             />
         </LoadApp>
     )
