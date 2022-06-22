@@ -3,7 +3,7 @@ import { Button, SingleSelect, SingleSelectOption } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useMetadata, selectors } from '../../metadata/index.js'
+import { useOptionSet } from '../../metadata/index.js'
 import { useDataValueMutation } from '../data-entry-cell/use-data-value-mutation.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
@@ -17,7 +17,6 @@ export const OptionSet = ({
     onFocus,
 }) => {
     const { input } = useField(fieldname, { subscription: { value: true } })
-    const { data: metadata } = useMetadata()
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
     const { mutate } = useDataValueMutation()
@@ -42,10 +41,19 @@ export const OptionSet = ({
         }
     }
 
-    const optionSet = selectors.getOptionSetById(metadata, optionSetId)
+    const optionSet = useOptionSet(optionSetId)
+
+    if (!optionSet) {
+        console.warn('Could not find optionSet with id:', optionSetId)
+        return (
+            <div className={styles.basicInput}>
+                {i18n.t('Failed to load option set')}
+            </div>
+        )
+    }
+
     // filter out 'null' options
     const options = optionSet.options.filter((opt) => !!opt)
-
     // todo: onBlur handler doesn't work, meaning the cell stays active.
     // may need to build from scratch
     return (
@@ -70,11 +78,11 @@ export const OptionSet = ({
                     onKeyDown={onKeyDown}
                     onBlur={() => input.onBlur()}
                 >
-                    {options.map(({ name }) => (
+                    {options.map(({ displayFormName }) => (
                         <SingleSelectOption
-                            key={name}
-                            label={name}
-                            value={name}
+                            key={displayFormName}
+                            label={displayFormName}
+                            value={displayFormName}
                         />
                     ))}
                 </SingleSelect>

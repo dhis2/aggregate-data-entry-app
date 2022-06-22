@@ -7,6 +7,9 @@ const FETCH_ALL_THRESHOLD = 200
 const useOptionSetsVersions = () => {
     return useQuery(keys.allVersions, {
         refetchOnMount: false,
+        select: (data) => {
+            return data?.optionSets
+        },
     })
 }
 
@@ -22,17 +25,17 @@ export const useAllOptionSets = () => {
         cacheTime: Infinity,
         notifyOnChangeProps: ['data', 'error'],
         select: (data) => {
-            console.log({ data })
             const hashed = hashArraysInObject(data)
-            console.log({ hashed })
-            return hashed
+            return hashed?.optionSets
         },
     })
 }
 
 export const useOptionSet = (optionSetId) => {
-    const optionSets = useAllOptionSets()
-    return optionSets[optionSetId]
+    const { data: optionSets } = useAllOptionSets()
+
+    const optionSet = optionSets?.[optionSetId]
+    return optionSet
 }
 
 const fetchAndUpdateOptionSets = async (
@@ -76,14 +79,10 @@ const fetchAndUpdateOptionSets = async (
 
 export const useOptionSetsPrefetch = () => {
     const queryClient = useQueryClient()
-    const { isSuccess, data: optionSetVersionsData } = useOptionSetsVersions()
-    const { isSuccess: allSuccess, data: allOptionSetsData } =
-        useAllOptionSets()
+    const { isSuccess, data: optionSetVersions } = useOptionSetsVersions()
+    const { isSuccess: allSuccess, data: allOptionSets } = useAllOptionSets()
 
     if (isSuccess && allSuccess) {
-        const { optionSets: optionSetVersions } = optionSetVersionsData
-        const { optionSets: allOptionSets } = allOptionSetsData
-
         const changedOptionSetIds = optionSetVersions
             .filter((versionOptionSet) => {
                 const matchingOptionSet = allOptionSets[versionOptionSet.id]
