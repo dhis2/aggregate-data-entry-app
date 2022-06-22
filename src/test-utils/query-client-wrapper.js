@@ -2,11 +2,11 @@ import { node } from 'prop-types'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-// setLogger({
-//     log: console.log,
-//     warn: console.warn,
-//     error: () => {},
-// })
+const logger = {
+    log: console.log,
+    warn: console.warn,
+    error: () => {},
+}
 
 const queryClientOptions = {
     defaultOptions: {
@@ -14,6 +14,7 @@ const queryClientOptions = {
             retry: false,
         },
     },
+    logger,
 }
 
 const QueryClientWrapper = ({ children }) => {
