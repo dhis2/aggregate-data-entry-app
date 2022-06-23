@@ -1,9 +1,6 @@
 import { useQuery, useIsMutating } from 'react-query'
-import {
-    useContextSelection,
-    useIsValidSelection,
-} from '../context-selection/index.js'
-import { dataValueSets } from './query-key-factory.js'
+import { useIsValidSelection } from '../context-selection/index.js'
+import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
 function mapDataValuesToFormInitialValues(dataValues) {
@@ -49,11 +46,8 @@ function mapDataValuesToFormInitialValues(dataValues) {
 }
 
 export const useDataValueSet = () => {
-    const [{ dataSetId: ds, orgUnitId: ou, periodId: pe }] =
-        useContextSelection()
     const isValidSelection = useIsValidSelection()
-
-    const queryKey = dataValueSets.byIds({ ds, pe, ou })
+    const queryKey = useDataValueSetQueryKey()
     const activeMutations = useIsMutating({ mutationKey: queryKey })
 
     const result = useQuery(queryKey, {

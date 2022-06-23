@@ -1,6 +1,19 @@
 export const dataValueSets = {
-    byIds: ({ ds, pe, ou }) => {
-        const params = { ds, pe, ou }
+    byIds: ({
+        dataSetId,
+        periodId,
+        orgUnitId,
+        categoryComboId,
+        categoryOptionIds = [],
+    }) => {
+        const params = {
+            ds: dataSetId,
+            pe: periodId,
+            ou: orgUnitId,
+            cc: categoryComboId,
+            cp: categoryOptionIds.join(';'),
+        }
+
         return ['dataEntry/dataValues', { params }]
     },
 }

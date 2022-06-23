@@ -2,11 +2,7 @@
 /* eslint-disable */
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
-import { useContextSelection } from '../context-selection/index.js'
-import {
-    dataValueSets,
-    useAttributeOptionCombo,
-} from '../data-workspace/index.js'
+import { useDataValueSetQueryKey } from '../data-workspace/index.js'
 
 const MUTATION_SET_COMMENT = {
     resource: '/dataEntry/dataValue',
@@ -33,8 +29,6 @@ const MUTATION_SET_COMMENT = {
 export default function useSetComment(currentItem) {
     const queryClient = useQueryClient()
     const engine = useDataEngine()
-    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const attributeOptionCombo = useAttributeOptionCombo()
 
     // Use mutation appropriate to mutation type
     const mutationFn = (variables) =>
@@ -50,12 +44,7 @@ export default function useSetComment(currentItem) {
             },
         })
 
-    const dataValueSetQueryKey = dataValueSets.byIds({
-        dataSetId,
-        periodId,
-        orgUnitId,
-        attributeOptionCombo,
-    })
+    const dataValueSetQueryKey = useDataValueSetQueryKey()
 
     return useMutation(mutationFn, {
         // Used to identify whether this mutation is running
