@@ -18,16 +18,10 @@ export default function DataItemBar() {
     )
 
     // We don't want to display "default"
-    const categoryOptionsWithoutDefaultOption = categoryOptions.filter(
-        ({ isDefault }) => !isDefault
-    )
-
-    const categoryOptionComboDisplayName =
-        categoryOptionsWithoutDefaultOption.length
-            ? categoryOptions
-                  .map(({ displayShortName }) => displayShortName)
-                  .reduce((acc, cur) => `${acc}, ${cur}`)
-            : ''
+    const categoryOptionComboDisplayName = categoryOptions
+        .filter(({ isDefault }) => !isDefault)
+        .map(({ displayShortName }) => displayShortName)
+        .join(', ')
 
     return (
         <div className={styles.container}>
