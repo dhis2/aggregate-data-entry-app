@@ -70,28 +70,24 @@ export const getCategoryOptionsByCategoryOptionComboId = createCachedSelector(
     (metadata) => metadata,
     (_, categoryOptionComboId) => categoryOptionComboId,
     (metadata, categoryOptionComboId) => {
-        let categoryOptionCombo
-
         const categoryCombos = Object.values(metadata.categoryCombos)
 
         // "outer:" is a positional label that can be used to break multiple
         // loops: https://stackoverflow.com/a/1564838
-        outer: for (const categoryCombo of categoryCombos) {
+        for (const categoryCombo of categoryCombos) {
             for (const curCategoryOptionCombo of categoryCombo.categoryOptionCombos) {
                 if (curCategoryOptionCombo.id === categoryOptionComboId) {
-                    categoryOptionCombo = curCategoryOptionCombo
-                    break outer
+                    const categoryOptions = Object.values(metadata.categoryOptions)
+                    const { categoryOptions: curCategoryOptions } = curCategoryOptionCombo
+
+                    return categoryOptions.filter(({ id }) =>
+                        curCategoryOptions.includes(id)
+                    )
                 }
             }
         }
 
-        if (!categoryOptionCombo) {
-            return []
-        }
-
-        return Object.values(metadata.categoryOptions).filter(({ id }) =>
-            categoryOptionCombo.categoryOptions.includes(id)
-        )
+        return []
     }
 )((_, categoryOptionComboId) => categoryOptionComboId)
 
