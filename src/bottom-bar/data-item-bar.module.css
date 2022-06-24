@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    padding: 4px 12px;
+    align-items: center;
+    border-bottom: 1px solid var(--colors-grey400);
+}
+
+.name {
+    display: block;
+    margin-right: 4px;
+}

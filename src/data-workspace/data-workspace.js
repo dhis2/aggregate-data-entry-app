@@ -2,6 +2,8 @@ import i18n from '@dhis2/d2-i18n'
 import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { MutationIndicator } from '../app/mutation-indicator/index.js'
+import { BottomBar } from '../bottom-bar/index.js'
 import {
     useContextSelection,
     useIsValidSelection,
@@ -53,8 +55,24 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         <FinalFormWrapper
             dataValueSet={initialDataValuesFetch.data?.dataValues}
         >
-            <div id="data-workspace" className={styles.wrapper}>
-                <EntryForm dataSet={dataSet} />
+            <div className={styles.wrapper}>
+                <main id="data-workspace" className={styles.formWrapper}>
+                    <div className={styles.formArea}>
+                        <EntryForm dataSet={dataSet} />
+                    </div>
+                </main>
+
+                <footer className={styles.footer}>
+                    <div
+                        // This div and its content will be removed
+                        // once we can display this in the headerbar
+                        className={styles.mutationIndicator}
+                    >
+                        <MutationIndicator />
+                    </div>
+
+                    <BottomBar />
+                </footer>
             </div>
         </FinalFormWrapper>
     )

@@ -13,29 +13,16 @@
     grid-template-columns: 1fr 380px;
 }
 
-.wrapper.showFooter {
-    grid-template-areas:
-        'header header'
-        'main   sidebar'
-        'footer sidebar';
-    grid-template-rows: auto 1fr auto;
-}
-
 .header {
     grid-area: header;
 }
 
 .main {
-    overflow: auto;
+    overflow: hidden;
     grid-area: main;
-    padding: 8px;
 }
 
 .sidebar {
     grid-area: sidebar;
     overflow-y: auto;
-}
-
-.footer {
-    grid-area: footer;
 }

@@ -1,10 +1,36 @@
 .wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+        'workspace'
+        'footer';
+    grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.formWrapper {
+    grid-area: workspace;
+    padding: 8px 0;
+    overflow: auto;
+}
+
+.formArea {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-    background-color: #fff;
     min-width: 600px;
     padding: 8px;
-    overflow: auto;
+    background-color: #fff;
+}
+
+.footer {
+    grid-area: footer;
+    position: relative;
+}
+
+.mutationIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-100%);
 }

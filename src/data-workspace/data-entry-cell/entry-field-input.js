@@ -100,7 +100,6 @@ export function EntryFieldInput({
         const { key, shiftKey } = event
 
         if (shiftKey && key === 'Enter') {
-            currentItemContext.setItem(currentItem)
             rightHandPanel.show('data-details')
         } else if (key === 'ArrowDown' || key === 'Enter') {
             event.preventDefault()
@@ -112,6 +111,7 @@ export function EntryFieldInput({
     }
 
     const onFocus = () => {
+        currentItemContext.setItem(currentItem)
         rightHandPanel.hide()
     }
 

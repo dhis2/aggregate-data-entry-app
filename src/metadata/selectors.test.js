@@ -9,6 +9,7 @@ import {
     getCategoryOptionCombosByCategoryComboId,
     getCategoryOptions,
     getCategoryOptionsByCategoryId,
+    getCategoryOptionsByCategoryOptionComboId,
     getCoCByCategoryOptions,
     getDataElements,
     getDataElementsByDataSetId,
@@ -679,5 +680,83 @@ describe('getCoCByCategoryOptions', () => {
         expect(consoleWarnSpy).toHaveBeenCalledWith(
             `Could not find categoryOptionCombo for catCombo ${categoryComboId}, with categoryOptions: ${categoryOptionIds.join()}`
         )
+    })
+})
+
+describe('getCategoryOptionsByCategoryOptionComboId', () => {
+    it('should return an empty array when no coc can be found', () => {
+        const metadata = {
+            categoryCombos: {
+                'cc-id-1': {
+                    categoryOptionCombos: [
+                        { id: 'coc-id-2' },
+                        { id: 'coc-id-3' },
+                    ],
+                },
+                'cc-id-2': {
+                    categoryOptionCombos: [
+                        { id: 'coc-id-4' },
+                        { id: 'coc-id-5' },
+                    ],
+                },
+            },
+        }
+
+        const expected = []
+        const actual = getCategoryOptionsByCategoryOptionComboId(
+            metadata,
+            'coc-id-1'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return the category options when a coc was found', () => {
+        const metadata = {
+            categoryCombos: {
+                'cc-id-1': {
+                    categoryOptionCombos: [
+                        {
+                            id: 'coc-id-1',
+                            categoryOptions: ['co-id-1', 'co-id-2'],
+                        },
+                        {
+                            id: 'coc-id-2',
+                            categoryOptions: ['co-id-3', 'co-id-4'],
+                        },
+                    ],
+                },
+                'cc-id-2': {
+                    categoryOptionCombos: [
+                        {
+                            id: 'coc-id-3',
+                            categoryOptions: ['co-id-5', 'co-id-6'],
+                        },
+                        {
+                            id: 'coc-id-4',
+                            categoryOptions: ['co-id-6', 'co-id-8'],
+                        },
+                    ],
+                },
+            },
+            categoryOptions: {
+                'co-id-1': { id: 'co-id-1' },
+                'co-id-2': { id: 'co-id-2' },
+                'co-id-3': { id: 'co-id-3' },
+                'co-id-4': { id: 'co-id-4' },
+                'co-id-5': { id: 'co-id-5' },
+                'co-id-6': { id: 'co-id-6' },
+                'co-id-7': { id: 'co-id-7' },
+                'co-id-8': { id: 'co-id-8' },
+            },
+        }
+
+        const expected = [{ id: 'co-id-1' }, { id: 'co-id-2' }]
+        const actual = getCategoryOptionsByCategoryOptionComboId(
+            metadata,
+            'coc-id-1'
+        )
+
+        expect(actual).toEqual(expected)
     })
 })
