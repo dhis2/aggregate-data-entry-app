@@ -703,7 +703,10 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
         }
 
         const expected = []
-        const actual = getCategoryOptionsByCategoryOptionComboId(metadata, 'coc-id-1')
+        const actual = getCategoryOptionsByCategoryOptionComboId(
+            metadata,
+            'coc-id-1'
+        )
 
         expect(actual).toEqual(expected)
     })
@@ -713,14 +716,26 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
             categoryCombos: {
                 'cc-id-1': {
                     categoryOptionCombos: [
-                        { id: 'coc-id-1', categoryOptions: ['co-id-1', 'co-id-2'] },
-                        { id: 'coc-id-2', categoryOptions: ['co-id-3', 'co-id-4'] },
+                        {
+                            id: 'coc-id-1',
+                            categoryOptions: ['co-id-1', 'co-id-2'],
+                        },
+                        {
+                            id: 'coc-id-2',
+                            categoryOptions: ['co-id-3', 'co-id-4'],
+                        },
                     ],
                 },
                 'cc-id-2': {
                     categoryOptionCombos: [
-                        { id: 'coc-id-3', categoryOptions: ['co-id-5', 'co-id-6'] },
-                        { id: 'coc-id-4', categoryOptions: ['co-id-6', 'co-id-8'] },
+                        {
+                            id: 'coc-id-3',
+                            categoryOptions: ['co-id-5', 'co-id-6'],
+                        },
+                        {
+                            id: 'coc-id-4',
+                            categoryOptions: ['co-id-6', 'co-id-8'],
+                        },
                     ],
                 },
             },
@@ -733,11 +748,14 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 'co-id-6': { id: 'co-id-6' },
                 'co-id-7': { id: 'co-id-7' },
                 'co-id-8': { id: 'co-id-8' },
-            }
+            },
         }
 
         const expected = [{ id: 'co-id-1' }, { id: 'co-id-2' }]
-        const actual = getCategoryOptionsByCategoryOptionComboId(metadata, 'coc-id-1')
+        const actual = getCategoryOptionsByCategoryOptionComboId(
+            metadata,
+            'coc-id-1'
+        )
 
         expect(actual).toEqual(expected)
     })
