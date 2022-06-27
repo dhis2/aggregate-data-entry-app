@@ -16,6 +16,7 @@ import {
     DataEntryField,
     useActiveCell,
 } from '../data-entry-cell/index.js'
+import { getFieldId } from '../get-field-id.js'
 import styles from './category-combo-table.module.css'
 import { TotalHeader, ColumnTotals, RowTotal } from './total-cells.js'
 
@@ -24,6 +25,7 @@ export const CategoryComboTable = ({
     dataElements,
     filterText,
     globalFilterText,
+    greyedFields,
     maxColumnsInSection,
     renderRowTotals,
     renderColumnTotals,
@@ -174,6 +176,9 @@ export const CategoryComboTable = ({
                                 <DataEntryField
                                     dataElement={de}
                                     categoryOptionCombo={coc}
+                                    disabled={greyedFields?.has(
+                                        getFieldId(de.id, coc.id)
+                                    )}
                                 />
                             </DataEntryCell>
                         ))}
@@ -233,6 +238,8 @@ CategoryComboTable.propTypes = {
     ),
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
+    /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
+    greyedFields: PropTypes.instanceOf(Set),
     maxColumnsInSection: PropTypes.number,
     renderColumnTotals: PropTypes.bool,
     renderRowTotals: PropTypes.bool,

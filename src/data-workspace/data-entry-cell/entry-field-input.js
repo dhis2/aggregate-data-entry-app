@@ -82,6 +82,7 @@ export function EntryFieldInput({
     dataElement: de,
     categoryOptionCombo: coc,
     setSyncStatus,
+    disabled,
 }) {
     const currentItemContext = useCurrentItemContext()
     const rightHandPanel = useRightHandPanelContext()
@@ -118,6 +119,7 @@ export function EntryFieldInput({
     const sharedProps = {
         fieldname,
         dataValueParams,
+        disabled,
         setSyncStatus,
         onFocus,
         onKeyDown,
@@ -138,6 +140,7 @@ EntryFieldInput.propTypes = {
         optionSetValue: PropTypes.bool,
         valueType: PropTypes.string,
     }),
+    disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     setSyncStatus: PropTypes.func,
 }

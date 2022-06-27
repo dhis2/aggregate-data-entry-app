@@ -18,6 +18,7 @@ export const FileResourceInput = ({
     fieldname,
     image,
     dataValueParams,
+    disabled,
     setSyncStatus,
     onKeyDown,
     onFocus,
@@ -111,6 +112,7 @@ export const FileResourceInput = ({
                         }}
                         onBlur={input.onBlur}
                         onKeyDown={onKeyDown}
+                        disabled={disabled}
                     >
                         {i18n.t('Delete')}
                     </Button>
@@ -132,6 +134,7 @@ export const FileResourceInput = ({
                             ? i18n.t('Upload an image')
                             : i18n.t('Upload a file')
                     }
+                    disabled={disabled}
                 />
             )}
         </div>
@@ -140,6 +143,7 @@ export const FileResourceInput = ({
 
 FileResourceInput.propTypes = {
     dataValueParams: PropTypes.objectOf(PropTypes.string),
+    disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     image: PropTypes.bool,
     setSyncStatus: PropTypes.func,

@@ -11,6 +11,7 @@ export const TrueOnlyCheckbox = ({
     setSyncStatus,
     onKeyDown,
     onFocus,
+    disabled,
 }) => {
     const { input, meta } = useField(fieldname, {
         type: 'checkbox',
@@ -57,6 +58,7 @@ export const TrueOnlyCheckbox = ({
                     input.onBlur(e)
                 }}
                 onKeyDown={onKeyDown}
+                disabled={disabled}
             />
         </div>
     )

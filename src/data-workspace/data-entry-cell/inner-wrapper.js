@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
 import { useIsMutating } from 'react-query'
+import { parseFieldId } from '../get-field-id.js'
 import styles from './data-entry-cell.module.css'
 
 /** Three dots or triangle in top-right corner of cell */
@@ -37,8 +38,9 @@ CommentIndicator.propTypes = { isComment: PropTypes.bool }
  * This inner wrapper provides styles and layout for the entry field based on
  * its various states
  */
-export function InnerWrapper({ children, fieldname, syncStatus }) {
-    const [deId, cocId] = fieldname.split('.')
+export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
+    const { dataElementId: deId, categoryOptionComboId: cocId } =
+        parseFieldId(fieldname)
     const {
         meta: { active, invalid },
     } = useField(fieldname, { subscription: { active: true, invalid: true } })
@@ -61,7 +63,7 @@ export function InnerWrapper({ children, fieldname, syncStatus }) {
         <div
             className={cx(styles.cellInnerWrapper, cellStateClassName, {
                 [styles.active]: active,
-                [styles.disabled]: false, // todo
+                [styles.disabled]: disabled,
             })}
         >
             {children}
@@ -76,6 +78,7 @@ export function InnerWrapper({ children, fieldname, syncStatus }) {
 }
 InnerWrapper.propTypes = {
     children: PropTypes.node,
+    disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     syncStatus: PropTypes.shape({
         synced: PropTypes.bool,

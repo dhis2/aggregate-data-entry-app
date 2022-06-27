@@ -59,6 +59,7 @@ export const GenericInput = ({
     valueType,
     onKeyDown,
     onFocus,
+    disabled,
 }) => {
     const [lastSyncedValue, setLastSyncedValue] = useState()
     const { mutate } = useSetDataValueMutation()
@@ -103,6 +104,7 @@ export const GenericInput = ({
                 input.onBlur(e)
             }}
             onKeyDown={onKeyDown}
+            disabled={disabled}
         />
     )
 }
