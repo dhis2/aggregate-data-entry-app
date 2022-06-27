@@ -53,9 +53,7 @@ const fetchAndUpdateOptionSets = async (
     }
 
     const queryKey = keys.byIds(changedOptionSetIds)
-    const data = await queryClient.fetchQuery(queryKey, {
-        cacheTime: 5 * 60 * 1000,
-    })
+    const data = await queryClient.fetchQuery(queryKey)
 
     // update cache with fresh optionSets
     queryClient.setQueryData(keys.all, (prevData) => {
