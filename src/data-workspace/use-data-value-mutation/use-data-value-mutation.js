@@ -1,12 +1,9 @@
 import { useQueryClient, useMutation } from 'react-query'
-import { useContextSelection } from '../../context-selection/index.js'
-import { dataValueSets } from '../query-key-factory.js'
+import useDataValueSetQueryKey from '../use-data-value-set-query-key.js'
 
 export default function useDataValueMutation({ mutationFn, onMutate }) {
     const queryClient = useQueryClient()
-    const [{ dataSetId: ds, orgUnitId: ou, periodId: pe }] =
-        useContextSelection()
-    const dataValueSetQueryKey = dataValueSets.byIds({ ds, pe, ou })
+    const dataValueSetQueryKey = useDataValueSetQueryKey()
 
     return useMutation(mutationFn, {
         retry: 1,
