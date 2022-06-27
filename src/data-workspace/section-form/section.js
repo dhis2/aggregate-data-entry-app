@@ -7,6 +7,7 @@ import {
     TableHead,
     TableRowHead,
 } from '@dhis2/ui'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
@@ -52,6 +53,8 @@ export const SectionFormSection = ({
     )
 
     const filterInputId = `filter-input-${section.id}`
+    const headerCellStyles = classNames(styles.headerCell, 'hide-for-print')
+
     return (
         <Table className={styles.table} suppressZebraStriping>
             <TableHead>
@@ -71,7 +74,7 @@ export const SectionFormSection = ({
                     </TableCellHead>
                 </TableRowHead>
                 <TableRowHead>
-                    <TableCellHead colSpan="100%" className={styles.headerCell}>
+                    <TableCellHead colSpan="100%" className={headerCellStyles}>
                         <label
                             htmlFor={filterInputId}
                             className={styles.filterWrapper}

@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { MutationIndicator } from '../app/mutation-indicator/index.js'
@@ -51,6 +52,8 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return 'Error!'
     }
 
+    const footerClasses = classNames(styles.footer, 'hide-for-print')
+
     return (
         <FinalFormWrapper
             dataValueSet={initialDataValuesFetch.data?.dataValues}
@@ -62,7 +65,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     </div>
                 </main>
 
-                <footer className={styles.footer}>
+                <footer className={footerClasses}>
                     <div
                         // This div and its content will be removed
                         // once we can display this in the headerbar

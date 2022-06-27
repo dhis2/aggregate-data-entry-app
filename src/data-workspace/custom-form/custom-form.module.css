@@ -56,3 +56,13 @@ prevent accidentally applying this style to cells in the table body
     border-color: var(--colors-grey800);
     color: var(--colors-white);
 }
+
+@media print {
+    .customForm :global(table) > :global(tr:first-child) > :global(th),  
+    .customForm :global(table) > :global(tbody:first-child) > :global(tr:first-child) > :global(th),
+    .customForm :global(table) > :global(thead) > :global(tr) > :global(th) {
+        background-color: transparent !important;
+        border: 1px solid var(--colors-grey400);
+        color: black !important;
+    }
+}

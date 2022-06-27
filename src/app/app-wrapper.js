@@ -3,6 +3,7 @@ import React from 'react'
 import { QueryClientProvider } from 'react-query'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
+import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.js'
 import { RightHandPanelProvider } from '../right-hand-panel/index.js'
 import { CurrentItemProvider } from '../shared/index.js'
 import App from './app.js'
@@ -20,7 +21,9 @@ const AppWrapper = () => {
                     <QueryParamProvider ReactRouterRoute={Route}>
                         <CurrentItemProvider>
                             <RightHandPanelProvider>
-                                <App />
+                                <PrintAreaProvider>
+                                    <App />
+                                </PrintAreaProvider>
                             </RightHandPanelProvider>
                         </CurrentItemProvider>
                     </QueryParamProvider>

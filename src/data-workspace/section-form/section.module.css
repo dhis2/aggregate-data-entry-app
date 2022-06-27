@@ -5,6 +5,14 @@
     height: 100% !important;
 }
 
+@media print {
+    .labelWrapper {
+        background-color: transparent !important;
+    }
+    .title, .description {
+        color: black !important;
+    }
+}
 .headerCell {
     padding: 0 !important;
     height: auto !important;
