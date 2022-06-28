@@ -20,6 +20,8 @@ const computeTotal = (values) => {
 }
 
 const replaceTotalCell = (dataElementId, formState) => {
+    // Get values from all cells associated with this data element from form state and sum them.
+    // Object passed to computeTotal should look like `{ [cocId1]: val1, [cocId2]: val2, ... }`
     const total = computeTotal(formState.values[dataElementId])
 
     return <TotalCell>{total}</TotalCell>
