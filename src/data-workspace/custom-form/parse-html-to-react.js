@@ -3,14 +3,14 @@ import React from 'react'
 import { replaceInputNode } from './replace-input-node.js'
 import { replaceTdNode } from './replace-td-node.js'
 
-export const parseHtmlToReact = (htmlCode, metadata) =>
+export const parseHtmlToReact = (htmlCode, metadata, formState) =>
     parse(htmlCode, {
         replace: (domNode) => {
             switch (domNode.name) {
                 case 'input':
                     return replaceInputNode(domNode, metadata)
                 case 'td':
-                    return replaceTdNode(domNode)
+                    return replaceTdNode(domNode, formState)
                 case 'script':
                     // remove script tags
                     return <></>
