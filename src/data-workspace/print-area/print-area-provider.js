@@ -1,6 +1,8 @@
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
 import PrintAreaContext from './print-area-context.js'
+import styles from './print-area-provider.module.css'
 
 export default function PrintAreaProvider({ children }) {
     const [formPrinting, setPrinting] = useState(null)
@@ -29,7 +31,14 @@ export default function PrintAreaProvider({ children }) {
 
     return (
         <PrintAreaContext.Provider value={value}>
-            <div className={formCleared ? 'form-cleared' : ''}>{children}</div>
+            <div
+                className={cx(
+                    styles.pintAreaProvider,
+                    formCleared && 'form-cleared'
+                )}
+            >
+                {children}
+            </div>
         </PrintAreaContext.Provider>
     )
 }
