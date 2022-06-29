@@ -16,9 +16,10 @@ import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
 
 function createCurrentItem({ de, coc, dataValueSet }) {
-    if (dataValueSet?.data[de.id]?.[coc.id]) {
+    const dataValue = dataValueSet?.data.dataValues[de.id]?.[coc.id]
+    if (dataValue) {
         return {
-            ...dataValueSet.data[de.id][coc.id],
+            ...dataValue,
             categoryOptionCombo: coc.id,
             name: de.displayName,
             code: de.code,
