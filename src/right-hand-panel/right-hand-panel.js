@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-// import { ContextualHelpSidebar } from '../context-selection/index.js'
+import { ContextualHelpSidebar } from '../context-selection/index.js'
 import { DataDetailsSidebar } from '../data-workspace/index.js'
 import RightHandPanelContext from './right-hand-panel-context.js'
 import styles from './right-hand-panel.module.css'
 
 const idSidebarMap = {
     'data-details': DataDetailsSidebar,
-    // 'contextual-help': ContextualHelpSidebar,
+    'contextual-help': ContextualHelpSidebar,
 }
 
 export default function RightHandPanel() {
