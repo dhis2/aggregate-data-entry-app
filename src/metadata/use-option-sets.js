@@ -1,11 +1,12 @@
 import { useQueryClient, useQuery } from 'react-query'
-import keys from './option-set-query-key-factory.js'
+import { createSelector } from 'reselect'
+import queryKeys from './option-set-query-key-factory.js'
 import { hashArraysInObject } from './utils.js'
 
 const FETCH_ALL_THRESHOLD = 200
 
 const useOptionSetsVersions = () => {
-    return useQuery(keys.allVersions, {
+    return useQuery(queryKeys.allVersions, {
         refetchOnMount: false,
         select: (data) => {
             return data?.optionSets
@@ -13,21 +14,22 @@ const useOptionSetsVersions = () => {
     })
 }
 
+const selectorFunction = createSelector(
+    (data) => data,
+    (data) => hashArraysInObject(data)?.optionSets
+)
 // This is the base query used to cache the optionSets
 // staleTime: Infinity prevents this from refetching
 // refetching is done by comparing versions
 export const useAllOptionSets = () => {
-    return useQuery(keys.all, {
+    return useQuery(queryKeys.all, {
         meta: {
             persist: true,
         },
         staleTime: Infinity,
         cacheTime: Infinity,
         notifyOnChangeProps: ['data', 'error'],
-        select: (data) => {
-            const hashed = hashArraysInObject(data)
-            return hashed?.optionSets
-        },
+        select: selectorFunction,
     })
 }
 
@@ -44,7 +46,7 @@ const fetchAndUpdateOptionSets = async (
     forceAll
 ) => {
     if (forceAll) {
-        queryClient.prefetchQuery(keys.all, {
+        queryClient.prefetchQuery(queryKeys.all, {
             meta: {
                 persist: true,
             },
@@ -52,11 +54,11 @@ const fetchAndUpdateOptionSets = async (
         return
     }
 
-    const queryKey = keys.byIds(changedOptionSetIds)
+    const queryKey = queryKeys.byIds(changedOptionSetIds)
     const data = await queryClient.fetchQuery(queryKey)
 
     // update cache with fresh optionSets
-    queryClient.setQueryData(keys.all, (prevData) => {
+    queryClient.setQueryData(queryKeys.all, (prevData) => {
         const updateOptionSets = [...data.optionSets]
         const prevOptionSets = prevData?.optionSets || []
         const newData = prevOptionSets.map((oldOS) => {
@@ -93,6 +95,8 @@ export const useOptionSetsPrefetch = () => {
             .map((os) => os.id)
 
         if (changedOptionSetIds.length > 0) {
+            // fetch all if all optionSets have changed
+            // or if above threshold - do not want too long url
             const fetchAll =
                 changedOptionSetIds.length === allOptionSets.length ||
                 changedOptionSetIds.length >= FETCH_ALL_THRESHOLD
