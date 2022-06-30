@@ -34,9 +34,17 @@ export default function DataItemBar() {
 
             <Button
                 small
-                onClick={() => rightHandPanel.show(dataDetailsSidebarId)}
+                onClick={() => {
+                    rightHandPanel.id
+                        ? rightHandPanel.hide()
+                        : rightHandPanel.show(dataDetailsSidebarId)
+                }}
             >
-                {i18n.t('View details')}
+                {
+                    rightHandPanel.id
+                        ? i18n.t('Hide details')
+                        : i18n.t('View details')
+                }
             </Button>
         </div>
     )
