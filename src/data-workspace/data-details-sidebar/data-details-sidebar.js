@@ -14,6 +14,7 @@ import {
     ExpandableUnit,
     useApiAttributeParams,
     useCurrentItemContext,
+    SidebarProps,
 } from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
 import AuditLog from './audit-log.js'
@@ -111,3 +112,4 @@ export default function DataDetailsSidebar() {
         </Sidebar>
     )
 }
+DataDetailsSidebar.propTypes = SidebarProps
