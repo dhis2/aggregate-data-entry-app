@@ -97,15 +97,15 @@ export const FileResourceInput = ({
 
     // styles:
     // todo: make file input button `secondary` style to match design spec
-    // todo: make file summary a clickable link to view the file (focusable)
     return (
         <div className={styles.fileInputWrapper}>
             {file ? (
                 <>
                     <IconAttachment16 color={colors.grey700} />
-                    <a href={fileLink}>{`${file.name} (${formatFileSize(
-                        file.size
-                    )})`}</a>
+                    <a href={fileLink} className={styles.fileLink}>
+                        {file.name}
+                    </a>
+                    {` (${formatFileSize(file.size)})`}
                     <Button
                         small
                         secondary
