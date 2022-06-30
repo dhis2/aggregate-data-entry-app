@@ -6,6 +6,7 @@ import {
     useQueryParam,
     withDefault,
 } from 'use-query-params'
+import { useIsValidSelection } from './use-is-valid-selection.js'
 
 export const PARAMS_SCHEMA = {
     dataSetId: StringParam,
@@ -15,16 +16,30 @@ export const PARAMS_SCHEMA = {
     sectionFilter: StringParam,
 }
 
+const useCustomQueryParam = (name, schema) => {
+    const [paramValue, setParamValue] = useQueryParam(name, schema)
+    const isValidSelection = useIsValidSelection()
+    const defaultUpdateType = isValidSelection ? 'pushIn' : 'replaceIn'
+
+    const setSelection = useCallback(
+        (value, updateType) => {
+            return setParamValue(value, updateType || defaultUpdateType)
+        },
+        [setParamValue, defaultUpdateType]
+    )
+    return [paramValue, setSelection]
+}
+
 export function useDataSetId() {
-    return useQueryParam('dataSetId', PARAMS_SCHEMA.dataSetId)
+    return useCustomQueryParam('dataSetId', PARAMS_SCHEMA.dataSetId)
 }
 
 export function useOrgUnitId() {
-    return useQueryParam('orgUnitId', PARAMS_SCHEMA.orgUnitId)
+    return useCustomQueryParam('orgUnitId', PARAMS_SCHEMA.orgUnitId)
 }
 
 export function usePeriodId() {
-    return useQueryParam('periodId', PARAMS_SCHEMA.periodId)
+    return useCustomQueryParam('periodId', PARAMS_SCHEMA.periodId)
 }
 
 /**
@@ -36,14 +51,14 @@ export function usePeriodId() {
  *
  */
 export function useAttributeOptionComboSelection() {
-    return useQueryParam(
+    return useCustomQueryParam(
         'attributeOptionComboSelection',
         PARAMS_SCHEMA.attributeOptionComboSelection
     )
 }
 
 export function useSectionFilter() {
-    return useQueryParam('sectionFilter', PARAMS_SCHEMA.sectionFilter)
+    return useCustomQueryParam('sectionFilter', PARAMS_SCHEMA.sectionFilter)
 }
 
 export function useContextSelection() {
