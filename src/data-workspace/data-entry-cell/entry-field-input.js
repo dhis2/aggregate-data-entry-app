@@ -91,8 +91,7 @@ export function EntryFieldInput({
 
     const onFocus = useCallback(() => {
         setHighlightedFieldId({ de, coc })
-        setRightHandPanel('')
-    }, [de, coc, setHighlightedFieldId, setRightHandPanel])
+    }, [de, coc, setHighlightedFieldId])
 
     const sharedProps = useMemo(
         () => ({
