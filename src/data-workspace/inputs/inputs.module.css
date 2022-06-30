@@ -68,9 +68,8 @@
     /* Fixes extra padding at the bottom of the UI component */
     margin-bottom: -4px;
 }
-.fileSummary {
-    display: flex;
-    align-items: center;
+.fileLink {
+    color: var(--colors-grey700);
 }
 .deleteFileButton {
     composes: whiteButton;
