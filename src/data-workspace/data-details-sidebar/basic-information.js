@@ -27,7 +27,7 @@ const BasicInformation = ({ item, onMarkForFollowup, onUnmarkForFollowup }) => (
             <li>
                 <Tooltip content={item.lastUpdated.toString()}>
                     {i18n.t('Last updated {{- timeAgo}} by {{- name}}', {
-                        timeAgo: moment(item.lastUpdated).fromNow(),
+                        timeAgo: moment.utc(item.lastUpdated).fromNow(),
                         name: item.storedBy,
                     })}
                 </Tooltip>

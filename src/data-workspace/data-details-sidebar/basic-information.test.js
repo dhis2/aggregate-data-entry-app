@@ -1,19 +1,26 @@
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import moment from 'moment'
 import React from 'react'
 import BasicInformation from './basic-information.js'
 
 const noop = () => {}
 
 describe('<BasicInformation />', () => {
+    beforeEach(() => {
+        jest.useFakeTimers('modern')
+        // set a fake time (note time zone is UTC+1 while API returns UTC)
+        jest.setSystemTime(new Date('2022-06-28T15:52+01:00').getTime())
+    })
+    afterEach(() => {
+        jest.useRealTimers()
+    })
     it('renders the item name in a heading', () => {
         const item = {
             categoryOptionCombo: 'coc-1',
             comment: null,
             dataElement: 'item-1',
             name: 'Item name',
-            lastUpdated: new Date().toISOString(),
+            lastUpdated: '2022-06-28T14:51:14.435',
             storedBy: 'Firstname Lastname',
             followup: false,
             code: '',
@@ -37,7 +44,7 @@ describe('<BasicInformation />', () => {
             comment: null,
             dataElement: 'item-1',
             name: 'Item name',
-            lastUpdated: new Date().toISOString(),
+            lastUpdated: '2022-06-28T14:51:14.435',
             storedBy: 'Firstname Lastname',
             followup: false,
             code: '',
@@ -62,7 +69,7 @@ describe('<BasicInformation />', () => {
             comment: null,
             dataElement: 'item-1',
             name: 'Item name',
-            lastUpdated: new Date().toISOString(),
+            lastUpdated: '2022-06-28T14:51:14.435',
             storedBy: 'Firstname Lastname',
             followup: false,
             code: 'this is the code',
@@ -86,7 +93,7 @@ describe('<BasicInformation />', () => {
             comment: null,
             dataElement: 'item-1',
             name: 'Item name',
-            lastUpdated: new Date().toISOString(),
+            lastUpdated: '2022-06-28T14:51:14.435',
             storedBy: 'Firstname Lastname',
             followup: false,
             code: 'this is the code',
@@ -102,9 +109,7 @@ describe('<BasicInformation />', () => {
         )
 
         expect(getByText(item.storedBy, { exact: false })).toBeInTheDocument()
-        expect(
-            getByText(moment(item.lastUpdated).fromNow(), { exact: false })
-        ).toBeInTheDocument()
+        expect(getByText('a minute ago', { exact: false })).toBeInTheDocument()
     })
 
     it('calls the unmark followup handler', () => {
@@ -113,7 +118,7 @@ describe('<BasicInformation />', () => {
             comment: null,
             dataElement: 'item-1',
             name: 'Item name',
-            lastUpdated: new Date().toISOString(),
+            lastUpdated: '2022-06-28T14:51:14.435',
             storedBy: 'Firstname Lastname',
             followup: true,
             code: 'this is the code',
@@ -148,7 +153,7 @@ describe('<BasicInformation />', () => {
             comment: null,
             dataElement: 'item-1',
             name: 'Item name',
-            lastUpdated: new Date().toISOString(),
+            lastUpdated: '2022-06-28T14:51:14.435',
             storedBy: 'Firstname Lastname',
             followup: false,
             code: 'this is the code',
