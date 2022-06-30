@@ -8,6 +8,7 @@ import {
     useDeleteDataValueMutation,
     useUploadDataValueFileMutation,
 } from '../use-data-value-mutation/index.js'
+import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
 
 const formatFileSize = (size) => {
@@ -33,6 +34,8 @@ export const FileResourceInput = ({
             onChange: true,
         },
     })
+
+    const fileLink = useFileInputUrl(dataValueParams)
 
     // When the app loads, if there's a file saved for this data value,
     // the value of this input will be UID of a file resource as populated
@@ -100,7 +103,9 @@ export const FileResourceInput = ({
             {file ? (
                 <>
                     <IconAttachment16 color={colors.grey700} />
-                    {`${file.name} (${formatFileSize(file.size)})`}
+                    <a href={fileLink}>{`${file.name} (${formatFileSize(
+                        file.size
+                    )})`}</a>
                     <Button
                         small
                         secondary
