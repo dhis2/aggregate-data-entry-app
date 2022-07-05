@@ -11,13 +11,13 @@ export default function useOrgUnitPathsByName(searchTerm) {
             },
         },
     ]
-    const { isIdle, isFetching, error, data } = useQuery(queryKey, {
+    const { isFetched, isFetching, error, data } = useQuery(queryKey, {
         enabled: !!searchTerm,
         select: (data) => data.organisationUnits.map(({ path }) => path),
     })
 
     return {
-        called: !isIdle,
+        called: isFetched,
         loading: isFetching,
         error,
         data,

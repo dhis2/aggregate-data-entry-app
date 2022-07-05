@@ -8,11 +8,8 @@ export default function useSelectorBarItemValue() {
     // @TODO: Figure out how to only use org units that are connected to the
     // data set.
     // const dataSetOrgUnitPaths = useDataSetOrgUnitPaths()
-    if (
-        userOrgUnits.loading ||
-        orgUnit.loading
-        // || dataSetOrgUnitPaths.loading
-    ) {
+
+    if (userOrgUnits.loading || orgUnit.loading) {
         return i18n.t('Fetching organisation unit info')
     }
 
