@@ -1,10 +1,4 @@
-import {
-    email,
-    integer,
-    internationalPhoneNumber,
-    number,
-    url,
-} from '@dhis2/ui-forms'
+import { email, internationalPhoneNumber, number, url } from '@dhis2/ui-forms'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
@@ -15,6 +9,7 @@ import { InputPropTypes } from './utils.js'
 import {
     // date,
     // dateTime,
+    integer,
     integerPositive,
     integerZeroOrPositive,
     integerNegative,

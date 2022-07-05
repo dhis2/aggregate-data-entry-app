@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import {
-    integer,
+    integer as createInteger,
     createMinNumber,
     composeValidators,
     createMaxNumber,
@@ -47,6 +47,13 @@ export const time = (value) =>
         : i18n.t('Please provide a valid time in the format HH{{c}}MM', {
               c: ':',
           })
+
+const nonDecimal = (value) =>
+    !value || !/(\.|,)/.test(value)
+        ? undefined
+        : i18n.t('Please provide a round number without decimals')
+
+export const integer = composeValidators(createInteger, nonDecimal)
 
 export const integerPositive = composeValidators(integer, createMinNumber(1))
 export const integerZeroOrPositive = composeValidators(
