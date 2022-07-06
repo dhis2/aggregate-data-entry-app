@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { TableBody, TableRow, TableCell } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useMemo } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
 import { cartesian } from '../../shared/utils.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
@@ -55,6 +55,11 @@ export const CategoryComboTable = ({
         )
     }
 
+    const checkTableActive = useCallback(
+        (activeDeId) => dataElements.some(({ id }) => id === activeDeId),
+        [dataElements]
+    )
+
     const paddingCells =
         maxColumnsInSection > 0
             ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
@@ -77,6 +82,7 @@ export const CategoryComboTable = ({
                 dataElements={dataElements}
                 renderRowTotals={renderRowTotals}
                 paddingCells={paddingCells}
+                checkTableActive={checkTableActive}
             />
             {filteredDataElements.map((de, i) => {
                 return (
