@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
-import { useCurrentItemContext } from '../../shared/index.js'
+import { useSetCurrentItemContext } from '../../shared/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,
@@ -85,7 +85,7 @@ export function EntryFieldInput({
     setSyncStatus,
     disabled,
 }) {
-    const currentItemContext = useCurrentItemContext()
+    const setCurrentItem = useSetCurrentItemContext()
     const rightHandPanel = useRightHandPanelContext()
     const { id: deId } = de
     const { id: cocId } = coc
@@ -113,7 +113,7 @@ export function EntryFieldInput({
     }
 
     const onFocus = () => {
-        currentItemContext.setItem(currentItem)
+        setCurrentItem(currentItem)
         rightHandPanel.hide()
     }
 

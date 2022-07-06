@@ -1,6 +1,13 @@
 import { useContext } from 'react'
-import CurrentItemContext from './current-item-context.js'
+import {
+    CurrentItemContext,
+    SetCurrentItemContext,
+} from './current-item-context.js'
 
-export default function useCurrentItemContext() {
+export function useCurrentItemContext() {
     return useContext(CurrentItemContext)
+}
+
+export function useSetCurrentItemContext() {
+    return useContext(SetCurrentItemContext)
 }
