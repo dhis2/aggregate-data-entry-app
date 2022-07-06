@@ -15,7 +15,7 @@ TotalCell.propTypes = {
 }
 
 export const TotalHeader = ({ rowSpan }) => (
-    <TableCellHead className={styles.totalHeader} rowSpan={rowSpan}>
+    <TableCellHead className={styles.totalHeader} rowSpan={rowSpan.toString()}>
         {i18n.t('Totals')}
     </TableCellHead>
 )

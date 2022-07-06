@@ -79,7 +79,6 @@ export const CategoryComboTable = ({
             <CategoryComboTableHeader
                 categoryOptionCombos={sortedCOCs}
                 categories={categories}
-                dataElements={dataElements}
                 renderRowTotals={renderRowTotals}
                 paddingCells={paddingCells}
                 checkTableActive={checkTableActive}
