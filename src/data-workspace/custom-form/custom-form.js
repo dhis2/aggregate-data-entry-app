@@ -12,7 +12,13 @@ import { parseHtmlToReact } from './parse-html-to-react.js'
  * For more info see ./docs/custom-froms.md
  */
 export const CustomForm = ({ dataSet }) => {
-    const formState = useFormState()
+    const formState = useFormState({
+        subscription: {
+            values: true,
+            hasValidationErrors: true,
+            errors: true,
+        },
+    })
     const { data: customForm } = useCustomForm({
         id: dataSet.dataEntryForm.id,
         version: dataSet.version,

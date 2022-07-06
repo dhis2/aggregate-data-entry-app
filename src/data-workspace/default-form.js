@@ -3,7 +3,7 @@ import { NoticeBox, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useMetadata, selectors } from '../metadata/index.js'
-import { CategoryComboTable } from './category-combo-table/index.js'
+import { CategoryComboTableBody } from './category-combo-table-body/index.js'
 import styles from './entry-form.module.css'
 
 export function DefaultForm({ dataSet, globalFilterText }) {
@@ -18,6 +18,7 @@ export function DefaultForm({ dataSet, globalFilterText }) {
         data,
         dataElements
     )
+    const indicators = selectors.getIndicatorsByDataSetId(data, dataSet.id)
 
     return (
         <section className="wrapper">
@@ -35,10 +36,11 @@ export function DefaultForm({ dataSet, globalFilterText }) {
             )}
             <Table className={styles.table} suppressZebraStriping>
                 {groupedDataElements.map(({ categoryCombo, dataElements }) => (
-                    <CategoryComboTable
+                    <CategoryComboTableBody
                         key={categoryCombo.id}
                         categoryCombo={categoryCombo}
                         dataElements={dataElements}
+                        indicators={indicators}
                         globalFilterText={globalFilterText}
                     />
                 ))}

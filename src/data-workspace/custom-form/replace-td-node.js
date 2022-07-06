@@ -1,18 +1,24 @@
 import { attributesToProps } from 'html-react-parser'
 import React from 'react'
-import { TotalCell } from '../category-combo-table/total-cells.js'
+import { TotalCell } from '../category-combo-table-body/total-cells.js'
 
 const TD_LABEL_CLASS = 'dhis2-data-entry-app-custom-form-label-cell'
 
-const computeTotal = (values) => {
-    if (!values) {
+const computeTotal = (dataElementId, formState) => {
+    const { values, hasValidationErrors, errors } = formState
+    const dataElementValues = values[dataElementId]
+
+    if (!dataElementValues) {
         return null
     }
 
     // Initialise sum as null and only start counting when numerical values
     // are encountered to avoid rendering zeros when the sum isn't actually zero
-    return Object.values(values).reduce((sum, value) => {
-        if (!isNaN(value)) {
+    return Object.entries(dataElementValues).reduce((sum, [cocId, value]) => {
+        const fieldHasError =
+            hasValidationErrors && errors[`${dataElementId}.${cocId}`]
+
+        if (!fieldHasError && !isNaN(value)) {
             sum = isNaN(sum) ? value : sum + Number(value)
         }
         return sum
@@ -22,7 +28,7 @@ const computeTotal = (values) => {
 const replaceTotalCell = (dataElementId, formState) => {
     // Get values from all cells associated with this data element from form state and sum them.
     // Object passed to computeTotal should look like `{ [cocId1]: val1, [cocId2]: val2, ... }`
-    const total = computeTotal(formState.values[dataElementId])
+    const total = computeTotal(dataElementId, formState)
 
     return <TotalCell>{total}</TotalCell>
 }

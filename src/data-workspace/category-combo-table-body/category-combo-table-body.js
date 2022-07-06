@@ -6,12 +6,12 @@ import { useMetadata, selectors } from '../../metadata/index.js'
 import { cartesian } from '../../shared/utils.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
+import styles from '../table-body.module.css'
 import { CategoryComboTableHeader } from './category-combo-table-header.js'
-import styles from './category-combo-table.module.css'
 import { DataElementCell } from './data-element-cell.js'
 import { ColumnTotals, RowTotal } from './total-cells.js'
 
-export const CategoryComboTable = ({
+export const CategoryComboTableBody = ({
     categoryCombo,
     dataElements,
     filterText,
@@ -137,11 +137,11 @@ export const CategoryComboTable = ({
     )
 }
 
-CategoryComboTable.propTypes = {
+CategoryComboTableBody.propTypes = {
     categoryCombo: PropTypes.shape({
         id: PropTypes.string.isRequired,
         categoryOptionCombos: PropTypes.array,
-    }).isRequired,
+    }),
     dataElements: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,

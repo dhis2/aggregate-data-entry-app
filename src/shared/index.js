@@ -1,6 +1,7 @@
 export * from './current-item-provider/index.js'
 export * from './error-message/index.js'
 export { useApiAttributeParams } from './use-api-attribute-params.js'
+export { useBlurredField } from './use-blurred-field.js'
 export * from './fixed-periods/index.js'
 export * from './period/index.js'
 export * from './sidebar/index.js'

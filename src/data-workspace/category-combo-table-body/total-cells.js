@@ -2,8 +2,8 @@ import i18n from '@dhis2/d2-i18n'
 import { TableCell, TableCellHead, TableRow } from '@dhis2/ui'
 import propTypes from 'prop-types'
 import React, { useMemo } from 'react'
+import styles from '../table-body.module.css'
 import { calculateColumnTotals, calculateRowTotal } from './calculate-totals.js'
-import styles from './category-combo-table.module.css'
 import { useValueMatrix } from './use-value-matrix.js'
 
 export const TotalCell = ({ children }) => (
