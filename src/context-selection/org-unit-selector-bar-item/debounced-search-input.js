@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import useDebounce from './use-debounce.js'
+import { useDebounce } from '../../shared/index.js'
 
 export default function DebouncedSearchInput({ onChange, initialValue }) {
     const [value, setValue] = useState(initialValue)

@@ -1,18 +1,11 @@
-import i18n from '@dhis2/d2-i18n'
-import {
-    colors,
-    IconFilter16,
-    Table,
-    TableCellHead,
-    TableHead,
-    TableRowHead,
-} from '@dhis2/ui'
+import { Table, TableCellHead, TableHead, TableRowHead } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
 import { CategoryComboTable } from '../category-combo-table/index.js'
 import { getFieldId } from '../get-field-id.js'
+import { SectionFilter } from './section-filter.js'
 import styles from './section.module.css'
 
 export const SectionFormSection = ({
@@ -75,25 +68,10 @@ export const SectionFormSection = ({
                 </TableRowHead>
                 <TableRowHead>
                     <TableCellHead colSpan="100%" className={headerCellStyles}>
-                        <label
-                            htmlFor={filterInputId}
-                            className={styles.filterWrapper}
-                        >
-                            <IconFilter16 color={colors.grey600} />
-                            <input
-                                name={filterInputId}
-                                id={filterInputId}
-                                type="text"
-                                placeholder={i18n.t(
-                                    'Type here to filter in this section'
-                                )}
-                                value={filterText}
-                                onChange={({ target }) =>
-                                    setFilterText(target.value)
-                                }
-                                className={styles.filterInput}
-                            />
-                        </label>
+                        <SectionFilter
+                            id={filterInputId}
+                            onFilterChange={setFilterText}
+                        />
                     </TableCellHead>
                 </TableRowHead>
             </TableHead>

@@ -24,8 +24,7 @@ export const EntryForm = ({ dataSet }) => {
         <>
             {formType !== FORM_TYPES.CUSTOM && (
                 <FilterField
-                    value={globalFilterText}
-                    setFilterText={setGlobalFilterText}
+                    onFilterChange={setGlobalFilterText}
                     formType={formType}
                 />
             )}
