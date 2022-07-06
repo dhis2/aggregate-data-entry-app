@@ -108,7 +108,7 @@ export const CategoryComboTable = ({
             })}
             {renderColumnTotals && (
                 <ColumnTotals
-                    paddedCells={paddingCells}
+                    paddingCells={paddingCells}
                     renderTotalSum={renderRowTotals && renderColumnTotals}
                     dataElements={dataElements}
                     categoryOptionCombos={sortedCOCs}

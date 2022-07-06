@@ -42,7 +42,7 @@ RowTotal.propTypes = {
 
 export const ColumnTotals = ({
     renderTotalSum,
-    paddedCells,
+    paddingCells,
     dataElements,
     categoryOptionCombos,
 }) => {
@@ -57,7 +57,7 @@ export const ColumnTotals = ({
             {columnTotals.map((v, i) => (
                 <TotalCell key={i}>{v}</TotalCell>
             ))}
-            {paddedCells.map((_, i) => (
+            {paddingCells.map((_, i) => (
                 <TotalCell key={i} />
             ))}
             {renderTotalSum && (
@@ -72,6 +72,6 @@ export const ColumnTotals = ({
 ColumnTotals.propTypes = {
     categoryOptionCombos: propTypes.array,
     dataElements: propTypes.array,
-    paddedCells: propTypes.array,
+    paddingCells: propTypes.array,
     renderTotalSum: propTypes.bool,
 }
