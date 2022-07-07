@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
-// import { ContextualHelpSidebar } from '../context-selection/index.js'
+import { ContextualHelpSidebar } from '../context-selection/contextual-help-sidebar/index.js'
 import { DataDetailsSidebar } from '../data-workspace/index.js'
 import RightHandPanelContext from './right-hand-panel-context.js'
 import styles from './right-hand-panel.module.css'
 
 const idSidebarMap = {
     'data-details': DataDetailsSidebar,
-    // 'contextual-help': ContextualHelpSidebar,
+    'contextual-help': ContextualHelpSidebar,
 }
 
 export default function RightHandPanel() {
-    const { id } = useContext(RightHandPanelContext)
+    const { id, show, hide } = useContext(RightHandPanelContext)
     const SidebarComponent = idSidebarMap[id]
 
     if (id && !SidebarComponent) {
@@ -23,7 +23,7 @@ export default function RightHandPanel() {
 
     return (
         <div className={styles.wrapper}>
-            <SidebarComponent />
+            <SidebarComponent show={show} hide={hide} />
         </div>
     )
 }
