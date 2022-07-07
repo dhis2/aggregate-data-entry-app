@@ -4,7 +4,6 @@ import { useOrgUnitId } from '../../context-selection/index.js'
 import {
     Sidebar,
     Title,
-    ExpandableUnit,
     useDataValueSet,
     useHighlightedField,
     SidebarProps,
@@ -47,23 +46,8 @@ export default function DataDetailsSidebar({ hide }) {
                 onMarkForFollowup={onMarkForFollowup}
                 onUnmarkForFollowup={onUnmarkForFollowup}
             />
-
-            <ExpandableUnit initiallyOpen title={i18n.t('Comment')}>
-                <Comment item={dataValue} />
-            </ExpandableUnit>
-
-            <ExpandableUnit
-                title={i18n.t('Minimum and maximum limits')}
-                disabled={!dataValue.canHaveLimits}
-            >
-                <Limits
-                    valueType={dataValue.valueType}
-                    dataElementId={dataValue.dataElement}
-                    categoryOptionComboId={dataValue.categoryOptionCombo}
-                    limits={limits}
-                />
-            </ExpandableUnit>
-
+            <Comment item={dataValue} />
+            <Limits dataValue={dataValue} limits={limits} />
             <History />
             <AuditLog />
         </Sidebar>
