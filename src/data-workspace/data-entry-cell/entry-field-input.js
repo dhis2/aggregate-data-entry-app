@@ -74,9 +74,10 @@ export function EntryFieldInput({
 
     const onKeyDown = useCallback(
         (event) => {
-            const { key, shiftKey } = event
+            const { key, ctrlKey, metaKey } = event
+            const ctrlXorMetaKey = ctrlKey ^ metaKey
 
-            if (shiftKey && key === 'Enter') {
+            if (ctrlXorMetaKey && key === 'Enter') {
                 setRightHandPanel(dataDetailsSidebarId)
             } else if (key === 'ArrowDown' || key === 'Enter') {
                 event.preventDefault()
