@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
+import { useDebounce } from '../../shared/index.js'
 import { CategoryComboTable } from '../category-combo-table/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { SectionFilter } from './section-filter.js'
@@ -15,6 +16,7 @@ export const SectionFormSection = ({
 }) => {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
+    const debouncedSetFilterText = useDebounce(setFilterText, 200)
     const { data } = useMetadata()
 
     if (!data) {
@@ -70,7 +72,7 @@ export const SectionFormSection = ({
                     <TableCellHead colSpan="100%" className={headerCellStyles}>
                         <SectionFilter
                             id={filterInputId}
-                            onFilterChange={setFilterText}
+                            onFilterChange={debouncedSetFilterText}
                         />
                     </TableCellHead>
                 </TableRowHead>
