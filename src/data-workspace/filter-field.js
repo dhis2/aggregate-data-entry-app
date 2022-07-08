@@ -3,7 +3,6 @@ import { Button, InputField } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { useDebounceCallback } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import styles from './entry-form.module.css'
 
@@ -11,7 +10,10 @@ export default function FilterField({ onFilterChange, formType }) {
     const [filterText, setFilterText] = useState('')
     const wrapperClasses = classNames(styles.filterWrapper, 'hide-for-print')
 
-    useDebounceCallback(filterText, onFilterChange)
+    const onChange = ({ value }) => {
+        setFilterText(value)
+        onFilterChange(value)
+    }
 
     return (
         <div className={wrapperClasses}>
@@ -25,7 +27,7 @@ export default function FilterField({ onFilterChange, formType }) {
                         : i18n.t('Filter fields')
                 }
                 value={filterText}
-                onChange={({ value }) => setFilterText(value)}
+                onChange={onChange}
             />
             <Button
                 secondary

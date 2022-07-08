@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 /** Copied from https://usehooks.com/useDebounce/ */
 export function useDebouncedValue(value, delay) {
@@ -12,10 +12,18 @@ export function useDebouncedValue(value, delay) {
     return debouncedValue
 }
 
-export function useDebounceCallback(value, cb, delay = 200) {
-    const debouncedValue = useDebounce(value, delay)
+/*
+ * If this component ever causes issues,
+ * consider using https://github.com/xnimorz/use-debounce
+ */
+export function useDebounce(callback, delay) {
+    const timeoutIdRef = useRef(null)
 
-    useEffect(() => {
-        cb(debouncedValue)
-    }, [debouncedValue, cb])
+    return useCallback(
+        (...args) => {
+            clearTimeout(timeoutIdRef.current)
+            timeoutIdRef.current = setTimeout(() => callback(...args), delay)
+        },
+        [callback, delay]
+    )
 }
