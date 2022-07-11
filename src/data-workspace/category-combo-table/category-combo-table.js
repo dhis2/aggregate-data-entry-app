@@ -1,24 +1,15 @@
 import i18n from '@dhis2/d2-i18n'
-import {
-    TableRowHead,
-    TableCellHead,
-    TableBody,
-    TableRow,
-    TableCell,
-} from '@dhis2/ui'
-import cx from 'classnames'
+import { TableBody, TableRow, TableCell } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useMemo } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
 import { cartesian } from '../../shared/utils.js'
-import {
-    DataEntryCell,
-    DataEntryField,
-    useActiveCell,
-} from '../data-entry-cell/index.js'
+import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
+import { CategoryComboTableHeader } from './category-combo-table-header.js'
 import styles from './category-combo-table.module.css'
-import { TotalHeader, ColumnTotals, RowTotal } from './total-cells.js'
+import { DataElementCell } from './data-element-cell.js'
+import { ColumnTotals, RowTotal } from './total-cells.js'
 
 export const CategoryComboTable = ({
     categoryCombo,
@@ -31,7 +22,6 @@ export const CategoryComboTable = ({
     renderColumnTotals,
 }) => {
     const { data: metadata } = useMetadata()
-    const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
     const categories = selectors.getCategoriesByCategoryComboId(
         metadata,
@@ -64,37 +54,13 @@ export const CategoryComboTable = ({
             Server: ${categoryCombo.categoryOptionCombos.length})`
         )
     }
-    // Computes the span and repeats for each columns in a category-row.
-    // Repeats are the number of times the options in a category needs to be rendered per category-row
-    let catColSpan = sortedCOCs.length
-    const rowToColumnsMap = categories.map((c) => {
-        const categoryOptions = selectors.getCategoryOptionsByCategoryId(
-            metadata,
-            c.id
-        )
-        const nrOfOptions = c.categoryOptions.length
-        if (nrOfOptions > 0 && catColSpan >= nrOfOptions) {
-            catColSpan = catColSpan / nrOfOptions
-            const repeat = sortedCOCs.length / (catColSpan * nrOfOptions)
 
-            const columnsToRender = new Array(repeat)
-                .fill(0)
-                .flatMap(() => categoryOptions)
+    const checkTableActive = useCallback(
+        (activeDeId) => dataElements.some(({ id }) => id === activeDeId),
+        [dataElements]
+    )
 
-            return {
-                span: catColSpan,
-                columns: columnsToRender,
-                category: c,
-            }
-        } else {
-            console.warn(
-                `Category ${c.displayFormName} malformed. Number of options: ${nrOfOptions}, span: ${catColSpan}`
-            )
-        }
-        return c
-    })
-
-    const renderPaddedCells =
+    const paddingCells =
         maxColumnsInSection > 0
             ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
             : []
@@ -108,69 +74,19 @@ export const CategoryComboTable = ({
     })
     const itemsHiddenCnt = dataElements.length - filteredDataElements.length
 
-    // Is the active cell in this cat-combo table? Check to see if active
-    // data element is in this CCT
-    const isThisTableActive = dataElements.some(({ id }) => id === activeDeId)
-
-    // Find if this column header includes the active cell's column
-    const isHeaderActive = (headerIdx, headerColSpan) => {
-        const activeCellColIdx = sortedCOCs.findIndex(
-            (coc) => activeCocId === coc.id
-        )
-        const idxDiff = activeCellColIdx - headerIdx * headerColSpan
-        return isThisTableActive && idxDiff < headerColSpan && idxDiff >= 0
-    }
-
     return (
         <TableBody>
-            {rowToColumnsMap.map((colInfo, colInfoIndex) => {
-                const { span, columns, category } = colInfo
-                return (
-                    <TableRowHead key={category.id}>
-                        <TableCellHead
-                            className={styles.categoryNameHeader}
-                            colSpan={'1'}
-                        >
-                            {category.displayFormName !== 'default' &&
-                                category.displayFormName}
-                        </TableCellHead>
-                        {columns.map((co, columnIndex) => {
-                            return (
-                                <TableCellHead
-                                    key={columnIndex}
-                                    className={cx(styles.tableHeader, {
-                                        [styles.active]: isHeaderActive(
-                                            columnIndex,
-                                            span
-                                        ),
-                                    })}
-                                    colSpan={span.toString()}
-                                >
-                                    {co.isDefault
-                                        ? i18n.t('Value')
-                                        : co.displayFormName}
-                                </TableCellHead>
-                            )
-                        })}
-                        {renderPaddedCells.map((_, i) => (
-                            <PaddingCell key={i} />
-                        ))}
-                        {renderRowTotals && colInfoIndex === 0 && (
-                            <TotalHeader rowSpan={categories.length} />
-                        )}
-                    </TableRowHead>
-                )
-            })}
+            <CategoryComboTableHeader
+                categoryOptionCombos={sortedCOCs}
+                categories={categories}
+                renderRowTotals={renderRowTotals}
+                paddingCells={paddingCells}
+                checkTableActive={checkTableActive}
+            />
             {filteredDataElements.map((de, i) => {
                 return (
                     <TableRow key={de.id}>
-                        <TableCell
-                            className={cx(styles.dataElementName, {
-                                [styles.active]: de.id === activeDeId,
-                            })}
-                        >
-                            {de.displayFormName}
-                        </TableCell>
+                        <DataElementCell dataElement={de} />
                         {sortedCOCs.map((coc) => (
                             <DataEntryCell key={coc.id}>
                                 <DataEntryField
@@ -182,7 +98,7 @@ export const CategoryComboTable = ({
                                 />
                             </DataEntryCell>
                         ))}
-                        {renderPaddedCells.map((_, i) => (
+                        {paddingCells.map((_, i) => (
                             <PaddingCell key={i} className={styles.tableCell} />
                         ))}
                         {renderRowTotals && (
@@ -197,7 +113,7 @@ export const CategoryComboTable = ({
             })}
             {renderColumnTotals && (
                 <ColumnTotals
-                    paddedCells={renderPaddedCells}
+                    paddingCells={paddingCells}
                     renderTotalSum={renderRowTotals && renderColumnTotals}
                     dataElements={dataElements}
                     categoryOptionCombos={sortedCOCs}

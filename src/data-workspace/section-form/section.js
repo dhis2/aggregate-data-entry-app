@@ -37,11 +37,16 @@ export const SectionFormSection = ({
         ? selectors.getGroupedDataElementsByCatComboInOrder(data, dataElements)
         : selectors.getGroupedDataElementsByCatCombo(data, dataElements)
 
-    const maxColumnsInSection = Math.max(
-        ...groupedDataElements.map(
-            (grp) => grp.categoryCombo.categoryOptionCombos?.length || 1
-        )
+    // calculate how many columns in each group
+    const groupedTotalColumns = groupedDataElements.map((grp) =>
+        (
+            selectors
+                .getCategoriesByCategoryComboId(data, grp.categoryCombo.id)
+                ?.map((cat) => cat.categoryOptions.length) || [1]
+        ).reduce((total, curr) => total * curr)
     )
+
+    const maxColumnsInSection = Math.max(...groupedTotalColumns)
 
     const greyedFields = new Set(
         section.greyedFields.map((greyedField) =>

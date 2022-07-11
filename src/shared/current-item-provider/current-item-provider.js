@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import CurrentItemContext from './current-item-context.js'
+import {
+    CurrentItemContext,
+    SetCurrentItemContext,
+} from './current-item-context.js'
 
 export default function CurrentItemProvider({ children }) {
     const [item, setItem] = useState(null)
@@ -8,7 +11,9 @@ export default function CurrentItemProvider({ children }) {
 
     return (
         <CurrentItemContext.Provider value={value}>
-            {children}
+            <SetCurrentItemContext.Provider value={setItem}>
+                {children}
+            </SetCurrentItemContext.Provider>
         </CurrentItemContext.Provider>
     )
 }
