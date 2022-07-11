@@ -124,6 +124,7 @@ export const SectionFormSection = ({
             {indicators.length > 0 && (
                 <IndicatorsTableBody
                     indicators={indicators}
+                    renderColumnTotals={section.showColumnTotals}
                     maxColumnsInSection={maxColumnsInSection}
                     filterText={filterText}
                     globalFilterText={globalFilterText}

@@ -15,6 +15,7 @@ import { IndicatorTableCell } from './indicator-table-cell.js'
 export const IndicatorsTableBody = ({
     indicators,
     maxColumnsInSection,
+    renderColumnTotals,
     filterText,
     globalFilterText,
 }) => {
@@ -26,7 +27,8 @@ export const IndicatorsTableBody = ({
         )
     })
     const itemsHiddenCnt = indicators.length - filteredIndicators.length
-    const padColumns = Array(maxColumnsInSection - 1).fill(0)
+    const nrOfPadColumns = maxColumnsInSection - (renderColumnTotals ? 0 : 1)
+    const padColumns = Array(nrOfPadColumns).fill(0)
 
     return (
         <TableBody>
@@ -92,4 +94,5 @@ IndicatorsTableBody.propTypes = {
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
     maxColumnsInSection: PropTypes.number,
+    renderColumnTotals: PropTypes.bool,
 }
