@@ -1,6 +1,7 @@
 import { attributesToProps } from 'html-react-parser'
 import React from 'react'
 import { TotalCell } from '../category-combo-table-body/total-cells.js'
+import { IndicatorTableCell } from '../indicators-table-body/indicator-table-cell.js'
 
 const TD_LABEL_CLASS = 'dhis2-data-entry-app-custom-form-label-cell'
 
@@ -33,6 +34,13 @@ const replaceTotalCell = (dataElementId, formState) => {
     return <TotalCell>{total}</TotalCell>
 }
 
+const replaceIndicatorCell = (indicatorId, metadata) => {
+    const { denominator, numerator } = metadata.indicators[indicatorId]
+    return (
+        <IndicatorTableCell denominator={denominator} numerator={numerator} />
+    )
+}
+
 const replaceTextCell = (domNode) => {
     const cleanedText = domNode.children[0].nodeValue.trim()
     const props = attributesToProps(domNode.attribs)
@@ -57,11 +65,21 @@ const replaceTextCell = (domNode) => {
     )
 }
 
-export const replaceTdNode = (domNode, formState) => {
+export const replaceTdNode = (domNode, metadata, formState) => {
     const onlyChild = domNode.children.length === 1 && domNode.children[0]
 
     if (onlyChild && onlyChild.type === 'text') {
         return replaceTextCell(domNode)
+    }
+
+    if (
+        onlyChild &&
+        onlyChild.type === 'tag' &&
+        onlyChild.name === 'input' &&
+        onlyChild.attribs.name === 'indicator' &&
+        onlyChild.attribs.indicatorid
+    ) {
+        return replaceIndicatorCell(onlyChild.attribs.indicatorid, metadata)
     }
 
     if (

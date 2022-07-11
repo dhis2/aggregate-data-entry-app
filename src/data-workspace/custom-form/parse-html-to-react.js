@@ -10,7 +10,7 @@ export const parseHtmlToReact = (htmlCode, metadata, formState) =>
                 case 'input':
                     return replaceInputNode(domNode, metadata)
                 case 'td':
-                    return replaceTdNode(domNode, formState)
+                    return replaceTdNode(domNode, metadata, formState)
                 case 'script':
                     // remove script tags
                     return <></>
