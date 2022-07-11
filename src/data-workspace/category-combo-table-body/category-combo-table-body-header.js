@@ -49,7 +49,7 @@ const useCategoryColumns = (categories, numberOfCoCs) => {
     }, [metadata, categories, numberOfCoCs])
 }
 
-export const CategoryComboTableHeader = ({
+export const CategoryComboTableBodyHeader = ({
     renderRowTotals,
     paddingCells,
     categoryOptionCombos,
@@ -116,7 +116,7 @@ export const CategoryComboTableHeader = ({
     })
 }
 
-CategoryComboTableHeader.propTypes = {
+CategoryComboTableBodyHeader.propTypes = {
     categories: PropTypes.array,
     // Note that this must be the sorted categoryoOptionCombos, eg. in the same order as they are rendered
     categoryOptionCombos: PropTypes.arrayOf(

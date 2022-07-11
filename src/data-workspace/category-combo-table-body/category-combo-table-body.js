@@ -7,7 +7,7 @@ import { cartesian } from '../../shared/utils.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
 import styles from '../table-body.module.css'
-import { CategoryComboTableHeader } from './category-combo-table-header.js'
+import { CategoryComboTableBodyHeader } from './category-combo-table-body-header.js'
 import { DataElementCell } from './data-element-cell.js'
 import { ColumnTotals, RowTotal } from './total-cells.js'
 
@@ -76,7 +76,7 @@ export const CategoryComboTableBody = ({
 
     return (
         <TableBody>
-            <CategoryComboTableHeader
+            <CategoryComboTableBodyHeader
                 categoryOptionCombos={sortedCOCs}
                 categories={categories}
                 renderRowTotals={renderRowTotals}
