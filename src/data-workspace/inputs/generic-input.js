@@ -84,9 +84,10 @@ export const GenericInput = ({
 
     const handleBlur = () => {
         const { value } = input
+        const hasEmptySpaces = value && value.trim() === ''
         const { dirty, valid } = meta
-        if (dirty && valid && value !== lastSyncedValue) {
-            syncData(value)
+        if (dirty && valid && !hasEmptySpaces && value !== lastSyncedValue) {
+            syncData(value.trim())
         }
     }
 
