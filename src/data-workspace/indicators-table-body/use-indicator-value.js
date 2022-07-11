@@ -40,44 +40,18 @@ const parseExpression = (expression, values) => {
     }, expression)
 }
 
-const computeIndicatorValue = ({
-    denominator,
-    explodedDenominator,
-    explodedNumerator,
-    numerator,
-    formState,
-}) => {
+const computeIndicatorValue = ({ denominator, numerator, formState }) => {
     const denominatorExpression = parseExpression(denominator, formState.values)
-    const explodedDenominatorExpression = parseExpression(
-        explodedDenominator,
-        formState.values
-    )
-    const explodedNumeratorExpression = parseExpression(
-        explodedNumerator,
-        formState.values
-    )
     const numeratorExpression = parseExpression(numerator, formState.values)
 
-    return (
-        (evaluate(numeratorExpression) *
-            evaluate(explodedNumeratorExpression)) /
-        (evaluate(denominatorExpression) *
-            evaluate(explodedDenominatorExpression))
-    )
+    return evaluate(numeratorExpression) / evaluate(denominatorExpression)
 }
 
-export const useIndicatorValue = ({
-    denominator,
-    explodedDenominator,
-    explodedNumerator,
-    numerator,
-}) => {
+export const useIndicatorValue = ({ denominator, numerator }) => {
     const form = useForm()
     const [value, setValue] = useState(() =>
         computeIndicatorValue({
             denominator,
-            explodedDenominator,
-            explodedNumerator,
             numerator,
             formState: form.getState(),
         })
@@ -85,12 +59,7 @@ export const useIndicatorValue = ({
     const blurredField = useBlurredField()
     const affectedDataElementsLookup = useMemo(
         () =>
-            [
-                denominator,
-                explodedDenominator,
-                explodedNumerator,
-                numerator,
-            ].reduce((lookup, expression) => {
+            [denominator, numerator].reduce((lookup, expression) => {
                 const matches = expression.match(formulaPattern)
                 if (matches?.length > 0) {
                     for (const match of matches) {
@@ -102,7 +71,7 @@ export const useIndicatorValue = ({
                 }
                 return lookup
             }, new Set()),
-        [denominator, explodedDenominator, explodedNumerator, numerator]
+        [denominator, numerator]
     )
     const containsAffectedDataElement = useMemo(() => {
         const dataElementId = blurredField?.split(separator)[0]
@@ -114,21 +83,12 @@ export const useIndicatorValue = ({
             setValue(
                 computeIndicatorValue({
                     denominator,
-                    explodedDenominator,
-                    explodedNumerator,
                     numerator,
                     formState: form.getState(),
                 })
             )
         }
-    }, [
-        containsAffectedDataElement,
-        denominator,
-        explodedDenominator,
-        explodedNumerator,
-        numerator,
-        form,
-    ])
+    }, [containsAffectedDataElement, denominator, numerator, form])
 
     return value
 }

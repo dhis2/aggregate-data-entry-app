@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
 import { useActiveCell } from '../data-entry-cell/index.js'
-import styles from './category-combo-table.module.css'
+import styles from '../table-body.module.css'
 import { PaddingCell } from './padding-cell.js'
 import { TotalHeader } from './total-cells.js'
 
