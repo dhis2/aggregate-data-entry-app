@@ -53,9 +53,18 @@ const replaceTotalCell = (dataElementId) => (
 )
 
 const replaceIndicatorCell = (indicatorId, metadata) => {
-    const { denominator, numerator } = metadata.indicators[indicatorId]
+    const {
+        denominator,
+        numerator,
+        indicatorType: { factor },
+    } = metadata.indicators[indicatorId]
+
     return (
-        <IndicatorTableCell denominator={denominator} numerator={numerator} />
+        <IndicatorTableCell
+            denominator={denominator}
+            numerator={numerator}
+            factor={factor}
+        />
     )
 }
 

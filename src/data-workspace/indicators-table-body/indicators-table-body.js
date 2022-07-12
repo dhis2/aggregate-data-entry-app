@@ -56,6 +56,7 @@ export const IndicatorsTableBody = ({
                         <IndicatorTableCell
                             denominator={indicator.denominator}
                             numerator={indicator.numerator}
+                            factor={indicator.indicatorType.factor}
                         />
                         {padColumns.map((_, i) => (
                             <TableCell

@@ -40,19 +40,28 @@ const parseExpression = (expression, values) => {
     }, expression)
 }
 
-const computeIndicatorValue = ({ denominator, numerator, formState }) => {
+const computeIndicatorValue = ({
+    denominator,
+    numerator,
+    factor,
+    formState,
+}) => {
     const denominatorExpression = parseExpression(denominator, formState.values)
     const numeratorExpression = parseExpression(numerator, formState.values)
 
-    return evaluate(numeratorExpression) / evaluate(denominatorExpression)
+    return (
+        (evaluate(numeratorExpression) / evaluate(denominatorExpression)) *
+        factor
+    )
 }
 
-export const useIndicatorValue = ({ denominator, numerator }) => {
+export const useIndicatorValue = ({ denominator, numerator, factor }) => {
     const form = useForm()
     const [value, setValue] = useState(() =>
         computeIndicatorValue({
             denominator,
             numerator,
+            factor,
             formState: form.getState(),
         })
     )
@@ -83,11 +92,19 @@ export const useIndicatorValue = ({ denominator, numerator }) => {
                 computeIndicatorValue({
                     denominator,
                     numerator,
+                    factor,
                     formState: form.getState(),
                 })
             )
         }
-    }, [blurredField, affectedDataElementsLookup, denominator, numerator, form])
+    }, [
+        blurredField,
+        affectedDataElementsLookup,
+        denominator,
+        numerator,
+        factor,
+        form,
+    ])
 
     return value
 }
