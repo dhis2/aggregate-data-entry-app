@@ -211,12 +211,7 @@ export const getDataElementsByDataSetId = createCachedSelector(
 export const getIndicatorsByDataSetId = createCachedSelector(
     getIndicators,
     getDataSetById,
-    (indicators, dataSet) => {
-        // TODO: fix once backend returns indicators for default forms
-        console.log(indicators, dataSet)
-
-        return ['HENKIE']
-    }
+    (indicators, dataSet) => dataSet.indicators.map((id) => indicators[id])
 )((_, dataSetId) => dataSetId)
 
 /**

@@ -5,6 +5,7 @@ import React from 'react'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { CategoryComboTableBody } from './category-combo-table-body/index.js'
 import styles from './entry-form.module.css'
+import { IndicatorsTableBody } from './indicators-table-body/indicators-table-body.js'
 
 export function DefaultForm({ dataSet, globalFilterText }) {
     const { isLoading, isError, data } = useMetadata()
@@ -14,11 +15,16 @@ export function DefaultForm({ dataSet, globalFilterText }) {
     }
 
     const dataElements = selectors.getDataElementsByDataSetId(data, dataSet.id)
+    const indicators = selectors.getIndicatorsByDataSetId(data, dataSet.id)
     const groupedDataElements = selectors.getGroupedDataElementsByCatCombo(
         data,
         dataElements
     )
-    const indicators = selectors.getIndicatorsByDataSetId(data, dataSet.id)
+    const nrColumnsInTable = groupedDataElements.reduce(
+        (max, { categoryCombo: { categoryOptionCombos } }) =>
+            Math.max(max, categoryOptionCombos.length),
+        0
+    )
 
     return (
         <section className="wrapper">
@@ -40,10 +46,17 @@ export function DefaultForm({ dataSet, globalFilterText }) {
                         key={categoryCombo.id}
                         categoryCombo={categoryCombo}
                         dataElements={dataElements}
-                        indicators={indicators}
                         globalFilterText={globalFilterText}
+                        maxColumnsInSection={nrColumnsInTable}
                     />
                 ))}
+                {indicators.length > 0 && (
+                    <IndicatorsTableBody
+                        indicators={indicators}
+                        maxColumnsInSection={nrColumnsInTable}
+                        globalFilterText={globalFilterText}
+                    />
+                )}
             </Table>
         </section>
     )
