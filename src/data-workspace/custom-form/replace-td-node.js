@@ -1,9 +1,10 @@
 import { attributesToProps } from 'html-react-parser'
-import React from 'react'
+import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
+import { useForm } from 'react-final-form'
+import { useBlurredField } from '../../shared/use-blurred-field.js'
 import { TotalCell } from '../category-combo-table-body/total-cells.js'
 import { IndicatorTableCell } from '../indicators-table-body/indicator-table-cell.js'
-
-const TD_LABEL_CLASS = 'dhis2-data-entry-app-custom-form-label-cell'
 
 const computeTotal = (dataElementId, formState) => {
     const { values, hasValidationErrors, errors } = formState
@@ -26,13 +27,30 @@ const computeTotal = (dataElementId, formState) => {
     }, null)
 }
 
-const replaceTotalCell = (dataElementId, formState) => {
-    // Get values from all cells associated with this data element from form state and sum them.
-    // Object passed to computeTotal should look like `{ [cocId1]: val1, [cocId2]: val2, ... }`
-    const total = computeTotal(dataElementId, formState)
+const CustomFormTotalCell = ({ dataElementId }) => {
+    const form = useForm()
+    const blurredField = useBlurredField()
+    const [total, setTotal] = useState(() =>
+        computeTotal(dataElementId, form.getState())
+    )
+
+    useEffect(() => {
+        const blurredFieldDataElementId = blurredField?.split('.')[0]
+        if (blurredFieldDataElementId === dataElementId) {
+            setTotal(computeTotal(dataElementId, form.getState()))
+        }
+    }, [blurredField, dataElementId, form])
 
     return <TotalCell>{total}</TotalCell>
 }
+
+CustomFormTotalCell.propTypes = {
+    dataElementId: PropTypes.string.isRequired,
+}
+
+const replaceTotalCell = (dataElementId) => (
+    <CustomFormTotalCell dataElementId={dataElementId} />
+)
 
 const replaceIndicatorCell = (indicatorId, metadata) => {
     const { denominator, numerator } = metadata.indicators[indicatorId]
@@ -59,13 +77,13 @@ const replaceTextCell = (domNode) => {
      * match the default and section forms
      */
     return (
-        <td {...props} className={TD_LABEL_CLASS}>
+        <td {...props} className="dhis2-data-entry-app-custom-form-label-cell">
             {cleanedText}
         </td>
     )
 }
 
-export const replaceTdNode = (domNode, metadata, formState) => {
+export const replaceTdNode = (domNode, metadata) => {
     const onlyChild = domNode.children.length === 1 && domNode.children[0]
 
     if (onlyChild && onlyChild.type === 'text') {
@@ -89,7 +107,7 @@ export const replaceTdNode = (domNode, metadata, formState) => {
         onlyChild.attribs.name === 'total' &&
         onlyChild.attribs.dataelementid
     ) {
-        return replaceTotalCell(onlyChild.attribs.dataelementid, formState)
+        return replaceTotalCell(onlyChild.attribs.dataelementid)
     }
 
     return undefined
