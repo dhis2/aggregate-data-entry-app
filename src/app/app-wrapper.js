@@ -6,7 +6,7 @@ import { HashRouter, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.js'
 import { RightHandPanelProvider } from '../right-hand-panel/index.js'
-import { CurrentItemProvider } from '../shared/index.js'
+import { HighlightedFieldIdProvider } from '../shared/index.js'
 import App from './app.js'
 import useQueryClient from './query-client/use-query-client.js'
 
@@ -36,13 +36,13 @@ export function OuterComponents({
             <QueryClientProvider client={queryClient}>
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
-                        <CurrentItemProvider>
+                        <HighlightedFieldIdProvider>
                             <RightHandPanelProvider>
                                 <PrintAreaProvider>
                                     {children}
                                 </PrintAreaProvider>
                             </RightHandPanelProvider>
-                        </CurrentItemProvider>
+                        </HighlightedFieldIdProvider>
                     </QueryParamProvider>
                 </Router>
             </QueryClientProvider>

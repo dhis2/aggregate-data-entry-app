@@ -7,13 +7,12 @@ import {
     usePeriodId,
     useIsValidSelection,
 } from '../../context-selection/index.js'
-import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import {
     Sidebar,
     Title,
     ExpandableUnit,
     useApiAttributeParams,
-    useCurrentItemContext,
+    useHighlightedField,
     SidebarProps,
 } from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
@@ -22,8 +21,8 @@ import BasicInformation from './basic-information.js'
 import Comment from './comment.js'
 import HistoryUnit from './history-unit.js'
 
-export default function DataDetailsSidebar() {
-    const { item } = useCurrentItemContext()
+export default function DataDetailsSidebar({ hide }) {
+    const item = useHighlightedField()
     const onMarkForFollowup = () => null
     const onUnmarkForFollowup = () => null
     const [periodId] = usePeriodId()
@@ -31,7 +30,6 @@ export default function DataDetailsSidebar() {
     const { attributeCombo, attributeOptions } = useApiAttributeParams()
 
     const isValidSelection = useIsValidSelection()
-    const rightHandPanel = useRightHandPanelContext()
 
     const dataValueContextQueryKey = queryKeyFactory.dataValueContext.byParams({
         dataElementId: item.dataElement,
@@ -48,7 +46,7 @@ export default function DataDetailsSidebar() {
 
     return (
         <Sidebar>
-            <Title onClose={rightHandPanel.hide}>{i18n.t('Details')}</Title>
+            <Title onClose={hide}>{i18n.t('Details')}</Title>
 
             <BasicInformation
                 item={item}

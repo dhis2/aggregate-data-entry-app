@@ -4,12 +4,12 @@ import React from 'react'
 import { dataDetailsSidebarId } from '../data-workspace/constants.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { useRightHandPanelContext } from '../right-hand-panel/index.js'
-import { useCurrentItemContext } from '../shared/index.js'
+import { useHighlightedField } from '../shared/index.js'
 import styles from './data-item-bar.module.css'
 
 export default function DataItemBar() {
     const rightHandPanel = useRightHandPanelContext()
-    const { item } = useCurrentItemContext()
+    const item = useHighlightedField()
     const { data: metadata } = useMetadata()
 
     const dataElement = selectors.getDataElementById(metadata, item.dataElement)

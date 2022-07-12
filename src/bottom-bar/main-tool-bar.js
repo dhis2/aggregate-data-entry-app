@@ -4,8 +4,8 @@ import cx from 'classnames'
 import React from 'react'
 import { useIsMutating } from 'react-query'
 import { validationResultsSidebarId } from '../data-workspace/constants.js'
-import useDataValueSetQueryKey from '../data-workspace/use-data-value-set-query-key.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
+import { useDataValueSetQueryKey } from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
 export default function MainToolBar() {

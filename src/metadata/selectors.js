@@ -69,13 +69,16 @@ export const getCategoryOptionCombosByCategoryComboId = (
 
 export const getCategoryOptionsByCategoryOptionComboId = createCachedSelector(
     (metadata) => metadata,
+    (metadata) => getCategoryCombos(metadata),
     (_, categoryOptionComboId) => categoryOptionComboId,
-    (metadata, categoryOptionComboId) => {
-        const categoryCombos = Object.values(metadata.categoryCombos)
+    (metadata, categoryCombosDictionary, categoryOptionComboId) => {
+        const categoryCombos = Object.values(categoryCombosDictionary)
 
         for (const categoryCombo of categoryCombos) {
-            for (const curCategoryOptionCombo of categoryCombo.categoryOptionCombos) {
-                if (curCategoryOptionCombo.id === categoryOptionComboId) {
+            const curCategoryOptionCombos =
+                categoryCombo?.categoryOptionCombos || []
+            for (const curCategoryOptionCombo of curCategoryOptionCombos) {
+                if (curCategoryOptionCombo?.id === categoryOptionComboId) {
                     const categoryOptions = Object.values(
                         metadata.categoryOptions
                     )
