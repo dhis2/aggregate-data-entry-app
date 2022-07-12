@@ -73,12 +73,11 @@ export const useIndicatorValue = ({ denominator, numerator }) => {
             }, new Set()),
         [denominator, numerator]
     )
-    const containsAffectedDataElement = useMemo(() => {
-        const dataElementId = blurredField?.split(separator)[0]
-        return affectedDataElementsLookup.has(dataElementId)
-    }, [blurredField, affectedDataElementsLookup])
 
     useEffect(() => {
+        const dataElementId = blurredField?.split(separator)[0]
+        const containsAffectedDataElement =
+            affectedDataElementsLookup.has(dataElementId)
         if (containsAffectedDataElement) {
             setValue(
                 computeIndicatorValue({
@@ -88,7 +87,7 @@ export const useIndicatorValue = ({ denominator, numerator }) => {
                 })
             )
         }
-    }, [containsAffectedDataElement, denominator, numerator, form])
+    }, [blurredField, affectedDataElementsLookup, denominator, numerator, form])
 
     return value
 }

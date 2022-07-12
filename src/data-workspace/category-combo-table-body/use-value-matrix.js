@@ -29,18 +29,14 @@ export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
             ),
         [dataElements, sortedCOCs]
     )
-    const containsAffectedField = useMemo(
-        () => affectedFieldsLookup.has(blurredField),
-        [blurredField, affectedFieldsLookup]
-    )
 
     useEffect(() => {
-        if (containsAffectedField) {
+        if (affectedFieldsLookup.has(blurredField)) {
             setValueMatrix(
                 createValueMatrix(dataElements, sortedCOCs, form.getState())
             )
         }
-    }, [containsAffectedField, dataElements, form, sortedCOCs])
+    }, [blurredField, affectedFieldsLookup, dataElements, form, sortedCOCs])
 
     return valueMatrix
 }
