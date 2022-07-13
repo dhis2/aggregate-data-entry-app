@@ -1,8 +1,8 @@
 import { useMemo, useState, useEffect } from 'react'
+import { parseFieldId } from '../get-field-id.js'
 import {
     computeIndicatorValue,
     idInterpolationPattern,
-    idSeparator,
 } from './compute-indicator-value.js'
 
 /**
@@ -38,9 +38,9 @@ export const useIndicatorValue = ({
                 const matches = expression.match(idInterpolationPattern)
                 if (matches?.length > 0) {
                     for (const match of matches) {
-                        const dataElementId = match
-                            .replace(/[#{}]/g, '')
-                            .split(idSeparator)[0]
+                        const { dataElementId } = parseFieldId(
+                            match.replace(/[#{}]/g, '')
+                        )
                         lookup.add(dataElementId)
                     }
                 }
@@ -54,7 +54,7 @@ export const useIndicatorValue = ({
          * Only recompute the indicator value when a field related to
          * a data element in the indicator expression template is blurred.
          */
-        const dataElementId = blurredField?.split(idSeparator)[0]
+        const { dataElementId } = parseFieldId(blurredField)
         const containsAffectedDataElement =
             affectedDataElementsLookup.has(dataElementId)
 

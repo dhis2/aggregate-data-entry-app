@@ -1,5 +1,6 @@
 import { Parser } from 'expr-eval'
 import { getIn } from 'final-form'
+import { parseFieldId } from '../get-field-id'
 
 /**
  * --- INDICATOR VALUE CALCULATION ---
@@ -20,7 +21,7 @@ const evaluate = (expression) => parser.parse(expression).evaluate()
  * 2. #{deId.cocId} for a category option combo
  */
 export const idInterpolationPattern = /#\{.+?\}/g
-export const idSeparator = '.'
+
 /**
  * Calculates the sum of category option combos in a data element
  * @param {Object.<string, string>} dataElementCocValues A data element object from ReactFinalForm `values`
@@ -76,12 +77,13 @@ const parseExpressionTemplate = (expression, values) => {
 
     return matches.reduce((substitudedExpression, match) => {
         const id = match.replace(/[#{}]/g, '')
-        const isDataElement = !id.includes(idSeparator)
+        const { categoryOptionComboId } = parseFieldId(id)
         const value =
-            (isDataElement
-                ? // For data elements we need the sum of all COCs
-                  getDataElementTotalValue(values[id])
-                : getIn(values, id)) || 0
+            (categoryOptionComboId
+                ? // For COCs we read the data directly from the form values
+                  getIn(values, id)
+                : // For data elements we need the sum of all COC form values
+                  getDataElementTotalValue(values[id])) || 0
 
         return substitudedExpression.replace(match, value)
     }, expression)
