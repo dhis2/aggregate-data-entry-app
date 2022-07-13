@@ -1,7 +1,7 @@
 import { createCachedSelector } from 're-reselect'
 import { createSelector } from 'reselect'
 import { parsePeriodId } from '../shared/index.js'
-
+import { cartesian } from '../shared/utils.js'
 // Helper to group array items by an identifier
 
 const groupBy = (input, getIdentifier) =>
@@ -337,6 +337,28 @@ export const getCoCByCategoryOptions = createCachedSelector(
 
         return null
     }
+)((_, categoryComboId) => categoryComboId)
+
+export const getComputedCategoryOptionsByCatComboId = createCachedSelector(
+    getCategoriesByCategoryComboId,
+    (categories) => {
+        const optionsIdLists = categories.map((cat) => cat.categoryOptions)
+        return cartesian(optionsIdLists)
+    }
+)((_, categoryComboId) => categoryComboId)
+
+/**
+ * @param {*} metadata
+ * @param {*} categoryComboId
+ */
+export const getSortedCoCsByCatComboId = createCachedSelector(
+    (metadata) => metadata,
+    (_, categoryComboId) => categoryComboId,
+    getComputedCategoryOptionsByCatComboId,
+    (metadata, categoryComboId, computedCOCS) =>
+        computedCOCS.map((options) =>
+            getCoCByCategoryOptions(metadata, categoryComboId, options)
+        )
 )((_, categoryComboId) => categoryComboId)
 
 const isOptionWithinPeriod = ({
