@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { useDebounce } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
 import { DefaultForm } from './default-form.js'
@@ -17,6 +18,7 @@ export const EntryForm = ({ dataSet }) => {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
     const formType = dataSet.formType
     const Component = formTypeToComponent[formType]
+    const debouncedSetGlobalFilterText = useDebounce(setGlobalFilterText, 200)
 
     useCloseRightHandPanelOnSelectionChange()
 
@@ -24,8 +26,7 @@ export const EntryForm = ({ dataSet }) => {
         <>
             {formType !== FORM_TYPES.CUSTOM && (
                 <FilterField
-                    value={globalFilterText}
-                    setFilterText={setGlobalFilterText}
+                    onFilterChange={debouncedSetGlobalFilterText}
                     formType={formType}
                 />
             )}
