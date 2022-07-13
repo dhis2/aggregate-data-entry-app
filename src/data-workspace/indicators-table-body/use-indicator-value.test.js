@@ -13,11 +13,7 @@ jest.mock('./compute-indicator-value.js', () => {
 })
 
 describe('useIndicatorValue hook', () => {
-    const mockForm = {
-        getState: jest.fn(() => ({
-            values: {},
-        })),
-    }
+    const mockForm = { getState: () => ({ values: {} }) }
     const initialProps = {
         blurredField: undefined,
         denominator: '#{d}*#{c}',
@@ -64,7 +60,12 @@ describe('useIndicatorValue hook', () => {
         )
         rerender({
             ...initialProps,
-            blurredField: 'z',
+            /*
+             * `z.z1` or `z` are not present as operands in the numerator or
+             * denominator expression template. So when this field is blurred
+             * the indicator value should not be recomputed.
+             */
+            blurredField: 'z.z1',
         })
 
         expect(result.current).toBe(10)
@@ -86,6 +87,11 @@ describe('useIndicatorValue hook', () => {
         )
         rerender({
             ...initialProps,
+            /*
+             * `d` is a data element operand in the denominator expression template
+             * `d.d1` is a field for a COC in that data element so this should
+             *  trigger a recomputation of the indicator value.
+             */
             blurredField: 'd.d1',
         })
 

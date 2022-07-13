@@ -1,6 +1,6 @@
 import { Parser } from 'expr-eval'
 import { getIn } from 'final-form'
-import { parseFieldId } from '../get-field-id'
+import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
 
 /**
  * --- INDICATOR VALUE CALCULATION ---
@@ -16,11 +16,11 @@ import { parseFieldId } from '../get-field-id'
 const parser = new Parser()
 const evaluate = (expression) => parser.parse(expression).evaluate()
 /*
- * In an indicator expression template an `id` can have one of these shapes:
+ * In an indicator expression template an `operand` can have one of these shapes:
  * 1. #{deId} for a data element
  * 2. #{deId.cocId} for a category option combo
  */
-export const idInterpolationPattern = /#\{.+?\}/g
+export const operandInterpolationPattern = /#\{.+?\}/g
 
 /**
  * Calculates the sum of category option combos in a data element
@@ -64,7 +64,7 @@ const getDataElementTotalValue = (dataElementCocValues) => {
  * @returns {string} a parsed expression template
  */
 const parseExpressionTemplate = (expression, values) => {
-    const matches = expression.match(idInterpolationPattern)
+    const matches = expression.match(operandInterpolationPattern)
 
     /*
      * Not all expression templates contain references to data elements
@@ -76,14 +76,14 @@ const parseExpressionTemplate = (expression, values) => {
     }
 
     return matches.reduce((substitudedExpression, match) => {
-        const id = match.replace(/[#{}]/g, '')
-        const { categoryOptionComboId } = parseFieldId(id)
+        const operand = match.replace(/[#{}]/g, '')
+        const { categoryOptionComboId } = parseFieldOperand(operand)
         const value =
             (categoryOptionComboId
                 ? // For COCs we read the data directly from the form values
-                  getIn(values, id)
+                  getIn(values, operand)
                 : // For data elements we need the sum of all COC form values
-                  getDataElementTotalValue(values[id])) || 0
+                  getDataElementTotalValue(values[operand])) || 0
 
         return substitudedExpression.replace(match, value)
     }, expression)

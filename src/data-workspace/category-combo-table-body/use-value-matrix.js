@@ -5,7 +5,9 @@ import { useBlurredField } from '../../shared/index.js'
 import { getFieldId } from '../get-field-id.js'
 const createValueMatrix = (dataElements, sortedCOCs, formState) =>
     dataElements.map((de) =>
-        sortedCOCs.map((coc) => getIn(formState.values, getFieldId(de.id, coc.id)))
+        sortedCOCs.map((coc) =>
+            getIn(formState.values, getFieldId(de.id, coc.id))
+        )
     )
 
 /**

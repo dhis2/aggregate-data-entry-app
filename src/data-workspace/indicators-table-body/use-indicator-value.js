@@ -1,12 +1,12 @@
 import { useMemo, useState, useEffect } from 'react'
-import { parseFieldId } from '../get-field-id.js'
+import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
 import {
     computeIndicatorValue,
-    idInterpolationPattern,
+    operandInterpolationPattern,
 } from './compute-indicator-value.js'
 
 /**
- * Reach hook which provides the consuming component with a computed indicator
+ * React hook which provides the consuming component with a computed indicator
  * value. This hook will only recompute this value when a value for a related
  * data element changes.
  * @param {Object} options
@@ -35,10 +35,10 @@ export const useIndicatorValue = ({
     const affectedDataElementsLookup = useMemo(
         () =>
             [denominator, numerator].reduce((lookup, expression) => {
-                const matches = expression.match(idInterpolationPattern)
+                const matches = expression.match(operandInterpolationPattern)
                 if (matches?.length > 0) {
                     for (const match of matches) {
-                        const { dataElementId } = parseFieldId(
+                        const { dataElementId } = parseFieldOperand(
                             match.replace(/[#{}]/g, '')
                         )
                         lookup.add(dataElementId)
@@ -54,7 +54,7 @@ export const useIndicatorValue = ({
          * Only recompute the indicator value when a field related to
          * a data element in the indicator expression template is blurred.
          */
-        const { dataElementId } = parseFieldId(blurredField)
+        const { dataElementId } = parseFieldOperand(blurredField)
         const containsAffectedDataElement =
             affectedDataElementsLookup.has(dataElementId)
 
