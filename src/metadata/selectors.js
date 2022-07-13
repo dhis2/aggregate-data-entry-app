@@ -339,6 +339,10 @@ export const getCoCByCategoryOptions = createCachedSelector(
     }
 )((_, categoryComboId) => categoryComboId)
 
+/**
+ * @param {*} metadata
+ * @param {*} categoryComboId
+ */
 export const getComputedCategoryOptionsByCatComboId = createCachedSelector(
     getCategoriesByCategoryComboId,
     (categories) => {
