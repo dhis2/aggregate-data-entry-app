@@ -299,6 +299,14 @@ export const getGroupedDataElementsByCatCombo = createSelector(
     }
 )
 
+export const getNrOfColumnsInCategoryCombo = createCachedSelector(
+    getCategoriesByCategoryComboId,
+    (categories) =>
+        (categories?.map((cat) => cat.categoryOptions.length) || [1]).reduce(
+            (total, curr) => total * curr
+        )
+)((_, categoryComboId) => categoryComboId)
+
 /**
  * Tries to find the categoryOptionCombo with the given categoryOptions within a category
  * combination.

@@ -9,7 +9,7 @@ import {
 } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import { getFieldId } from '../get-field-id.js'
@@ -25,10 +25,6 @@ export const SectionFormSection = ({
     const [filterText, setFilterText] = useState('')
     const { data } = useMetadata()
 
-    if (!data) {
-        return null
-    }
-
     const dataElements = selectors.getDataElementsBySection(
         data,
         dataSetId,
@@ -43,16 +39,12 @@ export const SectionFormSection = ({
         ? selectors.getGroupedDataElementsByCatComboInOrder(data, dataElements)
         : selectors.getGroupedDataElementsByCatCombo(data, dataElements)
 
-    // calculate how many columns in each group
-    const groupedTotalColumns = groupedDataElements.map((grp) =>
-        (
-            selectors
-                .getCategoriesByCategoryComboId(data, grp.categoryCombo.id)
-                ?.map((cat) => cat.categoryOptions.length) || [1]
-        ).reduce((total, curr) => total * curr)
-    )
-
-    const maxColumnsInSection = Math.max(...groupedTotalColumns)
+    const maxColumnsInSection = useMemo(() => {
+        const groupedTotalColumns = groupedDataElements.map((grp) =>
+            selectors.getNrOfColumnsInCategoryCombo(data, grp.categoryCombo.id)
+        )
+        return Math.max(...groupedTotalColumns)
+    }, [data, groupedDataElements])
 
     const greyedFields = new Set(
         section.greyedFields.map((greyedField) =>
