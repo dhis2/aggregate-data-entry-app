@@ -20,11 +20,17 @@ export function DefaultForm({ dataSet, globalFilterText }) {
         data,
         dataElements
     )
-    const nrColumnsInTable = groupedDataElements.reduce(
-        (max, { categoryCombo: { categoryOptionCombos } }) =>
-            Math.max(max, categoryOptionCombos.length),
-        0
+
+    // calculate how many columns in each group
+    const groupedTotalColumns = groupedDataElements.map((grp) =>
+        (
+            selectors
+                .getCategoriesByCategoryComboId(data, grp.categoryCombo.id)
+                ?.map((cat) => cat.categoryOptions.length) || [1]
+        ).reduce((total, curr) => total * curr)
     )
+
+    const nrColumnsInTable = Math.max(...groupedTotalColumns)
 
     return (
         <section className="wrapper">
