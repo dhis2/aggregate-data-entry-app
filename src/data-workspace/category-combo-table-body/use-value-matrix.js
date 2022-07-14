@@ -1,5 +1,5 @@
 import { getIn } from 'final-form'
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useRef } from 'react'
 import { useForm } from 'react-final-form'
 import { useBlurredField } from '../../shared/index.js'
 import { getFieldId } from '../get-field-id.js'
@@ -17,11 +17,9 @@ const createValueMatrix = (dataElements, sortedCOCs, formState) =>
  * @param {*} sortedCOCs categoryOptionCombos in order as rendered in table, these are the "columns"
  */
 export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
+    const valueMatrixRef = useRef(null)
     const form = useForm()
     const blurredField = useBlurredField()
-    const [valueMatrix, setValueMatrix] = useState(
-        createValueMatrix(dataElements, sortedCOCs, form.getState())
-    )
     const affectedFieldsLookup = useMemo(
         () =>
             new Set(
@@ -32,13 +30,17 @@ export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
         [dataElements, sortedCOCs]
     )
 
-    useEffect(() => {
-        if (affectedFieldsLookup.has(blurredField)) {
-            setValueMatrix(
-                createValueMatrix(dataElements, sortedCOCs, form.getState())
+    return useMemo(() => {
+        if (
+            valueMatrixRef.current === null ||
+            affectedFieldsLookup.has(blurredField)
+        ) {
+            valueMatrixRef.current = createValueMatrix(
+                dataElements,
+                sortedCOCs,
+                form.getState()
             )
         }
+        return valueMatrixRef.current
     }, [blurredField, affectedFieldsLookup, dataElements, form, sortedCOCs])
-
-    return valueMatrix
 }
