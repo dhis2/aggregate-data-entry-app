@@ -24,7 +24,7 @@ export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
         () =>
             new Set(
                 dataElements.flatMap((de) =>
-                    sortedCOCs.map((coc) => `getFieldId(de.id, coc.id`))
+                    sortedCOCs.map((coc) => getFieldId(de.id, coc.id))
                 )
             ),
         [dataElements, sortedCOCs]

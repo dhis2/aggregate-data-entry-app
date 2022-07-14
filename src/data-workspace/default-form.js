@@ -1,18 +1,14 @@
 import i18n from '@dhis2/d2-i18n'
 import { NoticeBox, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { CategoryComboTableBody } from './category-combo-table-body/index.js'
 import styles from './entry-form.module.css'
 import { IndicatorsTableBody } from './indicators-table-body/indicators-table-body.js'
 
 export function DefaultForm({ dataSet, globalFilterText }) {
-    const { isLoading, isError, data } = useMetadata()
-
-    if (isLoading || isError) {
-        return null
-    }
+    const { data } = useMetadata()
 
     const dataElements = selectors.getDataElementsByDataSetId(data, dataSet.id)
     const indicators = selectors.getIndicatorsByDataSetId(data, dataSet.id)
@@ -21,16 +17,13 @@ export function DefaultForm({ dataSet, globalFilterText }) {
         dataElements
     )
 
-    // calculate how many columns in each group
-    const groupedTotalColumns = groupedDataElements.map((grp) =>
-        (
-            selectors
-                .getCategoriesByCategoryComboId(data, grp.categoryCombo.id)
-                ?.map((cat) => cat.categoryOptions.length) || [1]
-        ).reduce((total, curr) => total * curr)
-    )
+    const nrColumnsInTable = useMemo(() => {
+        const groupedTotalColumns = groupedDataElements.map((grp) =>
+            selectors.getNrOfColumnsInCategoryCombo(data, grp.categoryCombo.id)
+        )
 
-    const nrColumnsInTable = Math.max(...groupedTotalColumns)
+        return Math.max(...groupedTotalColumns)
+    }, [data, groupedDataElements])
 
     return (
         <section className="wrapper">

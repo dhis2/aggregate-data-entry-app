@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-11T08:03:58.276Z\n"
-"PO-Revision-Date: 2022-07-11T08:03:58.277Z\n"
+"POT-Creation-Date: 2022-07-14T14:58:26.386Z\n"
+"PO-Revision-Date: 2022-07-14T14:58:26.386Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -171,9 +171,6 @@ msgstr "Error occurred while loading data set info"
 
 msgid "Value"
 msgstr "Value"
-
-msgid "1 item hidden by filter"
-msgstr "1 item hidden by filter"
 
 msgid "Totals"
 msgstr "Totals"
@@ -349,6 +346,9 @@ msgstr "Please provide a valid time in the format HH{{c}}MM"
 
 msgid "Type here to filter in this section"
 msgstr "Type here to filter in this section"
+
+msgid "1 item hidden by filter"
+msgstr "1 item hidden by filter"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
