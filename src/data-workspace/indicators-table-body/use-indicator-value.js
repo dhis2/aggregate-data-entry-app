@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useRef } from 'react'
 import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
 import {
     computeIndicatorValue,
@@ -24,14 +24,7 @@ export const useIndicatorValue = ({
     form,
     numerator,
 }) => {
-    const [value, setValue] = useState(() =>
-        computeIndicatorValue({
-            denominator,
-            numerator,
-            factor,
-            formState: form.getState(),
-        })
-    )
+    const indicatorValueRef = useRef(null)
     const affectedDataElementsLookup = useMemo(
         () =>
             [denominator, numerator].reduce((lookup, expression) => {
@@ -49,7 +42,7 @@ export const useIndicatorValue = ({
         [denominator, numerator]
     )
 
-    useEffect(() => {
+    return useMemo(() => {
         /*
          * Only recompute the indicator value when a field related to
          * a data element in the indicator expression template is blurred.
@@ -58,16 +51,16 @@ export const useIndicatorValue = ({
         const containsAffectedDataElement =
             affectedDataElementsLookup.has(dataElementId)
 
-        if (containsAffectedDataElement) {
-            setValue(
-                computeIndicatorValue({
-                    denominator,
-                    numerator,
-                    factor,
-                    formState: form.getState(),
-                })
-            )
+        if (indicatorValueRef.current === null || containsAffectedDataElement) {
+            indicatorValueRef.current = computeIndicatorValue({
+                denominator,
+                numerator,
+                factor,
+                formState: form.getState(),
+            })
         }
+
+        return indicatorValueRef.current
     }, [
         affectedDataElementsLookup,
         blurredField,
@@ -76,6 +69,4 @@ export const useIndicatorValue = ({
         form,
         numerator,
     ])
-
-    return value
 }
