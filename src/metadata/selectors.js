@@ -21,6 +21,7 @@ export const getCategoryCombos = (metadata) => metadata.categoryCombos
 
 export const getCategoryOptions = (metadata) => metadata.categoryOptions
 export const getDataElements = (metadata) => metadata.dataElements
+export const getIndicators = (metadata) => metadata.indicators
 export const getDataSets = (metadata) => metadata.dataSets
 export const getSections = (metadata) => metadata.sections
 export const getOptionSets = (metadata) => metadata.optionSets
@@ -204,6 +205,16 @@ export const getDataElementsByDataSetId = createCachedSelector(
 )((_, dataSetId) => dataSetId)
 
 /**
+ * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getIndicatorsByDataSetId = createCachedSelector(
+    getIndicators,
+    getDataSetById,
+    (indicators, dataSet) => dataSet.indicators.map((id) => indicators[id])
+)((_, dataSetId) => dataSetId)
+
+/**
  * This selector needs the dataSetId so it can use the getDataElementsByDataSetId selector,
  * which will apply the correct categoryCombo overrides.
  * @param {*} metadata
@@ -217,6 +228,17 @@ export const getDataElementsBySection = createCachedSelector(
         section.dataElements.map((id) =>
             dataElements.find((de) => de.id === id)
         )
+)((_, dataSetId, sectionId) => `${dataSetId}:${sectionId}`)
+
+/**
+ * @param {*} metadata
+ * @param {*} dataSetId
+ * @param {*} sectionId
+ */
+export const getIndicatorsBySection = createCachedSelector(
+    getSection,
+    getIndicators,
+    (section, indicators) => section.indicators.map((id) => indicators[id])
 )((_, dataSetId, sectionId) => `${dataSetId}:${sectionId}`)
 
 /**
@@ -276,6 +298,14 @@ export const getGroupedDataElementsByCatCombo = createSelector(
         )
     }
 )
+
+export const getNrOfColumnsInCategoryCombo = createCachedSelector(
+    getCategoriesByCategoryComboId,
+    (categories) =>
+        (categories?.map((cat) => cat.categoryOptions.length) || [1]).reduce(
+            (total, curr) => total * curr
+        )
+)((_, categoryComboId) => categoryComboId)
 
 /**
  * Tries to find the categoryOptionCombo with the given categoryOptions within a category

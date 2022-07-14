@@ -3,7 +3,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useActiveCell } from '../data-entry-cell/index.js'
-import styles from './category-combo-table.module.css'
+import styles from '../table-body.module.css'
 
 export const DataElementCell = ({ dataElement }) => {
     const { deId: activeDeId } = useActiveCell()

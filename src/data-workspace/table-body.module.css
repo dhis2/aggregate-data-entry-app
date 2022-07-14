@@ -47,7 +47,8 @@
     composes: tableHeader;
 }
 
-.totalCell {
+.totalCell,
+.indicatorCell {
     composes: tableCell;
     background: var(--colors-grey300);
 }

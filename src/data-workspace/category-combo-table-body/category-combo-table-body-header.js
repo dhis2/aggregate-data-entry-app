@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
 import { useActiveCell } from '../data-entry-cell/index.js'
-import styles from './category-combo-table.module.css'
+import styles from '../table-body.module.css'
 import { PaddingCell } from './padding-cell.js'
 import { TotalHeader } from './total-cells.js'
 
@@ -49,7 +49,7 @@ const useCategoryColumns = (categories, numberOfCoCs) => {
     }, [metadata, categories, numberOfCoCs])
 }
 
-export const CategoryComboTableHeader = ({
+export const CategoryComboTableBodyHeader = ({
     renderRowTotals,
     paddingCells,
     categoryOptionCombos,
@@ -116,7 +116,7 @@ export const CategoryComboTableHeader = ({
     })
 }
 
-CategoryComboTableHeader.propTypes = {
+CategoryComboTableBodyHeader.propTypes = {
     categories: PropTypes.array,
     // Note that this must be the sorted categoryoOptionCombos, eg. in the same order as they are rendered
     categoryOptionCombos: PropTypes.arrayOf(

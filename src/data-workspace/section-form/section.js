@@ -9,10 +9,11 @@ import {
 } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
-import { CategoryComboTable } from '../category-combo-table/index.js'
+import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import { getFieldId } from '../get-field-id.js'
+import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'
 import styles from './section.module.css'
 
 export const SectionFormSection = ({
@@ -24,11 +25,12 @@ export const SectionFormSection = ({
     const [filterText, setFilterText] = useState('')
     const { data } = useMetadata()
 
-    if (!data) {
-        return null
-    }
-
     const dataElements = selectors.getDataElementsBySection(
+        data,
+        dataSetId,
+        section.id
+    )
+    const indicators = selectors.getIndicatorsBySection(
         data,
         dataSetId,
         section.id
@@ -37,16 +39,12 @@ export const SectionFormSection = ({
         ? selectors.getGroupedDataElementsByCatComboInOrder(data, dataElements)
         : selectors.getGroupedDataElementsByCatCombo(data, dataElements)
 
-    // calculate how many columns in each group
-    const groupedTotalColumns = groupedDataElements.map((grp) =>
-        (
-            selectors
-                .getCategoriesByCategoryComboId(data, grp.categoryCombo.id)
-                ?.map((cat) => cat.categoryOptions.length) || [1]
-        ).reduce((total, curr) => total * curr)
-    )
-
-    const maxColumnsInSection = Math.max(...groupedTotalColumns)
+    const maxColumnsInSection = useMemo(() => {
+        const groupedTotalColumns = groupedDataElements.map((grp) =>
+            selectors.getNrOfColumnsInCategoryCombo(data, grp.categoryCombo.id)
+        )
+        return Math.max(...groupedTotalColumns)
+    }, [data, groupedDataElements])
 
     const greyedFields = new Set(
         section.greyedFields.map((greyedField) =>
@@ -103,7 +101,7 @@ export const SectionFormSection = ({
                 </TableRowHead>
             </TableHead>
             {groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
-                <CategoryComboTable
+                <CategoryComboTableBody
                     key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
                     categoryCombo={categoryCombo}
                     dataElements={dataElements}
@@ -115,6 +113,15 @@ export const SectionFormSection = ({
                     greyedFields={greyedFields}
                 />
             ))}
+            {indicators.length > 0 && (
+                <IndicatorsTableBody
+                    indicators={indicators}
+                    renderColumnTotals={section.showColumnTotals}
+                    maxColumnsInSection={maxColumnsInSection}
+                    filterText={filterText}
+                    globalFilterText={globalFilterText}
+                />
+            )}
         </Table>
     )
 }
