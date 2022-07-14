@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-final-form'
 import { useBlurredField } from '../../shared/use-blurred-field.js'
 import { TotalCell } from '../category-combo-table-body/total-cells.js'
+import { getFieldId, parseFieldId } from '../get-field-id.js'
 import { IndicatorTableCell } from '../indicators-table-body/indicator-table-cell.js'
 
 const computeTotal = (dataElementId, formState) => {
@@ -18,7 +19,7 @@ const computeTotal = (dataElementId, formState) => {
     // are encountered to avoid rendering zeros when the sum isn't actually zero
     return Object.entries(dataElementValues).reduce((sum, [cocId, value]) => {
         const fieldHasError =
-            hasValidationErrors && errors[`${dataElementId}.${cocId}`]
+            hasValidationErrors && errors[getFieldId(dataElementId, cocId)]
 
         if (!fieldHasError && !isNaN(value)) {
             sum = isNaN(sum) ? value : sum + Number(value)
@@ -35,7 +36,7 @@ const CustomFormTotalCell = ({ dataElementId }) => {
     )
 
     useEffect(() => {
-        const blurredFieldDataElementId = blurredField?.split('.')[0]
+        const { dataElementId: blurredFieldDataElementId } = parseFieldId(blurredField)
         if (blurredFieldDataElementId === dataElementId) {
             setTotal(computeTotal(dataElementId, form.getState()))
         }
