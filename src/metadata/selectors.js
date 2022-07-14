@@ -401,11 +401,3 @@ export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
         }))
     }
 )((_, dataSetId, periodId) => `${dataSetId}:${periodId}`)
-
-export const getNrOfColumnsInCategoryCombo = createCachedSelector(
-    getCategoriesByCategoryComboId,
-    (categories) =>
-        (categories?.map((cat) => cat.categorOptions.length) || [1]).reduce(
-            (total, curr) => total * curr
-        )
-)((_, categoryComboId) => categoryComboId)
