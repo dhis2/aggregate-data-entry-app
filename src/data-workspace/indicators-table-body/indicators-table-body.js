@@ -9,6 +9,7 @@ import {
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
 import styles from '../table-body.module.css'
 import { IndicatorTableCell } from './indicator-table-cell.js'
 
@@ -26,7 +27,7 @@ export const IndicatorsTableBody = ({
             (!globalFilterText || name.includes(globalFilterText.toLowerCase()))
         )
     })
-    const itemsHiddenCnt = indicators.length - filteredIndicators.length
+    const hiddenItemsCount = indicators.length - filteredIndicators.length
     const nrOfPadColumns = maxColumnsInSection - (renderColumnTotals ? 0 : 1)
     const padColumns = Array(nrOfPadColumns).fill(0)
 
@@ -67,19 +68,10 @@ export const IndicatorsTableBody = ({
                     </TableRow>
                 )
             })}
-            {itemsHiddenCnt > 0 && (
-                <TableRow>
-                    <TableCell
-                        className={styles.hiddenByFilterCell}
-                        colSpan={(maxColumnsInSection + 1).toString()}
-                    >
-                        {itemsHiddenCnt === 1
-                            ? i18n.t('1 item hidden by filter')
-                            : i18n.t('{{count}} items hidden by filter', {
-                                  count: itemsHiddenCnt,
-                              })}
-                    </TableCell>
-                </TableRow>
+            {hiddenItemsCount > 0 && (
+                <TableBodyHiddenByFiltersRow
+                    hiddenItemsCount={hiddenItemsCount}
+                />
             )}
         </TableBody>
     )

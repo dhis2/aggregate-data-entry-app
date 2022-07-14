@@ -1,4 +1,3 @@
-import i18n from '@dhis2/d2-i18n'
 import { TableBody, TableRow, TableCell } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useMemo, useCallback } from 'react'
@@ -6,6 +5,7 @@ import { useMetadata, selectors } from '../../metadata/index.js'
 import { cartesian } from '../../shared/utils.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
+import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
 import styles from '../table-body.module.css'
 import { CategoryComboTableBodyHeader } from './category-combo-table-body-header.js'
 import { DataElementCell } from './data-element-cell.js'
@@ -72,7 +72,7 @@ export const CategoryComboTableBody = ({
             (!globalFilterText || name.includes(globalFilterText.toLowerCase()))
         )
     })
-    const itemsHiddenCnt = dataElements.length - filteredDataElements.length
+    const hiddenItemsCount = dataElements.length - filteredDataElements.length
 
     return (
         <TableBody>
@@ -119,19 +119,10 @@ export const CategoryComboTableBody = ({
                     categoryOptionCombos={sortedCOCs}
                 />
             )}
-            {itemsHiddenCnt > 0 && (
-                <TableRow>
-                    <TableCell
-                        className={styles.hiddenByFilterCell}
-                        colSpan="100%"
-                    >
-                        {itemsHiddenCnt === 1
-                            ? i18n.t('1 item hidden by filter')
-                            : i18n.t('{{count}} items hidden by filter', {
-                                  count: itemsHiddenCnt,
-                              })}
-                    </TableCell>
-                </TableRow>
+            {hiddenItemsCount > 0 && (
+                <TableBodyHiddenByFiltersRow
+                    hiddenItemsCount={hiddenItemsCount}
+                />
             )}
         </TableBody>
     )
