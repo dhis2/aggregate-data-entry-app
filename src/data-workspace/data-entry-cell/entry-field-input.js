@@ -40,7 +40,7 @@ function createCurrentItem({ de, coc, dataValueSet }) {
 
 function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
-    if (de.optionSetValue) {
+    if (de.optionSet) {
         return <OptionSet {...sharedProps} optionSetId={de.optionSet.id} />
     }
 

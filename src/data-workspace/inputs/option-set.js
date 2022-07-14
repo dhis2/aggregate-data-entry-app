@@ -72,11 +72,11 @@ export const OptionSet = ({
                     onBlur={() => input.onBlur()}
                     disabled={disabled}
                 >
-                    {options.map(({ name }) => (
+                    {options.map(({ id, code, displayName }) => (
                         <SingleSelectOption
-                            key={name}
-                            label={name}
-                            value={name}
+                            key={id}
+                            label={displayName}
+                            value={code}
                         />
                     ))}
                 </SingleSelect>
