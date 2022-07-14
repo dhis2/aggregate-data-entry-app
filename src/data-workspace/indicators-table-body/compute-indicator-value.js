@@ -115,6 +115,8 @@ export const computeIndicatorValue = ({
     )
     const numeratorValue = evaluate(numeratorExpression)
     const denominatorValue = evaluate(denominatorExpression)
+    const indicatorValue = (numeratorValue / denominatorValue) * factor
+    const isReadableNumber = isFinite(indicatorValue) && !isNaN(indicatorValue)
 
-    return (numeratorValue / denominatorValue) * factor
+    return isReadableNumber ? indicatorValue : '-'
 }
