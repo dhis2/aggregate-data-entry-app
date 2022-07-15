@@ -1,8 +1,7 @@
 import { TableBody, TableRow, TableCell } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useMemo, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useMetadata, selectors } from '../../metadata/index.js'
-import { cartesian } from '../../shared/utils.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
@@ -28,23 +27,10 @@ export const CategoryComboTableBody = ({
         categoryCombo.id
     )
 
-    const sortedCOCs = useMemo(() => {
-        // each element is a combination of category-options for a particular column
-        // this results in lists of category-options in the same order as headers are rendered
-        // the result is a client side computation of categoryOption-combinations
-        const optionsIdLists = categories.map((cat) => cat.categoryOptions)
-        const computedCategoryOptions = cartesian(optionsIdLists)
-        // find categoryOptionCombos by category-options
-        return computedCategoryOptions
-            .map((options) =>
-                selectors.getCoCByCategoryOptions(
-                    metadata,
-                    categoryCombo.id,
-                    options
-                )
-            )
-            .filter((coc) => !!coc)
-    }, [metadata, categories, categoryCombo])
+    const sortedCOCs = selectors.getSortedCoCsByCatComboId(
+        metadata,
+        categoryCombo.id
+    )
 
     if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
         console.warn(
