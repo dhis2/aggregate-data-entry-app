@@ -42,7 +42,7 @@
         "start-server-and-test": "^1.14.0"
     },
     "dependencies": {
-        "@dhis2/app-runtime": "^3.3.0",
+        "@dhis2/app-runtime": "^3.4.4",
         "@dhis2/ui": "^8",
         "@dhis2/ui-forms": "^7.12.0",
         "chart.js": "^3.7.1",
