@@ -19,7 +19,9 @@ export default function DataDetailsSidebar({ hide }) {
     const item = useHighlightedField()
     const dataValue = {
         ...item,
-        ...dataValueSet.data?.dataValues[item.dataElement]?.[item.categoryOptionCombo]
+        ...dataValueSet.data?.dataValues[item.dataElement]?.[
+            item.categoryOptionCombo
+        ],
     }
 
     const onMarkForFollowup = () => null
@@ -27,11 +29,17 @@ export default function DataDetailsSidebar({ hide }) {
 
     const [orgUnitId] = useOrgUnitId()
 
-    const minMaxValue = dataValueSet.data?.minMaxValues.find((curMinMaxValue) => (
-        curMinMaxValue.categoryOptionCombo === dataValue.categoryOptionCombo &&
-        curMinMaxValue.dataElement === dataValue.dataElement &&
-        curMinMaxValue.orgUnit === orgUnitId
-    )) || {}
+    // console.log('> dataValue', dataValue)
+    const minMaxValue =
+        dataValueSet.data?.minMaxValues.find((curMinMaxValue) => {
+            // console.log('> curMinMaxValue:', curMinMaxValue);
+            return (
+                curMinMaxValue.categoryOptionCombo ===
+                    dataValue.categoryOptionCombo &&
+                curMinMaxValue.dataElement === dataValue.dataElement &&
+                curMinMaxValue.orgUnit === orgUnitId
+            )
+        }) || {}
 
     const limits = {
         min: minMaxValue.minValue,
