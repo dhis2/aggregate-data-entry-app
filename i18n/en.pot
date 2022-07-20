@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-28T07:59:38.302Z\n"
-"PO-Revision-Date: 2022-07-28T07:59:38.302Z\n"
+"POT-Creation-Date: 2022-07-28T08:00:25.186Z\n"
+"PO-Revision-Date: 2022-07-28T08:00:25.186Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -214,6 +214,9 @@ msgstr "Mark for follow-up"
 msgid "Comment"
 msgstr "Comment"
 
+msgid "There was a problem loading the comment for this data item"
+msgstr "There was a problem loading the comment for this data item"
+
 msgid "Saving..."
 msgstr "Saving..."
 
@@ -222,9 +225,6 @@ msgstr "Save comment"
 
 msgid "Cancel"
 msgstr "Cancel"
-
-msgid "There was a problem loading the comment for this data item"
-msgstr "There was a problem loading the comment for this data item"
 
 msgid "No comment for this data item."
 msgstr "No comment for this data item."
@@ -253,14 +253,14 @@ msgstr "Average value: {{avg}}"
 msgid "Delete limits"
 msgstr "Delete limits"
 
+msgid "Edit"
+msgstr "Edit"
+
 msgid "Minimum"
 msgstr "Minimum"
 
 msgid "Maximum"
 msgstr "Maximum"
-
-msgid "Edit"
-msgstr "Edit"
 
 msgid "A miminum is required when providing a maximum"
 msgstr "A miminum is required when providing a maximum"
@@ -274,11 +274,11 @@ msgstr "Minimum and maximum limits"
 msgid "Try again, or contact your system administrator."
 msgstr "Try again, or contact your system administrator."
 
-msgid "No limit set for this data item"
-msgstr "No limit set for this data item"
-
 msgid "Add limits"
 msgstr "Add limits"
+
+msgid "No limit set for this data item"
+msgstr "No limit set for this data item"
 
 msgid "Save limits"
 msgstr "Save limits"
