@@ -1,7 +1,8 @@
 import { CustomDataProvider } from '@dhis2/app-runtime'
-import { render, waitFor } from '@testing-library/react'
+import { waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
+import { render } from '../../test-utils/index.js'
 import Limits from './limits.js'
 
 describe('<Limits />', () => {
