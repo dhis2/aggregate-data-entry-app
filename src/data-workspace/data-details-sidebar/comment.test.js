@@ -1,6 +1,6 @@
 import { CustomDataProvider } from '@dhis2/app-runtime'
-import { render } from '@testing-library/react'
 import React from 'react'
+import { render } from '../../test-utils/index.js'
 import Comment from './comment.js'
 
 describe('<Comment />', () => {
