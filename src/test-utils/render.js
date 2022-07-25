@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { DataProvider } from '@dhis2/app-runtime'
+import { CustomDataProvider, Provider } from '@dhis2/app-runtime'
 import { render as renderOrig } from '@testing-library/react'
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
@@ -31,12 +31,15 @@ export function TestWrapper({
 }
 
 export function render(ui, options = {}) {
+    const { dataForCustomProvider, ...restOptions } = options
     return renderOrig(ui, {
         ...options,
         wrapper: ({ children }) => (
-            <DataProvider baseUrl="http://dhis2-tests.org" apiVersion="39">
-                <TestWrapper {...options}>{children}</TestWrapper>
-            </DataProvider>
+            <Provider baseUrl="http://dhis2-tests.org" apiVersion="39">
+                <CustomDataProvider data={dataForCustomProvider}>
+                    <TestWrapper {...restOptions}>{children}</TestWrapper>
+                </CustomDataProvider>
+            </Provider>
         ),
     })
 }

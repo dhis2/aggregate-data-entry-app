@@ -3,42 +3,32 @@ import {
     screen,
     waitForElementToBeRemoved,
 } from '@testing-library/react'
-import { rest } from 'msw'
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import {
-    metadata,
     validationMetadata,
     validationResult,
 } from '../../mocks/responses/index.js'
-import { server } from '../../mocks/server.js'
 import { render } from '../../test-utils/render.js'
 import ValidationResultsSidebar from './validation-results-sidebar.js'
 
 describe('ValidationResultsSidebar', () => {
-    beforeEach(() => {
-        server.use(
-            rest.get(
-                'http://dhis2-tests.org/api/39/dataEntry/metadata',
-                (req, res, ctx) => res(ctx.json(metadata))
-            ),
-            rest.get(
-                'http://dhis2-tests.org/api/39/validation/dataSet/BfMAe6Itzgt',
-                (req, res, ctx) => res(ctx.json(validationResult))
-            ),
-            rest.get(
-                'http://dhis2-tests.org/api/39/validationRules',
-                (req, res, ctx) => res(ctx.json(validationMetadata))
-            )
-        )
-    })
-
     const waitForLoaderToDisappear = async () => {
         await waitForElementToBeRemoved(() =>
             screen.queryByText('Running validation...')
         )
     }
-    const renderComponent = () => {
+    const renderComponent = (overrideDefaultData = {}) => {
+        const dataForCustomProvider = {
+            validationRules: () => {
+                return validationMetadata
+            },
+            'validation/dataSet/BfMAe6Itzgt': () => {
+                return validationResult
+            },
+            ...overrideDefaultData,
+        }
+
         return render(<ValidationResultsSidebar />, {
             router: ({ children }) => (
                 <MemoryRouter
@@ -49,6 +39,7 @@ describe('ValidationResultsSidebar', () => {
                     {children}
                 </MemoryRouter>
             ),
+            dataForCustomProvider,
         })
     }
 
@@ -106,13 +97,12 @@ describe('ValidationResultsSidebar', () => {
     })
 
     it('should display an error when validation fails', async () => {
-        server.use(
-            rest.get(
-                'http://dhis2-tests.org/api/39/validationRules',
-                (req, res, ctx) => res.once(ctx.status(400))
-            )
-        )
-        const { getByText } = renderComponent()
+        const overrideOptions = {
+            validationRules: () => {
+                return Promise.reject('some server-side error')
+            },
+        }
+        const { getByText } = renderComponent(overrideOptions)
 
         await waitForLoaderToDisappear()
         expect(
@@ -125,13 +115,22 @@ describe('ValidationResultsSidebar', () => {
         ).toBeDefined()
     })
     it('should allow re-running validation', async () => {
-        server.use(
-            rest.get(
-                'http://dhis2-tests.org/api/39/validationRules',
-                (req, res, ctx) => res.once(ctx.status(400))
-            )
-        )
-        const { queryByText, getByText, findByText } = renderComponent()
+        let count = 1
+        const overrideOptions = {
+            validationRules: () => {
+                return new Promise((resolve, reject) => {
+                    if (count++ === 1) {
+                        return reject(
+                            'server-side error the first time then it will pass on re-run'
+                        )
+                    } else {
+                        return resolve(validationMetadata)
+                    }
+                })
+            },
+        }
+        const { queryByText, getByText, findByText } =
+            renderComponent(overrideOptions)
 
         await waitForLoaderToDisappear()
         expect(
@@ -141,24 +140,19 @@ describe('ValidationResultsSidebar', () => {
         fireEvent.click(getByText('Run validation again'))
 
         await findByText('Running validation...')
-        await waitForLoaderToDisappear()
         expect(queryByText('There was a problem running validation')).toBeNull()
         expect(getByText('2 medium priority alerts')).toBeDefined()
     })
-    it('should allow re-running validation', async () => {
-        server.use(
-            rest.get(
-                'http://dhis2-tests.org/api/39/validation/dataSet/BfMAe6Itzgt',
-                (req, res, ctx) =>
-                    res.once(
-                        ctx.json({
-                            validationRuleViolations: [],
-                            commentRequiredViolations: [],
-                        })
-                    )
-            )
-        )
-        const { getByText } = renderComponent()
+    it('should show empty data', async () => {
+        const overrideOptions = {
+            'validation/dataSet/BfMAe6Itzgt': () => {
+                return {
+                    validationRuleViolations: [],
+                    commentRequiredViolations: [],
+                }
+            },
+        }
+        const { getByText } = renderComponent(overrideOptions)
 
         await waitForLoaderToDisappear()
         expect(getByText('No validation alerts for this data.')).toBeDefined()
