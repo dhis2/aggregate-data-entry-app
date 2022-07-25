@@ -9,6 +9,7 @@ export default function useShouldComponentRenderNull(
     const [orgUnitId] = useOrgUnitId()
 
     return (
+        categoryCombination.isDefault ||
         !dataSetId ||
         !periodId ||
         !orgUnitId ||
