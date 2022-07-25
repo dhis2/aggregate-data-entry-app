@@ -8,9 +8,9 @@ import {
     useDataSetId,
     usePeriodId,
 } from '../../shared/index.js'
-import computeMaxYear from './compute-max-year.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
+import useFuturePeriods from './use-future-periods.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import YearNavigator from './year-navigator.js'
 
@@ -23,9 +23,12 @@ export const PeriodSelectorBarItem = () => {
     const { data: metadata } = useMetadata()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const dataSetPeriodType = dataSet?.periodType
+    const openFuturePeriods = dataSet?.openFuturePeriods
+
+    const futurePeriods = useFuturePeriods()
 
     const [maxYear, setMaxYear] = useState(() =>
-        computeMaxYear(dataSetPeriodType)
+        new Date(futurePeriods[futurePeriods.length - 1].startDate).getFullYear()
     )
 
     const selectedPeriod = usePeriod(periodId)
@@ -39,14 +42,15 @@ export const PeriodSelectorBarItem = () => {
 
     useEffect(() => {
         if (dataSetPeriodType) {
-            const newMaxYear = computeMaxYear(dataSetPeriodType)
+            const newMaxYear = new Date(futurePeriods[futurePeriods.length - 1].startDate).getFullYear()
+
             setMaxYear(newMaxYear)
 
             if (!selectedPeriod?.year) {
                 setYear(newMaxYear)
             }
         }
-    }, [dataSetPeriodType, selectedPeriod?.year])
+    }, [dataSetPeriodType, selectedPeriod?.year, openFuturePeriods, futurePeriods])
 
     const selectorBarItemValue = useSelectorBarItemValue()
 
@@ -67,14 +71,12 @@ export const PeriodSelectorBarItem = () => {
                                 <YearNavigator
                                     maxYear={maxYear}
                                     year={year}
-                                    onYearChange={(year) => {
-                                        setPeriodId(undefined)
-                                        setYear(year)
-                                    }}
+                                    onYearChange={(year) => setYear(year)}
                                 />
                             )}
 
                             <PeriodMenu
+                                futurePeriods={futurePeriods}
                                 onChange={({ selected }) => {
                                     setPeriodId(selected)
                                     setPeriodOpen(false)
