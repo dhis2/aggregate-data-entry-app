@@ -28,7 +28,9 @@ export const PeriodSelectorBarItem = () => {
     const futurePeriods = useFuturePeriods()
 
     const [maxYear, setMaxYear] = useState(() =>
-        new Date(futurePeriods[futurePeriods.length - 1].startDate).getFullYear()
+        new Date(
+            futurePeriods[futurePeriods.length - 1].startDate
+        ).getFullYear()
     )
 
     const selectedPeriod = usePeriod(periodId)
@@ -42,7 +44,9 @@ export const PeriodSelectorBarItem = () => {
 
     useEffect(() => {
         if (dataSetPeriodType) {
-            const newMaxYear = new Date(futurePeriods[futurePeriods.length - 1].startDate).getFullYear()
+            const newMaxYear = new Date(
+                futurePeriods[futurePeriods.length - 1].startDate
+            ).getFullYear()
 
             setMaxYear(newMaxYear)
 
@@ -50,7 +54,12 @@ export const PeriodSelectorBarItem = () => {
                 setYear(newMaxYear)
             }
         }
-    }, [dataSetPeriodType, selectedPeriod?.year, openFuturePeriods, futurePeriods])
+    }, [
+        dataSetPeriodType,
+        selectedPeriod?.year,
+        openFuturePeriods,
+        futurePeriods,
+    ])
 
     const selectorBarItemValue = useSelectorBarItemValue()
 
