@@ -141,7 +141,7 @@ Then('the user should only see options of that type for "monthly"', () => {
 
 Then('the user should only see options of that type for "yearly"', () => {
     cy.get('[data-test="period-selector-menu"] li')
-        .should('have.length', 10)
+        .should('have.length', 9)
         .and((liElements) => {
             liElements.each((index, liElement) => {
                 expect(liElement.innerText).to.match(/^[0-9]{4}$/)
