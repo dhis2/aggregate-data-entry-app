@@ -4,10 +4,11 @@ import React from 'react'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import { Sidebar, Title, SidebarProps } from '../../shared/index.js'
 import { useValidationResult } from './use-validation-result.js'
-import { validationLevels } from './validation-config.js'
 import ValidationPriortyGroup from './validation-priority-group.js'
 import styles from './validation-results-sidebar.module.css'
 import ValidationSummaryBox from './validation-summary-box.js'
+
+const validationLevels = ['HIGH', 'MEDIUM', 'LOW']
 
 export default function ValidationResultsSidebar() {
     const rightHandPanel = useRightHandPanelContext()

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-22T08:10:15.136Z\n"
-"PO-Revision-Date: 2022-07-22T08:10:15.136Z\n"
+"POT-Creation-Date: 2022-07-26T13:11:09.786Z\n"
+"PO-Revision-Date: 2022-07-26T13:11:09.786Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -357,20 +357,23 @@ msgstr ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
 
-msgid "High"
-msgstr "High"
+msgid "1 high priority alert"
+msgstr "1 high priority alert"
 
-msgid "Medium"
-msgstr "Medium"
+msgid "1 medium priority alert"
+msgstr "1 medium priority alert"
 
-msgid "Low"
-msgstr "Low"
+msgid "1 low priority alert"
+msgstr "1 low priority alert"
 
-msgid "{{length}} {{level}} priority alert"
-msgstr "{{length}} {{level}} priority alert"
+msgid "{{length}} high priority alerts"
+msgstr "{{length}} high priority alerts"
 
-msgid "{{length}} {{level}} priority alerts"
-msgstr "{{length}} {{level}} priority alerts"
+msgid "{{length}} medium priority alerts"
+msgstr "{{length}} medium priority alerts"
+
+msgid "{{length}} low priority alerts"
+msgstr "{{length}} low priority alerts"
 
 msgid "Validation"
 msgstr "Validation"
@@ -399,6 +402,12 @@ msgid ""
 msgstr ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
+
+msgid "High"
+msgstr "High"
+
+msgid "Medium"
+msgstr "Medium"
 
 msgid "January"
 msgstr "January"

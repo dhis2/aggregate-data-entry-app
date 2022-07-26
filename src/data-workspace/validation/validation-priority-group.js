@@ -1,70 +1,109 @@
-import i18n from '@dhis2/d2-i18n'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { validationLevelsConfig } from './validation-config.js'
+import ValidationGroupHeader from './validation-group-header.js'
+import {
+    ValidationIconLevelHigh,
+    ValidationIconLevelMedium,
+    ValidationIconLevelLow,
+} from './validation-icons.js'
 import styles from './validation-priority-group.module.css'
 import {
     ImportanceLevelPropTypes,
     ValidationRuleViolationWithMetaDataPropTypes,
 } from './validation-result-prop-types.js'
-import ValidationRuleExpression from './validation-rule-expression.js'
+import ValidationViolations from './validation-violations.js'
+
+const ValidationPriortyHighGroup = ({ validationViolations }) => (
+    <div data-test={`priority-group-high`}>
+        <div className={styles.titleWrapper}>
+            <div className={cx(styles.icon, styles.error)}>
+                <ValidationIconLevelHigh large />
+            </div>
+
+            <ValidationGroupHeader
+                level="HIGH"
+                validationViolations={validationViolations}
+            />
+        </div>
+
+        <ValidationViolations
+            validationViolations={validationViolations}
+            className={styles.error}
+        />
+    </div>
+)
+
+ValidationPriortyHighGroup.propTypes = {
+    validationViolations: PropTypes.arrayOf(
+        ValidationRuleViolationWithMetaDataPropTypes
+    ).isRequired,
+}
+
+const ValidationPriortyMediumGroup = ({ validationViolations }) => (
+    <div data-test={`priority-group-medium`}>
+        <div className={styles.titleWrapper}>
+            <div className={cx(styles.icon, styles.warning)}>
+                <ValidationIconLevelMedium large />
+            </div>
+
+            <ValidationGroupHeader
+                level="MEDIUM"
+                validationViolations={validationViolations}
+            />
+        </div>
+
+        <ValidationViolations
+            validationViolations={validationViolations}
+            className={styles.warning}
+        />
+    </div>
+)
+
+ValidationPriortyMediumGroup.propTypes = {
+    validationViolations: PropTypes.arrayOf(
+        ValidationRuleViolationWithMetaDataPropTypes
+    ).isRequired,
+}
+
+const ValidationPriortyLowGroup = ({ validationViolations }) => (
+    <div data-test={`priority-group-low`}>
+        <div className={styles.titleWrapper}>
+            <div className={cx(styles.icon, styles.info)}>
+                <ValidationIconLevelLow large />
+            </div>
+
+            <ValidationGroupHeader
+                level="LOW"
+                validationViolations={validationViolations}
+            />
+        </div>
+
+        <ValidationViolations
+            validationViolations={validationViolations}
+            className={styles.info}
+        />
+    </div>
+)
+
+ValidationPriortyLowGroup.propTypes = {
+    validationViolations: PropTypes.arrayOf(
+        ValidationRuleViolationWithMetaDataPropTypes
+    ).isRequired,
+}
 
 const ValidationPriortyGroup = ({ level, validationViolations = [] }) => {
     if (validationViolations?.length === 0) {
         return null
     }
 
-    const validationConfig = validationLevelsConfig[level]
+    const Component = level === 'HIGH'
+        ? ValidationPriortyHighGroup
+        : level === 'MEDIUM'
+        ? ValidationPriortyMediumGroup
+        : ValidationPriortyLowGroup
 
-    const validationViolationBoxStyle = cx(
-        styles.priorityGroupBox,
-        styles[validationConfig.style]
-    )
-
-    const Icon = validationConfig.largeIcon
-    const iconStyle = cx(styles.icon, styles[`${validationConfig.style}Icon`])
-
-    const translationOptions = {
-        level: validationConfig.text?.toLowerCase(),
-        length: validationViolations.length,
-    }
-
-    return (
-        <div data-test={`priority-group-${level}`}>
-            <div className={styles.titleWrapper}>
-                <div className={iconStyle}>
-                    <Icon color={validationConfig.iconColor} />
-                </div>
-                <h1>
-                    {validationViolations.length === 1
-                        ? i18n.t(
-                              '{{length}} {{level}} priority alert',
-                              translationOptions
-                          )
-                        : i18n.t(
-                              '{{length}} {{level}} priority alerts',
-                              translationOptions
-                          )}
-                </h1>
-            </div>
-            {validationViolations.map((validationRule) => {
-                return (
-                    <div
-                        className={validationViolationBoxStyle}
-                        key={validationRule.metaData.id}
-                    >
-                        <div>{validationRule.metaData.displayInstruction}</div>
-                        <div className={styles.formula}>
-                            <ValidationRuleExpression
-                                validationRule={validationRule}
-                            />
-                        </div>
-                    </div>
-                )
-            })}
-        </div>
-    )
+    return <Component validationViolations={validationViolations} />
 }
 
 ValidationPriortyGroup.propTypes = {
@@ -73,4 +112,5 @@ ValidationPriortyGroup.propTypes = {
         ValidationRuleViolationWithMetaDataPropTypes
     ),
 }
+
 export default ValidationPriortyGroup
