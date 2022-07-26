@@ -6,54 +6,14 @@ import {
     usePeriodId,
 } from '../../context-selection/index.js'
 import { useApiAttributeParams } from '../../shared/index.js'
-
-const getValidationMetaDataQueryKey = (datasetId) => {
-    const queryKey = [
-        `validationRules`,
-        {
-            params: {
-                dataSet: datasetId,
-                fields: [
-                    'id',
-                    'importance',
-                    'operator',
-                    'leftSide',
-                    'rightSide',
-                    'displayInstruction',
-                    'displayDescription',
-                    'displayName',
-                ],
-            },
-        },
-    ]
-
-    return queryKey
-}
-
-const getValidationQueryKey = (
-    datasetId,
-    { periodId, orgUnitId, categoryComboId, categoryOptionIds }
-) => {
-    const params = {
-        pe: periodId,
-        ou: orgUnitId,
-        cc: categoryComboId,
-        cp: categoryOptionIds?.join(';'),
-    }
-
-    const validationQueryKey = [
-        `validation/dataSet/${datasetId}`,
-        {
-            params,
-        },
-    ]
-    return validationQueryKey
-}
+import {
+    getValidationMetaDataQueryKey,
+    getValidationQueryKey,
+} from '../query-key-factory.js'
 
 /** Returns validation rule violations grouped by importance */
 export const useValidationResult = () => {
-    const [datasetId] = useDataSetId()
-
+    const [dataSetId] = useDataSetId()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
     const {
@@ -61,13 +21,14 @@ export const useValidationResult = () => {
         attributeOptions: categoryOptionIds,
     } = useApiAttributeParams()
 
-    const validationQueryKey = getValidationQueryKey(datasetId, {
+    const validationQueryKey = getValidationQueryKey({
+        dataSetId,
         periodId,
         orgUnitId,
         categoryComboId,
         categoryOptionIds,
     })
-    const validationMetaDataQueryKey = getValidationMetaDataQueryKey(datasetId)
+    const validationMetaDataQueryKey = getValidationMetaDataQueryKey(dataSetId)
 
     const activeMutations = useIsMutating({ mutationKey: validationQueryKey })
     const enabled = activeMutations === 0
@@ -92,7 +53,7 @@ export const useValidationResult = () => {
         isRefetching:
             validationQuery.isRefetching || metaDataQuery.isRefetching,
         data:
-            validationQuery.isSuccess && metaDataQuery.isSuccess
+            validationQuery.data && metaDataQuery.data
                 ? groupValidationRuleViolationsByImportance(
                       validationQuery.data,
                       metaDataQuery.data

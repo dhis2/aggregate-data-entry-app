@@ -8,6 +8,7 @@ import {
     ImportanceLevelPropTypes,
     ValidationRuleViolationWithMetaDataPropTypes,
 } from './validation-result-prop-types.js'
+import ValidationRuleExpression from './validation-rule-expression.js'
 
 const ValidationPriortyGroup = ({ level, validationViolations = [] }) => {
     if (validationViolations?.length === 0) {
@@ -24,30 +25,7 @@ const ValidationPriortyGroup = ({ level, validationViolations = [] }) => {
     const Icon = validationConfig.largeIcon
     const iconStyle = cx(styles.icon, styles[`${validationConfig.style}Icon`])
 
-    const buildDisplayFormula = (validationRule = {}) => {
-        const {
-            leftsideValue,
-            rightsideValue,
-            metaData: { leftSide, rightSide, operator } = {},
-        } = validationRule
-
-        // @ToDO: confirm the human readable equivalent for the operators
-        const operatorDisplay = {
-            equal_to: '==',
-            not_equal_to: '!=',
-            greater_than: '>',
-            greater_than_or_equal_to: '>=',
-            less_than: '<',
-            less_than_or_equal_to: '<=',
-            compulsory_pair: 'is compulsory with',
-            exclusive_pair: 'is exclusive to',
-        }
-        return `${leftSide.displayDescription} (${leftsideValue}) ${
-            operatorDisplay[operator] ?? operator
-        } ${rightSide.displayDescription} (${rightsideValue})`
-    }
-
-    const translationOptons = {
+    const translationOptions = {
         level: validationConfig.text?.toLowerCase(),
         length: validationViolations.length,
     }
@@ -62,11 +40,11 @@ const ValidationPriortyGroup = ({ level, validationViolations = [] }) => {
                     {validationViolations.length === 1
                         ? i18n.t(
                               '{{length}} {{level}} priority alert',
-                              translationOptons
+                              translationOptions
                           )
                         : i18n.t(
                               '{{length}} {{level}} priority alerts',
-                              translationOptons
+                              translationOptions
                           )}
                 </h1>
             </div>
@@ -78,7 +56,9 @@ const ValidationPriortyGroup = ({ level, validationViolations = [] }) => {
                     >
                         <div>{validationRule.metaData.displayInstruction}</div>
                         <div className={styles.formula}>
-                            {buildDisplayFormula(validationRule)}
+                            <ValidationRuleExpression
+                                validationRule={validationRule}
+                            />
                         </div>
                     </div>
                 )
