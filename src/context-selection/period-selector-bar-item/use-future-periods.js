@@ -28,6 +28,10 @@ export default function useFuturePeriods() {
     } = useConfig()
 
     return useMemo(() => {
+        if (!dataSetId) {
+            return []
+        }
+
         const dataSet = selectors.getDataSetById(metadata, dataSetId)
         const periodType = dataSet?.periodType
         const openFuturePeriods = dataSet?.openFuturePeriods

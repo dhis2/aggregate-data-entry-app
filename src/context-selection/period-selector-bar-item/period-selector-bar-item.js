@@ -2,6 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
 import {
+    getCurrentDate,
     selectors,
     useMetadata,
     usePeriod,
@@ -16,6 +17,16 @@ import YearNavigator from './year-navigator.js'
 
 export const PERIOD = 'PERIOD'
 
+function getMaxYear(futurePeriods) {
+    if (!futurePeriods.length) {
+        return getCurrentDate().getFullYear()
+    }
+
+    return new Date(
+        futurePeriods[futurePeriods.length - 1].startDate
+    ).getFullYear()
+}
+
 export const PeriodSelectorBarItem = () => {
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()
@@ -27,11 +38,7 @@ export const PeriodSelectorBarItem = () => {
 
     const futurePeriods = useFuturePeriods()
 
-    const [maxYear, setMaxYear] = useState(() =>
-        new Date(
-            futurePeriods[futurePeriods.length - 1].startDate
-        ).getFullYear()
-    )
+    const [maxYear, setMaxYear] = useState(() => getMaxYear(futurePeriods))
 
     const selectedPeriod = usePeriod(periodId)
     const [year, setYear] = useState(selectedPeriod?.year || maxYear)
@@ -44,10 +51,7 @@ export const PeriodSelectorBarItem = () => {
 
     useEffect(() => {
         if (dataSetPeriodType) {
-            const newMaxYear = new Date(
-                futurePeriods[futurePeriods.length - 1].startDate
-            ).getFullYear()
-
+            const newMaxYear = getMaxYear(futurePeriods)
             setMaxYear(newMaxYear)
 
             if (!selectedPeriod?.year) {
