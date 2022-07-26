@@ -2,13 +2,21 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, IconErrorFilled16, IconInfo16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import React from 'react'
+import { useIsMutating } from 'react-query'
 import { validationResultsSidebarId } from '../data-workspace/constants.js'
+import useDataValueSetQueryKey from '../data-workspace/use-data-value-set-query-key.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
 import styles from './main-tool-bar.module.css'
 
 export default function MainToolBar() {
     const rightHandPanel = useRightHandPanelContext()
-    const canValidate = true // @TODO(canValidate): implement me!
+    const queryKey = useDataValueSetQueryKey()
+    const activeMutations = useIsMutating({
+        mutationKey: queryKey,
+    })
+
+    const validateDisabled = activeMutations > 0
+
     const isComplete = true // @TODO(isComplete): implement me!
     const complete = () => console.log('@TODO(complete): implement me!')
     const incomplete = () => console.log('@TODO(incomplete): implement me!')
@@ -20,7 +28,7 @@ export default function MainToolBar() {
     return (
         <div className={styles.container}>
             <Button
-                disabled={!canValidate}
+                disabled={validateDisabled}
                 className={styles.toolbarItem}
                 onClick={validate}
             >
