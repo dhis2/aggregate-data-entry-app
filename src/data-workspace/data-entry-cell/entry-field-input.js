@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import React from 'react'
-import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
-import { useSetCurrentItemContext } from '../../shared/index.js'
+import React, { useCallback, useMemo } from 'react'
+import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
+import { useSetHighlightedFieldIdContext } from '../../shared/index.js'
 import { dataDetailsSidebarId } from '../constants.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
@@ -12,32 +12,8 @@ import {
     OptionSet,
     TrueOnlyCheckbox,
 } from '../inputs/index.js'
-import { useDataValueSet } from '../use-data-value-set.js'
 import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
-
-function createCurrentItem({ de, coc, dataValueSet }) {
-    const dataValue = dataValueSet?.data.dataValues[de.id]?.[coc.id]
-    if (dataValue) {
-        return {
-            ...dataValue,
-            categoryOptionCombo: coc.id,
-            name: de.displayName,
-            code: de.code,
-        }
-    }
-
-    return {
-        categoryOptionCombo: coc.id,
-        dataElement: de.id,
-        name: de.displayName,
-        lastUpdated: '',
-        followup: false,
-        comment: null,
-        storedBy: null,
-        code: null,
-    }
-}
 
 function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
@@ -86,46 +62,56 @@ export function EntryFieldInput({
     setSyncStatus,
     disabled,
 }) {
-    const setCurrentItem = useSetCurrentItemContext()
-    const rightHandPanel = useRightHandPanelContext()
+    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+
+    // used so we don't consume the "id" which
+    // would cause this component to rerender
+    const setRightHandPanel = useSetRightHandPanel()
+
     const { id: deId } = de
     const { id: cocId } = coc
     const dataValueParams = useDataValueParams({ deId, cocId })
-    const dataValueSet = useDataValueSet()
-    const currentItem = createCurrentItem({
-        fieldname,
-        de,
-        coc,
-        dataValueSet,
-    })
 
-    const onKeyDown = (event) => {
-        const { key, shiftKey } = event
+    const onKeyDown = useCallback(
+        (event) => {
+            const { key, shiftKey } = event
 
-        if (shiftKey && key === 'Enter') {
-            rightHandPanel.show(dataDetailsSidebarId)
-        } else if (key === 'ArrowDown' || key === 'Enter') {
-            event.preventDefault()
-            focusNext()
-        } else if (key === 'ArrowUp') {
-            event.preventDefault()
-            focusPrev()
-        }
-    }
+            if (shiftKey && key === 'Enter') {
+                setRightHandPanel(dataDetailsSidebarId)
+            } else if (key === 'ArrowDown' || key === 'Enter') {
+                event.preventDefault()
+                focusNext()
+            } else if (key === 'ArrowUp') {
+                event.preventDefault()
+                focusPrev()
+            }
+        },
+        [setRightHandPanel]
+    )
 
-    const onFocus = () => {
-        setCurrentItem(currentItem)
-        rightHandPanel.hide()
-    }
+    const onFocus = useCallback(() => {
+        setHighlightedFieldId({ de, coc })
+        setRightHandPanel('')
+    }, [de, coc, setHighlightedFieldId, setRightHandPanel])
 
-    const sharedProps = {
-        fieldname,
-        dataValueParams,
-        disabled,
-        setSyncStatus,
-        onFocus,
-        onKeyDown,
-    }
+    const sharedProps = useMemo(
+        () => ({
+            fieldname,
+            dataValueParams,
+            disabled,
+            setSyncStatus,
+            onFocus,
+            onKeyDown,
+        }),
+        [
+            fieldname,
+            dataValueParams,
+            disabled,
+            setSyncStatus,
+            onFocus,
+            onKeyDown,
+        ]
+    )
 
     return <InputComponent sharedProps={sharedProps} de={de} />
 }
