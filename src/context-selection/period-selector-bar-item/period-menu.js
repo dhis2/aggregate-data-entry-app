@@ -4,6 +4,7 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {
+    YEARLY,
     getCurrentDate,
     useDataSetId,
     getFixedPeriodsByTypeAndYear,
@@ -104,7 +105,14 @@ export default function PeriodMenu({
     } = useConfig()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const periods =
-        currentYear < year
+        periodType === YEARLY
+            ? getPeriods({
+                  periodType,
+                  year: getCurrentDate().getFullYear(),
+                  dateFormat,
+                  openFuturePeriods: dataSet?.openFuturePeriods,
+              })
+            : currentYear < year
             ? futurePeriods.filter(({ startDate }) => {
                   return new Date(startDate).getFullYear() === year
               })
