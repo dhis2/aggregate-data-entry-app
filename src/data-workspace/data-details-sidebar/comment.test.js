@@ -22,7 +22,7 @@ describe('<Comment />', () => {
         }
 
         const { getByRole } = render(<Comment item={item} />)
-        expect(getByRole('group')).toHaveAttribute('open')
+        expect(getByRole('button', { name: 'Add comment' })).toBeInTheDocument()
     })
 
     it('renders a placeholder if there is no comment', () => {

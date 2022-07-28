@@ -89,17 +89,22 @@ export default function AuditLog() {
                 </TableHead>
 
                 <TableBody>
-                    {audits.map((audit, index) => {
+                    {audits.map((audit) => {
                         const {
                             modifiedBy: user,
                             previousValue,
                             value,
                             created,
                             auditType,
+                            dataElement: de,
+                            categoryOptionCombo: coc,
+                            period: pe,
+                            orgUnit: ou,
                         } = audit
+                        const key = `${de}-${pe}-${ou}-${coc}`
 
                         return (
-                            <DataTableRow key={index}>
+                            <DataTableRow key={key}>
                                 <DataTableCell>
                                     {moment(created).format('YYYY-MM-DD HH:mm')}
                                 </DataTableCell>
@@ -130,13 +135,11 @@ export default function AuditLog() {
 
 function DeletedValue({ previousValue }) {
     return (
-        <>
-            <Tag negative>
-                <span style={{ textDecoration: 'line-through' }}>
-                    {previousValue}
-                </span>
-            </Tag>
-        </>
+        <Tag negative>
+            <span style={{ textDecoration: 'line-through' }}>
+                {previousValue}
+            </span>
+        </Tag>
     )
 }
 

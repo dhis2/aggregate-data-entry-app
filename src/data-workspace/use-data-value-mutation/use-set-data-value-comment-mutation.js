@@ -16,7 +16,7 @@ export const SET_DATA_VALUE_COMMENT_MUTATION = {
 
             // when sending `undefined` something causes that
             // to get stored as a string `"undefined"`
-            comment: comment ? comment : '',
+            comment: comment ?? '',
         }
     },
 }

@@ -16,7 +16,7 @@ describe('<Limits />', () => {
             />
         )
 
-        expect(getByRole('group')).toHaveAttribute('open')
+        expect(getByRole('button', { name: 'Edit limits' })).toBeInTheDocument()
     })
 
     it(`is disabled if value of itemType prop is not 'numerical'`, () => {

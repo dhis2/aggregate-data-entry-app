@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { CAN_HAVE_LIMITS_TYPES } from '../../shared/index.js'
 import { useDataValueSet } from '../use-data-value-set/index.js'
+import { CAN_HAVE_LIMITS_TYPES } from '../value-types.js'
 import { useHighlightedFieldIdContext } from './use-highlighted-field-context.js'
 
 function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
