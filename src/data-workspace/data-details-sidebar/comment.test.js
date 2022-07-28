@@ -81,8 +81,9 @@ describe('<Comment />', () => {
         const { getByRole, queryByRole } = render(<Comment item={item} />)
 
         userEvent.click(getByRole('button', { name: 'Edit comment' }))
+
         await waitFor(() => {
-            expect(getByRole('textbox')).toBeInTheDocument()
+            expect(queryByRole('textbox')).toBeInTheDocument()
         })
 
         const input = getByRole('textbox')

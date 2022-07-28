@@ -1,5 +1,5 @@
-import { useMetadata, selectors } from '../../metadata/index.js'
-import { useContextSelection } from '../use-context-selection/index.js'
+import { useMetadata, selectors } from '../metadata/index.js'
+import { useContextSelection } from './use-context-selection.js'
 
 export function useIsValidSelection() {
     const [{ dataSetId, orgUnitId, periodId, attributeOptionComboSelection }] =

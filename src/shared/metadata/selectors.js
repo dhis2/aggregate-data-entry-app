@@ -1,7 +1,7 @@
 import { createCachedSelector } from 're-reselect'
 import { createSelector } from 'reselect'
-import { parsePeriodId } from '../shared/index.js'
-import { cartesian } from '../shared/utils.js'
+import { parsePeriodId } from '../fixed-periods/index.js'
+import { cartesian } from '../utils.js'
 // Helper to group array items by an identifier
 
 const groupBy = (input, getIdentifier) =>

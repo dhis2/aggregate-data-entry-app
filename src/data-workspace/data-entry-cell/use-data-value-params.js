@@ -1,5 +1,8 @@
-import { useContextSelection } from '../../context-selection/index.js'
-import { useMetadata, selectors } from '../../metadata/index.js'
+import {
+    useMetadata,
+    selectors,
+    useContextSelection,
+} from '../../shared/index.js'
 
 export const useDataValueParams = ({ deId, cocId }) => {
     const [dataEntryContext] = useContextSelection()

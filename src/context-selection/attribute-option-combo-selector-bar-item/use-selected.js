@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useAttributeOptionComboSelection } from '../use-context-selection/index.js'
+import { useAttributeOptionComboSelection } from '../../shared/index.js'
 import omit from './omit.js'
 
 export default function useSelected() {

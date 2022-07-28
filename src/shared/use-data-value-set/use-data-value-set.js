@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import { createSelector } from 'reselect'
-import { useIsValidSelection } from '../../context-selection/index.js'
+import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
 // Form value object structure: { [dataElementId]: { [cocId]: value } }
@@ -60,7 +60,6 @@ const meta = { persist: true }
 export const useDataValueSet = () => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
-
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
         enabled: isValidSelection,

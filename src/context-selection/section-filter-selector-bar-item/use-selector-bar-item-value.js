@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { useSectionFilter } from '../use-context-selection/index.js'
+import { useSectionFilter } from '../../shared/index.js'
 import useDataSetSectionsInfo from './use-data-set-sections-info.js'
 
 export default function useSelectorBarItemValue() {

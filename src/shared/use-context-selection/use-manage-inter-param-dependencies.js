@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useMetadata, selectors } from '../../metadata/index.js'
-import { parsePeriodId, filterObject } from '../../shared/index.js'
+import { parsePeriodId } from '../fixed-periods/index.js'
+import { useMetadata, selectors } from '../metadata/index.js'
+import { filterObject } from '../utils.js'
 import {
     usePeriodId,
     useAttributeOptionComboSelection,

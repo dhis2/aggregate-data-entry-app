@@ -1,9 +1,13 @@
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
-import { selectors, useMetadata } from '../../metadata/index.js'
-import { usePeriod } from '../../shared/index.js'
-import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
+import {
+    selectors,
+    useMetadata,
+    usePeriod,
+    useDataSetId,
+    usePeriodId,
+} from '../../shared/index.js'
 import computeMaxYear from './compute-max-year.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'

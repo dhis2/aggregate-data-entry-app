@@ -3,8 +3,7 @@ import { CircularLoader, Button, ButtonStrip, TextAreaFieldFF } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form, Field } from 'react-final-form'
-import { useContextSelection } from '../../context-selection/index.js'
-import { ExpandableUnit } from '../../shared/index.js'
+import { ExpandableUnit, useContextSelection } from '../../shared/index.js'
 import { useSetDataValueCommentMutation } from '../use-data-value-mutation/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
@@ -17,6 +16,7 @@ const errorMessage = i18n.t(
 function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
     const [{ dataSetId: ds, periodId: pe, orgUnitId: ou }] =
         useContextSelection()
+
     const onSubmit = (values) => {
         const variables = {
             ds,

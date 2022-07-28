@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { useDataSetId } from '../use-context-selection/index.js'
+import { useDataSetId } from '../../shared/index.js'
 
 export default function useDataSetSectionsInfo() {
     const [id] = useDataSetId()

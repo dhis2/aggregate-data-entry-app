@@ -1,5 +1,5 @@
 import React from 'react'
-import { getDataElementById } from '../../metadata/selectors.js'
+import { selectors } from '../../shared/index.js'
 import { DataEntryField } from '../data-entry-cell/index.js'
 
 const INPUT_TYPES = {
@@ -35,7 +35,7 @@ export const replaceInputNode = (domNode, metadata) => {
     }
 
     const [deId, cocId] = domNode.attribs.id.split('-')
-    const dataElement = getDataElementById(metadata, deId)
+    const dataElement = selectors.getDataElementById(metadata, deId)
     return (
         <DataEntryField
             dataElement={dataElement}

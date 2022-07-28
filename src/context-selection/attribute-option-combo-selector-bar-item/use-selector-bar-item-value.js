@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { useAttributeOptionComboSelection } from '../use-context-selection/index.js'
+import { useAttributeOptionComboSelection } from '../../shared/index.js'
 
 export default function useSelectorBarItemValue(categoryCombination) {
     const [attributeOptionComboSelection] = useAttributeOptionComboSelection()
