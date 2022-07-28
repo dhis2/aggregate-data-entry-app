@@ -4,6 +4,7 @@ import React from 'react'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import { Sidebar, Title, SidebarProps } from '../../shared/index.js'
 import { useValidationResult } from './use-validation-result.js'
+import ValidationCommentsViolations from './validation-comments-violations.js'
 import { validationLevels } from './validation-config.js'
 import ValidationPriortyGroup from './validation-priority-group.js'
 import styles from './validation-results-sidebar.module.css'
@@ -11,15 +12,22 @@ import ValidationSummaryBox from './validation-summary-box.js'
 
 export default function ValidationResultsSidebar() {
     const rightHandPanel = useRightHandPanelContext()
-    const { isLoading, isRefetching, error, data, refetch } =
-        useValidationResult()
+    const {
+        isLoading,
+        isRefetching,
+        error,
+        data: { validationRuleViolations, commentRequiredViolations } = {},
+        refetch,
+    } = useValidationResult()
     const showLoader = isLoading || isRefetching
 
     const isEmpty =
-        data &&
-        Object.values(data).every(
+        validationRuleViolations &&
+        Object.values(validationRuleViolations).every(
             (ruleViolations) => ruleViolations.length === 0
         )
+
+    const hasCommentsViolations = commentRequiredViolations?.length
 
     return (
         <Sidebar>
@@ -41,19 +49,25 @@ export default function ValidationResultsSidebar() {
                             <ValidationSummaryBox
                                 key={level}
                                 level={level}
-                                count={data?.[level]?.length || 0}
+                                count={
+                                    validationRuleViolations?.[level]?.length ||
+                                    0
+                                }
                                 hideCounts={Boolean(showLoader || error)}
                             />
                         )
                     })}
                 </div>
+
                 {!showLoader &&
                     validationLevels.map((level) => {
                         return (
                             <ValidationPriortyGroup
                                 key={level}
                                 level={level}
-                                validationViolations={data?.[level]}
+                                validationViolations={
+                                    validationRuleViolations?.[level]
+                                }
                             />
                         )
                     })}
@@ -79,6 +93,12 @@ export default function ValidationResultsSidebar() {
                             'Validation could not be run for this data. Try again or contact your system administrator.'
                         )}
                     </NoticeBox>
+                )}
+                {/* @todo: temporary UI for showing comments until we have a design provided */}
+                {!showLoader && hasCommentsViolations && (
+                    <ValidationCommentsViolations
+                        commentRequiredViolations={commentRequiredViolations}
+                    />
                 )}
             </div>
         </Sidebar>

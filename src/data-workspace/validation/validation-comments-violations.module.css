@@ -1,0 +1,15 @@
+.wrapper {
+    margin-top: 16px;
+}
+.title {
+    color: var(--colors-grey900);
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+    margin-block-start: 8px;
+    margin-block-end: 8px;
+}
+
+.result {
+    font-size: 14px;
+}
