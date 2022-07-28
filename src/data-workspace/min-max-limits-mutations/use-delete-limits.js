@@ -1,4 +1,5 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
+import { useCallback } from 'react'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
 import { dataValueSets } from '../query-key-factory.js'
@@ -51,11 +52,7 @@ export default function useDeleteLimits(onDone) {
             maxValue,
         }
 
-        console.log('> mutate now', variables)
-        return engine
-            .mutate(MUTATION_DELETE_MIN_MAX_LIMITS, { variables })
-            .then(() => console.log('mutate then'))
-            .finally(() => console.log('mutate finally'))
+        return engine.mutate(MUTATION_DELETE_MIN_MAX_LIMITS, { variables })
     }
 
     return useMutation(mutationFn, {

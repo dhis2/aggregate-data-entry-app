@@ -1,12 +1,13 @@
 import processAudits from './process-audits.js'
 
-test(`processAudits =>
-      1. Cell is empty, never had a value
-      2. User sets the value to 1 and syncs
-      3. User deletes the value and syncs
-      4. User sets the value to 2 and syncs
-      5. User sets the value to 3 and syncs
-`, () => {
+/*
+ * 1. Cell is empty, never had a value
+ * 2. User sets the value to 1 and syncs
+ * 3. User deletes the value and syncs
+ * 4. User sets the value to 2 and syncs
+ * 5. User sets the value to 3 and syncs
+ */
+test('processAudits', () => {
     const currentItem = {
         dataElement: 'pikOziyCXbM',
         period: '202206',

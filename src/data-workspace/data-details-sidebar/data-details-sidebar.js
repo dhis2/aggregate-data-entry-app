@@ -29,21 +29,22 @@ export default function DataDetailsSidebar({ hide }) {
 
     const [orgUnitId] = useOrgUnitId()
 
-    // console.log('> dataValue', dataValue)
+    // Searches the response of `useDataValueSet` for the minMaxValue that
+    // belongs to the currently displayed data details by comparing the
+    // minMaxValue's coc, de and ou with the data value's coc, de and ou
     const minMaxValue =
         dataValueSet.data?.minMaxValues.find((curMinMaxValue) => {
-            // console.log('> curMinMaxValue:', curMinMaxValue);
             return (
                 curMinMaxValue.categoryOptionCombo ===
                     dataValue.categoryOptionCombo &&
                 curMinMaxValue.dataElement === dataValue.dataElement &&
                 curMinMaxValue.orgUnit === orgUnitId
             )
-        }) || {}
+        })
 
     const limits = {
-        min: minMaxValue.minValue,
-        max: minMaxValue.maxValue,
+        min: minMaxValue?.minValue,
+        max: minMaxValue?.maxValue,
     }
 
     return (
