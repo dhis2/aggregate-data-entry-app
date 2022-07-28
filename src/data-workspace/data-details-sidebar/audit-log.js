@@ -14,20 +14,15 @@ import {
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {
-    ExpandableUnit,
-    useHighlightedField,
-    useConnectionStatus,
-} from '../../shared/index.js'
+import { ExpandableUnit, useConnectionStatus } from '../../shared/index.js'
 import styles from './audit-log.module.css'
 import useDataValueContext from './use-data-value-context.js'
 import useOpenState from './use-open-state.js'
 
 const title = i18n.t('Audit log')
 
-export default function AuditLog() {
+export default function AuditLog({ item }) {
     const { offline } = useConnectionStatus()
-    const item = useHighlightedField()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
 
@@ -131,6 +126,14 @@ export default function AuditLog() {
             </DataTable>
         </ExpandableUnit>
     )
+}
+
+AuditLog.propTypes = {
+    item: PropTypes.shape({
+        categoryOptionCombo: PropTypes.string.isRequired,
+        dataElement: PropTypes.string.isRequired,
+        comment: PropTypes.string,
+    }).isRequired,
 }
 
 function DeletedValue({ previousValue }) {

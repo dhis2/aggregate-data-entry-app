@@ -10,7 +10,7 @@ import ValidationPriortyGroup from './validation-priority-group.js'
 import styles from './validation-results-sidebar.module.css'
 import ValidationSummaryBox from './validation-summary-box.js'
 
-export default function ValidationResultsSidebar() {
+export default function ValidationResultsSidebar({ hide }) {
     const rightHandPanel = useRightHandPanelContext()
     const {
         isLoading,
@@ -35,7 +35,8 @@ export default function ValidationResultsSidebar() {
     }
     return (
         <Sidebar>
-            <Title onClose={rightHandPanel.hide}>{i18n.t('Validation')}</Title>
+            <Title onClose={hide}>{i18n.t('Validation')}</Title>
+
             <div className={styles.wrapper}>
                 {rightHandPanel.formChangedSincePanelOpened && (
                     <div className={styles.dataChangedNotice}>
@@ -120,4 +121,5 @@ export default function ValidationResultsSidebar() {
         </Sidebar>
     )
 }
+
 ValidationResultsSidebar.propTypes = SidebarProps

@@ -6,7 +6,6 @@ import {
     useQueryParam,
     withDefault,
 } from 'use-query-params'
-import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 
 export const PARAMS_SCHEMA = {
     dataSetId: StringParam,
@@ -53,7 +52,6 @@ export function useContextSelection() {
 
 export function useClearEntireSelection() {
     const [, setSelectionContext] = useContextSelection()
-    const { hide } = useRightHandPanelContext()
 
     return useCallback(() => {
         setSelectionContext({
@@ -63,6 +61,5 @@ export function useClearEntireSelection() {
             attributeOptionComboSelection: undefined,
             sectionFilter: undefined,
         })
-        hide()
-    }, [setSelectionContext, hide])
+    }, [setSelectionContext])
 }

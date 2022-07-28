@@ -10,7 +10,7 @@ import {
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useMemo, useState } from 'react'
-import { useMetadata, selectors } from '../../metadata/index.js'
+import { useMetadata, selectors } from '../../shared/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'

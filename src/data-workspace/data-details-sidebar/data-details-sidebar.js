@@ -1,12 +1,12 @@
 import i18n from '@dhis2/d2-i18n'
 import React from 'react'
-import { useOrgUnitId } from '../../context-selection/index.js'
 import {
     Sidebar,
+    SidebarProps,
     Title,
     useDataValueSet,
     useHighlightedField,
-    SidebarProps,
+    useOrgUnitId,
 } from '../../shared/index.js'
 import AuditLog from './audit-log.js'
 import BasicInformation from './basic-information.js'
@@ -15,6 +15,7 @@ import History from './history.js'
 import Limits from './limits.js'
 
 export default function DataDetailsSidebar({ hide }) {
+    const [orgUnitId] = useOrgUnitId()
     const dataValueSet = useDataValueSet()
     const item = useHighlightedField()
     const dataValue = {
@@ -26,8 +27,6 @@ export default function DataDetailsSidebar({ hide }) {
 
     const onMarkForFollowup = () => null
     const onUnmarkForFollowup = () => null
-
-    const [orgUnitId] = useOrgUnitId()
 
     // Searches the response of `useDataValueSet` for the minMaxValue that
     // belongs to the currently displayed data details by comparing the
@@ -58,8 +57,8 @@ export default function DataDetailsSidebar({ hide }) {
             />
             <Comment item={dataValue} />
             <Limits dataValue={dataValue} limits={limits} />
-            <History />
-            <AuditLog />
+            <History item={dataValue} />
+            <AuditLog item={dataValue} />
         </Sidebar>
     )
 }

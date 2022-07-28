@@ -2,8 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, Tooltip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useOrgUnitId } from '../../context-selection/index.js'
-import { useConnectionStatus } from '../../shared/index.js'
+import { useOrgUnitId, useConnectionStatus } from '../../shared/index.js'
 import { useDeleteLimits } from '../min-max-limits-mutations/index.js'
 
 const label = i18n.t('Delete limits')

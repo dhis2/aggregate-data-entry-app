@@ -9,6 +9,7 @@ import { render } from '../../test-utils/render.js'
 import ValidationResultsSidebar from './validation-results-sidebar.js'
 
 describe('ValidationResultsSidebar', () => {
+    const hide = jest.fn()
     const waitForLoaderToDisappear = async () => {
         await waitForElementToBeRemoved(() =>
             screen.queryByText('Running validation...')
@@ -25,7 +26,7 @@ describe('ValidationResultsSidebar', () => {
             ...overrideDefaultData,
         }
 
-        return render(<ValidationResultsSidebar />, {
+        return render(<ValidationResultsSidebar hide={hide} />, {
             router: ({ children }) => (
                 <MemoryRouter
                     initialEntries={[
@@ -38,6 +39,10 @@ describe('ValidationResultsSidebar', () => {
             dataForCustomProvider,
         })
     }
+
+    afterEach(() => {
+        hide.mockClear()
+    })
 
     it('should render summary boxes with results', async () => {
         const { getByTestId } = renderComponent()

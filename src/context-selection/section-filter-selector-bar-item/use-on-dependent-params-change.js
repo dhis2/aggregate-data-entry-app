@@ -4,7 +4,7 @@ import {
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
-} from '../use-context-selection/index.js'
+} from '../../shared/index.js'
 
 export default function useOnDependentParamsChange(cb) {
     const initialExecution = useRef(true)

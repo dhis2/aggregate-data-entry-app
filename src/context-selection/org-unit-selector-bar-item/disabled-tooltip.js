@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Tooltip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useDataSetId } from '../use-context-selection/index.js'
+import { useDataSetId } from '../../shared/index.js'
 
 export default function DisabledTooltip({ children }) {
     const [dataSetId] = useDataSetId()

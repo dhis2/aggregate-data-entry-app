@@ -1,12 +1,10 @@
 import { useQuery } from 'react-query'
 import {
-    useOrgUnitId,
-    usePeriodId,
-    useIsValidSelection,
-} from '../../context-selection/index.js'
-import {
     useApiAttributeParams,
     useConnectionStatus,
+    useIsValidSelection,
+    useOrgUnitId,
+    usePeriodId,
 } from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
 import processAudits from './process-audits.js'

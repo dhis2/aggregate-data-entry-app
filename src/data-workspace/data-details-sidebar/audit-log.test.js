@@ -11,13 +11,19 @@ jest.mock('./use-data-value-context.js', () => ({
 }))
 
 describe('<AuditLog />', () => {
+    const item = {
+        categoryOptionCombo: 'coc-id',
+        dataElement: 'de-id',
+        comment: 'This is a comment',
+    }
+
     afterEach(() => {
         useDataValueContext.mockClear()
     })
 
     it('is collapsed by default', () => {
         useDataValueContext.mockImplementation(() => ({}))
-        const { getByRole } = render(<AuditLog />)
+        const { getByRole } = render(<AuditLog item={item} />)
         expect(getByRole('group')).not.toHaveAttribute('open')
     })
 
@@ -26,7 +32,7 @@ describe('<AuditLog />', () => {
             isLoading: true,
         }))
 
-        const { getByRole, container } = render(<AuditLog />)
+        const { getByRole, container } = render(<AuditLog item={item} />)
 
         // Expand
         userEvent.click(container.querySelector('summary'))
@@ -44,7 +50,7 @@ describe('<AuditLog />', () => {
         }))
 
         const { getByRole, queryByRole, getByText, container } = render(
-            <AuditLog audits={[]} />
+            <AuditLog item={item} />
         )
 
         // Expand and wait for data to load
@@ -91,7 +97,7 @@ describe('<AuditLog />', () => {
         }))
 
         const { getByRole, getAllByRole, queryByRole, getByText, container } =
-            render(<AuditLog />)
+            render(<AuditLog item={item} />)
 
         // Expand and wait for data to load
         userEvent.click(container.querySelector('summary'))

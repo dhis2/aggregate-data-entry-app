@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { parsePeriodId } from '../../shared/index.js'
-import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
+import { parsePeriodId, useDataSetId, usePeriodId } from '../../shared/index.js'
 
 const convertPeriodIdToPeriodType = (periodId) => {
     if (!periodId) {

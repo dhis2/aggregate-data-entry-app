@@ -1,12 +1,13 @@
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useCallback, useState, useEffect } from 'react'
-import { selectors, useMetadata } from '../../metadata/index.js'
-import { MenuSelect } from '../menu-select/index.js'
 import {
+    selectors,
+    useMetadata,
     useDataSetId,
     useSectionFilter,
-} from '../use-context-selection/index.js'
+} from '../../shared/index.js'
+import { MenuSelect } from '../menu-select/index.js'
 import useOnDependentParamsChange from './use-on-dependent-params-change.js'
 import useSelectorBarItemValue from './use-selector-bar-item-value.js'
 import useShouldComponentRenderNull from './use-should-component-render-null.js'

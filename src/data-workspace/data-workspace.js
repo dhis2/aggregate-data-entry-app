@@ -6,18 +6,19 @@ import React from 'react'
 import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { BottomBar } from '../bottom-bar/index.js'
 import {
-    useContextSelection,
+    useMetadata,
+    selectors,
+    useDataSetId,
+    useDataValueSet,
     useIsValidSelection,
-} from '../context-selection/index.js'
-import { useMetadata, selectors } from '../metadata/index.js'
-import { useDataValueSet } from '../shared/index.js'
+} from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
-    const [{ dataSetId }] = useContextSelection()
     const { data } = useMetadata()
+    const [dataSetId] = useDataSetId()
     const initialDataValuesFetch = useDataValueSet()
     const isValidSelection = useIsValidSelection()
 

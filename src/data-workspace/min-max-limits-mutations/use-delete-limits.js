@@ -1,6 +1,9 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
-import { useContextSelection } from '../../context-selection/index.js'
+import {
+    useContextSelection,
+    useApiAttributeParams,
+} from '../../shared/index.js'
 import { dataValueSets } from '../query-key-factory.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
@@ -29,9 +32,19 @@ const MUTATION_DELETE_MIN_MAX_LIMITS = {
 export default function useDeleteLimits(onDone) {
     // These are needed for the optimistic delete
     const queryClient = useQueryClient()
-    const [{ dataSetId: ds, orgUnitId: ou, periodId: pe }] =
-        useContextSelection()
-    const dataValueSetQueryKey = dataValueSets.byIds({ ds, pe, ou })
+    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
+    const {
+        attributeCombo: categoryComboId,
+        attributeOptions: categoryOptionIds,
+    } = useApiAttributeParams()
+
+    const dataValueSetQueryKey = dataValueSets.byIds({
+        dataSetId,
+        periodId,
+        orgUnitId,
+        categoryComboId,
+        categoryOptionIds,
+    })
 
     const engine = useDataEngine()
     const showErrorAlert = useAlert((message) => message, { critical: true })

@@ -1,7 +1,15 @@
 import React, { useState } from 'react'
 import './app.css'
+import { ContextualHelpSidebar } from '../context-selection/contextual-help-sidebar/index.js'
 import { ContextSelection } from '../context-selection/index.js'
-import { DataWorkspace } from '../data-workspace/index.js'
+import {
+    DataWorkspace,
+    DataDetailsSidebar,
+    contextualHelpSidebarId,
+    dataDetailsSidebarId,
+    validationResultsSidebarId,
+    ValidationResultsSidebar,
+} from '../data-workspace/index.js'
 import {
     RightHandPanel,
     useRightHandPanelContext,
@@ -9,6 +17,12 @@ import {
 import { Layout } from './layout/index.js'
 import LoadApp from './load-app.js'
 // import { MutationIndicator } from './mutation-indicator/index.js'
+
+const idSidebarMap = {
+    [dataDetailsSidebarId]: DataDetailsSidebar,
+    [validationResultsSidebarId]: ValidationResultsSidebar,
+    [contextualHelpSidebarId]: ContextualHelpSidebar,
+}
 
 /**
  * "use-query-params" requires a router. It suggests react-router-dom in the
@@ -35,7 +49,7 @@ const App = () => {
             <Layout
                 header={contextSelection}
                 main={dataWorkspace}
-                sidebar={<RightHandPanel />}
+                sidebar={<RightHandPanel idSidebarMap={idSidebarMap} />}
                 showSidebar={!!id}
                 // footer={<MutationIndicator />}
             />
