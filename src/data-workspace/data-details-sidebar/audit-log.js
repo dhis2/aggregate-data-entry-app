@@ -16,7 +16,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {
     ExpandableUnit,
-    useCurrentItemContext,
+    useHighlightedField,
     useConnectionStatus,
 } from '../../shared/index.js'
 import styles from './audit-log.module.css'
@@ -27,7 +27,7 @@ const title = i18n.t('Audit log')
 
 export default function AuditLog() {
     const { offline } = useConnectionStatus()
-    const { item } = useCurrentItemContext()
+    const item = useHighlightedField()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
 

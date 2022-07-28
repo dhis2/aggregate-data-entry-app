@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { VALUE_TYPES } from '../data-entry-cell/value-types.js'
+import { VALUE_TYPES } from '../../shared/index.js'
 import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'

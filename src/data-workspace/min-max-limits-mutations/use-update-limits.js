@@ -1,6 +1,6 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from 'react-query'
-import useDataValueSetQueryKey from '../use-data-value-set-query-key.js'
+import { useDataValueSetQueryKey } from '../../shared/index.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
 function addLimit(previousDataValueSet, newLimit) {

@@ -4,7 +4,7 @@ import React from 'react'
 import {
     ExpandableUnit,
     useConnectionStatus,
-    useCurrentItemContext,
+    useHighlightedField,
 } from '../../shared/index.js'
 import HistoryLineChart from './history-line-chart.js'
 import useDataValueContext from './use-data-value-context.js'
@@ -14,7 +14,7 @@ const title = i18n.t('History')
 
 export default function History() {
     const { offline } = useConnectionStatus()
-    const { item } = useCurrentItemContext()
+    const item = useHighlightedField()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
 
