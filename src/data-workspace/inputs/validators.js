@@ -11,7 +11,7 @@ import {
     number,
     url,
 } from '@dhis2/ui-forms'
-import { VALUE_TYPES } from '../data-entry-cell/value-types.js'
+import { VALUE_TYPES } from '../../shared/index.js'
 
 export const text = createMaxCharacterLength(50000)
 export const letter = createMaxCharacterLength(1)
