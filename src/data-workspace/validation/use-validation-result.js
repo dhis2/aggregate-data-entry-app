@@ -54,11 +54,28 @@ export const useValidationResult = () => {
             validationQuery.isRefetching || metaDataQuery.isRefetching,
         data:
             validationQuery.data && metaDataQuery.data
-                ? groupValidationRuleViolationsByImportance(
+                ? buildValidationResult(
                       validationQuery.data,
                       metaDataQuery.data
                   )
                 : undefined,
+    }
+}
+
+const buildValidationResult = (
+    validationRuleViolations = {},
+    validationRulesMetaData = {}
+) => {
+    const { commentRequiredViolations } = validationRuleViolations
+    const validationRulesGroupedByImportance =
+        groupValidationRuleViolationsByImportance(
+            validationRuleViolations,
+            validationRulesMetaData
+        )
+
+    return {
+        validationRuleViolations: validationRulesGroupedByImportance,
+        commentRequiredViolations,
     }
 }
 
