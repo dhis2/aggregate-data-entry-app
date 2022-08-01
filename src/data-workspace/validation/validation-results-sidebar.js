@@ -27,15 +27,31 @@ export default function ValidationResultsSidebar() {
             (ruleViolations) => ruleViolations.length === 0
         )
 
-    const hasCommentsViolations = commentRequiredViolations?.length
+    const hasCommentsViolations = Boolean(commentRequiredViolations?.length)
 
+    const rerunValidation = () => {
+        rightHandPanel.setFormChangedSincePanelOpened(false)
+        refetch()
+    }
     return (
         <Sidebar>
             <Title onClose={rightHandPanel.hide}>{i18n.t('Validation')}</Title>
-
             <div className={styles.wrapper}>
+                {rightHandPanel.formChangedSincePanelOpened && (
+                    <div className={styles.dataChangedNotice}>
+                        <NoticeBox title="Data has changed since validation was run">
+                            Data in the entry form has changed, so validation
+                            output might be incorrect. Run validation again to
+                            check the current data.
+                        </NoticeBox>
+                    </div>
+                )}
                 <div className={styles.buttons}>
-                    <Button disabled={showLoader} small onClick={refetch}>
+                    <Button
+                        disabled={showLoader}
+                        small
+                        onClick={rerunValidation}
+                    >
                         {i18n.t('Run validation again')}
                     </Button>
                     <Button small disabled>

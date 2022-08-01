@@ -7,9 +7,21 @@ import {
 
 export default function RightHandPanelProvider({ children }) {
     const [id, setId] = useState('')
+    const [formChangedSincePanelOpened, setFormChangedSincePanelOpened] =
+        useState(false)
     const show = setId
-    const hide = useCallback(() => setId(''), [setId])
-    const value = { id, show, hide }
+    const hide = useCallback(() => {
+        setId('')
+        setFormChangedSincePanelOpened(false)
+    }, [setId])
+
+    const value = {
+        id,
+        show,
+        hide,
+        formChangedSincePanelOpened,
+        setFormChangedSincePanelOpened,
+    }
 
     return (
         <RightHandPanelContext.Provider value={value}>
