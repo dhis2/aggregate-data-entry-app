@@ -17,7 +17,7 @@ import { useDataValueSet } from './use-data-value-set.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const [{ dataSetId }] = useContextSelection()
-    const { data } = useMetadata()
+    const { data: metadata } = useMetadata()
     const initialDataValuesFetch = useDataValueSet()
     const isValidSelection = useIsValidSelection()
 
@@ -30,7 +30,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return null
     }
 
-    if (initialDataValuesFetch.isLoading) {
+    // Currently this can cause the form to reload when going back online
+    if (
+        initialDataValuesFetch.isFetching &&
+        initialDataValuesFetch.data === undefined
+    ) {
         return (
             <CenteredContent>
                 <CircularLoader />
@@ -42,11 +46,16 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return 'Error!'
     }
 
-    if (!data || !dataSetId) {
+    // If loading a form while client is offline, since useDataValueSet uses
+    // networkMode = 'online', the initialDataValuesFetch query will be
+    // PAUSED and its data will be undefined, in which case an empty form
+    // should be shown for the user to enter data
+
+    if (!metadata || !dataSetId) {
         return null
     }
 
-    const dataSet = selectors.getDataSetById(data, dataSetId)
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
     if (!dataSet) {
         console.warn('Could not find dataSet with ID', dataSetId)
         return 'Error!'

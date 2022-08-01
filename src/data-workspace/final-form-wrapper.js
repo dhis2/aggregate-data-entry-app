@@ -6,6 +6,7 @@ function mapObject(input, callback) {
     return Object.fromEntries(Object.entries(input).map(callback))
 }
 
+// Could this instead reuse `mapDataValuesToForm(Initial)Values` in `use-data-value-set.js`?
 function createInitialValues(dataValueSet) {
     return mapObject(dataValueSet, ([deId, dataElement]) => {
         return [
@@ -16,7 +17,7 @@ function createInitialValues(dataValueSet) {
 }
 
 export function FinalFormWrapper({ children, dataValueSet }) {
-    const initialValues = createInitialValues(dataValueSet)
+    const initialValues = dataValueSet ? createInitialValues(dataValueSet) : {}
     return (
         <Form
             onSubmit={(values, form) => {

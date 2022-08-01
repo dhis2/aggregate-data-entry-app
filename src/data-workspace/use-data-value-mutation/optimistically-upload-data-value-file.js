@@ -11,13 +11,17 @@ export default async function optimisticallyUploadDataValueFile({
     // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
     await queryClient.cancelQueries(dataValueSetQueryKey)
 
-    // Snapshot the previous value
-    const previousDataValueSet = queryClient.getQueryData(dataValueSetQueryKey)
+    // Snapshot the previous value. 
+    // This query can be undefined when offline;
+    // provide an empty 'response' for easier optimistic update
+    const previousDataValueSet = queryClient.getQueryData(
+        dataValueSetQueryKey
+    ) ?? { dataValues: [], minMaxValues: [] }
 
     // Optimistically update to the new value
     queryClient.setQueryData(dataValueSetQueryKey, () => {
-        // dataValueSet.dataValues can be undefined
-        const previousDataValues = previousDataValueSet.dataValues || []
+        // dataValueSet.dataValues can be undefined (even while online)
+        const previousDataValues = previousDataValueSet?.dataValues || []
         const matchIndex = previousDataValues.findIndex(
             (dataValue) =>
                 dataValue.categoryOptionCombo === newDataValue.co &&

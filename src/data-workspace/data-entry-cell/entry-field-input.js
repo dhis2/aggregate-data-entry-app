@@ -15,8 +15,9 @@ import { useDataValueSet } from '../use-data-value-set.js'
 import { useDataValueParams } from './use-data-value-params.js'
 import { VALUE_TYPES } from './value-types.js'
 
-function createCurrentItem({ de, coc, dataValueSet }) {
-    const dataValue = dataValueSet?.data.dataValues[de.id]?.[coc.id]
+function createCurrentItem({ de, coc, dataValueSetQuery }) {
+    // dataValueSetQuery.data can be undefined when offline
+    const dataValue = dataValueSetQuery.data?.dataValues[de.id]?.[coc.id]
     if (dataValue) {
         return {
             ...dataValue,
@@ -90,12 +91,12 @@ export function EntryFieldInput({
     const { id: deId } = de
     const { id: cocId } = coc
     const dataValueParams = useDataValueParams({ deId, cocId })
-    const dataValueSet = useDataValueSet()
+    const dataValueSetQuery = useDataValueSet()
     const currentItem = createCurrentItem({
         fieldname,
         de,
         coc,
-        dataValueSet,
+        dataValueSetQuery,
     })
 
     const onKeyDown = (event) => {
