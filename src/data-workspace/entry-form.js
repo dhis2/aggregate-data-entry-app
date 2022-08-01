@@ -7,7 +7,6 @@ import { CustomForm } from './custom-form/index.js'
 import { DefaultForm } from './default-form.js'
 import FilterField from './filter-field.js'
 import { SectionForm } from './section-form/index.js'
-import useCloseRightHandPanelOnSelectionChange from './use-close-right-hand-panel-on-selection-change.js'
 const formTypeToComponent = {
     DEFAULT: DefaultForm,
     SECTION: SectionForm,
@@ -32,8 +31,6 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     })
 
     const Component = formTypeToComponent[formType]
-
-    useCloseRightHandPanelOnSelectionChange()
 
     return (
         <>
