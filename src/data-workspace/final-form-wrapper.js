@@ -13,7 +13,7 @@ function createInitialValues(dataValueSet) {
     if (!dataValueSet) {
         return {}
     }
-    
+
     return mapObject(dataValueSet, ([deId, dataElement]) => [
         deId,
         mapObject(dataElement, ([cocId, { value }]) => [cocId, value]),
