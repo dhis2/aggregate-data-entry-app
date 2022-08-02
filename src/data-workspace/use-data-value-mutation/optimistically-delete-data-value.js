@@ -1,4 +1,5 @@
 import deleteDataValue from './delete-data-value.js'
+import getPreviousDataValues from './get-previous-data-values.js'
 
 export default async function optimisticallyDeleteDataValue({
     queryClient,
@@ -8,12 +9,11 @@ export default async function optimisticallyDeleteDataValue({
     // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
     await queryClient.cancelQueries(dataValueSetQueryKey)
 
-    // Snapshot the previous value.
-    // This query can be undefined when offline;
-    // provide an empty 'response' for easier optimistic update
-    const previousDataValueSet = queryClient.getQueryData(
-        dataValueSetQueryKey
-    ) ?? { dataValues: [], minMaxValues: [] }
+    // Snapshot the previous data values
+    const previousDataValueSet = getPreviousDataValues({
+        queryClient,
+        dataValueSetQueryKey,
+    })
 
     // Optimistically update to the new value
     queryClient.setQueryData(dataValueSetQueryKey, () => {
