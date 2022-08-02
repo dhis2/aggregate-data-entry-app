@@ -21,7 +21,11 @@ export default function MainToolBar() {
     const complete = () => console.log('@TODO(complete): implement me!')
     const incomplete = () => console.log('@TODO(incomplete): implement me!')
     const validate = () => {
-        rightHandPanel.show(validationResultsSidebarId)
+        if (rightHandPanel.id === validationResultsSidebarId) {
+            rightHandPanel.hide()
+        } else {
+            rightHandPanel.show(validationResultsSidebarId)
+        }
     }
     const completedBy = 'Firstname Lastname' // @TODO(completedBy): implement me!
 

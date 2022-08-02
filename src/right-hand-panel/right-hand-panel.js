@@ -6,6 +6,7 @@ import {
     validationResultsSidebarId,
 } from '../data-workspace/constants.js'
 import { DataDetailsSidebar } from '../data-workspace/index.js'
+import useCloseRightHandPanelOnSelectionChange from '../data-workspace/use-close-right-hand-panel-on-selection-change.js'
 import ValidationResultsSidebar from '../data-workspace/validation/validation-results-sidebar.js'
 import styles from './right-hand-panel.module.css'
 import useRightHandPanelContext from './use-right-hand-panel-context.js'
@@ -18,6 +19,8 @@ const idSidebarMap = {
 
 export default function RightHandPanel() {
     const { id, show, hide } = useRightHandPanelContext()
+    useCloseRightHandPanelOnSelectionChange()
+
     const SidebarComponent = idSidebarMap[id]
 
     if (id && !SidebarComponent) {
