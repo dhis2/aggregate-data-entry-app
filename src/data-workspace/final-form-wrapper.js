@@ -7,17 +7,24 @@ function mapObject(input, callback) {
 }
 
 // Could this instead reuse `mapDataValuesToForm(Initial)Values` in `use-data-value-set.js`?
+// Returns an object in the form of `{ [deId]: { [cocId]: value } }` for Final Form
 function createInitialValues(dataValueSet) {
-    return mapObject(dataValueSet, ([deId, dataElement]) => {
-        return [
-            deId,
-            mapObject(dataElement, ([cocId, { value }]) => [cocId, value]),
-        ]
-    })
+    // dataValueSet can be undefined when offline
+    return dataValueSet
+        ? mapObject(dataValueSet, ([deId, dataElement]) => {
+              return [
+                  deId,
+                  mapObject(dataElement, ([cocId, { value }]) => [
+                      cocId,
+                      value,
+                  ]),
+              ]
+          })
+        : {}
 }
 
 export function FinalFormWrapper({ children, dataValueSet }) {
-    const initialValues = dataValueSet ? createInitialValues(dataValueSet) : {}
+    const initialValues = createInitialValues(dataValueSet)
     return (
         <Form
             onSubmit={(values, form) => {
