@@ -1,5 +1,4 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
-import { useCallback } from 'react'
 import { useQueryClient, useMutation } from 'react-query'
 import { useContextSelection } from '../../context-selection/index.js'
 import { dataValueSets } from '../query-key-factory.js'
