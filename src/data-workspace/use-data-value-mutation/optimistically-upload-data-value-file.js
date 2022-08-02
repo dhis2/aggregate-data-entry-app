@@ -11,7 +11,7 @@ export default async function optimisticallyUploadDataValueFile({
     // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
     await queryClient.cancelQueries(dataValueSetQueryKey)
 
-    // Snapshot the previous value. 
+    // Snapshot the previous value.
     // This query can be undefined when offline;
     // provide an empty 'response' for easier optimistic update
     const previousDataValueSet = queryClient.getQueryData(

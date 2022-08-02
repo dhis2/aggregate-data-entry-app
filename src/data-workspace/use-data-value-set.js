@@ -47,15 +47,15 @@ function mapDataValuesToFormInitialValues(dataValues) {
 
 /**
  * If this query is used while offline, since it uses networkMode = 'online',
- * the query will be PAUSED and its data will be undefined. 
+ * the query will be PAUSED and its data will be undefined.
  * Consumers will need to adapt accordingly to allow forms to load offline.
- * 
+ *
  * Here are some values to expect while offline:
  * isPaused = true
  * isFetching = false
  * isLoading = true
  * data = undefined
- * 
+ *
  * TODO: This is no longer using the dataValueSet endpoint; should rename.
  */
 export const useDataValueSet = () => {
