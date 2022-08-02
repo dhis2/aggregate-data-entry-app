@@ -46,8 +46,9 @@ function mapDataValuesToFormInitialValues(dataValues) {
 }
 
 /**
- * If this query is used while offline, since it uses networkMode = 'online',
- * the query will be PAUSED and its data will be undefined.
+ * If this query is used while offline, since it uses the 'offlineFirst'
+ * network mode, the query will be try once, then be PAUSED 
+ * and its data will be undefined.
  * Consumers will need to adapt accordingly to allow forms to load offline.
  *
  * Here are some values to expect while offline:
@@ -65,14 +66,17 @@ export const useDataValueSet = () => {
 
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
+        // TODO: Disable if disconnected from DHIS2 server?
         enabled: activeMutations === 0 && isValidSelection,
         select: (data) => {
             const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
             const minMaxValues = data.minMaxValues || {}
             return { dataValues, minMaxValues }
         },
-        // // Only fetch whilst offline, to prevent optimistic updates from being overwritten
-        networkMode: 'online',
+        // Fetch once, no matter the network connectivity;
+        // will be 'paused' if offline and the request fails.
+        // Important to try the network when on offline/local DHIS2 implmnt'ns
+        networkMode: 'offlineFirst',
         meta: {
             persist: true,
         },

@@ -47,7 +47,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     // If loading a form while client is offline, since useDataValueSet uses
-    // networkMode = 'online', the initialDataValuesFetch query will be
+    // networkMode = 'offlineFirst', the initialDataValuesFetch query may be
     // PAUSED and its data will be undefined, in which case an empty form
     // should be shown for the user to enter data
 
