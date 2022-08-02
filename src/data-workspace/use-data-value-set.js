@@ -47,7 +47,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
 
 /**
  * If this query is used while offline, since it uses the 'offlineFirst'
- * network mode, the query will be try once, then be PAUSED 
+ * network mode, the query will be try once, then be PAUSED
  * and its data will be undefined.
  * Consumers will need to adapt accordingly to allow forms to load offline.
  *
