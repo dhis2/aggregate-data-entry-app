@@ -37,3 +37,7 @@
     color: var(--colors-grey600);
     text-align: center;
 }
+
+.dataChangedNotice {
+    margin-bottom: 8px;
+}
