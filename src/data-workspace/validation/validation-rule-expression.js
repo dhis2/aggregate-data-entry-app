@@ -1,28 +1,27 @@
-import i18n from '@dhis2/d2-i18n'
+import React from 'react'
 import { ValidationRuleViolationWithMetaDataPropTypes } from './validation-result-prop-types.js'
+import ValidationRuleExpressionWithStaticDescription from './validation-rule-expression-with-description.js'
+import ValidationRuleExpressionWithValues from './validation-rule-expression-with-values.js'
 
-// @ToDO: confirm the human readable equivalent for the operators
-const operatorDisplay = {
-    equal_to: '==',
-    not_equal_to: '!=',
-    greater_than: '>',
-    greater_than_or_equal_to: '>=',
-    less_than: '<',
-    less_than_or_equal_to: '<=',
-    compulsory_pair: i18n.t('is compulsory with'),
-    exclusive_pair: i18n.t('is exclusive to'),
-}
+/**
+ * operators that have a description, not a formula with a right and left side values
+ */
+const descriptionOnlyOperators = ['compulsory_pair', 'exclusive_pair']
 
 const ValidationRuleExpression = ({ validationRule }) => {
-    const {
-        leftsideValue,
-        rightsideValue,
-        metaData: { leftSide, rightSide, operator } = {},
-    } = validationRule
+    const { metaData: { operator } = {} } = validationRule
 
-    return `${leftSide.displayDescription} (${leftsideValue}) ${
-        operatorDisplay[operator] ?? operator
-    } ${rightSide.displayDescription} (${rightsideValue})`
+    if (descriptionOnlyOperators.includes(operator)) {
+        return (
+            <ValidationRuleExpressionWithStaticDescription
+                validationRule={validationRule}
+            />
+        )
+    }
+
+    return (
+        <ValidationRuleExpressionWithValues validationRule={validationRule} />
+    )
 }
 
 ValidationRuleExpression.propTypes = {

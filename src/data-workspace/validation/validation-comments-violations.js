@@ -13,9 +13,7 @@ const ValidationCommentsViolations = ({ commentRequiredViolations }) => {
 
     const title =
         commentRequiredViolations?.length === 1
-            ? i18n.t('{{commentsCount}} comment required', {
-                  commentsCount,
-              })
+            ? i18n.t('1 comment required')
             : i18n.t('{{commentsCount}} comments required', {
                   commentsCount,
               })

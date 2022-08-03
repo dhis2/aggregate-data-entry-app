@@ -97,6 +97,34 @@ describe('ValidationResultsSidebar', () => {
         expect(highPriorityGroup.textContent).toContain(expectedFormula)
     })
 
+    it('should render the formula for special cases like exclusive_pair', async () => {
+        const { findByTestId } = renderComponent({
+            'validation/dataSet/BfMAe6Itzgt': () => {
+                return {
+                    validationRuleViolations: [
+                        {
+                            validationRule: {
+                                name: 'cars exclusive pair with sheets',
+                                displayName: 'cars exclusive pair with sheets',
+                                id: 'SRS9GxWvmLe',
+                                attributeValues: [],
+                            },
+                            leftsideValue: 0,
+                            rightsideValue: 11,
+                        },
+                    ],
+                }
+            },
+        })
+
+        await waitForLoaderToDisappear()
+
+        const highPriorityGroup = await findByTestId('priority-group-HIGH')
+        expect(highPriorityGroup.textContent).toContain('very exclusive rule')
+        expect(highPriorityGroup.textContent).toContain(
+            'cars expense cannot have a value when sheets expense has a value'
+        )
+    })
 
     describe('comments violations', () => {
         it('should render comments required violations', async () => {
