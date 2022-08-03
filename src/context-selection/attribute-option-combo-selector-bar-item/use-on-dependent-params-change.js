@@ -1,9 +1,5 @@
 import { useEffect, useRef } from 'react'
-import {
-    useDataSetId,
-    useOrgUnitId,
-    usePeriodId,
-} from '../use-context-selection/index.js'
+import { useDataSetId, useOrgUnitId, usePeriodId } from '../../shared/index.js'
 
 export default function useOnDependentParamsChange(cb) {
     const initialExecution = useRef(true)

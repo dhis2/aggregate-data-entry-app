@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
 import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
-import { useSetHighlightedFieldIdContext } from '../../shared/index.js'
+import {
+    VALUE_TYPES,
+    useSetHighlightedFieldIdContext,
+} from '../../shared/index.js'
 import { dataDetailsSidebarId } from '../constants.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
@@ -13,7 +16,6 @@ import {
     TrueOnlyCheckbox,
 } from '../inputs/index.js'
 import { useDataValueParams } from './use-data-value-params.js'
-import { VALUE_TYPES } from './value-types.js'
 
 function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
@@ -74,9 +76,10 @@ export function EntryFieldInput({
 
     const onKeyDown = useCallback(
         (event) => {
-            const { key, shiftKey } = event
+            const { key, ctrlKey, metaKey } = event
+            const ctrlXorMetaKey = ctrlKey ^ metaKey
 
-            if (shiftKey && key === 'Enter') {
+            if (ctrlXorMetaKey && key === 'Enter') {
                 setRightHandPanel(dataDetailsSidebarId)
             } else if (key === 'ArrowDown' || key === 'Enter') {
                 event.preventDefault()

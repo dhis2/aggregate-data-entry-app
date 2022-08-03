@@ -1,9 +1,10 @@
-import { selectors, useMetadata } from '../../metadata/index.js'
 import {
+    selectors,
+    useMetadata,
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
-} from '../use-context-selection/index.js'
+} from '../../shared/index.js'
 
 export default function useShouldComponentRenderNull() {
     const [dataSetId] = useDataSetId()

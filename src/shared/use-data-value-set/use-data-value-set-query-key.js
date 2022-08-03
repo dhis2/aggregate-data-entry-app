@@ -1,5 +1,5 @@
-import { useContextSelection } from '../../context-selection/index.js'
-import { useApiAttributeParams } from '../../shared/index.js'
+import { useApiAttributeParams } from '../use-api-attribute-params.js'
+import { useContextSelection } from '../use-context-selection/index.js'
 import { dataValueSets } from './query-key-factory.js'
 
 export default function useDataValueSetQueryKey() {

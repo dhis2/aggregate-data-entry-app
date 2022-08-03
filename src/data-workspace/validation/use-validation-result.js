@@ -1,11 +1,11 @@
 import { useCallback } from 'react'
 import { useIsMutating, useQueries } from 'react-query'
 import {
+    useApiAttributeParams,
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
-} from '../../context-selection/index.js'
-import { useApiAttributeParams } from '../../shared/index.js'
+} from '../../shared/index.js'
 import {
     getValidationMetaDataQueryKey,
     getValidationQueryKey,

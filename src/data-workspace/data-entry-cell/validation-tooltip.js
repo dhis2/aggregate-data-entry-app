@@ -25,7 +25,7 @@ const TooltipManager = React.forwardRef(function TooltipManager(
         else {
             close()
         }
-    }, [invalid, active])
+    }, [invalid, active, open, close])
 
     // Only open the tooltip if the cell is invalid
     const handleMouseOver = () => {

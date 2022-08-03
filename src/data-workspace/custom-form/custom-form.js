@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import useCustomForm from '../../custom-forms/use-custom-form.js'
-import { useMetadata } from '../../metadata/use-metadata.js'
+import { useMetadata } from '../../shared/index.js'
 import styles from './custom-form.module.css'
 import { parseHtmlToReact } from './parse-html-to-react.js'
 

@@ -4,8 +4,8 @@ import {
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
-} from '../context-selection/index.js'
-import { useRightHandPanelContext } from '../right-hand-panel/index.js'
+} from '../shared/index.js'
+import useRightHandPanelContext from './use-right-hand-panel-context.js'
 
 export default function useCloseRightHandPanelOnSelectionChange() {
     const { hide } = useRightHandPanelContext()

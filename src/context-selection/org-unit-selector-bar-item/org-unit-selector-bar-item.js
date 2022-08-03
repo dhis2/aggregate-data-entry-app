@@ -6,7 +6,7 @@ import {
     SelectorBarItem,
 } from '@dhis2/ui'
 import React, { useState } from 'react'
-import { useDataSetId, useOrgUnitId } from '../use-context-selection/index.js'
+import { useDataSetId, useOrgUnitId } from '../../shared/index.js'
 import DebouncedSearchInput from './debounced-search-input.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import css from './org-unit-selector-bar-item.module.css'
