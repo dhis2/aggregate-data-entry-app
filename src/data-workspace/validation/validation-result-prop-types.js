@@ -3,9 +3,6 @@ import { validationLevels } from './validation-config.js'
 
 export const ValidationRuleViolationWithMetaDataPropTypes = PropTypes.shape({
     metaData: PropTypes.shape({
-        displayDescription: PropTypes.string.isRequired,
-        displayInstruction: PropTypes.string.isRequired,
-        displayName: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         importance: PropTypes.string.isRequired,
         leftSide: PropTypes.shape({
@@ -15,6 +12,9 @@ export const ValidationRuleViolationWithMetaDataPropTypes = PropTypes.shape({
         rightSide: PropTypes.shape({
             displayDescription: PropTypes.string.isRequired,
         }).isRequired,
+        displayDescription: PropTypes.string,
+        displayInstruction: PropTypes.string,
+        displayName: PropTypes.string,
     }),
     validationRule: PropTypes.shape({
         id: PropTypes.string.isRequired,
