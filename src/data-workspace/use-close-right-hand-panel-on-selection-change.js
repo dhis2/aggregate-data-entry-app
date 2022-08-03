@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
+import { useRightHandPanelContext } from '../right-hand-panel/index.js'
 import {
     useAttributeOptionComboSelection,
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
-} from '../context-selection/index.js'
-import { useRightHandPanelContext } from '../right-hand-panel/index.js'
+} from '../shared/index.js'
 
 export default function useCloseRightHandPanelOnSelectionChange() {
     const { hide } = useRightHandPanelContext()
