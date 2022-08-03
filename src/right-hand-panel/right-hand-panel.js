@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import useCloseRightHandPanelOnSelectionChange from '../data-workspace/use-close-right-hand-panel-on-selection-change.js'
 import styles from './right-hand-panel.module.css'
+import useCloseRightHandPanelOnSelectionChange from './use-close-right-hand-panel-on-selection-change.js'
 import useRightHandPanelContext from './use-right-hand-panel-context.js'
 
 export default function RightHandPanel({ idSidebarMap }) {
