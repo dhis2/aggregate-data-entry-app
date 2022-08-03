@@ -1,12 +1,13 @@
 import { useConfig } from '@dhis2/app-runtime'
 import moment from 'moment'
 import { useMemo } from 'react'
-import { selectors, useMetadata } from '../../metadata/index.js'
 import {
     getCurrentDate,
     getFixedPeriodsForTypeAndDateRange,
+    selectors,
+    useDataSetId,
+    useMetadata,
 } from '../../shared/index.js'
-import { useDataSetId } from '../use-context-selection/index.js'
 
 function createFormatYyyyMmDd({ periodType, dateFormat }) {
     return (date) => {
