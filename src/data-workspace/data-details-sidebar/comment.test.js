@@ -94,9 +94,7 @@ describe('<Comment />', () => {
 
         expect(queryByRole('progressbar')).not.toBeInTheDocument()
         userEvent.click(getByRole('button', { name: 'Save comment' }))
-        await waitFor(() => {
-            expect(getByRole('progressbar')).toBeInTheDocument()
-        })
+        expect(getByRole('progressbar')).toBeInTheDocument()
     })
 
     it('shows a the error message when submitting a comment fails', async () => {
@@ -135,13 +133,11 @@ describe('<Comment />', () => {
         ).not.toBeInTheDocument()
 
         userEvent.click(getByRole('button', { name: 'Save comment' }))
-        await waitFor(() => {
-            expect(
-                getByRole('heading', {
-                    name: 'There was a problem loading the comment for this data item',
-                })
-            ).toBeInTheDocument()
-        })
+        expect(
+            getByRole('heading', {
+                name: 'There was a problem loading the comment for this data item',
+            })
+        ).toBeInTheDocument()
     })
 
     it('should show the comment as text when done editing', async () => {

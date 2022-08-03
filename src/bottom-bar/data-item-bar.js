@@ -35,7 +35,7 @@ export default function DataItemBar() {
                 small
                 className={styles.dataDetailsButton}
                 onClick={() => {
-                    rightHandPanel.id
+                    rightHandPanel.id === dataDetailsSidebarId
                         ? rightHandPanel.hide()
                         : rightHandPanel.show(dataDetailsSidebarId)
                 }}
