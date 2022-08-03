@@ -1,8 +1,12 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, NoticeBox } from '@dhis2/ui'
 import React from 'react'
-import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
-import { Sidebar, Title, SidebarProps } from '../../shared/index.js'
+import {
+    Sidebar,
+    Title,
+    SidebarProps,
+    useFormChangedSincePanelOpenedContext,
+} from '../../shared/index.js'
 import { useValidationResult } from './use-validation-result.js'
 import ValidationCommentsViolations from './validation-comments-violations.js'
 import { validationLevels } from './validation-config.js'
@@ -11,7 +15,8 @@ import styles from './validation-results-sidebar.module.css'
 import ValidationSummaryBox from './validation-summary-box.js'
 
 export default function ValidationResultsSidebar({ hide }) {
-    const rightHandPanel = useRightHandPanelContext()
+    const { formChangedSincePanelOpened, setFormChangedSincePanelOpened } =
+        useFormChangedSincePanelOpenedContext()
     const {
         isLoading,
         isRefetching,
@@ -30,7 +35,7 @@ export default function ValidationResultsSidebar({ hide }) {
     const hasCommentsViolations = Boolean(commentRequiredViolations?.length)
 
     const rerunValidation = () => {
-        rightHandPanel.setFormChangedSincePanelOpened(false)
+        setFormChangedSincePanelOpened(false)
         refetch()
     }
     return (
@@ -38,7 +43,7 @@ export default function ValidationResultsSidebar({ hide }) {
             <Title onClose={hide}>{i18n.t('Validation')}</Title>
 
             <div className={styles.wrapper}>
-                {rightHandPanel.formChangedSincePanelOpened && (
+                {formChangedSincePanelOpened && (
                     <div className={styles.dataChangedNotice}>
                         <NoticeBox title="Data has changed since validation was run">
                             Data in the entry form has changed, so validation
