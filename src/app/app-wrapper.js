@@ -8,13 +8,16 @@ import { RightHandPanelProvider } from '../right-hand-panel/index.js'
 import { CurrentItemProvider } from '../shared/index.js'
 import App from './app.js'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
+import useQueryClient from './query-client/use-query-client.js'
 
 const AppWrapper = () => {
+    const queryClient = useQueryClient()
+
     return (
         <>
             <CssReset />
             <CssVariables colors spacers theme />
-            <ConfiguredQueryClientProvider>
+            <ConfiguredQueryClientProvider queryClient={queryClient}>
                 <ReactQueryDevtools />
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>

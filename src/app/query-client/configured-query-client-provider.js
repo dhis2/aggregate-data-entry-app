@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { QueryClient } from 'react-query'
 import { PersistQueryClientProvider } from 'react-query/persistQueryClient'
 import createIDBPersister from './persister.js'
-import useQueryClient from './use-query-client.js'
 
 const persister = createIDBPersister()
 
@@ -19,9 +19,7 @@ const persistOptions = {
         },
     },
 }
-export const ConfiguredQueryClientProvider = ({ children }) => {
-    const queryClient = useQueryClient()
-
+export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
     return (
         <PersistQueryClientProvider
             client={queryClient}
@@ -31,7 +29,7 @@ export const ConfiguredQueryClientProvider = ({ children }) => {
         </PersistQueryClientProvider>
     )
 }
-
 ConfiguredQueryClientProvider.propTypes = {
+    queryClient: PropTypes.instanceOf(QueryClient).isRequired,
     children: PropTypes.node,
 }
