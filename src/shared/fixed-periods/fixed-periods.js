@@ -1,4 +1,156 @@
 import i18n from '@dhis2/d2-i18n'
+import moment from 'moment'
+import getCurrentDate from './get-current-date.js'
+
+export function getCurrentPeriod() {}
+
+export function getYearlyPeriodIdForTypeAndYear(type, year) {
+    const yearStr = year.toString()
+
+    switch (type) {
+        case YEARLY:
+            return yearStr
+        case FINANCIAL_APRIL:
+            return `${year}April`
+        case FINANCIAL_JULY:
+            return `${year}July`
+        case FINANCIAL_OCT:
+            return `${year}October`
+        case FINANCIAL_NOV:
+            return `${year}November`
+        default:
+            throw new Error(`Period type "${type}" is not a yearly type`)
+    }
+}
+
+export function addFullPeriodTimeToDate(
+    date,
+    periodType,
+    { useMoment = false } = {}
+) {
+    // Even if date is already moment, this will clone the date, ensuring
+    // not mutating the original
+    const momentDate = moment(date)
+
+    switch (periodType) {
+        case DAILY:
+            momentDate.add(1, 'days')
+            break
+
+        case WEEKLY:
+        case WEEKLY_WEDNESDAY:
+        case WEEKLY_THURSDAY:
+        case WEEKLY_SATURDAY:
+        case WEEKLY_SUNDAY:
+            momentDate.add(1, 'weeks')
+            break
+
+        case BI_WEEKLY:
+            momentDate.add(2, 'weeks')
+            break
+
+        case MONTHLY:
+            momentDate.add(1, 'months')
+            break
+
+        case BI_MONTHLY:
+            momentDate.add(2, 'months')
+            break
+
+        case QUARTERLY:
+            momentDate.add(3, 'months')
+            break
+
+        case SIX_MONTHLY:
+        case SIX_MONTHLY_APRIL:
+            momentDate.add(6, 'months')
+            break
+
+        case YEARLY:
+        case FINANCIAL_APRIL:
+        case FINANCIAL_JULY:
+        case FINANCIAL_OCT:
+        case FINANCIAL_NOV:
+            momentDate.add(1, 'year')
+            break
+    }
+
+    return useMoment ? momentDate : momentDate.toDate()
+}
+
+export function removeFullPeriodTimeToDate(
+    date,
+    periodType,
+    { useMoment = false } = {}
+) {
+    // Even if date is already moment, this will clone the date, ensuring
+    // not mutating the original
+    const momentDate = moment(date)
+
+    switch (periodType) {
+        case DAILY:
+            momentDate.add(-1, 'days')
+            break
+
+        case WEEKLY:
+        case WEEKLY_WEDNESDAY:
+        case WEEKLY_THURSDAY:
+        case WEEKLY_SATURDAY:
+        case WEEKLY_SUNDAY:
+            momentDate.add(-1, 'weeks')
+            break
+
+        case BI_WEEKLY:
+            momentDate.add(-2, 'weeks')
+            break
+
+        case MONTHLY:
+            momentDate.add(-1, 'months')
+            break
+
+        case BI_MONTHLY:
+            momentDate.add(-2, 'months')
+            break
+
+        case QUARTERLY:
+            momentDate.add(-3, 'months')
+            break
+
+        case SIX_MONTHLY:
+        case SIX_MONTHLY_APRIL:
+            momentDate.add(-6, 'months')
+            break
+
+        case YEARLY:
+        case FINANCIAL_APRIL:
+        case FINANCIAL_JULY:
+        case FINANCIAL_OCT:
+        case FINANCIAL_NOV:
+            momentDate.add(-1, 'year')
+            break
+    }
+
+    return useMoment ? momentDate : momentDate.toDate()
+}
+
+export function getFixedPeriodFollowingPeriod(fixedPeriod) {
+    const nextStartDate = moment(fixedPeriod.endDate).add(1, 'days')
+    const startDateAfterFollowingPeriod = addFullPeriodTimeToDate(
+        nextStartDate,
+        fixedPeriod.periodType.type,
+        { useMoment: true }
+    )
+
+    const args = {
+        periodType: fixedPeriod.periodType.type,
+        startDate: nextStartDate.format('YYYY-MM-DD'),
+        endDate: startDateAfterFollowingPeriod.format('YYYY-MM-DD'),
+    }
+
+    const [followingPeriod] = getFixedPeriodsForTypeAndDateRange(args)
+
+    return parsePeriodId(followingPeriod.id)
+}
 
 /*
  * This code is copied from the analytics repo as a temporary solution.
@@ -75,13 +227,6 @@ const getMonthName = (key) => {
     return monthNames[key]
 }
 
-/**
- * Initialise a Date instance with Date.now() for Jest mocking.
- * This can be removed once we upgrade Jest to a verion which
- * supports `jest.setSystemTime`.
- */
-export const getCurrentDate = () => new Date(Date.now())
-
 export const getYearWithOffset = (offset) => {
     const offsetInt = parseInt(offset, 10) || 0
     return getCurrentDate().getFullYear() + offsetInt
@@ -96,12 +241,14 @@ const getDailyPeriodType = (formatYyyyMmDd, fnFilter) => {
         const date = new Date(`01 Jan ${year}`)
 
         while (date.getFullYear() === year) {
-            const period = {}
-            period.startDate = formatYyyyMmDd(date)
-            period.endDate = period.startDate
-            period.displayName = period.startDate
-            period.iso = period.startDate.replace(/-/g, '')
-            period.id = period.iso
+            const period = {
+                startDate: formatYyyyMmDd(date),
+                endDate: period.startDate,
+                displayName: period.startDate,
+                iso: period.startDate.replace(/-/g, ''),
+                id: period.iso,
+            }
+
             periods.push(period)
             date.setDate(date.getDate() + 1)
         }
@@ -140,10 +287,12 @@ const getWeeklyPeriodType = (formatYyyyMmDd, weekObj, fnFilter) => {
         let week = 1
 
         while (date.getFullYear() <= year) {
-            const period = {}
-            period.startDate = formatYyyyMmDd(date)
-            period.iso = `${year}${weekObj.shortName}W${week}`
-            period.id = period.iso
+            const period = {
+                startDate: formatYyyyMmDd(date),
+                iso: `${year}${weekObj.shortName}W${week}`,
+                id: period.iso,
+            }
+
             date.setDate(date.getDate() + 6)
             period.endDate = formatYyyyMmDd(date)
 
@@ -187,14 +336,15 @@ const getBiWeeklyPeriodType = (formatYyyyMmDd, fnFilter) => {
         }
 
         while (date.getFullYear() <= year) {
-            const period = {}
+            const period = {
+                iso: `${year}BiW${biWeek}`,
+                id: period.iso,
+                startDate: formatYyyyMmDd(date),
+            }
 
-            period.iso = `${year}BiW${biWeek}`
-            period.id = period.iso
-            period.startDate = formatYyyyMmDd(date)
             date.setDate(date.getDate() + 13)
-
             period.endDate = formatYyyyMmDd(date)
+
             const biWeekNumber = biWeek
             period.displayName = `${i18n.t('Bi-Week {{biWeekNumber}}', {
                 biWeekNumber,
@@ -238,9 +388,10 @@ const getMonthlyPeriodType = (formatYyyyMmDd, fnFilter) => {
         const date = new Date(`31 Dec ${year}`)
 
         while (date.getFullYear() === year) {
-            const period = {}
+            const period = {
+                endDate: formatYyyyMmDd(date),
+            }
 
-            period.endDate = formatYyyyMmDd(date)
             date.setDate(1)
             period.startDate = formatYyyyMmDd(date)
             const monthName = getMonthName(date.getMonth())
@@ -270,9 +421,8 @@ const getBiMonthlyPeriodType = (formatYyyyMmDd, fnFilter) => {
         let index = 6
 
         while (date.getFullYear() === year) {
-            const period = {}
+            const period = { endDate: formatYyyyMmDd(date) }
 
-            period.endDate = formatYyyyMmDd(date)
             date.setDate(0)
             date.setDate(1)
             period.startDate = formatYyyyMmDd(date)
@@ -306,8 +456,7 @@ const getQuarterlyPeriodType = (formatYyyyMmDd, fnFilter) => {
         let quarter = 4
 
         while (date.getFullYear() === year) {
-            const period = {}
-            period.endDate = formatYyyyMmDd(date)
+            const period = { endDate: formatYyyyMmDd(date) }
             date.setDate(0)
             date.setDate(0)
             date.setDate(1)
@@ -402,8 +551,7 @@ const getYearlyPeriodType = (formatYyyyMmDd, fnFilter) => {
         const date = new Date(`31 Dec ${year}`)
 
         while (year - date.getFullYear() < 10) {
-            const period = {}
-            period.endDate = formatYyyyMmDd(date)
+            const period = { endDate: formatYyyyMmDd(date) }
             date.setMonth(0, 1)
             period.startDate = formatYyyyMmDd(date)
             const dateString = date.getFullYear().toString()
@@ -431,8 +579,7 @@ const getFinancialOctoberPeriodType = (formatYyyyMmDd, fnFilter) => {
         const date = new Date(`30 Sep ${year + 1}`)
 
         for (let i = 0; i < 10; i++) {
-            const period = {}
-            period.endDate = formatYyyyMmDd(date)
+            const period = { endDate: formatYyyyMmDd(date) }
             date.setYear(date.getFullYear() - 1)
             date.setDate(date.getDate() + 1)
             period.startDate = formatYyyyMmDd(date)
@@ -441,7 +588,7 @@ const getFinancialOctoberPeriodType = (formatYyyyMmDd, fnFilter) => {
             period.displayName = `${getMonthName(
                 9
             )} ${yearStart} - ${getMonthName(8)} ${yearEnd}`
-            period.id = `${date.getFullYear()}Oct`
+            period.id = getYearlyPeriodIdForTypeAndYear(FINANCIAL_OCT, year)
             periods.push(period)
             date.setDate(date.getDate() - 1)
         }
@@ -463,8 +610,7 @@ const getFinancialNovemberPeriodType = (formatYyyyMmDd, fnFilter) => {
         const date = new Date(`31 Oct ${year + 1}`)
 
         for (let i = 0; i < 10; i++) {
-            const period = {}
-            period.endDate = formatYyyyMmDd(date)
+            const period = { endDate: formatYyyyMmDd(date) }
             date.setYear(date.getFullYear() - 1)
             date.setDate(date.getDate() + 1)
             period.startDate = formatYyyyMmDd(date)
@@ -473,7 +619,7 @@ const getFinancialNovemberPeriodType = (formatYyyyMmDd, fnFilter) => {
             period.displayName = `${getMonthName(
                 10
             )} ${yearStart} - ${getMonthName(9)} ${yearEnd}`
-            period.id = `${date.getFullYear()}Nov`
+            period.id = getYearlyPeriodIdForTypeAndYear(FINANCIAL_NOV, year)
             periods.push(period)
             date.setDate(date.getDate() - 1)
         }
@@ -495,8 +641,7 @@ const getFinancialJulyPeriodType = (formatYyyyMmDd, fnFilter) => {
         const date = new Date(`30 Jun ${year + 1}`)
 
         for (let i = 0; i < 10; i++) {
-            const period = {}
-            period.endDate = formatYyyyMmDd(date)
+            const period = { endDate: formatYyyyMmDd(date) }
             date.setYear(date.getFullYear() - 1)
             date.setDate(date.getDate() + 1)
             period.startDate = formatYyyyMmDd(date)
@@ -505,7 +650,7 @@ const getFinancialJulyPeriodType = (formatYyyyMmDd, fnFilter) => {
             period.displayName = `${getMonthName(
                 6
             )} ${yearStart} - ${getMonthName(5)} ${yearEnd}`
-            period.id = `${date.getFullYear()}July`
+            period.id = getYearlyPeriodIdForTypeAndYear(FINANCIAL_JULY, year)
             periods.push(period)
             date.setDate(date.getDate() - 1)
         }
@@ -527,8 +672,7 @@ const getFinancialAprilPeriodType = (formatYyyyMmDd, fnFilter) => {
         const date = new Date(`31 Mar ${year + 1}`)
 
         for (let i = 0; i < 10; i++) {
-            const period = {}
-            period.endDate = formatYyyyMmDd(date)
+            const period = { endDate: formatYyyyMmDd(date) }
             date.setYear(date.getFullYear() - 1)
             date.setDate(date.getDate() + 1)
             period.startDate = formatYyyyMmDd(date)
@@ -537,7 +681,7 @@ const getFinancialAprilPeriodType = (formatYyyyMmDd, fnFilter) => {
             period.displayName = `${getMonthName(
                 3
             )} ${yearStart} - ${getMonthName(2)} ${yearEnd}`
-            period.id = `${date.getFullYear()}April`
+            period.id = getYearlyPeriodIdForTypeAndYear(FINANCIAL_APRIL, year)
             periods.push(period)
             date.setDate(date.getDate() - 1)
         }
@@ -866,4 +1010,18 @@ export const getFixedPeriodsForTypeAndDateRange = ({
     }
 
     return convertedPeriods.reverse()
+}
+
+export const getFollowingFixedPeriodsForPeriod = (period, amount) => {
+    const followingPeriods = []
+
+    for (let i = 0; i < amount; ++i) {
+        const nextFollowingPeriod =
+            i === 0
+                ? getFixedPeriodFollowingPeriod(period)
+                : getFixedPeriodFollowingPeriod(followingPeriods[i - 1])
+        followingPeriods.push(nextFollowingPeriod)
+    }
+
+    return followingPeriods
 }

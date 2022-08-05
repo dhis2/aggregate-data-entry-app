@@ -140,8 +140,11 @@ Then('the user should only see options of that type for "monthly"', () => {
 })
 
 Then('the user should only see options of that type for "yearly"', () => {
+    const currentYear = new Date().getFullYear()
+    const yearsToBeDisplayed = currentYear - 1970 // year of 0-timestamp
+
     cy.get('[data-test="period-selector-menu"] li')
-        .should('have.length', 9)
+        .should('have.length', yearsToBeDisplayed)
         .and((liElements) => {
             liElements.each((index, liElement) => {
                 expect(liElement.innerText).to.match(/^[0-9]{4}$/)

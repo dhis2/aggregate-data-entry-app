@@ -12,6 +12,7 @@ import {
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
 import useFuturePeriods from './use-future-periods.js'
+import usePeriods from './use-periods.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import YearNavigator from './year-navigator.js'
 
@@ -30,18 +31,26 @@ function getMaxYear(futurePeriods) {
 export const PeriodSelectorBarItem = () => {
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()
+    const selectedPeriod = usePeriod(periodId)
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const dataSetPeriodType = dataSet?.periodType
     const openFuturePeriods = dataSet?.openFuturePeriods
 
+    const [year, setYear] = useState(
+        selectedPeriod?.year || getCurrentDate().getFullYear()
+    )
+
     const futurePeriods = useFuturePeriods()
-
     const [maxYear, setMaxYear] = useState(() => getMaxYear(futurePeriods))
-
-    const selectedPeriod = usePeriod(periodId)
-    const [year, setYear] = useState(selectedPeriod?.year || maxYear)
+    const periods = usePeriods({
+        periodType: dataSetPeriodType,
+        periodId,
+        futurePeriods,
+        openFuturePeriods,
+        year,
+    })
 
     useEffect(() => {
         if (selectedPeriod?.year) {
@@ -55,7 +64,7 @@ export const PeriodSelectorBarItem = () => {
             setMaxYear(newMaxYear)
 
             if (!selectedPeriod?.year) {
-                setYear(newMaxYear)
+                setYear(getCurrentDate().getFullYear())
             }
         }
     }, [
@@ -89,13 +98,11 @@ export const PeriodSelectorBarItem = () => {
                             )}
 
                             <PeriodMenu
-                                futurePeriods={futurePeriods}
+                                periods={periods}
                                 onChange={({ selected }) => {
                                     setPeriodId(selected)
                                     setPeriodOpen(false)
                                 }}
-                                periodType={dataSetPeriodType}
-                                year={year}
                             />
                         </>
                     ) : (
