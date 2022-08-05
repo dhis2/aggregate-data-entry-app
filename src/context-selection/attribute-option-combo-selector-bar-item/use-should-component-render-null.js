@@ -14,9 +14,7 @@ export default function useShouldComponentRenderNull(
         !periodId ||
         !orgUnitId ||
         categoryWithNoOptionsExists ||
-        // if it is the default combo,
-        // then it doesn't matter if there are categories or not
-        (!categoryCombination.isDefault &&
-            !categoryCombination.categories.length)
+        // if it is the default combo, it'll already render null, see above
+        !categoryCombination.categories.length
     )
 }
