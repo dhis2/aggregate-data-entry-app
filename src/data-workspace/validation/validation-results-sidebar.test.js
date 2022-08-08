@@ -97,6 +97,82 @@ describe('ValidationResultsSidebar', () => {
         expect(highPriorityGroup.textContent).toContain(expectedFormula)
     })
 
+    it('should render the formula for special cases like exclusive_pair', async () => {
+        const { findByTestId } = renderComponent({
+            'validation/dataSet/BfMAe6Itzgt': () => {
+                return {
+                    validationRuleViolations: [
+                        {
+                            validationRule: {
+                                name: 'cars exclusive pair with sheets',
+                                displayName: 'cars exclusive pair with sheets',
+                                id: 'SRS9GxWvmLe',
+                                attributeValues: [],
+                            },
+                            leftsideValue: 0,
+                            rightsideValue: 11,
+                        },
+                    ],
+                }
+            },
+        })
+
+        await waitForLoaderToDisappear()
+
+        const highPriorityGroup = await findByTestId('priority-group-HIGH')
+        expect(highPriorityGroup.textContent).toContain('very exclusive rule')
+        expect(highPriorityGroup.textContent).toContain(
+            'cars expense cannot have a value when sheets expense has a value'
+        )
+    })
+
+    describe('comments violations', () => {
+        it('should render comments required violations', async () => {
+            const { getByText } = renderComponent({
+                'validation/dataSet/BfMAe6Itzgt': () => {
+                    return {
+                        commentRequiredViolations: [
+                            {
+                                displayShortName: 'Cars Expense',
+                                id: 'BDuY694ZAFa',
+                            },
+                        ],
+                    }
+                },
+            })
+
+            await waitForLoaderToDisappear()
+
+            expect(
+                getByText(
+                    `Cars Expense must have a comment when it doesn't have a value.`
+                )
+            ).toBeInTheDocument()
+            expect(getByText(`1 comment required`)).toBeInTheDocument()
+        })
+        it('should render the correct title when there are many violations', async () => {
+            const { getByText } = renderComponent({
+                'validation/dataSet/BfMAe6Itzgt': () => {
+                    return {
+                        commentRequiredViolations: [
+                            {
+                                displayShortName: 'Cars Expense',
+                                id: 'BDuY694ZAFa',
+                            },
+                            {
+                                displayShortName: 'another rule',
+                                id: 'another_id',
+                            },
+                        ],
+                    }
+                },
+            })
+
+            await waitForLoaderToDisappear()
+            expect(getByText(`2 comments required`)).toBeInTheDocument()
+        })
+    })
+
     it('should display an error when validation fails', async () => {
         const overrideOptions = {
             validationRules: () => {
@@ -490,6 +566,30 @@ const validationMetadataMockResponse = {
             displayName:
                 'Measles, Slept under LLITN last night, <1 year Outreach',
             id: 'AtsPA2YokRq',
+        },
+        {
+            importance: 'HIGH',
+            operator: 'exclusive_pair',
+            leftSide: {
+                translations: [],
+                expression: '#{BDuY694ZAFa}',
+                description: 'cars expense',
+                slidingWindow: false,
+                missingValueStrategy: 'NEVER_SKIP',
+                displayDescription: 'cars expense',
+            },
+            rightSide: {
+                translations: [],
+                expression: '#{RR538iV9G1X}',
+                description: 'sheets expense',
+                slidingWindow: false,
+                missingValueStrategy: 'NEVER_SKIP',
+                displayDescription: 'sheets expense',
+            },
+            displayInstruction: 'very exclusive rule',
+            displayDescription: 'very exclusive rule',
+            displayName: '[mozafar] cars exclusive pair with sheets',
+            id: 'SRS9GxWvmLe',
         },
     ],
 }
