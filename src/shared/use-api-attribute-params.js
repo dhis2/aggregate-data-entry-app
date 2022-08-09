@@ -2,7 +2,9 @@ import { useMetadata, selectors } from './metadata/index.js'
 import { useContextSelection } from './use-context-selection/index.js'
 
 /**
- * Finds the attributeComboId for the current attribute-option selection
+ * Finds the attributeComboId for the current attribute-option selection.
+ * Returns { attributeCombo: undefined, attributeOptions: undefined }
+ * if the current data set uses the `default` attribute combo
  */
 
 export const useApiAttributeParams = () => {
