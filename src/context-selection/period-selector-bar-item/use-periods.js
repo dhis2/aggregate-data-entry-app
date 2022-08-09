@@ -53,7 +53,7 @@ export default function usePeriods({
                 return parsePeriodId(periodId)
             })
         } else if (year > currentYear) {
-            return futurePeriods.filter(
+            periods = futurePeriods.filter(
                 ({ startDate }) => new Date(startDate).getFullYear() === year
             )
         } else {
