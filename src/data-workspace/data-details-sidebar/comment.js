@@ -24,7 +24,8 @@ function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
             pe,
             co: item.categoryOptionCombo,
             de: item.dataElement,
-            comment: values.comment,
+            // Don't send `undefined` (or 'undefined' will be stored as the comment)
+            comment: values.comment || '',
         }
 
         return syncComment(variables)
@@ -88,6 +89,7 @@ export default function Comment({ item }) {
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
     const setDataValueComment = useSetDataValueCommentMutation(() =>
+        // todo: move this callback to the `mutate` invocation instead of here
         setEditing(false)
     )
 
