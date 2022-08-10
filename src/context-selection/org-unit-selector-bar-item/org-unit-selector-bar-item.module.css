@@ -8,9 +8,9 @@
 }
 
 .searchInputContainer {
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--colors-grey300);
-    margin-bottom: 8px;
+    padding-block-end: 4px;
+    border-block-end: 1px solid var(--colors-grey300);
+    margin-block-end: 8px;
     flex-grow: 0;
 }
 

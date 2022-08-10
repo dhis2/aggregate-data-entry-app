@@ -12,7 +12,7 @@
 }
 
 .entry {
-    margin-bottom: var(--spacers-dp8);
+    margin-block-end: var(--spacers-dp8);
 }
 
 .entry::marker {
@@ -26,7 +26,7 @@
 
 .entryMessage {
     color: var(--colors-grey900);
-    margin-right: var(--spacers-dp4);
+    margin-inline-end: var(--spacers-dp4);
 }
 
 .entryTimeAgo {

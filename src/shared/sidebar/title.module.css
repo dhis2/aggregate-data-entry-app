@@ -3,7 +3,7 @@
     grid-template-columns: 1fr auto;
     align-items: center;
     min-height: 44px;
-    padding-left: var(--spacers-dp16);
+    padding-inline-start: var(--spacers-dp16);
     background: var(--colors-grey300);
 }
 

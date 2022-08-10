@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     padding: var(--spacers-dp4) 0;
-    border-bottom: 1px solid var(--colors-grey300);
+    border-block-end: 1px solid var(--colors-grey300);
 }
 
 .year {
@@ -11,6 +11,6 @@
     color: var(--colors-grey900);
     font-size: 16px;
     line-height: 19px;
-    margin-left: var(--spacers-dp8);
-    margin-right: var(--spacers-dp8);
+    margin-inline-start: var(--spacers-dp8);
+    margin-inline-end: var(--spacers-dp8);
 }

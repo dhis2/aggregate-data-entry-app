@@ -66,12 +66,12 @@
 }
 .fileInput {
     /* Fixes extra padding at the bottom of the UI component */
-    margin-bottom: -4px;
+    margin-block-end: -4px;
 }
 .fileLink {
     color: var(--colors-grey700);
 }
 .deleteFileButton {
     composes: whiteButton;
-    margin-left: 8px;
+    margin-inline-start: 8px;
 }

@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     gap: var(--spacers-dp4);
-    margin-bottom: var(--spacers-dp12);
+    margin-block-end: var(--spacers-dp12);
     font-size: 12px;
     line-height: 14px;
     color: var(--colors-grey800);
@@ -12,17 +12,17 @@
     display: inline-block;
     width: 60px;
     margin: 0 var(--spacers-dp12);
-    border-top: 1px solid var(--colors-grey400);
+    border-block-start: 1px solid var(--colors-grey400);
 }
 
 .input {
     display: inline-block;
     width: 60px;
-    margin-bottom: var(--spacers-dp12);
+    margin-block-end: var(--spacers-dp12);
 }
 
 .placeholder {
-    margin-bottom: var(--spacers-dp12);
+    margin-block-end: var(--spacers-dp12);
     font-size: 14px;
     line-height: 19px;
     color: var(--colors-grey600);
@@ -35,7 +35,7 @@
     display: inline-flex;
     flex-direction: column;
     gap: var(--spacers-dp4);
-    margin-bottom: var(--spacers-dp12);
+    margin-block-end: var(--spacers-dp12);
     text-align: center;
 }
 

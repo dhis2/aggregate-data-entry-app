@@ -15,7 +15,7 @@
 .categoryNameHeader {
     composes: tableHeader;
     font-weight: 300;
-    text-align: right;
+    text-align: end;
 }
 
 .dataElementName {

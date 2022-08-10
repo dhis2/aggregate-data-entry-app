@@ -52,28 +52,28 @@
 
 .topRightIndicator {
     position: absolute;
-    top: 0;
-    right: 0;
+    inset-block-start: 0;
+    inset-inline-end: 0;
 }
 .bottomLeftIndicator {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    inset-block-end: 0;
+    inset-inline-start: 0;
 }
 
 .topRightTriangle {
     width: 0;
     height: 0;
-    border-top: 3px solid var(--colors-green300);
-    border-right: 3px solid var(--colors-green300);
-    border-bottom: 3px solid transparent;
-    border-left: 3px solid transparent;
+    border-block-start: 3px solid var(--colors-green300);
+    border-inline-end: 3px solid var(--colors-green300);
+    border-block-end: 3px solid transparent;
+    border-inline-start: 3px solid transparent;
 }
 .bottomLeftTriangle {
     width: 0;
     height: 0;
-    border-top: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-bottom: 3px solid var(--colors-grey600);
-    border-left: 3px solid var(--colors-grey600);
+    border-block-start: 3px solid transparent;
+    border-inline-end: 3px solid transparent;
+    border-block-end: 3px solid var(--colors-grey600);
+    border-inline-start: 3px solid var(--colors-grey600);
 }

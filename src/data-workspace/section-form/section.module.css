@@ -32,7 +32,7 @@
 .description {
     color: var(--colors-grey300);
     font-size: 13px;
-    margin-top: 2px;
+    margin-block-start: 2px;
     font-weight: 300;
 }
 
@@ -47,9 +47,9 @@
     height: 100%;
     width: 100%;
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     /* Offset for 'Filter' icon and its padding */
-    padding-left: 32px;
+    padding-inline-start: 32px;
     background: none;
     border: none;
     color: var(--colors-grey900);
@@ -64,5 +64,5 @@
 }
 
 .sectionTab {
-    margin-bottom: 8px;
+    margin-block-end: 8px;
 }

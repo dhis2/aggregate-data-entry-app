@@ -6,7 +6,7 @@
 
 .toolbarItem {
     display: flex;
-    margin-right: 12px;
+    margin-inline-end: 12px;
 }
 
 .toolbarItem:last-child {
@@ -14,12 +14,12 @@
      * This way we avoid a break/overflow when the
      * margin would "spill over" otherwise
      */
-    margin-right: 0;
+    margin-inline-end: 0;
 }
 
 .icon {
     display: block;
-    margin-right: 4px;
+    margin-inline-end: 4px;
     height: 16px;
     width: 16px;
 }
