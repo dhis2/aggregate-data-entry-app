@@ -32,10 +32,14 @@ const SET_DATA_VALUE_COMMENT_MUTATION = {
 }
 
 /**
- * Adds data set context to data value mutations (ds, pe, ou, [cc and cp]).
- *
- * When calling the resulting `mutate` function, supply an object of the
- * desired data to send, e.g. `{ value: 5 }` or `{ value: 'id', file: 'file' }`
+ * A mutation function is called with the `variables` object that is passed
+ * to the `mutate` function that is returned from `useMutation`.
+ * 
+ * These functions add data set context to data value mutations
+ * (ds, pe, ou, [cc and cp]).
+ * Therefore, when calling the resulting `mutate` function, supply a variables
+ * object of thedesired data to send, e.g. `{ value: 5 }`,
+ * `{ value: 'id', file: 'file' }`, or `{ comment: 'this data is awesome' }`.  
  */
 function useSharedMutationFunction({ mutationObj, dataValueParams }) {
     const engine = useDataEngine()
