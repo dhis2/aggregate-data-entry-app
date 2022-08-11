@@ -2,6 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
 import {
+    yearlyPeriodTypes,
     getCurrentDate,
     selectors,
     useMetadata,
@@ -89,7 +90,7 @@ export const PeriodSelectorBarItem = () => {
                 >
                     {year ? (
                         <>
-                            {dataSetPeriodType !== 'Yearly' && (
+                            {!yearlyPeriodTypes.includes(dataSetPeriodType) && (
                                 <YearNavigator
                                     maxYear={maxYear}
                                     year={year}

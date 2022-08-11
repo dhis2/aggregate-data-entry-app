@@ -1,8 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
-import moment from 'moment'
 import getCurrentDate from './get-current-date.js'
 
-export function getCurrentPeriod() {}
+export const startYear = 1970
 
 export function getYearlyPeriodIdForTypeAndYear(type, year) {
     const yearStr = year.toString()
@@ -15,142 +14,70 @@ export function getYearlyPeriodIdForTypeAndYear(type, year) {
         case FINANCIAL_JULY:
             return `${year}July`
         case FINANCIAL_OCT:
-            return `${year}October`
+            return `${year}Oct`
         case FINANCIAL_NOV:
-            return `${year}November`
+            return `${year}Nov`
         default:
             throw new Error(`Period type "${type}" is not a yearly type`)
     }
 }
 
-export function addFullPeriodTimeToDate(
-    date,
-    periodType,
-    { useMoment = false } = {}
-) {
-    // Even if date is already moment, this will clone the date, ensuring
-    // not mutating the original
-    const momentDate = moment(date)
+const createUpdateFullPeriodTimeToDate = (multiplier) => {
+    return (date, periodType) => {
+        // Clone the date object, to not mutate the original
+        const updatedDate = new Date(date)
 
-    switch (periodType) {
-        case DAILY:
-            momentDate.add(1, 'days')
-            break
+        switch (periodType) {
+            case DAILY:
+                updatedDate.setDate(updatedDate.getDate() + 1 * multiplier)
+                break
 
-        case WEEKLY:
-        case WEEKLY_WEDNESDAY:
-        case WEEKLY_THURSDAY:
-        case WEEKLY_SATURDAY:
-        case WEEKLY_SUNDAY:
-            momentDate.add(1, 'weeks')
-            break
+            case WEEKLY:
+            case WEEKLY_WEDNESDAY:
+            case WEEKLY_THURSDAY:
+            case WEEKLY_SATURDAY:
+            case WEEKLY_SUNDAY:
+                updatedDate.setDate(updatedDate.getDate() + 7 * multiplier)
+                break
 
-        case BI_WEEKLY:
-            momentDate.add(2, 'weeks')
-            break
+            case BI_WEEKLY:
+                updatedDate.setDate(updatedDate.getDate() + 14 * multiplier)
+                break
 
-        case MONTHLY:
-            momentDate.add(1, 'months')
-            break
+            case MONTHLY:
+                updatedDate.setMonth(updatedDate.getMonth() + 1 * multiplier)
+                break
 
-        case BI_MONTHLY:
-            momentDate.add(2, 'months')
-            break
+            case BI_MONTHLY:
+                updatedDate.setMonth(updatedDate.getMonth() + 2 * multiplier)
+                break
 
-        case QUARTERLY:
-            momentDate.add(3, 'months')
-            break
+            case QUARTERLY:
+                updatedDate.setMonth(updatedDate.getMonth() + 3 * multiplier)
+                break
 
-        case SIX_MONTHLY:
-        case SIX_MONTHLY_APRIL:
-            momentDate.add(6, 'months')
-            break
+            case SIX_MONTHLY:
+            case SIX_MONTHLY_APRIL:
+            case SIX_MONTHLY_NOV:
+                updatedDate.setMonth(updatedDate.getMonth() + 6 * multiplier)
+                break
 
-        case YEARLY:
-        case FINANCIAL_APRIL:
-        case FINANCIAL_JULY:
-        case FINANCIAL_OCT:
-        case FINANCIAL_NOV:
-            momentDate.add(1, 'year')
-            break
+            case YEARLY:
+            case FINANCIAL_APRIL:
+            case FINANCIAL_JULY:
+            case FINANCIAL_OCT:
+            case FINANCIAL_NOV:
+                updatedDate.setFullYear(
+                    updatedDate.getFullYear() + 1 * multiplier
+                )
+                break
+        }
+        return updatedDate
     }
-
-    return useMoment ? momentDate : momentDate.toDate()
 }
 
-export function removeFullPeriodTimeToDate(
-    date,
-    periodType,
-    { useMoment = false } = {}
-) {
-    // Even if date is already moment, this will clone the date, ensuring
-    // not mutating the original
-    const momentDate = moment(date)
-
-    switch (periodType) {
-        case DAILY:
-            momentDate.add(-1, 'days')
-            break
-
-        case WEEKLY:
-        case WEEKLY_WEDNESDAY:
-        case WEEKLY_THURSDAY:
-        case WEEKLY_SATURDAY:
-        case WEEKLY_SUNDAY:
-            momentDate.add(-1, 'weeks')
-            break
-
-        case BI_WEEKLY:
-            momentDate.add(-2, 'weeks')
-            break
-
-        case MONTHLY:
-            momentDate.add(-1, 'months')
-            break
-
-        case BI_MONTHLY:
-            momentDate.add(-2, 'months')
-            break
-
-        case QUARTERLY:
-            momentDate.add(-3, 'months')
-            break
-
-        case SIX_MONTHLY:
-        case SIX_MONTHLY_APRIL:
-            momentDate.add(-6, 'months')
-            break
-
-        case YEARLY:
-        case FINANCIAL_APRIL:
-        case FINANCIAL_JULY:
-        case FINANCIAL_OCT:
-        case FINANCIAL_NOV:
-            momentDate.add(-1, 'year')
-            break
-    }
-
-    return useMoment ? momentDate : momentDate.toDate()
-}
-
-export function getFixedPeriodFollowingPeriod(fixedPeriod) {
-    const nextStartDate = moment(fixedPeriod.endDate).add(1, 'days')
-    const startDateAfterFollowingPeriod = addFullPeriodTimeToDate(
-        nextStartDate,
-        fixedPeriod.periodType.type,
-        { useMoment: true }
-    )
-
-    const args = {
-        periodType: fixedPeriod.periodType.type,
-        startDate: nextStartDate.format('YYYY-MM-DD'),
-        endDate: startDateAfterFollowingPeriod.format('YYYY-MM-DD'),
-    }
-
-    const [followingPeriod] = getFixedPeriodsForTypeAndDateRange(args)
-
-    return parsePeriodId(followingPeriod.id)
-}
+export const addFullPeriodTimeToDate = createUpdateFullPeriodTimeToDate(1)
+export const removeFullPeriodTimeToDate = createUpdateFullPeriodTimeToDate(-1)
 
 /*
  * This code is copied from the analytics repo as a temporary solution.
@@ -177,7 +104,7 @@ export const BI_MONTHLY = 'BiMonthly'
 export const QUARTERLY = 'Quarterly'
 export const SIX_MONTHLY = 'SixMonthly'
 export const SIX_MONTHLY_APRIL = 'SixMonthlyApril'
-// const SIX_MONTHLY_NOV = 'SixMonthlyNov'
+export const SIX_MONTHLY_NOV = 'SixMonthlyNov'
 export const YEARLY = 'Yearly'
 export const FINANCIAL_APRIL = 'FinancialApril'
 export const FINANCIAL_JULY = 'FinancialJuly'
@@ -199,12 +126,21 @@ const PERIOD_TYPES = new Set([
     QUARTERLY,
     SIX_MONTHLY,
     SIX_MONTHLY_APRIL,
+    SIX_MONTHLY_NOV,
     YEARLY,
     FINANCIAL_APRIL,
     FINANCIAL_JULY,
     FINANCIAL_OCT,
     FINANCIAL_NOV,
 ])
+
+export const yearlyPeriodTypes = [
+    YEARLY,
+    FINANCIAL_APRIL,
+    FINANCIAL_JULY,
+    FINANCIAL_OCT,
+    FINANCIAL_NOV,
+]
 
 export const isValidPeriodType = (periodType) => PERIOD_TYPES.has(periodType)
 
@@ -243,13 +179,13 @@ const getDailyPeriodType = (formatYyyyMmDd, fnFilter) => {
         while (date.getFullYear() === year) {
             const period = {
                 startDate: formatYyyyMmDd(date),
-                endDate: period.startDate,
-                displayName: period.startDate,
-                iso: period.startDate.replace(/-/g, ''),
-                id: period.iso,
             }
-
+            period.endDate = period.startDate
+            period.displayName = period.startDate
+            period.iso = period.startDate.replace(/-/g, '')
+            period.id = period.iso
             periods.push(period)
+
             date.setDate(date.getDate() + 1)
         }
 
@@ -290,9 +226,9 @@ const getWeeklyPeriodType = (formatYyyyMmDd, weekObj, fnFilter) => {
             const period = {
                 startDate: formatYyyyMmDd(date),
                 iso: `${year}${weekObj.shortName}W${week}`,
-                id: period.iso,
             }
 
+            period.id = period.iso
             date.setDate(date.getDate() + 6)
             period.endDate = formatYyyyMmDd(date)
 
@@ -338,9 +274,10 @@ const getBiWeeklyPeriodType = (formatYyyyMmDd, fnFilter) => {
         while (date.getFullYear() <= year) {
             const period = {
                 iso: `${year}BiW${biWeek}`,
-                id: period.iso,
                 startDate: formatYyyyMmDd(date),
             }
+
+            period.id = period.iso
 
             date.setDate(date.getDate() + 13)
             period.endDate = formatYyyyMmDd(date)
@@ -542,6 +479,40 @@ const getSixMonthlyAprilPeriodType = (fnFilter) => {
     }
 }
 
+const getSixMonthlyNovPeriodType = (fnFilter) => {
+    return (config) => {
+        let periods = []
+        const isFilter = config.filterFuturePeriods
+        const isReverse = config.reversePeriods
+        const year = getYearWithOffset(config.offset)
+
+        let period = {}
+        period.startDate = `${year}-11-01`
+        period.endDate = `${year + 1}-04-30`
+        period.displayName = `${getMonthName(10)}  ${year} - ${getMonthName(
+            3
+        )} ${year + 1}`
+        period.iso = `${year}NovS1`
+        period.id = period.iso
+        periods.push(period)
+
+        period = {}
+        period.startDate = `${year + 1}-05-01`
+        period.endDate = `${year + 1}-10-31`
+        period.displayName = `${getMonthName(4)} ${year + 1} - ${getMonthName(
+            9
+        )} ${year + 1}`
+        period.iso = `${year}NovS2`
+        period.id = period.iso
+        periods.push(period)
+
+        periods = isFilter ? fnFilter(periods) : periods
+        periods = isReverse ? periods.reverse() : periods
+
+        return periods
+    }
+}
+
 const getYearlyPeriodType = (formatYyyyMmDd, fnFilter) => {
     return (config) => {
         let periods = []
@@ -588,7 +559,10 @@ const getFinancialOctoberPeriodType = (formatYyyyMmDd, fnFilter) => {
             period.displayName = `${getMonthName(
                 9
             )} ${yearStart} - ${getMonthName(8)} ${yearEnd}`
-            period.id = getYearlyPeriodIdForTypeAndYear(FINANCIAL_OCT, year)
+            period.id = getYearlyPeriodIdForTypeAndYear(
+                FINANCIAL_OCT,
+                date.getFullYear()
+            )
             periods.push(period)
             date.setDate(date.getDate() - 1)
         }
@@ -619,7 +593,10 @@ const getFinancialNovemberPeriodType = (formatYyyyMmDd, fnFilter) => {
             period.displayName = `${getMonthName(
                 10
             )} ${yearStart} - ${getMonthName(9)} ${yearEnd}`
-            period.id = getYearlyPeriodIdForTypeAndYear(FINANCIAL_NOV, year)
+            period.id = getYearlyPeriodIdForTypeAndYear(
+                FINANCIAL_NOV,
+                date.getFullYear()
+            )
             periods.push(period)
             date.setDate(date.getDate() - 1)
         }
@@ -650,7 +627,10 @@ const getFinancialJulyPeriodType = (formatYyyyMmDd, fnFilter) => {
             period.displayName = `${getMonthName(
                 6
             )} ${yearStart} - ${getMonthName(5)} ${yearEnd}`
-            period.id = getYearlyPeriodIdForTypeAndYear(FINANCIAL_JULY, year)
+            period.id = getYearlyPeriodIdForTypeAndYear(
+                FINANCIAL_JULY,
+                date.getFullYear()
+            )
             periods.push(period)
             date.setDate(date.getDate() - 1)
         }
@@ -681,7 +661,10 @@ const getFinancialAprilPeriodType = (formatYyyyMmDd, fnFilter) => {
             period.displayName = `${getMonthName(
                 3
             )} ${yearStart} - ${getMonthName(2)} ${yearEnd}`
-            period.id = getYearlyPeriodIdForTypeAndYear(FINANCIAL_APRIL, year)
+            period.id = getYearlyPeriodIdForTypeAndYear(
+                FINANCIAL_APRIL,
+                date.getFullYear()
+            )
             periods.push(period)
             date.setDate(date.getDate() - 1)
         }
@@ -813,6 +796,12 @@ export const getFixedPeriodTypes = ({
         regex: /^([0-9]{4})AprilS([12])$/, // YYYY"AprilS"[1/2]
         getPeriods: getSixMonthlyAprilPeriodType(filterFuturePeriods),
         displayName: i18n.t('Six-monthly April'),
+    },
+    {
+        type: SIX_MONTHLY_NOV,
+        regex: /^([0-9]{4})NovS([12])$/, // YYYY"NovS"[1/2]
+        getPeriods: getSixMonthlyNovPeriodType(filterFuturePeriods),
+        displayName: i18n.t('Six-monthly November'),
     },
     {
         type: YEARLY,
@@ -966,7 +955,6 @@ export const getFixedPeriodsForTypeAndDateRange = ({
     // Allow dates and date-strings
     startDate = new Date(startDate)
     endDate = new Date(endDate)
-
     if (!isValidDate(startDate)) {
         throw new Error(
             'Invalid startDate provided to getFixedPeriodsForTypeAndDateRange'
@@ -992,10 +980,15 @@ export const getFixedPeriodsForTypeAndDateRange = ({
             .reverse()
             .forEach((period) => {
                 const periodEnd = new Date(period.endDate)
+
+                // periodEnd is end of day (endDates in periods only include date)
+                periodEnd.setDate(periodEnd.getDate() + 1)
+                periodEnd.setMilliseconds(periodEnd.getMilliseconds() - 1)
+
                 // exclude periods that end before start date
                 const endsAfterPeriodStart = periodEnd >= startDate
                 // exclude periods that end after end date
-                const endsBeforePeriodEnd = periodEnd <= endDate
+                const endsBeforePeriodEnd = periodEnd < endDate
 
                 if (!endsAfterPeriodStart) {
                     startDateReached = true
@@ -1005,23 +998,31 @@ export const getFixedPeriodsForTypeAndDateRange = ({
                     convertedPeriods.push(period)
                 }
             })
-
         --year
     }
-
     return convertedPeriods.reverse()
 }
 
 export const getFollowingFixedPeriodsForPeriod = (period, amount) => {
-    const followingPeriods = []
-
+    // determine maximumDate
+    const currentStartDate = new Date(period.startDate)
+    const firstFutureStartDate = addFullPeriodTimeToDate(
+        currentStartDate,
+        period.periodType
+    )
+    let startDateLimit = firstFutureStartDate
     for (let i = 0; i < amount; ++i) {
-        const nextFollowingPeriod =
-            i === 0
-                ? getFixedPeriodFollowingPeriod(period)
-                : getFixedPeriodFollowingPeriod(followingPeriods[i - 1])
-        followingPeriods.push(nextFollowingPeriod)
+        startDateLimit = addFullPeriodTimeToDate(
+            startDateLimit,
+            period.periodType
+        )
     }
 
-    return followingPeriods
+    const args = {
+        periodType: period.periodType,
+        startDate: firstFutureStartDate,
+        endDate: startDateLimit,
+    }
+
+    return getFixedPeriodsForTypeAndDateRange(args)
 }

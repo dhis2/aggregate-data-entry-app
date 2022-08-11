@@ -3,12 +3,10 @@ import {
     getCurrentDate,
     getFixedPeriodsForTypeAndDateRange,
     getFollowingFixedPeriodsForPeriod,
-    parsePeriodId,
     removeFullPeriodTimeToDate,
     selectors,
     useDataSetId,
     useMetadata,
-    usePeriodId,
 } from '../../shared/index.js'
 
 export function computeFuturePeriods({ dataSetId, metadata }) {
@@ -35,10 +33,8 @@ export function computeFuturePeriods({ dataSetId, metadata }) {
 
     const futurePeriods = getFollowingFixedPeriodsForPeriod(
         // If there are no future periods, the latest period is the current one.
-        // Need to use "parsePeriodId" because the periods returned by
-        // getFixedPeriodsForTypeAndDateRange do not have the "periodType"
-        // property
-        parsePeriodId(currentPeriod.id),
+        // add periodType back into period
+        { ...currentPeriod, periodType: periodType },
         openFuturePeriods
     )
 
@@ -46,7 +42,6 @@ export function computeFuturePeriods({ dataSetId, metadata }) {
 }
 
 export default function useFuturePeriods() {
-    const [periodId] = usePeriodId()
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
 
@@ -55,8 +50,7 @@ export default function useFuturePeriods() {
             computeFuturePeriods({
                 dataSetId,
                 metadata,
-                periodId,
             }),
-        [dataSetId, metadata, periodId]
+        [dataSetId, metadata]
     )
 }

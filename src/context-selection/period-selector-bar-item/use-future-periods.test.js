@@ -21,7 +21,6 @@ describe('computeFuturePeriods', () => {
     })
 
     it('should include future periods when "openFuturePeriods" is > 0', () => {
-        const periodId = '202207'
         const dateFormat = 'yyyy-mm-dd'
         const dataSetId = 'dataSetId'
         const metadata = {
@@ -38,7 +37,6 @@ describe('computeFuturePeriods', () => {
             dateFormat,
             dataSetId,
             metadata,
-            periodId,
         })
 
         const expected = expect.arrayContaining([
@@ -241,7 +239,6 @@ describe('computeFuturePeriods', () => {
             return new Date('2022-07-01')
         })
 
-        const periodId = '202204'
         const dateFormat = 'yyyy-mm-dd'
         const dataSetId = 'dataSetId'
         const metadata = {
@@ -258,7 +255,6 @@ describe('computeFuturePeriods', () => {
             dateFormat,
             dataSetId,
             metadata,
-            periodId,
         })
 
         const expected = []
@@ -271,7 +267,6 @@ describe('computeFuturePeriods', () => {
             return new Date('2022-07-01')
         })
 
-        const periodId = '202204'
         const dateFormat = 'yyyy-mm-dd'
         const dataSetId = 'dataSetId'
         const metadata = {
@@ -288,52 +283,6 @@ describe('computeFuturePeriods', () => {
             dateFormat,
             dataSetId,
             metadata,
-            periodId,
-        })
-
-        const expected = expect.arrayContaining([
-            expect.objectContaining({
-                displayName: 'July 2022',
-                endDate: '2022-07-31',
-                id: '202207',
-                iso: '202207',
-                startDate: '2022-07-01',
-            }),
-            expect.objectContaining({
-                displayName: 'August 2022',
-                endDate: '2022-08-31',
-                id: '202208',
-                iso: '202208',
-                startDate: '2022-08-01',
-            }),
-        ])
-
-        expect(actual).toEqual(expected)
-    })
-
-    it('should work when no period has been selected', () => {
-        getCurrentDate.mockImplementation(() => {
-            return new Date('2022-07-01')
-        })
-
-        const periodId = undefined
-        const dateFormat = 'yyyy-mm-dd'
-        const dataSetId = 'dataSetId'
-        const metadata = {
-            dataSets: {
-                dataSetId: {
-                    id: 'dataSetId',
-                    periodType: 'Monthly',
-                    openFuturePeriods: 2,
-                },
-            },
-        }
-
-        const actual = computeFuturePeriods({
-            dateFormat,
-            dataSetId,
-            metadata,
-            periodId,
         })
 
         const expected = expect.arrayContaining([
