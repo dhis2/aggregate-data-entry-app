@@ -2,27 +2,27 @@ import { useMemo } from 'react'
 import {
     getCurrentDate,
     getFixedPeriodsForTypeAndDateRange,
-    getFollowingFixedPeriodsForPeriod,
+    addFullPeriodTimeToDate,
     removeFullPeriodTimeToDate,
     selectors,
     useDataSetId,
     useMetadata,
 } from '../../shared/index.js'
 
-export function computeFuturePeriods({ dataSetId, metadata }) {
+export const computeDateLimit = ({ dataSetId, metadata }) => {
+    const now = getCurrentDate()
+
     if (!dataSetId) {
-        return []
+        return now
     }
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const periodType = dataSet?.periodType
-    const openFuturePeriods = dataSet?.openFuturePeriods
+    const openFuturePeriods = dataSet?.openFuturePeriods || 0
 
-    if (!openFuturePeriods) {
-        return []
+    if (openFuturePeriods <= 0) {
+        return now
     }
-
-    const now = getCurrentDate()
 
     // will only get the current period
     const [currentPeriod] = getFixedPeriodsForTypeAndDateRange({
@@ -31,23 +31,21 @@ export function computeFuturePeriods({ dataSetId, metadata }) {
         endDate: now,
     })
 
-    const futurePeriods = getFollowingFixedPeriodsForPeriod(
-        // If there are no future periods, the latest period is the current one.
-        // add periodType back into period
-        { ...currentPeriod, periodType: periodType },
-        openFuturePeriods
-    )
+    let startDateLimit = new Date(currentPeriod.startDate)
 
-    return futurePeriods
+    for (let i = 0; i <= openFuturePeriods; ++i) {
+        startDateLimit = addFullPeriodTimeToDate(startDateLimit, periodType)
+    }
+    return startDateLimit
 }
 
-export default function useFuturePeriods() {
+export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
 
     return useMemo(
         () =>
-            computeFuturePeriods({
+            computeDateLimit({
                 dataSetId,
                 metadata,
             }),

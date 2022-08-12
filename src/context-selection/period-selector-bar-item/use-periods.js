@@ -11,9 +11,9 @@ import {
 
 export default function usePeriods({
     periodType,
-    futurePeriods,
     openFuturePeriods,
     year,
+    dateLimit,
 }) {
     return useMemo(() => {
         if (!periodType) {
@@ -22,20 +22,16 @@ export default function usePeriods({
 
         let periods
         const currentDate = getCurrentDate()
-        const currentYear = currentDate.getFullYear()
-        const relevantFuturePeriods = futurePeriods.filter((futurePeriod) => {
-            return (
-                new Date(futurePeriod.startDate).getFullYear() === currentYear
-            )
-        })
 
         if (yearlyPeriodTypes.includes(periodType)) {
             const futureYearLimit = new Date(currentDate)
+            const validFuturePeriods =
+                openFuturePeriods >= 0 ? openFuturePeriods : 0
             futureYearLimit.setFullYear(
-                currentDate.getFullYear() + openFuturePeriods
+                currentDate.getFullYear() + validFuturePeriods
             )
             const yearsCount =
-                currentDate.getFullYear() - startYear + openFuturePeriods
+                currentDate.getFullYear() - startYear + validFuturePeriods
             periods = Array.from(Array(yearsCount))
                 .map((_, index) => {
                     const year = index + startYear
@@ -46,12 +42,6 @@ export default function usePeriods({
                     return parsePeriodId(periodId)
                 })
                 .filter(({ endDate }) => new Date(endDate) < futureYearLimit)
-        } else if (year > currentYear) {
-            periods = futurePeriods.filter(
-                ({ startDate, endDate }) =>
-                    new Date(startDate).getFullYear() === year ||
-                    new Date(endDate).getFullYear() === year
-            )
         } else {
             // Make sure we add options that start this year but span into
             // the next year if we're not in the current year
@@ -62,18 +52,13 @@ export default function usePeriods({
             )
             nextYearLimitDate.setDate(nextYearLimitDate.getDate() - 1)
 
-            const fixedPeriods = getFixedPeriodsForTypeAndDateRange({
+            periods = getFixedPeriodsForTypeAndDateRange({
                 periodType,
                 startDate: `${year}-01-01`,
-                endDate: year === currentYear ? currentDate : nextYearLimitDate,
+                endDate: new Date(Math.min(dateLimit, nextYearLimitDate)),
             })
-
-            periods = [
-                ...fixedPeriods,
-                ...(year >= currentYear ? relevantFuturePeriods : []),
-            ]
         }
 
         return periods.reverse()
-    }, [openFuturePeriods, periodType, futurePeriods, year])
+    }, [periodType, openFuturePeriods, year, dateLimit])
 }

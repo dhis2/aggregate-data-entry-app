@@ -12,21 +12,16 @@ import {
 } from '../../shared/index.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
-import useFuturePeriods from './use-future-periods.js'
+import { useDateLimit } from './use-date-limit.js'
 import usePeriods from './use-periods.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import YearNavigator from './year-navigator.js'
 
 export const PERIOD = 'PERIOD'
 
-function getMaxYear(futurePeriods) {
-    if (!futurePeriods.length) {
-        return getCurrentDate().getFullYear()
-    }
-
-    return new Date(
-        futurePeriods[futurePeriods.length - 1].startDate
-    ).getFullYear()
+const getMaxYear = (dateLimit) => {
+    // periods run up to, but not including dateLimit, so decrement by 1 ms in case limit is 1 January
+    return new Date(dateLimit - 1).getUTCFullYear()
 }
 
 export const PeriodSelectorBarItem = () => {
@@ -37,20 +32,21 @@ export const PeriodSelectorBarItem = () => {
     const { data: metadata } = useMetadata()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const dataSetPeriodType = dataSet?.periodType
-    const openFuturePeriods = dataSet?.openFuturePeriods
+    const openFuturePeriods = dataSet?.openFuturePeriods || 0
 
     const [year, setYear] = useState(
         selectedPeriod?.year || getCurrentDate().getFullYear()
     )
 
-    const futurePeriods = useFuturePeriods()
-    const [maxYear, setMaxYear] = useState(() => getMaxYear(futurePeriods))
+    const dateLimit = useDateLimit()
+
+    const [maxYear, setMaxYear] = useState(() => getMaxYear(dateLimit))
     const periods = usePeriods({
         periodType: dataSetPeriodType,
         periodId,
-        futurePeriods,
         openFuturePeriods,
         year,
+        dateLimit,
     })
 
     useEffect(() => {
@@ -61,19 +57,14 @@ export const PeriodSelectorBarItem = () => {
 
     useEffect(() => {
         if (dataSetPeriodType) {
-            const newMaxYear = getMaxYear(futurePeriods)
+            const newMaxYear = getMaxYear(dateLimit)
             setMaxYear(newMaxYear)
 
             if (!selectedPeriod?.year) {
                 setYear(getCurrentDate().getFullYear())
             }
         }
-    }, [
-        dataSetPeriodType,
-        selectedPeriod?.year,
-        openFuturePeriods,
-        futurePeriods,
-    ])
+    }, [dataSetPeriodType, selectedPeriod?.year, dateLimit])
 
     const selectorBarItemValue = useSelectorBarItemValue()
 
