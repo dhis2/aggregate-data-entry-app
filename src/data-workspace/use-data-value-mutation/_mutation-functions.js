@@ -20,11 +20,14 @@ const DELETE_DATA_VALUE_MUTATION = {
     type: 'delete',
     params: (params) => params,
 }
+// This endpoint expects a payload with a 'file' property and the normal DV
+// mutation params
 const UPLOAD_FILE_MUTATION = {
     resource: 'dataValues/file',
     type: 'create',
     data: (data) => data,
 }
+// TODO: This is the same as SET_DATA_VALUE_MUTATION
 const SET_DATA_VALUE_COMMENT_MUTATION = {
     resource: 'dataValues',
     type: 'create',
@@ -34,12 +37,12 @@ const SET_DATA_VALUE_COMMENT_MUTATION = {
 /**
  * A mutation function is called with the `variables` object that is passed
  * to the `mutate` function that is returned from `useMutation`.
- * 
+ *
  * These functions add data set context to data value mutations
  * (ds, pe, ou, [cc and cp]).
  * Therefore, when calling the resulting `mutate` function, supply a variables
- * object of thedesired data to send, e.g. `{ value: 5 }`,
- * `{ value: 'id', file: 'file' }`, or `{ comment: 'this data is awesome' }`.  
+ * object of the desired data to send, e.g. `{ value: 5 }`,
+ * `{ file: 'file' }`, or `{ comment: 'this data is awesome' }`.
  */
 function useSharedMutationFunction({ mutationObj, dataValueParams }) {
     const engine = useDataEngine()

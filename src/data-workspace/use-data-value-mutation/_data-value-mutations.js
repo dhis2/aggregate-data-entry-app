@@ -1,6 +1,11 @@
 import { useQueryClient, useMutation } from 'react-query'
 import { useDataValueSetQueryKey } from '../../shared/index.js'
 import {
+    optimisticallyDeleteDataValue,
+    optimisticallySetDataValue,
+    optimisticallySetFileDataValue,
+} from './_data-value-optimistic-updates.js'
+import {
     useDeleteDataValueMutationFunction,
     useSetDataValueCommentMutationFunction,
     useSetDataValueMutationFunction,
@@ -21,35 +26,38 @@ function useSharedDataValueMutation({
 
     return useMutation(mutationFn, {
         retry: 1,
-        // todo: maybe make this reusable
+        // todo: maybe make this reusable -- would this clash with dataEntry/dataValues?
         mutationKey: ['dataValues', { params: dataValueParams }],
 
-        onMutate: async (newDataValueData) => {
+        onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await queryClient.cancelQueries(dataValueSetQueryKey)
 
             // Snapshot the previous value
-            const previousDataValueSet =
-                queryClient.getQueryData(dataValueSetQueryKey)
+            // (Can be undefined when offline, in which case create a dummy response)
+            const previousQueryData = queryClient.getQueryData(
+                dataValueSetQueryKey
+            ) ?? { dataValues: [], minMaxValues: [] }
 
-            // `onMutate` is expected to be an optimistic update function
-            await optimisticUpdateFn({
+            // Optimistically update the RQ cache
+            optimisticUpdateFn({
+                variables,
+                dataValueMutationParams: dataValueParams,
                 queryClient,
-                newDataValueData,
                 dataValueSetQueryKey,
             })
 
             // This return value becomes the `context` variable in
             // onError (and onSettled) handlers
-            return { previousDataValueSet, dataValueSetQueryKey }
+            return { previousQueryData }
         },
 
         // If the mutation fails, use the context returned from onMutate to roll back
         onError: (err, newDataValue, context) => {
             handleMutationError(err)
             queryClient.setQueryData(
-                context.dataValueSetQueryKey,
-                context.previousDataValueSet
+                dataValueSetQueryKey,
+                context.previousQueryData
             )
         },
 
@@ -59,6 +67,10 @@ function useSharedDataValueMutation({
     })
 }
 
+/**
+ * The `mutate` function returned by this hook expects a `variables` argument
+ * that looks like `{ value: Number | String }` or `{ comment: String }`
+ */
 export function useSetDataValueMutation({ deId, cocId }) {
     const dataValueParams = useDataValueParams({ deId, cocId })
     const mutationFn = useSetDataValueMutationFunction(dataValueParams)
@@ -66,10 +78,10 @@ export function useSetDataValueMutation({ deId, cocId }) {
     return useSharedDataValueMutation({
         dataValueParams,
         mutationFn,
-        // todo: optimistically update cache
-        optimisticUpdateFn: () => 'todo',
+        optimisticUpdateFn: optimisticallySetDataValue,
     })
 }
+// TODO: Duplicate of useSetDataValue?
 export function useSetDataValueCommentMutation({ deId, cocId }) {
     const dataValueParams = useDataValueParams({ deId, cocId })
     const mutationFn = useSetDataValueCommentMutationFunction(dataValueParams)
@@ -77,10 +89,13 @@ export function useSetDataValueCommentMutation({ deId, cocId }) {
     return useSharedDataValueMutation({
         dataValueParams,
         mutationFn,
-        // todo: optimistically update cache
-        optimisticUpdateFn: () => 'todo',
+        optimisticUpdateFn: optimisticallySetDataValue,
     })
 }
+/**
+ * The `mutate` function returned by this hook expects a `variables` argument
+ * that looks like `{ file: File }`
+ */
 export function useUploadFileDataValueMutation({ deId, cocId }) {
     const dataValueParams = useDataValueParams({ deId, cocId })
     const mutationFn = useUploadFileDataValueMutationFunction(dataValueParams)
@@ -88,10 +103,10 @@ export function useUploadFileDataValueMutation({ deId, cocId }) {
     return useSharedDataValueMutation({
         dataValueParams,
         mutationFn,
-        // todo: optimistically update cache
-        optimisticUpdateFn: () => 'todo',
+        optimisticUpdateFn: optimisticallySetFileDataValue,
     })
 }
+/** The `mutate` function returned by this hook expects no arguments */
 export function useDeleteDataValueMutation({ deId, cocId }) {
     const dataValueParams = useDataValueParams({ deId, cocId })
     const mutationFn = useDeleteDataValueMutationFunction(dataValueParams)
@@ -99,7 +114,6 @@ export function useDeleteDataValueMutation({ deId, cocId }) {
     return useSharedDataValueMutation({
         dataValueParams,
         mutationFn,
-        // todo: optimistically update cache
-        optimisticUpdateFn: () => 'todo',
+        optimisticUpdateFn: optimisticallyDeleteDataValue,
     })
 }
