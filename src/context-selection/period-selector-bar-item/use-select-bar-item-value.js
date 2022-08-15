@@ -1,5 +1,4 @@
-import { usePeriod } from '../../shared/index.js'
-import { usePeriodId } from '../use-context-selection/index.js'
+import { usePeriod, usePeriodId } from '../../shared/index.js'
 
 export default function useSelectorBarItemValue() {
     const [periodId] = usePeriodId()

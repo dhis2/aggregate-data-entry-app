@@ -7,8 +7,8 @@ import {
     getCurrentDate,
     getFixedPeriodsByTypeAndYear,
     usePeriod,
+    usePeriodId,
 } from '../../shared/index.js'
-import { usePeriodId } from '../use-context-selection/index.js'
 import classes from './period-menu.module.css'
 
 const filterFuturePeriods = (periods) => {

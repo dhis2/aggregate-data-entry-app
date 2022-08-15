@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { useOrgUnitId } from '../use-context-selection/index.js'
+import { useOrgUnitId } from '../../shared/index.js'
 
 export default function useOrgUnit() {
     const [id] = useOrgUnitId()

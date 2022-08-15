@@ -1,5 +1,5 @@
-import { useContextSelection } from '../context-selection/use-context-selection/index.js'
-import { useMetadata, selectors } from '../metadata/index.js'
+import { useMetadata, selectors } from './metadata/index.js'
+import { useContextSelection } from './use-context-selection/index.js'
 
 /**
  * Finds the attributeComboId for the current attribute-option selection

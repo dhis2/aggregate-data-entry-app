@@ -118,5 +118,5 @@ export const computeIndicatorValue = ({
     const indicatorValue = (numeratorValue / denominatorValue) * factor
     const isReadableNumber = isFinite(indicatorValue) && !isNaN(indicatorValue)
 
-    return isReadableNumber ? indicatorValue : '-'
+    return isReadableNumber ? indicatorValue : ''
 }

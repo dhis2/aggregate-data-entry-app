@@ -6,18 +6,19 @@ import React from 'react'
 import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { BottomBar } from '../bottom-bar/index.js'
 import {
-    useContextSelection,
+    useMetadata,
+    selectors,
+    useDataSetId,
+    useDataValueSet,
     useIsValidSelection,
-} from '../context-selection/index.js'
-import { useMetadata, selectors } from '../metadata/index.js'
+} from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { useDataValueSet } from './use-data-value-set.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
-    const [{ dataSetId }] = useContextSelection()
     const { data } = useMetadata()
+    const [dataSetId] = useDataSetId()
     const initialDataValuesFetch = useDataValueSet()
     const isValidSelection = useIsValidSelection()
 
@@ -53,11 +54,10 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     const footerClasses = classNames(styles.footer, 'hide-for-print')
+    const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (
-        <FinalFormWrapper
-            dataValueSet={initialDataValuesFetch.data?.dataValues}
-        >
+        <FinalFormWrapper dataValueSet={dataValueSet}>
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>

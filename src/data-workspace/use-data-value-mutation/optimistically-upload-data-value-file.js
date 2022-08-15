@@ -1,4 +1,5 @@
 import addDataValue from './add-data-value.js'
+import getDataValueIndex from './get-data-value-index.js'
 import updateDataValue from './update-data-value.js'
 
 export default async function optimisticallyUploadDataValueFile({
@@ -8,24 +9,11 @@ export default async function optimisticallyUploadDataValueFile({
     attributeCombo,
     attributeOptions,
 }) {
-    // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-    await queryClient.cancelQueries(dataValueSetQueryKey)
-
-    // Snapshot the previous value
-    const previousDataValueSet = queryClient.getQueryData(dataValueSetQueryKey)
-
     // Optimistically update to the new value
-    queryClient.setQueryData(dataValueSetQueryKey, () => {
+    queryClient.setQueryData(dataValueSetQueryKey, (previousDataValueSet) => {
         // dataValueSet.dataValues can be undefined
         const previousDataValues = previousDataValueSet.dataValues || []
-        const matchIndex = previousDataValues.findIndex(
-            (dataValue) =>
-                dataValue.categoryOptionCombo === newDataValue.co &&
-                dataValue.dataElement === newDataValue.de &&
-                dataValue.orgUnit === newDataValue.ou &&
-                dataValue.period === newDataValue.pe
-        )
-
+        const matchIndex = getDataValueIndex(previousDataValues, newDataValue)
         const isNewDataValue = matchIndex === -1
 
         // If this is a file-type data value, set value to some file metadata
@@ -40,8 +28,10 @@ export default async function optimisticallyUploadDataValueFile({
         if (isNewDataValue) {
             const formattedNewDataValue = {
                 ...newDataValue,
-                attributeCombo,
-                attributeOptions,
+                attribute: {
+                    combo: attributeCombo,
+                    options: attributeOptions,
+                },
                 categoryOptionCombo: newDataValue.co,
                 dataElement: newDataValue.de,
                 orgUnit: newDataValue.ou,
@@ -63,6 +53,4 @@ export default async function optimisticallyUploadDataValueFile({
             )
         }
     })
-
-    return { previousDataValueSet, dataValueSetQueryKey }
 }

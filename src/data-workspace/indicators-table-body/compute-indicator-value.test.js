@@ -49,4 +49,22 @@ describe('computeIndicatorValue', () => {
         })
         expect(value).toBe((9 / 15) * 100)
     })
+    it('returns an empty string when computed value would be NaN', () => {
+        const value = computeIndicatorValue({
+            numerator: '#{nothing}',
+            denominator: '#{nothing_also}',
+            factor: 1,
+            formState,
+        })
+        expect(value).toBe('')
+    })
+    it('returns an empty string when computed value would be Infinity', () => {
+        const value = computeIndicatorValue({
+            numerator: '#{a}+#{b.b1}*#{c.c1}', // 3+2*3=9
+            denominator: '#{nothing}',
+            factor: 1,
+            formState,
+        })
+        expect(value).toBe('')
+    })
 })

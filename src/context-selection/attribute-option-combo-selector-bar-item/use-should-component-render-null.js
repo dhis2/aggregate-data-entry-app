@@ -1,8 +1,4 @@
-import {
-    useDataSetId,
-    useOrgUnitId,
-    usePeriodId,
-} from '../use-context-selection/index.js'
+import { useDataSetId, useOrgUnitId, usePeriodId } from '../../shared/index.js'
 
 export default function useShouldComponentRenderNull(
     categoryCombination,

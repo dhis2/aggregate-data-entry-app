@@ -9,18 +9,14 @@ import {
 } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useState, useMemo } from 'react'
-import { useMetadata, selectors } from '../../metadata/index.js'
+import React, { useMemo, useState } from 'react'
+import { useMetadata, selectors } from '../../shared/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'
 import styles from './section.module.css'
 
-export const SectionFormSection = ({
-    section,
-    dataSetId,
-    globalFilterText,
-}) => {
+export function SectionFormSection({ section, dataSetId, globalFilterText }) {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
     const { data } = useMetadata()
@@ -35,6 +31,7 @@ export const SectionFormSection = ({
         dataSetId,
         section.id
     )
+
     const groupedDataElements = section.disableDataElementAutoGroup
         ? selectors.getGroupedDataElementsByCatComboInOrder(data, dataElements)
         : selectors.getGroupedDataElementsByCatCombo(data, dataElements)
@@ -46,13 +43,17 @@ export const SectionFormSection = ({
         return Math.max(...groupedTotalColumns)
     }, [data, groupedDataElements])
 
-    const greyedFields = new Set(
-        section.greyedFields.map((greyedField) =>
-            getFieldId(
-                greyedField.dataElement.id,
-                greyedField.categoryOptionCombo.id
-            )
-        )
+    const greyedFields = useMemo(
+        () =>
+            new Set(
+                section.greyedFields.map((greyedField) =>
+                    getFieldId(
+                        greyedField.dataElement.id,
+                        greyedField.categoryOptionCombo.id
+                    )
+                )
+            ),
+        [section.greyedFields]
     )
 
     const filterInputId = `filter-input-${section.id}`

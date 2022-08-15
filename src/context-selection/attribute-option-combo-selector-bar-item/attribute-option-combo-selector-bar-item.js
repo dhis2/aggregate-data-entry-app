@@ -2,8 +2,12 @@ import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import { selectors, useMetadata } from '../../metadata/index.js'
-import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
+import {
+    selectors,
+    useMetadata,
+    useDataSetId,
+    usePeriodId,
+} from '../../shared/index.js'
 import CategoriesMenu from './categories-menu.js'
 import useSelected from './use-selected.js'
 import useSelectorBarItemLabel from './use-selector-bar-item-label.js'

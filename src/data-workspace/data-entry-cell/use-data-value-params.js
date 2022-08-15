@@ -1,5 +1,8 @@
-import { useContextSelection } from '../../context-selection/index.js'
-import { useMetadata, selectors } from '../../metadata/index.js'
+import {
+    useMetadata,
+    selectors,
+    useContextSelection,
+} from '../../shared/index.js'
 
 export const useDataValueParams = ({ deId, cocId }) => {
     const [dataEntryContext] = useContextSelection()
@@ -28,6 +31,7 @@ export const useDataValueParams = ({ deId, cocId }) => {
         ou: orgUnitId,
         pe: periodId,
     }
+
     // Add attribute params to mutation if relevant
     if (!isDefaultAttributeCombo) {
         // Get a ';'-separated listed of attribute options
