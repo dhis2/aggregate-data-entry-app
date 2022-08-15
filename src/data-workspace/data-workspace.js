@@ -16,10 +16,16 @@ import {
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
+import { useHasCommentContext } from './has-comment/has-comment-context.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const { data: metadata } = useMetadata()
-    const initialDataValuesFetch = useDataValueSet()
+    const { populateHasCommentContextForDataSetValues } = useHasCommentContext()
+    const initialDataValuesFetch = useDataValueSet({
+        onSuccess: (data) => {
+            populateHasCommentContextForDataSetValues(data.dataValues)
+        },
+    })
     const isValidSelection = useIsValidSelection()
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
