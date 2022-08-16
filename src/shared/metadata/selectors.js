@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import {
     addFullPeriodTimeToDate,
     parsePeriodId,
+    removeFullPeriodTimeToDate,
 } from '../fixed-periods/index.js'
 import { cartesian } from '../utils.js'
 // Helper to group array items by an identifier
@@ -378,8 +379,6 @@ const isOptionWithinPeriod = ({
     periodStartDate,
     periodEndDate,
     categoryOption,
-    openPeriodsAfterCoEndDate,
-    periodType,
 }) => {
     // option has not start and end dates
     if (!categoryOption.startDate && !categoryOption.endDate) {
@@ -395,12 +394,7 @@ const isOptionWithinPeriod = ({
     }
 
     if (categoryOption.endDate) {
-        let endDate = new Date(categoryOption.endDate)
-        if (openPeriodsAfterCoEndDate) {
-            for (let i = 0; i < openPeriodsAfterCoEndDate; i++) {
-                endDate = addFullPeriodTimeToDate(endDate, periodType)
-            }
-        }
+        const endDate = new Date(categoryOption.endDate)
         if (periodEndDate > endDate) {
             // option end date is before period end date
             return false
@@ -433,6 +427,7 @@ export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
             metadata,
             dataSet?.id
         )
+
         const categoryOptions = getCategoryOptions(metadata)
         const relevantCategoriesWithOptions = resolveCategoryOptionIds(
             relevantCategories,
@@ -440,12 +435,27 @@ export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
         )
         const period = parsePeriodId(periodId)
         const periodStartDate = new Date(period.startDate)
-        const periodEndDate = new Date(period.endDate)
 
+        // periodEndDate is up to following start date
+        let periodEndDate = addFullPeriodTimeToDate(
+            periodStartDate,
+            period?.periodType?.type
+        )
+
+        // reduce perfiodEndDate by openPeriodsAfterCoEndDate
         const openPeriodsAfterCoEndDate = Math.max(
             dataSet?.openPeriodsAfterCoEndDate || 0,
             0
         )
+        for (let i = 0; i < openPeriodsAfterCoEndDate; i++) {
+            periodEndDate = removeFullPeriodTimeToDate(
+                periodEndDate,
+                period?.periodType?.type
+            )
+        }
+
+        // remove 1 day because endDate is 1 less than subsequent startDate
+        periodEndDate.setDate(periodEndDate.getDate() - 1)
 
         return relevantCategoriesWithOptions.map((category) => ({
             ...category,
@@ -454,8 +464,6 @@ export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
                     periodStartDate,
                     periodEndDate,
                     categoryOption,
-                    openPeriodsAfterCoEndDate,
-                    periodType: period?.periodType?.type,
                 })
             ),
         }))
