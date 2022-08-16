@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
 import React, { useState } from 'react'
-import { useField, useForm } from 'react-final-form'
+import { useField } from 'react-final-form'
 import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
@@ -52,7 +52,6 @@ export const BooleanRadios = ({
         value: '',
         subscription: { value: true },
     })
-    const form = useForm()
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
     const { mutate } = useSetDataValueMutation()
@@ -70,14 +69,17 @@ export const BooleanRadios = ({
         )
     }
 
-    const fieldState = form.getFieldState(fieldname)
-
     const clearButtonProps = convertCallbackSignatures(clearField.input)
     delete clearButtonProps.type
 
+    const {
+        input: { value: fieldvalue },
+        meta,
+    } = useField(fieldname)
+
     const handleBlur = () => {
-        const { dirty, valid } = fieldState
-        const value = fieldState.value || ''
+        const { dirty, valid } = meta
+        const value = fieldvalue || ''
         // If this value has changed, sync it to server if valid
         if (dirty && valid && value !== lastSyncedValue) {
             syncData(value)
@@ -115,7 +117,7 @@ export const BooleanRadios = ({
                 secondary
                 className={cx(styles.whiteButton, {
                     // If no value to clear, hide but still reserve space
-                    [styles.hidden]: !fieldState?.value,
+                    [styles.hidden]: !fieldvalue,
                 })}
                 // Callback signatures are transformed above
                 {...clearButtonProps}
