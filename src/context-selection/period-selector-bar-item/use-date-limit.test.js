@@ -15,8 +15,10 @@ describe('computeDateLimit', () => {
     })
 
     it('should be current date if no openFuturePeriods', () => {
+        const now = new Date()
+
         getCurrentDate.mockImplementation(() => {
-            return new Date()
+            return now
         })
 
         const dataSetId = 'dataSetId'
