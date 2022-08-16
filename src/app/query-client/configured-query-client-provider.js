@@ -1,6 +1,6 @@
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { PersistQueryClientProvider } from 'react-query/persistQueryClient'
 import createIDBPersister from './persister.js'
 import useQueryClient from './use-query-client.js'
 
@@ -21,7 +21,7 @@ const persistOptions = {
 }
 export const ConfiguredQueryClientProvider = ({ children }) => {
     const queryClient = useQueryClient()
-
+    console.log('using queryclient', queryClient)
     return (
         <PersistQueryClientProvider
             client={queryClient}

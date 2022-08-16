@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useOrgUnitId } from '../../shared/index.js'
 
 export default function useOrgUnit() {

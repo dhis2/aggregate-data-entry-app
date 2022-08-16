@@ -1,7 +1,7 @@
 import { CssReset, CssVariables } from '@dhis2/ui'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ReactQueryDevtools } from 'react-query/dist/react-query-devtools.development'
 import { HashRouter, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.js'

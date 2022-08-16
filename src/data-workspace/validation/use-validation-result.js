@@ -1,5 +1,5 @@
+import { useQueries } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { useQueries } from 'react-query'
 import {
     useApiAttributeParams,
     useDataSetId,
