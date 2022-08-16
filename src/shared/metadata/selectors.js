@@ -1,6 +1,9 @@
 import { createCachedSelector } from 're-reselect'
 import { createSelector } from 'reselect'
-import { parsePeriodId } from '../fixed-periods/index.js'
+import {
+    addFullPeriodTimeToDate,
+    parsePeriodId,
+} from '../fixed-periods/index.js'
 import { cartesian } from '../utils.js'
 // Helper to group array items by an identifier
 
@@ -375,6 +378,8 @@ const isOptionWithinPeriod = ({
     periodStartDate,
     periodEndDate,
     categoryOption,
+    openPeriodsAfterCoEndDate,
+    periodType,
 }) => {
     // option has not start and end dates
     if (!categoryOption.startDate && !categoryOption.endDate) {
@@ -390,7 +395,12 @@ const isOptionWithinPeriod = ({
     }
 
     if (categoryOption.endDate) {
-        const endDate = new Date(categoryOption.endDate)
+        let endDate = new Date(categoryOption.endDate)
+        if (openPeriodsAfterCoEndDate) {
+            for (let i = 0; i < openPeriodsAfterCoEndDate; i++) {
+                endDate = addFullPeriodTimeToDate(endDate, periodType)
+            }
+        }
         if (periodEndDate > endDate) {
             // option end date is before period end date
             return false
@@ -412,14 +422,17 @@ const resolveCategoryOptionIds = (categories, categoryOptions) => {
 
 export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
     (metadata) => metadata,
-    (_, dataSetId) => dataSetId,
+    getDataSetById,
     (_, __, periodId) => periodId,
-    (metadata, dataSetId, periodId) => {
-        if (!dataSetId || !periodId) {
+    (metadata, dataSet, periodId) => {
+        if (!dataSet?.id || !periodId) {
             return []
         }
 
-        const relevantCategories = getCategoriesByDataSetId(metadata, dataSetId)
+        const relevantCategories = getCategoriesByDataSetId(
+            metadata,
+            dataSet?.id
+        )
         const categoryOptions = getCategoryOptions(metadata)
         const relevantCategoriesWithOptions = resolveCategoryOptionIds(
             relevantCategories,
@@ -429,6 +442,11 @@ export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
         const periodStartDate = new Date(period.startDate)
         const periodEndDate = new Date(period.endDate)
 
+        const openPeriodsAfterCoEndDate = Math.max(
+            dataSet?.openPeriodsAfterCoEndDate || 0,
+            0
+        )
+
         return relevantCategoriesWithOptions.map((category) => ({
             ...category,
             categoryOptions: category.categoryOptions.filter((categoryOption) =>
@@ -436,6 +454,8 @@ export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
                     periodStartDate,
                     periodEndDate,
                     categoryOption,
+                    openPeriodsAfterCoEndDate,
+                    periodType: period?.periodType?.type,
                 })
             ),
         }))
