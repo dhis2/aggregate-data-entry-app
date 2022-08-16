@@ -1,7 +1,7 @@
 .itemContentContainer {
     width: 400px;
     min-height: 280px;
-    max-height: 80vh;
+    max-height: 70vh;
     display: flex;
     padding: var(--spacers-dp8);
     flex-direction: column;

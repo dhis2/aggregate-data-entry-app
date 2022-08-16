@@ -17,6 +17,10 @@ Feature: A period can be selected
             | type    |
             | yearly  |
             | monthly |
+            | quarterly |
+            | sixMonthly |
+            | financialApril |
+            | weekly |
 
     Scenario: A period gets selected
         Given a data set has been selected

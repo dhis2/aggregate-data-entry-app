@@ -26,6 +26,29 @@ Given('a data set with period range "yearly" has been selected', () => {
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
+Given('a data set with period range "quarterly" has been selected', () => {
+    // Using 2021 here because the current year will render a subset of periods
+    cy.visit(`/#/?dataSetId=EKWVBc5C0ms&periodId=2021Q1`)
+    cy.get('[data-test="data-set-selector"]').should('exist')
+})
+
+Given('a data set with period range "sixMonthly" has been selected', () => {
+    // Using 2021 here because the current year will render a subset of periods
+    cy.visit(`/#/?dataSetId=N4fIX1HL3TQ&periodId=2021S2`)
+    cy.get('[data-test="data-set-selector"]').should('exist')
+})
+
+Given('a data set with period range "financialApril" has been selected', () => {
+    cy.visit(`/#/?dataSetId=rsyjyJmYD4J&periodId=2021April`)
+    cy.get('[data-test="data-set-selector"]').should('exist')
+})
+
+Given('a data set with period range "weekly" has been selected', () => {
+    // Using 2021 here because the current year will render a subset of periods
+    cy.visit(`/#/?dataSetId=Nyh6laLdBEJ&periodId=2021W52`)
+    cy.get('[data-test="data-set-selector"]').should('exist')
+})
+
 Given('no data set has been selected', () => {
     cy.visit('/')
     cy.get('[data-test="data-set-selector"]').should('exist')
@@ -140,11 +163,39 @@ Then('the user should only see options of that type for "monthly"', () => {
 })
 
 Then('the user should only see options of that type for "yearly"', () => {
+    const currentYear = new Date().getFullYear()
+    const yearsToBeDisplayed = currentYear - 1970 // year of 0-timestamp
+
     cy.get('[data-test="period-selector-menu"] li')
-        .should('have.length', 10)
+        .should('have.length', yearsToBeDisplayed)
         .and((liElements) => {
             liElements.each((index, liElement) => {
                 expect(liElement.innerText).to.match(/^[0-9]{4}$/)
             })
         })
+})
+
+Then('the user should only see options of that type for "quarterly"', () => {
+    cy.get('[data-test="period-selector-menu"] li').should('have.length', 4)
+})
+
+Then('the user should only see options of that type for "sixMonthly"', () => {
+    cy.get('[data-test="period-selector-menu"] li').should('have.length', 2)
+})
+
+Then(
+    'the user should only see options of that type for "financialApril"',
+    () => {
+        const currentYear = new Date().getFullYear()
+        const yearsToBeDisplayed = currentYear - 1970 + 2 // year of 0-timestamp, 2 openFuturePeriods for dataset
+        cy.get('[data-test="period-selector-menu"] li').should(
+            'have.length',
+            yearsToBeDisplayed
+        )
+    }
+)
+
+// count varies by year; for 2021: 53 weeks
+Then('the user should only see options of that type for "weekly"', () => {
+    cy.get('[data-test="period-selector-menu"] li').should('have.length', 53)
 })

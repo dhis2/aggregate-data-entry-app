@@ -2,34 +2,52 @@ import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
 import {
+    yearlyPeriodTypes,
+    getCurrentDate,
     selectors,
     useMetadata,
     usePeriod,
     useDataSetId,
     usePeriodId,
 } from '../../shared/index.js'
-import computeMaxYear from './compute-max-year.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
+import { useDateLimit } from './use-date-limit.js'
+import usePeriods from './use-periods.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import YearNavigator from './year-navigator.js'
 
 export const PERIOD = 'PERIOD'
 
+const getMaxYear = (dateLimit) => {
+    // periods run up to, but not including dateLimit, so decrement by 1 ms in case limit is 1 January
+    return new Date(dateLimit - 1).getUTCFullYear()
+}
+
 export const PeriodSelectorBarItem = () => {
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()
+    const selectedPeriod = usePeriod(periodId)
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const dataSetPeriodType = dataSet?.periodType
+    const openFuturePeriods = dataSet?.openFuturePeriods || 0
 
-    const [maxYear, setMaxYear] = useState(() =>
-        computeMaxYear(dataSetPeriodType)
+    const [year, setYear] = useState(
+        selectedPeriod?.year || getCurrentDate().getFullYear()
     )
 
-    const selectedPeriod = usePeriod(periodId)
-    const [year, setYear] = useState(selectedPeriod?.year || maxYear)
+    const dateLimit = useDateLimit()
+
+    const [maxYear, setMaxYear] = useState(() => getMaxYear(dateLimit))
+    const periods = usePeriods({
+        periodType: dataSetPeriodType,
+        periodId,
+        openFuturePeriods,
+        year,
+        dateLimit,
+    })
 
     useEffect(() => {
         if (selectedPeriod?.year) {
@@ -39,14 +57,14 @@ export const PeriodSelectorBarItem = () => {
 
     useEffect(() => {
         if (dataSetPeriodType) {
-            const newMaxYear = computeMaxYear(dataSetPeriodType)
+            const newMaxYear = getMaxYear(dateLimit)
             setMaxYear(newMaxYear)
 
             if (!selectedPeriod?.year) {
-                setYear(newMaxYear)
+                setYear(getCurrentDate().getFullYear())
             }
         }
-    }, [dataSetPeriodType, selectedPeriod?.year])
+    }, [dataSetPeriodType, selectedPeriod?.year, dateLimit])
 
     const selectorBarItemValue = useSelectorBarItemValue()
 
@@ -63,24 +81,20 @@ export const PeriodSelectorBarItem = () => {
                 >
                     {year ? (
                         <>
-                            {dataSetPeriodType !== 'Yearly' && (
+                            {!yearlyPeriodTypes.includes(dataSetPeriodType) && (
                                 <YearNavigator
                                     maxYear={maxYear}
                                     year={year}
-                                    onYearChange={(year) => {
-                                        setPeriodId(undefined)
-                                        setYear(year)
-                                    }}
+                                    onYearChange={(year) => setYear(year)}
                                 />
                             )}
 
                             <PeriodMenu
+                                periods={periods}
                                 onChange={({ selected }) => {
                                     setPeriodId(selected)
                                     setPeriodOpen(false)
                                 }}
-                                periodType={dataSetPeriodType}
-                                year={year}
                             />
                         </>
                     ) : (
