@@ -68,6 +68,7 @@ export const GenericInput = ({
                 handleBlur()
                 input.onBlur(e)
             }}
+            autoComplete="off"
             onKeyDown={onKeyDown}
             disabled={disabled}
         />
