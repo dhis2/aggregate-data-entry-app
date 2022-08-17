@@ -27,12 +27,6 @@ const UPLOAD_FILE_MUTATION = {
     type: 'create',
     data: (data) => data,
 }
-// TODO: This is the same as SET_DATA_VALUE_MUTATION
-const SET_DATA_VALUE_COMMENT_MUTATION = {
-    resource: 'dataValues',
-    type: 'create',
-    data: (data) => data,
-}
 
 /**
  * A mutation function is called with the `variables` object that is passed
@@ -71,12 +65,6 @@ export function useDeleteDataValueMutationFunction(dataValueParams) {
 export function useUploadFileDataValueMutationFunction(dataValueParams) {
     return useSharedMutationFunction({
         mutationObj: UPLOAD_FILE_MUTATION,
-        dataValueParams,
-    })
-}
-export function useSetDataValueCommentMutationFunction(dataValueParams) {
-    return useSharedMutationFunction({
-        mutationObj: SET_DATA_VALUE_COMMENT_MUTATION,
         dataValueParams,
     })
 }

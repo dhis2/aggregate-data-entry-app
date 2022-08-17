@@ -6,8 +6,9 @@ import { useField } from 'react-final-form'
 import { useQuery } from 'react-query'
 import {
     useDeleteDataValueMutation,
-    useUploadDataValueFileMutation,
-} from '../use-data-value-mutation/index.js'
+    useUploadFileDataValueMutation,
+} from '../use-data-value-mutation/_data-value-mutations.js'
+// } from '../use-data-value-mutation/index.js'
 import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
 
@@ -51,8 +52,12 @@ export const FileResourceInput = ({
                 typeof input.value === 'string',
         }
     )
-    const { mutate: uploadFile } = useUploadDataValueFileMutation()
-    const { mutate: deleteFile } = useDeleteDataValueMutation()
+    const [deId, cocId] = [dataValueParams.de, dataValueParams.co]
+    const { mutate: uploadFile } = useUploadFileDataValueMutation({
+        deId,
+        cocId,
+    })
+    const { mutate: deleteFile } = useDeleteDataValueMutation({ deId, cocId })
 
     const handleChange = ({ files }) => {
         const newFile = files[0]
@@ -61,10 +66,7 @@ export const FileResourceInput = ({
         if (newFile instanceof File) {
             setSyncStatus({ syncing: true, synced: false })
             uploadFile(
-                {
-                    file: newFile,
-                    ...dataValueParams,
-                },
+                { file: newFile },
                 {
                     onSuccess: () => {
                         setSyncStatus({ syncing: false, synced: true })
@@ -78,7 +80,7 @@ export const FileResourceInput = ({
         input.onChange('')
         input.onBlur()
         setSyncStatus({ syncing: true, synced: false })
-        deleteFile(dataValueParams, {
+        deleteFile(null, {
             onSuccess: () => {
                 setSyncStatus({ syncing: false, synced: true })
             },
@@ -88,7 +90,7 @@ export const FileResourceInput = ({
     const inputValueHasFileMeta = !!input.value.name && !!input.value.size
     const file = inputValueHasFileMeta
         ? input.value
-        : data && input.value // i.e. if value is a resource UID
+        : data && input.value // i.e. if value is a resource UID, use fetched metadata
         ? {
               name: data.name,
               size: data.contentLength,

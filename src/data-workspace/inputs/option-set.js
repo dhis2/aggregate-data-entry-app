@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
 import { useMetadata, selectors } from '../../shared/index.js'
-import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
+import { useSetDataValueMutation } from '../use-data-value-mutation/_data-value-mutations.js'
+// import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
@@ -21,12 +22,15 @@ export const OptionSet = ({
     const { data: metadata } = useMetadata()
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation()
+    const { mutate } = useSetDataValueMutation({
+        deId: dataValueParams.de,
+        cocId: dataValueParams.co,
+    })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { ...dataValueParams, value: value || '' },
+            { value: value || '' },
             {
                 onSuccess: () => {
                     setLastSyncedValue(value)

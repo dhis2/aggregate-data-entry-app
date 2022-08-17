@@ -7,7 +7,6 @@ import {
 } from './_data-value-optimistic-updates.js'
 import {
     useDeleteDataValueMutationFunction,
-    useSetDataValueCommentMutationFunction,
     useSetDataValueMutationFunction,
     useUploadFileDataValueMutationFunction,
 } from './_mutation-functions.js'
@@ -70,21 +69,11 @@ function useSharedDataValueMutation({
 /**
  * The `mutate` function returned by this hook expects a `variables` argument
  * that looks like `{ value: Number | String }` or `{ comment: String }`
+ * or `{ followup: boolean }`
  */
 export function useSetDataValueMutation({ deId, cocId }) {
     const dataValueParams = useDataValueParams({ deId, cocId })
     const mutationFn = useSetDataValueMutationFunction(dataValueParams)
-
-    return useSharedDataValueMutation({
-        dataValueParams,
-        mutationFn,
-        optimisticUpdateFn: optimisticallySetDataValue,
-    })
-}
-// TODO: Duplicate of useSetDataValue?
-export function useSetDataValueCommentMutation({ deId, cocId }) {
-    const dataValueParams = useDataValueParams({ deId, cocId })
-    const mutationFn = useSetDataValueCommentMutationFunction(dataValueParams)
 
     return useSharedDataValueMutation({
         dataValueParams,

@@ -4,7 +4,7 @@ import {
 } from '../../shared/index.js'
 
 /**
- * Formats a de/coc pair and the current context selection for use with the 
+ * Formats a de/coc pair and the current context selection for use with the
  * `dataValues` API
  */
 export const useDataValueParams = ({ deId, cocId }) => {

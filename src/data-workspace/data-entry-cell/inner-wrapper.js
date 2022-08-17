@@ -46,9 +46,12 @@ export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
     } = useField(fieldname, { subscription: { active: true, invalid: true } })
     // Detect if this field is sending data
     // (is this performant?)
+    // todo: could identify mutation by `mutKey = ['dataValues', { params: dataValueParams }]`
     const activeMutations = useIsMutating({
+        fetching: true,
         predicate: (mutation) => {
-            const { de, co } = mutation.options.variables
+            // See mutation key in `data-value-mutations`
+            const { de, co } = mutation.options.mutationKey[1].params
             return deId === de && cocId === co
         },
     })

@@ -1,7 +1,8 @@
 import { Checkbox } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
+import { useSetDataValueMutation } from '../use-data-value-mutation/_data-value-mutations.js'
+// import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
@@ -19,12 +20,15 @@ export const TrueOnlyCheckbox = ({
     })
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation()
+    const { mutate } = useSetDataValueMutation({
+        deId: dataValueParams.de,
+        cocId: dataValueParams.co,
+    })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { ...dataValueParams, value: value || '' },
+            { value: value || '' },
             {
                 onSuccess: () => {
                     setLastSyncedValue(value)

@@ -45,7 +45,10 @@ function sharedOptimisticUpdate({
     })
 }
 
-/** TODO: Make sure this one works for comments too */
+/**
+ * This function merges variables into potentially preexisting data value
+ * object (see `setDataValueInQueryData`)
+ */
 export function optimisticallySetDataValue({
     variables,
     dataValueMutationParams,

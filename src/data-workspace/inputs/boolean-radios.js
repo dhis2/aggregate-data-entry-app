@@ -3,7 +3,8 @@ import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
 import React, { useState } from 'react'
 import { useField, useForm } from 'react-final-form'
-import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
+import { useSetDataValueMutation } from '../use-data-value-mutation/_data-value-mutations.js'
+// import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
@@ -55,12 +56,15 @@ export const BooleanRadios = ({
     const form = useForm()
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation()
+    const { mutate } = useSetDataValueMutation({
+        deId: dataValueParams.de,
+        cocId: dataValueParams.co,
+    })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { ...dataValueParams, value: value || '' },
+            { value: value || '' },
             {
                 onSuccess: () => {
                     setLastSyncedValue(value)
@@ -76,6 +80,9 @@ export const BooleanRadios = ({
     delete clearButtonProps.type
 
     const handleBlur = () => {
+        if (!fieldState) {
+            return // can be undefined sometimes
+        }
         const { dirty, valid } = fieldState
         const value = fieldState.value || ''
         // If this value has changed, sync it to server if valid

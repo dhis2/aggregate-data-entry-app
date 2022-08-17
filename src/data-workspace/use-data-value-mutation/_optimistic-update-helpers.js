@@ -60,7 +60,8 @@ export function setDataValueInQueryData({
         }
     } else {
         // This DV already exists; update the previous object and replace it
-        // in a copied `dataValues` array
+        // in a copied `dataValues` array.
+        // Works for `value`, `comment`, and `followUp` properties, f.ex.
         const updatedDataValue = {
             ...previousQueryData.dataValues[dataValueIndex],
             ...variables,
