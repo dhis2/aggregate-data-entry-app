@@ -23,7 +23,7 @@
     /* Hide default focus styles; handled by wrapper */
     outline: none;
 }
-.rightAlign {
+.alignToEnd {
     text-align: right;
 }
 

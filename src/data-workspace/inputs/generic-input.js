@@ -60,7 +60,7 @@ export const GenericInput = ({
         <input
             {...input}
             className={cx(styles.basicInput, {
-                [styles.rightAlign]: NUMBER_TYPES.includes(valueType),
+                [styles.alignToEnd]: NUMBER_TYPES.includes(valueType),
             })}
             type={htmlTypeAttrsByValueType[valueType]}
             onFocus={(...args) => {
