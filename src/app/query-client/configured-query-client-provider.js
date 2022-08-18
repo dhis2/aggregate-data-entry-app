@@ -21,7 +21,6 @@ const persistOptions = {
 }
 export const ConfiguredQueryClientProvider = ({ children }) => {
     const queryClient = useQueryClient()
-    console.log('using queryclient', queryClient)
     return (
         <PersistQueryClientProvider
             client={queryClient}
