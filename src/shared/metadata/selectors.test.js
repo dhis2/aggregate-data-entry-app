@@ -10,6 +10,7 @@ import {
     getCategoryOptions,
     getCategoryOptionsByCategoryId,
     getCategoryOptionsByCategoryOptionComboId,
+    getCategoriesWithOptionsWithinPeriod,
     getCoCByCategoryOptions,
     getDataElements,
     getDataElementsByDataSetId,
@@ -758,5 +759,195 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
         )
 
         expect(actual).toEqual(expected)
+    })
+
+    describe('getCategoriesWithOptionsWithinPeriod', () => {
+        it('should return all category options if none have end dates', () => {
+            const datasetid = 'dataset-id-1a'
+            const periodid = '202201'
+
+            const catcomboid = 'categorycombo-id-1'
+
+            const metadata = {
+                dataSets: {
+                    [datasetid]: {
+                        categoryCombo: { id: catcomboid },
+                        periodType: 'Monthly',
+                        id: datasetid,
+                    },
+                },
+                categoryCombos: {
+                    [catcomboid]: {
+                        id: catcomboid,
+                        categories: ['co-id-letter', 'co-id-number'],
+                    },
+                },
+                categories: {
+                    'co-id-letter': {
+                        id: 'co-id-letter',
+                        categoryOptions: ['cat-id-a', 'cat-id-b', 'cat-id-c'],
+                    },
+                    'co-id-number': {
+                        id: 'co-id-number',
+                        categoryOptions: ['cat-id-1', 'cat-id-2'],
+                    },
+                },
+                categoryOptions: {
+                    'cat-id-a': { id: 'cat-id-a' },
+                    'cat-id-b': { id: 'cat-id-b' },
+                    'cat-id-c': { id: 'cat-id-c' },
+                    'cat-id-1': { id: 'cat-id-1' },
+                    'cat-id-2': { id: 'cat-id-2' },
+                },
+            }
+
+            const expected = [
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-a' },
+                        { id: 'cat-id-b' },
+                        { id: 'cat-id-c' },
+                    ],
+                    id: 'co-id-letter',
+                },
+                {
+                    categoryOptions: [{ id: 'cat-id-1' }, { id: 'cat-id-2' }],
+                    id: 'co-id-number',
+                },
+            ]
+
+            const actual = getCategoriesWithOptionsWithinPeriod(
+                metadata,
+                datasetid,
+                periodid
+            )
+
+            expect(actual).toEqual(expected)
+        })
+
+        it('should return category options without endDate or with endDate after period end ', () => {
+            const datasetid = 'dataset-id-1a'
+            const periodid = '202201'
+
+            const catcomboid = 'categorycombo-id-1'
+
+            const metadata = {
+                dataSets: {
+                    [datasetid]: {
+                        categoryCombo: { id: catcomboid },
+                        periodType: 'Monthly',
+                        id: datasetid,
+                    },
+                },
+                categoryCombos: {
+                    [catcomboid]: {
+                        id: catcomboid,
+                        categories: ['co-id-letter', 'co-id-number'],
+                    },
+                },
+                categories: {
+                    'co-id-letter': {
+                        id: 'co-id-letter',
+                        categoryOptions: ['cat-id-a', 'cat-id-b', 'cat-id-c'],
+                    },
+                    'co-id-number': {
+                        id: 'co-id-number',
+                        categoryOptions: ['cat-id-1', 'cat-id-2'],
+                    },
+                },
+                categoryOptions: {
+                    'cat-id-a': { id: 'cat-id-a', endDate: '2020-01-01' },
+                    'cat-id-b': { id: 'cat-id-b', endDate: '2022-01-01' },
+                    'cat-id-c': { id: 'cat-id-c' },
+                    'cat-id-1': { id: 'cat-id-1', endDate: '2022-09-01' },
+                    'cat-id-2': { id: 'cat-id-2' },
+                },
+            }
+
+            const expected = [
+                { categoryOptions: [{ id: 'cat-id-c' }], id: 'co-id-letter' },
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-1', endDate: '2022-09-01' },
+                        { id: 'cat-id-2' },
+                    ],
+                    id: 'co-id-number',
+                },
+            ]
+
+            const actual = getCategoriesWithOptionsWithinPeriod(
+                metadata,
+                datasetid,
+                periodid
+            )
+
+            expect(actual).toEqual(expected)
+        })
+
+        it('should return category options without endDate or with endDate after period end, adjusting for openPeriodsAfterCoEndDate', () => {
+            const datasetid = 'dataset-id-1a'
+            const periodid = '202201'
+
+            const catcomboid = 'categorycombo-id-1'
+
+            const metadata = {
+                dataSets: {
+                    [datasetid]: {
+                        categoryCombo: { id: catcomboid },
+                        periodType: 'Monthly',
+                        id: datasetid,
+                        openPeriodsAfterCoEndDate: 2,
+                    },
+                },
+                categoryCombos: {
+                    [catcomboid]: {
+                        id: catcomboid,
+                        categories: ['co-id-letter', 'co-id-number'],
+                    },
+                },
+                categories: {
+                    'co-id-letter': {
+                        id: 'co-id-letter',
+                        categoryOptions: ['cat-id-a', 'cat-id-b', 'cat-id-c'],
+                    },
+                    'co-id-number': {
+                        id: 'co-id-number',
+                        categoryOptions: ['cat-id-1', 'cat-id-2'],
+                    },
+                },
+                categoryOptions: {
+                    'cat-id-a': { id: 'cat-id-a', endDate: '2020-01-01' },
+                    'cat-id-b': { id: 'cat-id-b', endDate: '2022-01-01' },
+                    'cat-id-c': { id: 'cat-id-c' },
+                    'cat-id-1': { id: 'cat-id-1', endDate: '2022-09-01' },
+                    'cat-id-2': { id: 'cat-id-2' },
+                },
+            }
+
+            const expected = [
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-b', endDate: '2022-01-01' },
+                        { id: 'cat-id-c' },
+                    ],
+                    id: 'co-id-letter',
+                },
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-1', endDate: '2022-09-01' },
+                        { id: 'cat-id-2' },
+                    ],
+                    id: 'co-id-number',
+                },
+            ]
+
+            const actual = getCategoriesWithOptionsWithinPeriod(
+                metadata,
+                datasetid,
+                periodid
+            )
+
+            expect(actual).toEqual(expected)
+        })
     })
 })
