@@ -505,6 +505,9 @@ msgstr "Six-monthly"
 msgid "Six-monthly April"
 msgstr "Six-monthly April"
 
+msgid "Six-monthly November"
+msgstr "Six-monthly November"
+
 msgid "Yearly"
 msgstr "Yearly"
 

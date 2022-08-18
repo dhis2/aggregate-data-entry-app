@@ -1,6 +1,10 @@
 import { createCachedSelector } from 're-reselect'
 import { createSelector } from 'reselect'
-import { parsePeriodId } from '../fixed-periods/index.js'
+import {
+    addFullPeriodTimeToDate,
+    parsePeriodId,
+    removeFullPeriodTimeToDate,
+} from '../fixed-periods/index.js'
 import { cartesian } from '../utils.js'
 // Helper to group array items by an identifier
 
@@ -28,6 +32,8 @@ export const getOptionSets = (metadata) => metadata.optionSets
 // Select by id
 
 export const getCategoryById = (metadata, id) => getCategories(metadata)[id]
+export const getCategoryOptionById = (metadata, id) =>
+    getCategoryOptions(metadata)[id]
 export const getOptionSetById = (metadata, id) => getOptionSets(metadata)[id]
 export const getDataSetById = (metadata, id) => getDataSets(metadata)?.[id]
 export const getDataElementById = (metadata, id) =>
@@ -410,14 +416,18 @@ const resolveCategoryOptionIds = (categories, categoryOptions) => {
 
 export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
     (metadata) => metadata,
-    (_, dataSetId) => dataSetId,
+    getDataSetById,
     (_, __, periodId) => periodId,
-    (metadata, dataSetId, periodId) => {
-        if (!dataSetId || !periodId) {
+    (metadata, dataSet, periodId) => {
+        if (!dataSet?.id || !periodId) {
             return []
         }
 
-        const relevantCategories = getCategoriesByDataSetId(metadata, dataSetId)
+        const relevantCategories = getCategoriesByDataSetId(
+            metadata,
+            dataSet?.id
+        )
+
         const categoryOptions = getCategoryOptions(metadata)
         const relevantCategoriesWithOptions = resolveCategoryOptionIds(
             relevantCategories,
@@ -425,7 +435,27 @@ export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
         )
         const period = parsePeriodId(periodId)
         const periodStartDate = new Date(period.startDate)
-        const periodEndDate = new Date(period.endDate)
+
+        // periodEndDate is up to following start date
+        let periodEndDate = addFullPeriodTimeToDate(
+            periodStartDate,
+            period?.periodType?.type
+        )
+
+        // reduce perfiodEndDate by openPeriodsAfterCoEndDate
+        const openPeriodsAfterCoEndDate = Math.max(
+            dataSet?.openPeriodsAfterCoEndDate || 0,
+            0
+        )
+        for (let i = 0; i < openPeriodsAfterCoEndDate; i++) {
+            periodEndDate = removeFullPeriodTimeToDate(
+                periodEndDate,
+                period?.periodType?.type
+            )
+        }
+
+        // remove 1 day because endDate is 1 less than subsequent startDate
+        periodEndDate.setDate(periodEndDate.getDate() - 1)
 
         return relevantCategoriesWithOptions.map((category) => ({
             ...category,

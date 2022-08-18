@@ -55,6 +55,7 @@ export const LongText = ({
             }}
             onKeyDown={onKeyDown}
             disabled={disabled}
+            autoComplete="off"
         />
     )
 }
