@@ -196,13 +196,15 @@ describe('ValidationResultsSidebar', () => {
         const overrideOptions = {
             validationRules: () => {
                 return new Promise((resolve, reject) => {
-                    if (count++ === 1) {
-                        return reject(
-                            'server-side error the first time then it will pass on re-run'
-                        )
-                    } else {
-                        return resolve(validationMetadataMockResponse)
-                    }
+                    setTimeout(() => {
+                        if (count++ === 1) {
+                            return reject(
+                                'server-side error the first time then it will pass on re-run'
+                            )
+                        } else {
+                            return resolve(validationMetadataMockResponse)
+                        }
+                    }, 0)
                 })
             },
         }
