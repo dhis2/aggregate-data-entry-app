@@ -20,7 +20,7 @@ const persistOptions = {
     },
 }
 
-export let ConfiguredQueryClientProvider = ({ children, queryClient }) => {
+export const ConfiguredQueryClientProvider = ({ children, queryClient }) => {
     return (
         <PersistQueryClientProvider
             client={queryClient}
@@ -31,24 +31,9 @@ export let ConfiguredQueryClientProvider = ({ children, queryClient }) => {
     )
 }
 
-const TestQueryClientProvider = ({ children, queryClient }) => {
-    return (
-        <PersistQueryClientProvider
-            client={queryClient}
-            persistOptions={persistOptions}
-        >
-            {children}
-        </PersistQueryClientProvider>
-    )
-}
-
-if (process.env.NODE_ENV === 'test') {
-    ConfiguredQueryClientProvider = TestQueryClientProvider
-}
 const propTypes = {
     queryClient: PropTypes.instanceOf(QueryClient).isRequired,
     children: PropTypes.node,
 }
 
-TestQueryClientProvider.propTypes = propTypes
 ConfiguredQueryClientProvider.propTypes = propTypes
