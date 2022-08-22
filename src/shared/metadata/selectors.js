@@ -48,6 +48,15 @@ export const getCategoryComboById = (metadata, id) =>
     getCategoryCombos(metadata)[id]
 
 /**
+ * Alphabetically sort the order of data elements on displayFormName
+ * @param {*} dataElements
+ */
+export const sortDataElementsByDisplayFormName = (dataElements) =>
+    dataElements.sort((deA, deB) =>
+        deA.displayFormName?.localeCompare(deB.displayFormName)
+    )
+
+/**
  *
  * @param {*} metadata
  * @param {*} categoryComboId

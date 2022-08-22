@@ -20,6 +20,7 @@ import {
     getGroupedDataElementsByCatCombo,
     getGroupedDataElementsByCatComboInOrder,
     getSections,
+    sortDataElementsByDisplayFormName,
 } from './selectors.js'
 
 describe('simple selectors', () => {
@@ -74,6 +75,38 @@ describe('simple selectors', () => {
             const data = { sections: expected }
 
             expect(getSections(data)).toBe(expected)
+        })
+    })
+})
+
+describe('sorting', () => {
+    describe('sortDataElementsByDisplayFormName', () => {
+        it('returns data elements in alphabetical under in respect of displayFormName', () => {
+            const makeDataElement = (
+                id,
+                displayFormName,
+                categoryCombo = 'dataElementCategoryCombo'
+            ) => ({
+                id,
+                displayFormName,
+                categoryCombo,
+            })
+
+            const data = [
+                makeDataElement('dataElementId2', 'Beta'),
+                makeDataElement('dataElementId1', 'Alpha'),
+                makeDataElement('dataElementId2', 'Gamma'),
+                makeDataElement('dataElementId1', 'Delta'),
+            ]
+
+            const expected = [
+                makeDataElement('dataElementId1', 'Alpha'),
+                makeDataElement('dataElementId2', 'Beta'),
+                makeDataElement('dataElementId1', 'Delta'),
+                makeDataElement('dataElementId2', 'Gamma'),
+            ]
+
+            expect(sortDataElementsByDisplayFormName(data)).toEqual(expected)
         })
     })
 })
