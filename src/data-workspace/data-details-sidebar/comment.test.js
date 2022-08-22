@@ -9,7 +9,6 @@ jest.mock('../use-data-value-mutation/index.js', () => ({
     useSetDataValueMutation: jest.fn(() => ({})),
 }))
 
-// todo: fix
 describe('<Comment />', () => {
     afterEach(() => {
         useSetDataValueMutation.mockClear()
@@ -142,9 +141,9 @@ describe('<Comment />', () => {
     })
 
     it('should show the comment as text when done editing', async () => {
-        useSetDataValueMutation.mockImplementation((onSuccess) => {
+        useSetDataValueMutation.mockImplementation(() => {
             return {
-                mutate: () => {
+                mutate: (_, { onSuccess }) => {
                     // fire after returning
                     setTimeout(onSuccess, 0)
                     return Promise.resolve()
