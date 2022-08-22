@@ -1,9 +1,11 @@
 import { IconMore16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useField } from 'react-final-form'
 import { useIsMutating } from 'react-query'
+import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
+import { dataDetailsSidebarId } from '../constants.js'
 import { parseFieldId } from '../get-field-id.js'
 import styles from './data-entry-cell.module.css'
 
@@ -59,12 +61,25 @@ export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
         ? styles.synced
         : null
 
+    const setRightHandPanel = useSetRightHandPanel()
+
+    const onClick = useCallback(
+        (event) => {
+            const { detail } = event
+            if (detail >= 2) {
+                setRightHandPanel(dataDetailsSidebarId)
+            }
+        },
+        [setRightHandPanel]
+    )
+
     return (
         <div
             className={cx(styles.cellInnerWrapper, cellStateClassName, {
                 [styles.active]: active,
                 [styles.disabled]: disabled,
             })}
+            onClick={onClick}
         >
             {children}
             <SyncStatusIndicator
