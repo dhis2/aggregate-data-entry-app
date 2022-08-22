@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation } from '../use-data-value-mutation/_data-value-mutations.js'
-// import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
+import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 

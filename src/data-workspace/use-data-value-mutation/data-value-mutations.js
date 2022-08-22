@@ -4,14 +4,14 @@ import {
     optimisticallyDeleteDataValue,
     optimisticallySetDataValue,
     optimisticallySetFileDataValue,
-} from './_data-value-optimistic-updates.js'
+} from './data-value-optimistic-updates.js'
 import {
     useDeleteDataValueMutationFunction,
     useSetDataValueMutationFunction,
     useUploadFileDataValueMutationFunction,
-} from './_mutation-functions.js'
-import { useDataValueParams } from './_use-data-value-params.js'
+} from './mutation-functions.js'
 import useApiError from './use-api-error.js'
+import { useDataValueParams } from './use-data-value-params.js'
 
 function useSharedDataValueMutation({
     dataValueParams,

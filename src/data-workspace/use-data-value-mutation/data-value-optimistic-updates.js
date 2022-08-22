@@ -2,7 +2,7 @@ import {
     findDataValueIndex,
     setDataValueInQueryData,
     deleteDataValueFromQueryData,
-} from './_optimistic-update-helpers.js'
+} from './optimistic-update-helpers.js'
 
 /**
  * Optimistically update the query to `dataEntry/dataValues` with newly entered

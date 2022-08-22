@@ -2,16 +2,17 @@ import { fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { useState } from 'react'
 import { render } from '../../test-utils/index.js'
-import { useSetDataValueCommentMutation } from '../use-data-value-mutation/index.js'
+import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
 import Comment from './comment.js'
 
 jest.mock('../use-data-value-mutation/index.js', () => ({
-    useSetDataValueCommentMutation: jest.fn(() => ({})),
+    useSetDataValueMutation: jest.fn(() => ({})),
 }))
 
+// todo: fix
 describe('<Comment />', () => {
     afterEach(() => {
-        useSetDataValueCommentMutation.mockClear()
+        useSetDataValueMutation.mockClear()
     })
 
     it('is expanded by default', () => {
@@ -64,7 +65,7 @@ describe('<Comment />', () => {
     })
 
     it('shows a loading indicator when submitting a comment change', async () => {
-        useSetDataValueCommentMutation.mockImplementation(() => {
+        useSetDataValueMutation.mockImplementation(() => {
             const [loading, setLoading] = useState(false)
             return {
                 isLoading: loading,
@@ -98,7 +99,7 @@ describe('<Comment />', () => {
     })
 
     it('shows a the error message when submitting a comment fails', async () => {
-        useSetDataValueCommentMutation.mockImplementation(() => {
+        useSetDataValueMutation.mockImplementation(() => {
             const [error, setError] = useState(false)
             return {
                 isLoading: false,
@@ -141,7 +142,7 @@ describe('<Comment />', () => {
     })
 
     it('should show the comment as text when done editing', async () => {
-        useSetDataValueCommentMutation.mockImplementation((onSuccess) => {
+        useSetDataValueMutation.mockImplementation((onSuccess) => {
             return {
                 mutate: () => {
                     // fire after returning
