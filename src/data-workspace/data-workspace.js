@@ -24,7 +24,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
-        return <NoticeBox title={title}>{selectionHasNoFormMessage}</NoticeBox>
+        return (
+            <NoticeBox title={title} className={styles.formMessageBox}>
+                {selectionHasNoFormMessage}
+            </NoticeBox>
+        )
     }
 
     if (!isValidSelection) {

@@ -75,11 +75,12 @@ function useHandleOrgUnitIdChange() {
         useAttributeOptionComboSelection()
 
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriod(
+        selectors.getCategoriesWithOptionsWithinPeriodForOrgUnit({
             metadata,
             dataSetId,
-            periodId
-        )
+            periodId,
+            orgUnitId,
+        })
 
     useEffect(() => {
         if (orgUnitId !== prevOrgUnitId) {
@@ -149,14 +150,16 @@ function useHandlePeriodIdChange() {
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
     const [dataSetId] = useDataSetId()
+    const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriod(
+        selectors.getCategoriesWithOptionsWithinPeriodForOrgUnit({
             metadata,
             dataSetId,
-            periodId
-        )
+            periodId,
+            orgUnitId,
+        })
 
     useEffect(() => {
         if (periodId !== prevPeriodId) {

@@ -1,5 +1,10 @@
 import i18n from '@dhis2/d2-i18n'
-import { Button, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
+import {
+    Button,
+    NoticeBox,
+    SingleSelectField,
+    SingleSelectOption,
+} from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { MenuSelect } from '../menu-select/index.js'
@@ -37,28 +42,41 @@ export default function CategoriesMenu({
     return (
         <div className={css.container}>
             <div className={css.inputs}>
-                {categories.map(({ id, displayName, categoryOptions }) => (
-                    <div className={css.input} key={id}>
-                        <SingleSelectField
-                            label={displayName}
-                            selected={selected[id]}
-                            onChange={({ selected }) =>
-                                onChange({
-                                    categoryId: id,
-                                    selected,
-                                })
-                            }
+                {categories.map(({ id, displayName, categoryOptions }) => {
+                    return categoryOptions.length === 0 ? (
+                        <NoticeBox
+                            className={css.noOptionsBox}
+                            error
+                            title={i18n.t('No available options')}
                         >
-                            {categoryOptions.map(({ id, displayName }) => (
-                                <SingleSelectOption
-                                    key={id}
-                                    value={id}
-                                    label={displayName}
-                                />
-                            ))}
-                        </SingleSelectField>
-                    </div>
-                ))}
+                            {i18n.t(
+                                `There are no options for {{categoryName}} for the selected period and organisation unit.`,
+                                { categoryName: displayName }
+                            )}
+                        </NoticeBox>
+                    ) : (
+                        <div className={css.input} key={id}>
+                            <SingleSelectField
+                                label={displayName}
+                                selected={selected[id]}
+                                onChange={({ selected }) =>
+                                    onChange({
+                                        categoryId: id,
+                                        selected,
+                                    })
+                                }
+                            >
+                                {categoryOptions.map(({ id, displayName }) => (
+                                    <SingleSelectOption
+                                        key={id}
+                                        value={id}
+                                        label={displayName}
+                                    />
+                                ))}
+                            </SingleSelectField>
+                        </div>
+                    )
+                })}
             </div>
 
             <Button
