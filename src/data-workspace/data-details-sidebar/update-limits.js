@@ -23,13 +23,11 @@ function UpdateLimits({
 
     const minField = useField('min', {
         initialValue: limits.min,
-        parse: (value) => (value === '' ? '' : parseInt(value, 10)),
         format: (value) => (value ? value.toString() : ''),
     })
 
     const maxField = useField('max', {
         initialValue: limits.max,
-        parse: (value) => (value === '' ? '' : parseInt(value, 10)),
         format: (value) => (value ? value.toString() : ''),
     })
 
@@ -63,7 +61,15 @@ function UpdateLimits({
             <LimitsValidationErrorMessage errors={errors} />
 
             <ButtonStrip>
-                <Button small primary type="submit" loading={submitting}>
+                <Button
+                    small
+                    primary
+                    type="submit"
+                    loading={submitting}
+                    disabled={
+                        errors === undefined || Object.keys(errors).length !== 0
+                    }
+                >
                     {submitting ? i18n.t('Saving...') : i18n.t('Save limits')}
                 </Button>
 

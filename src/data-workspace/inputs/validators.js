@@ -95,7 +95,9 @@ export const createLessThan = (key, description) => {
     )
 
     return (value, allValues) =>
-        isEmpty(value) || isEmpty(allValues[key]) || value < allValues[key]
+        isEmpty(value) ||
+        isEmpty(allValues[key]) ||
+        parseFloat(value) < parseFloat(allValues[key])
             ? undefined
             : errorMessage
 }
