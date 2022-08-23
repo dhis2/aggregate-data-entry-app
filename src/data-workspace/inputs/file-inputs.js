@@ -7,7 +7,7 @@ import { useQuery } from 'react-query'
 import {
     useDeleteDataValueMutation,
     useUploadFileDataValueMutation,
-} from '../use-data-value-mutation/index.js'
+} from '../data-value-mutations/index.js'
 import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
 

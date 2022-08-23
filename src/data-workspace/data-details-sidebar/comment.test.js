@@ -2,7 +2,7 @@ import { fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { useState } from 'react'
 import { render } from '../../test-utils/index.js'
-import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
+import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import Comment from './comment.js'
 
 jest.mock('../use-data-value-mutation/index.js', () => ({
