@@ -9,6 +9,7 @@ import { RightHandPanelProvider } from '../right-hand-panel/index.js'
 import {
     HighlightedFieldIdProvider,
     FormChangedSincePanelOpenedProvider,
+    NoFormOrLockedProvider,
 } from '../shared/index.js'
 import App from './app.js'
 import useQueryClient from './query-client/use-query-client.js'
@@ -39,15 +40,17 @@ export function OuterComponents({
             <QueryClientProvider client={queryClient}>
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
-                        <HighlightedFieldIdProvider>
-                            <FormChangedSincePanelOpenedProvider>
-                                <RightHandPanelProvider>
-                                    <PrintAreaProvider>
-                                        {children}
-                                    </PrintAreaProvider>
-                                </RightHandPanelProvider>
-                            </FormChangedSincePanelOpenedProvider>
-                        </HighlightedFieldIdProvider>
+                        <NoFormOrLockedProvider>
+                            <HighlightedFieldIdProvider>
+                                <FormChangedSincePanelOpenedProvider>
+                                    <RightHandPanelProvider>
+                                        <PrintAreaProvider>
+                                            {children}
+                                        </PrintAreaProvider>
+                                    </RightHandPanelProvider>
+                                </FormChangedSincePanelOpenedProvider>
+                            </HighlightedFieldIdProvider>
+                        </NoFormOrLockedProvider>
                     </QueryParamProvider>
                 </Router>
             </QueryClientProvider>

@@ -167,7 +167,6 @@ function useHandlePeriodIdChange() {
                 relevantCategoriesWithOptions,
                 setAttributeOptionComboSelection,
             })
-
             setPrevPeriodId(periodId)
         }
     }, [

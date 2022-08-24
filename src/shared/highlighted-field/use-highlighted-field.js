@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useMetadata, selectors } from '../metadata/index.js'
 import { useDataValueSet } from '../use-data-value-set/index.js'
 import { CAN_HAVE_LIMITS_TYPES } from '../value-types.js'
 import { useHighlightedFieldIdContext } from './use-highlighted-field-context.js'
 
-function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
-    const dataValue = dataValueSet?.dataValues[de.id]?.[coc.id]
+function gatherHighlightedFieldData({ de, cocId, dataValueSet }) {
+    const dataValue = dataValueSet?.dataValues[de.id]?.[cocId]
+
     const { optionSet, valueType } = de
     const canHaveLimits = optionSet
         ? false
@@ -15,7 +17,7 @@ function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
             ...dataValue,
             valueType,
             canHaveLimits,
-            categoryOptionCombo: coc.id,
+            categoryOptionCombo: cocId,
             name: de.displayName,
             code: de.code,
         }
@@ -24,35 +26,37 @@ function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
     return {
         valueType,
         canHaveLimits,
-        categoryOptionCombo: coc.id,
+        categoryOptionCombo: cocId,
         dataElement: de.id,
         name: de.displayName,
         lastUpdated: '',
         followup: false,
         comment: null,
         storedBy: null,
-        code: null,
+        code: de.code,
     }
 }
 
 export default function useHighlightedField() {
     const { data: dataValueSet } = useDataValueSet()
     const { item } = useHighlightedFieldIdContext()
+    const { data: metadata } = useMetadata()
+    const { deId, cocId } = item
+    const de = selectors.getDataElementById(metadata, deId)
+
     const [currentItem, setHighlightedFieldId] = useState(() => {
         if (dataValueSet) {
-            const { de, coc } = item
-            return gatherHighlightedFieldData({ de, coc, dataValueSet })
+            return gatherHighlightedFieldData({ de, cocId, dataValueSet })
         }
 
         return null
     })
 
     useEffect(() => {
-        const { de, coc } = item
         setHighlightedFieldId(
-            gatherHighlightedFieldData({ de, coc, dataValueSet })
+            gatherHighlightedFieldData({ de, cocId, dataValueSet })
         )
-    }, [item, dataValueSet])
+    }, [cocId, de, dataValueSet])
 
     return currentItem
 }

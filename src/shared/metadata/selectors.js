@@ -44,6 +44,10 @@ export const getSectionsByDataSetId = (metadata, dataSetId) => {
     return dataSetSections ?? []
 }
 
+export const getExpiryDays = (metadata, dataSetId) => {
+    return getDataSetById(metadata, dataSetId)?.expiryDays || 0
+}
+
 export const getCategoryComboById = (metadata, id) =>
     getCategoryCombos(metadata)[id]
 
@@ -469,3 +473,19 @@ export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
         }))
     }
 )((_, dataSetId, periodId) => `${dataSetId}:${periodId}`)
+
+export const getApplicableDataInputPeriod = createCachedSelector(
+    getDataSetById,
+    (_, __, periodId) => periodId,
+    (dataSet, periodId) => {
+        if (!dataSet?.id || !periodId) {
+            return []
+        }
+        if (!dataSet || !periodId) {
+            return []
+        }
+        return dataSet.dataInputPeriods.filter(
+            (dip) => dip?.period?.id === periodId
+        )[0]
+    }
+)((dataSetId, periodId) => `${dataSetId}:${periodId}`)

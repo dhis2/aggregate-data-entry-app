@@ -11,6 +11,7 @@ export const LongText = ({
     onKeyDown,
     onFocus,
     disabled,
+    locked,
 }) => {
     const { input, meta } = useField(fieldname, {
         subscription: { value: true, dirty: true, valid: true },
@@ -55,6 +56,7 @@ export const LongText = ({
             }}
             onKeyDown={onKeyDown}
             disabled={disabled}
+            readOnly={locked}
             autoComplete="off"
         />
     )

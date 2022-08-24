@@ -16,6 +16,7 @@ export const OptionSet = ({
     onKeyDown,
     onFocus,
     disabled,
+    locked,
 }) => {
     const { input } = useField(fieldname, { subscription: { value: true } })
     const { data: metadata } = useMetadata()
@@ -70,7 +71,7 @@ export const OptionSet = ({
                     }}
                     onKeyDown={onKeyDown}
                     onBlur={() => input.onBlur()}
-                    disabled={disabled}
+                    disabled={disabled || locked}
                 >
                     {options.map(({ id, code, displayName }) => (
                         <SingleSelectOption

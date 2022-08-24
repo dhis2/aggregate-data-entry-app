@@ -24,7 +24,7 @@
     outline: 1px solid #a0adba;
 }
 
-.active {
+.active:not(.locked) {
     outline: 3px solid var(--theme-focus) !important;
     border: none !important;
     background: #fff !important;
@@ -77,3 +77,11 @@
     border-bottom: 3px solid var(--colors-grey600);
     border-left: 3px solid var(--colors-grey600);
 }
+
+.locked {
+    background-color: var(--colors-grey050);
+}
+.locked * {
+    color: var(--colors-grey700) !important;
+}
+

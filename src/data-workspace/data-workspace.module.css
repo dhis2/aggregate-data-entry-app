@@ -34,3 +34,13 @@
   left: 0;
   transform: translateY(-100%);
 }
+
+.warningBox {
+    width: 420px;
+}
+
+.warningBoxMargin {
+    composes: warningBox;
+    margin: var(--spacers-dp8);
+}
+

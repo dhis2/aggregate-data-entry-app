@@ -1,7 +1,5 @@
-import i18n from '@dhis2/d2-i18n'
 import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 import React from 'react'
 import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { BottomBar } from '../bottom-bar/index.js'
@@ -11,20 +9,29 @@ import {
     useDataSetId,
     useDataValueSet,
     useIsValidSelection,
+    useNoFormOrLockedContext,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
 
-export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
+export const DataWorkspace = () => {
     const { data } = useMetadata()
     const [dataSetId] = useDataSetId()
     const initialDataValuesFetch = useDataValueSet()
     const isValidSelection = useIsValidSelection()
+    const noFormOrLocked = useNoFormOrLockedContext()
 
-    if (selectionHasNoFormMessage) {
-        const title = i18n.t('The current selection does not have a form')
-        return <NoticeBox title={title}>{selectionHasNoFormMessage}</NoticeBox>
+    if (noFormOrLocked?.message && !noFormOrLocked?.inForm) {
+        return (
+            <NoticeBox
+                className={styles.warningBoxMargin}
+                error={noFormOrLocked?.error}
+                title={noFormOrLocked?.title}
+            >
+                {noFormOrLocked?.message}
+            </NoticeBox>
+        )
     }
 
     if (!isValidSelection) {
@@ -61,13 +68,16 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>
-                        <EntryForm dataSet={dataSet} />
+                        <EntryForm
+                            dataSet={dataSet}
+                            locked={Boolean(noFormOrLocked?.locked)}
+                        />
                     </div>
                 </main>
 
                 <footer className={footerClasses}>
                     <div
-                        // This div and its content will be removed
+                        // This div and its content will  be removed
                         // once we can display this in the headerbar
                         className={styles.mutationIndicator}
                     >
@@ -79,8 +89,4 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
             </div>
         </FinalFormWrapper>
     )
-}
-
-DataWorkspace.propTypes = {
-    selectionHasNoFormMessage: PropTypes.string,
 }

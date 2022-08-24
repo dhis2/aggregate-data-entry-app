@@ -5,17 +5,21 @@ import React from 'react'
 import { useIsMutating } from 'react-query'
 import { validationResultsSidebarId } from '../data-workspace/constants.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
-import { useDataValueSetQueryKey } from '../shared/index.js'
+import {
+    useDataValueSetQueryKey,
+    useNoFormOrLockedContext,
+} from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
 export default function MainToolBar() {
     const rightHandPanel = useRightHandPanelContext()
     const queryKey = useDataValueSetQueryKey()
+    const { locked } = useNoFormOrLockedContext()
     const activeMutations = useIsMutating({
         mutationKey: queryKey,
     })
 
-    const validateDisabled = activeMutations > 0
+    const validateDisabled = activeMutations > 0 || locked
 
     const isComplete = true // @TODO(isComplete): implement me!
     const complete = () => console.log('@TODO(complete): implement me!')
@@ -40,6 +44,7 @@ export default function MainToolBar() {
             </Button>
 
             <Button
+                disabled={locked}
                 className={styles.toolbarItem}
                 onClick={isComplete ? incomplete : complete}
             >
@@ -48,7 +53,10 @@ export default function MainToolBar() {
                     : i18n.t('Mark complete')}
             </Button>
 
-            <button className={cx(styles.goToInvalidValue, styles.toolbarItem)}>
+            <button
+                disabled={locked}
+                className={cx(styles.goToInvalidValue, styles.toolbarItem)}
+            >
                 <span className={cx(styles.icon, styles.goToInvalidValueIcon)}>
                     <IconErrorFilled16 color={colors.red700} />
                 </span>

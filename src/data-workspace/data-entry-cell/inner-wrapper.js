@@ -1,9 +1,13 @@
 import { IconMore16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useField } from 'react-final-form'
 import { useIsMutating } from 'react-query'
+import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
+import { useSetHighlightedFieldIdContext } from '../../shared/index.js'
+import { dataDetailsSidebarId } from '../constants.js'
+import { focusNext, focusPrev } from '../focus-utils/index.js'
 import { parseFieldId } from '../get-field-id.js'
 import styles from './data-entry-cell.module.css'
 
@@ -38,7 +42,13 @@ CommentIndicator.propTypes = { isComment: PropTypes.bool }
  * This inner wrapper provides styles and layout for the entry field based on
  * its various states
  */
-export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
+export function InnerWrapper({
+    children,
+    disabled,
+    locked,
+    fieldname,
+    syncStatus,
+}) {
     const { dataElementId: deId, categoryOptionComboId: cocId } =
         parseFieldId(fieldname)
     const {
@@ -53,6 +63,36 @@ export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
         },
     })
 
+    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+    // memoize id to prevent unnecessary useEffect calls due to object reference
+    const highlightedFieldId = useMemo(() => ({ deId, cocId }), [deId, cocId])
+
+    // used so we don't consume the "id" which
+    // would cause this component to rerender
+    const setRightHandPanel = useSetRightHandPanel()
+
+    const onKeyDown = useCallback(
+        (event) => {
+            const { key, ctrlKey, metaKey } = event
+            const ctrlXorMetaKey = ctrlKey ^ metaKey
+
+            if (ctrlXorMetaKey && key === 'Enter') {
+                setRightHandPanel(dataDetailsSidebarId)
+            } else if (key === 'ArrowDown' || key === 'Enter') {
+                event.preventDefault()
+                focusNext()
+            } else if (key === 'ArrowUp') {
+                event.preventDefault()
+                focusPrev()
+            }
+        },
+        [setRightHandPanel]
+    )
+
+    const onFocus = useCallback(() => {
+        setHighlightedFieldId(highlightedFieldId)
+    }, [highlightedFieldId, setHighlightedFieldId])
+
     const cellStateClassName = invalid
         ? styles.invalid
         : activeMutations === 0 && syncStatus.synced
@@ -64,7 +104,11 @@ export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
             className={cx(styles.cellInnerWrapper, cellStateClassName, {
                 [styles.active]: active,
                 [styles.disabled]: disabled,
+                [styles.locked]: locked,
             })}
+            onClick={locked ? onFocus : null}
+            onFocus={onFocus}
+            onKeyDown={onKeyDown}
         >
             {children}
             <SyncStatusIndicator
@@ -80,6 +124,7 @@ InnerWrapper.propTypes = {
     children: PropTypes.node,
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
+    locked: PropTypes.bool,
     syncStatus: PropTypes.shape({
         synced: PropTypes.bool,
         syncing: PropTypes.bool,

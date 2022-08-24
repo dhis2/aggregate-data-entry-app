@@ -2,7 +2,10 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, ButtonStrip, Tooltip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useConnectionStatus } from '../../shared/index.js'
+import {
+    useConnectionStatus,
+    useNoFormOrLockedContext,
+} from '../../shared/index.js'
 import calculateAverage from './calculate-average.js'
 import LimitsAverageValueInfo from './limits-average-value-info.js'
 import LimitsDeleteButton from './limits-delete-button.js'
@@ -10,13 +13,13 @@ import styles from './limits.module.css'
 
 const editButtonLabel = i18n.t('Edit limits')
 
-function EditButton({ onClick }) {
+function EditButton({ onClick, disabled }) {
     const { offline } = useConnectionStatus()
 
     if (offline) {
         return (
             <Tooltip content={i18n.t('Not available offline')}>
-                <Button small primary disabled>
+                <Button small primary disabled={disabled}>
                     {editButtonLabel}
                 </Button>
             </Tooltip>
@@ -24,7 +27,7 @@ function EditButton({ onClick }) {
     }
 
     return (
-        <Button small primary onClick={onClick}>
+        <Button small primary onClick={onClick} disabled={disabled}>
             {editButtonLabel}
         </Button>
     )
@@ -32,6 +35,7 @@ function EditButton({ onClick }) {
 
 EditButton.propTypes = {
     onClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
 }
 
 export default function LimitsDisplay({
@@ -42,6 +46,7 @@ export default function LimitsDisplay({
     onEditClick,
 }) {
     const average = calculateAverage(min, max)
+    const { locked } = useNoFormOrLockedContext()
 
     return (
         <div className={styles.limits}>
@@ -72,10 +77,11 @@ export default function LimitsDisplay({
             </div>
 
             <ButtonStrip>
-                <EditButton onClick={onEditClick} />
+                <EditButton onClick={onEditClick} disabled={locked} />
                 <LimitsDeleteButton
                     dataElementId={dataElementId}
                     categoryOptionComboId={categoryOptionComboId}
+                    disabled={locked}
                 />
             </ButtonStrip>
         </div>

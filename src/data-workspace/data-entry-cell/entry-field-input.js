@@ -1,12 +1,6 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, useMemo } from 'react'
-import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
-import {
-    VALUE_TYPES,
-    useSetHighlightedFieldIdContext,
-} from '../../shared/index.js'
-import { dataDetailsSidebarId } from '../constants.js'
-import { focusNext, focusPrev } from '../focus-utils/index.js'
+import React, { useMemo } from 'react'
+import { VALUE_TYPES } from '../../shared/index.js'
 import {
     GenericInput,
     BooleanRadios,
@@ -63,56 +57,21 @@ export function EntryFieldInput({
     categoryOptionCombo: coc,
     setSyncStatus,
     disabled,
+    locked,
 }) {
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
-
-    // used so we don't consume the "id" which
-    // would cause this component to rerender
-    const setRightHandPanel = useSetRightHandPanel()
-
     const { id: deId } = de
     const { id: cocId } = coc
     const dataValueParams = useDataValueParams({ deId, cocId })
-
-    const onKeyDown = useCallback(
-        (event) => {
-            const { key, ctrlKey, metaKey } = event
-            const ctrlXorMetaKey = ctrlKey ^ metaKey
-
-            if (ctrlXorMetaKey && key === 'Enter') {
-                setRightHandPanel(dataDetailsSidebarId)
-            } else if (key === 'ArrowDown' || key === 'Enter') {
-                event.preventDefault()
-                focusNext()
-            } else if (key === 'ArrowUp') {
-                event.preventDefault()
-                focusPrev()
-            }
-        },
-        [setRightHandPanel]
-    )
-
-    const onFocus = useCallback(() => {
-        setHighlightedFieldId({ de, coc })
-    }, [de, coc, setHighlightedFieldId])
 
     const sharedProps = useMemo(
         () => ({
             fieldname,
             dataValueParams,
-            disabled,
+            disabled: disabled,
+            locked,
             setSyncStatus,
-            onFocus,
-            onKeyDown,
         }),
-        [
-            fieldname,
-            dataValueParams,
-            disabled,
-            setSyncStatus,
-            onFocus,
-            onKeyDown,
-        ]
+        [fieldname, dataValueParams, disabled, setSyncStatus, locked]
     )
 
     return <InputComponent sharedProps={sharedProps} de={de} />
@@ -132,5 +91,6 @@ EntryFieldInput.propTypes = {
     }),
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
+    locked: PropTypes.bool,
     setSyncStatus: PropTypes.func,
 }

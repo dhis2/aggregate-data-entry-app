@@ -17,6 +17,7 @@ export const BooleanRadios = ({
     fieldname,
     dataValueParams,
     disabled,
+    locked,
     setSyncStatus,
     onKeyDown,
     onFocus,
@@ -98,7 +99,7 @@ export const BooleanRadios = ({
                     yesField.input.onBlur(e)
                 }}
                 onKeyDown={onKeyDown}
-                disabled={disabled}
+                disabled={disabled || locked}
             />
             <Radio
                 dense
@@ -110,7 +111,7 @@ export const BooleanRadios = ({
                     noField.input.onBlur(e)
                 }}
                 onKeyDown={onKeyDown}
-                disabled={disabled}
+                disabled={disabled || locked}
             />
             <Button
                 small
@@ -132,7 +133,7 @@ export const BooleanRadios = ({
                     clearField.input.onBlur()
                 }}
                 onKeyDown={onKeyDown}
-                disabled={disabled}
+                disabled={disabled || locked}
             >
                 {i18n.t('Clear')}
             </Button>

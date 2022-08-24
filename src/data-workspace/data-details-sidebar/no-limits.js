@@ -2,7 +2,10 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, Tooltip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useConnectionStatus } from '../../shared/index.js'
+import {
+    useConnectionStatus,
+    useNoFormOrLockedContext,
+} from '../../shared/index.js'
 import sharedStyles from './limits.module.css'
 import noLimitsStyles from './no-limits.module.css'
 
@@ -10,6 +13,7 @@ const buttonLabel = i18n.t('Add limits')
 
 function AddButton({ onAddLimitsClick }) {
     const { offline } = useConnectionStatus()
+    const { locked } = useNoFormOrLockedContext()
 
     if (offline) {
         return (
@@ -22,7 +26,7 @@ function AddButton({ onAddLimitsClick }) {
     }
 
     return (
-        <Button small onClick={onAddLimitsClick}>
+        <Button small disabled={locked} onClick={onAddLimitsClick}>
             {buttonLabel}
         </Button>
     )

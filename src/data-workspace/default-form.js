@@ -7,7 +7,7 @@ import { CategoryComboTableBody } from './category-combo-table-body/index.js'
 import styles from './entry-form.module.css'
 import { IndicatorsTableBody } from './indicators-table-body/indicators-table-body.js'
 
-export function DefaultForm({ dataSet, globalFilterText }) {
+export function DefaultForm({ dataSet, globalFilterText, locked }) {
     const { data } = useMetadata()
 
     const dataElements = selectors.getDataElementsByDataSetId(data, dataSet.id)
@@ -45,6 +45,7 @@ export function DefaultForm({ dataSet, globalFilterText }) {
                         categoryCombo={categoryCombo}
                         dataElements={dataElements}
                         globalFilterText={globalFilterText}
+                        locked={locked}
                         maxColumnsInSection={nrColumnsInTable}
                     />
                 ))}
@@ -66,4 +67,5 @@ DefaultForm.propTypes = {
         id: PropTypes.string,
     }),
     globalFilterText: PropTypes.string,
+    locked: PropTypes.bool,
 }

@@ -20,6 +20,7 @@ export const FileResourceInput = ({
     image,
     dataValueParams,
     disabled,
+    locked,
     setSyncStatus,
     onKeyDown,
     onFocus,
@@ -117,7 +118,7 @@ export const FileResourceInput = ({
                         }}
                         onBlur={input.onBlur}
                         onKeyDown={onKeyDown}
-                        disabled={disabled}
+                        disabled={disabled || locked}
                     >
                         {i18n.t('Delete')}
                     </Button>
@@ -139,7 +140,7 @@ export const FileResourceInput = ({
                             ? i18n.t('Upload an image')
                             : i18n.t('Upload a file')
                     }
-                    disabled={disabled}
+                    disabled={disabled || locked}
                 />
             )}
         </div>
@@ -151,6 +152,7 @@ FileResourceInput.propTypes = {
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     image: PropTypes.bool,
+    locked: PropTypes.bool,
     setSyncStatus: PropTypes.func,
     onFocus: PropTypes.func,
     onKeyDown: PropTypes.func,

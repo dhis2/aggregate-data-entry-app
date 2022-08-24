@@ -25,6 +25,7 @@ export const GenericInput = ({
     onKeyDown,
     onFocus,
     disabled,
+    locked,
 }) => {
     const [lastSyncedValue, setLastSyncedValue] = useState()
     const { mutate } = useSetDataValueMutation()
@@ -74,6 +75,7 @@ export const GenericInput = ({
             autoComplete="off"
             onKeyDown={onKeyDown}
             disabled={disabled}
+            readOnly={locked}
         />
     )
 }

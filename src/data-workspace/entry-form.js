@@ -1,10 +1,15 @@
+import { NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useFormState } from 'react-final-form'
 import { useRightHandPanelContext } from '../right-hand-panel/index.js'
-import { useFormChangedSincePanelOpenedContext } from '../shared/index.js'
+import {
+    useFormChangedSincePanelOpenedContext,
+    useNoFormOrLockedContext,
+} from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
+import styles from './data-workspace.module.css'
 import { DefaultForm } from './default-form.js'
 import FilterField from './filter-field.js'
 import { SectionForm } from './section-form/index.js'
@@ -20,6 +25,7 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     const { setFormChangedSincePanelOpened } =
         useFormChangedSincePanelOpenedContext()
     const rightHandPanelContext = useRightHandPanelContext()
+    const noFormOrLocked = useNoFormOrLockedContext()
     const formType = dataSet.formType
     useFormState({
         onChange: (formState) => {
@@ -38,6 +44,15 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
 
     return (
         <>
+            {noFormOrLocked?.message && noFormOrLocked?.inForm && (
+                <NoticeBox
+                    className={styles.warningBox}
+                    error={noFormOrLocked?.error}
+                    title={noFormOrLocked?.title}
+                >
+                    {noFormOrLocked?.message}
+                </NoticeBox>
+            )}
             {formType !== FORM_TYPES.CUSTOM && (
                 <FilterField
                     value={globalFilterText}
