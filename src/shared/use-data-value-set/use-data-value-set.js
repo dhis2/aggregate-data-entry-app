@@ -20,7 +20,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
                 value,
                 comment,
                 storedBy,
-                followup,
+                followUp,
                 lastUpdated,
             }
         ) => {
@@ -29,7 +29,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
                 dataElement,
                 comment,
                 storedBy,
-                followup,
+                followUp,
                 lastUpdated,
             }
 
