@@ -64,6 +64,13 @@ export const useDataValueSet = () => {
         // Only enable this query if there are no ongoing mutations
         enabled: isValidSelection,
         select,
+        refetchOnMount: (query) => {
+            // only refetch on mount if the query was just hydrated
+            // this should only when we first load the app.
+            // If we were to return 'false' the query would not be refetch on first mount
+            // because it's mounted with hydrated-state
+            return query.meta.isHydrated
+        },
         // Only fetch whilst offline, to prevent optimistic updates from being overwritten
         networkMode: 'online',
         meta,

@@ -18,6 +18,17 @@ const persistOptions = {
             return isSuccess && shouldPersist
         },
     },
+    hydrateOptions: {
+        defaultOptions: {
+            queries: {
+                meta: {
+                    persist: true,
+                    // can be used to check if the query originates from the persisted-store
+                    isHydrated: true,
+                },
+            },
+        },
+    },
 }
 
 export const ConfiguredQueryClientProvider = ({ children, queryClient }) => {
