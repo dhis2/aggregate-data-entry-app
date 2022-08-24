@@ -7,8 +7,8 @@ parameters. This allows users to bookmark and share specific states of the app.
 
 ## Model overview
 
-Here's a few diagrams to help explain and get an overview of how DHIS2 models are used in the app.
+The category model can be fairly confusing, so we've created a few diagrams to help explain and get an overview of how DHIS2 models are used in the app.
 
-[Model diagram used in form](./docs/category-combo-diagram.png)
+[Models used in form](./docs/category-combo-diagram.png)
 
-[Attribute category combo model](./docs/attribute-category-combo-diagram.png)
+[Attribute category combo diagram](./docs/attribute-category-combo-diagram.png)
