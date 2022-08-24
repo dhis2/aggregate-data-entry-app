@@ -34,8 +34,7 @@ export const GenericInput = ({
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            // todo: remove dvParams
-            { /* ...dataValueParams, */ value: value || '' },
+            { value: value || '' },
             {
                 onSuccess: () => {
                     setLastSyncedValue(value)

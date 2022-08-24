@@ -6,6 +6,7 @@ import {
     useSetHighlightedFieldIdContext,
 } from '../../shared/index.js'
 import { dataDetailsSidebarId } from '../constants.js'
+import { useDataValueParams } from '../data-value-mutations/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,
@@ -15,7 +16,6 @@ import {
     OptionSet,
     TrueOnlyCheckbox,
 } from '../inputs/index.js'
-import { useDataValueParams } from './use-data-value-params.js'
 
 function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
