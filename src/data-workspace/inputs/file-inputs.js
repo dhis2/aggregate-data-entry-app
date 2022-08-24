@@ -1,9 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
 import { colors, Button, FileInput, IconAttachment16 } from '@dhis2/ui'
+import { useQuery } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { useQuery } from 'react-query'
 import {
     useDeleteDataValueMutation,
     useUploadDataValueFileMutation,

@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import keys from './query-key-factory.js'
 
 const useCustomForm = ({ id, version }) => {

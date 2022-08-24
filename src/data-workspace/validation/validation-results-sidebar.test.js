@@ -196,13 +196,17 @@ describe('ValidationResultsSidebar', () => {
         const overrideOptions = {
             validationRules: () => {
                 return new Promise((resolve, reject) => {
-                    if (count++ === 1) {
-                        return reject(
-                            'server-side error the first time then it will pass on re-run'
-                        )
-                    } else {
-                        return resolve(validationMetadataMockResponse)
-                    }
+                    // This seemed to be necessary, or else the running validation-text would not be found, because it updated instantly.
+                    // Not sure if increasing timeout with await waitForLoaderToDisappear() is more stable/better, but this seems to work.
+                    setTimeout(() => {
+                        if (count++ === 1) {
+                            return reject(
+                                'server-side error the first time then it will pass on re-run'
+                            )
+                        } else {
+                            return resolve(validationMetadataMockResponse)
+                        }
+                    }, 0)
                 })
             },
         }

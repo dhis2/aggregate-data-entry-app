@@ -1,9 +1,9 @@
 import { IconMore16, colors } from '@dhis2/ui'
+import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { useIsMutating } from 'react-query'
 import { parseFieldId } from '../get-field-id.js'
 import styles from './data-entry-cell.module.css'
 
