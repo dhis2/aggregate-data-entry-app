@@ -13,6 +13,10 @@ import {
 import useApiError from './use-api-error.js'
 import { useDataValueParams } from './use-data-value-params.js'
 
+export function getDataValueMutationKey(dataValueParams) {
+    return ['dataValues', { params: dataValueParams }]
+}
+
 function useSharedDataValueMutation({
     dataValueParams,
     mutationFn,
@@ -25,8 +29,7 @@ function useSharedDataValueMutation({
 
     return useMutation(mutationFn, {
         retry: 1,
-        // todo: maybe make this reusable -- would this clash with dataEntry/dataValues?
-        mutationKey: ['dataValues', { params: dataValueParams }],
+        mutationKey: getDataValueMutationKey(dataValueParams),
 
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)

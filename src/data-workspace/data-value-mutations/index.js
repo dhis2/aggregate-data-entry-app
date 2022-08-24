@@ -1,4 +1,5 @@
 export {
+    getDataValueMutationKey,
     useSetDataValueMutation,
     useDeleteDataValueMutation,
     useUploadFileDataValueMutation,

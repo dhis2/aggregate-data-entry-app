@@ -4,6 +4,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
 import { useIsMutating } from 'react-query'
+import {
+    useDataValueParams,
+    getDataValueMutationKey,
+} from '../data-value-mutations/index.js'
 import styles from './data-entry-cell.module.css'
 
 /** Three dots or triangle in top-right corner of cell */
@@ -48,18 +52,14 @@ export function InnerWrapper({
     const {
         meta: { active, invalid },
     } = useField(fieldname, { subscription: { active: true, invalid: true } })
+
     // Detect if this field is sending data
-    // (is this performant?)
-    // todo: could identify mutation by `mutKey = ['dataValues', { params: dataValueParams }]`
+    const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
-        fetching: true,
-        predicate: (mutation) => {
-            // See mutation key in `data-value-mutations`
-            const { de, co } = mutation.options.mutationKey[1].params
-            return deId === de && cocId === co
-        },
+        mutationKey: getDataValueMutationKey(dataValueParams),
     })
 
+    // todo: maybe use mutation state to improve this style handling
     const cellStateClassName = invalid
         ? styles.invalid
         : activeMutations === 0 && syncStatus.synced
