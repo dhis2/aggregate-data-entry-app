@@ -5,7 +5,7 @@ import {
 
 /**
  * Formats a de/coc pair and the current context selection for use with the
- * `dataValues` API
+ * `api/dataValues` endpoint
  */
 export const useDataValueParams = ({ deId, cocId }) => {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()

@@ -84,10 +84,10 @@ export function optimisticallySetFileDataValue({
     })
 }
 export function optimisticallyDeleteDataValue({
-    // variables, -- not used in this function
     dataValueMutationParams,
     queryClient,
     dataValueSetQueryKey,
+    // (`variables` arg not used in this function)
 }) {
     return sharedOptimisticUpdate({
         dataValueMutationParams,

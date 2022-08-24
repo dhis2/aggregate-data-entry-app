@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 // mutation objects instead of destructuring each property because undefined
 // properties cause errors, and it's better to handle logic to include or
 // exclude properties if they're undefined in other functions to keep these
-// simple
+// simple (see use-data-value-params.js)
 // (Ex: attribute properties should be omitted when the default AOC is used)
 
 const SET_DATA_VALUE_MUTATION = {

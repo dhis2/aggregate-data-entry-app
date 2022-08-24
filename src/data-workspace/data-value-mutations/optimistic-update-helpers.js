@@ -49,7 +49,7 @@ export function setDataValueInQueryData({
             dataValueMutationParams,
         })
 
-        // dataValueSet.dataValues can be undefined
+        // previousQueryData.dataValues can be undefined
         const newDataValues = previousQueryData.dataValues
             ? [...previousQueryData.dataValues, newDataValue]
             : [newDataValue]
@@ -81,8 +81,8 @@ export function setDataValueInQueryData({
 export function deleteDataValueFromQueryData({
     previousQueryData,
     dataValueIndex,
-    // variables, -- not used
-    // dataValueMutationParams, -- not used
+    // `variables` arg not used (unlike above functions)
+    // `dataValueMutationParams` arg not used
 }) {
     const previousDataValues = previousQueryData.dataValues
     const newDataValues = [
