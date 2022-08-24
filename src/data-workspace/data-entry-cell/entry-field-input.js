@@ -6,7 +6,6 @@ import {
     useSetHighlightedFieldIdContext,
 } from '../../shared/index.js'
 import { dataDetailsSidebarId } from '../constants.js'
-import { useDataValueParams } from '../data-value-mutations/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,
@@ -70,10 +69,7 @@ export function EntryFieldInput({
     // would cause this component to rerender
     const setRightHandPanel = useSetRightHandPanel()
 
-    const { id: deId } = de
-    const { id: cocId } = coc
-    const dataValueParams = useDataValueParams({ deId, cocId })
-
+    // todo: maybe move to InnerWrapper?
     const onKeyDown = useCallback(
         (event) => {
             const { key, ctrlKey, metaKey } = event
@@ -92,6 +88,7 @@ export function EntryFieldInput({
         [setRightHandPanel]
     )
 
+    // todo: inner wrapper?
     const onFocus = useCallback(() => {
         setHighlightedFieldId({ de, coc })
     }, [de, coc, setHighlightedFieldId])
@@ -99,20 +96,14 @@ export function EntryFieldInput({
     const sharedProps = useMemo(
         () => ({
             fieldname,
-            dataValueParams,
+            deId: de.id,
+            cocId: coc.id,
             disabled,
             setSyncStatus,
             onFocus,
             onKeyDown,
         }),
-        [
-            fieldname,
-            dataValueParams,
-            disabled,
-            setSyncStatus,
-            onFocus,
-            onKeyDown,
-        ]
+        [fieldname, de, coc, disabled, setSyncStatus, onFocus, onKeyDown]
     )
 
     return <InputComponent sharedProps={sharedProps} de={de} />

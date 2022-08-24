@@ -5,11 +5,13 @@ import React from 'react'
 import { useField } from 'react-final-form'
 import { useQuery } from 'react-query'
 import {
+    useDataValueParams,
     useDeleteDataValueMutation,
     useUploadFileDataValueMutation,
 } from '../data-value-mutations/index.js'
 import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
+import { InputPropTypes } from './utils.js'
 
 const formatFileSize = (size) => {
     return `${(size / 1024).toFixed(2)} KB`
@@ -18,7 +20,8 @@ const formatFileSize = (size) => {
 export const FileResourceInput = ({
     fieldname,
     image,
-    dataValueParams,
+    deId,
+    cocId,
     disabled,
     setSyncStatus,
     onKeyDown,
@@ -35,6 +38,7 @@ export const FileResourceInput = ({
         },
     })
 
+    const dataValueParams = useDataValueParams({ deId, cocId })
     const fileLink = useFileInputUrl(dataValueParams)
 
     // When the app loads, if there's a file saved for this data value,
@@ -51,7 +55,7 @@ export const FileResourceInput = ({
                 typeof input.value === 'string',
         }
     )
-    const [deId, cocId] = [dataValueParams.de, dataValueParams.co]
+    // const [deId, cocId] = [dataValueParams.de, dataValueParams.co]
     const { mutate: uploadFile } = useUploadFileDataValueMutation({
         deId,
         cocId,
@@ -148,13 +152,8 @@ export const FileResourceInput = ({
 }
 
 FileResourceInput.propTypes = {
-    dataValueParams: PropTypes.objectOf(PropTypes.string),
-    disabled: PropTypes.bool,
-    fieldname: PropTypes.string,
+    ...InputPropTypes,
     image: PropTypes.bool,
-    setSyncStatus: PropTypes.func,
-    onFocus: PropTypes.func,
-    onKeyDown: PropTypes.func,
 }
 
 export const ImageInput = (props) => {

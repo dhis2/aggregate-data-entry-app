@@ -15,7 +15,8 @@ import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 // does `isEqual` prop help make 1/true and 0/false/'' equal?
 export const BooleanRadios = ({
     fieldname,
-    dataValueParams,
+    deId,
+    cocId,
     disabled,
     setSyncStatus,
     onKeyDown,
@@ -55,10 +56,7 @@ export const BooleanRadios = ({
     const form = useForm()
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation({
-        deId: dataValueParams.de,
-        cocId: dataValueParams.co,
-    })
+    const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(

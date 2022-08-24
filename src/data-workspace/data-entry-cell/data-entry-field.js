@@ -24,6 +24,8 @@ export const DataEntryField = React.memo(function DataEntryField({
         <ValidationTooltip fieldname={fieldname}>
             <InnerWrapper
                 fieldname={fieldname}
+                deId={de.id}
+                cocId={coc.id}
                 syncStatus={syncStatus}
                 disabled={disabled}
             >

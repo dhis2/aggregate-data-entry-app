@@ -69,7 +69,7 @@ function useSharedDataValueMutation({
 /**
  * The `mutate` function returned by this hook expects a `variables` argument
  * that looks like `{ value: Number | String }` or `{ comment: String }`
- * or `{ followup: boolean }`.
+ * or `{ followUp: boolean }`.
  * This and the following mutations handle the rest of the data value params
  * and merge in the `variables` object.
  */

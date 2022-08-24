@@ -18,7 +18,8 @@ const htmlTypeAttrsByValueType = {
 
 export const GenericInput = ({
     fieldname,
-    dataValueParams,
+    deId,
+    cocId,
     setSyncStatus,
     valueType,
     onKeyDown,
@@ -26,10 +27,7 @@ export const GenericInput = ({
     disabled,
 }) => {
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation({
-        deId: dataValueParams.de,
-        cocId: dataValueParams.co,
-    })
+    const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(

@@ -11,7 +11,8 @@ import { InputPropTypes } from './utils.js'
 export const OptionSet = ({
     fieldname,
     optionSetId,
-    dataValueParams,
+    deId,
+    cocId,
     setSyncStatus,
     onKeyDown,
     onFocus,
@@ -21,10 +22,7 @@ export const OptionSet = ({
     const { data: metadata } = useMetadata()
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation({
-        deId: dataValueParams.de,
-        cocId: dataValueParams.co,
-    })
+    const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
