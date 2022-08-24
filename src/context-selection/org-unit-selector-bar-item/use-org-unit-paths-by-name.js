@@ -15,10 +15,9 @@ export default function useOrgUnitPathsByName(searchTerm) {
         enabled: !!searchTerm,
         select: (data) => data.organisationUnits.map(({ path }) => path),
     })
-
     return {
         called: isFetched,
-        loading: isFetching,
+        loading: !data && isFetching,
         error,
         data,
     }

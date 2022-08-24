@@ -17,7 +17,7 @@ export default function useOrgUnit() {
     })
 
     return {
-        loading: isFetching,
+        loading: !data && isFetching,
         error,
         data,
     }
