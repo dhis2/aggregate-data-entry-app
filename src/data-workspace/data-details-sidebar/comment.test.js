@@ -5,7 +5,7 @@ import { render } from '../../test-utils/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import Comment from './comment.js'
 
-jest.mock('../use-data-value-mutation/index.js', () => ({
+jest.mock('../data-value-mutations/index.js', () => ({
     useSetDataValueMutation: jest.fn(() => ({})),
 }))
 
