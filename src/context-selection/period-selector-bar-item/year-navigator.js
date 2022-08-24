@@ -1,10 +1,8 @@
 import { Button, IconArrowRight24, IconArrowLeft24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { startYear } from '../../shared/index.js'
 import classes from './year-navigator.module.css'
-
-// To avoid users from navigating too far back
-const startYear = 1970
 
 export default function YearNavigator({ maxYear, year, onYearChange }) {
     return (

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-08-03T07:47:23.560Z\n"
-"PO-Revision-Date: 2022-08-03T07:47:23.560Z\n"
+"POT-Creation-Date: 2022-08-16T13:42:05.663Z\n"
+"PO-Revision-Date: 2022-08-16T13:42:05.663Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -365,8 +365,14 @@ msgstr ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
 
-msgid "Required comments summary"
-msgstr "Required comments summary"
+msgid "1 comment required"
+msgstr "1 comment required"
+
+msgid "{{commentsCount}} comments required"
+msgstr "{{commentsCount}} comments required"
+
+msgid "{{displayShortName}} must have a comment when it doesn't have a value."
+msgstr "{{displayShortName}} must have a comment when it doesn't have a value."
 
 msgid "High"
 msgstr "High"
@@ -411,11 +417,15 @@ msgstr ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 
-msgid "is compulsory with"
-msgstr "is compulsory with"
+msgid "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
+msgstr "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
 
-msgid "is exclusive to"
-msgstr "is exclusive to"
+msgid ""
+"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
+"value"
+msgstr ""
+"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
+"value"
 
 msgid "January"
 msgstr "January"
@@ -494,6 +504,9 @@ msgstr "Six-monthly"
 
 msgid "Six-monthly April"
 msgstr "Six-monthly April"
+
+msgid "Six-monthly November"
+msgstr "Six-monthly November"
 
 msgid "Yearly"
 msgstr "Yearly"

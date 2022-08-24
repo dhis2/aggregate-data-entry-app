@@ -1,4 +1,4 @@
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import keys from './query-key-factory.js'
 import useCustomForms from './use-custom-forms.js'
 

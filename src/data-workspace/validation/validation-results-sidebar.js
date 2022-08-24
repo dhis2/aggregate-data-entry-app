@@ -1,11 +1,13 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { useIsMutating } from '@tanstack/react-query'
 import React from 'react'
 import {
     Sidebar,
     Title,
     SidebarProps,
     useFormChangedSincePanelOpenedContext,
+    useDataValueSetQueryKey,
 } from '../../shared/index.js'
 import { useValidationResult } from './use-validation-result.js'
 import ValidationCommentsViolations from './validation-comments-violations.js'
@@ -25,6 +27,13 @@ export default function ValidationResultsSidebar({ hide }) {
         refetch,
     } = useValidationResult()
     const showLoader = isLoading || isRefetching
+
+    const queryKey = useDataValueSetQueryKey()
+    const activeMutations = useIsMutating({
+        mutationKey: queryKey,
+    })
+
+    const hasRunningMutations = activeMutations > 0
 
     const isEmpty =
         validationRuleViolations &&
@@ -54,7 +63,7 @@ export default function ValidationResultsSidebar({ hide }) {
                 )}
                 <div className={styles.buttons}>
                     <Button
-                        disabled={showLoader}
+                        disabled={showLoader || hasRunningMutations}
                         small
                         onClick={rerunValidation}
                     >

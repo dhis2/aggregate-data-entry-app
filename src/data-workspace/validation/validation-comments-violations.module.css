@@ -8,8 +8,14 @@
     font-weight: 500;
     margin-block-start: 8px;
     margin-block-end: 8px;
+    display: flex;
+    gap: 6px;
 }
 
 .result {
     font-size: 14px;
+}
+
+.commentViolationRule {
+    composes: priorityGroupBox info from "./validation-priority-group.module.css";
 }

@@ -23,6 +23,9 @@
     /* Hide default focus styles; handled by wrapper */
     outline: none;
 }
+.alignToEnd {
+    text-align: right;
+}
 
 /* The resize property on this could be changed later. */
 /* See https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ */

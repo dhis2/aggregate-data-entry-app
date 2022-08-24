@@ -1,5 +1,5 @@
+import { useQueries } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { useIsMutating, useQueries } from 'react-query'
 import {
     useApiAttributeParams,
     useDataSetId,
@@ -30,13 +30,10 @@ export const useValidationResult = () => {
     })
     const validationMetaDataQueryKey = getValidationMetaDataQueryKey(dataSetId)
 
-    const activeMutations = useIsMutating({ mutationKey: validationQueryKey })
-    const enabled = activeMutations === 0
-
     const results = useQueries({
         queries: [
-            { queryKey: validationQueryKey, enabled },
-            { queryKey: validationMetaDataQueryKey, enabled },
+            { queryKey: validationQueryKey },
+            { queryKey: validationMetaDataQueryKey },
         ],
     })
 

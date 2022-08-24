@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useOrgUnitId } from '../../shared/index.js'
 
 export default function useOrgUnit() {
@@ -12,16 +12,12 @@ export default function useOrgUnit() {
             },
         },
     ]
-    const {
-        isLoading: loading,
-        error,
-        data,
-    } = useQuery(queryKey, {
+    const { isFetching, error, data } = useQuery(queryKey, {
         enabled: !!id,
     })
 
     return {
-        loading,
+        loading: !data && isFetching,
         error,
         data,
     }

@@ -22,7 +22,7 @@ Feature: Category options for each category in the category combination connecte
 
     Scenario: The data set's category combination is the default
         Given a data set, org unit & period have been selected and the data set's category combination is the default one
-        Then a disabled default attribute combo selector should be displayed
+        Then the selector should not be displayed
 
     Scenario: A category option gets filtered out because it's start/end date are "out of bound"
         Given a data set, org unit & period have been selected and the current date is outside the range of one of the category option's validity dates

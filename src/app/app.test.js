@@ -1,5 +1,5 @@
+import { QueryClient } from '@tanstack/react-query'
 import React from 'react'
-import { QueryClient } from 'react-query'
 import { render } from '../test-utils/index.js'
 import App from './app.js'
 
