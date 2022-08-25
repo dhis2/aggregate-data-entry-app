@@ -22,6 +22,8 @@ const persistOptions = {
         defaultOptions: {
             queries: {
                 meta: {
+                    // meta-property is not persisted, so this makes sure dehydrated-queries will
+                    // be persisted again
                     persist: true,
                     // can be used to check if the query originates from the persisted-store
                     isHydrated: true,
