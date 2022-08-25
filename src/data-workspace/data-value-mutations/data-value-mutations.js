@@ -1,4 +1,4 @@
-import { useQueryClient, useMutation } from 'react-query'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useDataValueSetQueryKey } from '../../shared/index.js'
 import {
     optimisticallyDeleteDataValue,
