@@ -4,9 +4,11 @@ import React, { useState } from 'react'
 import { contextualHelpSidebarId } from '../../data-workspace/constants.js'
 import { usePrintableArea } from '../../data-workspace/print-area/print-area-context.js'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
+import { useIsValidSelection } from '../../shared/index.js'
 
 export default function Options() {
     const rightHandPanel = useRightHandPanelContext()
+    const isValidSelection = useIsValidSelection()
     const { printForm } = usePrintableArea()
 
     const [showMenu, setShowMenu] = useState(false)
@@ -17,15 +19,20 @@ export default function Options() {
     }
     const optionsMenu = (
         <FlyoutMenu>
-            <MenuItem
-                onClick={print(false)}
-                label={i18n.t('Print form with values')}
-            />
-            <MenuItem
-                onClick={print(true)}
-                label={i18n.t('Print empty form')}
-            />
-            <MenuDivider />
+            {isValidSelection && (
+                <>
+                    <MenuItem
+                        onClick={print(false)}
+                        label={i18n.t('Print form with values')}
+                    />
+                    <MenuItem
+                        onClick={print(true)}
+                        label={i18n.t('Print empty form')}
+                    />
+                    <MenuDivider />
+                </>
+            )}
+
             <MenuItem
                 label={i18n.t('Help')}
                 onClick={() => {
