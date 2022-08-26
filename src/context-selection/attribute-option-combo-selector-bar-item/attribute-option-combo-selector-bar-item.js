@@ -17,21 +17,6 @@ import useShouldComponentRenderNull from './use-should-component-render-null.js'
 
 const hasCategoryNoOptions = (category) => category.categoryOptions.length === 0
 
-const useSetselectionHasNoOrLockedFormMessage = (
-    categoryWithNoOptionsExists
-) => {
-    const { setNoFormOrLockedStatus } = useNoFormOrLockedContext()
-    useEffect(() => {
-        if (categoryWithNoOptionsExists) {
-            setNoFormOrLockedStatus(noFormOrLockedStates.INVALID_OPTIONS)
-        } else {
-            // setNoFormOrLockedStatus(noFormOrLockedStates.INVALID_OPTIONS)
-        }
-    }, [categoryWithNoOptionsExists, setNoFormOrLockedStatus])
-
-    return categoryWithNoOptionsExists
-}
-
 export default function AttributeOptionComboSelectorBarItem() {
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
@@ -57,14 +42,22 @@ export default function AttributeOptionComboSelectorBarItem() {
             categoryId,
         })
 
-    const categoryWithNoOptionsExists =
-        relevantCategoriesWithOptions.some(hasCategoryNoOptions)
+    const categoriesWithNoOptions =
+        relevantCategoriesWithOptions.filter(hasCategoryNoOptions)
     const shouldComponentRenderNull = useShouldComponentRenderNull(
         categoryCombo,
-        categoryWithNoOptionsExists
+        categoriesWithNoOptions.length > 0
     )
 
-    useSetselectionHasNoOrLockedFormMessage(categoryWithNoOptionsExists)
+    const { setNoFormOrLockedStatus } = useNoFormOrLockedContext()
+
+    useEffect(() => {
+        if (categoriesWithNoOptions.length > 0) {
+            setNoFormOrLockedStatus(noFormOrLockedStates.INVALID_OPTIONS)
+        } else {
+            setNoFormOrLockedStatus(noFormOrLockedStates.OPEN)
+        }
+    }, [categoriesWithNoOptions, setNoFormOrLockedStatus])
 
     if (shouldComponentRenderNull) {
         return null
