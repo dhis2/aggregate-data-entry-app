@@ -15,11 +15,9 @@ const errorMessage = i18n.t(
 
 function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
     const onSubmit = (values) => {
-        return syncComment(
-            // Don't send `undefined` (or 'undefined' will be stored as the comment)
-            { comment: values.comment || '' },
-            { onSuccess: closeEditor }
-        )
+        // Don't send `undefined` (or 'undefined' will be stored as the comment)
+        syncComment({ comment: values.comment || '' })
+        closeEditor()
     }
 
     return (
@@ -84,7 +82,9 @@ export default function Comment({ item }) {
         cocId: item.categoryOptionCombo,
     })
 
-    if (setDataValueComment.isLoading) {
+    // Only show loader if request is in flight,
+    // otherwise spinner can show endlessly while paused offline
+    if (setDataValueComment.isLoading && !setDataValueComment.isPaused) {
         return (
             <ExpandableUnit title={title} open={open} onToggle={setOpen}>
                 <CircularLoader small />
