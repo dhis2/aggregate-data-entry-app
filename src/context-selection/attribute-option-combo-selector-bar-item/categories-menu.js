@@ -16,7 +16,10 @@ export default function CategoriesMenu({
     selected,
     onChange,
 }) {
-    if (categories.length === 1) {
+    if (
+        categories.length === 1 &&
+        categories[0]?.categoryOptions?.length !== 0
+    ) {
         const category = categories[0]
         const values = category.categoryOptions.map(({ id, displayName }) => ({
             value: id,
@@ -50,7 +53,7 @@ export default function CategoriesMenu({
                             title={i18n.t('No available options')}
                         >
                             {i18n.t(
-                                `There are no options for {{categoryName}} for the selected period and organisation unit.`,
+                                `There are no options for {{categoryName}} for the selected period or organisation unit.`,
                                 { categoryName: displayName }
                             )}
                         </NoticeBox>

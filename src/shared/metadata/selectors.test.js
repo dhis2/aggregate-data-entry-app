@@ -10,7 +10,7 @@ import {
     getCategoryOptions,
     getCategoryOptionsByCategoryId,
     getCategoryOptionsByCategoryOptionComboId,
-    getCategoriesWithOptionsWithinPeriodForOrgUnit,
+    getCategoriesWithOptionsWithinPeriodWithOrgUnit,
     getCoCByCategoryOptions,
     getDataElements,
     getDataElementsByDataSetId,
@@ -761,7 +761,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
         expect(actual).toEqual(expected)
     })
 
-    describe('getCategoriesWithOptionsWithinPeriodForOrgUnit', () => {
+    describe('getCategoriesWithOptionsWithinPeriodWithOrgUnit', () => {
         it('should return all category options if none have end dates', () => {
             const datasetid = 'dataset-id-1a'
             const periodid = '202201'
@@ -817,7 +817,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 },
             ]
 
-            const actual = getCategoriesWithOptionsWithinPeriodForOrgUnit(
+            const actual = getCategoriesWithOptionsWithinPeriodWithOrgUnit(
                 metadata,
                 datasetid,
                 periodid,
@@ -878,7 +878,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 },
             ]
 
-            const actual = getCategoriesWithOptionsWithinPeriodForOrgUnit(
+            const actual = getCategoriesWithOptionsWithinPeriodWithOrgUnit(
                 metadata,
                 datasetid,
                 periodid,
@@ -946,7 +946,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 },
             ]
 
-            const actual = getCategoriesWithOptionsWithinPeriodForOrgUnit(
+            const actual = getCategoriesWithOptionsWithinPeriodWithOrgUnit(
                 metadata,
                 datasetid,
                 periodid,

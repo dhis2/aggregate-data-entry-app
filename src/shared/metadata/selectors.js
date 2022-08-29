@@ -406,10 +406,11 @@ const isOptionWithinPeriod = ({
 }
 
 const isOptionAssignedToOrgUnit = ({ categoryOption, orgUnitId }) => {
-    if (!categoryOption?.organisationUnits) {
+    // by default,
+    if (!categoryOption?.organisationUnits?.length) {
         return true
     }
-    return categoryOption?.organistionUnits.includes(orgUnitId)
+    return categoryOption?.organisationUnits.includes(orgUnitId)
 }
 
 const resolveCategoryOptionIds = (categories, categoryOptions) => {
@@ -422,7 +423,7 @@ const resolveCategoryOptionIds = (categories, categoryOptions) => {
 }
 
 /* eslint-disable max-params */
-export const getCategoriesWithOptionsWithinPeriodForOrgUnit =
+export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
     createCachedSelector(
         (metadata) => metadata,
         getDataSetById,

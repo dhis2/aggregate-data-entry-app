@@ -75,7 +75,7 @@ function useHandleOrgUnitIdChange() {
         useAttributeOptionComboSelection()
 
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriodForOrgUnit({
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit({
             metadata,
             dataSetId,
             periodId,
@@ -154,7 +154,7 @@ function useHandlePeriodIdChange() {
     const [periodId] = usePeriodId()
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriodForOrgUnit({
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit({
             metadata,
             dataSetId,
             periodId,

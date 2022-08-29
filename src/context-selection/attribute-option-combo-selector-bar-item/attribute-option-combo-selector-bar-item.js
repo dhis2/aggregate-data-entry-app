@@ -18,17 +18,17 @@ import useShouldComponentRenderNull from './use-should-component-render-null.js'
 const hasCategoryNoOptions = (category) => category.categoryOptions.length === 0
 
 const useSetSelectionHasNoFormMessage = (
-    categoryWithNoOptionsExists,
+    categoriesWithNoOptions,
     setSelectionHasNoFormMessage
 ) => {
     useEffect(() => {
-        if (categoryWithNoOptionsExists?.length > 0) {
+        if (categoriesWithNoOptions?.length > 0) {
             setSelectionHasNoFormMessage(
                 i18n.t(
-                    'The following categories do not have valid options for the selected period or organisation unit: {{categories}}',
+                    'Some categories have no valid options for the selected period or organisation unit ({{categories}})',
                     {
-                        categories: categoryWithNoOptionsExists
-                            .map((category) => category?.displayName)
+                        categories: categoriesWithNoOptions
+                            .map((cat) => cat.displayName)
                             .join(', '),
                     }
                 )
@@ -36,9 +36,9 @@ const useSetSelectionHasNoFormMessage = (
         } else {
             setSelectionHasNoFormMessage('')
         }
-    }, [categoryWithNoOptionsExists, setSelectionHasNoFormMessage])
+    }, [categoriesWithNoOptions, setSelectionHasNoFormMessage])
 
-    return categoryWithNoOptionsExists
+    return categoriesWithNoOptions
 }
 
 export default function AttributeOptionComboSelectorBarItem({
@@ -53,7 +53,7 @@ export default function AttributeOptionComboSelectorBarItem({
         dataSetId
     )
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriodForOrgUnit(
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
@@ -70,13 +70,13 @@ export default function AttributeOptionComboSelectorBarItem({
             categoryId,
         })
 
-    const categoryWithNoOptionsExists =
+    const categoriesWithNoOptions =
         relevantCategoriesWithOptions.filter(hasCategoryNoOptions)
     const shouldComponentRenderNull =
         useShouldComponentRenderNull(categoryCombo)
 
     useSetSelectionHasNoFormMessage(
-        categoryWithNoOptionsExists,
+        categoriesWithNoOptions,
         setSelectionHasNoFormMessage
     )
 

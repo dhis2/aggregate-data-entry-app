@@ -31,5 +31,4 @@ Feature: Category options for each category in the category combination connecte
 
     Scenario: All options of one category are "out of bound"
         Given a data set, org unit & period have been selected and the current date is outside the range of all of the option's validity dates of one category
-        Then the attribute option combo selector is hidden
-        And a message is being displayed in the data workspace
+        Then a message is being displayed in the data workspace
