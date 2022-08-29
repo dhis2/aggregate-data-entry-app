@@ -35,6 +35,7 @@ function useHandleDataSetIdChange() {
         useAttributeOptionComboSelection()
     const [dataSetId] = useDataSetId()
     const [prevDataSetId, setPrevDataSetId] = useState(dataSetId)
+    const [orgUnitId, setOrgUnitId] = useOrgUnitId()
     const { data: metadata } = useMetadata()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const dataSetPeriodType = dataSet?.periodType
@@ -49,6 +50,14 @@ function useHandleDataSetIdChange() {
 
             // unset attribute options
             setAttributeOptionComboSelection(undefined)
+
+            // if orgUnit is not assigned to dataset, clear out orgUnit assignment
+            if (
+                orgUnitId !== undefined &&
+                !dataSet?.organisationUnits?.includes(orgUnitId)
+            ) {
+                setOrgUnitId(undefined)
+            }
 
             setPrevDataSetId(dataSetId)
         }

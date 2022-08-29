@@ -19,3 +19,28 @@
     overflow: hidden;
     overflow-y: auto;
 }
+
+.labelContentContainer {
+    padding: var(--spacers-dp8);
+    margin-top: var(--spacers-dp4);
+    display: flex;
+    align-items: center;
+    color: var(--colors-grey600);
+}
+
+.label {
+    font-size: 13px;
+    line-height: 16px;
+    padding-left: var(--spacers-dp4);
+}
+
+.disabled {
+    color: var(--theme-disabled);
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+}
+
+.disabled span {
+    margin-left: var(--spacers-dp4);
+}
