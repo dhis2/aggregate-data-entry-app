@@ -5,6 +5,8 @@ import { render } from '../../test-utils/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import Comment from './comment.js'
 
+// diff
+
 jest.mock('../data-value-mutations/index.js', () => ({
     useSetDataValueMutation: jest.fn(() => ({})),
 }))
@@ -142,13 +144,7 @@ describe('<Comment />', () => {
 
     it('should show the comment as text when done editing', async () => {
         useSetDataValueMutation.mockImplementation(() => {
-            return {
-                mutate: (_, { onSuccess }) => {
-                    // fire after returning
-                    setTimeout(onSuccess, 0)
-                    return Promise.resolve()
-                },
-            }
+            return { mutate: () => {} }
         })
 
         const item = {
@@ -180,8 +176,8 @@ describe('<Comment />', () => {
         await waitFor(() => {
             const saveButton = queryByRole('button', { name: 'Save comment' })
             const editButton = queryByRole('button', { name: 'Edit comment' })
-            expect(saveButton).not.toBeInTheDocument()
             expect(editButton).toBeInTheDocument()
+            expect(saveButton).not.toBeInTheDocument()
         })
     })
 })
