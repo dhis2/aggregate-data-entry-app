@@ -81,6 +81,12 @@ export const validatorsByValueType = {
     [VALUE_TYPES.URL]: url,
 }
 
+// minimum and maximum values are restricted to integers
+export const validatorsByValueTypeMinMax = {
+    ...validatorsByValueType,
+    [VALUE_TYPES.NUMBER]: integer,
+}
+
 // This is an internal helper of the ui-forms library,
 // can be removed once `createLessThan` and `createMoreThan` have been moved to
 // the @dhis2/ui-forms library

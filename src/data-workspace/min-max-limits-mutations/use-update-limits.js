@@ -47,7 +47,10 @@ export default function useUpdateLimits(onDone) {
     const dataValueSetQueryKey = useDataValueSetQueryKey()
 
     const engine = useDataEngine()
-    const showErrorAlert = useAlert((message) => message, { critical: true })
+
+    const { show: showErrorAlert } = useAlert((message) => message, {
+        critical: true,
+    })
 
     const mutationFn = ({
         dataElement,
