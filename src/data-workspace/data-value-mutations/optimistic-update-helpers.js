@@ -2,15 +2,11 @@ export function findDataValueIndex(
     previousDataValues,
     dataValueMutationParams
 ) {
-    const { co, de, ou, pe } = dataValueMutationParams
+    const { co, de } = dataValueMutationParams
 
     return previousDataValues.findIndex(
         (dataValue) =>
-            dataValue.categoryOptionCombo === co &&
-            dataValue.dataElement === de &&
-            // not sure the following two matchers are necessary
-            dataValue.orgUnit === ou &&
-            dataValue.period === pe
+            dataValue.categoryOptionCombo === co && dataValue.dataElement === de
     )
 }
 
