@@ -66,7 +66,7 @@ export const useDataValueSet = () => {
         select,
         refetchOnMount: (query) => {
             // only refetch on mount if the query was just hydrated
-            // this should only when we first load the app.
+            // this should only happen during initial app-load.
             // If we were to return 'false' the query would not be refetch on first mount
             // because it's mounted with hydrated-state
             return query.meta.isHydrated
