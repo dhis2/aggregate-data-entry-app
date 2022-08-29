@@ -67,7 +67,7 @@ function UpdateLimits({
                     type="submit"
                     loading={submitting}
                     disabled={
-                        errors === undefined || Object.keys(errors).length !== 0
+                        errors !== undefined && Object.keys(errors).length !== 0
                     }
                 >
                     {submitting ? i18n.t('Saving...') : i18n.t('Save limits')}
