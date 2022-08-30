@@ -45,9 +45,6 @@ export const useCheckLockStatus = () => {
         // check expiryDays
         if (dataSetId && periodId && orgUnitId) {
             const expiryDays = selectors.getExpiryDays(metadata, dataSetId)
-            // const lockExceptions
-
-            // ignore if there's a lock exception
 
             // expiryDays is set to 0 by default, so a value must be specfied for locking to occur
             if (expiryDays > 0) {
