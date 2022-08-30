@@ -22,8 +22,6 @@ export const FileResourceInput = ({
     disabled,
     locked,
     setSyncStatus,
-    onKeyDown,
-    onFocus,
 }) => {
     const { input, meta } = useField(fieldname, {
         // todo: validate
@@ -112,12 +110,7 @@ export const FileResourceInput = ({
                         secondary
                         className={styles.deleteFileButton}
                         onClick={handleDelete}
-                        onFocus={(...args) => {
-                            input.onFocus(...args)
-                            onFocus?.(...args)
-                        }}
                         onBlur={input.onBlur}
-                        onKeyDown={onKeyDown}
                         disabled={disabled || locked}
                     >
                         {i18n.t('Delete')}
@@ -128,12 +121,7 @@ export const FileResourceInput = ({
                     className={styles.fileInput}
                     name={input.name}
                     onChange={handleChange}
-                    onFocus={(...args) => {
-                        input.onFocus(...args)
-                        onFocus?.(...args)
-                    }}
                     onBlur={input.onBlur}
-                    onKeyDown={onKeyDown}
                     small
                     buttonLabel={
                         image
@@ -154,8 +142,6 @@ FileResourceInput.propTypes = {
     image: PropTypes.bool,
     locked: PropTypes.bool,
     setSyncStatus: PropTypes.func,
-    onFocus: PropTypes.func,
-    onKeyDown: PropTypes.func,
 }
 
 export const ImageInput = (props) => {

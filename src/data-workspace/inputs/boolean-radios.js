@@ -19,36 +19,28 @@ export const BooleanRadios = ({
     disabled,
     locked,
     setSyncStatus,
-    onKeyDown,
-    onFocus,
 }) => {
-    const useFieldWithPatchedOnFocus = (...args) => {
+    const useFieldWithPatch = (...args) => {
         const { input, ...rest } = useField(...args)
         return {
             ...rest,
-            input: {
-                ...input,
-                onFocus: (...args) => {
-                    input.onFocus(...args)
-                    onFocus?.(...args)
-                },
-            },
+            input,
         }
     }
-    const yesField = useFieldWithPatchedOnFocus(fieldname, {
+    const yesField = useFieldWithPatch(fieldname, {
         type: 'radio',
         value: 'true',
         subscription: { value: true },
     })
 
-    const noField = useFieldWithPatchedOnFocus(fieldname, {
+    const noField = useFieldWithPatch(fieldname, {
         type: 'radio',
         value: 'false',
         subscription: { value: true },
     })
 
     // Used for the 'clear' button, but works
-    const clearField = useFieldWithPatchedOnFocus(fieldname, {
+    const clearField = useFieldWithPatch(fieldname, {
         type: 'radio',
         value: '',
         subscription: { value: true },
@@ -98,7 +90,6 @@ export const BooleanRadios = ({
                     handleBlur()
                     yesField.input.onBlur(e)
                 }}
-                onKeyDown={onKeyDown}
                 disabled={disabled || locked}
             />
             <Radio
@@ -110,7 +101,6 @@ export const BooleanRadios = ({
                     handleBlur()
                     noField.input.onBlur(e)
                 }}
-                onKeyDown={onKeyDown}
                 disabled={disabled || locked}
             />
             <Button
@@ -132,7 +122,6 @@ export const BooleanRadios = ({
                     handleBlur() // Probably handled by onClick, but included here for safety
                     clearField.input.onBlur()
                 }}
-                onKeyDown={onKeyDown}
                 disabled={disabled || locked}
             >
                 {i18n.t('Clear')}
