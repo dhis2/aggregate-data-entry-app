@@ -16,10 +16,7 @@ export default function CategoriesMenu({
     selected,
     onChange,
 }) {
-    if (
-        categories.length === 1 &&
-        categories[0]?.categoryOptions?.length !== 0
-    ) {
+    if (categories.length === 1 && categories[0].categoryOptions?.length > 0) {
         const category = categories[0]
         const values = category.categoryOptions.map(({ id, displayName }) => ({
             value: id,
