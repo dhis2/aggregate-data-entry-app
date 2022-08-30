@@ -16,14 +16,14 @@ export const useApiAttributeParams = () => {
         const catComboId = dataSet.categoryCombo.id
         const categoryCombo = selectors.getCategoryComboById(data, catComboId)
 
-        const selectedOptions = Object.values(attributeOptionComboSelection)
+        // Sort these to produce consistent query and mutation keys
+        const selectedOptions = Object.values(attributeOptionComboSelection).sort()
 
         if (!categoryCombo.isDefault) {
             // we don't need to supply attributeCombo/options when it's default
             return {
                 attributeCombo: catComboId,
-                // Sort these to produce consistent query and mutation keys
-                attributeOptions: selectedOptions.sort(),
+                attributeOptions: selectedOptions,
             }
         }
     }
