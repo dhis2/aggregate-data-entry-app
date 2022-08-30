@@ -10,7 +10,6 @@ export default function useShouldComponentRenderNull(categoryCombination) {
         !dataSetId ||
         !periodId ||
         !orgUnitId ||
-        // if it is the default combo, it'll already render null, see above
         !categoryCombination.categories.length
     )
 }
