@@ -4,7 +4,10 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { parseFieldId } from '../get-field-id.js'
+import {
+    useDataValueParams,
+    getDataValueMutationKey,
+} from '../data-value-mutations/index.js'
 import styles from './data-entry-cell.module.css'
 
 /** Three dots or triangle in top-right corner of cell */
@@ -38,21 +41,26 @@ CommentIndicator.propTypes = { isComment: PropTypes.bool }
  * This inner wrapper provides styles and layout for the entry field based on
  * its various states
  */
-export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
-    const { dataElementId: deId, categoryOptionComboId: cocId } =
-        parseFieldId(fieldname)
+export function InnerWrapper({
+    children,
+    disabled,
+    fieldname,
+    deId,
+    cocId,
+    syncStatus,
+}) {
     const {
         meta: { active, invalid },
     } = useField(fieldname, { subscription: { active: true, invalid: true } })
+
     // Detect if this field is sending data
-    // (is this performant?)
+    const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
-        predicate: (mutation) => {
-            const { de, co } = mutation.options.variables
-            return deId === de && cocId === co
-        },
+        mutationKey: getDataValueMutationKey(dataValueParams),
     })
 
+    // todo: maybe use mutation state to improve this style handling
+    // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
         ? styles.invalid
         : activeMutations === 0 && syncStatus.synced
@@ -78,6 +86,8 @@ export function InnerWrapper({ children, disabled, fieldname, syncStatus }) {
 }
 InnerWrapper.propTypes = {
     children: PropTypes.node,
+    cocId: PropTypes.string,
+    deId: PropTypes.string,
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     syncStatus: PropTypes.shape({

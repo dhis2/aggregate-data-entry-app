@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
 import { NUMBER_TYPES, VALUE_TYPES } from '../../shared/index.js'
-import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
+import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 import { validatorsByValueType } from './validators.js'
@@ -19,7 +19,8 @@ const htmlTypeAttrsByValueType = {
 
 export const GenericInput = ({
     fieldname,
-    dataValueParams,
+    deId,
+    cocId,
     setSyncStatus,
     valueType,
     onKeyDown,
@@ -27,12 +28,12 @@ export const GenericInput = ({
     disabled,
 }) => {
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation()
+    const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { ...dataValueParams, value: value || '' },
+            { value: value || '' },
             {
                 onSuccess: () => {
                     setLastSyncedValue(value)

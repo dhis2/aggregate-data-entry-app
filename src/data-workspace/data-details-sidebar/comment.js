@@ -3,8 +3,8 @@ import { CircularLoader, Button, ButtonStrip, TextAreaFieldFF } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form, Field } from 'react-final-form'
-import { ExpandableUnit, useContextSelection } from '../../shared/index.js'
-import { useSetDataValueCommentMutation } from '../use-data-value-mutation/index.js'
+import { ExpandableUnit } from '../../shared/index.js'
+import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
@@ -13,21 +13,11 @@ const errorMessage = i18n.t(
     'There was a problem loading the comment for this data item'
 )
 
-function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
-    const [{ dataSetId: ds, periodId: pe, orgUnitId: ou }] =
-        useContextSelection()
-
+function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
     const onSubmit = (values) => {
-        const variables = {
-            ds,
-            ou,
-            pe,
-            co: item.categoryOptionCombo,
-            de: item.dataElement,
-            comment: values.comment,
-        }
-
-        return syncComment(variables)
+        // Don't send `undefined` (or 'undefined' will be stored as the comment)
+        syncComment({ comment: values.comment || '' })
+        closeEditor()
     }
 
     return (
@@ -60,7 +50,7 @@ function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
                                 small
                                 secondary
                                 disabled={submitting}
-                                onClick={onCancel}
+                                onClick={closeEditor}
                             >
                                 {i18n.t('Cancel')}
                             </Button>
@@ -73,6 +63,7 @@ function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
 }
 
 CommentEditForm.propTypes = {
+    closeEditor: PropTypes.func.isRequired,
     item: PropTypes.shape({
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
@@ -81,17 +72,19 @@ CommentEditForm.propTypes = {
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
     syncComment: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
 }
 
 export default function Comment({ item }) {
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
-    const setDataValueComment = useSetDataValueCommentMutation(() =>
-        setEditing(false)
-    )
+    const setDataValueComment = useSetDataValueMutation({
+        deId: item.dataElement,
+        cocId: item.categoryOptionCombo,
+    })
 
-    if (setDataValueComment.isLoading) {
+    // Only show loader if request is in flight,
+    // otherwise spinner can show endlessly while paused offline
+    if (setDataValueComment.isLoading && !setDataValueComment.isPaused) {
         return (
             <ExpandableUnit title={title} open={open} onToggle={setOpen}>
                 <CircularLoader small />
@@ -114,7 +107,7 @@ export default function Comment({ item }) {
                 open={open}
                 setOpen={setOpen}
                 syncComment={setDataValueComment.mutate}
-                onCancel={() => setEditing(false)}
+                closeEditor={() => setEditing(false)}
             />
         )
     }

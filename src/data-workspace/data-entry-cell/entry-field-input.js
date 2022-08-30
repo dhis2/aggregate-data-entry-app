@@ -15,7 +15,6 @@ import {
     OptionSet,
     TrueOnlyCheckbox,
 } from '../inputs/index.js'
-import { useDataValueParams } from './use-data-value-params.js'
 
 function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
@@ -70,10 +69,8 @@ export function EntryFieldInput({
     // would cause this component to rerender
     const setRightHandPanel = useSetRightHandPanel()
 
-    const { id: deId } = de
-    const { id: cocId } = coc
-    const dataValueParams = useDataValueParams({ deId, cocId })
-
+    // todo: maybe move to InnerWrapper?
+    // See https://dhis2.atlassian.net/browse/TECH-1296
     const onKeyDown = useCallback(
         (event) => {
             const { key, ctrlKey, metaKey } = event
@@ -92,6 +89,7 @@ export function EntryFieldInput({
         [setRightHandPanel]
     )
 
+    // todo: inner wrapper?
     const onFocus = useCallback(() => {
         setHighlightedFieldId({ de, coc })
     }, [de, coc, setHighlightedFieldId])
@@ -99,20 +97,14 @@ export function EntryFieldInput({
     const sharedProps = useMemo(
         () => ({
             fieldname,
-            dataValueParams,
+            deId: de.id,
+            cocId: coc.id,
             disabled,
             setSyncStatus,
             onFocus,
             onKeyDown,
         }),
-        [
-            fieldname,
-            dataValueParams,
-            disabled,
-            setSyncStatus,
-            onFocus,
-            onKeyDown,
-        ]
+        [fieldname, de, coc, disabled, setSyncStatus, onFocus, onKeyDown]
     )
 
     return <InputComponent sharedProps={sharedProps} de={de} />
