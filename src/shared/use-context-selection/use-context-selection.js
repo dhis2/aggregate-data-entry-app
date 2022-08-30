@@ -64,7 +64,7 @@ export function useClearEntireSelection() {
     }, [setSelectionContext])
 }
 
-export function useSelectionKey() {
+export function useContextSelectionKey() {
     const [{ attributeOptionComboSelection, dataSetId, orgUnitId, periodId }] =
         useContextSelection()
 

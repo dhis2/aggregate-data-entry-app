@@ -9,7 +9,7 @@ import {
     useMetadata,
     selectors,
     useDataSetId,
-    useSelectionKey,
+    useContextSelectionKey,
     useDataValueSet,
     useIsValidSelection,
 } from '../shared/index.js'
@@ -23,7 +23,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const isValidSelection = useIsValidSelection()
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
-    const formId = useSelectionKey()
+    const formId = useContextSelectionKey()
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
