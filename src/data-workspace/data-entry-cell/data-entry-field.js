@@ -15,6 +15,7 @@ export const DataEntryField = React.memo(function DataEntryField({
     const fieldname = getFieldId(de.id, coc.id)
 
     // todo: perhaps this could be refactored to use DV mutation state
+    // See https://dhis2.atlassian.net/browse/TECH-1316
     const [syncStatus, setSyncStatus] = useState({
         syncing: false,
         synced: false,

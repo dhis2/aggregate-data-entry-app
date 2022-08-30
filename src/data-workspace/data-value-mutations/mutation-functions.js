@@ -14,7 +14,7 @@ const SET_DATA_VALUE_MUTATION = {
     data: (data) => data,
 }
 // This needs to be used for file-type data values; sending an empty 'value' prop
-// doesn't work to clear the file (todo: replace when backend changes)
+// doesn't work to clear the file
 const DELETE_DATA_VALUE_MUTATION = {
     resource: 'dataValues',
     type: 'delete',

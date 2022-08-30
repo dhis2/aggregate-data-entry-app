@@ -21,7 +21,6 @@ function useSharedDataValueMutation({
     dataValueParams,
     mutationFn,
     optimisticUpdateFn,
-    onSuccess,
 }) {
     const queryClient = useQueryClient()
     const dataValueSetQueryKey = useDataValueSetQueryKey()
@@ -62,10 +61,6 @@ function useSharedDataValueMutation({
                 context.previousQueryData
             )
         },
-
-        // Can be used optionally
-        // todo -- or require this in mutate() invocation
-        onSuccess,
     })
 }
 

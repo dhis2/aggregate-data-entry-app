@@ -70,6 +70,7 @@ export function EntryFieldInput({
     const setRightHandPanel = useSetRightHandPanel()
 
     // todo: maybe move to InnerWrapper?
+    // See https://dhis2.atlassian.net/browse/TECH-1296
     const onKeyDown = useCallback(
         (event) => {
             const { key, ctrlKey, metaKey } = event
