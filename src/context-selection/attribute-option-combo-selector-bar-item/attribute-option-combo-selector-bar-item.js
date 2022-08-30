@@ -54,8 +54,6 @@ export default function AttributeOptionComboSelectorBarItem() {
     useEffect(() => {
         if (categoriesWithNoOptions.length > 0) {
             setNoFormOrLockedStatus(noFormOrLockedStates.INVALID_OPTIONS)
-        } else {
-            setNoFormOrLockedStatus(noFormOrLockedStates.OPEN)
         }
     }, [categoriesWithNoOptions, setNoFormOrLockedStatus])
 
