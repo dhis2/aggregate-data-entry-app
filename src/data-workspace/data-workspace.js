@@ -68,16 +68,13 @@ export const DataWorkspace = () => {
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>
-                        <EntryForm
-                            dataSet={dataSet}
-                            locked={Boolean(noFormOrLocked?.locked)}
-                        />
+                        <EntryForm dataSet={dataSet} />
                     </div>
                 </main>
 
                 <footer className={footerClasses}>
                     <div
-                        // This div and its content will  be removed
+                        // This div and its content will be removed
                         // once we can display this in the headerbar
                         className={styles.mutationIndicator}
                     >
