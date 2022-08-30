@@ -60,6 +60,7 @@ export function InnerWrapper({
     })
 
     // todo: maybe use mutation state to improve this style handling
+    // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
         ? styles.invalid
         : activeMutations === 0 && syncStatus.synced
