@@ -61,6 +61,12 @@ export const integerZeroOrPositive = composeValidators(
 export const integerNegative = composeValidators(integer, createMaxNumber(-1))
 
 export const percentage = createNumberRange(0, 100)
+const percentageInteger = composeValidators(
+    integer,
+    createMinNumber(0),
+    createMaxNumber(100)
+)
+
 export const unitInterval = createNumberRange(0, 1)
 
 export const validatorsByValueType = {
@@ -88,7 +94,7 @@ export const minMaxValidatorsByValueType = {
     [VALUE_TYPES.INTEGER_ZERO_OR_POSITIVE]: integerZeroOrPositive,
     // backend restricts minimum and maximum to integers
     [VALUE_TYPES.NUMBER]: integer,
-    [VALUE_TYPES.PERCENTAGE]: integerZeroOrPositive,
+    [VALUE_TYPES.PERCENTAGE]: percentageInteger,
 }
 
 // This is an internal helper of the ui-forms library,

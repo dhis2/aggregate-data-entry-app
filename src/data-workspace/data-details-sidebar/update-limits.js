@@ -23,12 +23,12 @@ function UpdateLimits({
 
     const minField = useField('min', {
         initialValue: limits.min,
-        format: (value) => (value ? value.toString() : ''),
+        format: (value) => (value !== undefined ? value.toString() : ''),
     })
 
     const maxField = useField('max', {
         initialValue: limits.max,
-        format: (value) => (value ? value.toString() : ''),
+        format: (value) => (value !== undefined ? value.toString() : ''),
     })
 
     const average = calculateAverage(minField.input.value, maxField.input.value)
