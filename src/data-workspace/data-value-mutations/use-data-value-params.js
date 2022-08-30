@@ -24,6 +24,7 @@ export const useDataValueParams = ({ deId, cocId }) => {
     // is default)
     if (attributeCombo) {
         // Get a ';'-separated listed of attribute options
+        // (note these are sorted in useApiAttributeParams)
         const attributeOptionIdList = attributeOptions.join(';')
         dataValueParams.cc = attributeCombo
         dataValueParams.cp = attributeOptionIdList

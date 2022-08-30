@@ -6,6 +6,7 @@ export default function useDataValueSetQueryKey() {
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const {
         attributeCombo: categoryComboId,
+        // Note these are sorted:
         attributeOptions: categoryOptionIds,
     } = useApiAttributeParams()
 

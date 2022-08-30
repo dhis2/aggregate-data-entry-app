@@ -22,7 +22,8 @@ export const useApiAttributeParams = () => {
             // we don't need to supply attributeCombo/options when it's default
             return {
                 attributeCombo: catComboId,
-                attributeOptions: selectedOptions,
+                // Sort these to produce consistent query and mutation keys
+                attributeOptions: selectedOptions.sort(),
             }
         }
     }
