@@ -9,6 +9,7 @@ import {
     useMetadata,
     selectors,
     useDataSetId,
+    useSelectionKey,
     useDataValueSet,
     useIsValidSelection,
 } from '../shared/index.js'
@@ -18,9 +19,11 @@ import { FinalFormWrapper } from './final-form-wrapper.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const { data } = useMetadata()
-    const [dataSetId] = useDataSetId()
     const initialDataValuesFetch = useDataValueSet()
     const isValidSelection = useIsValidSelection()
+    const [dataSetId] = useDataSetId()
+    // used to reset form-state when context-selection is changed
+    const formId = useSelectionKey()
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
@@ -61,7 +64,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (
-        <FinalFormWrapper dataValueSet={dataValueSet}>
+        <FinalFormWrapper key={formId} dataValueSet={dataValueSet}>
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>
