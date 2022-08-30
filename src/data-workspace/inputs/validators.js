@@ -81,10 +81,14 @@ export const validatorsByValueType = {
     [VALUE_TYPES.URL]: url,
 }
 
-// minimum and maximum values are restricted to integers
-export const validatorsByValueTypeMinMax = {
-    ...validatorsByValueType,
+export const minMaxValidatorsByValueType = {
+    [VALUE_TYPES.INTEGER]: integer,
+    [VALUE_TYPES.INTEGER_POSITIVE]: integerPositive,
+    [VALUE_TYPES.INTEGER_NEGATIVE]: integerNegative,
+    [VALUE_TYPES.INTEGER_ZERO_OR_POSITIVE]: integerZeroOrPositive,
+    // backend restricts minimum and maximum to integers
     [VALUE_TYPES.NUMBER]: integer,
+    [VALUE_TYPES.PERCENTAGE]: integerZeroOrPositive,
 }
 
 // This is an internal helper of the ui-forms library,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Form } from 'react-final-form'
 import { useOrgUnitId } from '../../shared/index.js'
-import { createLessThan, validatorsByValueTypeMinMax } from '../inputs/index.js'
+import { createLessThan, minMaxValidatorsByValueType } from '../inputs/index.js'
 import { useUpdateLimits } from '../min-max-limits-mutations/index.js'
 import limitInputLabelsByName from './limits-input-labels-by-name.js'
 
@@ -27,7 +27,7 @@ export default function LimitsFormWrapper({
             maxValue: parseFloat(max),
         })
 
-    const validator = validatorsByValueTypeMinMax[valueType]
+    const validator = minMaxValidatorsByValueType[valueType]
     const validateMin = composeValidators(
         (value, values) => {
             if (!value && !!values.max) {
