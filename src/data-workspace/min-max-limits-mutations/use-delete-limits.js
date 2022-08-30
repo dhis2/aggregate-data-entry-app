@@ -1,5 +1,5 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
-import { useQueryClient, useMutation } from 'react-query'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 import {
     useContextSelection,
     useApiAttributeParams,

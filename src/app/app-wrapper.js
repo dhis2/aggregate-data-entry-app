@@ -1,7 +1,8 @@
 import { CssReset, CssVariables } from '@dhis2/ui'
+import { QueryClient } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { HashRouter, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.js'
@@ -12,6 +13,7 @@ import {
     NoFormOrLockedProvider,
 } from '../shared/index.js'
 import App from './app.js'
+import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
 import useQueryClient from './query-client/use-query-client.js'
 
 /**
@@ -28,16 +30,17 @@ import useQueryClient from './query-client/use-query-client.js'
  *     )}
  */
 export function OuterComponents({
-    queryClient,
     children,
     // This way we can use a different router in tests when needed
     router: Router,
+    queryClient,
 }) {
     return (
         <>
             <CssReset />
             <CssVariables colors spacers theme />
-            <QueryClientProvider client={queryClient}>
+            <ConfiguredQueryClientProvider queryClient={queryClient}>
+                <ReactQueryDevtools />
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
                         <NoFormOrLockedProvider>
@@ -53,7 +56,7 @@ export function OuterComponents({
                         </NoFormOrLockedProvider>
                     </QueryParamProvider>
                 </Router>
-            </QueryClientProvider>
+            </ConfiguredQueryClientProvider>
         </>
     )
 }

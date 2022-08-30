@@ -40,7 +40,7 @@ export default function DataItemBar() {
                         : rightHandPanel.show(dataDetailsSidebarId)
                 }}
             >
-                {rightHandPanel.id
+                {rightHandPanel.id === dataDetailsSidebarId
                     ? i18n.t('Hide details')
                     : i18n.t('View details')}
             </Button>

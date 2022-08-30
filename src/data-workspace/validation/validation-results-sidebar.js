@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { useIsMutating } from '@tanstack/react-query'
 import React from 'react'
-import { useIsMutating } from 'react-query'
 import {
     Sidebar,
     Title,

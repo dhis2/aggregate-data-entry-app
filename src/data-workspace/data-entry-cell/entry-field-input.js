@@ -9,7 +9,6 @@ import {
     OptionSet,
     TrueOnlyCheckbox,
 } from '../inputs/index.js'
-import { useDataValueParams } from './use-data-value-params.js'
 
 function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
@@ -59,19 +58,16 @@ export function EntryFieldInput({
     disabled,
     locked,
 }) {
-    const { id: deId } = de
-    const { id: cocId } = coc
-    const dataValueParams = useDataValueParams({ deId, cocId })
-
     const sharedProps = useMemo(
         () => ({
             fieldname,
-            dataValueParams,
-            disabled: disabled,
+            disabled,
             locked,
+            deId: de.id,
+            cocId: coc.id,
             setSyncStatus,
         }),
-        [fieldname, dataValueParams, disabled, setSyncStatus, locked]
+        [fieldname, de, coc, disabled, setSyncStatus, locked]
     )
 
     return <InputComponent sharedProps={sharedProps} de={de} />

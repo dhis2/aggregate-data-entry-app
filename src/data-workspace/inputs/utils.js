@@ -11,7 +11,8 @@ export const convertCallbackSignatures = (props) => ({
 })
 
 export const InputPropTypes = {
-    dataValueParams: PropTypes.objectOf(PropTypes.string),
+    cocId: PropTypes.string,
+    deId: PropTypes.string,
     disabled: PropTypes.bool,
     locked: PropTypes.bool,
     lastSyncedValue: PropTypes.any,

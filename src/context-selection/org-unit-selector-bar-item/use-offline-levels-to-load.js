@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import getOfflineLevelsToLoad from './get-offline-levels-to-load.js'
 
 export default function useOfflineLevelsToLoad(organisationUnitLevels) {

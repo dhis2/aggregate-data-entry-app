@@ -1,14 +1,17 @@
 import { IconMore16, colors } from '@dhis2/ui'
+import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
 import { useField } from 'react-final-form'
-import { useIsMutating } from 'react-query'
 import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
 import { useSetHighlightedFieldIdContext } from '../../shared/index.js'
 import { dataDetailsSidebarId } from '../constants.js'
+import {
+    useDataValueParams,
+    getDataValueMutationKey,
+} from '../data-value-mutations/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
-import { parseFieldId } from '../get-field-id.js'
 import styles from './data-entry-cell.module.css'
 
 /** Three dots or triangle in top-right corner of cell */
@@ -47,20 +50,18 @@ export function InnerWrapper({
     disabled,
     locked,
     fieldname,
+    deId,
+    cocId,
     syncStatus,
 }) {
-    const { dataElementId: deId, categoryOptionComboId: cocId } =
-        parseFieldId(fieldname)
     const {
         meta: { active, invalid },
     } = useField(fieldname, { subscription: { active: true, invalid: true } })
+
     // Detect if this field is sending data
-    // (is this performant?)
+    const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
-        predicate: (mutation) => {
-            const { de, co } = mutation.options.variables
-            return deId === de && cocId === co
-        },
+        mutationKey: getDataValueMutationKey(dataValueParams),
     })
 
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
@@ -93,6 +94,8 @@ export function InnerWrapper({
         setHighlightedFieldId(highlightedFieldId)
     }, [highlightedFieldId, setHighlightedFieldId])
 
+    // todo: maybe use mutation state to improve this style handling
+    // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
         ? styles.invalid
         : activeMutations === 0 && syncStatus.synced
@@ -122,6 +125,8 @@ export function InnerWrapper({
 }
 InnerWrapper.propTypes = {
     children: PropTypes.node,
+    cocId: PropTypes.string,
+    deId: PropTypes.string,
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     locked: PropTypes.bool,
