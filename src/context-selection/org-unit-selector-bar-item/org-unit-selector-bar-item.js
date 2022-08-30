@@ -48,7 +48,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
     const { expanded, handleExpand, handleCollapse } = useExpandedState()
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
-    const { organisationUnits: assignedOUs } =
+    const { organisationUnits: assignedOrgUnits } =
         selectors.getDataSetById(metadata, dataSetId) || {}
 
     const [, setOrgUnitId] = useOrgUnitId()
@@ -131,13 +131,15 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                             // Not sure why this is necessary, but when not done,
                                             // it causes bugs in the UI
                                             e.stopPropagation()
-                                            if (assignedOUs?.includes(id)) {
+                                            if (
+                                                assignedOrgUnits?.includes(id)
+                                            ) {
                                                 setOrgUnitId(id)
                                                 setOrgUnitOpen(false)
                                             }
                                         }}
                                         renderNodeLabel={({ node, label }) => {
-                                            return assignedOUs?.includes(
+                                            return assignedOrgUnits?.includes(
                                                 node?.id
                                             ) ? (
                                                 label

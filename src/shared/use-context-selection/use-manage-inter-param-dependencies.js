@@ -37,8 +37,10 @@ function useHandleDataSetIdChange() {
     const [prevDataSetId, setPrevDataSetId] = useState(dataSetId)
     const [orgUnitId, setOrgUnitId] = useOrgUnitId()
     const { data: metadata } = useMetadata()
-    const dataSet = selectors.getDataSetById(metadata, dataSetId)
-    const dataSetPeriodType = dataSet?.periodType
+    const {
+        organisationUnits: assignedOrgUnits,
+        periodType: dataSetPeriodType,
+    } = selectors.getDataSetById(metadata, dataSetId) || {}
 
     useEffect(() => {
         if (dataSetId !== prevDataSetId) {
@@ -54,7 +56,7 @@ function useHandleDataSetIdChange() {
             // if orgUnit is not assigned to dataset, clear out orgUnit assignment
             if (
                 orgUnitId !== undefined &&
-                !dataSet?.organisationUnits?.includes(orgUnitId)
+                !assignedOrgUnits?.includes(orgUnitId)
             ) {
                 setOrgUnitId(undefined)
             }
@@ -71,6 +73,9 @@ function useHandleDataSetIdChange() {
         setPeriodId,
         attributeOptionComboSelection,
         setAttributeOptionComboSelection,
+        assignedOrgUnits,
+        setOrgUnitId,
+        orgUnitId,
     ])
 }
 
