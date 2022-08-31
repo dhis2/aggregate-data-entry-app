@@ -48,15 +48,6 @@ export const getCategoryComboById = (metadata, id) =>
     getCategoryCombos(metadata)[id]
 
 /**
- * Alphabetically sort the order of data elements on displayFormName
- * @param {*} dataElements
- */
-export const sortDataElementsByDisplayFormName = (dataElements) =>
-    dataElements.sort((deA, deB) =>
-        deA.displayFormName?.localeCompare(deB.displayFormName)
-    )
-
-/**
  *
  * @param {*} metadata
  * @param {*} categoryComboId
@@ -209,16 +200,20 @@ export const getDataElementsByDataSetId = createCachedSelector(
             return undefined
         }
 
-        return dataSet.dataSetElements.map((dse) => {
-            const de = dataElements[dse.dataElement.id]
+        return dataSet.dataSetElements
+            .map((dse) => {
+                const de = dataElements[dse.dataElement.id]
 
-            const categoryCombo = dse.categoryCombo ?? de.categoryCombo
+                const categoryCombo = dse.categoryCombo ?? de.categoryCombo
 
-            return {
-                ...de,
-                categoryCombo,
-            }
-        })
+                return {
+                    ...de,
+                    categoryCombo,
+                }
+            })
+            .sort((deA, deB) =>
+                deA.displayFormName?.localeCompare(deB.displayFormName)
+            )
     }
 )((_, dataSetId) => dataSetId)
 

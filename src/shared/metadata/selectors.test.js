@@ -20,7 +20,6 @@ import {
     getGroupedDataElementsByCatCombo,
     getGroupedDataElementsByCatComboInOrder,
     getSections,
-    sortDataElementsByDisplayFormName,
 } from './selectors.js'
 
 describe('simple selectors', () => {
@@ -75,38 +74,6 @@ describe('simple selectors', () => {
             const data = { sections: expected }
 
             expect(getSections(data)).toBe(expected)
-        })
-    })
-})
-
-describe('sorting', () => {
-    describe('sortDataElementsByDisplayFormName', () => {
-        it('returns data elements in alphabetical under in respect of displayFormName', () => {
-            const makeDataElement = (
-                id,
-                displayFormName,
-                categoryCombo = 'dataElementCategoryCombo'
-            ) => ({
-                id,
-                displayFormName,
-                categoryCombo,
-            })
-
-            const data = [
-                makeDataElement('dataElementId2', 'Beta'),
-                makeDataElement('dataElementId1', 'Alpha'),
-                makeDataElement('dataElementId2', 'Gamma'),
-                makeDataElement('dataElementId1', 'Delta'),
-            ]
-
-            const expected = [
-                makeDataElement('dataElementId1', 'Alpha'),
-                makeDataElement('dataElementId2', 'Beta'),
-                makeDataElement('dataElementId1', 'Delta'),
-                makeDataElement('dataElementId2', 'Gamma'),
-            ]
-
-            expect(sortDataElementsByDisplayFormName(data)).toEqual(expected)
         })
     })
 })
@@ -313,6 +280,57 @@ describe('complex selectors that select by id', () => {
                     [dataElementId]: dataElement,
                 },
             }
+
+            expect(getDataElementsByDataSetId(data, dataSetId)).toEqual(
+                expected
+            )
+        })
+
+        it('returns data elements sorted in order of displayFormName', () => {
+            const dataSetId = 'dataSetId'
+
+            const createDataSetElement = (id) => ({
+                categoryCombo: 'categoryCombo',
+                dataElement: {
+                    id,
+                },
+            })
+
+            const createDataElement = (
+                id,
+                displayFormName,
+                categoryCombo = 'dataElementCategoryCombo'
+            ) => ({
+                id,
+                displayFormName,
+                categoryCombo,
+            })
+
+            const data = {
+                dataSets: {
+                    [dataSetId]: {
+                        dataSetElements: [
+                            createDataSetElement('id1'),
+                            createDataSetElement('id2'),
+                            createDataSetElement('id3'),
+                            createDataSetElement('id4'),
+                        ],
+                    },
+                },
+                dataElements: {
+                    id1: createDataElement('id1', 'Beta'),
+                    id2: createDataElement('id2', 'Alpha'),
+                    id3: createDataElement('id3', 'Gamma'),
+                    id4: createDataElement('id4', 'Delta'),
+                },
+            }
+
+            const expected = [
+                createDataElement('id2', 'Alpha', 'categoryCombo'),
+                createDataElement('id1', 'Beta', 'categoryCombo'),
+                createDataElement('id4', 'Delta', 'categoryCombo'),
+                createDataElement('id3', 'Gamma', 'categoryCombo'),
+            ]
 
             expect(getDataElementsByDataSetId(data, dataSetId)).toEqual(
                 expected

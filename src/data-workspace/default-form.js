@@ -10,9 +10,8 @@ import { IndicatorsTableBody } from './indicators-table-body/indicators-table-bo
 export function DefaultForm({ dataSet, globalFilterText }) {
     const { data } = useMetadata()
 
-    const dataElements = selectors.sortDataElementsByDisplayFormName(
-        selectors.getDataElementsByDataSetId(data, dataSet.id)
-    )
+    const dataElements = selectors.getDataElementsByDataSetId(data, dataSet.id)
+
     const indicators = selectors.getIndicatorsByDataSetId(data, dataSet.id)
     const groupedDataElements = selectors.getGroupedDataElementsByCatCombo(
         data,
