@@ -3,12 +3,10 @@ import { Button, Tooltip, IconFlag16, IconFlag24, colors } from '@dhis2/ui'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useNoFormOrLockedContext } from '../../shared/index.js'
 import styles from './basic-information.module.css'
 import ItemPropType from './item-prop-type.js'
 
 const BasicInformation = ({ item, onMarkForFollowup, onUnmarkForFollowup }) => {
-    const { locked } = useNoFormOrLockedContext()
     return (
         <div className={styles.unit}>
             <h1 className={styles.title}>{item.name}</h1>
@@ -51,12 +49,7 @@ const BasicInformation = ({ item, onMarkForFollowup, onUnmarkForFollowup }) => {
                 ) : null}
             </ul>
             {item.followup ? (
-                <Button
-                    small
-                    secondary
-                    onClick={onUnmarkForFollowup}
-                    disabled={locked}
-                >
+                <Button small secondary onClick={onUnmarkForFollowup}>
                     {i18n.t('Unmark for follow-up')}
                 </Button>
             ) : (
@@ -65,7 +58,6 @@ const BasicInformation = ({ item, onMarkForFollowup, onUnmarkForFollowup }) => {
                     secondary
                     icon={<IconFlag24 color={colors.grey600} />}
                     onClick={onMarkForFollowup}
-                    disabled={locked}
                 >
                     {i18n.t('Mark for follow-up')}
                 </Button>
