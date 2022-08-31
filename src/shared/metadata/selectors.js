@@ -201,18 +201,21 @@ export const getDataElementsByDataSetId = createCachedSelector(
         }
 
         return dataSet.dataSetElements
-            .map((dse) => {
-                const de = dataElements[dse.dataElement.id]
+            .map((dataSetElement) => {
+                const dataElement = dataElements[dataSetElement.dataElement.id]
 
-                const categoryCombo = dse.categoryCombo ?? de.categoryCombo
+                const categoryCombo =
+                    dataSetElement.categoryCombo ?? dataElement.categoryCombo
 
                 return {
-                    ...de,
+                    ...dataElement,
                     categoryCombo,
                 }
             })
-            .sort((deA, deB) =>
-                deA.displayFormName?.localeCompare(deB.displayFormName)
+            .sort((dataElementA, dataElementB) =>
+                dataElementA.displayFormName?.localeCompare(
+                    dataElementB.displayFormName
+                )
             )
     }
 )((_, dataSetId) => dataSetId)
