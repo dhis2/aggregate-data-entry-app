@@ -20,6 +20,7 @@ import {
     getGroupedDataElementsByCatCombo,
     getGroupedDataElementsByCatComboInOrder,
     getSections,
+    getDataElementsByDataSetIdSortedOnDisplayFormName,
 } from './selectors.js'
 
 describe('simple selectors', () => {
@@ -285,7 +286,9 @@ describe('complex selectors that select by id', () => {
                 expected
             )
         })
+    })
 
+    describe('getDataElementsByDataSetIdSortedOnDisplayFormName', () => {
         it('returns data elements sorted in order of displayFormName', () => {
             const dataSetId = 'dataSetId'
 
@@ -332,9 +335,12 @@ describe('complex selectors that select by id', () => {
                 createDataElement('id3', 'Gamma', 'categoryCombo'),
             ]
 
-            expect(getDataElementsByDataSetId(data, dataSetId)).toEqual(
-                expected
-            )
+            expect(
+                getDataElementsByDataSetIdSortedOnDisplayFormName(
+                    data,
+                    dataSetId
+                )
+            ).toEqual(expected)
         })
     })
 
