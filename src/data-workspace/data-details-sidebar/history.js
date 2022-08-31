@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { ExpandableUnit, useConnectionStatus } from '../../shared/index.js'
 import HistoryLineChart from './history-line-chart.js'
+import styles from './history.module.css'
 import useDataValueContext from './use-data-value-context.js'
 import useOpenState from './use-open-state.js'
 
@@ -52,7 +53,9 @@ export default function History({ item }) {
     if (!history.length) {
         return (
             <ExpandableUnit title={title} open={open} onToggle={setOpen}>
-                <p>{'@TODO: ' + i18n.t('Show ui for no history')}</p>
+                <p className={styles.placeholder}>
+                    {i18n.t('No history for this data item.')}
+                </p>
             </ExpandableUnit>
         )
     }

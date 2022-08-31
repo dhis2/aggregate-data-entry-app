@@ -6,6 +6,7 @@ import {
     useMetadata,
     useDataSetId,
     useNoFormOrLockedContext,
+    useOrgUnitId,
     usePeriodId,
 } from '../../shared/index.js'
 import { noFormOrLockedStates } from '../../shared/no-form-or-locked/no-form-and-locked-states.js'
@@ -20,16 +21,18 @@ const hasCategoryNoOptions = (category) => category.categoryOptions.length === 0
 export default function AttributeOptionComboSelectorBarItem() {
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
+    const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const categoryCombo = selectors.getCategoryComboByDataSetId(
         metadata,
         dataSetId
     )
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriod(
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
-            periodId
+            periodId,
+            orgUnitId
         )
 
     const [open, setOpen] = useState(false)
@@ -44,10 +47,6 @@ export default function AttributeOptionComboSelectorBarItem() {
 
     const categoriesWithNoOptions =
         relevantCategoriesWithOptions.filter(hasCategoryNoOptions)
-    const shouldComponentRenderNull = useShouldComponentRenderNull(
-        categoryCombo,
-        categoriesWithNoOptions.length > 0
-    )
 
     const { setNoFormOrLockedStatus } = useNoFormOrLockedContext()
 
@@ -56,6 +55,9 @@ export default function AttributeOptionComboSelectorBarItem() {
             setNoFormOrLockedStatus(noFormOrLockedStates.INVALID_OPTIONS)
         }
     }, [categoriesWithNoOptions, setNoFormOrLockedStatus])
+
+    const shouldComponentRenderNull =
+        useShouldComponentRenderNull(categoryCombo)
 
     if (shouldComponentRenderNull) {
         return null

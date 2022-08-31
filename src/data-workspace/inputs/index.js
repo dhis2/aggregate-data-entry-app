@@ -8,4 +8,5 @@ export {
     createLessThan,
     createMoreThan,
     validatorsByValueType,
+    minMaxValidatorsByValueType,
 } from './validators.js'
