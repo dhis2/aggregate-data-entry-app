@@ -405,6 +405,14 @@ const isOptionWithinPeriod = ({
     return true
 }
 
+const isOptionAssignedToOrgUnit = ({ categoryOption, orgUnitId }) => {
+    // by default,
+    if (!categoryOption?.organisationUnits?.length) {
+        return true
+    }
+    return categoryOption?.organisationUnits.includes(orgUnitId)
+}
+
 const resolveCategoryOptionIds = (categories, categoryOptions) => {
     return categories.map((category) => ({
         ...category,
@@ -414,58 +422,71 @@ const resolveCategoryOptionIds = (categories, categoryOptions) => {
     }))
 }
 
-export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
-    (metadata) => metadata,
-    getDataSetById,
-    (_, __, periodId) => periodId,
-    (metadata, dataSet, periodId) => {
-        if (!dataSet?.id || !periodId) {
-            return []
-        }
+/* eslint-disable max-params */
+export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
+    createCachedSelector(
+        (metadata) => metadata,
+        getDataSetById,
+        (_, __, periodId) => periodId,
+        (_, __, ___, orgUnitId) => orgUnitId,
+        (metadata, dataSet, periodId, orgUnitId) => {
+            if (!dataSet?.id || !periodId) {
+                return []
+            }
 
-        const relevantCategories = getCategoriesByDataSetId(
-            metadata,
-            dataSet?.id
-        )
+            const relevantCategories = getCategoriesByDataSetId(
+                metadata,
+                dataSet?.id
+            )
 
-        const categoryOptions = getCategoryOptions(metadata)
-        const relevantCategoriesWithOptions = resolveCategoryOptionIds(
-            relevantCategories,
-            categoryOptions
-        )
-        const period = parsePeriodId(periodId)
-        const periodStartDate = new Date(period.startDate)
+            const categoryOptions = getCategoryOptions(metadata)
 
-        // periodEndDate is up to following start date
-        let periodEndDate = addFullPeriodTimeToDate(
-            periodStartDate,
-            period?.periodType?.type
-        )
+            const relevantCategoriesWithOptions = resolveCategoryOptionIds(
+                relevantCategories,
+                categoryOptions
+            )
+            const period = parsePeriodId(periodId)
+            const periodStartDate = new Date(period.startDate)
 
-        // reduce perfiodEndDate by openPeriodsAfterCoEndDate
-        const openPeriodsAfterCoEndDate = Math.max(
-            dataSet?.openPeriodsAfterCoEndDate || 0,
-            0
-        )
-        for (let i = 0; i < openPeriodsAfterCoEndDate; i++) {
-            periodEndDate = removeFullPeriodTimeToDate(
-                periodEndDate,
+            // periodEndDate is up to following start date
+            let periodEndDate = addFullPeriodTimeToDate(
+                periodStartDate,
                 period?.periodType?.type
             )
-        }
 
-        // remove 1 day because endDate is 1 less than subsequent startDate
-        periodEndDate.setDate(periodEndDate.getDate() - 1)
-
-        return relevantCategoriesWithOptions.map((category) => ({
-            ...category,
-            categoryOptions: category.categoryOptions.filter((categoryOption) =>
-                isOptionWithinPeriod({
-                    periodStartDate,
+            // reduce perfiodEndDate by openPeriodsAfterCoEndDate
+            const openPeriodsAfterCoEndDate = Math.max(
+                dataSet?.openPeriodsAfterCoEndDate || 0,
+                0
+            )
+            for (let i = 0; i < openPeriodsAfterCoEndDate; i++) {
+                periodEndDate = removeFullPeriodTimeToDate(
                     periodEndDate,
-                    categoryOption,
-                })
-            ),
-        }))
-    }
-)((_, dataSetId, periodId) => `${dataSetId}:${periodId}`)
+                    period?.periodType?.type
+                )
+            }
+
+            // remove 1 day because endDate is 1 less than subsequent startDate
+            periodEndDate.setDate(periodEndDate.getDate() - 1)
+
+            return relevantCategoriesWithOptions.map((category) => ({
+                ...category,
+                categoryOptions: category.categoryOptions.filter(
+                    (categoryOption) =>
+                        isOptionWithinPeriod({
+                            periodStartDate,
+                            periodEndDate,
+                            categoryOption,
+                        }) &&
+                        isOptionAssignedToOrgUnit({
+                            categoryOption,
+                            orgUnitId,
+                        })
+                ),
+            }))
+        }
+    )(
+        (_, dataSetId, periodId, orgUnitId) =>
+            `${dataSetId}:${periodId}:${orgUnitId}`
+    )
+/* eslint-enable max-params */

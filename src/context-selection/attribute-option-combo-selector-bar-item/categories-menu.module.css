@@ -14,3 +14,7 @@
 .input:last-child {
     margin-bottom: 0;
 }
+
+.noOptionsBox {
+    margin: var(--spacers-dp8)
+}

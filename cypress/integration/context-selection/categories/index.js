@@ -156,10 +156,6 @@ Then('the selector should show that some items have been selected', () => {
         .should('exist')
 })
 
-Then('the attribute option combo selector is hidden', () => {
-    cy.get('[data-test="attribute-option-combo-selector"]').should('not.exist')
-})
-
 Then('a message is being displayed in the data workspace', () => {
     cy.contains('The current selection does not have a form').should('exist')
 })
