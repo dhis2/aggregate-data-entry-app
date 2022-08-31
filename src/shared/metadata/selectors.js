@@ -220,7 +220,7 @@ export const getDataElementsByDataSetId = createCachedSelector(
  * @param {*} metadata
  * @param {*} dataSetId
  */
-export const getDataElementsByDataSetIdSortedOnDisplayFormName = createSelector(
+export const getDataElementsByDataSetIdSorted = createSelector(
     getDataElementsByDataSetId,
     (dataElements) =>
         [...dataElements].sort((dataElementA, dataElementB) =>
