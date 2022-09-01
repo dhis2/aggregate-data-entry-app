@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import { Form } from 'react-final-form'
 
 function mapObject(input, callback) {
@@ -20,7 +20,7 @@ const onSubmit = (values, form) => console.log({ values, form })
 const subscriptions = {}
 
 export function FinalFormWrapper({ children, dataValueSet }) {
-    const initialValues = createInitialValues(dataValueSet)
+    const [initialValues] = useState(() => createInitialValues(dataValueSet))
 
     return (
         <Form
