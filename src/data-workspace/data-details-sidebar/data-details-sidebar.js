@@ -18,15 +18,13 @@ export default function DataDetailsSidebar({ hide }) {
     const [orgUnitId] = useOrgUnitId()
     const dataValueSet = useDataValueSet()
     const item = useHighlightedField()
+
     const dataValue = {
         ...item,
         ...dataValueSet.data?.dataValues[item.dataElement]?.[
             item.categoryOptionCombo
         ],
     }
-
-    const onMarkForFollowup = () => null
-    const onUnmarkForFollowup = () => null
 
     // Searches the response of `useDataValueSet` for the minMaxValue that
     // belongs to the currently displayed data details by comparing the
@@ -50,11 +48,7 @@ export default function DataDetailsSidebar({ hide }) {
     return (
         <Sidebar>
             <Title onClose={hide}>{i18n.t('Details')}</Title>
-            <BasicInformation
-                item={dataValue}
-                onMarkForFollowup={onMarkForFollowup}
-                onUnmarkForFollowup={onUnmarkForFollowup}
-            />
+            <BasicInformation item={dataValue} />
             <Comment item={dataValue} />
             <Limits dataValue={dataValue} limits={limits} />
             <History item={dataValue} />
