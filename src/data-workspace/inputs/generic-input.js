@@ -43,23 +43,51 @@ export const GenericInput = ({
         )
     }
 
+    const formatValue = (value) => {
+        let formattedValue = value
+
+        if (value && valueType === VALUE_TYPES.NUMBER) {
+            if (value.startsWith('.')) {
+                formattedValue = `0${value}`
+            }
+            if (value.length > 1 && value.endsWith('.')) {
+                formattedValue = value.slice(0, -1)
+            }
+            const unneededLeadingZero = /^0[0-9].*$/
+            if (unneededLeadingZero.test(value)) {
+                formattedValue = Number(value).toString()
+            }
+        }
+
+        return formattedValue
+    }
+
     const { input, meta } = useField(fieldname, {
         validate: validatorsByValueType[valueType],
         subscription: { value: true, dirty: true, valid: true },
+        format: formatValue,
+        formatOnBlur: true,
     })
 
     const handleBlur = () => {
         const { value } = input
         const hasEmptySpaces = value && value.trim() === ''
         const { dirty, valid } = meta
-        if (dirty && valid && !hasEmptySpaces && value !== lastSyncedValue) {
-            syncData(value.trim())
+        if (
+            value &&
+            dirty &&
+            valid &&
+            !hasEmptySpaces &&
+            value !== lastSyncedValue
+        ) {
+            syncData(formatValue(value.trim()))
         }
     }
 
     return (
         <input
             {...input}
+            value={input.value ?? ''}
             className={cx(styles.basicInput, {
                 [styles.alignToEnd]: NUMBER_TYPES.includes(valueType),
             })}
