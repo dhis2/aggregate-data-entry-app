@@ -128,10 +128,6 @@ export const BooleanRadios = ({
                     syncData('')
                     clearField.input.onBlur()
                 }}
-                onBlur={() => {
-                    handleBlur() // Probably handled by onClick, but included here for safety
-                    clearField.input.onBlur()
-                }}
                 onKeyDown={onKeyDown}
                 disabled={disabled}
             >
