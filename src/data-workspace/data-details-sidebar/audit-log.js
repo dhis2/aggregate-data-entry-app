@@ -74,56 +74,64 @@ export default function AuditLog({ item }) {
 
     return (
         <ExpandableUnit title={title} open={open} onToggle={setOpen}>
-            <DataTable>
-                <TableHead>
-                    <DataTableRow>
-                        <DataTableColumnHeader>Date</DataTableColumnHeader>
-                        <DataTableColumnHeader>User</DataTableColumnHeader>
-                        <DataTableColumnHeader>Change</DataTableColumnHeader>
-                    </DataTableRow>
-                </TableHead>
+            <div className={styles.tableWrapper}>
+                <DataTable>
+                    <TableHead>
+                        <DataTableRow>
+                            <DataTableColumnHeader>Date</DataTableColumnHeader>
+                            <DataTableColumnHeader>User</DataTableColumnHeader>
+                            <DataTableColumnHeader>
+                                Change
+                            </DataTableColumnHeader>
+                        </DataTableRow>
+                    </TableHead>
 
-                <TableBody>
-                    {audits.map((audit) => {
-                        const {
-                            modifiedBy: user,
-                            previousValue,
-                            value,
-                            created,
-                            auditType,
-                            dataElement: de,
-                            categoryOptionCombo: coc,
-                            period: pe,
-                            orgUnit: ou,
-                        } = audit
-                        const key = `${de}-${pe}-${ou}-${coc}`
+                    <TableBody>
+                        {audits.map((audit) => {
+                            const {
+                                modifiedBy: user,
+                                previousValue,
+                                value,
+                                created,
+                                auditType,
+                                dataElement: de,
+                                categoryOptionCombo: coc,
+                                period: pe,
+                                orgUnit: ou,
+                            } = audit
+                            const key = `${de}-${pe}-${ou}-${coc}-${created}`
 
-                        return (
-                            <DataTableRow key={key}>
-                                <DataTableCell>
-                                    {moment(created).format('YYYY-MM-DD HH:mm')}
-                                </DataTableCell>
-                                <DataTableCell>{user}</DataTableCell>
-                                <DataTableCell>
-                                    <div>
-                                        {auditType === 'DELETE' && (
-                                            <DeletedValue
-                                                previousValue={previousValue}
-                                            />
+                            return (
+                                <DataTableRow key={key}>
+                                    <DataTableCell>
+                                        {moment(created).format(
+                                            'YYYY-MM-DD HH:mm'
                                         )}
-                                        {auditType === 'UPDATE' && (
-                                            <UpdatedValue
-                                                value={value}
-                                                previousValue={previousValue}
-                                            />
-                                        )}
-                                    </div>
-                                </DataTableCell>
-                            </DataTableRow>
-                        )
-                    })}
-                </TableBody>
-            </DataTable>
+                                    </DataTableCell>
+                                    <DataTableCell>{user}</DataTableCell>
+                                    <DataTableCell>
+                                        <div>
+                                            {auditType === 'DELETE' && (
+                                                <DeletedValue value={value} />
+                                            )}
+                                            {['UPDATE', 'CREATE'].includes(
+                                                auditType
+                                            ) && (
+                                                <UpdatedValue
+                                                    value={value}
+                                                    previousValue={
+                                                        previousValue
+                                                    }
+                                                />
+                                            )}
+                                        </div>
+                                    </DataTableCell>
+                                </DataTableRow>
+                            )
+                        })}
+                    </TableBody>
+                </DataTable>
+            </div>
         </ExpandableUnit>
     )
 }
@@ -136,24 +144,22 @@ AuditLog.propTypes = {
     }).isRequired,
 }
 
-function DeletedValue({ previousValue }) {
+function DeletedValue({ value }) {
     return (
-        <Tag negative>
-            <span style={{ textDecoration: 'line-through' }}>
-                {previousValue}
-            </span>
+        <Tag negative className={styles.lineThrough}>
+            {value}
         </Tag>
     )
 }
 
 DeletedValue.propTypes = {
-    previousValue: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
 }
 
 function UpdatedValue({ value, previousValue }) {
     return (
         <>
-            <Tag>{previousValue}</Tag>
+            {previousValue && <Tag>{previousValue}</Tag>}
             {/* space arrow-right space*/}
             &nbsp;&rarr;&nbsp;
             <Tag>{value}</Tag>
@@ -162,6 +168,6 @@ function UpdatedValue({ value, previousValue }) {
 }
 
 UpdatedValue.propTypes = {
-    previousValue: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
+    previousValue: PropTypes.string,
 }

@@ -6,15 +6,15 @@
  * backend or not.
  * @TODO: Create an issue for this
  */
-export default function processAudits(audits, currentItem) {
+export default function processAudits(audits) {
     const processedExistingAudits = [...audits].map((audit, index) => {
-        const previousValue = audit.value
-        const newValue =
-            index === 0 ? currentItem.value : audits[index - 1].value
+        const previousValue =
+            audits?.[index + 1]?.auditType !== 'DELETE'
+                ? audits?.[index + 1]?.value
+                : undefined
 
         return {
             ...audit,
-            value: newValue,
             previousValue,
         }
     })
