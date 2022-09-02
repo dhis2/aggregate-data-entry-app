@@ -19,20 +19,12 @@ const errorMessage = i18n.t(
     'There was a problem loading the comment for this data item'
 )
 
-const CommentOptionSelector = ({
-    commentOptionSetId,
-    inputOnChange,
-    comment,
-}) => {
+const CommentOptionSelector = ({ commentOptionSetId, inputOnChange }) => {
     const { data: metadata } = useMetadata()
 
     const optionSet = selectors.getOptionSetById(metadata, commentOptionSetId)
     // filter out 'null' options
     const options = optionSet?.options?.filter((opt) => !!opt)
-
-    const [selectedCommentOption, setSelectedCommentOption] = useState(
-        options?.find((o) => o.displayName === comment)?.code
-    )
 
     if (!(options?.length > 0)) {
         return null
@@ -40,10 +32,8 @@ const CommentOptionSelector = ({
 
     return (
         <SingleSelect
-            selected={selectedCommentOption}
             placeholder={i18n.t('Choose an option')}
             onChange={({ selected }) => {
-                setSelectedCommentOption(selected)
                 inputOnChange(
                     options.find((o) => o.code === selected)?.displayName
                 )
@@ -58,7 +48,6 @@ const CommentOptionSelector = ({
 }
 
 CommentOptionSelector.propTypes = {
-    comment: PropTypes.string,
     commentOptionSetId: PropTypes.string,
     inputOnChange: PropTypes.func,
 }
@@ -75,7 +64,6 @@ const CommentEditField = ({ comment, commentOptionSetId }) => {
                 <CommentOptionSelector
                     commentOptionSetId={commentOptionSetId}
                     inputOnChange={input.onChange}
-                    comment={comment}
                 />
             )}
             <textarea
