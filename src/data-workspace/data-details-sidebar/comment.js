@@ -1,9 +1,15 @@
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, Button, ButtonStrip, TextAreaFieldFF } from '@dhis2/ui'
+import {
+    CircularLoader,
+    Button,
+    ButtonStrip,
+    SingleSelect,
+    SingleSelectOption,
+} from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { Form, Field } from 'react-final-form'
-import { ExpandableUnit } from '../../shared/index.js'
+import { Form, useField } from 'react-final-form'
+import { ExpandableUnit, selectors, useMetadata } from '../../shared/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
@@ -12,6 +18,80 @@ const title = i18n.t('Comment')
 const errorMessage = i18n.t(
     'There was a problem loading the comment for this data item'
 )
+
+const CommentOptionSelector = ({
+    commentOptionSetId,
+    inputOnChange,
+    comment,
+}) => {
+    const { data: metadata } = useMetadata()
+
+    const optionSet = selectors.getOptionSetById(metadata, commentOptionSetId)
+    // filter out 'null' options
+    const options = optionSet?.options?.filter((opt) => !!opt)
+
+    const [selectedCommentOption, setSelectedCommentOption] = useState(
+        options?.find((o) => o.displayName === comment)?.code
+    )
+
+    if (!(options?.length > 0)) {
+        return null
+    }
+
+    return (
+        <SingleSelect
+            selected={selectedCommentOption}
+            placeholder={i18n.t('Choose an option')}
+            onChange={({ selected }) => {
+                setSelectedCommentOption(selected)
+                inputOnChange(
+                    options.find((o) => o.code === selected)?.displayName
+                )
+            }}
+            className={styles.commentOptionSelect}
+        >
+            {options.map(({ id, code, displayName }) => (
+                <SingleSelectOption key={id} label={displayName} value={code} />
+            ))}
+        </SingleSelect>
+    )
+}
+
+CommentOptionSelector.propTypes = {
+    comment: PropTypes.string,
+    commentOptionSetId: PropTypes.string,
+    inputOnChange: PropTypes.func,
+}
+
+const CommentEditField = ({ comment, commentOptionSetId }) => {
+    const { input } = useField('comment', {
+        subscription: { value: true },
+        initialValue: comment || '',
+    })
+
+    return (
+        <>
+            {commentOptionSetId && (
+                <CommentOptionSelector
+                    commentOptionSetId={commentOptionSetId}
+                    inputOnChange={input.onChange}
+                    comment={comment}
+                />
+            )}
+            <textarea
+                className={styles.commentInput}
+                rows="4"
+                {...input}
+                autoComplete="off"
+            />
+        </>
+    )
+}
+
+CommentEditField.propTypes = {
+    comment: PropTypes.string,
+    commentOptionSetId: PropTypes.string,
+}
 
 function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
     const onSubmit = (values) => {
@@ -25,13 +105,9 @@ function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
             <Form onSubmit={onSubmit}>
                 {({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
-                        <Field
-                            name="comment"
-                            component={TextAreaFieldFF}
-                            className={styles.textArea}
-                            initialValue={item.comment}
-                            dense
-                            autoGrow
+                        <CommentEditField
+                            comment={item?.comment}
+                            commentOptionSetId={item?.commentOptionSetId}
                         />
 
                         <ButtonStrip>
@@ -68,6 +144,7 @@ CommentEditForm.propTypes = {
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
         comment: PropTypes.string,
+        commentOptionSetId: PropTypes.string,
     }).isRequired,
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
@@ -146,5 +223,6 @@ Comment.propTypes = {
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
         comment: PropTypes.string,
+        commentOptionSetId: PropTypes.string,
     }).isRequired,
 }
