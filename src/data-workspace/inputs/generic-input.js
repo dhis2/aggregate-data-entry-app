@@ -44,18 +44,17 @@ export const GenericInput = ({
     }
 
     const formatValue = (value) => {
-        let formattedValue = value
-
-        if (
-            value &&
+        if (value === undefined) {
+            return ''
+        } else if (
             value.trim() &&
             NUMBER_TYPES.includes(valueType) &&
             Number.isFinite(Number(value))
         ) {
-            formattedValue = Number(value).toString()
+            return Number(value).toString()
+        } else {
+            return value.trim()
         }
-
-        return formattedValue
     }
 
     const { input, meta } = useField(fieldname, {
@@ -67,7 +66,7 @@ export const GenericInput = ({
 
     const handleBlur = () => {
         const { value } = input
-        const formattedValue = value ? formatValue(value.trim()) : ``
+        const formattedValue = formatValue(value)
         const { dirty, valid } = meta
         if (dirty && valid && formattedValue !== lastSyncedValue) {
             syncData(formattedValue)
