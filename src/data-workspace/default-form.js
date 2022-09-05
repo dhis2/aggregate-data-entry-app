@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { NoticeBox, Table } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
-import { useMetadata, selectors } from '../metadata/index.js'
+import { useMetadata, selectors } from '../shared/index.js'
 import { CategoryComboTableBody } from './category-combo-table-body/index.js'
 import styles from './entry-form.module.css'
 import { IndicatorsTableBody } from './indicators-table-body/indicators-table-body.js'
@@ -10,7 +10,10 @@ import { IndicatorsTableBody } from './indicators-table-body/indicators-table-bo
 export function DefaultForm({ dataSet, globalFilterText }) {
     const { data } = useMetadata()
 
-    const dataElements = selectors.getDataElementsByDataSetId(data, dataSet.id)
+    const dataElements = selectors.getDataElementsByDataSetIdSorted(
+        data,
+        dataSet.id
+    )
     const indicators = selectors.getIndicatorsByDataSetId(data, dataSet.id)
     const groupedDataElements = selectors.getGroupedDataElementsByCatCombo(
         data,

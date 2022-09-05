@@ -1,7 +1,13 @@
 import i18n from '@dhis2/d2-i18n'
-import { Button, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
+import {
+    Button,
+    NoticeBox,
+    SingleSelectField,
+    SingleSelectOption,
+} from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { MenuSelect } from '../menu-select/index.js'
 import css from './categories-menu.module.css'
 
 export default function CategoriesMenu({
@@ -10,31 +16,67 @@ export default function CategoriesMenu({
     selected,
     onChange,
 }) {
+    if (categories.length === 1 && categories[0].categoryOptions?.length > 0) {
+        const category = categories[0]
+        const values = category.categoryOptions.map(({ id, displayName }) => ({
+            value: id,
+            label: displayName,
+        }))
+
+        return (
+            <MenuSelect
+                values={values}
+                selected={selected[category.id]}
+                dataTest="data-set-selector-menu"
+                onChange={({ selected: categoryOptionId }) => {
+                    onChange({
+                        categoryId: category.id,
+                        selected: categoryOptionId,
+                    })
+                    close()
+                }}
+            />
+        )
+    }
+
     return (
         <div className={css.container}>
             <div className={css.inputs}>
-                {categories.map(({ id, displayName, categoryOptions }) => (
-                    <div className={css.input} key={id}>
-                        <SingleSelectField
-                            label={displayName}
-                            selected={selected[id]}
-                            onChange={({ selected }) =>
-                                onChange({
-                                    categoryId: id,
-                                    selected,
-                                })
-                            }
+                {categories.map(({ id, displayName, categoryOptions }) => {
+                    return categoryOptions.length === 0 ? (
+                        <NoticeBox
+                            className={css.noOptionsBox}
+                            error
+                            title={i18n.t('No available options')}
                         >
-                            {categoryOptions.map(({ id, displayName }) => (
-                                <SingleSelectOption
-                                    key={id}
-                                    value={id}
-                                    label={displayName}
-                                />
-                            ))}
-                        </SingleSelectField>
-                    </div>
-                ))}
+                            {i18n.t(
+                                `There are no options for {{categoryName}} for the selected period or organisation unit.`,
+                                { categoryName: displayName }
+                            )}
+                        </NoticeBox>
+                    ) : (
+                        <div className={css.input} key={id}>
+                            <SingleSelectField
+                                label={displayName}
+                                selected={selected[id]}
+                                onChange={({ selected }) =>
+                                    onChange({
+                                        categoryId: id,
+                                        selected,
+                                    })
+                                }
+                            >
+                                {categoryOptions.map(({ id, displayName }) => (
+                                    <SingleSelectOption
+                                        key={id}
+                                        value={id}
+                                        label={displayName}
+                                    />
+                                ))}
+                            </SingleSelectField>
+                        </div>
+                    )
+                })}
             </div>
 
             <Button

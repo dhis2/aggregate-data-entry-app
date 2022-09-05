@@ -1,65 +1,39 @@
-import { useDataMutation, useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import {
-    CircularLoader,
-    Button,
-    ButtonStrip,
-    ReactFinalForm,
-    TextAreaFieldFF,
-} from '@dhis2/ui'
+import { CircularLoader, Button, ButtonStrip, TextAreaFieldFF } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
+import { Form, Field } from 'react-final-form'
 import { ExpandableUnit } from '../../shared/index.js'
+import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
-// TODO
-const mutation = {}
+const title = i18n.t('Comment')
+const errorMessage = i18n.t(
+    'There was a problem loading the comment for this data item'
+)
 
-export default function CommentUnit({ comment }) {
-    const [editing, setEditing] = useState(false)
-
-    const errorAlert = useAlert(
-        i18n.t('There was a problem saving the data item comment.'),
-        { critical: true }
-    )
-
-    //
-    // eslint-disable-next-line no-unused-vars
-    const [updateComment, { loading, error }] = useDataMutation(mutation, {
-        onError: () => errorAlert.show(),
-    })
-
-    if (loading) {
-        return <CircularLoader small />
+function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
+    const onSubmit = (values) => {
+        // Don't send `undefined` (or 'undefined' will be stored as the comment)
+        syncComment({ comment: values.comment || '' })
+        closeEditor()
     }
 
-    if (error) {
-        return (
-            <LoadingError
-                title={i18n.t(
-                    'There was a problem loading the comment for this data item'
-                )}
-            />
-        )
-    }
-
-    if (editing) {
-        return (
-            <ReactFinalForm.Form
-                // updateComment({ id: itemId, comment })
-                onSubmit={console.log}
-            >
+    return (
+        <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+            <Form onSubmit={onSubmit}>
                 {({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
-                        <ReactFinalForm.Field
+                        <Field
                             name="comment"
                             component={TextAreaFieldFF}
                             className={styles.textArea}
-                            initialValue={comment}
+                            initialValue={item.comment}
                             dense
                             autoGrow
                         />
+
                         <ButtonStrip>
                             <Button
                                 small
@@ -71,33 +45,106 @@ export default function CommentUnit({ comment }) {
                                     ? i18n.t('Saving...')
                                     : i18n.t('Save comment')}
                             </Button>
+
                             <Button
                                 small
                                 secondary
                                 disabled={submitting}
-                                onClick={() => setEditing(false)}
+                                onClick={closeEditor}
                             >
                                 {i18n.t('Cancel')}
                             </Button>
                         </ButtonStrip>
                     </form>
                 )}
-            </ReactFinalForm.Form>
+            </Form>
+        </ExpandableUnit>
+    )
+}
+
+CommentEditForm.propTypes = {
+    closeEditor: PropTypes.func.isRequired,
+    item: PropTypes.shape({
+        categoryOptionCombo: PropTypes.string.isRequired,
+        dataElement: PropTypes.string.isRequired,
+        comment: PropTypes.string,
+    }).isRequired,
+    open: PropTypes.bool.isRequired,
+    setOpen: PropTypes.func.isRequired,
+    syncComment: PropTypes.func.isRequired,
+}
+
+export default function Comment({ item }) {
+    const [open, setOpen] = useState(true)
+    const [editing, setEditing] = useState(false)
+    const setDataValueComment = useSetDataValueMutation({
+        deId: item.dataElement,
+        cocId: item.categoryOptionCombo,
+    })
+
+    // Only show loader if request is in flight,
+    // otherwise spinner can show endlessly while paused offline
+    if (setDataValueComment.isLoading && !setDataValueComment.isPaused) {
+        return (
+            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+                <CircularLoader small />
+            </ExpandableUnit>
+        )
+    }
+
+    if (setDataValueComment.isError) {
+        return (
+            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+                <LoadingError title={errorMessage} />
+            </ExpandableUnit>
+        )
+    }
+
+    if (editing) {
+        return (
+            <CommentEditForm
+                item={item}
+                open={open}
+                setOpen={setOpen}
+                syncComment={setDataValueComment.mutate}
+                closeEditor={() => setEditing(false)}
+            />
         )
     }
 
     return (
-        <ExpandableUnit title={i18n.t('Comment')} initiallyOpen>
-            <p className={comment ? styles.comment : styles.placeholder}>
-                {comment ? comment : i18n.t('No comment for this data item.')}
-            </p>
+        <ExpandableUnit title={title} open={open} onToggle={setOpen}>
+            {item.comment && (
+                <pre
+                    // Using <pre /> so text area line
+                    // breaks are displayed correctly
+                    className={styles.comment}
+                >
+                    {item.comment}
+                </pre>
+            )}
+
+            {!item.comment && (
+                <p
+                    className={
+                        item.comment ? styles.comment : styles.placeholder
+                    }
+                >
+                    {i18n.t('No comment for this data item.')}
+                </p>
+            )}
+
             <Button small secondary onClick={() => setEditing(true)}>
-                {comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
+                {item.comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
             </Button>
         </ExpandableUnit>
     )
 }
 
-CommentUnit.propTypes = {
-    comment: PropTypes.string,
+Comment.propTypes = {
+    item: PropTypes.shape({
+        categoryOptionCombo: PropTypes.string.isRequired,
+        dataElement: PropTypes.string.isRequired,
+        comment: PropTypes.string,
+    }).isRequired,
 }

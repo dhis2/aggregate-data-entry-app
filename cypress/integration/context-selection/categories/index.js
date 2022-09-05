@@ -137,12 +137,6 @@ Then('the selector should not be displayed', () => {
     cy.get('[data-test="attribute-option-combo-selector"]').should('not.exist')
 })
 
-Then('a disabled default attribute combo selector should be displayed', () => {
-    cy.get(
-        '[data-test="attribute-option-combo-selector"] > button:disabled'
-    ).should('exist')
-})
-
 Then(
     'the selector should be displayed once the categories and options have been loaded',
     () => {
@@ -160,10 +154,6 @@ Then('the selector should show that some items have been selected', () => {
     cy.get('[data-test="dhis2-ui-selectorbar"]')
         .contains('1 selection')
         .should('exist')
-})
-
-Then('the attribute option combo selector is hidden', () => {
-    cy.get('[data-test="attribute-option-combo-selector"]').should('not.exist')
 })
 
 Then('a message is being displayed in the data workspace', () => {

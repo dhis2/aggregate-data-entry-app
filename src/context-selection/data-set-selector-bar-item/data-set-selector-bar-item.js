@@ -2,9 +2,8 @@ import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import { selectors, useMetadata } from '../../metadata/index.js'
+import { selectors, useMetadata, useDataSetId } from '../../shared/index.js'
 import { MenuSelect } from '../menu-select/index.js'
-import { useDataSetId } from '../use-context-selection/index.js'
 
 const DataSetSelectorBarDropDownContent = ({
     dataSets,

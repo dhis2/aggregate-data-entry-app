@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react'
 import React from 'react'
+import { render } from '../../test-utils/index.js'
 import AuthWall from './auth-wall.js'
 
 describe('<AuthWall />', () => {

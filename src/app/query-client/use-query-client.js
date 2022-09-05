@@ -1,5 +1,5 @@
 import { useDataEngine } from '@dhis2/app-runtime'
-import { QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 import createQueryFn from './create-query-fn.js'
 
 const logger = {

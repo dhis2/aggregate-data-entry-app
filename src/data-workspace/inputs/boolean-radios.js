@@ -2,8 +2,8 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
 import React, { useState } from 'react'
-import { useField, useForm } from 'react-final-form'
-import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
+import { useField } from 'react-final-form'
+import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
@@ -15,7 +15,8 @@ import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 // does `isEqual` prop help make 1/true and 0/false/'' equal?
 export const BooleanRadios = ({
     fieldname,
-    dataValueParams,
+    deId,
+    cocId,
     disabled,
     setSyncStatus,
     onKeyDown,
@@ -52,15 +53,14 @@ export const BooleanRadios = ({
         value: '',
         subscription: { value: true },
     })
-    const form = useForm()
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation()
+    const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { ...dataValueParams, value: value || '' },
+            { value: value || '' },
             {
                 onSuccess: () => {
                     setLastSyncedValue(value)
@@ -70,14 +70,17 @@ export const BooleanRadios = ({
         )
     }
 
-    const fieldState = form.getFieldState(fieldname)
-
     const clearButtonProps = convertCallbackSignatures(clearField.input)
     delete clearButtonProps.type
 
+    const {
+        input: { value: fieldvalue },
+        meta,
+    } = useField(fieldname)
+
     const handleBlur = () => {
-        const { dirty, valid } = fieldState
-        const value = fieldState.value || ''
+        const { dirty, valid } = meta
+        const value = fieldvalue || ''
         // If this value has changed, sync it to server if valid
         if (dirty && valid && value !== lastSyncedValue) {
             syncData(value)
@@ -115,7 +118,7 @@ export const BooleanRadios = ({
                 secondary
                 className={cx(styles.whiteButton, {
                     // If no value to clear, hide but still reserve space
-                    [styles.hidden]: !fieldState?.value,
+                    [styles.hidden]: !fieldvalue,
                 })}
                 // Callback signatures are transformed above
                 {...clearButtonProps}
@@ -123,10 +126,6 @@ export const BooleanRadios = ({
                 onClick={() => {
                     clearField.input.onChange('')
                     syncData('')
-                    clearField.input.onBlur()
-                }}
-                onBlur={() => {
-                    handleBlur() // Probably handled by onClick, but included here for safety
                     clearField.input.onBlur()
                 }}
                 onKeyDown={onKeyDown}

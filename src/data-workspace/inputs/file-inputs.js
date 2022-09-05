@@ -1,15 +1,17 @@
 import i18n from '@dhis2/d2-i18n'
 import { colors, Button, FileInput, IconAttachment16 } from '@dhis2/ui'
+import { useQuery } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { useQuery } from 'react-query'
 import {
+    useDataValueParams,
     useDeleteDataValueMutation,
-    useUploadDataValueFileMutation,
-} from '../use-data-value-mutation/index.js'
+    useUploadFileDataValueMutation,
+} from '../data-value-mutations/index.js'
 import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
+import { InputPropTypes } from './utils.js'
 
 const formatFileSize = (size) => {
     return `${(size / 1024).toFixed(2)} KB`
@@ -18,7 +20,8 @@ const formatFileSize = (size) => {
 export const FileResourceInput = ({
     fieldname,
     image,
-    dataValueParams,
+    deId,
+    cocId,
     disabled,
     setSyncStatus,
     onKeyDown,
@@ -35,6 +38,7 @@ export const FileResourceInput = ({
         },
     })
 
+    const dataValueParams = useDataValueParams({ deId, cocId })
     const fileLink = useFileInputUrl(dataValueParams)
 
     // When the app loads, if there's a file saved for this data value,
@@ -51,8 +55,12 @@ export const FileResourceInput = ({
                 typeof input.value === 'string',
         }
     )
-    const { mutate: uploadFile } = useUploadDataValueFileMutation()
-    const { mutate: deleteFile } = useDeleteDataValueMutation()
+    // const [deId, cocId] = [dataValueParams.de, dataValueParams.co]
+    const { mutate: uploadFile } = useUploadFileDataValueMutation({
+        deId,
+        cocId,
+    })
+    const { mutate: deleteFile } = useDeleteDataValueMutation({ deId, cocId })
 
     const handleChange = ({ files }) => {
         const newFile = files[0]
@@ -61,10 +69,7 @@ export const FileResourceInput = ({
         if (newFile instanceof File) {
             setSyncStatus({ syncing: true, synced: false })
             uploadFile(
-                {
-                    file: newFile,
-                    ...dataValueParams,
-                },
+                { file: newFile },
                 {
                     onSuccess: () => {
                         setSyncStatus({ syncing: false, synced: true })
@@ -78,7 +83,7 @@ export const FileResourceInput = ({
         input.onChange('')
         input.onBlur()
         setSyncStatus({ syncing: true, synced: false })
-        deleteFile(dataValueParams, {
+        deleteFile(null, {
             onSuccess: () => {
                 setSyncStatus({ syncing: false, synced: true })
             },
@@ -88,7 +93,7 @@ export const FileResourceInput = ({
     const inputValueHasFileMeta = !!input.value.name && !!input.value.size
     const file = inputValueHasFileMeta
         ? input.value
-        : data && input.value // i.e. if value is a resource UID
+        : data && input.value // i.e. if value is a resource UID, use fetched metadata
         ? {
               name: data.name,
               size: data.contentLength,
@@ -147,13 +152,8 @@ export const FileResourceInput = ({
 }
 
 FileResourceInput.propTypes = {
-    dataValueParams: PropTypes.objectOf(PropTypes.string),
-    disabled: PropTypes.bool,
-    fieldname: PropTypes.string,
+    ...InputPropTypes,
     image: PropTypes.bool,
-    setSyncStatus: PropTypes.func,
-    onFocus: PropTypes.func,
-    onKeyDown: PropTypes.func,
 }
 
 export const ImageInput = (props) => {

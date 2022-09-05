@@ -1,5 +1,5 @@
-import { useQuery } from 'react-query'
-import { useOrgUnitId } from '../use-context-selection/index.js'
+import { useQuery } from '@tanstack/react-query'
+import { useOrgUnitId } from '../../shared/index.js'
 
 export default function useOrgUnit() {
     const [id] = useOrgUnitId()
@@ -17,7 +17,7 @@ export default function useOrgUnit() {
     })
 
     return {
-        loading: isFetching,
+        loading: !data && isFetching,
         error,
         data,
     }

@@ -1,16 +1,13 @@
-import React, { useContext } from 'react'
-import { ContextualHelpSidebar } from '../context-selection/contextual-help-sidebar/index.js'
-import { DataDetailsSidebar } from '../data-workspace/index.js'
-import RightHandPanelContext from './right-hand-panel-context.js'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styles from './right-hand-panel.module.css'
+import useCloseRightHandPanelOnSelectionChange from './use-close-right-hand-panel-on-selection-change.js'
+import useRightHandPanelContext from './use-right-hand-panel-context.js'
 
-const idSidebarMap = {
-    'data-details': DataDetailsSidebar,
-    'contextual-help': ContextualHelpSidebar,
-}
+export default function RightHandPanel({ idSidebarMap }) {
+    const { id, show, hide } = useRightHandPanelContext()
+    useCloseRightHandPanelOnSelectionChange()
 
-export default function RightHandPanel() {
-    const { id, show, hide } = useContext(RightHandPanelContext)
     const SidebarComponent = idSidebarMap[id]
 
     if (id && !SidebarComponent) {
@@ -26,4 +23,8 @@ export default function RightHandPanel() {
             <SidebarComponent show={show} hide={hide} />
         </div>
     )
+}
+
+RightHandPanel.propTypes = {
+    idSidebarMap: PropTypes.object.isRequired,
 }

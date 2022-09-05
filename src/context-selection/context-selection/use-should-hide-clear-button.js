@@ -1,4 +1,4 @@
-import { useContextSelection } from '../use-context-selection/index.js'
+import { useContextSelection } from '../../shared/index.js'
 
 export default function useShouldHideClearButton() {
     const [selection] = useContextSelection()

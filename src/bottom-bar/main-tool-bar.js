@@ -1,21 +1,38 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, IconErrorFilled16, IconInfo16, colors } from '@dhis2/ui'
+import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import React from 'react'
+import { validationResultsSidebarId } from '../data-workspace/constants.js'
+import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
+import { useDataValueSetQueryKey } from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
 export default function MainToolBar() {
-    const canValidate = false // @TODO(canValidate): implement me!
+    const rightHandPanel = useRightHandPanelContext()
+    const queryKey = useDataValueSetQueryKey()
+    const activeMutations = useIsMutating({
+        mutationKey: queryKey,
+    })
+
+    const validateDisabled = activeMutations > 0
+
     const isComplete = true // @TODO(isComplete): implement me!
     const complete = () => console.log('@TODO(complete): implement me!')
     const incomplete = () => console.log('@TODO(incomplete): implement me!')
-    const validate = () => console.log('@TODO(validate): implement me!')
+    const validate = () => {
+        if (rightHandPanel.id === validationResultsSidebarId) {
+            rightHandPanel.hide()
+        } else {
+            rightHandPanel.show(validationResultsSidebarId)
+        }
+    }
     const completedBy = 'Firstname Lastname' // @TODO(completedBy): implement me!
 
     return (
         <div className={styles.container}>
             <Button
-                disabled={!canValidate}
+                disabled={validateDisabled}
                 className={styles.toolbarItem}
                 onClick={validate}
             >

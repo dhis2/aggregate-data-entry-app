@@ -6,7 +6,7 @@ export default PropTypes.shape({
     code: PropTypes.string,
     comment: PropTypes.string,
     dataElement: PropTypes.string,
-    followup: PropTypes.bool,
+    followUp: PropTypes.bool,
     lastUpdated: PropTypes.string,
     name: PropTypes.string,
     storedBy: PropTypes.string,

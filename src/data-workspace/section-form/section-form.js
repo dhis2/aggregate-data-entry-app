@@ -1,7 +1,7 @@
 import { Tab, TabBar } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useSectionFilter } from '../../context-selection/use-context-selection/use-context-selection.js'
+import { useSectionFilter } from '../../shared/index.js'
 import { SectionFormSection } from './section.js'
 import styles from './section.module.css'
 

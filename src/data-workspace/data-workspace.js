@@ -6,24 +6,32 @@ import React from 'react'
 import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { BottomBar } from '../bottom-bar/index.js'
 import {
-    useContextSelection,
+    useMetadata,
+    selectors,
+    useDataSetId,
+    useContextSelectionId,
+    useDataValueSet,
     useIsValidSelection,
-} from '../context-selection/index.js'
-import { useMetadata, selectors } from '../metadata/index.js'
+} from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { useDataValueSet } from './use-data-value-set.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
-    const [{ dataSetId }] = useContextSelection()
     const { data: metadata } = useMetadata()
     const initialDataValuesFetch = useDataValueSet()
     const isValidSelection = useIsValidSelection()
+    const [dataSetId] = useDataSetId()
+    // used to reset form-state when context-selection is changed
+    const formKey = useContextSelectionId()
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
-        return <NoticeBox title={title}>{selectionHasNoFormMessage}</NoticeBox>
+        return (
+            <NoticeBox title={title} className={styles.formMessageBox} error>
+                {selectionHasNoFormMessage}
+            </NoticeBox>
+        )
     }
 
     if (!isValidSelection) {
@@ -62,11 +70,10 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     const footerClasses = classNames(styles.footer, 'hide-for-print')
+    const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (
-        <FinalFormWrapper
-            dataValueSet={initialDataValuesFetch.data?.dataValues}
-        >
+        <FinalFormWrapper key={formKey} dataValueSet={dataValueSet}>
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>

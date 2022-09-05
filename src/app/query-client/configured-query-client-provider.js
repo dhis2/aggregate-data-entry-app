@@ -1,7 +1,7 @@
+import { QueryClient } from '@tanstack/react-query'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { QueryClient } from 'react-query'
-import { PersistQueryClientProvider } from 'react-query/persistQueryClient'
 import createIDBPersister from './persister.js'
 
 const persister = createIDBPersister()
@@ -16,6 +16,19 @@ const persistOptions = {
             const isSuccess = query.state.status === 'success'
             const shouldPersist = query?.meta?.persist === true
             return isSuccess && shouldPersist
+        },
+    },
+    hydrateOptions: {
+        defaultOptions: {
+            queries: {
+                meta: {
+                    // meta-property is not persisted, so this makes sure dehydrated-queries will
+                    // be persisted again
+                    persist: true,
+                    // can be used to check if the query originates from the persisted-store
+                    isHydrated: true,
+                },
+            },
         },
     },
 }

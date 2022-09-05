@@ -3,15 +3,16 @@ import { Button, SingleSelect, SingleSelectOption } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useMetadata, selectors } from '../../metadata/index.js'
-import { useSetDataValueMutation } from '../use-data-value-mutation/index.js'
+import { useMetadata, selectors } from '../../shared/index.js'
+import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
 export const OptionSet = ({
     fieldname,
     optionSetId,
-    dataValueParams,
+    deId,
+    cocId,
     setSyncStatus,
     onKeyDown,
     onFocus,
@@ -21,12 +22,12 @@ export const OptionSet = ({
     const { data: metadata } = useMetadata()
 
     const [lastSyncedValue, setLastSyncedValue] = useState()
-    const { mutate } = useSetDataValueMutation()
+    const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { ...dataValueParams, value: value || '' },
+            { value: value || '' },
             {
                 onSuccess: () => {
                     setLastSyncedValue(value)

@@ -1,6 +1,5 @@
-import { useQuery } from 'react-query'
-import { parsePeriodId } from '../../shared/index.js'
-import { useDataSetId, usePeriodId } from '../use-context-selection/index.js'
+import { useQuery } from '@tanstack/react-query'
+import { parsePeriodId, useDataSetId, usePeriodId } from '../../shared/index.js'
 
 const isOptionWithinPeriod = ({
     periodStartDate,

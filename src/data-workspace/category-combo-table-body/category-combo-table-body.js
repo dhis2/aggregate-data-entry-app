@@ -1,7 +1,7 @@
 import { TableBody, TableRow, TableCell } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
-import { useMetadata, selectors } from '../../metadata/index.js'
+import { useMetadata, selectors } from '../../shared/index.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
@@ -10,109 +10,107 @@ import { CategoryComboTableBodyHeader } from './category-combo-table-body-header
 import { DataElementCell } from './data-element-cell.js'
 import { ColumnTotals, RowTotal } from './total-cells.js'
 
-export const CategoryComboTableBody = ({
-    categoryCombo,
-    dataElements,
-    filterText,
-    globalFilterText,
-    greyedFields,
-    maxColumnsInSection,
-    renderRowTotals,
-    renderColumnTotals,
-}) => {
-    const { data: metadata } = useMetadata()
+export const CategoryComboTableBody = React.memo(
+    function CategoryComboTableBody({
+        categoryCombo,
+        dataElements,
+        filterText,
+        globalFilterText,
+        greyedFields,
+        maxColumnsInSection,
+        renderRowTotals,
+        renderColumnTotals,
+    }) {
+        const { data: metadata } = useMetadata()
 
-    const categories = selectors.getCategoriesByCategoryComboId(
-        metadata,
-        categoryCombo.id
-    )
+        const categories = selectors.getCategoriesByCategoryComboId(
+            metadata,
+            categoryCombo.id
+        )
 
-    const sortedCOCs = selectors.getSortedCoCsByCatComboId(
-        metadata,
-        categoryCombo.id
-    )
+        const sortedCOCs = selectors.getSortedCoCsByCatComboId(
+            metadata,
+            categoryCombo.id
+        )
 
-    if (sortedCOCs.length !== categoryCombo.categoryOptionCombos?.length) {
-        console.warn(
-            `Computed combination of categoryOptions for catCombo(${categoryCombo.id}) is different from server.
-            Please regenerate categoryOptionCombos.
-            Computed: ${sortedCOCs.length}
-            Server: ${categoryCombo.categoryOptionCombos.length})`
+        const checkTableActive = useCallback(
+            (activeDeId) => dataElements.some(({ id }) => id === activeDeId),
+            [dataElements]
+        )
+
+        const paddingCells =
+            maxColumnsInSection > 0
+                ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
+                : []
+
+        const filteredDataElements = dataElements.filter((de) => {
+            const name = de.displayFormName.toLowerCase()
+            return (
+                (!filterText || name.includes(filterText.toLowerCase())) &&
+                (!globalFilterText ||
+                    name.includes(globalFilterText.toLowerCase()))
+            )
+        })
+        const hiddenItemsCount =
+            dataElements.length - filteredDataElements.length
+
+        return (
+            <TableBody>
+                <CategoryComboTableBodyHeader
+                    categoryOptionCombos={sortedCOCs}
+                    categories={categories}
+                    renderRowTotals={renderRowTotals}
+                    paddingCells={paddingCells}
+                    checkTableActive={checkTableActive}
+                />
+                {filteredDataElements.map((de, i) => {
+                    return (
+                        <TableRow key={de.id}>
+                            <DataElementCell dataElement={de} />
+                            {sortedCOCs.map((coc) => (
+                                <DataEntryCell key={coc.id}>
+                                    <DataEntryField
+                                        dataElement={de}
+                                        categoryOptionCombo={coc}
+                                        disabled={greyedFields?.has(
+                                            getFieldId(de.id, coc.id)
+                                        )}
+                                    />
+                                </DataEntryCell>
+                            ))}
+                            {paddingCells.map((_, i) => (
+                                <PaddingCell
+                                    key={i}
+                                    className={styles.tableCell}
+                                />
+                            ))}
+                            {renderRowTotals && (
+                                <RowTotal
+                                    dataElements={dataElements}
+                                    categoryOptionCombos={sortedCOCs}
+                                    row={i}
+                                />
+                            )}
+                        </TableRow>
+                    )
+                })}
+                {renderColumnTotals && (
+                    <ColumnTotals
+                        paddingCells={paddingCells}
+                        renderTotalSum={renderRowTotals && renderColumnTotals}
+                        dataElements={dataElements}
+                        categoryOptionCombos={sortedCOCs}
+                    />
+                )}
+                {hiddenItemsCount > 0 && (
+                    <TableBodyHiddenByFiltersRow
+                        hiddenItemsCount={hiddenItemsCount}
+                    />
+                )}
+            </TableBody>
         )
     }
-
-    const checkTableActive = useCallback(
-        (activeDeId) => dataElements.some(({ id }) => id === activeDeId),
-        [dataElements]
-    )
-
-    const paddingCells =
-        maxColumnsInSection > 0
-            ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
-            : []
-
-    const filteredDataElements = dataElements.filter((de) => {
-        const name = de.displayFormName.toLowerCase()
-        return (
-            (!filterText || name.includes(filterText.toLowerCase())) &&
-            (!globalFilterText || name.includes(globalFilterText.toLowerCase()))
-        )
-    })
-    const hiddenItemsCount = dataElements.length - filteredDataElements.length
-
-    return (
-        <TableBody>
-            <CategoryComboTableBodyHeader
-                categoryOptionCombos={sortedCOCs}
-                categories={categories}
-                renderRowTotals={renderRowTotals}
-                paddingCells={paddingCells}
-                checkTableActive={checkTableActive}
-            />
-            {filteredDataElements.map((de, i) => {
-                return (
-                    <TableRow key={de.id}>
-                        <DataElementCell dataElement={de} />
-                        {sortedCOCs.map((coc) => (
-                            <DataEntryCell key={coc.id}>
-                                <DataEntryField
-                                    dataElement={de}
-                                    categoryOptionCombo={coc}
-                                    disabled={greyedFields?.has(
-                                        getFieldId(de.id, coc.id)
-                                    )}
-                                />
-                            </DataEntryCell>
-                        ))}
-                        {paddingCells.map((_, i) => (
-                            <PaddingCell key={i} className={styles.tableCell} />
-                        ))}
-                        {renderRowTotals && (
-                            <RowTotal
-                                dataElements={dataElements}
-                                categoryOptionCombos={sortedCOCs}
-                                row={i}
-                            />
-                        )}
-                    </TableRow>
-                )
-            })}
-            {renderColumnTotals && (
-                <ColumnTotals
-                    paddingCells={paddingCells}
-                    renderTotalSum={renderRowTotals && renderColumnTotals}
-                    dataElements={dataElements}
-                    categoryOptionCombos={sortedCOCs}
-                />
-            )}
-            {hiddenItemsCount > 0 && (
-                <TableBodyHiddenByFiltersRow
-                    hiddenItemsCount={hiddenItemsCount}
-                />
-            )}
-        </TableBody>
-    )
-}
+)
 
 CategoryComboTableBody.propTypes = {
     categoryCombo: PropTypes.shape({
