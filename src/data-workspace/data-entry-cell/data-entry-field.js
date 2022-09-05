@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { getFieldId } from '../get-field-id.js'
+import styles from './data-entry-cell.module.css'
 import { EntryFieldInput } from './entry-field-input.js'
 import { InnerWrapper } from './inner-wrapper.js'
 import { ValidationTooltip } from './validation-tooltip.js'
@@ -23,24 +24,26 @@ export const DataEntryField = React.memo(function DataEntryField({
     })
 
     return (
-        <ValidationTooltip fieldname={fieldname}>
-            <InnerWrapper
-                fieldname={fieldname}
-                deId={de.id}
-                cocId={coc.id}
-                syncStatus={syncStatus}
-                disabled={disabled}
-                keptInFocus={keptInFocus}
-            >
-                <EntryFieldInput
+        <td className={styles.dataEntryCell}>
+            <ValidationTooltip fieldname={fieldname}>
+                <InnerWrapper
                     fieldname={fieldname}
-                    dataElement={de}
-                    categoryOptionCombo={coc}
-                    setSyncStatus={setSyncStatus}
+                    deId={de.id}
+                    cocId={coc.id}
+                    syncStatus={syncStatus}
                     disabled={disabled}
-                />
-            </InnerWrapper>
-        </ValidationTooltip>
+                    keptInFocus={keptInFocus}
+                >
+                    <EntryFieldInput
+                        fieldname={fieldname}
+                        dataElement={de}
+                        categoryOptionCombo={coc}
+                        setSyncStatus={setSyncStatus}
+                        disabled={disabled}
+                    />
+                </InnerWrapper>
+            </ValidationTooltip>
+        </td>
     )
 })
 

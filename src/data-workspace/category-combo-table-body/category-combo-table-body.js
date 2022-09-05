@@ -28,14 +28,15 @@ export const CategoryComboTableBody = React.memo(
     }) {
         const { data: metadata } = useMetadata()
 
-        const { item } = useHighlightedFieldIdContext()
-        const { id } = useRightHandPanelContext()
-        const isRightHandPanelVisible = !!id
+        // const { item } = useHighlightedFieldIdContext()
+        // const { id } = useRightHandPanelContext()
+        // const isRightHandPanelVisible = !!id
 
-        const keptInFocus = (deId, cocId) =>
-            isRightHandPanelVisible &&
-            item?.de?.id === deId &&
-            item?.coc?.id == cocId
+        const keptInFocus = useCallback(
+            (deId, cocId) =>
+                false
+            []
+        )
 
         const categories = selectors.getCategoriesByCategoryComboId(
             metadata,
@@ -52,10 +53,13 @@ export const CategoryComboTableBody = React.memo(
             [dataElements]
         )
 
-        const paddingCells =
-            maxColumnsInSection > 0
-                ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
-                : []
+        const paddingCells = React.useMemo(
+            () =>
+                maxColumnsInSection > 0
+                    ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
+                    : [],
+            [maxColumnsInSection, sortedCOCs.length]
+        )
 
         const filteredDataElements = dataElements.filter((de) => {
             const name = de.displayFormName.toLowerCase()
@@ -79,34 +83,17 @@ export const CategoryComboTableBody = React.memo(
                 />
                 {filteredDataElements.map((de, i) => {
                     return (
-                        <TableRow key={de.id}>
-                            <DataElementCell dataElement={de} />
-                            {sortedCOCs.map((coc) => (
-                                <DataEntryCell key={coc.id}>
-                                    <DataEntryField
-                                        dataElement={de}
-                                        categoryOptionCombo={coc}
-                                        disabled={greyedFields?.has(
-                                            getFieldId(de.id, coc.id)
-                                        )}
-                                        keptInFocus={keptInFocus(de.id, coc.id)}
-                                    />
-                                </DataEntryCell>
-                            ))}
-                            {paddingCells.map((_, i) => (
-                                <PaddingCell
-                                    key={i}
-                                    className={styles.tableCell}
-                                />
-                            ))}
-                            {renderRowTotals && (
-                                <RowTotal
-                                    dataElements={dataElements}
-                                    categoryOptionCombos={sortedCOCs}
-                                    row={i}
-                                />
-                            )}
-                        </TableRow>
+                        <DataElementRow
+                            key={de.id}
+                            de={de}
+                            sortedCOCs={sortedCOCs}
+                            greyedFields={greyedFields}
+                            keptInFocus={keptInFocus}
+                            paddingCells={paddingCells}
+                            renderRowTotals={renderRowTotals}
+                            dataElements={dataElements}
+                            i={i}
+                        />
                     )
                 })}
                 {renderColumnTotals && (
@@ -127,6 +114,72 @@ export const CategoryComboTableBody = React.memo(
     }
 )
 
+const DataElementRow = React.memo(function DataElementRow({
+    de,
+    sortedCOCs,
+    greyedFields,
+    keptInFocus,
+    paddingCells,
+    renderRowTotals,
+    dataElements,
+    i,
+}) {
+    return (
+        <>
+            <TableRow>
+                <DataElementCell dataElement={de} />
+                {sortedCOCs.map((coc) => (
+                    <DataEntryField
+                        key={coc.id}
+                        dataElement={de}
+                        categoryOptionCombo={coc}
+                        disabled={greyedFields?.has(getFieldId(de.id, coc.id))}
+                        keptInFocus={keptInFocus(de.id, coc.id)}
+                    />
+                ))}
+                {paddingCells.map((_, i) => (
+                    <PaddingCell key={i} className={styles.tableCell} />
+                ))}
+                {renderRowTotals && (
+                    <RowTotal
+                        dataElements={dataElements}
+                        categoryOptionCombos={sortedCOCs}
+                        row={i}
+                    />
+                )}
+            </TableRow>
+        </>
+    )
+})
+DataElementRow.propTypes = {
+    dataElements: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            categoryCombo: PropTypes.shape({
+                id: PropTypes.string,
+            }),
+            displayFormName: PropTypes.string,
+            valueType: PropTypes.string,
+        })
+    ),
+
+    de: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        categoryCombo: PropTypes.shape({
+            id: PropTypes.string,
+        }),
+        displayFormName: PropTypes.string,
+        valueType: PropTypes.string,
+    }),
+
+    /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
+    greyedFields: PropTypes.instanceOf(Set),
+    i: PropTypes.number,
+    keptInFocus: PropTypes.bool,
+    paddingCells: PropTypes.any,
+    renderRowTotals: PropTypes.bool,
+    sortedCOCs: PropTypes.any,
+}
 CategoryComboTableBody.propTypes = {
     categoryCombo: PropTypes.shape({
         id: PropTypes.string.isRequired,
