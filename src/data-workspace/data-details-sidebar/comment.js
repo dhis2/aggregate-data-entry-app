@@ -5,6 +5,7 @@ import {
     ButtonStrip,
     SingleSelect,
     SingleSelectOption,
+    TextAreaFieldFF,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
@@ -53,7 +54,7 @@ CommentOptionSelector.propTypes = {
 }
 
 const CommentEditField = ({ comment, commentOptionSetId }) => {
-    const { input } = useField('comment', {
+    const { input, meta } = useField('comment', {
         subscription: { value: true },
         initialValue: comment || '',
     })
@@ -66,11 +67,10 @@ const CommentEditField = ({ comment, commentOptionSetId }) => {
                     inputOnChange={input.onChange}
                 />
             )}
-            <textarea
-                className={styles.commentInput}
-                rows="4"
-                {...input}
-                autoComplete="off"
+            <TextAreaFieldFF
+                input={input}
+                meta={meta}
+                className={styles.textAreaOriginal}
             />
         </>
     )
