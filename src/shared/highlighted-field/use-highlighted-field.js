@@ -49,10 +49,17 @@ export default function useHighlightedField() {
 
     useEffect(() => {
         const { de, coc } = item
-        setHighlightedFieldId(
-            gatherHighlightedFieldData({ de, coc, dataValueSet })
-        )
-    }, [item, dataValueSet])
+        // only update if it's different from currentItem
+        // prevents unnecessary re-render on first-render as well
+        if (
+            de.id !== currentItem?.dataElement ||
+            coc.id !== currentItem?.categoryOptionCombo
+        ) {
+            setHighlightedFieldId(
+                gatherHighlightedFieldData({ de, coc, dataValueSet })
+            )
+        }
+    }, [currentItem, item, dataValueSet])
 
     return currentItem
 }
