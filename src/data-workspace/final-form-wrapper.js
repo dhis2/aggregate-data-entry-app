@@ -25,6 +25,10 @@ const onSubmit = (values, form) => console.log({ values, form })
 const subscriptions = {}
 
 export function FinalFormWrapper({ children, dataValueSet }) {
+    // This prevents rerendering on every data value update, but also prevents
+    // reinitializing (and populating) an empty form when going back online.
+    // TODO: Reinitialize form `onSuccess` of dataValueSets query
+    // See https://dhis2.atlassian.net/browse/TECH-1357
     const [initialValues] = useState(() => createInitialValues(dataValueSet))
 
     return (

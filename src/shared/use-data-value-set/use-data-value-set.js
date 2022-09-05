@@ -72,7 +72,7 @@ const select = createSelector(
 export const useDataValueSet = () => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
-    const activeMutations = useIsMutating({ mutationKey: queryKey })
+    const activeMutations = useIsMutating({ mutationKey: ['dataValues'] })
 
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
