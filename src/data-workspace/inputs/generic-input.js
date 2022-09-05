@@ -74,14 +74,8 @@ export const GenericInput = ({
         const { value } = input
         const hasEmptySpaces = value && value.trim() === ''
         const { dirty, valid } = meta
-        if (
-            value &&
-            dirty &&
-            valid &&
-            !hasEmptySpaces &&
-            value !== lastSyncedValue
-        ) {
-            syncData(formatValue(value.trim()))
+        if (dirty && valid && !hasEmptySpaces && value !== lastSyncedValue) {
+            syncData(value ? formatValue(value.trim()) : ``)
         }
     }
 
