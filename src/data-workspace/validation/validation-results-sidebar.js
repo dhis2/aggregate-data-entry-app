@@ -102,7 +102,7 @@ export default function ValidationResultsSidebar({ hide }) {
                             />
                         )
                     })}
-                {!showLoader && isEmpty && (
+                {!showLoader && isEmpty && !hasCommentsViolations && (
                     <div className={styles.noAlerts}>
                         {i18n.t('No validation alerts for this data.')}
                     </div>
