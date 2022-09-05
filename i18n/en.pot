@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-08-26T05:32:30.241Z\n"
-"PO-Revision-Date: 2022-08-26T05:32:30.241Z\n"
+"POT-Creation-Date: 2022-09-05T10:52:07.675Z\n"
+"PO-Revision-Date: 2022-09-05T10:52:07.675Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -46,14 +46,24 @@ msgid "Completed by"
 msgstr "Completed by"
 
 msgid ""
-"At least one of the categories does not have any options due to the options "
-"not spanning over the entire selected period"
+"Some categories have no valid options for the selected period or "
+"organisation unit ({{categories}})"
 msgstr ""
-"At least one of the categories does not have any options due to the options "
-"not spanning over the entire selected period"
+"Some categories have no valid options for the selected period or "
+"organisation unit ({{categories}})"
 
 msgid "Choose a data set"
 msgstr "Choose a data set"
+
+msgid "No available options"
+msgstr "No available options"
+
+msgid ""
+"There are no options for {{categoryName}} for the selected period or "
+"organisation unit."
+msgstr ""
+"There are no options for {{categoryName}} for the selected period or "
+"organisation unit."
 
 msgid "Hide menu"
 msgstr "Hide menu"
@@ -193,6 +203,15 @@ msgstr "Not available offline"
 msgid "No audit log for this data item."
 msgstr "No audit log for this data item."
 
+msgid "Unmark for follow-up"
+msgstr "Unmark for follow-up"
+
+msgid "Mark for follow-up"
+msgstr "Mark for follow-up"
+
+msgid "Empty values can't be marked for follow -up"
+msgstr "Empty values can't be marked for follow -up"
+
 msgid "Code: {{code}}"
 msgstr "Code: {{code}}"
 
@@ -204,12 +223,6 @@ msgstr "Last updated {{- timeAgo}} by {{- name}}"
 
 msgid "Marked for follow-up"
 msgstr "Marked for follow-up"
-
-msgid "Unmark for follow-up"
-msgstr "Unmark for follow-up"
-
-msgid "Mark for follow-up"
-msgstr "Mark for follow-up"
 
 msgid "Comment"
 msgstr "Comment"
@@ -244,8 +257,8 @@ msgstr "History"
 msgid "Something went wrong loading the history"
 msgstr "Something went wrong loading the history"
 
-msgid "Show ui for no history"
-msgstr "Show ui for no history"
+msgid "No history for this data item."
+msgstr "No history for this data item."
 
 msgid "Average value: {{avg}}"
 msgstr "Average value: {{avg}}"
