@@ -34,11 +34,7 @@ export default function Shortcuts() {
         >
             <Action
                 label={i18n.t('Show details')}
-                shortcuts={[
-                    i18n.t('Ctrl + Enter'),
-                    i18n.t('Cmd + Enter'),
-                    i18n.t('Double click'),
-                ]}
+                shortcuts={[i18n.t('Ctrl + Enter'), i18n.t('Cmd + Enter')]}
             />
 
             <Divider />
