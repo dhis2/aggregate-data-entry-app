@@ -35,13 +35,14 @@ export default function ValidationResultsSidebar({ hide }) {
 
     const hasRunningMutations = activeMutations > 0
 
+    const hasCommentsViolations = Boolean(commentRequiredViolations?.length)
+
     const isEmpty =
         validationRuleViolations &&
         Object.values(validationRuleViolations).every(
             (ruleViolations) => ruleViolations.length === 0
-        )
-
-    const hasCommentsViolations = Boolean(commentRequiredViolations?.length)
+        ) &&
+        !hasCommentsViolations
 
     const rerunValidation = () => {
         setFormChangedSincePanelOpened(false)
@@ -102,7 +103,7 @@ export default function ValidationResultsSidebar({ hide }) {
                             />
                         )
                     })}
-                {!showLoader && isEmpty && !hasCommentsViolations && (
+                {!showLoader && isEmpty && (
                     <div className={styles.noAlerts}>
                         {i18n.t('No validation alerts for this data.')}
                     </div>
