@@ -32,8 +32,7 @@ const persistOptions = {
         },
     },
 }
-
-export const ConfiguredQueryClientProvider = ({ children, queryClient }) => {
+export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
     return (
         <PersistQueryClientProvider
             client={queryClient}
@@ -43,10 +42,7 @@ export const ConfiguredQueryClientProvider = ({ children, queryClient }) => {
         </PersistQueryClientProvider>
     )
 }
-
-const propTypes = {
+ConfiguredQueryClientProvider.propTypes = {
     queryClient: PropTypes.instanceOf(QueryClient).isRequired,
     children: PropTypes.node,
 }
-
-ConfiguredQueryClientProvider.propTypes = propTypes

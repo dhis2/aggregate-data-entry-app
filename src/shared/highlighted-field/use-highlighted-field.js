@@ -41,12 +41,8 @@ export default function useHighlightedField() {
     const { data: dataValueSet } = useDataValueSet()
     const { item } = useHighlightedFieldIdContext()
     const [currentItem, setHighlightedFieldId] = useState(() => {
-        if (dataValueSet) {
-            const { de, coc } = item
-            return gatherHighlightedFieldData({ de, coc, dataValueSet })
-        }
-
-        return null
+        const { de, coc } = item
+        return gatherHighlightedFieldData({ de, coc, dataValueSet })
     })
 
     useEffect(() => {

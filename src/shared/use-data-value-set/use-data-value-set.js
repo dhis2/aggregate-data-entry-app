@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
@@ -55,16 +55,34 @@ const select = createSelector(
     }
 )
 
-const meta = { persist: true }
-
+/**
+ * If this query is used while offline, since it uses the 'offlineFirst'
+ * network mode, the query will be try once, then be PAUSED
+ * and its data will be undefined.
+ * Consumers will need to adapt accordingly to allow forms to load offline.
+ *
+ * Here are some values to expect while offline:
+ * isPaused = true
+ * isFetching = false
+ * isLoading = true
+ * data = undefined
+ *
+ * TODO: This is no longer using the dataValueSet endpoint; should rename.
+ */
 export const useDataValueSet = () => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
+    const activeMutations = useIsMutating({ mutationKey: ['dataValues'] })
+
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
-        enabled: isValidSelection,
-        select,
-        //refetchOnMount: false,
+        // TODO: Disable if disconnected from DHIS2 server?
+        enabled: activeMutations === 0 && isValidSelection,
+        select: select,
+        // Fetch once, no matter the network connectivity;
+        // will be 'paused' if offline and the request fails.
+        // Important to try the network when on offline/local DHIS2 implmnt'ns
+        networkMode: 'offlineFirst',
         refetchOnMount: (query) => {
             // only refetch on mount if the query was just hydrated
             // this should only happen during initial app-load.
@@ -72,9 +90,7 @@ export const useDataValueSet = () => {
             // because it's mounted with hydrated-state
             return !!query.meta.isHydrated
         },
-        // Only fetch whilst offline, to prevent optimistic updates from being overwritten
-        networkMode: 'online',
-        meta,
+        meta: { persist: true },
     })
 
     return result

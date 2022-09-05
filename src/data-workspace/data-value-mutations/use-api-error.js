@@ -20,6 +20,8 @@ const useApiError = () => {
         const customMessage = customErrorMessages[error?.details?.errorCode]
         // show a custom message if one is set, otherwise display the error returned from the API
         showAlert(customMessage ?? error?.message)
+        // Also log the stack trace to the console (useful if there's a non-network error)
+        console.error(error)
     }
     return {
         onError,
