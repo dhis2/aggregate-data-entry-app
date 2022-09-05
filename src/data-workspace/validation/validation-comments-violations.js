@@ -34,7 +34,10 @@ const ValidationCommentsViolations = ({ commentRequiredViolations }) => {
                             >
                                 {i18n.t(
                                     "{{displayShortName}} must have a comment when it doesn't have a value.",
-                                    { displayShortName }
+                                    {
+                                        displayShortName,
+                                        interpolation: { escapeValue: false },
+                                    }
                                 )}
                             </div>
                         )

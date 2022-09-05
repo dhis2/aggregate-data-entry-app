@@ -5,7 +5,7 @@ import { useHighlightedFieldIdContext } from './use-highlighted-field-context.js
 
 function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
     const dataValue = dataValueSet?.dataValues[de.id]?.[coc.id]
-    const { optionSet, valueType } = de
+    const { optionSet, valueType, commentOptionSet } = de
     const canHaveLimits = optionSet
         ? false
         : CAN_HAVE_LIMITS_TYPES.includes(valueType)
@@ -18,6 +18,7 @@ function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
             categoryOptionCombo: coc.id,
             name: de.displayName,
             code: de.code,
+            commentOptionSetId: commentOptionSet?.id,
         }
     }
 
@@ -32,6 +33,7 @@ function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
         comment: null,
         storedBy: null,
         code: null,
+        commentOptionSetId: commentOptionSet?.id,
     }
 }
 
