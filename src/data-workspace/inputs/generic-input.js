@@ -48,6 +48,7 @@ export const GenericInput = ({
 
         if (
             value &&
+            value.trim() &&
             NUMBER_TYPES.includes(valueType) &&
             Number.isFinite(Number(value))
         ) {
@@ -66,10 +67,10 @@ export const GenericInput = ({
 
     const handleBlur = () => {
         const { value } = input
-        const hasEmptySpaces = value && value.trim() === ''
+        const formattedValue = value ? formatValue(value.trim()) : ``
         const { dirty, valid } = meta
-        if (dirty && valid && !hasEmptySpaces && value !== lastSyncedValue) {
-            syncData(value ? formatValue(value.trim()) : ``)
+        if (dirty && valid && formattedValue !== lastSyncedValue) {
+            syncData(formattedValue)
         }
     }
 
