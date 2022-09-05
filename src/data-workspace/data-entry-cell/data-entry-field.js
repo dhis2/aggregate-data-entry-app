@@ -9,6 +9,7 @@ export const DataEntryField = React.memo(function DataEntryField({
     dataElement: de,
     categoryOptionCombo: coc,
     disabled,
+    keptInFocus,
 }) {
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
@@ -29,6 +30,7 @@ export const DataEntryField = React.memo(function DataEntryField({
                 cocId={coc.id}
                 syncStatus={syncStatus}
                 disabled={disabled}
+                keptInFocus={keptInFocus}
             >
                 <EntryFieldInput
                     fieldname={fieldname}
@@ -50,4 +52,5 @@ DataEntryField.propTypes = {
         valueType: PropTypes.string,
     }).isRequired,
     disabled: PropTypes.bool,
+    keptInFocus: PropTypes.bool,
 }

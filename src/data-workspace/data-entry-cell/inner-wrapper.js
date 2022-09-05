@@ -4,6 +4,8 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
+import useRightHandPanelContext from '../../right-hand-panel/use-right-hand-panel-context.js'
+import { useHighlightedFieldIdContext } from '../../shared/index.js'
 import {
     useDataValueParams,
     getDataValueMutationKey,
@@ -48,6 +50,7 @@ export function InnerWrapper({
     deId,
     cocId,
     syncStatus,
+    keptInFocus,
 }) {
     const {
         meta: { active, invalid },
@@ -70,7 +73,7 @@ export function InnerWrapper({
     return (
         <div
             className={cx(styles.cellInnerWrapper, cellStateClassName, {
-                [styles.active]: active,
+                [styles.active]: active || keptInFocus,
                 [styles.disabled]: disabled,
             })}
         >
@@ -90,6 +93,7 @@ InnerWrapper.propTypes = {
     deId: PropTypes.string,
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
+    keptInFocus: PropTypes.bool,
     syncStatus: PropTypes.shape({
         synced: PropTypes.bool,
         syncing: PropTypes.bool,
