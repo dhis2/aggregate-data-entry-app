@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-05T10:52:07.675Z\n"
-"PO-Revision-Date: 2022-09-05T10:52:07.675Z\n"
+"POT-Creation-Date: 2022-09-05T16:11:08.169Z\n"
+"PO-Revision-Date: 2022-09-05T16:11:08.169Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -112,9 +112,6 @@ msgstr "Ctrl + Enter"
 
 msgid "Cmd + Enter"
 msgstr "Cmd + Enter"
-
-msgid "Double click"
-msgstr "Double click"
 
 msgid "Go to next cell"
 msgstr "Go to next cell"
@@ -229,6 +226,9 @@ msgstr "Comment"
 
 msgid "There was a problem loading the comment for this data item"
 msgstr "There was a problem loading the comment for this data item"
+
+msgid "Choose an option"
+msgstr "Choose an option"
 
 msgid "Saving..."
 msgstr "Saving..."
@@ -348,9 +348,6 @@ msgstr "Upload an image"
 
 msgid "Upload a file"
 msgstr "Upload a file"
-
-msgid "Choose an option"
-msgstr "Choose an option"
 
 msgid "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"

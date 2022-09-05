@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useField } from 'react-final-form'
 import { NUMBER_TYPES, VALUE_TYPES } from '../../shared/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
@@ -27,7 +27,7 @@ export const GenericInput = ({
     onFocus,
     disabled,
 }) => {
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const [lastSyncedValue, setLastSyncedValue] = useState('')
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -63,6 +63,13 @@ export const GenericInput = ({
         format: formatValue,
         formatOnBlur: true,
     })
+
+    // need to initialize lastSyncedValue
+    useEffect(() => {
+        if (input.value !== undefined) {
+            setLastSyncedValue(input.value)
+        }
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleBlur = () => {
         const { value } = input
