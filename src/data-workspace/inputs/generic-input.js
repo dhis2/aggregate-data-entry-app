@@ -17,6 +17,12 @@ const htmlTypeAttrsByValueType = {
     [VALUE_TYPES.URL]: 'url',
 }
 
+const formatNumberTypes = [
+    VALUE_TYPES.NUMBER,
+    VALUE_TYPES.UNIT_INTERVAL,
+    VALUE_TYPES.PERCENTAGE,
+]
+
 export const GenericInput = ({
     fieldname,
     deId,
@@ -46,17 +52,12 @@ export const GenericInput = ({
     const formatValue = (value) => {
         let formattedValue = value
 
-        if (value && valueType === VALUE_TYPES.NUMBER) {
-            if (value.startsWith('.')) {
-                formattedValue = `0${value}`
-            }
-            if (value.length > 1 && value.endsWith('.')) {
-                formattedValue = value.slice(0, -1)
-            }
-            const unneededLeadingZero = /^0[0-9].*$/
-            if (unneededLeadingZero.test(value)) {
-                formattedValue = Number(value).toString()
-            }
+        if (
+            value &&
+            formatNumberTypes.includes(valueType) &&
+            Number.isFinite(Number(value))
+        ) {
+            formattedValue = Number(value).toString()
         }
 
         return formattedValue
