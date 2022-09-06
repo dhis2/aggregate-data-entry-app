@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './app.css'
 import { ContextualHelpSidebar } from '../context-selection/contextual-help-sidebar/index.js'
 import { ContextSelection } from '../context-selection/index.js'
@@ -32,9 +32,18 @@ const idSidebarMap = {
 const App = () => {
     const { id } = useRightHandPanelContext()
 
-    const contextSelection = <ContextSelection />
+    const [selectionHasNoFormMessage, setSelectionHasNoFormMessage] =
+        useState('')
 
-    const dataWorkspace = <DataWorkspace />
+    const contextSelection = (
+        <ContextSelection
+            setSelectionHasNoFormMessage={setSelectionHasNoFormMessage}
+        />
+    )
+
+    const dataWorkspace = (
+        <DataWorkspace selectionHasNoFormMessage={selectionHasNoFormMessage} />
+    )
 
     return (
         <LoadApp>

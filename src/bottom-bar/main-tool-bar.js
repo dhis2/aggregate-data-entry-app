@@ -5,16 +5,13 @@ import cx from 'classnames'
 import React from 'react'
 import { validationResultsSidebarId } from '../data-workspace/constants.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
-import {
-    useDataValueSetQueryKey,
-    useNoFormOrLockedContext,
-} from '../shared/index.js'
+import { useDataValueSetQueryKey, useLockedContext } from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
 export default function MainToolBar() {
     const rightHandPanel = useRightHandPanelContext()
     const queryKey = useDataValueSetQueryKey()
-    const { locked } = useNoFormOrLockedContext()
+    const { locked } = useLockedContext()
     const activeMutations = useIsMutating({
         mutationKey: queryKey,
     })

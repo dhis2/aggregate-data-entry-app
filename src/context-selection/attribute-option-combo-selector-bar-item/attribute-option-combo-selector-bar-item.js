@@ -1,15 +1,14 @@
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
+import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import {
     selectors,
     useMetadata,
     useDataSetId,
-    useNoFormOrLockedContext,
     useOrgUnitId,
     usePeriodId,
 } from '../../shared/index.js'
-import { noFormOrLockedStates } from '../../shared/no-form-or-locked/no-form-and-locked-states.js'
 import CategoriesMenu from './categories-menu.js'
 import useSelected from './use-selected.js'
 import useSelectorBarItemLabel from './use-selector-bar-item-label.js'
@@ -18,7 +17,33 @@ import useShouldComponentRenderNull from './use-should-component-render-null.js'
 
 const hasCategoryNoOptions = (category) => category.categoryOptions.length === 0
 
-export default function AttributeOptionComboSelectorBarItem() {
+const useSetSelectionHasNoFormMessage = (
+    categoriesWithNoOptions,
+    setSelectionHasNoFormMessage
+) => {
+    useEffect(() => {
+        if (categoriesWithNoOptions?.length > 0) {
+            setSelectionHasNoFormMessage(
+                i18n.t(
+                    'Some categories have no valid options for the selected period or organisation unit ({{categories}})',
+                    {
+                        categories: categoriesWithNoOptions
+                            .map((cat) => cat.displayName)
+                            .join(', '),
+                    }
+                )
+            )
+        } else {
+            setSelectionHasNoFormMessage('')
+        }
+    }, [categoriesWithNoOptions, setSelectionHasNoFormMessage])
+
+    return categoriesWithNoOptions
+}
+
+export default function AttributeOptionComboSelectorBarItem({
+    setSelectionHasNoFormMessage,
+}) {
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
     const [orgUnitId] = useOrgUnitId()
@@ -48,13 +73,10 @@ export default function AttributeOptionComboSelectorBarItem() {
     const categoriesWithNoOptions =
         relevantCategoriesWithOptions.filter(hasCategoryNoOptions)
 
-    const { setNoFormOrLockedStatus } = useNoFormOrLockedContext()
-
-    useEffect(() => {
-        if (categoriesWithNoOptions.length > 0) {
-            setNoFormOrLockedStatus(noFormOrLockedStates.INVALID_OPTIONS)
-        }
-    }, [categoriesWithNoOptions, setNoFormOrLockedStatus])
+    useSetSelectionHasNoFormMessage(
+        categoriesWithNoOptions,
+        setSelectionHasNoFormMessage
+    )
 
     const shouldComponentRenderNull =
         useShouldComponentRenderNull(categoryCombo)
@@ -81,4 +103,8 @@ export default function AttributeOptionComboSelectorBarItem() {
             </SelectorBarItem>
         </div>
     )
+}
+
+AttributeOptionComboSelectorBarItem.propTypes = {
+    setSelectionHasNoFormMessage: PropTypes.func.isRequired,
 }

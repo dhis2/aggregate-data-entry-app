@@ -1,5 +1,7 @@
+import i18n from '@dhis2/d2-i18n'
 import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 import React from 'react'
 import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { BottomBar } from '../bottom-bar/index.js'
@@ -9,27 +11,22 @@ import {
     useDataSetId,
     useDataValueSet,
     useIsValidSelection,
-    useNoFormOrLockedContext,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
 
-export const DataWorkspace = () => {
+export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const { data } = useMetadata()
     const [dataSetId] = useDataSetId()
     const initialDataValuesFetch = useDataValueSet()
     const isValidSelection = useIsValidSelection()
-    const noFormOrLocked = useNoFormOrLockedContext()
 
-    if (noFormOrLocked?.message && !noFormOrLocked?.inForm) {
+    if (selectionHasNoFormMessage) {
+        const title = i18n.t('The current selection does not have a form')
         return (
-            <NoticeBox
-                className={styles.warningBoxMargin}
-                error={noFormOrLocked?.error}
-                title={noFormOrLocked?.title}
-            >
-                {noFormOrLocked?.message}
+            <NoticeBox title={title} className={styles.formMessageBox} error>
+                {selectionHasNoFormMessage}
             </NoticeBox>
         )
     }
@@ -86,4 +83,8 @@ export const DataWorkspace = () => {
             </div>
         </FinalFormWrapper>
     )
+}
+
+DataWorkspace.propTypes = {
+    selectionHasNoFormMessage: PropTypes.string,
 }

@@ -6,15 +6,15 @@ import {
     useDataSetId,
     useOrgUnitId,
 } from '../use-context-selection/use-context-selection.js'
-import { noFormOrLockedStates } from './no-form-and-locked-states.js'
-import { useNoFormOrLockedContext } from './use-no-form-or-locked-context.js'
+import { LockedStates } from './locked-states.js'
+import { useLockedContext } from './use-locked-context.js'
 
 export const useCheckLockStatus = () => {
     const [dataSetId] = useDataSetId()
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const { data: metadata } = useMetadata()
-    const { setNoFormOrLockedStatus } = useNoFormOrLockedContext()
+    const { setLockedStatus } = useLockedContext()
 
     useEffect(() => {
         const now = getCurrentDate()
@@ -32,8 +32,8 @@ export const useCheckLockStatus = () => {
 
                 if (openingDate > now || closingDate < now) {
                     // mark as invalid for data input period
-                    setNoFormOrLockedStatus(
-                        noFormOrLockedStates.DATA_INPUT_PERIOD_OUT_OF_RANGE(
+                    setLockedStatus(
+                        LockedStates.DATA_INPUT_PERIOD_OUT_OF_RANGE(
                             dataInputPeriod
                         )
                     )
@@ -53,13 +53,13 @@ export const useCheckLockStatus = () => {
                 endDate.setDate(endDate.getDate() + expiryDays)
 
                 if (now > endDate) {
-                    setNoFormOrLockedStatus(noFormOrLockedStates.EXPIRY_DAYS)
+                    setLockedStatus(LockedStates.EXPIRY_DAYS)
                     return
                 }
             }
         }
 
         // if no violations found, set form to open
-        setNoFormOrLockedStatus(noFormOrLockedStates.OPEN)
-    }, [metadata, dataSetId, orgUnitId, periodId, setNoFormOrLockedStatus])
+        setLockedStatus(LockedStates.OPEN)
+    }, [metadata, dataSetId, orgUnitId, periodId, setLockedStatus])
 }

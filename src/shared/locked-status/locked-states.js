@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 
-export const noFormOrLockedStates = Object.freeze({
+export const LockedStates = Object.freeze({
     OPEN: {
         message: '',
         error: false,
@@ -30,15 +30,6 @@ export const noFormOrLockedStates = Object.freeze({
         error: false,
         inForm: true,
         title: i18n.t('Data set locked'),
-        locked: true,
-    },
-    INVALID_OPTIONS: {
-        message: i18n.t(
-            'Some categories do not have valid options for the selected period or organisation unit.'
-        ),
-        error: true,
-        inForm: false,
-        title: i18n.t('The current selection does not have a form.'),
         locked: true,
     },
 })

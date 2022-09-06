@@ -3,7 +3,7 @@ import { CircularLoader, Button, ButtonStrip, TextAreaFieldFF } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form, Field } from 'react-final-form'
-import { ExpandableUnit, useNoFormOrLockedContext } from '../../shared/index.js'
+import { ExpandableUnit, useLockedContext } from '../../shared/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
@@ -75,7 +75,7 @@ CommentEditForm.propTypes = {
 }
 
 export default function Comment({ item }) {
-    const { locked } = useNoFormOrLockedContext()
+    const { locked } = useLockedContext()
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
     const setDataValueComment = useSetDataValueMutation({

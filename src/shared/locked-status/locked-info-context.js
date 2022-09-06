@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-export const NoFormOrLockedContext = createContext({
+export const LockedContext = createContext({
     // message for warning box
     message: '',
 
@@ -17,7 +17,7 @@ export const NoFormOrLockedContext = createContext({
     locked: false,
 
     // sets above properties
-    setNoFormOrLockedStatus: () => {
-        throw new Error('Context function "setNoFormOrLockedStatus" not set')
+    setLockedStatus: () => {
+        throw new Error('Context function "setLockedStatus" not set')
     },
 })

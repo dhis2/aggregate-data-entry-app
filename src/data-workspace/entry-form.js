@@ -5,7 +5,7 @@ import { useFormState } from 'react-final-form'
 import { useRightHandPanelContext } from '../right-hand-panel/index.js'
 import {
     useFormChangedSincePanelOpenedContext,
-    useNoFormOrLockedContext,
+    useLockedContext,
 } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
@@ -25,7 +25,7 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     const { setFormChangedSincePanelOpened } =
         useFormChangedSincePanelOpenedContext()
     const rightHandPanelContext = useRightHandPanelContext()
-    const noFormOrLocked = useNoFormOrLockedContext()
+    const noFormOrLocked = useLockedContext()
     const formType = dataSet.formType
     useFormState({
         onChange: (formState) => {
