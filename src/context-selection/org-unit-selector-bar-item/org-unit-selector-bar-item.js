@@ -4,9 +4,17 @@ import {
     OrganisationUnitTreeRootError,
     OrganisationUnitTreeRootLoading,
     SelectorBarItem,
+    IconBlock16,
+    Divider,
 } from '@dhis2/ui'
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { useDataSetId, useOrgUnitId } from '../../shared/index.js'
+import {
+    selectors,
+    useMetadata,
+    useDataSetId,
+    useOrgUnitId,
+} from '../../shared/index.js'
 import DebouncedSearchInput from './debounced-search-input.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import css from './org-unit-selector-bar-item.module.css'
@@ -17,6 +25,19 @@ import useOrgUnit from './use-organisation-unit.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
 
+const UnclickableLabel = ({ label }) => {
+    return (
+        <div className={css.disabled}>
+            <IconBlock16 />
+            <span>{label}</span>
+        </div>
+    )
+}
+
+UnclickableLabel.propTypes = {
+    label: PropTypes.any.isRequired,
+}
+
 export default function OrganisationUnitSetSelectorBarItem() {
     useLoadOfflineLevels()
 
@@ -25,18 +46,15 @@ export default function OrganisationUnitSetSelectorBarItem() {
 
     const [orgUnitOpen, setOrgUnitOpen] = useState(false)
     const { expanded, handleExpand, handleCollapse } = useExpandedState()
+    const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
+    const { organisationUnits: assignedOrgUnits } =
+        selectors.getDataSetById(metadata, dataSetId) || {}
+
     const [, setOrgUnitId] = useOrgUnitId()
 
     const orgUnit = useOrgUnit()
     const userOrgUnits = useUserOrgUnits()
-
-    // @TODO: Figure out how to only use org units that are connected to the
-    // data set. Currently the api only returns paths for the units on the
-    // lowest level, Task: Figure out if only the lowest levels should be
-    // selectable, if the levels above are missing from the response or whether
-    // all parent units are automatically selectable as well
-    // const dataSetOrgUnitPaths = useDataSetOrgUnitPaths()
 
     const selectorBarItemValue = useSelectorBarItemValue()
     const selected = orgUnit.data ? [orgUnit.data.path] : []
@@ -106,11 +124,35 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                             // Not sure why this is necessary, but when not done,
                                             // it causes bugs in the UI
                                             e.stopPropagation()
-                                            setOrgUnitId(id)
-                                            setOrgUnitOpen(false)
+                                            if (
+                                                assignedOrgUnits?.includes(id)
+                                            ) {
+                                                setOrgUnitId(id)
+                                                setOrgUnitOpen(false)
+                                            }
+                                        }}
+                                        renderNodeLabel={({ node, label }) => {
+                                            return assignedOrgUnits?.includes(
+                                                node?.id
+                                            ) ? (
+                                                label
+                                            ) : (
+                                                <UnclickableLabel
+                                                    label={label}
+                                                />
+                                            )
                                         }}
                                     />
                                 )}
+                        </div>
+                        <Divider margin="0" />
+                        <div className={css.labelContentContainer}>
+                            <IconBlock16 />
+                            <span className={css.label}>
+                                {i18n.t(
+                                    'Dataset is not assigned to this organisation unit'
+                                )}
+                            </span>
                         </div>
                     </div>
                 </SelectorBarItem>
