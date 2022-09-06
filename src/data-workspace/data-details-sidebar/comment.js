@@ -12,6 +12,7 @@ import React, { useState } from 'react'
 import { Form, useField } from 'react-final-form'
 import { ExpandableUnit, selectors, useMetadata } from '../../shared/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import { useHasCommentContext } from '../has-comment/has-comment-context.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
@@ -82,9 +83,23 @@ CommentEditField.propTypes = {
 }
 
 function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
+    const { updateHasCommentContext } = useHasCommentContext()
     const onSubmit = (values) => {
         // Don't send `undefined` (or 'undefined' will be stored as the comment)
-        syncComment({ comment: values.comment || '' })
+        const comment = values.comment || ''
+        syncComment(
+            { comment },
+            {
+                onSuccess: () => {
+                    const { dataElement, categoryOptionCombo } = item
+                    updateHasCommentContext(
+                        dataElement,
+                        categoryOptionCombo,
+                        comment
+                    )
+                },
+            }
+        )
         closeEditor()
     }
 

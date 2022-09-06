@@ -69,7 +69,7 @@ const select = createSelector(
  *
  * TODO: This is no longer using the dataValueSet endpoint; should rename.
  */
-export const useDataValueSet = () => {
+export const useDataValueSet = ({ onSuccess } = {}) => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
     const activeMutations = useIsMutating({ mutationKey: ['dataValues'] })
@@ -91,6 +91,7 @@ export const useDataValueSet = () => {
             return !!query.meta.isHydrated
         },
         meta: { persist: true },
+        onSuccess,
     })
 
     return result

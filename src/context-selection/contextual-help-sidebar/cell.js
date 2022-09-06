@@ -22,9 +22,9 @@ const Cell = ({ value, state }) => (
                     <div className={styles.topRightTriangle} />
                 )}
             </div>
-            <div className={styles.bottomLeftIndicator}>
+            <div className={styles.bottomRightIndicator}>
                 {state === 'HAS_COMMENT' && (
-                    <div className={styles.bottomLeftTriangle} />
+                    <div className={styles.bottomRightTriangle} />
                 )}
             </div>
         </div>
