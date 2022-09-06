@@ -6,6 +6,7 @@ import {
     selectors,
     useMetadata,
     useDataSetId,
+    useOrgUnitId,
     usePeriodId,
 } from '../../shared/index.js'
 import CategoriesMenu from './categories-menu.js'
@@ -17,22 +18,27 @@ import useShouldComponentRenderNull from './use-should-component-render-null.js'
 const hasCategoryNoOptions = (category) => category.categoryOptions.length === 0
 
 const useSetSelectionHasNoFormMessage = (
-    categoryWithNoOptionsExists,
+    categoriesWithNoOptions,
     setSelectionHasNoFormMessage
 ) => {
     useEffect(() => {
-        if (categoryWithNoOptionsExists) {
+        if (categoriesWithNoOptions?.length > 0) {
             setSelectionHasNoFormMessage(
                 i18n.t(
-                    'At least one of the categories does not have any options due to the options not spanning over the entire selected period'
+                    'Some categories have no valid options for the selected period or organisation unit ({{categories}})',
+                    {
+                        categories: categoriesWithNoOptions
+                            .map((cat) => cat.displayName)
+                            .join(', '),
+                    }
                 )
             )
         } else {
             setSelectionHasNoFormMessage('')
         }
-    }, [categoryWithNoOptionsExists, setSelectionHasNoFormMessage])
+    }, [categoriesWithNoOptions, setSelectionHasNoFormMessage])
 
-    return categoryWithNoOptionsExists
+    return categoriesWithNoOptions
 }
 
 export default function AttributeOptionComboSelectorBarItem({
@@ -40,16 +46,18 @@ export default function AttributeOptionComboSelectorBarItem({
 }) {
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
+    const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const categoryCombo = selectors.getCategoryComboByDataSetId(
         metadata,
         dataSetId
     )
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriod(
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
-            periodId
+            periodId,
+            orgUnitId
         )
 
     const [open, setOpen] = useState(false)
@@ -62,15 +70,13 @@ export default function AttributeOptionComboSelectorBarItem({
             categoryId,
         })
 
-    const categoryWithNoOptionsExists =
-        relevantCategoriesWithOptions.some(hasCategoryNoOptions)
-    const shouldComponentRenderNull = useShouldComponentRenderNull(
-        categoryCombo,
-        categoryWithNoOptionsExists
-    )
+    const categoriesWithNoOptions =
+        relevantCategoriesWithOptions.filter(hasCategoryNoOptions)
+    const shouldComponentRenderNull =
+        useShouldComponentRenderNull(categoryCombo)
 
     useSetSelectionHasNoFormMessage(
-        categoryWithNoOptionsExists,
+        categoriesWithNoOptions,
         setSelectionHasNoFormMessage
     )
 

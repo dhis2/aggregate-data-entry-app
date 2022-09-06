@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 export default function useOrgUnitPathsByName(searchTerm) {
     const queryKey = [
@@ -11,19 +11,13 @@ export default function useOrgUnitPathsByName(searchTerm) {
             },
         },
     ]
-    const {
-        isIdle,
-        isLoading: loading,
-        error,
-        data,
-    } = useQuery(queryKey, {
+    const { isFetched, isFetching, error, data } = useQuery(queryKey, {
         enabled: !!searchTerm,
         select: (data) => data.organisationUnits.map(({ path }) => path),
     })
-
     return {
-        called: !isIdle,
-        loading,
+        called: isFetched,
+        loading: !data && isFetching,
         error,
         data,
     }

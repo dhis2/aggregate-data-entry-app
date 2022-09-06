@@ -1,5 +1,5 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
-import { useQueryClient, useMutation } from 'react-query'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 import {
     useContextSelection,
     useApiAttributeParams,
@@ -47,7 +47,9 @@ export default function useDeleteLimits(onDone) {
     })
 
     const engine = useDataEngine()
-    const showErrorAlert = useAlert((message) => message, { critical: true })
+    const { show: showErrorAlert } = useAlert((message) => message, {
+        critical: true,
+    })
 
     const mutationFn = ({
         dataElement,

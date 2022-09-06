@@ -1,10 +1,17 @@
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, Button, ButtonStrip, TextAreaFieldFF } from '@dhis2/ui'
+import {
+    CircularLoader,
+    Button,
+    ButtonStrip,
+    SingleSelect,
+    SingleSelectOption,
+    TextAreaFieldFF,
+} from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { Form, Field } from 'react-final-form'
-import { ExpandableUnit, useContextSelection } from '../../shared/index.js'
-import { useSetDataValueCommentMutation } from '../use-data-value-mutation/index.js'
+import { Form, useField } from 'react-final-form'
+import { ExpandableUnit, selectors, useMetadata } from '../../shared/index.js'
+import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
@@ -13,21 +20,72 @@ const errorMessage = i18n.t(
     'There was a problem loading the comment for this data item'
 )
 
-function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
-    const [{ dataSetId: ds, periodId: pe, orgUnitId: ou }] =
-        useContextSelection()
+const CommentOptionSelector = ({ commentOptionSetId, inputOnChange }) => {
+    const { data: metadata } = useMetadata()
 
+    const optionSet = selectors.getOptionSetById(metadata, commentOptionSetId)
+    // filter out 'null' options
+    const options = optionSet?.options?.filter((opt) => !!opt)
+
+    if (!(options?.length > 0)) {
+        return null
+    }
+
+    return (
+        <SingleSelect
+            placeholder={i18n.t('Choose an option')}
+            onChange={({ selected }) => {
+                inputOnChange(
+                    options.find((o) => o.code === selected)?.displayName
+                )
+            }}
+            className={styles.commentOptionSelect}
+        >
+            {options.map(({ id, code, displayName }) => (
+                <SingleSelectOption key={id} label={displayName} value={code} />
+            ))}
+        </SingleSelect>
+    )
+}
+
+CommentOptionSelector.propTypes = {
+    commentOptionSetId: PropTypes.string,
+    inputOnChange: PropTypes.func,
+}
+
+const CommentEditField = ({ comment, commentOptionSetId }) => {
+    const { input, meta } = useField('comment', {
+        subscription: { value: true },
+        initialValue: comment || '',
+    })
+
+    return (
+        <>
+            {commentOptionSetId && (
+                <CommentOptionSelector
+                    commentOptionSetId={commentOptionSetId}
+                    inputOnChange={input.onChange}
+                />
+            )}
+            <TextAreaFieldFF
+                input={input}
+                meta={meta}
+                className={styles.textAreaOriginal}
+            />
+        </>
+    )
+}
+
+CommentEditField.propTypes = {
+    comment: PropTypes.string,
+    commentOptionSetId: PropTypes.string,
+}
+
+function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
     const onSubmit = (values) => {
-        const variables = {
-            ds,
-            ou,
-            pe,
-            co: item.categoryOptionCombo,
-            de: item.dataElement,
-            comment: values.comment,
-        }
-
-        return syncComment(variables)
+        // Don't send `undefined` (or 'undefined' will be stored as the comment)
+        syncComment({ comment: values.comment || '' })
+        closeEditor()
     }
 
     return (
@@ -35,13 +93,9 @@ function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
             <Form onSubmit={onSubmit}>
                 {({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
-                        <Field
-                            name="comment"
-                            component={TextAreaFieldFF}
-                            className={styles.textArea}
-                            initialValue={item.comment}
-                            dense
-                            autoGrow
+                        <CommentEditField
+                            comment={item?.comment}
+                            commentOptionSetId={item?.commentOptionSetId}
                         />
 
                         <ButtonStrip>
@@ -60,7 +114,7 @@ function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
                                 small
                                 secondary
                                 disabled={submitting}
-                                onClick={onCancel}
+                                onClick={closeEditor}
                             >
                                 {i18n.t('Cancel')}
                             </Button>
@@ -73,25 +127,29 @@ function CommentEditForm({ item, open, setOpen, syncComment, onCancel }) {
 }
 
 CommentEditForm.propTypes = {
+    closeEditor: PropTypes.func.isRequired,
     item: PropTypes.shape({
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
         comment: PropTypes.string,
+        commentOptionSetId: PropTypes.string,
     }).isRequired,
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
     syncComment: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
 }
 
 export default function Comment({ item }) {
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
-    const setDataValueComment = useSetDataValueCommentMutation(() =>
-        setEditing(false)
-    )
+    const setDataValueComment = useSetDataValueMutation({
+        deId: item.dataElement,
+        cocId: item.categoryOptionCombo,
+    })
 
-    if (setDataValueComment.isLoading) {
+    // Only show loader if request is in flight,
+    // otherwise spinner can show endlessly while paused offline
+    if (setDataValueComment.isLoading && !setDataValueComment.isPaused) {
         return (
             <ExpandableUnit title={title} open={open} onToggle={setOpen}>
                 <CircularLoader small />
@@ -114,7 +172,7 @@ export default function Comment({ item }) {
                 open={open}
                 setOpen={setOpen}
                 syncComment={setDataValueComment.mutate}
-                onCancel={() => setEditing(false)}
+                closeEditor={() => setEditing(false)}
             />
         )
     }
@@ -153,5 +211,6 @@ Comment.propTypes = {
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
         comment: PropTypes.string,
+        commentOptionSetId: PropTypes.string,
     }).isRequired,
 }

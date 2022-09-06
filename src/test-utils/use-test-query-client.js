@@ -1,12 +1,12 @@
 import { useDataEngine } from '@dhis2/app-runtime'
-import { setLogger, QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 import createQueryFn from '../app/query-client/create-query-fn.js'
 
-setLogger({
+const logger = {
     log: console.log,
     warn: console.warn,
     error: () => {},
-})
+}
 
 export const useTestQueryClient = () => {
     const engine = useDataEngine()
@@ -18,6 +18,7 @@ export const useTestQueryClient = () => {
                 retry: false,
             },
         },
+        logger,
     })
 
     return queryClient

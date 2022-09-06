@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { parsePeriodId, useDataSetId, usePeriodId } from '../../shared/index.js'
 
 const isOptionWithinPeriod = ({

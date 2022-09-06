@@ -1,6 +1,10 @@
 import { createCachedSelector } from 're-reselect'
 import { createSelector } from 'reselect'
-import { parsePeriodId } from '../fixed-periods/index.js'
+import {
+    addFullPeriodTimeToDate,
+    parsePeriodId,
+    removeFullPeriodTimeToDate,
+} from '../fixed-periods/index.js'
 import { cartesian } from '../utils.js'
 // Helper to group array items by an identifier
 
@@ -182,7 +186,7 @@ export const getCategoryOptionsByCategoryId = createCachedSelector(
 )((_, categoryId) => categoryId)
 
 /**
- * The categoryCombo for a dataElement can be overriden per dataSet. This selector
+ * The categoryCombo for a dataElement can be overridden per dataSet. This selector
  * will apply that override.
  * @param {*} metadata
  * @param {*} dataSetId
@@ -196,18 +200,35 @@ export const getDataElementsByDataSetId = createCachedSelector(
             return undefined
         }
 
-        return dataSet.dataSetElements.map((dse) => {
-            const de = dataElements[dse.dataElement.id]
+        return dataSet.dataSetElements.map((dataSetElement) => {
+            const dataElement = dataElements[dataSetElement.dataElement.id]
 
-            const categoryCombo = dse.categoryCombo ?? de.categoryCombo
+            const categoryCombo =
+                dataSetElement.categoryCombo ?? dataElement.categoryCombo
 
             return {
-                ...de,
+                ...dataElement,
                 categoryCombo,
             }
         })
     }
 )((_, dataSetId) => dataSetId)
+
+/**
+ * The categoryCombo for a dataElement can be overridden per dataSet. This selector
+ * will apply that override. Returning dataElements in Alphabetically order of displayFormName
+ * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getDataElementsByDataSetIdSorted = createSelector(
+    getDataElementsByDataSetId,
+    (dataElements) =>
+        [...dataElements].sort((dataElementA, dataElementB) =>
+            dataElementA.displayFormName?.localeCompare(
+                dataElementB.displayFormName
+            )
+        )
+)
 
 /**
  * @param {*} metadata
@@ -401,6 +422,14 @@ const isOptionWithinPeriod = ({
     return true
 }
 
+const isOptionAssignedToOrgUnit = ({ categoryOption, orgUnitId }) => {
+    // by default,
+    if (!categoryOption?.organisationUnits?.length) {
+        return true
+    }
+    return categoryOption?.organisationUnits.includes(orgUnitId)
+}
+
 const resolveCategoryOptionIds = (categories, categoryOptions) => {
     return categories.map((category) => ({
         ...category,
@@ -410,34 +439,71 @@ const resolveCategoryOptionIds = (categories, categoryOptions) => {
     }))
 }
 
-export const getCategoriesWithOptionsWithinPeriod = createCachedSelector(
-    (metadata) => metadata,
-    (_, dataSetId) => dataSetId,
-    (_, __, periodId) => periodId,
-    (metadata, dataSetId, periodId) => {
-        if (!dataSetId || !periodId) {
-            return []
-        }
+/* eslint-disable max-params */
+export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
+    createCachedSelector(
+        (metadata) => metadata,
+        getDataSetById,
+        (_, __, periodId) => periodId,
+        (_, __, ___, orgUnitId) => orgUnitId,
+        (metadata, dataSet, periodId, orgUnitId) => {
+            if (!dataSet?.id || !periodId) {
+                return []
+            }
 
-        const relevantCategories = getCategoriesByDataSetId(metadata, dataSetId)
-        const categoryOptions = getCategoryOptions(metadata)
-        const relevantCategoriesWithOptions = resolveCategoryOptionIds(
-            relevantCategories,
-            categoryOptions
-        )
-        const period = parsePeriodId(periodId)
-        const periodStartDate = new Date(period.startDate)
-        const periodEndDate = new Date(period.endDate)
+            const relevantCategories = getCategoriesByDataSetId(
+                metadata,
+                dataSet?.id
+            )
 
-        return relevantCategoriesWithOptions.map((category) => ({
-            ...category,
-            categoryOptions: category.categoryOptions.filter((categoryOption) =>
-                isOptionWithinPeriod({
-                    periodStartDate,
+            const categoryOptions = getCategoryOptions(metadata)
+
+            const relevantCategoriesWithOptions = resolveCategoryOptionIds(
+                relevantCategories,
+                categoryOptions
+            )
+            const period = parsePeriodId(periodId)
+            const periodStartDate = new Date(period.startDate)
+
+            // periodEndDate is up to following start date
+            let periodEndDate = addFullPeriodTimeToDate(
+                periodStartDate,
+                period?.periodType?.type
+            )
+
+            // reduce perfiodEndDate by openPeriodsAfterCoEndDate
+            const openPeriodsAfterCoEndDate = Math.max(
+                dataSet?.openPeriodsAfterCoEndDate || 0,
+                0
+            )
+            for (let i = 0; i < openPeriodsAfterCoEndDate; i++) {
+                periodEndDate = removeFullPeriodTimeToDate(
                     periodEndDate,
-                    categoryOption,
-                })
-            ),
-        }))
-    }
-)((_, dataSetId, periodId) => `${dataSetId}:${periodId}`)
+                    period?.periodType?.type
+                )
+            }
+
+            // remove 1 day because endDate is 1 less than subsequent startDate
+            periodEndDate.setDate(periodEndDate.getDate() - 1)
+
+            return relevantCategoriesWithOptions.map((category) => ({
+                ...category,
+                categoryOptions: category.categoryOptions.filter(
+                    (categoryOption) =>
+                        isOptionWithinPeriod({
+                            periodStartDate,
+                            periodEndDate,
+                            categoryOption,
+                        }) &&
+                        isOptionAssignedToOrgUnit({
+                            categoryOption,
+                            orgUnitId,
+                        })
+                ),
+            }))
+        }
+    )(
+        (_, dataSetId, periodId, orgUnitId) =>
+            `${dataSetId}:${periodId}:${orgUnitId}`
+    )
+/* eslint-enable max-params */

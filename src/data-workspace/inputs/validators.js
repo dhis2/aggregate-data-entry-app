@@ -61,6 +61,12 @@ export const integerZeroOrPositive = composeValidators(
 export const integerNegative = composeValidators(integer, createMaxNumber(-1))
 
 export const percentage = createNumberRange(0, 100)
+const percentageInteger = composeValidators(
+    integer,
+    createMinNumber(0),
+    createMaxNumber(100)
+)
+
 export const unitInterval = createNumberRange(0, 1)
 
 export const validatorsByValueType = {
@@ -81,6 +87,16 @@ export const validatorsByValueType = {
     [VALUE_TYPES.URL]: url,
 }
 
+export const minMaxValidatorsByValueType = {
+    [VALUE_TYPES.INTEGER]: integer,
+    [VALUE_TYPES.INTEGER_POSITIVE]: integerPositive,
+    [VALUE_TYPES.INTEGER_NEGATIVE]: integerNegative,
+    [VALUE_TYPES.INTEGER_ZERO_OR_POSITIVE]: integerZeroOrPositive,
+    // backend restricts minimum and maximum to integers
+    [VALUE_TYPES.NUMBER]: integer,
+    [VALUE_TYPES.PERCENTAGE]: percentageInteger,
+}
+
 // This is an internal helper of the ui-forms library,
 // can be removed once `createLessThan` and `createMoreThan` have been moved to
 // the @dhis2/ui-forms library
@@ -95,7 +111,9 @@ export const createLessThan = (key, description) => {
     )
 
     return (value, allValues) =>
-        isEmpty(value) || isEmpty(allValues[key]) || value < allValues[key]
+        isEmpty(value) ||
+        isEmpty(allValues[key]) ||
+        parseFloat(value) < parseFloat(allValues[key])
             ? undefined
             : errorMessage
 }

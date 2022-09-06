@@ -1,17 +1,24 @@
 import { fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { useState } from 'react'
+import { useMetadata } from '../../shared/metadata/use-metadata.js'
 import { render } from '../../test-utils/index.js'
-import { useSetDataValueCommentMutation } from '../use-data-value-mutation/index.js'
+import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import Comment from './comment.js'
 
-jest.mock('../use-data-value-mutation/index.js', () => ({
-    useSetDataValueCommentMutation: jest.fn(() => ({})),
+// diff
+
+jest.mock('../data-value-mutations/index.js', () => ({
+    useSetDataValueMutation: jest.fn(() => ({})),
+}))
+
+jest.mock('../../shared/metadata/use-metadata.js', () => ({
+    useMetadata: jest.fn(() => ({})),
 }))
 
 describe('<Comment />', () => {
     afterEach(() => {
-        useSetDataValueCommentMutation.mockClear()
+        useSetDataValueMutation.mockClear()
     })
 
     it('is expanded by default', () => {
@@ -64,7 +71,7 @@ describe('<Comment />', () => {
     })
 
     it('shows a loading indicator when submitting a comment change', async () => {
-        useSetDataValueCommentMutation.mockImplementation(() => {
+        useSetDataValueMutation.mockImplementation(() => {
             const [loading, setLoading] = useState(false)
             return {
                 isLoading: loading,
@@ -97,8 +104,84 @@ describe('<Comment />', () => {
         expect(getByRole('progressbar')).toBeInTheDocument()
     })
 
+    it('shows a drop down with relevant options when data element has a commentOptionSet', async () => {
+        useMetadata.mockImplementation(() => ({
+            data: {
+                optionSets: {
+                    optSet1: {
+                        options: [
+                            { id: 'opt1', code: 'OPT1', displayName: 'Ole' },
+                            { id: 'opt2', code: 'OPT2', displayName: 'Dole' },
+                            { id: 'opt3', code: 'OPT3', displayName: 'Doffen' },
+                        ],
+                    },
+                },
+            },
+        }))
+
+        const item = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            commentOptionSetId: 'optSet1',
+        }
+
+        const { getByRole, getByText, queryByRole } = render(
+            <Comment item={item} />
+        )
+
+        userEvent.click(getByRole('button', { name: 'Add comment' }))
+
+        await waitFor(() => {
+            expect(queryByRole('textbox')).toBeInTheDocument()
+        })
+
+        userEvent.click(getByText('Choose an option'))
+
+        await waitFor(() => {
+            expect(getByText('Doffen')).toBeInTheDocument()
+        })
+    })
+
+    it('sets the comment text to selected option if there is an option set and user selects an option ', async () => {
+        useMetadata.mockImplementation(() => ({
+            data: {
+                optionSets: {
+                    optSet1: {
+                        options: [
+                            { id: 'opt1', code: 'OPT1', displayName: 'Ole' },
+                            { id: 'opt2', code: 'OPT2', displayName: 'Dole' },
+                            { id: 'opt3', code: 'OPT3', displayName: 'Doffen' },
+                        ],
+                    },
+                },
+            },
+        }))
+
+        const item = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            commentOptionSetId: 'optSet1',
+            comment: 'an existing comment not about donald duck',
+        }
+
+        const { getByRole, getByText, queryByRole } = render(
+            <Comment item={item} />
+        )
+
+        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+
+        await waitFor(() => {
+            expect(queryByRole('textbox')).toBeInTheDocument()
+        })
+
+        userEvent.click(getByText('Choose an option'))
+        userEvent.click(getByText('Doffen'))
+
+        expect(getByRole('textbox').value).toBe('Doffen')
+    })
+
     it('shows a the error message when submitting a comment fails', async () => {
-        useSetDataValueCommentMutation.mockImplementation(() => {
+        useSetDataValueMutation.mockImplementation(() => {
             const [error, setError] = useState(false)
             return {
                 isLoading: false,
@@ -141,14 +224,8 @@ describe('<Comment />', () => {
     })
 
     it('should show the comment as text when done editing', async () => {
-        useSetDataValueCommentMutation.mockImplementation((onSuccess) => {
-            return {
-                mutate: () => {
-                    // fire after returning
-                    setTimeout(onSuccess, 0)
-                    return Promise.resolve()
-                },
-            }
+        useSetDataValueMutation.mockImplementation(() => {
+            return { mutate: () => {} }
         })
 
         const item = {
@@ -180,8 +257,8 @@ describe('<Comment />', () => {
         await waitFor(() => {
             const saveButton = queryByRole('button', { name: 'Save comment' })
             const editButton = queryByRole('button', { name: 'Edit comment' })
-            expect(saveButton).not.toBeInTheDocument()
             expect(editButton).toBeInTheDocument()
+            expect(saveButton).not.toBeInTheDocument()
         })
     })
 })

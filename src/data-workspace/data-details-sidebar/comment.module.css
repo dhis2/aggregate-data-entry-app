@@ -20,3 +20,7 @@
 .textArea {
     margin-bottom: var(--spacers-dp12);
 }
+
+.commentOptionSelect {
+    margin-bottom: var(--spacers-dp8);
+}

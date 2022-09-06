@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
 import keys from './query-key-factory.js'
 

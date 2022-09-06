@@ -10,6 +10,7 @@ import {
     getCategoryOptions,
     getCategoryOptionsByCategoryId,
     getCategoryOptionsByCategoryOptionComboId,
+    getCategoriesWithOptionsWithinPeriodWithOrgUnit,
     getCoCByCategoryOptions,
     getDataElements,
     getDataElementsByDataSetId,
@@ -19,6 +20,7 @@ import {
     getGroupedDataElementsByCatCombo,
     getGroupedDataElementsByCatComboInOrder,
     getSections,
+    getDataElementsByDataSetIdSorted,
 } from './selectors.js'
 
 describe('simple selectors', () => {
@@ -281,6 +283,59 @@ describe('complex selectors that select by id', () => {
             }
 
             expect(getDataElementsByDataSetId(data, dataSetId)).toEqual(
+                expected
+            )
+        })
+    })
+
+    describe('getDataElementsByDataSetIdSorted', () => {
+        it('returns data elements sorted in order of displayFormName', () => {
+            const dataSetId = 'dataSetId'
+
+            const createDataSetElement = (id) => ({
+                categoryCombo: 'categoryCombo',
+                dataElement: {
+                    id,
+                },
+            })
+
+            const createDataElement = (
+                id,
+                displayFormName,
+                categoryCombo = 'dataElementCategoryCombo'
+            ) => ({
+                id,
+                displayFormName,
+                categoryCombo,
+            })
+
+            const data = {
+                dataSets: {
+                    [dataSetId]: {
+                        dataSetElements: [
+                            createDataSetElement('id1'),
+                            createDataSetElement('id2'),
+                            createDataSetElement('id3'),
+                            createDataSetElement('id4'),
+                        ],
+                    },
+                },
+                dataElements: {
+                    id1: createDataElement('id1', 'Beta'),
+                    id2: createDataElement('id2', 'Alpha'),
+                    id3: createDataElement('id3', 'Gamma'),
+                    id4: createDataElement('id4', 'Delta'),
+                },
+            }
+
+            const expected = [
+                createDataElement('id2', 'Alpha', 'categoryCombo'),
+                createDataElement('id1', 'Beta', 'categoryCombo'),
+                createDataElement('id4', 'Delta', 'categoryCombo'),
+                createDataElement('id3', 'Gamma', 'categoryCombo'),
+            ]
+
+            expect(getDataElementsByDataSetIdSorted(data, dataSetId)).toEqual(
                 expected
             )
         })
@@ -758,5 +813,345 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
         )
 
         expect(actual).toEqual(expected)
+    })
+
+    describe('getCategoriesWithOptionsWithinPeriodWithOrgUnit', () => {
+        it('should return all category options if none have end dates', () => {
+            const datasetid = 'dataset-id-1a'
+            const periodid = '202201'
+            const orgunitid = 'orgunit-id-z'
+
+            const catcomboid = 'categorycombo-id-1'
+
+            const metadata = {
+                dataSets: {
+                    [datasetid]: {
+                        categoryCombo: { id: catcomboid },
+                        periodType: 'Monthly',
+                        id: datasetid,
+                    },
+                },
+                categoryCombos: {
+                    [catcomboid]: {
+                        id: catcomboid,
+                        categories: ['co-id-letter', 'co-id-number'],
+                    },
+                },
+                categories: {
+                    'co-id-letter': {
+                        id: 'co-id-letter',
+                        categoryOptions: ['cat-id-a', 'cat-id-b', 'cat-id-c'],
+                    },
+                    'co-id-number': {
+                        id: 'co-id-number',
+                        categoryOptions: ['cat-id-1', 'cat-id-2'],
+                    },
+                },
+                categoryOptions: {
+                    'cat-id-a': { id: 'cat-id-a' },
+                    'cat-id-b': { id: 'cat-id-b' },
+                    'cat-id-c': { id: 'cat-id-c' },
+                    'cat-id-1': { id: 'cat-id-1' },
+                    'cat-id-2': { id: 'cat-id-2' },
+                },
+            }
+
+            const expected = [
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-a' },
+                        { id: 'cat-id-b' },
+                        { id: 'cat-id-c' },
+                    ],
+                    id: 'co-id-letter',
+                },
+                {
+                    categoryOptions: [{ id: 'cat-id-1' }, { id: 'cat-id-2' }],
+                    id: 'co-id-number',
+                },
+            ]
+
+            const actual = getCategoriesWithOptionsWithinPeriodWithOrgUnit(
+                metadata,
+                datasetid,
+                periodid,
+                orgunitid
+            )
+
+            expect(actual).toEqual(expected)
+        })
+
+        it('should return category options without endDate or with endDate after period end ', () => {
+            const datasetid = 'dataset-id-1a'
+            const periodid = '202201'
+            const orgunitid = 'orgunit-id-z'
+
+            const catcomboid = 'categorycombo-id-1'
+
+            const metadata = {
+                dataSets: {
+                    [datasetid]: {
+                        categoryCombo: { id: catcomboid },
+                        periodType: 'Monthly',
+                        id: datasetid,
+                    },
+                },
+                categoryCombos: {
+                    [catcomboid]: {
+                        id: catcomboid,
+                        categories: ['co-id-letter', 'co-id-number'],
+                    },
+                },
+                categories: {
+                    'co-id-letter': {
+                        id: 'co-id-letter',
+                        categoryOptions: ['cat-id-a', 'cat-id-b', 'cat-id-c'],
+                    },
+                    'co-id-number': {
+                        id: 'co-id-number',
+                        categoryOptions: ['cat-id-1', 'cat-id-2'],
+                    },
+                },
+                categoryOptions: {
+                    'cat-id-a': { id: 'cat-id-a', endDate: '2020-01-01' },
+                    'cat-id-b': { id: 'cat-id-b', endDate: '2022-01-01' },
+                    'cat-id-c': { id: 'cat-id-c' },
+                    'cat-id-1': { id: 'cat-id-1', endDate: '2022-09-01' },
+                    'cat-id-2': { id: 'cat-id-2' },
+                },
+            }
+
+            const expected = [
+                { categoryOptions: [{ id: 'cat-id-c' }], id: 'co-id-letter' },
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-1', endDate: '2022-09-01' },
+                        { id: 'cat-id-2' },
+                    ],
+                    id: 'co-id-number',
+                },
+            ]
+
+            const actual = getCategoriesWithOptionsWithinPeriodWithOrgUnit(
+                metadata,
+                datasetid,
+                periodid,
+                orgunitid
+            )
+
+            expect(actual).toEqual(expected)
+        })
+
+        it('should return category options without endDate or with endDate after period end, adjusting for openPeriodsAfterCoEndDate', () => {
+            const datasetid = 'dataset-id-1a'
+            const periodid = '202201'
+            const orgunitid = 'orgunit-id-z'
+
+            const catcomboid = 'categorycombo-id-1'
+
+            const metadata = {
+                dataSets: {
+                    [datasetid]: {
+                        categoryCombo: { id: catcomboid },
+                        periodType: 'Monthly',
+                        id: datasetid,
+                        openPeriodsAfterCoEndDate: 2,
+                    },
+                },
+                categoryCombos: {
+                    [catcomboid]: {
+                        id: catcomboid,
+                        categories: ['co-id-letter', 'co-id-number'],
+                    },
+                },
+                categories: {
+                    'co-id-letter': {
+                        id: 'co-id-letter',
+                        categoryOptions: ['cat-id-a', 'cat-id-b', 'cat-id-c'],
+                    },
+                    'co-id-number': {
+                        id: 'co-id-number',
+                        categoryOptions: ['cat-id-1', 'cat-id-2'],
+                    },
+                },
+                categoryOptions: {
+                    'cat-id-a': { id: 'cat-id-a', endDate: '2020-01-01' },
+                    'cat-id-b': { id: 'cat-id-b', endDate: '2022-01-01' },
+                    'cat-id-c': { id: 'cat-id-c' },
+                    'cat-id-1': { id: 'cat-id-1', endDate: '2022-09-01' },
+                    'cat-id-2': { id: 'cat-id-2' },
+                },
+            }
+
+            const expected = [
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-b', endDate: '2022-01-01' },
+                        { id: 'cat-id-c' },
+                    ],
+                    id: 'co-id-letter',
+                },
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-1', endDate: '2022-09-01' },
+                        { id: 'cat-id-2' },
+                    ],
+                    id: 'co-id-number',
+                },
+            ]
+
+            const actual = getCategoriesWithOptionsWithinPeriodWithOrgUnit(
+                metadata,
+                datasetid,
+                periodid,
+                orgunitid
+            )
+
+            expect(actual).toEqual(expected)
+        })
+
+        it('should return all category options if none have assigned orgunits', () => {
+            const datasetid = 'dataset-id-1a'
+            const periodid = '202201'
+            const orgunitid = 'orgunit-id-z'
+
+            const catcomboid = 'categorycombo-id-1'
+
+            const metadata = {
+                dataSets: {
+                    [datasetid]: {
+                        categoryCombo: { id: catcomboid },
+                        periodType: 'Monthly',
+                        id: datasetid,
+                    },
+                },
+                categoryCombos: {
+                    [catcomboid]: {
+                        id: catcomboid,
+                        categories: ['co-id-letter', 'co-id-number'],
+                    },
+                },
+                categories: {
+                    'co-id-letter': {
+                        id: 'co-id-letter',
+                        categoryOptions: ['cat-id-a', 'cat-id-b', 'cat-id-c'],
+                    },
+                    'co-id-number': {
+                        id: 'co-id-number',
+                        categoryOptions: ['cat-id-1', 'cat-id-2'],
+                    },
+                },
+                categoryOptions: {
+                    'cat-id-a': { id: 'cat-id-a', organisationUnits: [] },
+                    'cat-id-b': { id: 'cat-id-b', organisationUnits: [] },
+                    'cat-id-c': { id: 'cat-id-c', organisationUnits: [] },
+                    'cat-id-1': { id: 'cat-id-1', organisationUnits: [] },
+                    'cat-id-2': { id: 'cat-id-2' },
+                },
+            }
+
+            const expected = [
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-a', organisationUnits: [] },
+                        { id: 'cat-id-b', organisationUnits: [] },
+                        { id: 'cat-id-c', organisationUnits: [] },
+                    ],
+                    id: 'co-id-letter',
+                },
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-1', organisationUnits: [] },
+                        { id: 'cat-id-2' },
+                    ],
+                    id: 'co-id-number',
+                },
+            ]
+
+            const actual = getCategoriesWithOptionsWithinPeriodWithOrgUnit(
+                metadata,
+                datasetid,
+                periodid,
+                orgunitid
+            )
+
+            expect(actual).toEqual(expected)
+        })
+
+        it('should return relevant category options if some have restricted org units', () => {
+            const datasetid = 'dataset-id-1a'
+            const periodid = '202201'
+            const orgunitid = 'orgunit-id-z'
+
+            const catcomboid = 'categorycombo-id-1'
+
+            const metadata = {
+                dataSets: {
+                    [datasetid]: {
+                        categoryCombo: { id: catcomboid },
+                        periodType: 'Monthly',
+                        id: datasetid,
+                    },
+                },
+                categoryCombos: {
+                    [catcomboid]: {
+                        id: catcomboid,
+                        categories: ['co-id-letter', 'co-id-number'],
+                    },
+                },
+                categories: {
+                    'co-id-letter': {
+                        id: 'co-id-letter',
+                        categoryOptions: ['cat-id-a', 'cat-id-b', 'cat-id-c'],
+                    },
+                    'co-id-number': {
+                        id: 'co-id-number',
+                        categoryOptions: ['cat-id-1', 'cat-id-2'],
+                    },
+                },
+                categoryOptions: {
+                    'cat-id-a': {
+                        id: 'cat-id-a',
+                        organisationUnits: ['fake-orgunit1'],
+                    },
+                    'cat-id-b': {
+                        id: 'cat-id-b',
+                        organisationUnits: ['fake-orgunit1'],
+                    },
+                    'cat-id-c': {
+                        id: 'cat-id-c',
+                        organisationUnits: ['fake-orgunit2'],
+                    },
+                    'cat-id-1': {
+                        id: 'cat-id-1',
+                        organisationUnits: ['orgunit-id-z'],
+                    },
+                    'cat-id-2': { id: 'cat-id-2', organisationUnits: [] },
+                },
+            }
+
+            const expected = [
+                {
+                    categoryOptions: [],
+                    id: 'co-id-letter',
+                },
+                {
+                    categoryOptions: [
+                        { id: 'cat-id-1', organisationUnits: ['orgunit-id-z'] },
+                        { id: 'cat-id-2', organisationUnits: [] },
+                    ],
+                    id: 'co-id-number',
+                },
+            ]
+
+            const actual = getCategoriesWithOptionsWithinPeriodWithOrgUnit(
+                metadata,
+                datasetid,
+                periodid,
+                orgunitid
+            )
+
+            expect(actual).toEqual(expected)
+        })
     })
 })

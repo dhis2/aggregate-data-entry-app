@@ -13,18 +13,20 @@ export const DataEntryField = React.memo(function DataEntryField({
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldname = getFieldId(de.id, coc.id)
+
+    // todo: perhaps this could be refactored to use DV mutation state
+    // See https://dhis2.atlassian.net/browse/TECH-1316
     const [syncStatus, setSyncStatus] = useState({
         syncing: false,
         synced: false,
     })
 
-    // todo: get data details (via getDataValue?)
-    // todo: implement read-only cells
-
     return (
         <ValidationTooltip fieldname={fieldname}>
             <InnerWrapper
                 fieldname={fieldname}
+                deId={de.id}
+                cocId={coc.id}
                 syncStatus={syncStatus}
                 disabled={disabled}
             >

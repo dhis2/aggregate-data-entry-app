@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { useIsMutating } from '@tanstack/react-query'
 import React from 'react'
-import { useIsMutating } from 'react-query'
 import {
     Sidebar,
     Title,
@@ -35,13 +35,14 @@ export default function ValidationResultsSidebar({ hide }) {
 
     const hasRunningMutations = activeMutations > 0
 
+    const hasCommentsViolations = Boolean(commentRequiredViolations?.length)
+
     const isEmpty =
         validationRuleViolations &&
         Object.values(validationRuleViolations).every(
             (ruleViolations) => ruleViolations.length === 0
-        )
-
-    const hasCommentsViolations = Boolean(commentRequiredViolations?.length)
+        ) &&
+        !hasCommentsViolations
 
     const rerunValidation = () => {
         setFormChangedSincePanelOpened(false)

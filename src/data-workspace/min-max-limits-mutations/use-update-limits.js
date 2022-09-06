@@ -1,5 +1,5 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
-import { useQueryClient, useMutation } from 'react-query'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useDataValueSetQueryKey } from '../../shared/index.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
@@ -47,7 +47,10 @@ export default function useUpdateLimits(onDone) {
     const dataValueSetQueryKey = useDataValueSetQueryKey()
 
     const engine = useDataEngine()
-    const showErrorAlert = useAlert((message) => message, { critical: true })
+
+    const { show: showErrorAlert } = useAlert((message) => message, {
+        critical: true,
+    })
 
     const mutationFn = ({
         dataElement,
