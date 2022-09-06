@@ -56,13 +56,6 @@ export default function OrganisationUnitSetSelectorBarItem() {
     const orgUnit = useOrgUnit()
     const userOrgUnits = useUserOrgUnits()
 
-    // @TODO: Figure out how to only use org units that are connected to the
-    // data set. Currently the api only returns paths for the units on the
-    // lowest level, Task: Figure out if only the lowest levels should be
-    // selectable, if the levels above are missing from the response or whether
-    // all parent units are automatically selectable as well
-    // const dataSetOrgUnitPaths = useDataSetOrgUnitPaths()
-
     const selectorBarItemValue = useSelectorBarItemValue()
     const selected = orgUnit.data ? [orgUnit.data.path] : []
     const disabled = !dataSetId
