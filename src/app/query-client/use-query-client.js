@@ -25,6 +25,23 @@ const useQueryClient = () => {
         },
     })
 
+    queryClient.setMutationDefaults(['dataValues'], {
+        mutationFn: async function (variables) {
+            const { mutationKey } = this
+            const { params } = mutationKey[1]
+
+            await queryClient.cancelQueries(mutationKey)
+            const mutationObj = {
+                resource: 'dataValues',
+                type: 'create',
+                data: (data) => data,
+            }
+            return engine.mutate(mutationObj, {
+                variables: { ...params, ...variables },
+            })
+        },
+    })
+
     return queryClient
 }
 
