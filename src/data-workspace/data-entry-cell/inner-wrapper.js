@@ -4,7 +4,6 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { useHighlightedFieldIdContext } from '../../shared/index.js'
 import {
     useDataValueParams,
     getDataValueMutationKey,
@@ -44,6 +43,7 @@ CommentIndicator.propTypes = { hasComment: PropTypes.bool }
  * its various states
  */
 export function InnerWrapper({
+    active,
     children,
     disabled,
     fieldname,
@@ -52,8 +52,6 @@ export function InnerWrapper({
     syncStatus,
 }) {
     const hasComment = useHasComment(fieldname)
-    const { item } = useHighlightedFieldIdContext()
-    const active = item && deId === item.de.id && cocId === item.coc.id
     const {
         meta: { invalid },
     } = useField(fieldname, { subscription: { invalid: true } })
@@ -89,6 +87,7 @@ export function InnerWrapper({
     )
 }
 InnerWrapper.propTypes = {
+    active: PropTypes.bool,
     children: PropTypes.node,
     cocId: PropTypes.string,
     deId: PropTypes.string,
