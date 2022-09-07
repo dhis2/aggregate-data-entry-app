@@ -27,7 +27,26 @@ export const GenericInput = ({
     onFocus,
     disabled,
 }) => {
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const formatValue = (value) => {
+        if (value === undefined) {
+            return undefined
+        } else if (
+            value.trim() &&
+            NUMBER_TYPES.includes(valueType) &&
+            Number.isFinite(Number(value))
+        ) {
+            return Number(value).toString()
+        } else {
+            return value.trim()
+        }
+    }
+    const { input, meta } = useField(fieldname, {
+        validate: validatorsByValueType[valueType],
+        subscription: { value: true, dirty: true, valid: true },
+        format: formatValue,
+        formatOnBlur: true,
+    })
+    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -43,23 +62,19 @@ export const GenericInput = ({
         )
     }
 
-    const { input, meta } = useField(fieldname, {
-        validate: validatorsByValueType[valueType],
-        subscription: { value: true, dirty: true, valid: true },
-    })
-
     const handleBlur = () => {
         const { value } = input
-        const hasEmptySpaces = value && value.trim() === ''
+        const formattedValue = formatValue(value)
         const { dirty, valid } = meta
-        if (dirty && valid && !hasEmptySpaces && value !== lastSyncedValue) {
-            syncData(value.trim())
+        if (dirty && valid && formattedValue !== lastSyncedValue) {
+            syncData(formattedValue)
         }
     }
 
     return (
         <input
             {...input}
+            value={input.value ?? ''}
             className={cx(styles.basicInput, {
                 [styles.alignToEnd]: NUMBER_TYPES.includes(valueType),
             })}
