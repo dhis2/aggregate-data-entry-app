@@ -33,7 +33,6 @@ const persistOptions = {
     },
 }
 export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
-    console.log('provider')
     return (
         <PersistQueryClientProvider
             client={queryClient}
