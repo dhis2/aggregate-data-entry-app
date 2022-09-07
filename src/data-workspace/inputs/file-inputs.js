@@ -103,7 +103,7 @@ export const FileResourceInput = ({
     // styles:
     // todo: make file input button `secondary` style to match design spec
     return (
-        <div className={styles.fileInputWrapper}>
+        <div className={styles.fileInputWrapper} onClick={onFocus}>
             {file ? (
                 <>
                     <IconAttachment16 color={colors.grey700} />
