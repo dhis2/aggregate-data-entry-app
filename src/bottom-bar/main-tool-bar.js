@@ -16,7 +16,7 @@ export default function MainToolBar() {
         mutationKey: queryKey,
     })
 
-    const validateDisabled = activeMutations > 0 || locked
+    const validateDisabled = activeMutations > 0
 
     const isComplete = true // @TODO(isComplete): implement me!
     const complete = () => console.log('@TODO(complete): implement me!')
@@ -50,10 +50,7 @@ export default function MainToolBar() {
                     : i18n.t('Mark complete')}
             </Button>
 
-            <button
-                disabled={locked}
-                className={cx(styles.goToInvalidValue, styles.toolbarItem)}
-            >
+            <button className={cx(styles.goToInvalidValue, styles.toolbarItem)}>
                 <span className={cx(styles.icon, styles.goToInvalidValueIcon)}>
                     <IconErrorFilled16 color={colors.red700} />
                 </span>
