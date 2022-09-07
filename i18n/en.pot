@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-05T16:11:08.169Z\n"
-"PO-Revision-Date: 2022-09-05T16:11:08.169Z\n"
+"POT-Creation-Date: 2022-09-07T10:30:31.473Z\n"
+"PO-Revision-Date: 2022-09-07T10:30:31.473Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -157,6 +157,9 @@ msgstr "Choose a organisation unit"
 
 msgid "No organisation units could be found"
 msgstr "No organisation units could be found"
+
+msgid "Dataset is not assigned to this organisation unit"
+msgstr "Dataset is not assigned to this organisation unit"
 
 msgid "Fetching organisation unit info"
 msgstr "Fetching organisation unit info"

@@ -29,7 +29,7 @@ export const GenericInput = ({
 }) => {
     const formatValue = (value) => {
         if (value === undefined) {
-            return ''
+            return undefined
         } else if (
             value.trim() &&
             NUMBER_TYPES.includes(valueType) &&
@@ -45,7 +45,6 @@ export const GenericInput = ({
         subscription: { value: true, dirty: true, valid: true },
         format: formatValue,
         formatOnBlur: true,
-        parse: (value) => value ?? '',
     })
     const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
@@ -62,6 +61,7 @@ export const GenericInput = ({
             }
         )
     }
+
     const handleBlur = () => {
         const { value } = input
         const formattedValue = formatValue(value)
@@ -74,7 +74,7 @@ export const GenericInput = ({
     return (
         <input
             {...input}
-            value={input.value}
+            value={input.value ?? ''}
             className={cx(styles.basicInput, {
                 [styles.alignToEnd]: NUMBER_TYPES.includes(valueType),
             })}
