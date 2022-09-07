@@ -63,3 +63,18 @@ export function useClearEntireSelection() {
         })
     }, [setSelectionContext])
 }
+
+/**
+ *
+ * @returns {string} an unique identifer for the selected context
+ */
+export function useContextSelectionId() {
+    const [{ attributeOptionComboSelection, dataSetId, orgUnitId, periodId }] =
+        useContextSelection()
+
+    // generate an identifier based on the context-selection
+    return Object.entries(attributeOptionComboSelection)
+        .map((keyVal) => keyVal.join(':'))
+        .concat([dataSetId, orgUnitId, periodId])
+        .join()
+}

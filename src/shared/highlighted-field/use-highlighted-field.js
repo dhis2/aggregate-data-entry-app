@@ -6,8 +6,7 @@ import { useHighlightedFieldIdContext } from './use-highlighted-field-context.js
 
 function gatherHighlightedFieldData({ de, cocId, dataValueSet }) {
     const dataValue = dataValueSet?.dataValues[de.id]?.[cocId]
-
-    const { optionSet, valueType } = de
+    const { optionSet, valueType, commentOptionSet } = de
     const canHaveLimits = optionSet
         ? false
         : CAN_HAVE_LIMITS_TYPES.includes(valueType)
@@ -20,6 +19,7 @@ function gatherHighlightedFieldData({ de, cocId, dataValueSet }) {
             categoryOptionCombo: cocId,
             name: de.displayName,
             code: de.code,
+            commentOptionSetId: commentOptionSet?.id,
         }
     }
 
@@ -34,6 +34,7 @@ function gatherHighlightedFieldData({ de, cocId, dataValueSet }) {
         comment: null,
         storedBy: null,
         code: de.code,
+        commentOptionSetId: commentOptionSet?.id,
     }
 }
 
@@ -45,18 +46,21 @@ export default function useHighlightedField() {
     const de = selectors.getDataElementById(metadata, deId)
 
     const [currentItem, setHighlightedFieldId] = useState(() => {
-        if (dataValueSet) {
-            return gatherHighlightedFieldData({ de, cocId, dataValueSet })
-        }
-
-        return null
+        return gatherHighlightedFieldData({ de, cocId, dataValueSet })
     })
 
     useEffect(() => {
-        setHighlightedFieldId(
-            gatherHighlightedFieldData({ de, cocId, dataValueSet })
-        )
-    }, [cocId, de, dataValueSet])
+        // only update if it's different from currentItem
+        // prevents unnecessary re-render on first-render as well
+        if (
+            de?.id !== currentItem?.dataElement ||
+            cocId !== currentItem?.categoryOptionCombo
+        ) {
+            setHighlightedFieldId(
+                gatherHighlightedFieldData({ de, cocId, dataValueSet })
+            )
+        }
+    }, [currentItem, de, cocId, dataValueSet])
 
     return currentItem
 }

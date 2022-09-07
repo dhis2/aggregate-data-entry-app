@@ -55,10 +55,10 @@
     top: 0;
     right: 0;
 }
-.bottomLeftIndicator {
+.bottomRightIndicator {
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
 }
 
 .topRightTriangle {
@@ -69,13 +69,13 @@
     border-bottom: 3px solid transparent;
     border-left: 3px solid transparent;
 }
-.bottomLeftTriangle {
+.bottomRightTriangle {
     width: 0;
     height: 0;
     border-top: 3px solid transparent;
-    border-right: 3px solid transparent;
+    border-right: 3px solid var(--colors-grey600);
     border-bottom: 3px solid var(--colors-grey600);
-    border-left: 3px solid var(--colors-grey600);
+    border-left: 3px solid transparent;
 }
 
 .locked {

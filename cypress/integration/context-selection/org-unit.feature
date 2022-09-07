@@ -22,9 +22,17 @@ Feature: An org unit can be selected
         Given a data set has been selected
         When the user opens the org unit selector
         And the root org unit have been loaded
-        And selects an org unit
+        And selects the org unit "Sierra Leone"
         Then the org unit's display name should be displayed as selected value
         And the org unit's id should be persisted
+    
+    Scenario: The user tries to select an org unit that is not assigned to the dataset
+        Given a data set has been selected
+        When the user opens the org unit selector
+        And the root org unit have been loaded
+        And the user expands the root org unit
+        And selects the org unit "Bombali"
+        Then a no-value-label should be displayed
 
     # @TODO: How should this work when the app is offline?
     # @proposal: Only search the loaded org units instead of using the api

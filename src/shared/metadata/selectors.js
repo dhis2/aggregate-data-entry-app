@@ -190,7 +190,7 @@ export const getCategoryOptionsByCategoryId = createCachedSelector(
 )((_, categoryId) => categoryId)
 
 /**
- * The categoryCombo for a dataElement can be overriden per dataSet. This selector
+ * The categoryCombo for a dataElement can be overridden per dataSet. This selector
  * will apply that override.
  * @param {*} metadata
  * @param {*} dataSetId
@@ -204,18 +204,35 @@ export const getDataElementsByDataSetId = createCachedSelector(
             return undefined
         }
 
-        return dataSet.dataSetElements.map((dse) => {
-            const de = dataElements[dse.dataElement.id]
+        return dataSet.dataSetElements.map((dataSetElement) => {
+            const dataElement = dataElements[dataSetElement.dataElement.id]
 
-            const categoryCombo = dse.categoryCombo ?? de.categoryCombo
+            const categoryCombo =
+                dataSetElement.categoryCombo ?? dataElement.categoryCombo
 
             return {
-                ...de,
+                ...dataElement,
                 categoryCombo,
             }
         })
     }
 )((_, dataSetId) => dataSetId)
+
+/**
+ * The categoryCombo for a dataElement can be overridden per dataSet. This selector
+ * will apply that override. Returning dataElements in Alphabetically order of displayFormName
+ * @param {*} metadata
+ * @param {*} dataSetId
+ */
+export const getDataElementsByDataSetIdSorted = createSelector(
+    getDataElementsByDataSetId,
+    (dataElements) =>
+        [...dataElements].sort((dataElementA, dataElementB) =>
+            dataElementA.displayFormName?.localeCompare(
+                dataElementB.displayFormName
+            )
+        )
+)
 
 /**
  * @param {*} metadata

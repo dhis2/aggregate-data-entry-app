@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
@@ -20,7 +20,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
                 value,
                 comment,
                 storedBy,
-                followup,
+                followUp,
                 lastUpdated,
             }
         ) => {
@@ -29,7 +29,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
                 dataElement,
                 comment,
                 storedBy,
-                followup,
+                followUp,
                 lastUpdated,
             }
 
@@ -55,18 +55,43 @@ const select = createSelector(
     }
 )
 
-const meta = { persist: true }
-
-export const useDataValueSet = () => {
+/**
+ * If this query is used while offline, since it uses the 'offlineFirst'
+ * network mode, the query will be try once, then be PAUSED
+ * and its data will be undefined.
+ * Consumers will need to adapt accordingly to allow forms to load offline.
+ *
+ * Here are some values to expect while offline:
+ * isPaused = true
+ * isFetching = false
+ * isLoading = true
+ * data = undefined
+ *
+ * TODO: This is no longer using the dataValueSet endpoint; should rename.
+ */
+export const useDataValueSet = ({ onSuccess } = {}) => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
+    const activeMutations = useIsMutating({ mutationKey: ['dataValues'] })
+
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
-        enabled: isValidSelection,
-        select,
-        // Only fetch whilst offline, to prevent optimistic updates from being overwritten
-        networkMode: 'online',
-        meta,
+        // TODO: Disable if disconnected from DHIS2 server?
+        enabled: activeMutations === 0 && isValidSelection,
+        select: select,
+        // Fetch once, no matter the network connectivity;
+        // will be 'paused' if offline and the request fails.
+        // Important to try the network when on offline/local DHIS2 implmnt'ns
+        networkMode: 'offlineFirst',
+        refetchOnMount: (query) => {
+            // only refetch on mount if the query was just hydrated
+            // this should only happen during initial app-load.
+            // If we were to return 'false' the query would not be refetch on first mount
+            // because it's mounted with hydrated-state
+            return !!query.meta.isHydrated
+        },
+        meta: { persist: true },
+        onSuccess,
     })
 
     return result

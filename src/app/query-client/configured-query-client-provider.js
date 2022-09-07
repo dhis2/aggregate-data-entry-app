@@ -18,9 +18,21 @@ const persistOptions = {
             return isSuccess && shouldPersist
         },
     },
+    hydrateOptions: {
+        defaultOptions: {
+            queries: {
+                meta: {
+                    // meta-property is not persisted, so this makes sure dehydrated-queries will
+                    // be persisted again
+                    persist: true,
+                    // can be used to check if the query originates from the persisted-store
+                    isHydrated: true,
+                },
+            },
+        },
+    },
 }
-
-export const ConfiguredQueryClientProvider = ({ children, queryClient }) => {
+export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
     return (
         <PersistQueryClientProvider
             client={queryClient}
@@ -30,10 +42,7 @@ export const ConfiguredQueryClientProvider = ({ children, queryClient }) => {
         </PersistQueryClientProvider>
     )
 }
-
-const propTypes = {
+ConfiguredQueryClientProvider.propTypes = {
     queryClient: PropTypes.instanceOf(QueryClient).isRequired,
     children: PropTypes.node,
 }
-
-ConfiguredQueryClientProvider.propTypes = propTypes

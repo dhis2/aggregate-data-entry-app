@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-08-16T13:42:05.663Z\n"
-"PO-Revision-Date: 2022-08-16T13:42:05.663Z\n"
+"POT-Creation-Date: 2022-08-26T05:32:30.241Z\n"
+"PO-Revision-Date: 2022-08-26T05:32:30.241Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -283,6 +283,13 @@ msgstr "No limits set for this data item."
 msgid "Save limits"
 msgstr "Save limits"
 
+msgid ""
+"Here we could override the message for E2017 error with a custom message in "
+"the FE"
+msgstr ""
+"Here we could override the message for E2017 error with a custom message in "
+"the FE"
+
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
 
@@ -357,13 +364,6 @@ msgstr "Type here to filter in this section"
 
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
-
-msgid ""
-"Here we could override the message for E2017 error with a custom message in "
-"the FE"
-msgstr ""
-"Here we could override the message for E2017 error with a custom message in "
-"the FE"
 
 msgid "1 comment required"
 msgstr "1 comment required"

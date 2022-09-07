@@ -12,6 +12,7 @@ import {
     getDataValueMutationKey,
 } from '../data-value-mutations/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
+import { useHasComment } from '../has-comment/has-comment-context.js'
 import styles from './data-entry-cell.module.css'
 
 /** Three dots or triangle in top-right corner of cell */
@@ -32,14 +33,14 @@ SyncStatusIndicator.propTypes = {
 }
 
 /** Grey triangle in bottom left of cell */
-const CommentIndicator = ({ isComment }) => {
+const CommentIndicator = ({ hasComment }) => {
     return (
-        <div className={styles.bottomLeftIndicator}>
-            {isComment && <div className={styles.bottomLeftTriangle} />}
+        <div className={styles.bottomRightIndicator}>
+            {hasComment && <div className={styles.bottomRightTriangle} />}
         </div>
     )
 }
-CommentIndicator.propTypes = { isComment: PropTypes.bool }
+CommentIndicator.propTypes = { hasComment: PropTypes.bool }
 
 /**
  * This inner wrapper provides styles and layout for the entry field based on
@@ -54,6 +55,7 @@ export function InnerWrapper({
     cocId,
     syncStatus,
 }) {
+    const hasComment = useHasComment(fieldname)
     const {
         meta: { active, invalid },
     } = useField(fieldname, { subscription: { active: true, invalid: true } })
@@ -118,8 +120,7 @@ export function InnerWrapper({
                 isLoading={activeMutations > 0}
                 isSynced={syncStatus.synced}
             />
-            {/* todo: show indicator if there is a comment */}
-            <CommentIndicator isComment={false} />
+            <CommentIndicator hasComment={hasComment} />
         </div>
     )
 }

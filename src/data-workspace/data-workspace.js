@@ -9,18 +9,27 @@ import {
     useMetadata,
     selectors,
     useDataSetId,
+    useContextSelectionId,
     useDataValueSet,
     useIsValidSelection,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
+import { useHasCommentContext } from './has-comment/has-comment-context.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
-    const { data } = useMetadata()
-    const [dataSetId] = useDataSetId()
-    const initialDataValuesFetch = useDataValueSet()
+    const { data: metadata } = useMetadata()
+    const { populateHasCommentContextForDataSetValues } = useHasCommentContext()
+    const initialDataValuesFetch = useDataValueSet({
+        onSuccess: (data) => {
+            populateHasCommentContextForDataSetValues(data.dataValues)
+        },
+    })
     const isValidSelection = useIsValidSelection()
+    const [dataSetId] = useDataSetId()
+    // used to reset form-state when context-selection is changed
+    const formKey = useContextSelectionId()
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
@@ -35,7 +44,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return null
     }
 
-    if (initialDataValuesFetch.isLoading) {
+    // Currently this can cause the form to reload when going back online
+    if (
+        initialDataValuesFetch.isFetching &&
+        initialDataValuesFetch.data === undefined
+    ) {
         return (
             <CenteredContent>
                 <CircularLoader />
@@ -47,11 +60,16 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return 'Error!'
     }
 
-    if (!data || !dataSetId) {
+    // If loading a form while client is offline, since useDataValueSet uses
+    // networkMode = 'offlineFirst', the initialDataValuesFetch query may be
+    // PAUSED and its data will be undefined, in which case an empty form
+    // should be shown for the user to enter data
+
+    if (!metadata || !dataSetId) {
         return null
     }
 
-    const dataSet = selectors.getDataSetById(data, dataSetId)
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
     if (!dataSet) {
         console.warn('Could not find dataSet with ID', dataSetId)
         return 'Error!'
@@ -61,7 +79,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (
-        <FinalFormWrapper dataValueSet={dataValueSet}>
+        <FinalFormWrapper key={formKey} dataValueSet={dataValueSet}>
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>
