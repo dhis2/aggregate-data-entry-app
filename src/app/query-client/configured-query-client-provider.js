@@ -39,13 +39,7 @@ export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
             client={queryClient}
             persistOptions={persistOptions}
             onSuccess={() => {
-                console.log('resuming mutations')
-                queryClient
-                    .resumePausedMutations()
-                    .then(() => {
-                        console.log('resumed')
-                    })
-                    .catch(() => console.log('failed to resume'))
+                queryClient.resumePausedMutations()
             }}
         >
             {children}

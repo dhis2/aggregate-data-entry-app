@@ -7,7 +7,7 @@ import { useField } from 'react-final-form'
 import { useHighlightedFieldIdContext } from '../../shared/index.js'
 import {
     useDataValueParams,
-    getDataValueMutationKey,
+    mutationKeys as dataValueMutationKeys,
 } from '../data-value-mutations/index.js'
 import { useHasComment } from '../has-comment/has-comment-context.js'
 import styles from './data-entry-cell.module.css'
@@ -61,7 +61,7 @@ export function InnerWrapper({
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
-        mutationKey: getDataValueMutationKey(dataValueParams),
+        mutationKey: dataValueMutationKeys.all(dataValueParams),
     })
 
     // todo: maybe use mutation state to improve this style handling
