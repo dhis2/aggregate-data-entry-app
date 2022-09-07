@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
-import { getCurrentDate, parsePeriodId } from '../fixed-periods/index.js'
+import { getCurrentDate } from '../fixed-periods/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import {
     usePeriodId,
     useDataSetId,
     useOrgUnitId,
 } from '../use-context-selection/use-context-selection.js'
-import { LockedStates } from './locked-states.js'
+import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
+import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 
 export const useCheckLockStatus = () => {
@@ -15,6 +16,7 @@ export const useCheckLockStatus = () => {
     const [periodId] = usePeriodId()
     const { data: metadata } = useMetadata()
     const { setLockStatus } = useLockedContext()
+    const dataValueSet = useDataValueSet()
 
     useEffect(() => {
         const now = getCurrentDate()
@@ -38,24 +40,45 @@ export const useCheckLockStatus = () => {
             }
         }
 
-        // check expiryDays
-        if (dataSetId && periodId && orgUnitId) {
-            const expiryDays = selectors.getExpiryDays(metadata, dataSetId)
-
-            // expiryDays is set to 0 by default, so a value must be specfied for locking to occur
-            if (expiryDays > 0) {
-                const period = parsePeriodId(periodId)
-                const endDate = new Date(period.endDate)
-                endDate.setDate(endDate.getDate() + expiryDays)
-
-                if (now > endDate) {
-                    setLockStatus(LockedStates.LOCKED_EXPIRY_DAYS)
-                    return
-                }
-            }
+        // else default to lockStatus from dataValueWorkspace
+        if (BackendLockStatusMap[dataValueSet.data?.lockStatus]) {
+            setLockStatus(BackendLockStatusMap[dataValueSet.data?.lockStatus])
+            return
         }
 
-        // if no violations found, set form to open
+        // otherwise denote as open
         setLockStatus(LockedStates.OPEN)
-    }, [metadata, dataSetId, orgUnitId, periodId, setLockStatus])
+    }, [
+        metadata,
+        dataSetId,
+        orgUnitId,
+        periodId,
+        dataValueSet.data?.lockStatus,
+        setLockStatus,
+    ])
+}
+
+export const updateLockStatusFromBackend = (
+    frontEndLockStatus,
+    backEndLockStatus,
+    setLockStatus
+) => {
+    // if the lock status is APPROVED, set to approved
+    if (backEndLockStatus === 'APPROVED') {
+        setLockStatus(LockedStates.LOCKED_APPROVED)
+        return
+    }
+
+    // if the lock status is LOCKED, this is locked due to expiry days
+    if (backEndLockStatus === 'LOCKED') {
+        setLockStatus(LockedStates.LOCKED_EXPIRY_DAYS)
+        return
+    }
+
+    // a lock status of 'OPEN' from the backend could mean either that the form is open OR
+    // that the form should be locked due to data input period, SO
+    // set to OPEN unless frontend check has identified that data input period as out-of-bounds
+    if (frontEndLockStatus !== LockedStates.LOCKED_DATA_INPUT_PERIOD) {
+        setLockStatus(LockedStates.OPEN)
+    }
 }
