@@ -32,7 +32,7 @@ const createSharedMutateFn = (engine, mutationObj) =>
     function mutateFn(variables) {
         // get params for the mutation (de, co, ds, cc, cp) from the
         // `mutationKey`, which is set in the mutation options object and can
-        // be accessed on `this` in the mutation function.
+        // be accessed via `this`-context in the mutation function.
         // This saves passing `dataValueParams` everywhere
         const { mutationKey } = this
         const { params } = mutationKey[1]
