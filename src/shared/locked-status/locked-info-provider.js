@@ -4,12 +4,12 @@ import { LockedContext } from './locked-info-context.js'
 import { LockedStates } from './locked-states.js'
 
 export function LockedProvider({ children }) {
-    const [lockedItems, setLockedStatus] = useState({})
+    const [lockStatus, setLockStatus] = useState(LockedStates.OPEN)
 
     const value = {
-        ...LockedStates.OPEN,
-        ...lockedItems,
-        setLockedStatus,
+        lockStatus,
+        locked: lockStatus !== LockedStates.OPEN,
+        setLockStatus,
     }
 
     return (

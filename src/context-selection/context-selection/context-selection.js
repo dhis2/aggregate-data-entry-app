@@ -24,9 +24,9 @@ export default function ContextSelector({ setSelectionHasNoFormMessage }) {
     const { hide } = useRightHandPanelContext()
     const hideClearButton = useShouldHideClearButton()
     const clearEntireSelection = useClearEntireSelection()
-    const { setLockedStatus } = useLockedContext()
+    const { setLockStatus } = useLockedContext()
     const onClearSelectionClick = () => {
-        setLockedStatus(LockedStates.OPEN)
+        setLockStatus(LockedStates.OPEN)
         setSelectionHasNoFormMessage('')
         if (!hideClearButton) {
             clearEntireSelection()

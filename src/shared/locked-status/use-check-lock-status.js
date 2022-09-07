@@ -14,7 +14,7 @@ export const useCheckLockStatus = () => {
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const { data: metadata } = useMetadata()
-    const { setLockedStatus } = useLockedContext()
+    const { setLockStatus } = useLockedContext()
 
     useEffect(() => {
         const now = getCurrentDate()
@@ -32,11 +32,7 @@ export const useCheckLockStatus = () => {
 
                 if (openingDate > now || closingDate < now) {
                     // mark as invalid for data input period
-                    setLockedStatus(
-                        LockedStates.DATA_INPUT_PERIOD_OUT_OF_RANGE(
-                            dataInputPeriod
-                        )
-                    )
+                    setLockStatus(LockedStates.LOCKED_DATA_INPUT_PERIOD)
                     return
                 }
             }
@@ -53,13 +49,13 @@ export const useCheckLockStatus = () => {
                 endDate.setDate(endDate.getDate() + expiryDays)
 
                 if (now > endDate) {
-                    setLockedStatus(LockedStates.EXPIRY_DAYS)
+                    setLockStatus(LockedStates.LOCKED_EXPIRY_DAYS)
                     return
                 }
             }
         }
 
         // if no violations found, set form to open
-        setLockedStatus(LockedStates.OPEN)
-    }, [metadata, dataSetId, orgUnitId, periodId, setLockedStatus])
+        setLockStatus(LockedStates.OPEN)
+    }, [metadata, dataSetId, orgUnitId, periodId, setLockStatus])
 }

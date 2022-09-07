@@ -35,15 +35,6 @@
   transform: translateY(-100%);
 }
 
-.warningBox {
-    width: 420px;
-}
-
-.warningBoxMargin {
-    composes: warningBox;
-    margin: var(--spacers-dp8);
-}
-
 .formMessageBox {
     margin: var(--spacers-dp8) var(--spacers-dp12) var(--spacers-dp8) var(--spacers-dp12);
 }
