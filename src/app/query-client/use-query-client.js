@@ -27,7 +27,7 @@ const useQueryClient = () => {
     })
 
     // set mutation defaults
-    // we need mutation functions for each query-key
+    // we need default mutation functions for each query-key
     // so that paused mutations can resume after a page reload
     useSetDataValueMutationDefaults(queryClient)
 

@@ -28,10 +28,13 @@ const UPLOAD_FILE_MUTATION = {
     data: (data) => data,
 }
 
-export const createSharedMutateFn = (engine, mutationObj) =>
+const createSharedMutateFn = (engine, mutationObj) =>
     function mutateFn(variables) {
+        // get params for the mutation (de, co, ds, cc, cp) from the
+        // `mutationKey`, which is set in the mutation options object and can
+        // be accessed on `this` in the mutation function.
+        // This saves passing `dataValueParams` everywhere
         const { mutationKey } = this
-        // gather params from mutationKey
         const { params } = mutationKey[1]
         return engine.mutate(mutationObj, {
             variables: { ...params, ...variables },
