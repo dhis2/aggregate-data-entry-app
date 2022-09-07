@@ -4,6 +4,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
+import { useHighlightedFieldIdContext } from '../../shared/index.js'
 import {
     useDataValueParams,
     getDataValueMutationKey,
@@ -51,9 +52,11 @@ export function InnerWrapper({
     syncStatus,
 }) {
     const hasComment = useHasComment(fieldname)
+    const { item } = useHighlightedFieldIdContext()
+    const active = item && deId === item.de.id && cocId === item.coc.id
     const {
-        meta: { active, invalid },
-    } = useField(fieldname, { subscription: { active: true, invalid: true } })
+        meta: { invalid },
+    } = useField(fieldname, { subscription: { invalid: true } })
 
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })

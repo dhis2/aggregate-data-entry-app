@@ -46,7 +46,7 @@ export const TrueOnlyCheckbox = ({
     }
 
     return (
-        <div className={styles.checkboxWrapper}>
+        <div className={styles.checkboxWrapper} onClick={onFocus}>
             <Checkbox
                 dense
                 {...convertCallbackSignatures(input)}

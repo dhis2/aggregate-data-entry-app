@@ -88,7 +88,7 @@ export const BooleanRadios = ({
     }
 
     return (
-        <div className={styles.radioFlexWrapper}>
+        <div className={styles.radioFlexWrapper} onClick={onFocus}>
             <Radio
                 dense
                 label={i18n.t('Yes')}
