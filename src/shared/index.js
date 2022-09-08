@@ -1,3 +1,4 @@
+export * from './data-value-mutations/index.js'
 export * from './error-message/index.js'
 export * from './fixed-periods/index.js'
 export * from './highlighted-field/index.js'

@@ -1,14 +1,13 @@
 import { fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { useState } from 'react'
-import { useMetadata } from '../../shared/metadata/use-metadata.js'
+import { useMetadata, useSetDataValueMutation } from '../../shared/index.js'
 import { render } from '../../test-utils/index.js'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import Comment from './comment.js'
 
 // diff
 
-jest.mock('../data-value-mutations/index.js', () => ({
+jest.mock('../../shared/index.js', () => ({
     useSetDataValueMutation: jest.fn(() => ({})),
 }))
 

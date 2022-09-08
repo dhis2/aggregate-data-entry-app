@@ -15,8 +15,9 @@ import {
     selectors,
     useLockedContext,
     useMetadata,
+    useSetDataValueMutation,
 } from '../../shared/index.js'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import { useHasCommentContext } from '../has-comment/has-comment-context.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
