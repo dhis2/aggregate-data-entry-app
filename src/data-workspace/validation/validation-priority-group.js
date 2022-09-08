@@ -49,12 +49,15 @@ const ValidationPriortyGroup = ({ level, validationViolations = [] }) => {
                 </h1>
             </div>
             {validationViolations.map((validationRule) => {
+                const violationTitle =
+                    validationRule.metaData.displayInstruction ||
+                    validationRule.metaData.displayName
                 return (
                     <div
                         className={validationViolationBoxStyle}
                         key={validationRule.metaData.id}
                     >
-                        <div>{validationRule.metaData.displayInstruction}</div>
+                        <div>{violationTitle}</div>
                         <div className={styles.formula}>
                             <ValidationRuleExpression
                                 validationRule={validationRule}
