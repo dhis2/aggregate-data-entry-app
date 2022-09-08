@@ -27,7 +27,6 @@ export default function CompleteButton({ disabled }) {
 
     const onCompleteClick = useOnCompleteCallback(setIsLoading)
     const onIncompleteClick = function onIncompleteClick() {
-        console.log('> foobar!')
         setFormCompletion({ variables: { completed: false } })
             .catch(() => showErrorAlert(incompletingFormFailedMessage))
             .finally(() => setIsLoading(false))
