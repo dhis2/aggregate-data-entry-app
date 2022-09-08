@@ -4,10 +4,9 @@ import React, { useState } from 'react'
 import { useField } from 'react-final-form'
 import { NUMBER_TYPES, VALUE_TYPES } from '../../shared/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
-import { useMinMaxLimits } from '../use-min-max-limits.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
-import { validateByValueTypeWithLimits } from './validators.js'
+import { validatorsByValueType } from './validators.js'
 
 const htmlTypeAttrsByValueType = {
     [VALUE_TYPES.DATE]: 'date',
@@ -28,7 +27,6 @@ export const GenericInput = ({
     onFocus,
     disabled,
 }) => {
-    const limits = useMinMaxLimits(deId, cocId)
     const formatValue = (value) => {
         if (value === undefined) {
             return undefined
@@ -43,7 +41,7 @@ export const GenericInput = ({
         }
     }
     const { input, meta } = useField(fieldname, {
-        validate: validateByValueTypeWithLimits(valueType, limits),
+        validate: validatorsByValueType[valueType],
         subscription: { value: true, dirty: true, valid: true },
         format: formatValue,
         formatOnBlur: true,

@@ -86,7 +86,8 @@ function UpdateLimits({
                     dataElementId={dataElementId}
                     categoryOptionComboId={categoryOptionComboId}
                     disabled={
-                        limits.min === undefined && limits.max === undefined
+                        typeof limits.min === 'undefined' &&
+                        typeof limits.max === 'undefined'
                     }
                 />
             </ButtonStrip>
@@ -98,6 +99,7 @@ UpdateLimits.propTypes = {
     categoryOptionComboId: PropTypes.string.isRequired,
     dataElementId: PropTypes.string.isRequired,
     limits: PropTypes.shape({
+        avg: PropTypes.number,
         max: PropTypes.number,
         min: PropTypes.number,
     }).isRequired,
@@ -136,6 +138,7 @@ UpdateLimitsWrapper.propTypes = {
     categoryOptionComboId: PropTypes.string.isRequired,
     dataElementId: PropTypes.string.isRequired,
     limits: PropTypes.shape({
+        avg: PropTypes.number,
         max: PropTypes.number,
         min: PropTypes.number,
     }).isRequired,
