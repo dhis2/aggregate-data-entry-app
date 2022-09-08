@@ -238,6 +238,41 @@ describe('ValidationResultsSidebar', () => {
         await waitForLoaderToDisappear()
         expect(getByText('No validation alerts for this data.')).toBeDefined()
     })
+
+    it('should fallback to validation rule name if instruction is missing', async () => {
+        const overrideOptions = {
+            'validation/dataSet/BfMAe6Itzgt': () => ({
+                validationRuleViolations: [
+                    {
+                        validationRule: {
+                            id: 'O7I6pSSF79K',
+                            name: 'Penta3, Exclusive breastfeeding, <1 year Outreach',
+                        },
+                    },
+                ],
+                commentRequiredViolations: [],
+            }),
+            validationRules: () => ({
+                validationRules: [
+                    {
+                        importance: 'MEDIUM',
+                        operator: 'less_than_or_equal_to',
+                        displayName:
+                            'fallback display name since there is no instruction',
+                        id: 'O7I6pSSF79K',
+                        leftSide: { displayDescription: '' },
+                        rightSide: { displayDescription: '' },
+                    },
+                ],
+            }),
+        }
+        const { getByText } = renderComponent(overrideOptions)
+
+        await waitForLoaderToDisappear()
+        expect(
+            getByText('fallback display name since there is no instruction')
+        ).toBeDefined()
+    })
 })
 
 const validationMetadataMockResponse = {
