@@ -51,7 +51,7 @@ export const OptionSet = ({
     // todo: onBlur handler doesn't work, meaning the cell stays active.
     // may need to build from scratch
     return (
-        <div className={styles.selectFlexWrapper}>
+        <div className={styles.selectFlexWrapper} onClick={onFocus}>
             <div className={styles.selectFlexItem}>
                 <SingleSelect
                     dense
