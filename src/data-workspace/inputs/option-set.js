@@ -21,7 +21,7 @@ export const OptionSet = ({
     const { input } = useField(fieldname, { subscription: { value: true } })
     const { data: metadata } = useMetadata()
 
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
