@@ -11,9 +11,15 @@ import {
     validationResultsSidebarId,
 } from '../shared/index.js'
 
-const validationFailedMessage = i18n.t("Couldn't validate the form, please try again later")
-const completingFormFailedMessage = i18n.t("Couldn't validate the form, please try again later")
-const incompletingFormFailedMessage = i18n.t("Couldn't incomplete the form, please try again later")
+const validationFailedMessage = i18n.t(
+    "Couldn't validate the form, please try again later"
+)
+const completingFormFailedMessage = i18n.t(
+    "Couldn't validate the form, please try again later"
+)
+const incompletingFormFailedMessage = i18n.t(
+    "Couldn't incomplete the form, please try again later"
+)
 
 // @TODO: Get the "isComplete" value from some response?
 // @TODO: Optimistically update the source of the "isComplete" value
@@ -47,7 +53,7 @@ export default function CompleteButton({ disabled }) {
                 }),
             setFormCompletion({ variables: { completed: true } }).catch(() => {
                 throw new Error(completingFormFailedMessage)
-            })
+            }),
         ])
             .catch((e) => showErrorAlert(e.message))
             .finally(() => setIsLoading(false))
@@ -67,7 +73,9 @@ export default function CompleteButton({ disabled }) {
 
     const isComplete = dataValueSet.data.completeStatus.complete
     const onClick = isComplete ? onIncompleteClick : onCompleteClick
-    const label = isComplete ? i18n.t('Mark incomplete') : i18n.t('Mark complete')
+    const label = isComplete
+        ? i18n.t('Mark incomplete')
+        : i18n.t('Mark complete')
 
     return (
         <>

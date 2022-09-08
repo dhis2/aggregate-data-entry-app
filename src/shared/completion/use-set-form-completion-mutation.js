@@ -74,7 +74,7 @@ export default function useSetFormCompletionMutation() {
                 completeStatus: {
                     ...previousDataValueSet.completeStatus,
                     complete: variables.completed,
-                }
+                },
             }))
 
             const context = { previousDataValueSet, dataValueSetQueryKey }

@@ -34,16 +34,19 @@ export default function useImperativeValidate() {
             categoryComboId,
             categoryOptionIds,
         })
-        const validationMetaDataQueryKey = getValidationMetaDataQueryKey(dataSetId)
+        const validationMetaDataQueryKey =
+            getValidationMetaDataQueryKey(dataSetId)
 
         const vQ = client.fetchQuery(validationQueryKey)
         const vMDQ = client.fetchQuery(validationMetaDataQueryKey)
 
-        return Promise.all([vQ, vMDQ]).then(([validationResponse, metadataResponse]) => {
-            return buildValidationResult(
-              validationResponse,
-              metadataResponse
-          )
-        })
+        return Promise.all([vQ, vMDQ]).then(
+            ([validationResponse, metadataResponse]) => {
+                return buildValidationResult(
+                    validationResponse,
+                    metadataResponse
+                )
+            }
+        )
     }
 }
