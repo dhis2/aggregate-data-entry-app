@@ -49,10 +49,11 @@ function mapDataValuesToFormInitialValues(dataValues) {
 const select = createSelector(
     (data) => data,
     (data) => {
+        const completeStatus = data.completeStatus
         const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
         const minMaxValues = data.minMaxValues || {}
         const lockStatus = data.lockStatus || ''
-        return { dataValues, minMaxValues, lockStatus }
+        return { completeStatus, dataValues, minMaxValues, lockStatus }
     }
 )
 
