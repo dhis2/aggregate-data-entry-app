@@ -6,13 +6,18 @@ import {
     useOrgUnitId,
     usePeriodId,
 } from '../../shared/index.js'
+import buildValidationResult from './build-validation-result.js'
 import {
     getValidationMetaDataQueryKey,
     getValidationQueryKey,
-} from '../query-key-factory.js'
+} from './query-key-factory.js'
 
-/** Returns validation rule violations grouped by importance */
-export const useValidationResult = () => {
+/**
+ * Returns validation rule violations grouped by importance
+ * @params {Object} options
+ * @params {Boolean} options.enabled - Defaults to `true`
+ **/
+export default function useValidationResult() {
     const [dataSetId] = useDataSetId()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
@@ -57,44 +62,4 @@ export const useValidationResult = () => {
                   )
                 : undefined,
     }
-}
-
-const buildValidationResult = (
-    validationRuleViolations = {},
-    validationRulesMetaData = {}
-) => {
-    const { commentRequiredViolations } = validationRuleViolations
-    const validationRulesGroupedByImportance =
-        groupValidationRuleViolationsByImportance(
-            validationRuleViolations,
-            validationRulesMetaData
-        )
-
-    return {
-        validationRuleViolations: validationRulesGroupedByImportance,
-        commentRequiredViolations,
-    }
-}
-
-const groupValidationRuleViolationsByImportance = (
-    validationRuleViolations = {},
-    validationRulesMetaData = {}
-) => {
-    const ruleViolationsWithMetadata =
-        validationRuleViolations.validationRuleViolations?.map((violation) => ({
-            ...violation,
-            metaData: validationRulesMetaData.validationRules?.find(
-                (metadataRule) =>
-                    metadataRule.id === violation.validationRule.id
-            ),
-        }))
-
-    return ruleViolationsWithMetadata?.reduce((grouped, item) => {
-        const identifier = item.metaData.importance
-
-        grouped[identifier] = grouped[identifier] ?? []
-        grouped[identifier].push(item)
-
-        return grouped
-    }, {})
 }
