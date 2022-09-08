@@ -42,7 +42,7 @@ function useOnCompleteWhenValidRequiredClick(setIsLoading) {
                     setRightHandPanel(validationResultsSidebarId)
                     return Promise.reject(
                         new Error(
-                            i18n.t("The form can't completed while invalid")
+                            i18n.t("The form can't be completed while invalid")
                         )
                     )
                 }
