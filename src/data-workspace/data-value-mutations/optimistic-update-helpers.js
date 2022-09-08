@@ -63,6 +63,12 @@ export function setDataValueInQueryData({
             ...variables,
         }
 
+        // Deleting a value removes the flag on it from the API. We need to have the same behaviour in the
+        // optimistic update, otherwise the flag keeps being shown until the user refreshes the app
+        if (variables.value === '') {
+            updatedDataValue.followUp = false
+        }
+
         const newDataValues = [...previousQueryData.dataValues]
         newDataValues[dataValueIndex] = updatedDataValue
 
