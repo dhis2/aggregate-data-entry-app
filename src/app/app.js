@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import './app.css'
-import {
-    CompletionResultsSidebar,
-    ValidationResultsSidebar,
-} from '../bottom-bar/index.js'
+import { ValidationResultsSidebar } from '../bottom-bar/index.js'
 import { ContextualHelpSidebar } from '../context-selection/contextual-help-sidebar/index.js'
 import { ContextSelection } from '../context-selection/index.js'
 import { DataWorkspace, DataDetailsSidebar } from '../data-workspace/index.js'
@@ -12,7 +9,6 @@ import {
     useRightHandPanelContext,
 } from '../right-hand-panel/index.js'
 import {
-    completionSidebarId,
     contextualHelpSidebarId,
     dataDetailsSidebarId,
     validationResultsSidebarId,
@@ -22,7 +18,6 @@ import LoadApp from './load-app.js'
 // import { MutationIndicator } from './mutation-indicator/index.js'
 
 const idSidebarMap = {
-    [completionSidebarId]: CompletionResultsSidebar,
     [contextualHelpSidebarId]: ContextualHelpSidebar,
     [dataDetailsSidebarId]: DataDetailsSidebar,
     [validationResultsSidebarId]: ValidationResultsSidebar,
