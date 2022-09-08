@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-22T08:32:08.043Z\n"
-"PO-Revision-Date: 2022-09-22T08:32:08.043Z\n"
+"POT-Creation-Date: 2022-09-22T16:06:09.864Z\n"
+"PO-Revision-Date: 2022-09-22T16:06:09.864Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -30,6 +30,18 @@ msgstr "There are {{pendingMutations}} pending changes."
 msgid "Synced"
 msgstr "Synced"
 
+msgid "Couldn't validate the form, please try again later"
+msgstr "Couldn't validate the form, please try again later"
+
+msgid "Couldn't incomplete the form, please try again later"
+msgstr "Couldn't incomplete the form, please try again later"
+
+msgid "Mark incomplete"
+msgstr "Mark incomplete"
+
+msgid "Mark complete"
+msgstr "Mark complete"
+
 msgid "Hide details"
 msgstr "Hide details"
 
@@ -39,20 +51,76 @@ msgstr "View details"
 msgid "Run validation"
 msgstr "Run validation"
 
-msgid "Mark incomplete"
-msgstr "Mark incomplete"
-
-msgid "Mark complete"
-msgstr "Mark complete"
-
 msgid "1 invalid value not saved"
 msgstr "1 invalid value not saved"
 
 msgid "{{numberOfErrors}} invalid values not saved"
 msgstr "{{numberOfErrors}} invalid values not saved"
 
-msgid "Completed by"
-msgstr "Completed by"
+msgid "Last completed by"
+msgstr "Last completed by"
+
+msgid "Last incompleted by"
+msgstr "Last incompleted by"
+
+msgid "1 comment required"
+msgstr "1 comment required"
+
+msgid "{{commentsCount}} comments required"
+msgstr "{{commentsCount}} comments required"
+
+msgid "{{displayShortName}} must have a comment when it doesn't have a value."
+msgstr "{{displayShortName}} must have a comment when it doesn't have a value."
+
+msgid "High"
+msgstr "High"
+
+msgid "Medium"
+msgstr "Medium"
+
+msgid "Low"
+msgstr "Low"
+
+msgid "{{length}} {{level}} priority alert"
+msgstr "{{length}} {{level}} priority alert"
+
+msgid "{{length}} {{level}} priority alerts"
+msgstr "{{length}} {{level}} priority alerts"
+
+msgid "Validation"
+msgstr "Validation"
+
+msgid "Run validation again"
+msgstr "Run validation again"
+
+msgid "Alert summary"
+msgstr "Alert summary"
+
+msgid "No validation alerts for this data."
+msgstr "No validation alerts for this data."
+
+msgid "Running validation..."
+msgstr "Running validation..."
+
+msgid "There was a problem running validation"
+msgstr "There was a problem running validation"
+
+msgid ""
+"Validation could not be run for this data. Try again or contact your system "
+"administrator."
+msgstr ""
+"Validation could not be run for this data. Try again or contact your system "
+"administrator."
+
+msgid "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
+msgstr "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
+
+msgid ""
+"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
+"value"
+msgstr ""
+"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
+"value"
 
 msgid ""
 "Some categories have no valid options for the selected period or "
@@ -191,8 +259,8 @@ msgstr "Period"
 msgid "Choose a period"
 msgstr "Choose a period"
 
-msgid "Show all sections"
-msgstr "Show all sections"
+msgid "All sections"
+msgstr "All sections"
 
 msgid "Section"
 msgstr "Section"
@@ -230,14 +298,17 @@ msgstr "Mark for follow-up"
 msgid "Empty values can't be marked for follow -up"
 msgstr "Empty values can't be marked for follow -up"
 
+msgid "Description: {{- description}}"
+msgstr "Description: {{- description}}"
+
 msgid "Code: {{code}}"
 msgstr "Code: {{code}}"
 
-msgid "ID: {{id}}"
-msgstr "ID: {{id}}"
+msgid "Data element ID: {{id}}"
+msgstr "Data element ID: {{id}}"
 
-msgid "Description: {{description}}"
-msgstr "Description: {{description}}"
+msgid "Category option combo ID: {{id}}"
+msgstr "Category option combo ID: {{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
 msgstr "Last updated {{- timeAgo}} by {{- name}}"
@@ -313,13 +384,6 @@ msgstr "No limits set for this data item."
 
 msgid "Save limits"
 msgstr "Save limits"
-
-msgid ""
-"Here we could override the message for E2017 error with a custom message in "
-"the FE"
-msgstr ""
-"Here we could override the message for E2017 error with a custom message in "
-"the FE"
 
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
@@ -408,64 +472,12 @@ msgstr "Type here to filter in this section"
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
 
-msgid "1 comment required"
-msgstr "1 comment required"
-
-msgid "{{commentsCount}} comments required"
-msgstr "{{commentsCount}} comments required"
-
-msgid "{{displayShortName}} must have a comment when it doesn't have a value."
-msgstr "{{displayShortName}} must have a comment when it doesn't have a value."
-
-msgid "High"
-msgstr "High"
-
-msgid "Medium"
-msgstr "Medium"
-
-msgid "Low"
-msgstr "Low"
-
-msgid "{{length}} {{level}} priority alert"
-msgstr "{{length}} {{level}} priority alert"
-
-msgid "{{length}} {{level}} priority alerts"
-msgstr "{{length}} {{level}} priority alerts"
-
-msgid "Validation"
-msgstr "Validation"
-
-msgid "Run validation again"
-msgstr "Run validation again"
-
-msgid "Alert summary"
-msgstr "Alert summary"
-
-msgid "No validation alerts for this data."
-msgstr "No validation alerts for this data."
-
-msgid "Running validation..."
-msgstr "Running validation..."
-
-msgid "There was a problem running validation"
-msgstr "There was a problem running validation"
-
 msgid ""
-"Validation could not be run for this data. Try again or contact your system "
-"administrator."
+"Here we could override the message for E2017 error with a custom message in "
+"the FE"
 msgstr ""
-"Validation could not be run for this data. Try again or contact your system "
-"administrator."
-
-msgid "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
-msgstr "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
-
-msgid ""
-"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
-"value"
-msgstr ""
-"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
-"value"
+"Here we could override the message for E2017 error with a custom message in "
+"the FE"
 
 msgid "January"
 msgstr "January"
