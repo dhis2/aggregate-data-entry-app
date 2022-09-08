@@ -3,20 +3,12 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, Layer, Center, CircularLoader } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { useSetRightHandPanel } from '../right-hand-panel/index.js'
 import {
     useDataValueSet,
-    useImperativeValidate,
     useSetFormCompletionMutation,
-    validationResultsSidebarId,
 } from '../shared/index.js'
+import useOnCompleteCallback from './use-on-complete-callback.js'
 
-const validationFailedMessage = i18n.t(
-    "Couldn't validate the form, please try again later"
-)
-const completingFormFailedMessage = i18n.t(
-    "Couldn't validate the form, please try again later"
-)
 const incompletingFormFailedMessage = i18n.t(
     "Couldn't incomplete the form, please try again later"
 )
@@ -29,37 +21,13 @@ export default function CompleteButton({ disabled }) {
     })
 
     const dataValueSet = useDataValueSet()
-    const setRightHandPanel = useSetRightHandPanel()
     const [isLoading, setIsLoading] = useState(false)
-    const validate = useImperativeValidate()
     // `mutate` doesn't return a promise, `mutateAsync` does
     const { mutateAsync: setFormCompletion } = useSetFormCompletionMutation()
 
-    const onCompleteClick = function onCompleteClick() {
-        setIsLoading(true)
-
-        Promise.all([
-            validate()
-                .then((data) => {
-                    if (
-                        data.commentRequiredViolations.length ||
-                        Object.keys(data.validationRuleViolations).length
-                    ) {
-                        setRightHandPanel(validationResultsSidebarId)
-                    }
-                })
-                .catch(() => {
-                    throw new Error(validationFailedMessage)
-                }),
-            setFormCompletion({ variables: { completed: true } }).catch(() => {
-                throw new Error(completingFormFailedMessage)
-            }),
-        ])
-            .catch((e) => showErrorAlert(e.message))
-            .finally(() => setIsLoading(false))
-    }
-
+    const onCompleteClick = useOnCompleteCallback(setIsLoading)
     const onIncompleteClick = function onIncompleteClick() {
+        console.log('> foobar!')
         setFormCompletion({ variables: { completed: false } })
             .catch(() => showErrorAlert(incompletingFormFailedMessage))
             .finally(() => setIsLoading(false))
