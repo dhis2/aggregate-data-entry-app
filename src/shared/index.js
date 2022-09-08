@@ -1,3 +1,4 @@
+export * from './completion/index.js'
 export * from './data-value-mutations/index.js'
 export * from './constants.js'
 export * from './error-message/index.js'

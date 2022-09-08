@@ -1,6 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { QueryClient } from '@tanstack/react-query'
-import { setDataValueMutationDefaults } from '../../data-workspace/data-value-mutations/index.js'
+import { setDataValueMutationDefaults } from '../../shared/index.js'
 import createQueryFn from './create-query-fn.js'
 
 const logger = {
