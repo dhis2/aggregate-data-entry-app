@@ -35,8 +35,6 @@ export default function useImperativeValidate() {
             categoryOptionIds,
         })
         const validationMetaDataQueryKey = getValidationMetaDataQueryKey(dataSetId)
-        console.log('> validationQueryKey', validationQueryKey)
-        console.log('> validationMetaDataQueryKey', validationMetaDataQueryKey)
 
         const vQ = client.fetchQuery(validationQueryKey)
         const vMDQ = client.fetchQuery(validationMetaDataQueryKey)

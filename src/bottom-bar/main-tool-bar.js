@@ -3,12 +3,12 @@ import { Button, IconErrorFilled16, IconInfo16, colors } from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import React from 'react'
-import { validationResultsSidebarId } from '../data-workspace/constants.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
 import {
     useDataValueSetQueryKey,
     useLockedContext,
     useEntryFormStore,
+    validationResultsSidebarId,
 } from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
