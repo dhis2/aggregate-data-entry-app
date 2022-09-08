@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { useApiAttributeParams } from '../use-api-attribute-params.js'
 import {
-    useApiAttributeParams,
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
-} from '../../shared/index.js'
+} from '../use-context-selection/index.js'
 import buildValidationResult from './build-validation-result.js'
 import {
     getValidationMetaDataQueryKey,

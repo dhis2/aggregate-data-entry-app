@@ -7,7 +7,7 @@ import Comment from './comment.js'
 
 // diff
 
-jest.mock('../../shared/index.js', () => ({
+jest.mock('../../shared/data-value-mutations/data-value-mutations.js', () => ({
     useSetDataValueMutation: jest.fn(() => ({})),
 }))
 

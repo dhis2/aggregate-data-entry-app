@@ -6,7 +6,7 @@ import { render } from '../../test-utils/render.js'
 import { BooleanRadios } from './boolean-radios.js'
 
 jest.mock('react-final-form')
-jest.mock('../data-value-mutations/data-value-mutations.js')
+jest.mock('../../shared/data-value-mutations/data-value-mutations.js')
 
 describe('boolean-radios', () => {
     const props = {

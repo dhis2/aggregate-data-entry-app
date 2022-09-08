@@ -1,12 +1,12 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useApiAttributeParams } from '../use-api-attribute-params.js'
 import {
-    useApiAttributeParams,
     useDataSetId,
-    useDataValueSetQueryKey,
     useOrgUnitId,
     usePeriodId,
-} from '../../shared/index.js'
+} from '../use-context-selection/index.js'
+import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 
 const MUTATION_SET_FORM_COMPLETION = {
     resource: 'dataEntry/dataSetCompletion',
