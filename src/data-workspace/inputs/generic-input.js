@@ -28,7 +28,7 @@ export const GenericInput = ({
     onFocus,
     disabled,
 }) => {
-    const limits = useMinMaxLimits(deId)
+    const limits = useMinMaxLimits(deId, cocId)
     const formatValue = (value) => {
         if (value === undefined) {
             return undefined
