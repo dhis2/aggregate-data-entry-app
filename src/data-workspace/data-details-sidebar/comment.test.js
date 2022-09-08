@@ -5,8 +5,6 @@ import { useMetadata, useSetDataValueMutation } from '../../shared/index.js'
 import { render } from '../../test-utils/index.js'
 import Comment from './comment.js'
 
-// diff
-
 jest.mock('../../shared/data-value-mutations/data-value-mutations.js', () => ({
     useSetDataValueMutation: jest.fn(() => ({})),
 }))
