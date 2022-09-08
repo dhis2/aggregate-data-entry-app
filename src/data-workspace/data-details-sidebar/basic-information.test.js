@@ -116,4 +116,56 @@ describe('<BasicInformation />', () => {
         expect(getByText(item.storedBy, { exact: false })).toBeInTheDocument()
         expect(getByText('a minute ago', { exact: false })).toBeInTheDocument()
     })
+
+    it('renders the item description if one is provided', () => {
+        const item = {
+            categoryOptionCombo: 'coc-1',
+            comment: null,
+            dataElement: 'item-1',
+            name: 'Item name',
+            lastUpdated: '2022-06-28T14:51:14.435',
+            storedBy: 'Firstname Lastname',
+            followUp: false,
+            code: 'this is the code',
+            value: '',
+            description: 'this is the very helpful description',
+        }
+
+        const { getByText } = render(
+            <BasicInformation
+                item={item}
+                onMarkForFollowup={noop}
+                onUnmarkForFollowup={noop}
+            />
+        )
+
+        expect(
+            getByText(item.description, { exact: false })
+        ).toBeInTheDocument()
+    })
+
+    it('does not render a description line if description is not provided', () => {
+        const item = {
+            categoryOptionCombo: 'coc-1',
+            comment: null,
+            dataElement: 'item-1',
+            name: 'Item name',
+            lastUpdated: '2022-06-28T14:51:14.435',
+            storedBy: 'Firstname Lastname',
+            followUp: false,
+            code: 'this is the code',
+            value: '',
+            description: 'this is the very helpful description',
+        }
+
+        const { queryByText } = render(
+            <BasicInformation
+                item={item}
+                onMarkForFollowup={noop}
+                onUnmarkForFollowup={noop}
+            />
+        )
+
+        expect(queryByText('Description:')).not.toBeInTheDocument()
+    })
 })

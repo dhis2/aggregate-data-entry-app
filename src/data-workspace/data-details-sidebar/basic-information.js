@@ -24,6 +24,14 @@ const BasicInformation = ({ item }) => (
                     nsSeparator: '-:-',
                 })}
             </li>
+            {item.description && (
+                <li>
+                    {i18n.t('Description: {{description}}', {
+                        description: item.description,
+                        nsSeparator: '-:-',
+                    })}
+                </li>
+            )}
             <li>
                 {item.lastUpdated && (
                     <Tooltip content={item.lastUpdated.toString()}>

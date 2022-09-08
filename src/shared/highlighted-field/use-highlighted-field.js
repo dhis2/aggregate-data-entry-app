@@ -19,6 +19,7 @@ function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
             name: de.displayName,
             code: de.code,
             commentOptionSetId: commentOptionSet?.id,
+            description: de.description,
         }
     }
 
@@ -34,6 +35,7 @@ function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
         storedBy: null,
         code: null,
         commentOptionSetId: commentOptionSet?.id,
+        description: de.description,
     }
 }
 
