@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import './app.css'
-import { CompletionResultsSidebar, ValidationResultsSidebar } from '../bottom-bar/index.js'
+import {
+    CompletionResultsSidebar,
+    ValidationResultsSidebar,
+} from '../bottom-bar/index.js'
 import { ContextualHelpSidebar } from '../context-selection/contextual-help-sidebar/index.js'
 import { ContextSelection } from '../context-selection/index.js'
-import {
-    DataWorkspace,
-    DataDetailsSidebar,
-} from '../data-workspace/index.js'
+import { DataWorkspace, DataDetailsSidebar } from '../data-workspace/index.js'
 import {
     RightHandPanel,
     useRightHandPanelContext,

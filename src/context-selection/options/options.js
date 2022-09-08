@@ -3,7 +3,10 @@ import { FlyoutMenu, MenuItem, MenuDivider, DropdownButton } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { usePrintableArea } from '../../data-workspace/print-area/print-area-context.js'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
-import { contextualHelpSidebarId, useIsValidSelection } from '../../shared/index.js'
+import {
+    contextualHelpSidebarId,
+    useIsValidSelection,
+} from '../../shared/index.js'
 
 export default function Options() {
     const rightHandPanel = useRightHandPanelContext()

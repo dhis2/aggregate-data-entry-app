@@ -2,7 +2,11 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { NUMBER_TYPES, VALUE_TYPES, useSetDataValueMutation } from '../../shared/index.js'
+import {
+    NUMBER_TYPES,
+    VALUE_TYPES,
+    useSetDataValueMutation,
+} from '../../shared/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
