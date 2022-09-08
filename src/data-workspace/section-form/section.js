@@ -10,13 +10,18 @@ import {
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useMemo, useState } from 'react'
-import { useMetadata, selectors } from '../../shared/index.js'
+import {
+    useMetadata,
+    selectors,
+    useSetHighlightedFieldIdContext,
+} from '../../shared/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'
 import styles from './section.module.css'
 
 export function SectionFormSection({ section, dataSetId, globalFilterText }) {
+    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
     const { data } = useMetadata()
@@ -96,6 +101,7 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
                                     setFilterText(target.value)
                                 }
                                 className={styles.filterInput}
+                                onFocus={() => setHighlightedFieldId(null)}
                             />
                         </label>
                     </TableCellHead>
