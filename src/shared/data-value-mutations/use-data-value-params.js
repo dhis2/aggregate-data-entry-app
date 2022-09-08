@@ -1,7 +1,5 @@
-import {
-    useContextSelection,
-    useApiAttributeParams,
-} from '../../shared/index.js'
+import { useApiAttributeParams } from '../use-api-attribute-params.js'
+import { useContextSelection } from '../use-context-selection/index.js'
 
 /**
  * Formats a de/coc pair and the current context selection for use with the

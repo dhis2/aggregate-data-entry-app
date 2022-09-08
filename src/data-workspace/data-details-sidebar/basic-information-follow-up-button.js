@@ -1,8 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, colors, IconFlag24, Tooltip } from '@dhis2/ui'
 import React from 'react'
-import { useHighlightedField } from '../../shared/index.js'
-import { useSetDataValueMutation } from '../data-value-mutations/data-value-mutations.js'
+import { useHighlightedField, useSetDataValueMutation } from '../../shared/index.js'
 import ItemPropType from './item-prop-type.js'
 
 const FollowUpButton = ({ item }) => {
