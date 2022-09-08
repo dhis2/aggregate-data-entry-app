@@ -65,8 +65,8 @@ export const GenericInput = ({
     const handleBlur = () => {
         const { value } = input
         const formattedValue = formatValue(value)
-        const { dirty, valid } = meta
-        if (dirty && valid && formattedValue !== lastSyncedValue) {
+        const { valid } = meta
+        if (valid && formattedValue !== lastSyncedValue) {
             syncData(formattedValue)
         }
     }
