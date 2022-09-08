@@ -53,10 +53,10 @@ export function InnerWrapper({
 }) {
     const hasComment = useHasComment(fieldname)
     const { item } = useHighlightedFieldIdContext()
-    const active = item && deId === item.de.id && cocId === item.coc.id
+    const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
-        meta: { invalid },
-    } = useField(fieldname, { subscription: { invalid: true } })
+        meta: { invalid, active },
+    } = useField(fieldname, { subscription: { invalid: true, active: true } })
 
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
@@ -76,6 +76,7 @@ export function InnerWrapper({
         <div
             className={cx(styles.cellInnerWrapper, cellStateClassName, {
                 [styles.active]: active,
+                [styles.highlighted]: highlighted,
                 [styles.disabled]: disabled,
             })}
         >

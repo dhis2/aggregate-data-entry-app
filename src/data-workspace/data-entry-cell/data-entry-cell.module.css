@@ -24,17 +24,21 @@
     outline: 1px solid #a0adba;
 }
 
-.active {
-    outline: 3px solid var(--theme-focus) !important;
+.highlighted {
+    outline: 3px solid var(--colors-grey800) !important;
     border: none !important;
     background: #fff !important;
+}
+
+.highlighted.active {
+    outline-color: var(--theme-focus) !important;
 }
 
 .disabled {
     background: var(--colors-grey300);
 }
 
-.invalid:not(.active) {
+.invalid:not(.highlighted) {
     background: var(--colors-red200);
     outline: 1px solid var(--colors-red600) !important;
 }
