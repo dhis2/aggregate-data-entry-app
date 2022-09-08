@@ -15,7 +15,6 @@ import CompleteButton from './complete-button.js'
 import styles from './main-tool-bar.module.css'
 
 export default function MainToolBar() {
-    const dataValueSet = useDataValueSet()
     const rightHandPanel = useRightHandPanelContext()
     const queryKey = useDataValueSetQueryKey()
     const { locked } = useLockedContext()
@@ -25,6 +24,7 @@ export default function MainToolBar() {
     const numberOfErrors = useEntryFormStore((state) =>
         state.getNumberOfErrors()
     )
+    const { data } = useDataValueSet()
 
     const validateDisabled = activeMutations > 0
 
@@ -70,7 +70,7 @@ export default function MainToolBar() {
                 </button>
             )}
 
-            {dataValueSet.data?.completeStatus.lastUpdatedBy && (
+            {data?.completeStatus.lastUpdatedBy && (
                 <span
                     className={cx(styles.completionSummary, styles.toolbarItem)}
                 >
@@ -82,10 +82,11 @@ export default function MainToolBar() {
 
                     <span>
                         <span className={styles.completedByLabel}>
-                            {i18n.t('Completed by')}
+                            {data.completeStatus.complete
+                                ? i18n.t('Last completed by')
+                                : i18n.t('Last incompleted by')}
                         </span>
-
-                        {dataValueSet.data?.completeStatus.lastUpdatedBy}
+                        {data?.completeStatus.lastUpdatedBy}
                     </span>
                 </span>
             )}
