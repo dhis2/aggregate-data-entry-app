@@ -91,7 +91,9 @@ export const validateByValueTypeWithLimits = (valueType, limits) =>
     composeValidators(
         ...[
             validatorsByValueType[valueType],
-            ...(CAN_HAVE_LIMITS_TYPES.includes(valueType) && limits
+            ...(CAN_HAVE_LIMITS_TYPES.includes(valueType) &&
+            Number.isFinite(limits?.min) &&
+            Number.isFinite(limits?.max)
                 ? [createNumberRange(limits.min, limits.max)]
                 : []),
         ]

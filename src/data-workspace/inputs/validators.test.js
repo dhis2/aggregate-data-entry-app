@@ -62,5 +62,21 @@ describe(`validateByValueTypeWithLimits`, () => {
                 validateByValueTypeWithLimits(VALUE_TYPES.INTEGER, undefined)(4)
             ).toBeUndefined()
         })
+
+        it('should not return error for type that support limits and only has min defined', () => {
+            expect(
+                validateByValueTypeWithLimits(VALUE_TYPES.NUMBER, {
+                    min: 5,
+                })(7)
+            ).toBeUndefined()
+        })
+
+        it('should not return error for type that support limits and only has min defined', () => {
+            expect(
+                validateByValueTypeWithLimits(VALUE_TYPES.NUMBER, {
+                    max: 10,
+                })(7)
+            ).toBeUndefined()
+        })
     })
 })

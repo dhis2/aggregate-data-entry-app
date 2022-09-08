@@ -6,7 +6,6 @@ import {
     Title,
     useDataValueSet,
     useHighlightedField,
-    useOrgUnitId,
 } from '../../shared/index.js'
 import AuditLog from './audit-log.js'
 import BasicInformation from './basic-information.js'
@@ -15,7 +14,6 @@ import History from './history.js'
 import Limits from './limits.js'
 
 export default function DataDetailsSidebar({ hide }) {
-    const [orgUnitId] = useOrgUnitId()
     const dataValueSet = useDataValueSet()
     const item = useHighlightedField()
 
@@ -26,31 +24,12 @@ export default function DataDetailsSidebar({ hide }) {
         ],
     }
 
-    // Searches the response of `useDataValueSet` for the minMaxValue that
-    // belongs to the currently displayed data details by comparing the
-    // minMaxValue's coc, de and ou with the data value's coc, de and ou
-    const minMaxValue = dataValueSet.data?.minMaxValues.find(
-        (curMinMaxValue) => {
-            return (
-                curMinMaxValue.categoryOptionCombo ===
-                    dataValue.categoryOptionCombo &&
-                curMinMaxValue.dataElement === dataValue.dataElement &&
-                curMinMaxValue.orgUnit === orgUnitId
-            )
-        }
-    )
-
-    const limits = {
-        min: minMaxValue?.minValue,
-        max: minMaxValue?.maxValue,
-    }
-
     return (
         <Sidebar>
             <Title onClose={hide}>{i18n.t('Details')}</Title>
             <BasicInformation item={dataValue} />
             <Comment item={dataValue} />
-            <Limits dataValue={dataValue} limits={limits} />
+            <Limits dataValue={dataValue} />
             <History item={dataValue} />
             <AuditLog item={dataValue} />
         </Sidebar>

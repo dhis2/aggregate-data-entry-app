@@ -1,4 +1,4 @@
-import { useDataValueSet, useOrgUnitId } from '../../shared/index.js'
+import { useDataValueSet, useOrgUnitId } from '../shared/index.js'
 
 export const useMinMaxLimits = (dataElementId, categoryOptionComboId) => {
     const [orgUnitId] = useOrgUnitId()
@@ -12,10 +12,8 @@ export const useMinMaxLimits = (dataElementId, categoryOptionComboId) => {
         )
     })
 
-    return (
-        limits && {
-            min: limits.minValue,
-            max: limits.maxValue,
-        }
-    )
+    return {
+        min: limits?.minValue,
+        max: limits?.maxValue,
+    }
 }

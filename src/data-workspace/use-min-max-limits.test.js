@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { useDataValueSet, useOrgUnitId } from '../../shared/index.js'
+import { useDataValueSet, useOrgUnitId } from '../shared/index.js'
 import { useMinMaxLimits } from './use-min-max-limits.js'
 
-jest.mock('../../shared/index.js', () => ({
+jest.mock('../shared/index.js', () => ({
     useDataValueSet: jest.fn(),
     useOrgUnitId: jest.fn(),
 }))
@@ -36,7 +36,7 @@ describe(`useMinMaxLimits`, () => {
             useMinMaxLimits('dataElementId124', 'categoryOptionComboId123')
         )
 
-        expect(result.current).toBeUndefined()
+        expect(result.current).toEqual({})
     })
 
     it('should return undefined when not present for categoryOptionCombo', () => {
@@ -44,7 +44,7 @@ describe(`useMinMaxLimits`, () => {
             useMinMaxLimits('dataElementId123', 'categoryOptionComboId124')
         )
 
-        expect(result.current).toBeUndefined()
+        expect(result.current).toEqual({})
     })
 
     it('should return undefined when not present for categoryOptionCombo', () => {
@@ -53,6 +53,6 @@ describe(`useMinMaxLimits`, () => {
             useMinMaxLimits('dataElementId123', 'categoryOptionComboId123')
         )
 
-        expect(result.current).toBeUndefined()
+        expect(result.current).toEqual({})
     })
 })
