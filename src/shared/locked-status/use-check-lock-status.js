@@ -10,6 +10,24 @@ import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 
+const isDataInputPeriodLocked = (dataSetId, periodId, metadata) => {
+    const dataInputPeriod = selectors.getApplicableDataInputPeriod(
+        metadata,
+        dataSetId,
+        periodId
+    )
+
+    if (!dataInputPeriod) {
+        return false
+    }
+
+    const openingDate = new Date(dataInputPeriod.openingDate)
+    const closingDate = new Date(dataInputPeriod.closingDate)
+    const now = getCurrentDate()
+
+    return openingDate > now || closingDate < now
+}
+
 export const useCheckLockStatus = () => {
     const [dataSetId] = useDataSetId()
     const [orgUnitId] = useOrgUnitId()
@@ -19,28 +37,13 @@ export const useCheckLockStatus = () => {
     const dataValueSet = useDataValueSet()
 
     useEffect(() => {
-        const now = getCurrentDate()
-
-        if (dataSetId && periodId) {
-            const dataInputPeriod = selectors.getApplicableDataInputPeriod(
-                metadata,
-                dataSetId,
-                periodId
-            )
-
-            if (dataInputPeriod) {
-                const openingDate = new Date(dataInputPeriod.openingDate)
-                const closingDate = new Date(dataInputPeriod.closingDate)
-
-                if (openingDate > now || closingDate < now) {
-                    // mark as invalid for data input period
-                    setLockStatus(LockedStates.LOCKED_DATA_INPUT_PERIOD)
-                    return
-                }
-            }
+        if (isDataInputPeriodLocked(dataSetId, periodId, metadata)) {
+            // mark as invalid for data input period
+            setLockStatus(LockedStates.LOCKED_DATA_INPUT_PERIOD)
+            return
         }
 
-        // else default to lockStatus from dataValueWorkspace
+        // else default to lockStatus from dataValueSet
         if (BackendLockStatusMap[dataValueSet.data?.lockStatus]) {
             setLockStatus(BackendLockStatusMap[dataValueSet.data?.lockStatus])
             return

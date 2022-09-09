@@ -1,7 +1,8 @@
 import { createContext } from 'react'
 
 export const LockedContext = createContext({
-    // sets above properties
+    lockStatus: '',
+    locked: '',
     setLockStatus: () => {
         throw new Error('Context function "setLockStatus" not set')
     },

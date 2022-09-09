@@ -9,6 +9,7 @@ import {
     useMetadata,
     selectors,
     updateLockStatusFromBackend,
+    useCheckLockStatus,
     useDataSetId,
     useContextSelectionId,
     useDataValueSet,
@@ -22,6 +23,7 @@ import { useHasCommentContext } from './has-comment/has-comment-context.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const { data: metadata } = useMetadata()
+    useCheckLockStatus()
     const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
     const { populateHasCommentContextForDataSetValues } = useHasCommentContext()
     const initialDataValuesFetch = useDataValueSet({

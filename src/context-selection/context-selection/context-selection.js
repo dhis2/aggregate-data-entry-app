@@ -7,7 +7,6 @@ import {
     useClearEntireSelection,
     useManageInterParamDependencies,
     useLockedContext,
-    useCheckLockStatus,
 } from '../../shared/index.js'
 import { AttributeOptionComboSelectorBarItem } from '../attribute-option-combo-selector-bar-item/index.js'
 import { DataSetSelectorBarItem } from '../data-set-selector-bar-item/index.js'
@@ -19,7 +18,6 @@ import useShouldHideClearButton from './use-should-hide-clear-button.js'
 
 export default function ContextSelector({ setSelectionHasNoFormMessage }) {
     useManageInterParamDependencies()
-    useCheckLockStatus()
 
     const { hide } = useRightHandPanelContext()
     const hideClearButton = useShouldHideClearButton()

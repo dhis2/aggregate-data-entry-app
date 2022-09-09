@@ -21,27 +21,20 @@ export const BooleanRadios = ({
     locked,
     setSyncStatus,
 }) => {
-    const useFieldWithPatch = (...args) => {
-        const { input, ...rest } = useField(...args)
-        return {
-            ...rest,
-            input,
-        }
-    }
-    const yesField = useFieldWithPatch(fieldname, {
+    const yesField = useField(fieldname, {
         type: 'radio',
         value: 'true',
         subscription: { value: true },
     })
 
-    const noField = useFieldWithPatch(fieldname, {
+    const noField = useField(fieldname, {
         type: 'radio',
         value: 'false',
         subscription: { value: true },
     })
 
     // Used for the 'clear' button, but works
-    const clearField = useFieldWithPatch(fieldname, {
+    const clearField = useField(fieldname, {
         type: 'radio',
         value: '',
         subscription: { value: true },
