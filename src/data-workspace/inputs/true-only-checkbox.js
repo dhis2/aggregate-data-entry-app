@@ -13,13 +13,14 @@ export const TrueOnlyCheckbox = ({
     onKeyDown,
     onFocus,
     disabled,
+    locked,
 }) => {
     const { input, meta } = useField(fieldname, {
         type: 'checkbox',
         subscription: { value: true, dirty: true, valid: true },
     })
 
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -39,14 +40,14 @@ export const TrueOnlyCheckbox = ({
     const handleBlur = () => {
         // For 'True only', can only send 'true' (or '1') or ''
         const value = input.checked ? 'true' : ''
-        const { dirty, valid } = meta
-        if (dirty && valid && value !== lastSyncedValue) {
+        const { valid } = meta
+        if (valid && value !== lastSyncedValue) {
             syncData(value)
         }
     }
 
     return (
-        <div className={styles.checkboxWrapper}>
+        <div className={styles.checkboxWrapper} onClick={onFocus}>
             <Checkbox
                 dense
                 {...convertCallbackSignatures(input)}
@@ -59,7 +60,7 @@ export const TrueOnlyCheckbox = ({
                     input.onBlur(e)
                 }}
                 onKeyDown={onKeyDown}
-                disabled={disabled}
+                disabled={disabled || locked}
             />
         </div>
     )

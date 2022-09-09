@@ -10,14 +10,12 @@ import {
     useSetDataValueMutationFunction,
     useUploadFileDataValueMutationFunction,
 } from './mutation-functions.js'
+import { mutationKeys } from './mutation-key-factory.js'
 import useApiError from './use-api-error.js'
 import { useDataValueParams } from './use-data-value-params.js'
 
-export function getDataValueMutationKey(dataValueParams) {
-    return ['dataValues', { params: dataValueParams }]
-}
-
 function useSharedDataValueMutation({
+    mutationKey,
     dataValueParams,
     mutationFn,
     optimisticUpdateFn,
@@ -28,7 +26,7 @@ function useSharedDataValueMutation({
 
     return useMutation(mutationFn, {
         retry: 1,
-        mutationKey: getDataValueMutationKey(dataValueParams),
+        mutationKey: mutationKey,
 
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
@@ -73,10 +71,11 @@ function useSharedDataValueMutation({
  */
 export function useSetDataValueMutation({ deId, cocId }) {
     const dataValueParams = useDataValueParams({ deId, cocId })
-    const mutationFn = useSetDataValueMutationFunction(dataValueParams)
+    const mutationFn = useSetDataValueMutationFunction()
 
     return useSharedDataValueMutation({
         dataValueParams,
+        mutationKey: mutationKeys.update(dataValueParams),
         mutationFn,
         optimisticUpdateFn: optimisticallySetDataValue,
     })
@@ -87,9 +86,10 @@ export function useSetDataValueMutation({ deId, cocId }) {
  */
 export function useUploadFileDataValueMutation({ deId, cocId }) {
     const dataValueParams = useDataValueParams({ deId, cocId })
-    const mutationFn = useUploadFileDataValueMutationFunction(dataValueParams)
+    const mutationFn = useUploadFileDataValueMutationFunction()
 
     return useSharedDataValueMutation({
+        mutationKey: mutationKeys.file(dataValueParams),
         dataValueParams,
         mutationFn,
         optimisticUpdateFn: optimisticallySetFileDataValue,
@@ -98,9 +98,10 @@ export function useUploadFileDataValueMutation({ deId, cocId }) {
 /** The `mutate` function returned by this hook expects no arguments */
 export function useDeleteDataValueMutation({ deId, cocId }) {
     const dataValueParams = useDataValueParams({ deId, cocId })
-    const mutationFn = useDeleteDataValueMutationFunction(dataValueParams)
+    const mutationFn = useDeleteDataValueMutationFunction()
 
     return useSharedDataValueMutation({
+        mutationKey: mutationKeys.delete(dataValueParams),
         dataValueParams,
         mutationFn,
         optimisticUpdateFn: optimisticallyDeleteDataValue,

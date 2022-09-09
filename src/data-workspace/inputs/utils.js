@@ -16,6 +16,7 @@ export const InputPropTypes = {
     deId: PropTypes.string,
     disabled: PropTypes.bool,
     lastSyncedValue: PropTypes.any,
+    locked: PropTypes.bool,
     setSyncStatus: PropTypes.func,
     onFocus: PropTypes.func,
 }

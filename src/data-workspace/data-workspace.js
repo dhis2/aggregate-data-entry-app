@@ -8,10 +8,13 @@ import { BottomBar } from '../bottom-bar/index.js'
 import {
     useMetadata,
     selectors,
+    updateLockStatusFromBackend,
+    useCheckLockStatus,
     useDataSetId,
     useContextSelectionId,
     useDataValueSet,
     useIsValidSelection,
+    useLockedContext,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
@@ -20,10 +23,17 @@ import { useHasCommentContext } from './has-comment/has-comment-context.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const { data: metadata } = useMetadata()
+    useCheckLockStatus()
+    const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
     const { populateHasCommentContextForDataSetValues } = useHasCommentContext()
     const initialDataValuesFetch = useDataValueSet({
         onSuccess: (data) => {
             populateHasCommentContextForDataSetValues(data.dataValues)
+            updateLockStatusFromBackend(
+                frontEndLockStatus,
+                data?.lockStatus,
+                setLockStatus
+            )
         },
     })
     const isValidSelection = useIsValidSelection()

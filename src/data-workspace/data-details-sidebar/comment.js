@@ -10,7 +10,12 @@ import {
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form, useField } from 'react-final-form'
-import { ExpandableUnit, selectors, useMetadata } from '../../shared/index.js'
+import {
+    ExpandableUnit,
+    selectors,
+    useLockedContext,
+    useMetadata,
+} from '../../shared/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import { useHasCommentContext } from '../has-comment/has-comment-context.js'
 import styles from './comment.module.css'
@@ -155,6 +160,7 @@ CommentEditForm.propTypes = {
 }
 
 export default function Comment({ item }) {
+    const { locked } = useLockedContext()
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
     const setDataValueComment = useSetDataValueMutation({
@@ -214,7 +220,12 @@ export default function Comment({ item }) {
                 </p>
             )}
 
-            <Button small secondary onClick={() => setEditing(true)}>
+            <Button
+                small
+                secondary
+                onClick={() => setEditing(true)}
+                disabled={locked}
+            >
                 {item.comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
             </Button>
         </ExpandableUnit>

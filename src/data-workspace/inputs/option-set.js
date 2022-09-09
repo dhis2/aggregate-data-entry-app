@@ -17,11 +17,12 @@ export const OptionSet = ({
     onKeyDown,
     onFocus,
     disabled,
+    locked,
 }) => {
     const { input } = useField(fieldname, { subscription: { value: true } })
     const { data: metadata } = useMetadata()
 
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -51,7 +52,7 @@ export const OptionSet = ({
     // todo: onBlur handler doesn't work, meaning the cell stays active.
     // may need to build from scratch
     return (
-        <div className={styles.selectFlexWrapper}>
+        <div className={styles.selectFlexWrapper} onClick={onFocus}>
             <div className={styles.selectFlexItem}>
                 <SingleSelect
                     dense
@@ -71,7 +72,7 @@ export const OptionSet = ({
                     }}
                     onKeyDown={onKeyDown}
                     onBlur={() => input.onBlur()}
-                    disabled={disabled}
+                    disabled={disabled || locked}
                 >
                     {options.map(({ id, code, displayName }) => (
                         <SingleSelectOption
@@ -93,7 +94,7 @@ export const OptionSet = ({
                         handleChange('')
                         input.onBlur()
                     }}
-                    disabled={disabled}
+                    disabled={disabled || locked}
                 >
                     {i18n.t('Clear')}
                 </Button>
