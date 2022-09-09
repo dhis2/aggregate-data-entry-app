@@ -25,6 +25,25 @@ const useQueryClient = () => {
         },
     })
 
+    const mutationCache = queryClient.getMutationCache()
+    // prevent duplicate mutations from being stored in cache
+    mutationCache.subscribe((event) => {
+        if (event.type !== 'updated') {
+            return
+        }
+        const { mutation } = event
+        const duplicateMutation = mutationCache.find({
+            mutationKey: mutation.options.mutationKey,
+            // ensure previous mutation was fired before this
+            // (mutationId is an incremental integer)
+            predicate: (currMutation) =>
+                currMutation.mutationId < mutation.mutationId,
+        })
+        if (duplicateMutation) {
+            mutationCache.remove(duplicateMutation)
+        }
+    })
+
     return queryClient
 }
 
