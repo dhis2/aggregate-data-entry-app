@@ -87,17 +87,23 @@ export const validatorsByValueType = {
     [VALUE_TYPES.URL]: url,
 }
 
-export const validateByValueTypeWithLimits = (valueType, limits) =>
-    composeValidators(
-        ...[
-            validatorsByValueType[valueType],
-            ...(CAN_HAVE_LIMITS_TYPES.includes(valueType) &&
-            Number.isFinite(limits?.min) &&
-            Number.isFinite(limits?.max)
-                ? [createNumberRange(limits.min, limits.max)]
-                : []),
-        ]
-    )
+export const validateByValueTypeWithLimits = (valueType, limits) => {
+    const validators = []
+
+    if (validatorsByValueType[valueType]) {
+        validators.push(validatorsByValueType[valueType])
+    }
+
+    if (
+        CAN_HAVE_LIMITS_TYPES.includes(valueType) &&
+        Number.isFinite(limits?.min) &&
+        Number.isFinite(limits?.max)
+    ) {
+        validators.push(createNumberRange(limits.min, limits.max))
+    }
+
+    return composeValidators(...validators)
+}
 
 export const minMaxValidatorsByValueType = {
     [VALUE_TYPES.INTEGER]: integer,
