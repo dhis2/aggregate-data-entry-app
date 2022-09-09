@@ -4,9 +4,10 @@ import React, { useState } from 'react'
 import { useField } from 'react-final-form'
 import { NUMBER_TYPES, VALUE_TYPES } from '../../shared/index.js'
 import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import { useMinMaxLimits } from '../use-min-max-limits.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
-import { validatorsByValueType } from './validators.js'
+import { validateByValueTypeWithLimits } from './validators.js'
 
 const htmlTypeAttrsByValueType = {
     [VALUE_TYPES.DATE]: 'date',
@@ -28,7 +29,27 @@ export const GenericInput = ({
     disabled,
     locked,
 }) => {
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const limits = useMinMaxLimits(deId, cocId)
+    const formatValue = (value) => {
+        if (value === undefined) {
+            return undefined
+        } else if (
+            value.trim() &&
+            NUMBER_TYPES.includes(valueType) &&
+            Number.isFinite(Number(value))
+        ) {
+            return Number(value).toString()
+        } else {
+            return value.trim()
+        }
+    }
+    const { input, meta } = useField(fieldname, {
+        validate: validateByValueTypeWithLimits(valueType, limits),
+        subscription: { value: true, dirty: true, valid: true },
+        format: formatValue,
+        formatOnBlur: true,
+    })
+    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -44,23 +65,19 @@ export const GenericInput = ({
         )
     }
 
-    const { input, meta } = useField(fieldname, {
-        validate: validatorsByValueType[valueType],
-        subscription: { value: true, dirty: true, valid: true },
-    })
-
     const handleBlur = () => {
         const { value } = input
-        const hasEmptySpaces = value && value.trim() === ''
-        const { dirty, valid } = meta
-        if (dirty && valid && !hasEmptySpaces && value !== lastSyncedValue) {
-            syncData(value.trim())
+        const formattedValue = formatValue(value)
+        const { valid } = meta
+        if (valid && formattedValue !== lastSyncedValue) {
+            syncData(formattedValue)
         }
     }
 
     return (
         <input
             {...input}
+            value={input.value ?? ''}
             className={cx(styles.basicInput, {
                 [styles.alignToEnd]: NUMBER_TYPES.includes(valueType),
             })}

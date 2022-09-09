@@ -55,7 +55,12 @@ export const BooleanRadios = ({
         subscription: { value: true },
     })
 
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const {
+        input: { value: fieldvalue },
+        meta,
+    } = useField(fieldname)
+    const [lastSyncedValue, setLastSyncedValue] = useState(fieldvalue)
+
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -74,30 +79,24 @@ export const BooleanRadios = ({
     const clearButtonProps = convertCallbackSignatures(clearField.input)
     delete clearButtonProps.type
 
-    const {
-        input: { value: fieldvalue },
-        meta,
-    } = useField(fieldname)
-
-    const handleBlur = () => {
-        const { dirty, valid } = meta
-        const value = fieldvalue || ''
+    const handleChange = (value) => {
+        const { valid } = meta
         // If this value has changed, sync it to server if valid
-        if (dirty && valid && value !== lastSyncedValue) {
+        if (valid && value !== lastSyncedValue) {
             syncData(value)
         }
     }
 
     return (
-        <div className={styles.radioFlexWrapper}>
+        <div className={styles.radioFlexWrapper} onClick={onFocus}>
             <Radio
                 dense
                 label={i18n.t('Yes')}
                 value={'true'}
                 {...convertCallbackSignatures(yesField.input)}
-                onBlur={(_, e) => {
-                    handleBlur()
-                    yesField.input.onBlur(e)
+                onChange={(_, e) => {
+                    handleChange('true')
+                    yesField.input.onChange(e)
                 }}
                 onKeyDown={onKeyDown}
                 disabled={disabled || locked}
@@ -107,9 +106,9 @@ export const BooleanRadios = ({
                 label={i18n.t('No')}
                 value={'false'}
                 {...convertCallbackSignatures(noField.input)}
-                onBlur={(_, e) => {
-                    handleBlur()
-                    noField.input.onBlur(e)
+                onChange={(_, e) => {
+                    handleChange('false')
+                    noField.input.onChange(e)
                 }}
                 onKeyDown={onKeyDown}
                 disabled={disabled || locked}

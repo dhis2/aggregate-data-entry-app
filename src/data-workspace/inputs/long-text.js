@@ -18,7 +18,7 @@ export const LongText = ({
         subscription: { value: true, dirty: true, valid: true },
     })
 
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -36,8 +36,8 @@ export const LongText = ({
 
     const handleBlur = () => {
         const { value } = input
-        const { dirty, valid } = meta
-        if (dirty && valid && value !== lastSyncedValue) {
+        const { valid } = meta
+        if (valid && value !== lastSyncedValue) {
             syncData(value)
         }
     }

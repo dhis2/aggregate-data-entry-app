@@ -4,9 +4,10 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
+import { useHighlightedFieldIdContext } from '../../shared/index.js'
 import {
     useDataValueParams,
-    getDataValueMutationKey,
+    mutationKeys as dataValueMutationKeys,
 } from '../data-value-mutations/index.js'
 import { useHasComment } from '../has-comment/has-comment-context.js'
 import styles from './data-entry-cell.module.css'
@@ -52,14 +53,16 @@ export function InnerWrapper({
     syncStatus,
 }) {
     const hasComment = useHasComment(fieldname)
+    const { item } = useHighlightedFieldIdContext()
+    const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
-        meta: { active, invalid },
-    } = useField(fieldname, { subscription: { active: true, invalid: true } })
+        meta: { invalid, active },
+    } = useField(fieldname, { subscription: { invalid: true, active: true } })
 
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
-        mutationKey: getDataValueMutationKey(dataValueParams),
+        mutationKey: dataValueMutationKeys.all(dataValueParams),
     })
 
     // todo: maybe use mutation state to improve this style handling
@@ -74,6 +77,7 @@ export function InnerWrapper({
         <div
             className={cx(styles.cellInnerWrapper, cellStateClassName, {
                 [styles.active]: active,
+                [styles.highlighted]: highlighted,
                 [styles.disabled]: disabled,
                 [styles.locked]: locked,
             })}

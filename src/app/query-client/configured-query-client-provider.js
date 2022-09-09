@@ -37,6 +37,9 @@ export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
         <PersistQueryClientProvider
             client={queryClient}
             persistOptions={persistOptions}
+            onSuccess={() => {
+                queryClient.resumePausedMutations()
+            }}
         >
             {children}
         </PersistQueryClientProvider>
