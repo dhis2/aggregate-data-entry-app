@@ -26,6 +26,7 @@ export default function ContextSelector({ setSelectionHasNoFormMessage }) {
     const onClearSelectionClick = () => {
         setLockStatus(LockedStates.OPEN)
         setSelectionHasNoFormMessage('')
+
         if (!hideClearButton) {
             clearEntireSelection()
             hide()

@@ -72,14 +72,13 @@ export default function AttributeOptionComboSelectorBarItem({
 
     const categoriesWithNoOptions =
         relevantCategoriesWithOptions.filter(hasCategoryNoOptions)
+    const shouldComponentRenderNull =
+        useShouldComponentRenderNull(categoryCombo)
 
     useSetSelectionHasNoFormMessage(
         categoriesWithNoOptions,
         setSelectionHasNoFormMessage
     )
-
-    const shouldComponentRenderNull =
-        useShouldComponentRenderNull(categoryCombo)
 
     if (shouldComponentRenderNull) {
         return null

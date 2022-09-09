@@ -10,13 +10,13 @@ import styles from './limits.module.css'
 
 const editButtonLabel = i18n.t('Edit limits')
 
-function EditButton({ onClick, disabled }) {
+function EditButton({ onClick }) {
     const { offline } = useConnectionStatus()
 
     if (offline) {
         return (
             <Tooltip content={i18n.t('Not available offline')}>
-                <Button small primary disabled={disabled}>
+                <Button small primary disabled>
                     {editButtonLabel}
                 </Button>
             </Tooltip>
@@ -24,7 +24,7 @@ function EditButton({ onClick, disabled }) {
     }
 
     return (
-        <Button small primary onClick={onClick} disabled={disabled}>
+        <Button small primary onClick={onClick}>
             {editButtonLabel}
         </Button>
     )
@@ -32,7 +32,6 @@ function EditButton({ onClick, disabled }) {
 
 EditButton.propTypes = {
     onClick: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
 }
 
 export default function LimitsDisplay({

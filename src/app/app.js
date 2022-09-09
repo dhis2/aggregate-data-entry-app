@@ -31,7 +31,6 @@ const idSidebarMap = {
  */
 const App = () => {
     const { id } = useRightHandPanelContext()
-
     const [selectionHasNoFormMessage, setSelectionHasNoFormMessage] =
         useState('')
 
