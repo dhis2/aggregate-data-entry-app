@@ -80,13 +80,16 @@ export function useUploadFileDataValueMutationFunction() {
 }
 
 export function setDataValueMutationDefaults(queryClient, engine) {
-    queryClient.setMutationDefaults(mutationKeys.file(), {
-        mutationFn: createSharedMutateFn(engine, SET_DATA_VALUE_MUTATION),
-    })
     queryClient.setMutationDefaults(mutationKeys.update(), {
-        mutationFn: createSharedMutateFn(engine, UPLOAD_FILE_MUTATION),
-    })
-    queryClient.setMutationDefaults(mutationKeys.delete(), {
-        mutationFn: createSharedMutateFn(engine, DELETE_DATA_VALUE_MUTATION),
-    })
+        mutationFn: createSharedMutateFn(engine, SET_DATA_VALUE_MUTATION),
+    }),
+        queryClient.setMutationDefaults(mutationKeys.file(), {
+            mutationFn: createSharedMutateFn(engine, UPLOAD_FILE_MUTATION),
+        }),
+        queryClient.setMutationDefaults(mutationKeys.delete(), {
+            mutationFn: createSharedMutateFn(
+                engine,
+                DELETE_DATA_VALUE_MUTATION
+            ),
+        })
 }
