@@ -26,9 +26,17 @@ export default async function loadOfflineLevel({
     offlineLevels,
 }) {
     const variables = { id }
-    const orgData = await dataEngine.query(QUERY_ORG_UNIT_FROM_UI, {
-        variables,
-    })
+    let orgData
+
+    try {
+        orgData = await dataEngine.query(QUERY_ORG_UNIT_FROM_UI, {
+            variables,
+        })
+    } catch (e) {
+        // @TODO: Figure out what to do when loading fails
+        return
+    }
+
     const { children: childrenSize } = orgData.orgUnit
     const nextOfflineLevels = offlineLevels - 1
 
@@ -36,9 +44,15 @@ export default async function loadOfflineLevel({
         return
     }
 
-    const orgChildren = await dataEngine.query(QUERY_ORG_CHILDREN_FROM_UI, {
-        variables,
-    })
+    let orgChildren
+    try {
+        orgChildren = await dataEngine.query(QUERY_ORG_CHILDREN_FROM_UI, {
+            variables,
+        })
+    } catch (e) {
+        // @TODO: Figure out what to do when loading fails
+        return
+    }
 
     const children = orgChildren.orgUnit.children
 
