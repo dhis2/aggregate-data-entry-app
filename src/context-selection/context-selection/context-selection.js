@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useRightHandPanelContext } from '../../right-hand-panel/index.js'
 import {
-    LockedStates,
     useClearEntireSelection,
     useManageInterParamDependencies,
-    useLockedContext,
 } from '../../shared/index.js'
 import { AttributeOptionComboSelectorBarItem } from '../attribute-option-combo-selector-bar-item/index.js'
 import { DataSetSelectorBarItem } from '../data-set-selector-bar-item/index.js'
@@ -22,9 +20,7 @@ export default function ContextSelector({ setSelectionHasNoFormMessage }) {
     const { hide } = useRightHandPanelContext()
     const hideClearButton = useShouldHideClearButton()
     const clearEntireSelection = useClearEntireSelection()
-    const { setLockStatus } = useLockedContext()
     const onClearSelectionClick = () => {
-        setLockStatus(LockedStates.OPEN)
         setSelectionHasNoFormMessage('')
 
         if (!hideClearButton) {

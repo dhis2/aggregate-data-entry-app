@@ -44,10 +44,6 @@ export const getSectionsByDataSetId = (metadata, dataSetId) => {
     return dataSetSections ?? []
 }
 
-export const getExpiryDays = (metadata, dataSetId) => {
-    return getDataSetById(metadata, dataSetId)?.expiryDays || 0
-}
-
 export const getCategoryComboById = (metadata, id) =>
     getCategoryCombos(metadata)[id]
 
