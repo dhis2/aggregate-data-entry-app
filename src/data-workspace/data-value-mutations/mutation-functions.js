@@ -1,6 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { useMemo } from 'react'
-
+import { mutationKeys } from './mutation-key-factory.js'
 // Note: the generic `data` and `params` functions are used in these
 // mutation objects instead of destructuring each property because undefined
 // properties cause errors, and it's better to handle logic to include or
@@ -66,13 +66,27 @@ export function useSetDataValueMutationFunction() {
         mutationObj: SET_DATA_VALUE_MUTATION,
     })
 }
+
 export function useDeleteDataValueMutationFunction() {
     return useSharedMutationFunction({
         mutationObj: DELETE_DATA_VALUE_MUTATION,
     })
 }
+
 export function useUploadFileDataValueMutationFunction() {
     return useSharedMutationFunction({
         mutationObj: UPLOAD_FILE_MUTATION,
+    })
+}
+
+export function setDataValueMutationDefaults(queryClient, engine) {
+    queryClient.setMutationDefaults(mutationKeys.file(), {
+        mutationFn: createSharedMutateFn(engine, SET_DATA_VALUE_MUTATION),
+    })
+    queryClient.setMutationDefaults(mutationKeys.update(), {
+        mutationFn: createSharedMutateFn(engine, UPLOAD_FILE_MUTATION),
+    })
+    queryClient.setMutationDefaults(mutationKeys.delete(), {
+        mutationFn: createSharedMutateFn(engine, DELETE_DATA_VALUE_MUTATION),
     })
 }

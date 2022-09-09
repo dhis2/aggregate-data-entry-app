@@ -107,15 +107,3 @@ export function useDeleteDataValueMutation({ deId, cocId }) {
         optimisticUpdateFn: optimisticallyDeleteDataValue,
     })
 }
-
-export function useSetDataValueMutationDefaults(queryClient) {
-    queryClient.setMutationDefaults(mutationKeys.file(), {
-        mutationFn: useUploadFileDataValueMutationFunction(),
-    })
-    queryClient.setMutationDefaults(mutationKeys.update(), {
-        mutationFn: useSetDataValueMutationFunction(),
-    })
-    queryClient.setMutationDefaults(mutationKeys.delete(), {
-        mutationFn: useDeleteDataValueMutationFunction(),
-    })
-}
