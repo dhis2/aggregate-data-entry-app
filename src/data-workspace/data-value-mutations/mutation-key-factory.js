@@ -1,14 +1,14 @@
-const rootKey = ['dataValues']
-
-const createSubKey = (subScope) => (params) => {
-    const theState = {
-        ...subScope,
+const createMutationKey =
+    ([rootKey, subScope]) =>
+    (params) => {
+        const mergedState = {
+            ...subScope,
+        }
+        if (params) {
+            mergedState.params = params
+        }
+        return [...rootKey, { ...mergedState }]
     }
-    if (params) {
-        theState.params = params
-    }
-    return [...rootKey, { ...theState }]
-}
 
 /**
  * MutationKeys for dataValues.
@@ -24,10 +24,16 @@ const createSubKey = (subScope) => (params) => {
  *   mutationKeys.delete() ==> ['dataValues', { method: 'delete' }]
  * etc.
  *
- */
+ * ['dataValues, { method: update }] will match all keys with update. Eg, even
+    ['dataValues, { method: update, entity: 'file' }]
+    When checking for active mutation (useIsMutating) you can match based on ‘update’
+    and mutations for file will be included in the match
+*/
+
+const rootKey = ['dataValues']
 export const mutationKeys = {
-    all: createSubKey(),
-    update: createSubKey({ method: 'update' }),
-    file: createSubKey({ method: 'update', entity: 'file' }),
-    delete: createSubKey({ method: 'delete' }),
+    all: createMutationKey([rootKey]),
+    update: createMutationKey([rootKey, { method: 'update' }]),
+    file: createMutationKey([rootKey, { method: 'update', entity: 'file' }]),
+    delete: createMutationKey([rootKey, { method: 'delete' }]),
 }
