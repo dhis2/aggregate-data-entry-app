@@ -23,9 +23,6 @@
     /* Hide default focus styles; handled by wrapper */
     outline: none;
 }
-.basicInput:read-only {
-    cursor: not-allowed;
-}
 .alignToEnd {
     text-align: right;
 }
@@ -80,8 +77,4 @@
 .deleteFileButton {
     composes: whiteButton;
     margin-left: 8px;
-}
-.locked {
-    background-color: var(--colors-grey050);
-    color: var(--colors-grey700);
 }

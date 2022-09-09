@@ -9,6 +9,8 @@ export const LongText = ({
     deId,
     cocId,
     setSyncStatus,
+    onKeyDown,
+    onFocus,
     disabled,
     locked,
 }) => {
@@ -45,10 +47,15 @@ export const LongText = ({
             className={styles.longText}
             rows="4"
             {...input}
+            onFocus={(...args) => {
+                input.onFocus(...args)
+                onFocus?.(...args)
+            }}
             onBlur={(e) => {
                 handleBlur()
                 input.onBlur(e)
             }}
+            onKeyDown={onKeyDown}
             disabled={disabled}
             readOnly={locked}
             autoComplete="off"

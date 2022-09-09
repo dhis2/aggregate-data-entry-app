@@ -2,16 +2,12 @@ import { IconMore16, colors } from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useCallback, useMemo } from 'react'
+import React from 'react'
 import { useField } from 'react-final-form'
-import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
-import { useSetHighlightedFieldIdContext } from '../../shared/index.js'
-import { dataDetailsSidebarId } from '../constants.js'
 import {
     useDataValueParams,
     getDataValueMutationKey,
 } from '../data-value-mutations/index.js'
-import { focusNext, focusPrev } from '../focus-utils/index.js'
 import { useHasComment } from '../has-comment/has-comment-context.js'
 import styles from './data-entry-cell.module.css'
 
@@ -66,36 +62,6 @@ export function InnerWrapper({
         mutationKey: getDataValueMutationKey(dataValueParams),
     })
 
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
-    // memoize id to prevent unnecessary useEffect calls due to object reference
-    const highlightedFieldId = useMemo(() => ({ deId, cocId }), [deId, cocId])
-
-    // used so we don't consume the "id" which
-    // would cause this component to rerender
-    const setRightHandPanel = useSetRightHandPanel()
-
-    const onKeyDown = useCallback(
-        (event) => {
-            const { key, ctrlKey, metaKey } = event
-            const ctrlXorMetaKey = ctrlKey ^ metaKey
-
-            if (ctrlXorMetaKey && key === 'Enter') {
-                setRightHandPanel(dataDetailsSidebarId)
-            } else if (key === 'ArrowDown' || key === 'Enter') {
-                event.preventDefault()
-                focusNext()
-            } else if (key === 'ArrowUp') {
-                event.preventDefault()
-                focusPrev()
-            }
-        },
-        [setRightHandPanel]
-    )
-
-    const onFocus = useCallback(() => {
-        setHighlightedFieldId(highlightedFieldId)
-    }, [highlightedFieldId, setHighlightedFieldId])
-
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
@@ -111,9 +77,6 @@ export function InnerWrapper({
                 [styles.disabled]: disabled,
                 [styles.locked]: locked,
             })}
-            onClick={locked ? onFocus : null}
-            onFocus={onFocus}
-            onKeyDown={onKeyDown}
         >
             {children}
             <SyncStatusIndicator

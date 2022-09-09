@@ -14,6 +14,8 @@ export const OptionSet = ({
     deId,
     cocId,
     setSyncStatus,
+    onKeyDown,
+    onFocus,
     disabled,
     locked,
 }) => {
@@ -62,6 +64,13 @@ export const OptionSet = ({
                         input.onChange(selected)
                         handleChange(selected)
                     }}
+                    onFocus={(...args) => {
+                        // onBlur here helps buggy onFocus work correctly
+                        input.onBlur()
+                        input.onFocus()
+                        onFocus?.(...args)
+                    }}
+                    onKeyDown={onKeyDown}
                     onBlur={() => input.onBlur()}
                     disabled={disabled || locked}
                 >
@@ -85,7 +94,7 @@ export const OptionSet = ({
                         handleChange('')
                         input.onBlur()
                     }}
-                    disabled={disabled}
+                    disabled={disabled || locked}
                 >
                     {i18n.t('Clear')}
                 </Button>

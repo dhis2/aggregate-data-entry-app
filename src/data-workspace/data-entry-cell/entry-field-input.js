@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types'
-import React, { useMemo } from 'react'
-import { VALUE_TYPES } from '../../shared/index.js'
+import React, { useCallback, useMemo } from 'react'
+import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
+import {
+    VALUE_TYPES,
+    useSetHighlightedFieldIdContext,
+} from '../../shared/index.js'
+import { dataDetailsSidebarId } from '../constants.js'
+import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,
     BooleanRadios,
@@ -58,16 +64,58 @@ export function EntryFieldInput({
     disabled,
     locked,
 }) {
+    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+
+    // used so we don't consume the "id" which
+    // would cause this component to rerender
+    const setRightHandPanel = useSetRightHandPanel()
+
+    // todo: maybe move to InnerWrapper?
+    // See https://dhis2.atlassian.net/browse/TECH-1296
+    const onKeyDown = useCallback(
+        (event) => {
+            const { key, ctrlKey, metaKey } = event
+            const ctrlXorMetaKey = ctrlKey ^ metaKey
+
+            if (ctrlXorMetaKey && key === 'Enter') {
+                setRightHandPanel(dataDetailsSidebarId)
+            } else if (key === 'ArrowDown' || key === 'Enter') {
+                event.preventDefault()
+                focusNext()
+            } else if (key === 'ArrowUp') {
+                event.preventDefault()
+                focusPrev()
+            }
+        },
+        [setRightHandPanel]
+    )
+
+    // todo: inner wrapper?
+    const onFocus = useCallback(() => {
+        setHighlightedFieldId({ de, coc })
+    }, [de, coc, setHighlightedFieldId])
+
     const sharedProps = useMemo(
         () => ({
             fieldname,
-            disabled,
-            locked,
             deId: de.id,
             cocId: coc.id,
+            disabled,
+            locked,
             setSyncStatus,
+            onFocus,
+            onKeyDown,
         }),
-        [fieldname, de, coc, disabled, setSyncStatus, locked]
+        [
+            fieldname,
+            de,
+            coc,
+            disabled,
+            locked,
+            setSyncStatus,
+            onFocus,
+            onKeyDown,
+        ]
     )
 
     return <InputComponent sharedProps={sharedProps} de={de} />

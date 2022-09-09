@@ -10,6 +10,8 @@ export const TrueOnlyCheckbox = ({
     deId,
     cocId,
     setSyncStatus,
+    onKeyDown,
+    onFocus,
     disabled,
     locked,
 }) => {
@@ -49,10 +51,15 @@ export const TrueOnlyCheckbox = ({
             <Checkbox
                 dense
                 {...convertCallbackSignatures(input)}
+                onFocus={(...args) => {
+                    input.onFocus(...args)
+                    onFocus?.(...args)
+                }}
                 onBlur={(e) => {
                     handleBlur()
                     input.onBlur(e)
                 }}
+                onKeyDown={onKeyDown}
                 disabled={disabled || locked}
             />
         </div>

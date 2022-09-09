@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useMetadata, selectors } from '../metadata/index.js'
 import { useDataValueSet } from '../use-data-value-set/index.js'
 import { CAN_HAVE_LIMITS_TYPES } from '../value-types.js'
 import { useHighlightedFieldIdContext } from './use-highlighted-field-context.js'
 
-function gatherHighlightedFieldData({ de, cocId, dataValueSet }) {
-    const dataValue = dataValueSet?.dataValues[de.id]?.[cocId]
+function gatherHighlightedFieldData({ de, coc, dataValueSet }) {
+    const dataValue = dataValueSet?.dataValues[de.id]?.[coc.id]
     const { optionSet, valueType, commentOptionSet } = de
     const canHaveLimits = optionSet
         ? false
@@ -16,7 +15,7 @@ function gatherHighlightedFieldData({ de, cocId, dataValueSet }) {
             ...dataValue,
             valueType,
             canHaveLimits,
-            categoryOptionCombo: cocId,
+            categoryOptionCombo: coc.id,
             name: de.displayName,
             code: de.code,
             commentOptionSetId: commentOptionSet?.id,
@@ -26,14 +25,14 @@ function gatherHighlightedFieldData({ de, cocId, dataValueSet }) {
     return {
         valueType,
         canHaveLimits,
-        categoryOptionCombo: cocId,
+        categoryOptionCombo: coc.id,
         dataElement: de.id,
         name: de.displayName,
         lastUpdated: '',
         followup: false,
         comment: null,
         storedBy: null,
-        code: de.code,
+        code: null,
         commentOptionSetId: commentOptionSet?.id,
     }
 }
@@ -41,26 +40,24 @@ function gatherHighlightedFieldData({ de, cocId, dataValueSet }) {
 export default function useHighlightedField() {
     const { data: dataValueSet } = useDataValueSet()
     const { item } = useHighlightedFieldIdContext()
-    const { data: metadata } = useMetadata()
-    const { deId, cocId } = item
-    const de = selectors.getDataElementById(metadata, deId)
-
     const [currentItem, setHighlightedFieldId] = useState(() => {
-        return gatherHighlightedFieldData({ de, cocId, dataValueSet })
+        const { de, coc } = item
+        return gatherHighlightedFieldData({ de, coc, dataValueSet })
     })
 
     useEffect(() => {
+        const { de, coc } = item
         // only update if it's different from currentItem
         // prevents unnecessary re-render on first-render as well
         if (
-            de?.id !== currentItem?.dataElement ||
-            cocId !== currentItem?.categoryOptionCombo
+            de.id !== currentItem?.dataElement ||
+            coc.id !== currentItem?.categoryOptionCombo
         ) {
             setHighlightedFieldId(
-                gatherHighlightedFieldData({ de, cocId, dataValueSet })
+                gatherHighlightedFieldData({ de, coc, dataValueSet })
             )
         }
-    }, [currentItem, de, cocId, dataValueSet])
+    }, [currentItem, item, dataValueSet])
 
     return currentItem
 }

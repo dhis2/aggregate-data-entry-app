@@ -20,21 +20,36 @@ export const BooleanRadios = ({
     disabled,
     locked,
     setSyncStatus,
+    onKeyDown,
+    onFocus,
 }) => {
-    const yesField = useField(fieldname, {
+    const useFieldWithPatchedOnFocus = (...args) => {
+        const { input, ...rest } = useField(...args)
+        return {
+            ...rest,
+            input: {
+                ...input,
+                onFocus: (...args) => {
+                    input.onFocus(...args)
+                    onFocus?.(...args)
+                },
+            },
+        }
+    }
+    const yesField = useFieldWithPatchedOnFocus(fieldname, {
         type: 'radio',
         value: 'true',
         subscription: { value: true },
     })
 
-    const noField = useField(fieldname, {
+    const noField = useFieldWithPatchedOnFocus(fieldname, {
         type: 'radio',
         value: 'false',
         subscription: { value: true },
     })
 
     // Used for the 'clear' button, but works
-    const clearField = useField(fieldname, {
+    const clearField = useFieldWithPatchedOnFocus(fieldname, {
         type: 'radio',
         value: '',
         subscription: { value: true },
@@ -84,6 +99,7 @@ export const BooleanRadios = ({
                     handleBlur()
                     yesField.input.onBlur(e)
                 }}
+                onKeyDown={onKeyDown}
                 disabled={disabled || locked}
             />
             <Radio
@@ -95,6 +111,7 @@ export const BooleanRadios = ({
                     handleBlur()
                     noField.input.onBlur(e)
                 }}
+                onKeyDown={onKeyDown}
                 disabled={disabled || locked}
             />
             <Button
@@ -112,6 +129,7 @@ export const BooleanRadios = ({
                     syncData('')
                     clearField.input.onBlur()
                 }}
+                onKeyDown={onKeyDown}
                 disabled={disabled || locked}
             >
                 {i18n.t('Clear')}

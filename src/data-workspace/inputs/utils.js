@@ -11,10 +11,12 @@ export const convertCallbackSignatures = (props) => ({
 })
 
 export const InputPropTypes = {
+    onKeyDown: PropTypes.func.isRequired,
     cocId: PropTypes.string,
     deId: PropTypes.string,
     disabled: PropTypes.bool,
-    locked: PropTypes.bool,
     lastSyncedValue: PropTypes.any,
+    locked: PropTypes.bool,
     setSyncStatus: PropTypes.func,
+    onFocus: PropTypes.func,
 }

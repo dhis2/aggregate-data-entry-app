@@ -83,5 +83,5 @@
 }
 .locked * {
     color: var(--colors-grey700) !important;
+    cursor: not-allowed;
 }
-
