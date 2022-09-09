@@ -27,6 +27,7 @@ export const GenericInput = ({
     onKeyDown,
     onFocus,
     disabled,
+    locked,
 }) => {
     const limits = useMinMaxLimits(deId, cocId)
     const formatValue = (value) => {
@@ -92,6 +93,7 @@ export const GenericInput = ({
             autoComplete="off"
             onKeyDown={onKeyDown}
             disabled={disabled}
+            readOnly={locked}
         />
     )
 }

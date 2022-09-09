@@ -51,7 +51,8 @@ const select = createSelector(
     (data) => {
         const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
         const minMaxValues = data.minMaxValues || {}
-        return { dataValues, minMaxValues }
+        const lockStatus = data.lockStatus || ''
+        return { dataValues, minMaxValues, lockStatus }
     }
 )
 

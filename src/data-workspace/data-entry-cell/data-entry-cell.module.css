@@ -81,3 +81,11 @@
     border-bottom: 3px solid var(--colors-grey600);
     border-left: 3px solid transparent;
 }
+
+.locked {
+    background-color: var(--colors-grey050);
+}
+.locked * {
+    color: var(--colors-grey700) !important;
+    cursor: not-allowed;
+}

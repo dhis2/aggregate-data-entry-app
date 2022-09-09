@@ -507,3 +507,19 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
             `${dataSetId}:${periodId}:${orgUnitId}`
     )
 /* eslint-enable max-params */
+
+export const getApplicableDataInputPeriod = createCachedSelector(
+    getDataSetById,
+    (_, __, periodId) => periodId,
+    (dataSet, periodId) => {
+        if (!dataSet?.id || !periodId) {
+            return []
+        }
+        if (!dataSet || !periodId) {
+            return []
+        }
+        return dataSet.dataInputPeriods.filter(
+            (dip) => dip?.period?.id === periodId
+        )[0]
+    }
+)((dataSetId, periodId) => `${dataSetId}:${periodId}`)

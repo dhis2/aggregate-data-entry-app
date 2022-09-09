@@ -11,6 +11,7 @@ import { RightHandPanelProvider } from '../right-hand-panel/index.js'
 import {
     HighlightedFieldIdProvider,
     FormChangedSincePanelOpenedProvider,
+    LockedProvider,
 } from '../shared/index.js'
 import App from './app.js'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
@@ -43,17 +44,19 @@ export function OuterComponents({
                 <ReactQueryDevtools />
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
-                        <HighlightedFieldIdProvider>
-                            <FormChangedSincePanelOpenedProvider>
-                                <RightHandPanelProvider>
-                                    <PrintAreaProvider>
-                                        <HasCommentProvider>
-                                            {children}
-                                        </HasCommentProvider>
-                                    </PrintAreaProvider>
-                                </RightHandPanelProvider>
-                            </FormChangedSincePanelOpenedProvider>
-                        </HighlightedFieldIdProvider>
+                        <LockedProvider>
+                            <HighlightedFieldIdProvider>
+                                <FormChangedSincePanelOpenedProvider>
+                                    <RightHandPanelProvider>
+                                        <PrintAreaProvider>
+                                            <HasCommentProvider>
+                                                {children}
+                                            </HasCommentProvider>
+                                        </PrintAreaProvider>
+                                    </RightHandPanelProvider>
+                                </FormChangedSincePanelOpenedProvider>
+                            </HighlightedFieldIdProvider>
+                        </LockedProvider>
                     </QueryParamProvider>
                 </Router>
             </ConfiguredQueryClientProvider>

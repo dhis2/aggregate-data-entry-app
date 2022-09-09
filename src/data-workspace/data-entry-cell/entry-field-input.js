@@ -62,6 +62,7 @@ export function EntryFieldInput({
     categoryOptionCombo: coc,
     setSyncStatus,
     disabled,
+    locked,
 }) {
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
 
@@ -100,11 +101,21 @@ export function EntryFieldInput({
             deId: de.id,
             cocId: coc.id,
             disabled,
+            locked,
             setSyncStatus,
             onFocus,
             onKeyDown,
         }),
-        [fieldname, de, coc, disabled, setSyncStatus, onFocus, onKeyDown]
+        [
+            fieldname,
+            de,
+            coc,
+            disabled,
+            locked,
+            setSyncStatus,
+            onFocus,
+            onKeyDown,
+        ]
     )
 
     return <InputComponent sharedProps={sharedProps} de={de} />
@@ -124,5 +135,6 @@ EntryFieldInput.propTypes = {
     }),
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
+    locked: PropTypes.bool,
     setSyncStatus: PropTypes.func,
 }

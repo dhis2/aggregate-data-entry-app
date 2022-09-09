@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
+import { useLockedContext } from '../../shared/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { EntryFieldInput } from './entry-field-input.js'
 import { InnerWrapper } from './inner-wrapper.js'
@@ -20,6 +21,7 @@ export const DataEntryField = React.memo(function DataEntryField({
         syncing: false,
         synced: false,
     })
+    const { locked } = useLockedContext()
 
     return (
         <ValidationTooltip fieldname={fieldname}>
@@ -29,6 +31,7 @@ export const DataEntryField = React.memo(function DataEntryField({
                 cocId={coc.id}
                 syncStatus={syncStatus}
                 disabled={disabled}
+                locked={locked}
             >
                 <EntryFieldInput
                     fieldname={fieldname}
@@ -36,6 +39,7 @@ export const DataEntryField = React.memo(function DataEntryField({
                     categoryOptionCombo={coc}
                     setSyncStatus={setSyncStatus}
                     disabled={disabled}
+                    locked={locked}
                 />
             </InnerWrapper>
         </ValidationTooltip>

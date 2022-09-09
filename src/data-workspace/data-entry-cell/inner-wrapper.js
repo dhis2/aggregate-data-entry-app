@@ -46,6 +46,7 @@ CommentIndicator.propTypes = { hasComment: PropTypes.bool }
 export function InnerWrapper({
     children,
     disabled,
+    locked,
     fieldname,
     deId,
     cocId,
@@ -78,6 +79,7 @@ export function InnerWrapper({
                 [styles.active]: active,
                 [styles.highlighted]: highlighted,
                 [styles.disabled]: disabled,
+                [styles.locked]: locked,
             })}
         >
             {children}
@@ -95,6 +97,7 @@ InnerWrapper.propTypes = {
     deId: PropTypes.string,
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
+    locked: PropTypes.bool,
     syncStatus: PropTypes.shape({
         synced: PropTypes.bool,
         syncing: PropTypes.bool,

@@ -23,6 +23,7 @@ export const FileResourceInput = ({
     deId,
     cocId,
     disabled,
+    locked,
     setSyncStatus,
     onKeyDown,
     onFocus,
@@ -122,7 +123,7 @@ export const FileResourceInput = ({
                         }}
                         onBlur={input.onBlur}
                         onKeyDown={onKeyDown}
-                        disabled={disabled}
+                        disabled={disabled || locked}
                     >
                         {i18n.t('Delete')}
                     </Button>
@@ -144,7 +145,7 @@ export const FileResourceInput = ({
                             ? i18n.t('Upload an image')
                             : i18n.t('Upload a file')
                     }
-                    disabled={disabled}
+                    disabled={disabled || locked}
                 />
             )}
         </div>
