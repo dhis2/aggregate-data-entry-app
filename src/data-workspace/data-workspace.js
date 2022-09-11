@@ -105,7 +105,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     >
                         <MutationIndicator />
                     </div>
-
                     <BottomBar />
                 </footer>
             </div>

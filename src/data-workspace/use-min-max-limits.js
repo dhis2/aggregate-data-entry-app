@@ -1,16 +1,18 @@
-import { useDataValueSet, useOrgUnitId } from '../shared/index.js'
+import { useCallback } from 'react'
+import { useDataValuesWithSelector } from '../shared/index.js'
 
 export const useMinMaxLimits = (dataElementId, categoryOptionComboId) => {
-    const [orgUnitId] = useOrgUnitId()
-    const dataValueSet = useDataValueSet()
-
-    const limits = dataValueSet.data?.minMaxValues.find((minMaxValue) => {
-        return (
-            minMaxValue.categoryOptionCombo === categoryOptionComboId &&
-            minMaxValue.dataElement === dataElementId &&
-            minMaxValue.orgUnit === orgUnitId
-        )
-    })
+    const selector = useCallback(
+        (data) =>
+            data.minMaxValues?.find((minMaxValue) => {
+                return (
+                    minMaxValue.categoryOptionCombo === categoryOptionComboId &&
+                    minMaxValue.dataElement === dataElementId
+                )
+            }),
+        [dataElementId, categoryOptionComboId]
+    )
+    const limits = useDataValuesWithSelector(selector)
 
     return {
         min: limits?.minValue,

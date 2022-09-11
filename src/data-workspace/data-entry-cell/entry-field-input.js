@@ -65,7 +65,6 @@ export function EntryFieldInput({
     locked,
 }) {
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
-
     // used so we don't consume the "id" which
     // would cause this component to rerender
     const setRightHandPanel = useSetRightHandPanel()
