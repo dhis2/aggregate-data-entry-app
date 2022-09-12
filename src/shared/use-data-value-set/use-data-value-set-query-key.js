@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useApiAttributeParams } from '../use-api-attribute-params.js'
 import { useContextSelection } from '../use-context-selection/index.js'
 import { dataValueSets } from './query-key-factory.js'
@@ -10,11 +11,15 @@ export default function useDataValueSetQueryKey() {
         attributeOptions: categoryOptionIds,
     } = useApiAttributeParams()
 
-    return dataValueSets.byIds({
-        dataSetId,
-        periodId,
-        orgUnitId,
-        categoryComboId,
-        categoryOptionIds,
-    })
+    return useMemo(
+        () =>
+            dataValueSets.byIds({
+                dataSetId,
+                periodId,
+                orgUnitId,
+                categoryComboId,
+                categoryOptionIds,
+            }),
+        [dataSetId, orgUnitId, periodId, categoryComboId, categoryOptionIds]
+    )
 }
