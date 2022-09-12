@@ -3,16 +3,12 @@ import { Button } from '@dhis2/ui'
 import React from 'react'
 import { dataDetailsSidebarId } from '../data-workspace/constants.js'
 import { useRightHandPanelContext } from '../right-hand-panel/index.js'
-import {
-    useMetadata,
-    selectors,
-    useHighlightedFieldStore,
-} from '../shared/index.js'
+import { useMetadata, selectors, useHighlightedField } from '../shared/index.js'
 import styles from './data-item-bar.module.css'
 
 export default function DataItemBar() {
     const rightHandPanel = useRightHandPanelContext()
-    const item = useHighlightedFieldStore((state) => state.item)
+    const item = useHighlightedField()
     const { data: metadata } = useMetadata()
 
     const dataElement = selectors.getDataElementById(metadata, item.dataElement)

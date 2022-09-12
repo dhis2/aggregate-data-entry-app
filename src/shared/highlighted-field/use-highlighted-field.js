@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useValueStore, useHighlightedFieldStore } from '../../shared/index.js'
 import { CAN_HAVE_LIMITS_TYPES } from '../value-types.js'
 
@@ -38,7 +39,6 @@ function gatherHighlightedFieldData({ item: { de, coc }, dataValue }) {
 
 export default function useHighlightedField() {
     const item = useHighlightedFieldStore((state) => state.item)
-
     const dataValue = useValueStore((state) =>
         state.getDataValue({
             dataElementId: item?.de?.id,
