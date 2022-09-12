@@ -1,14 +1,20 @@
 import create from 'zustand'
 
-export const useValueStore = create((set, get) => ({
+const inititalState = {
     dataValueSet: {
-        datavalues: {},
+        dataValues: {},
         minMaxValues: [],
     },
-    getDataValue: ({ dataElementId, cocId }) =>
-        get().dataValueSet.dataValues[dataElementId]?.[cocId],
+}
+
+export const useValueStore = create((set, get) => ({
+    ...inititalState,
+    getDataValue: ({ dataElementId, cocId }) => {
+        return get().dataValueSet.dataValues[dataElementId]?.[cocId]
+    },
+
     getDataValues: () => get().datavalueSet?.dataValues,
-    setDataValueSet: (values) => set({ dataValueSet: values ?? {} }),
+    setDataValueSet: (values) => set({ dataValueSet: values ?? inititalState }),
     getMinMaxValues: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet?.minMaxValues?.find(
             (minMaxValue) =>
