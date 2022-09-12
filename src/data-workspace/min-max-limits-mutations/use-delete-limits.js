@@ -22,10 +22,10 @@ function deleteLimit(previousDataValueSet, deletedLimit, targetIndex) {
 const MUTATION_DELETE_MIN_MAX_LIMITS = {
     resource: 'dataEntry/minMaxValues',
     type: 'delete',
-    params: ({ dataElement, orgUnit, categoryOptionCombo }) => ({
-        dataElement,
-        orgUnit,
-        categoryOptionCombo,
+    params: ({ de, ou, co }) => ({
+        de,
+        ou,
+        co,
     }),
 }
 
@@ -59,9 +59,9 @@ export default function useDeleteLimits(onDone) {
         maxValue,
     }) => {
         const variables = {
-            dataElement,
-            orgUnit,
-            categoryOptionCombo,
+            de: dataElement,
+            ou: orgUnit,
+            co: categoryOptionCombo,
             minValue,
             maxValue,
         }
