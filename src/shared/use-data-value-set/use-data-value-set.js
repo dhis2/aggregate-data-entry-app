@@ -1,4 +1,5 @@
 import { useQuery, useIsMutating } from '@tanstack/react-query'
+import { useRef, useMemo } from 'react'
 import { createSelector } from 'reselect'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
@@ -73,12 +74,27 @@ const select = createSelector(
 export const useDataValueSet = ({ onSuccess } = {}) => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
+    const prevParamString = useRef(null)
     const activeMutations = useIsMutating({ mutationKey: ['dataValues'] })
+
+    const isEnabled = useMemo(() => {
+        const paramString = JSON.stringify(queryKey[1])
+        if (
+            prevParamString.current !== paramString &&
+            activeMutations === 0 &&
+            isValidSelection
+        ) {
+            prevParamString.current = paramString
+            return true
+        } else {
+            return false
+        }
+    }, [activeMutations, queryKey, isValidSelection])
 
     const result = useQuery(queryKey, {
         // Only enable this query if there are no ongoing mutations
         // TODO: Disable if disconnected from DHIS2 server?
-        enabled: activeMutations === 0 && isValidSelection,
+        enabled: isEnabled,
         select: select,
         // Fetch once, no matter the network connectivity;
         // will be 'paused' if offline and the request fails.
