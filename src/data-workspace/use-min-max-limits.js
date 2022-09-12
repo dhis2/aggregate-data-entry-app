@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useValueStore } from '../shared/index.js'
 
 export const useMinMaxLimits = (dataElementId, categoryOptionComboId) => {
@@ -5,8 +6,11 @@ export const useMinMaxLimits = (dataElementId, categoryOptionComboId) => {
         state.getMinMaxValues({ dataElementId, categoryOptionComboId })
     )
 
-    return {
-        min: limits?.minValue,
-        max: limits?.maxValue,
-    }
+    return useMemo(
+        () => ({
+            min: limits?.minValue,
+            max: limits?.maxValue,
+        }),
+        [limits]
+    )
 }
