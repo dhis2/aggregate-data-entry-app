@@ -4,7 +4,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { useHighlightedFieldIdContext } from '../../shared/index.js'
+import { useHighlightedFieldStore } from '../../shared/index.js'
 import {
     useDataValueParams,
     mutationKeys as dataValueMutationKeys,
@@ -53,8 +53,14 @@ export function InnerWrapper({
     syncStatus,
 }) {
     const hasComment = useHasComment(fieldname)
-    const { item } = useHighlightedFieldIdContext()
-    const highlighted = item && deId === item.de.id && cocId === item.coc.id
+    const highlighted = useHighlightedFieldStore((state) =>
+        state.isFieldHighlighted({
+            dataElementId: deId,
+            categoryOptionComboId: cocId,
+        })
+    )
+    //const { item } = useHighlightedFieldIdContext()
+    //const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
         meta: { invalid, active },
     } = useField(fieldname, { subscription: { invalid: true, active: true } })

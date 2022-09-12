@@ -1,11 +1,11 @@
 import React from 'react'
-import { useHighlightedFieldIdContext } from '../shared/index.js'
+import { useHighlightedFieldStore } from '../shared/index.js'
 import styles from './bottom-bar.module.css'
 import DataItemBar from './data-item-bar.js'
 import MainToolBar from './main-tool-bar.js'
 
 export default function BottomBar() {
-    const { item } = useHighlightedFieldIdContext()
+    const item = useHighlightedFieldStore((state) => state.item)
     const showDataItemBar = !!item
 
     return (

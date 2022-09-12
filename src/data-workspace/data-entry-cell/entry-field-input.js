@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
 import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
-import {
-    VALUE_TYPES,
-    useSetHighlightedFieldIdContext,
-} from '../../shared/index.js'
+import { VALUE_TYPES, useHighlightedFieldStore } from '../../shared/index.js'
 import { dataDetailsSidebarId } from '../constants.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
@@ -63,8 +60,11 @@ export function EntryFieldInput({
     disabled,
     locked,
 }) {
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+    //const setHighlightedFieldId = useSetHighlightedFieldIdContext()
 
+    const setHighlightedFieldId = useHighlightedFieldStore(
+        (state) => state.setHighlightedField
+    )
     // used so we don't consume the "id" which
     // would cause this component to rerender
     const setRightHandPanel = useSetRightHandPanel()
