@@ -13,7 +13,7 @@ export const useValueStore = create((set, get) => ({
         return get().dataValueSet.dataValues[dataElementId]?.[cocId]
     },
 
-    getDataValues: () => get().datavalueSet?.dataValues,
+    getDataValues: () => get().dataValueSet?.dataValues,
     setDataValueSet: (values) => set({ dataValueSet: values ?? inititalState }),
     getMinMaxValues: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet?.minMaxValues?.find(
