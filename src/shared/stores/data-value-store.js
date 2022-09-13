@@ -22,4 +22,12 @@ export const useValueStore = create((set, get) => ({
                 minMaxValue.dataElement === dataElementId
         )
     },
+    hasComment: ({ dataElementId, categoryOptionComboId }) => {
+        const dataValue = get().getDataValue({
+            dataElementId,
+            categoryOptionComboId,
+        })
+
+        return !!dataValue?.comment
+    },
 }))

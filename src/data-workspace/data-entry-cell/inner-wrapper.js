@@ -4,12 +4,14 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { useHighlightedFieldIdContext } from '../../shared/index.js'
+import {
+    useHighlightedFieldIdContext,
+    useValueStore,
+} from '../../shared/index.js'
 import {
     useDataValueParams,
     mutationKeys as dataValueMutationKeys,
 } from '../data-value-mutations/index.js'
-import { useHasComment } from '../has-comment/has-comment-context.js'
 import styles from './data-entry-cell.module.css'
 
 /** Three dots or triangle in top-right corner of cell */
@@ -52,7 +54,12 @@ export function InnerWrapper({
     cocId,
     syncStatus,
 }) {
-    const hasComment = useHasComment(fieldname)
+    const hasComment = useValueStore((state) =>
+        state.hasComment({
+            dataElementId: deId,
+            categoryOptionComboId: cocId,
+        })
+    )
     const { item } = useHighlightedFieldIdContext()
     const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
