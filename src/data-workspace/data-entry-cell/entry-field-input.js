@@ -102,7 +102,10 @@ export function EntryFieldInput({
                 setHighlightedFieldId(null)
             }
         }
-    }, [highlighted, setHighlightedFieldId])
+        // only used to cleanup on unmount - cannot include deps here
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     const sharedProps = useMemo(
         () => ({
             fieldname,
