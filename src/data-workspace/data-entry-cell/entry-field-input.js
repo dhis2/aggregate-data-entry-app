@@ -59,6 +59,7 @@ export function EntryFieldInput({
     setSyncStatus,
     disabled,
     locked,
+    highlighted,
 }) {
     const setHighlightedFieldId = useHighlightedFieldStore(
         (state) => state.setHighlightedField
@@ -96,8 +97,12 @@ export function EntryFieldInput({
     }, [de.id, coc.id, setHighlightedFieldId])
 
     useEffect(() => {
-        return () => setHighlightedFieldId(null)
-    })
+        return () => {
+            if (highlighted) {
+                setHighlightedFieldId(null)
+            }
+        }
+    }, [highlighted, setHighlightedFieldId])
     const sharedProps = useMemo(
         () => ({
             fieldname,
@@ -138,6 +143,7 @@ EntryFieldInput.propTypes = {
     }),
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
+    highlighted: PropTypes.bool,
     locked: PropTypes.bool,
     setSyncStatus: PropTypes.func,
 }
