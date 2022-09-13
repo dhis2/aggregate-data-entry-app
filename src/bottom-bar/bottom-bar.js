@@ -5,7 +5,9 @@ import DataItemBar from './data-item-bar.js'
 import MainToolBar from './main-tool-bar.js'
 
 export default function BottomBar() {
-    const item = useHighlightedFieldStore((state) => state.item)
+    const item = useHighlightedFieldStore((state) =>
+        state.getHighlightedField()
+    )
     const showDataItemBar = !!item
 
     return (

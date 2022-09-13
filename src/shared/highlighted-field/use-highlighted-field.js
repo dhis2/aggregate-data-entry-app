@@ -46,7 +46,9 @@ function gatherHighlightedFieldData({
 }
 
 export default function useHighlightedField() {
-    const item = useHighlightedFieldStore((state) => state.item)
+    const item = useHighlightedFieldStore((state) =>
+        state.getHighlightedField()
+    )
     const dataValue = useValueStore((state) =>
         state.getDataValue({
             dataElementId: item?.dataElementId,
