@@ -1,5 +1,6 @@
-import { useDataEngine } from '@dhis2/app-runtime'
-import { useEffect, useMemo, useState } from 'react'
+import { useAlert, useDataEngine } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
+import { useEffect, useMemo, useRef } from 'react'
 import loadAllOfflineLevels from './load-all-offline-levels.js'
 import loadDefaultOfflineLevels from './load-default-offline-levels.js'
 import useLoadConfigOfflineOrgUnitLevel from './use-load-config-offline-org-unit-level.js'
@@ -19,15 +20,23 @@ function isOfflineLevelsToLoadEmpty(offlineLevelsToLoad) {
     return !offlineLevelsToLoad.find(({ offlineLevels }) => offlineLevels)
 }
 
+const messageUserOrgUnitOutOfBounds = i18n.t(
+    'Something went wrong while trying to pre-load organisation units for offline usage. Please try again later or contact an admin.'
+)
+
 /**
  * As the service worker caches request responses,
  * it should suffice to simply perform all request the org unit tree would
  * perform as well in advance
  */
 export default function useLoadOfflineLevels() {
-    const { data: configOfflineOrgUnitLevel } =
+    const startedLoadingRef = useRef(false)
+    const { show: showAlert } = useAlert(
+        (message) => message,
+        () => ({ warning: true })
+    )
+    const configOfflineOrgUnitLevel =
         useLoadConfigOfflineOrgUnitLevel()
-    const [done, setDone] = useState(false)
     const dataEngine = useDataEngine()
     const organisationUnitLevels = useOrganisationUnitLevels()
     const offlineLevelsToLoadQuery = useOfflineLevelsToLoad(
@@ -41,29 +50,50 @@ export default function useLoadOfflineLevels() {
     )
 
     useEffect(() => {
-        // Can't pass async function to useEffect
-        if (
-            configOfflineOrgUnitLevel &&
-            isOfflineLevelsToLoadEmpty(offlineLevelsToLoad)
+        let promise = Promise.resolve()
+        const isLoading = (
+            organisationUnitLevels.isLoading ||
+            offlineLevelsToLoadQuery.isLoading ||
+            configOfflineOrgUnitLevel.isLoading
+        )
+
+        if (isLoading) {
+            // Do nothing when loading
+        } else if (
+            configOfflineOrgUnitLevel.data &&
+            isOfflineLevelsToLoadEmpty(offlineLevelsToLoad) &&
+            !startedLoadingRef.current
         ) {
-            loadDefaultOfflineLevels({
+            startedLoadingRef.current = true
+            promise = loadDefaultOfflineLevels({
                 dataEngine,
                 userOrganisationUnits,
-                configOfflineOrgUnitLevel,
-            }).finally(() => setDone(true))
-        } else if (offlineLevelsToLoad) {
-            loadAllOfflineLevels({
+                configOfflineOrgUnitLevel: configOfflineOrgUnitLevel.data,
+            })
+        } else if (offlineLevelsToLoad && !startedLoadingRef.current) {
+            startedLoadingRef.current = true
+            promise = loadAllOfflineLevels({
                 dataEngine,
                 offlineLevelsToLoadData: offlineLevelsToLoad,
-            }).finally(() => setDone(true))
+            })
+        } else {
+            startedLoadingRef.current = true
+            promise = Promise.reject(new Error(messageUserOrgUnitOutOfBounds))
         }
+
+        promise.catch((e) => {
+            console.error(e)
+            showAlert(e.message)
+        })
     }, [
+        configOfflineOrgUnitLevel.data,
+        configOfflineOrgUnitLevel.isLoading,
         dataEngine,
         offlineLevelsToLoad,
-        setDone,
-        configOfflineOrgUnitLevel,
+        offlineLevelsToLoadQuery.isLoading,
+        organisationUnitLevels.isLoading,
+        showAlert,
+        startedLoadingRef,
         userOrganisationUnits,
     ])
-
-    return done
 }
