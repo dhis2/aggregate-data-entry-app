@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { BottomBar } from '../bottom-bar/index.js'
 import {
@@ -15,6 +15,7 @@ import {
     useDataValueSet,
     useIsValidSelection,
     useLockedContext,
+    useValueStore,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
@@ -26,6 +27,8 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     useCheckLockStatus()
     const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
     const { populateHasCommentContextForDataSetValues } = useHasCommentContext()
+
+    const updateStore = useValueStore((state) => state.setDataValueSet)
     const initialDataValuesFetch = useDataValueSet({
         onSuccess: (data) => {
             populateHasCommentContextForDataSetValues(data.dataValues)
@@ -36,6 +39,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
             )
         },
     })
+
+    useEffect(() => {
+        updateStore(initialDataValuesFetch.data)
+    }, [updateStore, initialDataValuesFetch.data])
+
     const isValidSelection = useIsValidSelection()
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
@@ -109,7 +117,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     >
                         <MutationIndicator />
                     </div>
-
                     <BottomBar />
                 </footer>
             </div>
