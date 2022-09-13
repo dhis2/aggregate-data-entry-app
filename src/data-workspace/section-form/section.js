@@ -13,7 +13,7 @@ import React, { useMemo, useState } from 'react'
 import {
     useMetadata,
     selectors,
-    useSetHighlightedFieldIdContext,
+    useHighlightedFieldStore,
 } from '../../shared/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import { getFieldId } from '../get-field-id.js'
@@ -21,7 +21,9 @@ import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-b
 import styles from './section.module.css'
 
 export function SectionFormSection({ section, dataSetId, globalFilterText }) {
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+    const setHighlightedFieldId = useHighlightedFieldStore(
+        (state) => state.setHighlightedField
+    )
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
     const { data } = useMetadata()

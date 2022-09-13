@@ -3,12 +3,14 @@ import { Button, InputField } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useSetHighlightedFieldIdContext } from '../shared/index.js'
+import { useHighlightedFieldStore } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import styles from './entry-form.module.css'
 
 export default function FilterField({ value, setFilterText, formType }) {
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+    const setHighlightedFieldId = useHighlightedFieldStore(
+        (state) => state.setHighlightedField
+    )
     const wrapperClasses = classNames(styles.filterWrapper, 'hide-for-print')
     return (
         <div className={wrapperClasses}>
