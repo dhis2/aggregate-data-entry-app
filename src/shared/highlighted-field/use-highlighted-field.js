@@ -25,7 +25,7 @@ function gatherHighlightedFieldData({
             name: dataElement.displayName,
             code: dataElement.code,
             commentOptionSetId: commentOptionSet?.id,
-            description: de.description,
+            description: dataElement.description,
         }
     }
 
@@ -41,7 +41,7 @@ function gatherHighlightedFieldData({
         storedBy: null,
         code: null,
         commentOptionSetId: commentOptionSet?.id,
-        description: de.description,
+        description: dataElement.description,
     }
 }
 

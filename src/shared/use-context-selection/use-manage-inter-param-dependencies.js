@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useHighlightedFieldStore } from '../../shared/index.js'
 import { parsePeriodId } from '../fixed-periods/index.js'
-import { useSetHighlightedFieldIdContext } from '../highlighted-field/use-highlighted-field-context.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { filterObject } from '../utils.js'
 import {
@@ -42,7 +42,9 @@ function useHandleDataSetIdChange() {
         organisationUnits: assignedOrgUnits,
         periodType: dataSetPeriodType,
     } = selectors.getDataSetById(metadata, dataSetId) || {}
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+    const setHighlightedFieldId = useHighlightedFieldStore(
+        (state) => state.setHighlightedField
+    )
 
     useEffect(() => {
         if (dataSetId !== prevDataSetId) {
