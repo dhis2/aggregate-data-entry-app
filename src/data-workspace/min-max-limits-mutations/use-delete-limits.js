@@ -23,9 +23,9 @@ const MUTATION_DELETE_MIN_MAX_LIMITS = {
     resource: 'dataEntry/minMaxValues',
     type: 'delete',
     params: ({ dataElement, orgUnit, categoryOptionCombo }) => ({
-        dataElement,
-        orgUnit,
-        categoryOptionCombo,
+        de: dataElement,
+        ou: orgUnit,
+        co: categoryOptionCombo,
     }),
 }
 
