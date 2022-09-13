@@ -1,6 +1,6 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import loadAllOfflineLevels from './load-all-offline-levels.js'
 import loadDefaultOfflineLevels from './load-default-offline-levels.js'
 import useLoadConfigOfflineOrgUnitLevel from './use-load-config-offline-org-unit-level.js'
@@ -30,13 +30,13 @@ const messageUserOrgUnitOutOfBounds = i18n.t(
  * perform as well in advance
  */
 export default function useLoadOfflineLevels() {
+    const [done, setDone] = useState(false)
     const startedLoadingRef = useRef(false)
     const { show: showAlert } = useAlert(
         (message) => message,
         () => ({ warning: true })
     )
-    const configOfflineOrgUnitLevel =
-        useLoadConfigOfflineOrgUnitLevel()
+    const configOfflineOrgUnitLevel = useLoadConfigOfflineOrgUnitLevel()
     const dataEngine = useDataEngine()
     const organisationUnitLevels = useOrganisationUnitLevels()
     const offlineLevelsToLoadQuery = useOfflineLevelsToLoad(
@@ -50,12 +50,11 @@ export default function useLoadOfflineLevels() {
     )
 
     useEffect(() => {
-        let promise = Promise.resolve()
-        const isLoading = (
+        let promise
+        const isLoading =
             organisationUnitLevels.isLoading ||
             offlineLevelsToLoadQuery.isLoading ||
             configOfflineOrgUnitLevel.isLoading
-        )
 
         if (isLoading) {
             // Do nothing when loading
@@ -81,10 +80,13 @@ export default function useLoadOfflineLevels() {
             promise = Promise.reject(new Error(messageUserOrgUnitOutOfBounds))
         }
 
-        promise.catch((e) => {
-            console.error(e)
-            showAlert(e.message)
-        })
+        promise &&
+            promise
+                .catch((e) => {
+                    console.error(e)
+                    showAlert(e.message)
+                })
+                .finally(() => setDone(true))
     }, [
         configOfflineOrgUnitLevel.data,
         configOfflineOrgUnitLevel.isLoading,
@@ -92,8 +94,11 @@ export default function useLoadOfflineLevels() {
         offlineLevelsToLoad,
         offlineLevelsToLoadQuery.isLoading,
         organisationUnitLevels.isLoading,
+        setDone,
         showAlert,
         startedLoadingRef,
         userOrganisationUnits,
     ])
+
+    return done
 }

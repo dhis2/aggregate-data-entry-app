@@ -1,7 +1,7 @@
 import loadOfflineLevel, {
-    QUERY_ORG_UNIT_FROM_UI,
     QUERY_ORG_CHILDREN_FROM_UI,
 } from './load-offline-level.js'
+import { QUERY_ORG_UNIT_FROM_UI } from './load-org-unit.js'
 
 describe('loadOfflineLevel', () => {
     const query = jest.fn()

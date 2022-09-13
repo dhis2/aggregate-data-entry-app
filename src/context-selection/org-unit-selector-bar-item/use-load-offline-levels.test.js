@@ -1,15 +1,24 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { renderHook } from '@testing-library/react-hooks'
 import loadOfflineLevel from './load-offline-level.js'
+import useLoadConfigOfflineOrgUnitLevel from './use-load-config-offline-org-unit-level.js'
 import useLoadOfflineLevels from './use-load-offline-levels.js'
 import useOfflineLevelsToLoad from './use-offline-levels-to-load.js'
 import useOrganisationUnitLevels from './use-organisation-unit-levels.js'
 
 jest.mock('@dhis2/app-runtime', () => ({
     useDataEngine: jest.fn(),
+    useAlert: jest.fn(() => ({
+        show: jest.fn(),
+    })),
 }))
 
 jest.mock('./load-offline-level.js', () => ({
+    __esModule: true,
+    default: jest.fn(() => Promise.resolve()),
+}))
+
+jest.mock('./use-load-config-offline-org-unit-level.js', () => ({
     __esModule: true,
     default: jest.fn(),
 }))
@@ -29,17 +38,23 @@ describe('useLoadOfflineLevels', () => {
     useDataEngine.mockImplementation(() => dataEngine)
 
     const offlineLevelToLoad = {
-        data: [
-            { offlineLevels: 2, id: 'foo' },
-            { offlineLevels: 1, id: 'bar' },
-        ],
+        data: {
+            offlineLevelsToLoad: [
+                { offlineLevels: 2, id: 'foo' },
+                { offlineLevels: 1, id: 'bar' },
+            ],
+            userOrganisationUnits: [],
+        },
     }
 
+    jest.spyOn(console, 'error').mockImplementation(() => null)
+    useLoadConfigOfflineOrgUnitLevel.mockImplementation(() => ({}))
     useOrganisationUnitLevels.mockImplementation(() => ({}))
     useOfflineLevelsToLoad.mockImplementation(() => offlineLevelToLoad)
 
     afterEach(() => {
         useDataEngine.mockClear(), loadOfflineLevel.mockClear()
+        useLoadConfigOfflineOrgUnitLevel.mockClear()
         useOfflineLevelsToLoad.mockClear()
         useOrganisationUnitLevels.mockClear()
     })
