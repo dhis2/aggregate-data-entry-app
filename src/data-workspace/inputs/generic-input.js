@@ -48,6 +48,9 @@ export const GenericInput = ({
         subscription: { value: true, dirty: true, valid: true },
         format: formatValue,
         formatOnBlur: true,
+        // This is require to ensure form is validated on first page load
+        // this is because the validate prop doesn't rerender when limits change
+        data: limits,
     })
     const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })

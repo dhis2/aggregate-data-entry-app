@@ -1,19 +1,16 @@
-import { useDataValueSet, useOrgUnitId } from '../shared/index.js'
+import { useMemo } from 'react'
+import { useValueStore } from '../shared/index.js'
 
 export const useMinMaxLimits = (dataElementId, categoryOptionComboId) => {
-    const [orgUnitId] = useOrgUnitId()
-    const dataValueSet = useDataValueSet()
+    const limits = useValueStore((state) =>
+        state.getMinMaxValues({ dataElementId, categoryOptionComboId })
+    )
 
-    const limits = dataValueSet.data?.minMaxValues.find((minMaxValue) => {
-        return (
-            minMaxValue.categoryOptionCombo === categoryOptionComboId &&
-            minMaxValue.dataElement === dataElementId &&
-            minMaxValue.orgUnit === orgUnitId
-        )
-    })
-
-    return {
-        min: limits?.minValue,
-        max: limits?.maxValue,
-    }
+    return useMemo(
+        () => ({
+            min: limits?.minValue,
+            max: limits?.maxValue,
+        }),
+        [limits]
+    )
 }

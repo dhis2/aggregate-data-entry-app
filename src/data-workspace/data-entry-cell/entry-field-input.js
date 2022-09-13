@@ -21,7 +21,6 @@ function InputComponent({ sharedProps, de }) {
     if (de.optionSet) {
         return <OptionSet {...sharedProps} optionSetId={de.optionSet.id} />
     }
-
     // Otherwise, check for the valueType
     switch (de.valueType) {
         case VALUE_TYPES.BOOLEAN: {
