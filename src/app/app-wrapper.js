@@ -17,6 +17,8 @@ import App from './app.js'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
 import useQueryClient from './query-client/use-query-client.js'
 
+const enableRQDevtools = process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
+
 /**
  * @param {Object} props
  * @param {QueryClient} props.queryClient
@@ -36,12 +38,13 @@ export function OuterComponents({
     router: Router,
     queryClient,
 }) {
+    console.log(process.env)
     return (
         <>
             <CssReset />
             <CssVariables colors spacers theme />
             <ConfiguredQueryClientProvider queryClient={queryClient}>
-                <ReactQueryDevtools />
+                {enableRQDevtools && <ReactQueryDevtools />}
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
                         <LockedProvider>
