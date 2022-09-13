@@ -1,6 +1,5 @@
 export * from './error-message/index.js'
 export * from './fixed-periods/index.js'
-export * from './form-changed-since-panel-opened/index.js'
 export * from './highlighted-field/index.js'
 export * from './metadata/index.js'
 export * from './locked-status/index.js'
