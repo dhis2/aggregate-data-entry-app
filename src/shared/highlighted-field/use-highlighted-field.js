@@ -60,7 +60,7 @@ export default function useHighlightedField() {
     )
 
     return useMemo(() => {
-        if (!item) {
+        if (!item || !dataElement) {
             return null
         }
         return gatherHighlightedFieldData({

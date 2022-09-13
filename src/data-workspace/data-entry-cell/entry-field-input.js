@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useEffect } from 'react'
 import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
 import { VALUE_TYPES, useHighlightedFieldStore } from '../../shared/index.js'
 import { dataDetailsSidebarId } from '../constants.js'
@@ -95,6 +95,9 @@ export function EntryFieldInput({
         })
     }, [de.id, coc.id, setHighlightedFieldId])
 
+    useEffect(() => {
+        return () => setHighlightedFieldId(null)
+    })
     const sharedProps = useMemo(
         () => ({
             fieldname,

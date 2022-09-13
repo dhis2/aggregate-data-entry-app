@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Sidebar,
     SidebarProps,
@@ -15,6 +15,15 @@ import Limits from './limits.js'
 export default function DataDetailsSidebar({ hide }) {
     const dataValue = useHighlightedField()
 
+    useEffect(() => {
+        if (!dataValue) {
+            hide()
+        }
+    }, [dataValue, hide])
+
+    if (!dataValue) {
+        return null
+    }
     return (
         <Sidebar>
             <Title onClose={hide}>{i18n.t('Details')}</Title>
