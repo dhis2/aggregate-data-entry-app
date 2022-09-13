@@ -15,10 +15,17 @@ export default function useOfflineLevelsToLoad(organisationUnitLevels) {
         // Only fetch the user's org units when there are any offline levels
         enable: organisationUnitLevels?.length,
         select: ({ organisationUnits: userOrganisationUnits }) => {
-            return getOfflineLevelsToLoad({
+            return {
                 userOrganisationUnits,
-                organisationUnitLevels,
-            })
+                offlineLevelsToLoad: getOfflineLevelsToLoad({
+                    organisationUnitLevels,
+                    userOrganisationUnits,
+                }).filter(
+                    // When changing an offline level to "default",
+                    // this value is undefined and should be omitted
+                    ({ offlineLevels }) => offlineLevels
+                ),
+            }
         },
     })
 }

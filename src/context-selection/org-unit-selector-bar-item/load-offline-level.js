@@ -1,14 +1,4 @@
-// Copied from https://github.com/dhis2/ui/blob/master/components/organisation-unit-tree/src/organisation-unit-node/use-org-data/use-org-data.js
-export const QUERY_ORG_UNIT_FROM_UI = {
-    orgUnit: {
-        resource: `organisationUnits`,
-        id: ({ id }) => id,
-        params: ({ isUserDataViewFallback }) => ({
-            isUserDataViewFallback,
-            fields: ['path', 'children::size'],
-        }),
-    },
-}
+import loadOrgUnit from './load-org-unit.js'
 
 export const QUERY_ORG_CHILDREN_FROM_UI = {
     orgUnit: {
@@ -25,13 +15,10 @@ export default async function loadOfflineLevel({
     id,
     offlineLevels,
 }) {
-    const variables = { id }
     let orgData
 
     try {
-        orgData = await dataEngine.query(QUERY_ORG_UNIT_FROM_UI, {
-            variables,
-        })
+        orgData = await loadOrgUnit(dataEngine, id)
     } catch (e) {
         // @TODO: Figure out what to do when loading fails
         return
@@ -47,7 +34,7 @@ export default async function loadOfflineLevel({
     let orgChildren
     try {
         orgChildren = await dataEngine.query(QUERY_ORG_CHILDREN_FROM_UI, {
-            variables,
+            variables: { id },
         })
     } catch (e) {
         // @TODO: Figure out what to do when loading fails

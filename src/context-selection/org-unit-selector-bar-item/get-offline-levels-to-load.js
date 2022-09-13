@@ -1,11 +1,11 @@
 /**
- * @param {Object} data
- * @param {Object} data.organisationUnitLevels
- * @param {Integer} data.organisationUnitLevels.level
- * @param {Integer} data.organisationUnitLevels.offlineLevels
- * @param {Object} data.userOrganisationUnits
- * @param {String} data.userOrganisationUnits.id
- * @param {Integer} data.userOrganisationUnits.level
+ * @param {Object} options
+ * @param {Object} options.organisationUnitLevels
+ * @param {Integer} options.organisationUnitLevels.level
+ * @param {Integer} options.organisationUnitLevels.offlineLevels
+ * @param {Object} options.userOrganisationUnits
+ * @param {String} options.userOrganisationUnits.id
+ * @param {Integer} options.userOrganisationUnits.level
  *
  * @returns {Array.<{ id: String, offlineLevels: Int }>}
  */

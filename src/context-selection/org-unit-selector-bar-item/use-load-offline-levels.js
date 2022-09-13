@@ -1,19 +1,22 @@
 import { useDataEngine } from '@dhis2/app-runtime'
-import { useEffect, useState } from 'react'
-import loadOfflineLevel from './load-offline-level.js'
+import { useEffect, useMemo, useState } from 'react'
+import loadAllOfflineLevels from './load-all-offline-levels.js'
+import loadDefaultOfflineLevels from './load-default-offline-levels.js'
+import useLoadConfigOfflineOrgUnitLevel from './use-load-config-offline-org-unit-level.js'
 import useOfflineLevelsToLoad from './use-offline-levels-to-load.js'
 import useOrganisationUnitLevels from './use-organisation-unit-levels.js'
 
-function loadAllOfflineLevels({ dataEngine, offlineLevelsToLoadData }) {
-    return Promise.all(
-        offlineLevelsToLoadData.map((offlineLevelToLoad) => {
-            console.log('> loadAllOfflineLevels -> offlineLevelToLoad:', offlineLevelToLoad)
-            return loadOfflineLevel({
-                dataEngine,
-                ...offlineLevelToLoad,
-            })
-        })
-    )
+/**
+ * Can either be an empty array or an array with configs
+ * with the `offlineLevels` property as to `undefined`
+ */
+function isOfflineLevelsToLoadEmpty(offlineLevelsToLoad) {
+    if (!offlineLevelsToLoad.length) {
+        return true
+    }
+
+    // true = There is no offlineLevel that is defined
+    return !offlineLevelsToLoad.find(({ offlineLevels }) => offlineLevels)
 }
 
 /**
@@ -22,28 +25,45 @@ function loadAllOfflineLevels({ dataEngine, offlineLevelsToLoadData }) {
  * perform as well in advance
  */
 export default function useLoadOfflineLevels() {
+    const { data: configOfflineOrgUnitLevel } =
+        useLoadConfigOfflineOrgUnitLevel()
     const [done, setDone] = useState(false)
     const dataEngine = useDataEngine()
     const organisationUnitLevels = useOrganisationUnitLevels()
-    const offlineLevelsToLoad = useOfflineLevelsToLoad(
+    const offlineLevelsToLoadQuery = useOfflineLevelsToLoad(
         organisationUnitLevels.data
     )
-    const { data: offlineLevelsToLoadData } = offlineLevelsToLoad
+
+    const { data: offlineLevelToLoadData } = offlineLevelsToLoadQuery
+    const { offlineLevelsToLoad, userOrganisationUnits } = useMemo(
+        () => offlineLevelToLoadData || {},
+        [offlineLevelToLoadData]
+    )
 
     useEffect(() => {
         // Can't pass async function to useEffect
-        if (offlineLevelsToLoadData) {
+        if (
+            configOfflineOrgUnitLevel &&
+            isOfflineLevelsToLoadEmpty(offlineLevelsToLoad)
+        ) {
+            loadDefaultOfflineLevels({
+                dataEngine,
+                userOrganisationUnits,
+                configOfflineOrgUnitLevel,
+            }).finally(() => setDone(true))
+        } else if (offlineLevelsToLoad) {
             loadAllOfflineLevels({
                 dataEngine,
-                offlineLevelsToLoadData,
-            }).finally(() => {
-                // @TODO: Think about what should happen here
-                // Do we want to notify the user about success?
-                // What do we want to display when an error occurs?
-                setDone(true)
-            })
+                offlineLevelsToLoadData: offlineLevelsToLoad,
+            }).finally(() => setDone(true))
         }
-    }, [dataEngine, offlineLevelsToLoadData, setDone])
+    }, [
+        dataEngine,
+        offlineLevelsToLoad,
+        setDone,
+        configOfflineOrgUnitLevel,
+        userOrganisationUnits,
+    ])
 
     return done
 }
