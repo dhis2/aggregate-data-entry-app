@@ -10,8 +10,7 @@ export const useHighlightedFieldStore = create((set, get) => ({
      * @param {} field.categoryOptionComboId id of the categoryOptionCombo
      * @returns
      */
-    setHighlightedField: ({ dataElementId, categoryOptionComboId }) =>
-        set({ item: { dataElementId, categoryOptionComboId } }),
+    setHighlightedField: (item) => set({ item }),
     isFieldHighlighted: ({ dataElementId, categoryOptionComboId }) => {
         const item = get().item
         if (!item) {
