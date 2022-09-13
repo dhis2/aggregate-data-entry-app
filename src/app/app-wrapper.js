@@ -8,7 +8,10 @@ import { QueryParamProvider } from 'use-query-params'
 import HasCommentProvider from '../data-workspace/has-comment/has-comment-provider.js'
 import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.js'
 import { RightHandPanelProvider } from '../right-hand-panel/index.js'
-import { LockedProvider } from '../shared/index.js'
+import {
+    FormChangedSincePanelOpenedProvider,
+    LockedProvider,
+} from '../shared/index.js'
 import App from './app.js'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
 import useQueryClient from './query-client/use-query-client.js'
@@ -41,13 +44,15 @@ export function OuterComponents({
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
                         <LockedProvider>
-                            <RightHandPanelProvider>
-                                <PrintAreaProvider>
-                                    <HasCommentProvider>
-                                        {children}
-                                    </HasCommentProvider>
-                                </PrintAreaProvider>
-                            </RightHandPanelProvider>
+                            <FormChangedSincePanelOpenedProvider>
+                                <RightHandPanelProvider>
+                                    <PrintAreaProvider>
+                                        <HasCommentProvider>
+                                            {children}
+                                        </HasCommentProvider>
+                                    </PrintAreaProvider>
+                                </RightHandPanelProvider>
+                            </FormChangedSincePanelOpenedProvider>
                         </LockedProvider>
                     </QueryParamProvider>
                 </Router>

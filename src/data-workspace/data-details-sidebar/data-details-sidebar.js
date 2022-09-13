@@ -4,7 +4,6 @@ import {
     Sidebar,
     SidebarProps,
     Title,
-    useDataValueSet,
     useHighlightedField,
 } from '../../shared/index.js'
 import AuditLog from './audit-log.js'
@@ -14,15 +13,7 @@ import History from './history.js'
 import Limits from './limits.js'
 
 export default function DataDetailsSidebar({ hide }) {
-    const dataValueSet = useDataValueSet()
-    const item = useHighlightedField()
-
-    const dataValue = {
-        ...item,
-        ...dataValueSet.data?.dataValues[item.dataElement]?.[
-            item.categoryOptionCombo
-        ],
-    }
+    const dataValue = useHighlightedField()
 
     return (
         <Sidebar>

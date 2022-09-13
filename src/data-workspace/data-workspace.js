@@ -27,7 +27,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     useCheckLockStatus()
     const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
     const { populateHasCommentContextForDataSetValues } = useHasCommentContext()
-
     const updateStore = useValueStore((state) => state.setDataValueSet)
     const initialDataValuesFetch = useDataValueSet({
         onSuccess: (data) => {

@@ -3,8 +3,23 @@ import create from 'zustand'
 export const useHighlightedFieldStore = create((set, get) => ({
     item: null,
 
-    setHighlightedField: (field) => set({ item: field }),
-    isFieldHighlighted: ({ dataElementId, categoryOptionComboId }) =>
-        get().item?.de?.id === dataElementId &&
-        get().item?.coc?.id === categoryOptionComboId,
+    /**
+     *
+     * @param {} field
+     * @param {} field.dataElementId id of the dataElement
+     * @param {} field.categoryOptionComboId id of the categoryOptionCombo
+     * @returns
+     */
+    setHighlightedField: ({ dataElementId, categoryOptionComboId }) =>
+        set({ item: { dataElementId, categoryOptionComboId } }),
+    isFieldHighlighted: ({ dataElementId, categoryOptionComboId }) => {
+        const item = get().item
+        if (!item) {
+            return false
+        }
+        return (
+            item.dataElementId === dataElementId &&
+            item.categoryOptionComboId === categoryOptionComboId
+        )
+    },
 }))

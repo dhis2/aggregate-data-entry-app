@@ -60,8 +60,6 @@ export function EntryFieldInput({
     disabled,
     locked,
 }) {
-    //const setHighlightedFieldId = useSetHighlightedFieldIdContext()
-
     const setHighlightedFieldId = useHighlightedFieldStore(
         (state) => state.setHighlightedField
     )
@@ -91,8 +89,11 @@ export function EntryFieldInput({
 
     // todo: inner wrapper?
     const onFocus = useCallback(() => {
-        setHighlightedFieldId({ de, coc })
-    }, [de, coc, setHighlightedFieldId])
+        setHighlightedFieldId({
+            dataElementId: de.id,
+            categoryOptionComboId: coc.id,
+        })
+    }, [de.id, coc.id, setHighlightedFieldId])
 
     const sharedProps = useMemo(
         () => ({

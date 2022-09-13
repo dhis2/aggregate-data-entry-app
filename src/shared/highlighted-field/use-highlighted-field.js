@@ -1,9 +1,18 @@
-import { useState, useEffect } from 'react'
-import { useValueStore, useHighlightedFieldStore } from '../../shared/index.js'
+import { useMemo } from 'react'
+import {
+    useValueStore,
+    useHighlightedFieldStore,
+    useMetadata,
+    selectors,
+} from '../../shared/index.js'
 import { CAN_HAVE_LIMITS_TYPES } from '../value-types.js'
 
-function gatherHighlightedFieldData({ item: { de, coc }, dataValue }) {
-    const { optionSet, valueType, commentOptionSet } = de
+function gatherHighlightedFieldData({
+    dataValue,
+    dataElement,
+    categoryOptionComboId,
+}) {
+    const { optionSet, valueType, commentOptionSet } = dataElement
     const canHaveLimits = optionSet
         ? false
         : CAN_HAVE_LIMITS_TYPES.includes(valueType)
@@ -13,9 +22,8 @@ function gatherHighlightedFieldData({ item: { de, coc }, dataValue }) {
             ...dataValue,
             valueType,
             canHaveLimits,
-            categoryOptionCombo: coc.id,
-            name: de.displayName,
-            code: de.code,
+            name: dataElement.displayName,
+            code: dataElement.code,
             commentOptionSetId: commentOptionSet?.id,
             description: de.description,
         }
@@ -24,9 +32,9 @@ function gatherHighlightedFieldData({ item: { de, coc }, dataValue }) {
     return {
         valueType,
         canHaveLimits,
-        categoryOptionCombo: coc.id,
-        dataElement: de.id,
-        name: de.displayName,
+        categoryOptionCombo: categoryOptionComboId,
+        dataElement: dataElement.id,
+        name: dataElement.displayName,
         lastUpdated: '',
         followup: false,
         comment: null,
@@ -41,14 +49,24 @@ export default function useHighlightedField() {
     const item = useHighlightedFieldStore((state) => state.item)
     const dataValue = useValueStore((state) =>
         state.getDataValue({
-            dataElementId: item?.de?.id,
-            categoryOptionComboId: item?.coc?.id,
+            dataElementId: item?.dataElementId,
+            categoryOptionComboId: item?.categoryOptionComboId,
         })
     )
+    const { data: metadata } = useMetadata()
+    const dataElement = selectors.getDataElementById(
+        metadata,
+        item?.dataElementId
+    )
 
-    if (item) {
-        return gatherHighlightedFieldData({ item, dataValue })
-    }
-
-    return null
+    return useMemo(() => {
+        if (!item) {
+            return null
+        }
+        return gatherHighlightedFieldData({
+            dataValue,
+            dataElement,
+            categoryOptionComboId: item.categoryOptionComboId,
+        })
+    }, [item, dataElement, dataValue])
 }

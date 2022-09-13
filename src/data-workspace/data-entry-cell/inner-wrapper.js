@@ -59,8 +59,6 @@ export function InnerWrapper({
             categoryOptionComboId: cocId,
         })
     )
-    //const { item } = useHighlightedFieldIdContext()
-    //const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
         meta: { invalid, active },
     } = useField(fieldname, { subscription: { invalid: true, active: true } })
