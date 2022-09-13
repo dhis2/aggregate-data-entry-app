@@ -76,7 +76,7 @@ const CommentEditField = ({ comment, commentOptionSetId }) => {
             <TextAreaFieldFF
                 input={input}
                 meta={meta}
-                className={styles.textAreaOriginal}
+                className={styles.textArea}
             />
         </>
     )
