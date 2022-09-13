@@ -1,5 +1,5 @@
 .wrapper {
-    margin: 16px
+    padding: var(--spacers-dp16)
 }
 
 .buttons {

@@ -70,9 +70,6 @@ export default function ValidationResultsSidebar({ hide }) {
                     >
                         {i18n.t('Run validation again')}
                     </Button>
-                    <Button small disabled>
-                        {i18n.t('Export output')}
-                    </Button>
                 </div>
                 <h1 className={styles.title}>{i18n.t('Alert summary')}</h1>
                 <div className={styles.summaryBoxes}>

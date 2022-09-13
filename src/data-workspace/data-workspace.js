@@ -75,7 +75,15 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     if (initialDataValuesFetch.error) {
-        return 'Error!'
+        return (
+            <NoticeBox
+                title={i18n.t('There was a problem loading data values')}
+                className={styles.formMessageBox}
+                error
+            >
+                {initialDataValuesFetch.error?.message}
+            </NoticeBox>
+        )
     }
 
     // If loading a form while client is offline, since useDataValueSet uses
@@ -88,10 +96,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
-    if (!dataSet) {
-        console.warn('Could not find dataSet with ID', dataSetId)
-        return 'Error!'
-    }
 
     const footerClasses = classNames(styles.footer, 'hide-for-print')
     const dataValueSet = initialDataValuesFetch.data?.dataValues
