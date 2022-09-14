@@ -51,6 +51,7 @@
 .indicatorCell {
     composes: tableCell;
     background: var(--colors-grey300);
+    text-align: right;
 }
 
 .totalHeader {
