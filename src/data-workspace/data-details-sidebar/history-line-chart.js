@@ -63,6 +63,7 @@ export default function HistoryLineChart({ history }) {
                 data: oldToNewHistory.map(({ value }) => Number(value)),
                 borderColor: 'rgb(53, 162, 235)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                borderWidth: 1,
             },
         ],
     }
