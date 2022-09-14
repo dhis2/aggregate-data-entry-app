@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, ButtonStrip, Tooltip } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useConnectionStatus } from '../../shared/index.js'
@@ -47,7 +48,12 @@ export default function LimitsDisplay({
         <div className={styles.limits}>
             <LimitsAverageValueInfo avg={average} />
 
-            <div>
+            <div
+                className={cx(
+                    styles.limitsDisplayWrapper,
+                    styles.limitsDisplayWrapperMargin
+                )}
+            >
                 {min !== null && (
                     <div className={styles.limit}>
                         <span className={styles.limitLabel}>
