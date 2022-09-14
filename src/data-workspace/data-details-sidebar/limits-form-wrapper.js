@@ -31,7 +31,7 @@ export default function LimitsFormWrapper({
     const validateMin = composeValidators(
         (value, values) => {
             if (!value && !!values.max) {
-                return i18n.t('A miminum is required when providing a maximum')
+                return i18n.t('A min is required when providing a max')
             }
         },
         validator,
@@ -43,7 +43,7 @@ export default function LimitsFormWrapper({
     // whether it's less than "max"
     const validateMax = composeValidators((value, values) => {
         if (!value && !!values.min) {
-            return i18n.t('A maximum is required when providing a minimum')
+            return i18n.t('A max is required when providing a min')
         }
     }, validator)
 
