@@ -7,7 +7,10 @@ import styles from './basic-information.module.css'
 import ItemPropType from './item-prop-type.js'
 
 const BasicInformation = ({ item }) => (
-    <div className={styles.unit}>
+    <div
+        className={styles.unit}
+        data-test="data-details-sidebar-basic-information"
+    >
         <h1 className={styles.title}>{item.name}</h1>
         <ul className={styles.elements}>
             {item.code && (
