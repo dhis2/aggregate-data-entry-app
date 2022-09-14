@@ -8,6 +8,7 @@ import {
     LockedStates,
     useFormChangedSincePanelOpenedContext,
     useLockedContext,
+    useEntryFormStore,
 } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
@@ -40,8 +41,11 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     const rightHandPanelContext = useRightHandPanelContext()
     const { locked, lockStatus } = useLockedContext()
     const formType = dataSet.formType
+    const setFormErrors = useEntryFormStore((state) => state.setErrors)
+
     useFormState({
         onChange: (formState) => {
+            setFormErrors(formState.errors)
             // set formChanged when the form is dirty and the right hand panel is open
             // components in the right hand panel will reset the formChanged state to false
             if (formState.dirty && rightHandPanelContext.id) {
@@ -50,6 +54,7 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
         },
         subscription: {
             dirty: true,
+            errors: true,
         },
     })
 
