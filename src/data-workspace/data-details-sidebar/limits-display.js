@@ -51,7 +51,7 @@ export default function LimitsDisplay({
                 {min !== null && (
                     <div className={styles.limit}>
                         <span className={styles.limitLabel}>
-                            {i18n.t('Minimum')}
+                            {i18n.t('Min')}
                         </span>
                         <span className={styles.limitValue}>{min}</span>
                     </div>
@@ -64,7 +64,7 @@ export default function LimitsDisplay({
                 {max !== null && (
                     <div className={styles.limit}>
                         <span className={styles.limitLabel}>
-                            {i18n.t('Maximum')}
+                            {i18n.t('Max')}
                         </span>
                         <span className={styles.limitValue}>{max}</span>
                     </div>
