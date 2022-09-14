@@ -15,11 +15,11 @@
 }
 
 .inputInvalid {
-    composes: inputInvalid from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+    composes: invalid from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }
 
 .inputSynced {
-    composes: inputSynced from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+    composes: synced from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }
 
 .topRightIndicator {
