@@ -20,6 +20,16 @@ Feature: Category options for each category in the category combination connecte
         Given a data set, org unit, period and some but not all options have been selected and there are some categories connected to the data set
         Then the selector should show that some items have been selected
 
+    Scenario: Options are selected and user navigates to a new period for which options are also valid
+        Given a data set, org unit, period and options have been selected
+        When the user selects a new period that options are valid for
+        Then the selected category option "Provide access to basic education" is still selected
+
+    Scenario: Options are selected and user navigates to a new organisation unit for which options are not valid
+        Given a data set, org unit, period and options have been selected
+        When the user selects a new organisation unit that options are not valid for
+        Then the selected category option "Provide access to basic education" is not selected
+
     Scenario: The data set's category combination is the default
         Given a data set, org unit & period have been selected and the data set's category combination is the default one
         Then the selector should not be displayed
