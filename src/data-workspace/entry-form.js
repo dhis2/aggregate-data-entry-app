@@ -41,11 +41,11 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     const rightHandPanelContext = useRightHandPanelContext()
     const { locked, lockStatus } = useLockedContext()
     const formType = dataSet.formType
-    const setEntryFormStore = useEntryFormStore((state) => state.setErrors)
+    const setFormErrors = useEntryFormStore((state) => state.setErrors)
 
     useFormState({
         onChange: (formState) => {
-            setEntryFormStore(formState.errors)
+            setFormErrors(formState.errors)
             // set formChanged when the form is dirty and the right hand panel is open
             // components in the right hand panel will reset the formChanged state to false
             if (formState.dirty && rightHandPanelContext.id) {
