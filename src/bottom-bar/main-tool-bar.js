@@ -5,7 +5,11 @@ import cx from 'classnames'
 import React from 'react'
 import { validationResultsSidebarId } from '../data-workspace/constants.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
-import { useDataValueSetQueryKey, useLockedContext } from '../shared/index.js'
+import {
+    useDataValueSetQueryKey,
+    useLockedContext,
+    useEntryFormStore,
+} from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
 export default function MainToolBar() {
@@ -15,6 +19,9 @@ export default function MainToolBar() {
     const activeMutations = useIsMutating({
         mutationKey: queryKey,
     })
+    const numberOfErrors = useEntryFormStore((state) =>
+        state.getNumberOfErrors()
+    )
 
     const validateDisabled = activeMutations > 0
 
@@ -50,15 +57,25 @@ export default function MainToolBar() {
                     : i18n.t('Mark complete')}
             </Button>
 
-            <button className={cx(styles.goToInvalidValue, styles.toolbarItem)}>
-                <span className={cx(styles.icon, styles.goToInvalidValueIcon)}>
-                    <IconErrorFilled16 color={colors.red700} />
-                </span>
-
-                <span className={styles.goToInvalidValueLabel}>
-                    {i18n.t('3 invalid values not saved')}
-                </span>
-            </button>
+            {numberOfErrors > 0 && (
+                <button
+                    className={cx(styles.goToInvalidValue, styles.toolbarItem)}
+                >
+                    <span
+                        className={cx(styles.icon, styles.goToInvalidValueIcon)}
+                    >
+                        <IconErrorFilled16 color={colors.red700} />
+                    </span>
+                    <span className={styles.goToInvalidValueLabel}>
+                        {numberOfErrors === 1
+                            ? i18n.t('1 invalid value not saved')
+                            : i18n.t(
+                                  '{{numberOfErrors}} invalid values not saved',
+                                  { numberOfErrors }
+                              )}
+                    </span>
+                </button>
+            )}
 
             {isComplete && (
                 <span
