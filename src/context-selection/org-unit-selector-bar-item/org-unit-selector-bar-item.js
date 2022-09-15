@@ -1,12 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import {
-    OrganisationUnitTree,
-    OrganisationUnitTreeRootError,
-    OrganisationUnitTreeRootLoading,
-    SelectorBarItem,
-    IconBlock16,
-    Divider,
-} from '@dhis2/ui'
+import { SelectorBarItem, IconBlock16, Divider } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import {
@@ -18,6 +11,11 @@ import {
 import DebouncedSearchInput from './debounced-search-input.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import css from './org-unit-selector-bar-item.module.css'
+import {
+    OrganisationUnitTree,
+    OrganisationUnitTreeRootError,
+    OrganisationUnitTreeRootLoading,
+} from './organisation-unit-tree/index.js'
 import useExpandedState from './use-expanded-state.js'
 import useLoadOfflineLevels from './use-load-offline-levels.js'
 import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
