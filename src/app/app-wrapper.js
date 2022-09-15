@@ -38,7 +38,6 @@ export function OuterComponents({
     router: Router,
     queryClient,
 }) {
-    console.log(process.env)
     return (
         <>
             <CssReset />
