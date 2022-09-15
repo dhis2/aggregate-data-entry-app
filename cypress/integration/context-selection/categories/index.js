@@ -140,20 +140,6 @@ When('the user selects a new period that options are valid for', () => {
     cy.get('[data-test="period-selector-menu"] li:nth-child(2)').click()
 })
 
-When(
-    'the user selects a new organisation unit that options are not valid for',
-    () => {
-        cy.contains('Ngelehun').should('exist')
-        cy.get('[data-test="org-unit-selector"] button').click()
-        cy.get(
-            `[data-test="org-unit-selector-tree"] :contains("Sierra Leone")`
-        ).should('exist')
-        cy.get(
-            `[data-test="org-unit-selector-tree-node-label"]:contains('Sierra Leone')`
-        ).click()
-    }
-)
-
 // the user selects a new period that options are also valid for
 // the user selects a new organisation unit that options are not valid for
 Then(
@@ -207,12 +193,5 @@ Then(
     'the selected category option {string} is still selected',
     (categoryOptionName) => {
         cy.contains(categoryOptionName).should('exist')
-    }
-)
-
-Then(
-    'the selected category option {string} is not selected',
-    (categoryOptionName) => {
-        cy.contains(categoryOptionName).should('not.exist')
     }
 )
