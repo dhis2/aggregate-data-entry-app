@@ -10,7 +10,7 @@ const inititalState = {
 export const useValueStore = create((set, get) => ({
     ...inititalState,
     getDataValue: ({ dataElementId, cocId }) => {
-        return get().dataValueSet.dataValues[dataElementId]?.[cocId]
+        return get().dataValueSet.dataValues?.[dataElementId]?.[cocId]
     },
 
     getDataValues: () => get().dataValueSet?.dataValues,
@@ -21,5 +21,13 @@ export const useValueStore = create((set, get) => ({
                 minMaxValue.categoryOptionCombo === categoryOptionComboId &&
                 minMaxValue.dataElement === dataElementId
         )
+    },
+    hasComment: ({ dataElementId, categoryOptionComboId }) => {
+        const dataValue = get().getDataValue({
+            dataElementId,
+            categoryOptionComboId,
+        })
+
+        return !!dataValue?.comment
     },
 }))
