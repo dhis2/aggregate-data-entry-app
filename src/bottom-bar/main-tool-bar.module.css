@@ -17,6 +17,10 @@
     margin-right: 0;
 }
 
+.tooltipToolbarItem {
+    margin-right: 12px;
+}
+
 .icon {
     display: block;
     margin-right: 4px;
