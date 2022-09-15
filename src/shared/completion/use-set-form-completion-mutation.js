@@ -13,54 +13,53 @@ const MUTATION_SET_FORM_COMPLETION = {
     resource: 'dataEntry/dataSetCompletion',
     type: 'create',
     data: ({
-        dataSetId,
-        periodId,
-        orgUnitId,
-        categoryComboId,
-        categoryOptionIds,
+        ds: dataSetId,
+        pe: periodId,
+        ou: orgUnitId,
+        cc: categoryComboId,
+        co: categoryOptionIds,
         completed,
-    }) => ({
-        dataSet: dataSetId,
-        period: periodId,
-        orgUnit: orgUnitId,
-        attribute: { combo: categoryComboId, options: categoryOptionIds },
-        completed,
-    }),
+    }) => {
+        return {
+            dataSet: dataSetId,
+            period: periodId,
+            orgUnit: orgUnitId,
+            attribute: { combo: categoryComboId, options: categoryOptionIds },
+            completed,
+        }
+    },
 }
+
+const createMutateFn = (engine) =>
+    function mutateFn(variables) {
+        const { mutationKey } = this
+        const { params } = mutationKey[1]
+        return engine.mutate(MUTATION_SET_FORM_COMPLETION, {
+            variables: { ...params, ...variables },
+        })
+    }
+
+const createMutationKey = (params) => [
+    'dataEntry/dataSetCompletion',
+    { params, entity: 'dataSetCompletion' },
+]
 
 export default function useSetFormCompletionMutation() {
     const queryClient = useQueryClient()
     const engine = useDataEngine()
-    const [dataSetId] = useDataSetId()
-    const [periodId] = usePeriodId()
-    const [orgUnitId] = useOrgUnitId()
-    const {
-        attributeCombo: categoryComboId,
-        attributeOptions: categoryOptionIds,
-    } = useApiAttributeParams()
+    const mutationFn = createMutateFn(engine)
 
     const { show: showErrorAlert } = useAlert((message) => message, {
         critical: true,
     })
 
-    const mutationFn = ({ completed }) => {
-        const variables = {
-            dataSetId,
-            periodId,
-            orgUnitId,
-            categoryComboId,
-            categoryOptionIds,
-            completed,
-        }
-
-        return engine.mutate(MUTATION_SET_FORM_COMPLETION, { variables })
-    }
-
     const dataValueSetQueryKey = useDataValueSetQueryKey()
+    const { params } = dataValueSetQueryKey[1]
+    const mutationKey = createMutationKey(params)
 
     return useMutation(mutationFn, {
         retry: 0, // @TODO: Is this correct?
-        mutationKey: dataValueSetQueryKey,
+        mutationKey,
         onMutate: async ({ variables }) => {
             const complete = variables.completed
 

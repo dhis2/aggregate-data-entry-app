@@ -48,9 +48,7 @@ function useOnCompleteWhenValidRequiredClick(setIsLoading) {
                 }
                 // otherwise complete the form
                 else {
-                    return setFormCompletion({
-                        variables: { completed: true },
-                    }).catch(() => {
+                    return setFormCompletion({ completed: true }).catch(() => {
                         throw new Error(completingFormFailedMessage)
                     })
                 }
@@ -82,7 +80,7 @@ function useOnCompleteWhenValidNotRequiredClick(setIsLoading) {
                 .catch(() => {
                     throw new Error(validationFailedMessage)
                 }),
-            setFormCompletion({ variables: { completed: true } }).catch(() => {
+            setFormCompletion({ completed: true }).catch(() => {
                 throw new Error(completingFormFailedMessage)
             }),
         ])
