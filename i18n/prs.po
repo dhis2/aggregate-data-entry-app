@@ -1,0 +1,534 @@
+# 
+# Translators:
+# phil_dhis2, 2022
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2022-09-07T10:30:31.473Z\n"
+"PO-Revision-Date: 2022-09-16 08:17+0000\n"
+"Last-Translator: phil_dhis2, 2022\n"
+"Language-Team: Persian (Afghanistan) (https://www.transifex.com/hisp-uio/teams/100509/fa_AF/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fa_AF\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Not authorized"
+msgstr ""
+
+msgid ""
+"You don't have access to the Data Approval App. Contact a system "
+"administrator to request access."
+msgstr ""
+
+msgid "There are {{ pendingMutations }} pending mutations"
+msgstr ""
+
+msgid "Synced"
+msgstr ""
+
+msgid "Hide details"
+msgstr "پنهان کردن جزئیات"
+
+msgid "View details"
+msgstr ""
+
+msgid "Run validation"
+msgstr "اجرا اعتبار سنجی"
+
+msgid "Mark incomplete"
+msgstr ""
+
+msgid "Mark complete"
+msgstr ""
+
+msgid "3 invalid values not saved"
+msgstr ""
+
+msgid "Completed by"
+msgstr "تکمیل شده توسط"
+
+msgid ""
+"Some categories have no valid options for the selected period or "
+"organisation unit ({{categories}})"
+msgstr ""
+
+msgid "Choose a data set"
+msgstr ""
+
+msgid "No available options"
+msgstr ""
+
+msgid ""
+"There are no options for {{categoryName}} for the selected period or "
+"organisation unit."
+msgstr ""
+
+msgid "Hide menu"
+msgstr "پنهان کردن مینو"
+
+msgid "Default attribute combo"
+msgstr ""
+
+msgid "0 selections"
+msgstr ""
+
+msgid "1 selection"
+msgstr ""
+
+msgid "{{amount}} selections"
+msgstr ""
+
+msgid "Cell reference"
+msgstr ""
+
+msgid "Saved and synced to server"
+msgstr ""
+
+msgid "Waiting to sync, saved locally"
+msgstr ""
+
+msgid "Data item has a comment"
+msgstr ""
+
+msgid "Invalid value, not saved"
+msgstr ""
+
+msgid "Locked, not editable"
+msgstr ""
+
+msgid "Help"
+msgstr "کمک"
+
+msgid "Shortcuts"
+msgstr ""
+
+msgid "Show details"
+msgstr "نمایش جزییات"
+
+msgid "Ctrl + Enter"
+msgstr ""
+
+msgid "Cmd + Enter"
+msgstr ""
+
+msgid "Go to next cell"
+msgstr ""
+
+msgid "Tab"
+msgstr ""
+
+msgid "Go to previous cell"
+msgstr ""
+
+msgid "Shift + Tab"
+msgstr ""
+
+msgid "Could not find a data set for the selected id"
+msgstr ""
+
+msgid "There are no data sets available!"
+msgstr ""
+
+msgid "Data set"
+msgstr "د مالوماتو (ډاټا) ټولګه"
+
+msgid "Print form with values"
+msgstr ""
+
+msgid "Print empty form"
+msgstr ""
+
+msgid "Options"
+msgstr "گزینه‌ها"
+
+msgid "Search org units"
+msgstr ""
+
+msgid "Choose a data set first"
+msgstr ""
+
+msgid "Organisation unit"
+msgstr "واحد سازمان"
+
+msgid "Choose a organisation unit"
+msgstr ""
+
+msgid "No organisation units could be found"
+msgstr ""
+
+msgid "Dataset is not assigned to this organisation unit"
+msgstr ""
+
+msgid "Fetching organisation unit info"
+msgstr ""
+
+msgid "Error occurred while loading organisation unit info"
+msgstr ""
+
+msgid "Period"
+msgstr "دوره"
+
+msgid "Choose a period"
+msgstr ""
+
+msgid "Show all sections"
+msgstr "نمایش تمام بخش ها"
+
+msgid "Section"
+msgstr "انتخاب"
+
+msgid "Fetching data set info"
+msgstr ""
+
+msgid "Error occurred while loading data set info"
+msgstr ""
+
+msgid "Value"
+msgstr "مقدار"
+
+msgid "Totals"
+msgstr "مجموعه"
+
+msgid "Audit log"
+msgstr ""
+
+msgid "Something went wrong loading the audit log"
+msgstr ""
+
+msgid "Not available offline"
+msgstr ""
+
+msgid "No audit log for this data item."
+msgstr ""
+
+msgid "Unmark for follow-up"
+msgstr ""
+
+msgid "Mark for follow-up"
+msgstr "نشانی برای پیگیری"
+
+msgid "Empty values can't be marked for follow -up"
+msgstr ""
+
+msgid "Code: {{code}}"
+msgstr ""
+
+msgid "ID: {{id}}"
+msgstr ""
+
+msgid "Last updated {{- timeAgo}} by {{- name}}"
+msgstr ""
+
+msgid "Marked for follow-up"
+msgstr ""
+
+msgid "Comment"
+msgstr "نظر"
+
+msgid "There was a problem loading the comment for this data item"
+msgstr ""
+
+msgid "Choose an option"
+msgstr ""
+
+msgid "Saving..."
+msgstr ""
+
+msgid "Save comment"
+msgstr "ذخیره نظریه"
+
+msgid "Cancel"
+msgstr "انصراف"
+
+msgid "No comment for this data item."
+msgstr ""
+
+msgid "Edit comment"
+msgstr ""
+
+msgid "Add comment"
+msgstr ""
+
+msgid "Details"
+msgstr "جزئیات"
+
+msgid "History"
+msgstr "تاریخچه"
+
+msgid "Something went wrong loading the history"
+msgstr ""
+
+msgid "No history for this data item."
+msgstr ""
+
+msgid "Average value: {{avg}}"
+msgstr ""
+
+msgid "Delete limits"
+msgstr ""
+
+msgid "Edit limits"
+msgstr ""
+
+msgid "Minimum"
+msgstr ""
+
+msgid "Maximum"
+msgstr "اعظمی"
+
+msgid "A miminum is required when providing a maximum"
+msgstr ""
+
+msgid "A maximum is required when providing a minimum"
+msgstr ""
+
+msgid "Minimum and maximum limits"
+msgstr ""
+
+msgid "Try again, or contact your system administrator."
+msgstr ""
+
+msgid "Add limits"
+msgstr ""
+
+msgid "No limits set for this data item."
+msgstr ""
+
+msgid "Save limits"
+msgstr ""
+
+msgid ""
+"Here we could override the message for E2017 error with a custom message in "
+"the FE"
+msgstr ""
+
+msgid "The current selection does not have a form"
+msgstr ""
+
+msgid "This data set has no assigned Data Elements"
+msgstr ""
+
+msgid ""
+"There are no Data Elements in this data set. Adds some Data Elements to use "
+"this data set."
+msgstr ""
+
+msgid "Filter fields in all sections"
+msgstr ""
+
+msgid "Filter fields"
+msgstr ""
+
+msgid "Clear filter"
+msgstr ""
+
+msgid "Indicators"
+msgstr "شاخص ها"
+
+msgid "Values"
+msgstr ""
+
+msgid "Yes"
+msgstr "بلی"
+
+msgid "No"
+msgstr "نخیر"
+
+msgid "Clear"
+msgstr "پاک کردن"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "Upload an image"
+msgstr ""
+
+msgid "Upload a file"
+msgstr ""
+
+msgid ""
+"Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
+msgstr ""
+
+msgid "Please provide a valid time in the format HH{{c}}MM"
+msgstr ""
+
+msgid ""
+"Please make sure the value of this input is less than the value in "
+"\"{{otherField}}\"."
+msgstr ""
+
+msgid ""
+"Please make sure the value of this input is more than the value in "
+"\"{{otherField}}\"."
+msgstr ""
+
+msgid "Type here to filter in this section"
+msgstr ""
+
+msgid "1 item hidden by filter"
+msgstr ""
+
+msgid "1 comment required"
+msgstr ""
+
+msgid "{{commentsCount}} comments required"
+msgstr ""
+
+msgid "{{displayShortName}} must have a comment when it doesn't have a value."
+msgstr ""
+
+msgid "High"
+msgstr "بلندی"
+
+msgid "Medium"
+msgstr "متوسط"
+
+msgid "Low"
+msgstr "پاین"
+
+msgid "{{length}} {{level}} priority alert"
+msgstr ""
+
+msgid "{{length}} {{level}} priority alerts"
+msgstr ""
+
+msgid "Validation"
+msgstr "اعتبار سنجی"
+
+msgid "Run validation again"
+msgstr ""
+
+msgid "Export output"
+msgstr ""
+
+msgid "Alert summary"
+msgstr ""
+
+msgid "No validation alerts for this data."
+msgstr ""
+
+msgid "Running validation..."
+msgstr ""
+
+msgid "There was a problem running validation"
+msgstr ""
+
+msgid ""
+"Validation could not be run for this data. Try again or contact your system "
+"administrator."
+msgstr ""
+
+msgid ""
+"{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
+msgstr ""
+
+msgid ""
+"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
+"value"
+msgstr ""
+
+msgid "January"
+msgstr "جنوری"
+
+msgid "February"
+msgstr "فبروری"
+
+msgid "March"
+msgstr "مارچ"
+
+msgid "April"
+msgstr "آپریل"
+
+msgid "May"
+msgstr "می"
+
+msgid "June"
+msgstr "جون"
+
+msgid "July"
+msgstr "جولای"
+
+msgid "August"
+msgstr "آگست"
+
+msgid "September"
+msgstr "سپتامبر"
+
+msgid "October"
+msgstr "اکتبر"
+
+msgid "November"
+msgstr "نوامبر"
+
+msgid "December"
+msgstr "دسامبر"
+
+msgid "Week {{weekNumber}}"
+msgstr ""
+
+msgid "Bi-Week {{biWeekNumber}}"
+msgstr ""
+
+msgid "Daily"
+msgstr "روزنه"
+
+msgid "Weekly"
+msgstr "هفته وار"
+
+msgid "Weekly (Start Wednesday)"
+msgstr ""
+
+msgid "Weekly (Start Thursday)"
+msgstr ""
+
+msgid "Weekly (Start Saturday)"
+msgstr ""
+
+msgid "Weekly (Start Sunday)"
+msgstr ""
+
+msgid "Bi-weekly"
+msgstr ""
+
+msgid "Monthly"
+msgstr "ماهانه"
+
+msgid "Bi-monthly"
+msgstr "دوبار در- ماه"
+
+msgid "Quarterly"
+msgstr "سه ماهه"
+
+msgid "Six-monthly"
+msgstr "شش-ماهه"
+
+msgid "Six-monthly April"
+msgstr "شش-ماهه اپریل"
+
+msgid "Six-monthly November"
+msgstr ""
+
+msgid "Yearly"
+msgstr "سالانه"
+
+msgid "Financial year (Start November)"
+msgstr ""
+
+msgid "Financial year (Start October)"
+msgstr "اکتوبر مالی"
+
+msgid "Financial year (Start July)"
+msgstr "مالی جولای"
+
+msgid "Financial year (Start April)"
+msgstr "مالی اپریل"
+
+msgid "{{title}} (disabled)"
+msgstr ""
+
+msgid "Close details sidebar"
+msgstr ""
