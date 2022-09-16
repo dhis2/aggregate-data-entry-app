@@ -1,6 +1,6 @@
 const config = {
     type: 'app',
-    title: 'Data Entry',
+    title: 'Data Entry (Beta)',
     pwa: {
         // Need this for offline testing. Can disable in other branches if desired
         enabled: true,
