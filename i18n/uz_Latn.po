@@ -1,0 +1,534 @@
+# 
+# Translators:
+# Yury Rogachev <yury@dhis2.org>, 2022
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2022-09-07T10:30:31.473Z\n"
+"PO-Revision-Date: 2022-09-16 08:17+0000\n"
+"Last-Translator: Yury Rogachev <yury@dhis2.org>, 2022\n"
+"Language-Team: Uzbek (Latin) (https://www.transifex.com/hisp-uio/teams/100509/uz@Latn/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uz@Latn\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Not authorized"
+msgstr ""
+
+msgid ""
+"You don't have access to the Data Approval App. Contact a system "
+"administrator to request access."
+msgstr ""
+
+msgid "There are {{ pendingMutations }} pending mutations"
+msgstr ""
+
+msgid "Synced"
+msgstr "Sinxronizatsiyalangan"
+
+msgid "Hide details"
+msgstr "Detallarni berkitish"
+
+msgid "View details"
+msgstr ""
+
+msgid "Run validation"
+msgstr "Tekshirish oʼtkazing"
+
+msgid "Mark incomplete"
+msgstr ""
+
+msgid "Mark complete"
+msgstr ""
+
+msgid "3 invalid values not saved"
+msgstr ""
+
+msgid "Completed by"
+msgstr "Tomonidan toʼldirildi/bajarildi"
+
+msgid ""
+"Some categories have no valid options for the selected period or "
+"organisation unit ({{categories}})"
+msgstr ""
+
+msgid "Choose a data set"
+msgstr ""
+
+msgid "No available options"
+msgstr ""
+
+msgid ""
+"There are no options for {{categoryName}} for the selected period or "
+"organisation unit."
+msgstr ""
+
+msgid "Hide menu"
+msgstr "Menyu berkitilsin"
+
+msgid "Default attribute combo"
+msgstr ""
+
+msgid "0 selections"
+msgstr ""
+
+msgid "1 selection"
+msgstr ""
+
+msgid "{{amount}} selections"
+msgstr ""
+
+msgid "Cell reference"
+msgstr ""
+
+msgid "Saved and synced to server"
+msgstr ""
+
+msgid "Waiting to sync, saved locally"
+msgstr ""
+
+msgid "Data item has a comment"
+msgstr ""
+
+msgid "Invalid value, not saved"
+msgstr ""
+
+msgid "Locked, not editable"
+msgstr ""
+
+msgid "Help"
+msgstr "Yordam"
+
+msgid "Shortcuts"
+msgstr ""
+
+msgid "Show details"
+msgstr "Tafsilotlarni koʼrsating"
+
+msgid "Ctrl + Enter"
+msgstr ""
+
+msgid "Cmd + Enter"
+msgstr ""
+
+msgid "Go to next cell"
+msgstr ""
+
+msgid "Tab"
+msgstr ""
+
+msgid "Go to previous cell"
+msgstr ""
+
+msgid "Shift + Tab"
+msgstr ""
+
+msgid "Could not find a data set for the selected id"
+msgstr ""
+
+msgid "There are no data sets available!"
+msgstr ""
+
+msgid "Data set"
+msgstr "Maʼlumotlar toʼplami"
+
+msgid "Print form with values"
+msgstr ""
+
+msgid "Print empty form"
+msgstr ""
+
+msgid "Options"
+msgstr "Вариант"
+
+msgid "Search org units"
+msgstr ""
+
+msgid "Choose a data set first"
+msgstr ""
+
+msgid "Organisation unit"
+msgstr "Ташкилий бирлик"
+
+msgid "Choose a organisation unit"
+msgstr ""
+
+msgid "No organisation units could be found"
+msgstr ""
+
+msgid "Dataset is not assigned to this organisation unit"
+msgstr ""
+
+msgid "Fetching organisation unit info"
+msgstr ""
+
+msgid "Error occurred while loading organisation unit info"
+msgstr ""
+
+msgid "Period"
+msgstr "davr"
+
+msgid "Choose a period"
+msgstr ""
+
+msgid "Show all sections"
+msgstr "Barcha boʼlimlarni koʼrsatish"
+
+msgid "Section"
+msgstr "Boʼlim"
+
+msgid "Fetching data set info"
+msgstr ""
+
+msgid "Error occurred while loading data set info"
+msgstr ""
+
+msgid "Value"
+msgstr "Қиймат"
+
+msgid "Totals"
+msgstr "Жами"
+
+msgid "Audit log"
+msgstr ""
+
+msgid "Something went wrong loading the audit log"
+msgstr ""
+
+msgid "Not available offline"
+msgstr ""
+
+msgid "No audit log for this data item."
+msgstr ""
+
+msgid "Unmark for follow-up"
+msgstr ""
+
+msgid "Mark for follow-up"
+msgstr "Kuzatuv uchun belgilang"
+
+msgid "Empty values can't be marked for follow -up"
+msgstr ""
+
+msgid "Code: {{code}}"
+msgstr ""
+
+msgid "ID: {{id}}"
+msgstr ""
+
+msgid "Last updated {{- timeAgo}} by {{- name}}"
+msgstr ""
+
+msgid "Marked for follow-up"
+msgstr "Kuzatuv uchun belgilangan"
+
+msgid "Comment"
+msgstr "Izoh"
+
+msgid "There was a problem loading the comment for this data item"
+msgstr ""
+
+msgid "Choose an option"
+msgstr ""
+
+msgid "Saving..."
+msgstr ""
+
+msgid "Save comment"
+msgstr "Fikr/izohni saqlang"
+
+msgid "Cancel"
+msgstr "Бекор қилиш"
+
+msgid "No comment for this data item."
+msgstr ""
+
+msgid "Edit comment"
+msgstr ""
+
+msgid "Add comment"
+msgstr "Izoh qoʼshish"
+
+msgid "Details"
+msgstr "Тафсилотлари"
+
+msgid "History"
+msgstr "Tarix"
+
+msgid "Something went wrong loading the history"
+msgstr ""
+
+msgid "No history for this data item."
+msgstr ""
+
+msgid "Average value: {{avg}}"
+msgstr ""
+
+msgid "Delete limits"
+msgstr ""
+
+msgid "Edit limits"
+msgstr ""
+
+msgid "Minimum"
+msgstr ""
+
+msgid "Maximum"
+msgstr "Maksimum"
+
+msgid "A miminum is required when providing a maximum"
+msgstr ""
+
+msgid "A maximum is required when providing a minimum"
+msgstr ""
+
+msgid "Minimum and maximum limits"
+msgstr ""
+
+msgid "Try again, or contact your system administrator."
+msgstr ""
+
+msgid "Add limits"
+msgstr ""
+
+msgid "No limits set for this data item."
+msgstr ""
+
+msgid "Save limits"
+msgstr ""
+
+msgid ""
+"Here we could override the message for E2017 error with a custom message in "
+"the FE"
+msgstr ""
+
+msgid "The current selection does not have a form"
+msgstr ""
+
+msgid "This data set has no assigned Data Elements"
+msgstr ""
+
+msgid ""
+"There are no Data Elements in this data set. Adds some Data Elements to use "
+"this data set."
+msgstr ""
+
+msgid "Filter fields in all sections"
+msgstr ""
+
+msgid "Filter fields"
+msgstr ""
+
+msgid "Clear filter"
+msgstr ""
+
+msgid "Indicators"
+msgstr "Koʼrsatgichlar"
+
+msgid "Values"
+msgstr "Qiymatlar"
+
+msgid "Yes"
+msgstr "Ҳа"
+
+msgid "No"
+msgstr "Йўқ"
+
+msgid "Clear"
+msgstr "Аниқ"
+
+msgid "Delete"
+msgstr "Oʼchirib tashlash"
+
+msgid "Upload an image"
+msgstr ""
+
+msgid "Upload a file"
+msgstr ""
+
+msgid ""
+"Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
+msgstr ""
+
+msgid "Please provide a valid time in the format HH{{c}}MM"
+msgstr ""
+
+msgid ""
+"Please make sure the value of this input is less than the value in "
+"\"{{otherField}}\"."
+msgstr ""
+
+msgid ""
+"Please make sure the value of this input is more than the value in "
+"\"{{otherField}}\"."
+msgstr ""
+
+msgid "Type here to filter in this section"
+msgstr ""
+
+msgid "1 item hidden by filter"
+msgstr ""
+
+msgid "1 comment required"
+msgstr ""
+
+msgid "{{commentsCount}} comments required"
+msgstr ""
+
+msgid "{{displayShortName}} must have a comment when it doesn't have a value."
+msgstr ""
+
+msgid "High"
+msgstr "Yuqori"
+
+msgid "Medium"
+msgstr "Oʼrta"
+
+msgid "Low"
+msgstr "Kam"
+
+msgid "{{length}} {{level}} priority alert"
+msgstr ""
+
+msgid "{{length}} {{level}} priority alerts"
+msgstr ""
+
+msgid "Validation"
+msgstr ""
+
+msgid "Run validation again"
+msgstr ""
+
+msgid "Export output"
+msgstr ""
+
+msgid "Alert summary"
+msgstr ""
+
+msgid "No validation alerts for this data."
+msgstr ""
+
+msgid "Running validation..."
+msgstr ""
+
+msgid "There was a problem running validation"
+msgstr ""
+
+msgid ""
+"Validation could not be run for this data. Try again or contact your system "
+"administrator."
+msgstr ""
+
+msgid ""
+"{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
+msgstr ""
+
+msgid ""
+"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
+"value"
+msgstr ""
+
+msgid "January"
+msgstr "Yanvar"
+
+msgid "February"
+msgstr "Fevral"
+
+msgid "March"
+msgstr "Mart"
+
+msgid "April"
+msgstr "Аprel"
+
+msgid "May"
+msgstr "May"
+
+msgid "June"
+msgstr "Iyun"
+
+msgid "July"
+msgstr "Iyul"
+
+msgid "August"
+msgstr "Аvgust"
+
+msgid "September"
+msgstr "Sentyabr"
+
+msgid "October"
+msgstr "Oktyabr"
+
+msgid "November"
+msgstr "Noyabr"
+
+msgid "December"
+msgstr "Dekabr"
+
+msgid "Week {{weekNumber}}"
+msgstr "Hafta {{weekNumber}}"
+
+msgid "Bi-Week {{biWeekNumber}}"
+msgstr "Juft hafta {{biWeekNumber}}"
+
+msgid "Daily"
+msgstr "Кунлик"
+
+msgid "Weekly"
+msgstr "Ҳафталик"
+
+msgid "Weekly (Start Wednesday)"
+msgstr "Ҳафталик (Бошланиши Чоршанба)"
+
+msgid "Weekly (Start Thursday)"
+msgstr "Ҳафталик (Бошланиши Пайшанба)"
+
+msgid "Weekly (Start Saturday)"
+msgstr "Ҳафталик (Бошланиши Шанба)"
+
+msgid "Weekly (Start Sunday)"
+msgstr "Ҳафталик (Бошланиши Якшанба)"
+
+msgid "Bi-weekly"
+msgstr "Juft hafta"
+
+msgid "Monthly"
+msgstr "Ойлик"
+
+msgid "Bi-monthly"
+msgstr "Жуфт ойлик"
+
+msgid "Quarterly"
+msgstr "Ҳар квартал"
+
+msgid "Six-monthly"
+msgstr "Yarim yillik"
+
+msgid "Six-monthly April"
+msgstr "Yarim yillik Аprel"
+
+msgid "Six-monthly November"
+msgstr "Yarim yillik Noyabr"
+
+msgid "Yearly"
+msgstr "Йиллик"
+
+msgid "Financial year (Start November)"
+msgstr "Moliyaviy yil (Boshlanishi Noyabr)"
+
+msgid "Financial year (Start October)"
+msgstr "Молиявий йил (бошланиши Октябр)"
+
+msgid "Financial year (Start July)"
+msgstr "Молиявий йил (бошланиши Июл)"
+
+msgid "Financial year (Start April)"
+msgstr "Молиявий йил (бошланиши Апрел)"
+
+msgid "{{title}} (disabled)"
+msgstr ""
+
+msgid "Close details sidebar"
+msgstr ""
