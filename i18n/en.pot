@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-22T16:06:09.864Z\n"
-"PO-Revision-Date: 2022-09-22T16:06:09.864Z\n"
+"POT-Creation-Date: 2022-09-22T16:07:01.714Z\n"
+"PO-Revision-Date: 2022-09-22T16:07:01.714Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -29,9 +29,6 @@ msgstr "There are {{pendingMutations}} pending changes."
 
 msgid "Synced"
 msgstr "Synced"
-
-msgid "Couldn't validate the form, please try again later"
-msgstr "Couldn't validate the form, please try again later"
 
 msgid "Couldn't incomplete the form, please try again later"
 msgstr "Couldn't incomplete the form, please try again later"
@@ -62,6 +59,15 @@ msgstr "Last completed by"
 
 msgid "Last incompleted by"
 msgstr "Last incompleted by"
+
+msgid "Couldn't validate the form, please try again later"
+msgstr "Couldn't validate the form, please try again later"
+
+msgid "Couldn't validate the form. This does not effect form completion!"
+msgstr "Couldn't validate the form. This does not effect form completion!"
+
+msgid "The form can't be completed while invalid"
+msgstr "The form can't be completed while invalid"
 
 msgid "1 comment required"
 msgstr "1 comment required"

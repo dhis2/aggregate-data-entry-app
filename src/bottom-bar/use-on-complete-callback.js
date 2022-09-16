@@ -3,6 +3,7 @@ import i18n from '@dhis2/d2-i18n'
 import { useSetRightHandPanel } from '../right-hand-panel/index.js'
 import {
     selectors,
+    useConnectionStatus,
     useDataSetId,
     useImperativeValidate,
     useMetadata,
@@ -13,32 +14,40 @@ import {
 const validationFailedMessage = i18n.t(
     "Couldn't validate the form, please try again later"
 )
+const validationFailedWarningMessage = i18n.t(
+    "Couldn't validate the form. This does not effect form completion!"
+)
 const completingFormFailedMessage = i18n.t(
     "Couldn't validate the form, please try again later"
 )
 
-function useOnCompleteWhenValidRequiredClick(setIsLoading) {
+function hasViolations(commentRequiredViolations, validationRuleViolations) {
+    return (
+        commentRequiredViolations.length ||
+        Object.keys(validationRuleViolations).length
+    )
+}
+
+function useOnCompleteWhenValidRequiredClick() {
     const { mutateAsync: setFormCompletion } = useSetFormCompletionMutation()
     const setRightHandPanel = useSetRightHandPanel()
     const validate = useImperativeValidate()
-    const { show: showErrorAlert } = useAlert((message) => message, {
-        critical: true,
-    })
 
     return () =>
         validate()
             // Show this alert message and skip the next "then" block
-            .catch(() => {
+            .catch((e) => {
+                console.error(e)
                 throw new Error(validationFailedMessage)
             })
             // the validation request succeeded
-            .then((data) => {
+            .then(({ commentRequiredViolations, validationRuleViolations }) => {
                 // if the form is invalid, show the sidebar and show an
                 // alert to the user
-                if (
-                    data.commentRequiredViolations.length ||
-                    Object.keys(data.validationRuleViolations).length
-                ) {
+                if (hasViolations(
+                    commentRequiredViolations,
+                    validationRuleViolations
+                )) {
                     setRightHandPanel(validationResultsSidebarId)
                     return Promise.reject(
                         new Error(
@@ -48,61 +57,89 @@ function useOnCompleteWhenValidRequiredClick(setIsLoading) {
                 }
                 // otherwise complete the form
                 else {
-                    return setFormCompletion({ completed: true }).catch(() => {
+                    return setFormCompletion({ completed: true }).catch((e) => {
+                        console.error(e)
                         throw new Error(completingFormFailedMessage)
                     })
                 }
             })
-            // this will eventually catch any error thrown and display the error message
-            .catch((e) => showErrorAlert(e.message))
-            .finally(() => setIsLoading(false))
 }
 
-function useOnCompleteWhenValidNotRequiredClick(setIsLoading) {
+function useOnCompleteWhenValidNotRequiredClick() {
     const { mutateAsync: setFormCompletion } = useSetFormCompletionMutation()
     const setRightHandPanel = useSetRightHandPanel()
     const validate = useImperativeValidate()
-    const { show: showErrorAlert } = useAlert((message) => message, {
-        critical: true,
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
     })
 
     return () => {
         return Promise.all([
             validate()
-                .then((data) => {
-                    if (
-                        data.commentRequiredViolations.length ||
-                        Object.keys(data.validationRuleViolations).length
-                    ) {
+                .then(({ commentRequiredViolations, validationRuleViolations }) => {
+                    if (hasViolations(
+                        commentRequiredViolations,
+                        validationRuleViolations
+                    )) {
                         setRightHandPanel(validationResultsSidebarId)
                     }
                 })
-                .catch(() => {
-                    throw new Error(validationFailedMessage)
+                .catch((e) => {
+                    console.error(e)
+                    // For now this can fail "silently".
+                    // ES6 Promises don't have a mechanism for reporting
+                    // multiple promise failures and we def. want to notify the
+                    // user when form completion fails as well.
+                    // It should be enough to show a warning to the user
+                    showWarningAlert(validationFailedWarningMessage)
                 }),
             setFormCompletion({ completed: true }).catch(() => {
                 throw new Error(completingFormFailedMessage)
             }),
         ])
-            .catch((e) => showErrorAlert(e.message))
-            .finally(() => setIsLoading(false))
     }
 }
 
+function useOnCompleteWithoutValidationClick() {
+    const { mutateAsync: setFormCompletion } = useSetFormCompletionMutation()
+    return () => setFormCompletion({ completed: true })
+}
+
 export default function useOnCompleteCallback(setIsLoading) {
+    const { offline } = useConnectionStatus()
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const { validCompleteOnly } = dataSet
+    const { show: showErrorAlert } = useAlert((message) => message, {
+        critical: true,
+    })
     const onCompleteWhenValidRequiredClick =
-        useOnCompleteWhenValidRequiredClick(setIsLoading)
+        useOnCompleteWhenValidRequiredClick()
     const onCompleteWhenValidNotRequiredClick =
-        useOnCompleteWhenValidNotRequiredClick(setIsLoading)
+        useOnCompleteWhenValidNotRequiredClick()
+    const onCompleteWithoutValidationClick =
+        useOnCompleteWithoutValidationClick()
 
     return () => {
-        setIsLoading(true)
-        return validCompleteOnly
-            ? onCompleteWhenValidRequiredClick()
-            : onCompleteWhenValidNotRequiredClick()
+        if (!offline) {
+            // we don't need to show a loading spinner when offline
+            setIsLoading(true)
+        }
+
+        let promise
+        if (offline) {
+            // When offline, we can't validate, so we simply complete the form
+            promise = onCompleteWithoutValidationClick()
+        } else if (validCompleteOnly && !offline) {
+            promise = onCompleteWhenValidRequiredClick()
+        } else {
+            promise = onCompleteWhenValidNotRequiredClick()
+        }
+
+        return promise
+            // this will eventually catch any error thrown and display the error message
+            .catch((e) => showErrorAlert(e.message))
+            .finally(() => setIsLoading(false))
     }
 }

@@ -1,9 +1,10 @@
 import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Button, Layer, Center, CircularLoader } from '@dhis2/ui'
+import { Button, CircularLoader } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import {
+    useConnectionStatus,
     useDataValueSet,
     useSetFormCompletionMutation,
 } from '../shared/index.js'
@@ -13,9 +14,8 @@ const incompletingFormFailedMessage = i18n.t(
     "Couldn't incomplete the form, please try again later"
 )
 
-// @TODO: Get the "isComplete" value from some response?
-// @TODO: Optimistically update the source of the "isComplete" value
 export default function CompleteButton({ disabled }) {
+    const { offline } = useConnectionStatus()
     const { show: showErrorAlert } = useAlert((message) => message, {
         critical: true,
     })
@@ -27,7 +27,7 @@ export default function CompleteButton({ disabled }) {
 
     const onCompleteClick = useOnCompleteCallback(setIsLoading)
     const onIncompleteClick = function onIncompleteClick() {
-        setIsLoading(true)
+        !offline && setIsLoading(true)
         setFormCompletion({ completed: false })
             .catch(() => showErrorAlert(incompletingFormFailedMessage))
             .finally(() => setIsLoading(false))
@@ -47,17 +47,13 @@ export default function CompleteButton({ disabled }) {
 
     return (
         <>
-            <Button disabled={disabled} onClick={onClick}>
+            <Button
+                disabled={disabled}
+                onClick={onClick}
+                icon={isLoading ? <CircularLoader small /> : null}
+            >
                 {label}
             </Button>
-
-            {isLoading && (
-                <Layer translucent>
-                    <Center>
-                        <CircularLoader />
-                    </Center>
-                </Layer>
-            )}
         </>
     )
 }
