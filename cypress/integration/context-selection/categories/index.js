@@ -106,16 +106,6 @@ Given(
     }
 )
 
-Given(
-    'a data set, org unit, period and some but not all options have been selected and there are some categories connected to the data set',
-    () => {
-        cy.visit(
-            '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202212&attributeOptionComboSelection=LFsZ8v5v7rq-CW81uF03hvV'
-        )
-        cy.get('[data-test="data-set-selector"]').should('exist')
-    }
-)
-
 Given('a data set, org unit, period and options have been selected', () => {
     cy.visit(
         '#/?attributeOptionComboSelection=yY2bQYqNt0o-M58XdOfhiJ7&dataSetId=TuL8IOPzpHh&orgUnitId=DiszpKrYNg8&periodId=202112'
@@ -179,10 +169,6 @@ Then('the selector should show that some items have been selected', () => {
     cy.get('[data-test="dhis2-ui-selectorbar"]')
         .contains('1 selection')
         .should('exist')
-})
-
-Then('a message is being displayed in the data workspace', () => {
-    cy.contains('The current selection does not have a form').should('exist')
 })
 
 Then('a message is being displayed in the data workspace', () => {
