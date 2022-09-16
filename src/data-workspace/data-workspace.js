@@ -20,18 +20,15 @@ import {
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { useHasCommentContext } from './has-comment/has-comment-context.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const { data: metadata } = useMetadata()
     useCheckLockStatus()
     const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
-    const { populateHasCommentContextForDataSetValues } = useHasCommentContext()
 
     const updateStore = useValueStore((state) => state.setDataValueSet)
     const initialDataValuesFetch = useDataValueSet({
         onSuccess: (data) => {
-            populateHasCommentContextForDataSetValues(data.dataValues)
             updateLockStatusFromBackend(
                 frontEndLockStatus,
                 data?.lockStatus,
