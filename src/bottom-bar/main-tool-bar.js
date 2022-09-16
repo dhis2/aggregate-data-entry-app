@@ -79,7 +79,9 @@ export default function MainToolBar() {
                     className={styles.toolbarItem}
                     onClick={validate}
                 >
-                    {i18n.t('Run validation')}
+                    {rightHandPanel.id === validationResultsSidebarId
+                        ? i18n.t('Hide validation')
+                        : i18n.t('Run validation')}
                 </Button>
             </ValidationButtonTooltip>
 
