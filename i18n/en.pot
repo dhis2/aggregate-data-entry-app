@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-08T15:43:49.633Z\n"
-"PO-Revision-Date: 2022-09-08T15:43:49.633Z\n"
+"POT-Creation-Date: 2022-09-16T12:30:56.210Z\n"
+"PO-Revision-Date: 2022-09-16T12:30:56.210Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -18,14 +18,17 @@ msgstr ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 
-msgid "There are {{ pendingMutations }} pending mutations"
-msgstr "There are {{ pendingMutations }} pending mutations"
+msgid "There was a problem loading metadata"
+msgstr "There was a problem loading metadata"
+
+msgid "There is {{pendingMutations}} pending change."
+msgstr "There is {{pendingMutations}} pending change."
+
+msgid "There are {{pendingMutations}} pending changes."
+msgstr "There are {{pendingMutations}} pending changes."
 
 msgid "Synced"
 msgstr "Synced"
-
-msgid "Couldn't validate the form, please try again later"
-msgstr "Couldn't validate the form, please try again later"
 
 msgid "Couldn't incomplete the form, please try again later"
 msgstr "Couldn't incomplete the form, please try again later"
@@ -45,14 +48,23 @@ msgstr "View details"
 msgid "Run validation"
 msgstr "Run validation"
 
-msgid "3 invalid values not saved"
-msgstr "3 invalid values not saved"
+msgid "1 invalid value not saved"
+msgstr "1 invalid value not saved"
+
+msgid "{{numberOfErrors}} invalid values not saved"
+msgstr "{{numberOfErrors}} invalid values not saved"
 
 msgid "Last completed by"
 msgstr "Last completed by"
 
 msgid "Last incompleted by"
 msgstr "Last incompleted by"
+
+msgid "Couldn't validate the form, please try again later"
+msgstr "Couldn't validate the form, please try again later"
+
+msgid "The form can't be completed while invalid"
+msgstr "The form can't be completed while invalid"
 
 msgid "1 comment required"
 msgstr "1 comment required"
@@ -83,9 +95,6 @@ msgstr "Validation"
 
 msgid "Run validation again"
 msgstr "Run validation again"
-
-msgid "Export output"
-msgstr "Export output"
 
 msgid "Alert summary"
 msgstr "Alert summary"
@@ -289,6 +298,9 @@ msgstr "Code: {{code}}"
 msgid "ID: {{id}}"
 msgstr "ID: {{id}}"
 
+msgid "Description: {{description}}"
+msgstr "Description: {{description}}"
+
 msgid "Last updated {{- timeAgo}} by {{- name}}"
 msgstr "Last updated {{- timeAgo}} by {{- name}}"
 
@@ -373,6 +385,9 @@ msgstr "Save limits"
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
 
+msgid "There was a problem loading data values"
+msgstr "There was a problem loading data values"
+
 msgid "This data set has no assigned Data Elements"
 msgstr "This data set has no assigned Data Elements"
 
@@ -382,6 +397,18 @@ msgid ""
 msgstr ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
+
+msgid "Data cannot be added or changed outside of the data input period."
+msgstr "Data cannot be added or changed outside of the data input period."
+
+msgid "Data cannot be added or changed because data entry has concluded."
+msgstr "Data cannot be added or changed because data entry has concluded."
+
+msgid "Data cannot be added or changed because data has been approved."
+msgstr "Data cannot be added or changed because data has been approved."
+
+msgid "Data set locked"
+msgstr "Data set locked"
 
 msgid "Filter fields in all sections"
 msgstr "Filter fields in all sections"
