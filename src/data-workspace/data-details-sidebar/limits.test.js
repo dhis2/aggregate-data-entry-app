@@ -76,7 +76,7 @@ describe('<Limits />', () => {
             )
 
             expect(
-                getByText('Minimum and maximum limits (disabled)')
+                getByText('Min and max limits (disabled)')
             ).toBeInTheDocument()
         })
 

@@ -1,0 +1,537 @@
+# 
+# Translators:
+# Viktor Varland <viktor@dhis2.org>, 2022
+# phil_dhis2, 2022
+# easylin <lin_xd@126.com>, 2022
+# 晓东 林 <13981924470@126.com>, 2022
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2022-09-07T10:30:31.473Z\n"
+"PO-Revision-Date: 2022-09-16 08:17+0000\n"
+"Last-Translator: 晓东 林 <13981924470@126.com>, 2022\n"
+"Language-Team: Chinese (https://www.transifex.com/hisp-uio/teams/100509/zh/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Not authorized"
+msgstr ""
+
+msgid ""
+"You don't have access to the Data Approval App. Contact a system "
+"administrator to request access."
+msgstr ""
+
+msgid "There are {{ pendingMutations }} pending mutations"
+msgstr ""
+
+msgid "Synced"
+msgstr "已同步"
+
+msgid "Hide details"
+msgstr "隐藏细节"
+
+msgid "View details"
+msgstr ""
+
+msgid "Run validation"
+msgstr "进行验证"
+
+msgid "Mark incomplete"
+msgstr "标记为未完成"
+
+msgid "Mark complete"
+msgstr ""
+
+msgid "3 invalid values not saved"
+msgstr ""
+
+msgid "Completed by"
+msgstr "完成人"
+
+msgid ""
+"Some categories have no valid options for the selected period or "
+"organisation unit ({{categories}})"
+msgstr ""
+
+msgid "Choose a data set"
+msgstr ""
+
+msgid "No available options"
+msgstr ""
+
+msgid ""
+"There are no options for {{categoryName}} for the selected period or "
+"organisation unit."
+msgstr ""
+
+msgid "Hide menu"
+msgstr "隐藏菜单"
+
+msgid "Default attribute combo"
+msgstr ""
+
+msgid "0 selections"
+msgstr ""
+
+msgid "1 selection"
+msgstr ""
+
+msgid "{{amount}} selections"
+msgstr ""
+
+msgid "Cell reference"
+msgstr ""
+
+msgid "Saved and synced to server"
+msgstr ""
+
+msgid "Waiting to sync, saved locally"
+msgstr ""
+
+msgid "Data item has a comment"
+msgstr ""
+
+msgid "Invalid value, not saved"
+msgstr ""
+
+msgid "Locked, not editable"
+msgstr ""
+
+msgid "Help"
+msgstr "帮助"
+
+msgid "Shortcuts"
+msgstr ""
+
+msgid "Show details"
+msgstr "显示详情"
+
+msgid "Ctrl + Enter"
+msgstr ""
+
+msgid "Cmd + Enter"
+msgstr ""
+
+msgid "Go to next cell"
+msgstr ""
+
+msgid "Tab"
+msgstr ""
+
+msgid "Go to previous cell"
+msgstr ""
+
+msgid "Shift + Tab"
+msgstr ""
+
+msgid "Could not find a data set for the selected id"
+msgstr ""
+
+msgid "There are no data sets available!"
+msgstr ""
+
+msgid "Data set"
+msgstr "数据集"
+
+msgid "Print form with values"
+msgstr ""
+
+msgid "Print empty form"
+msgstr ""
+
+msgid "Options"
+msgstr "选项"
+
+msgid "Search org units"
+msgstr ""
+
+msgid "Choose a data set first"
+msgstr ""
+
+msgid "Organisation unit"
+msgstr "机构"
+
+msgid "Choose a organisation unit"
+msgstr ""
+
+msgid "No organisation units could be found"
+msgstr ""
+
+msgid "Dataset is not assigned to this organisation unit"
+msgstr ""
+
+msgid "Fetching organisation unit info"
+msgstr ""
+
+msgid "Error occurred while loading organisation unit info"
+msgstr ""
+
+msgid "Period"
+msgstr "期间"
+
+msgid "Choose a period"
+msgstr ""
+
+msgid "Show all sections"
+msgstr "显示所有分区"
+
+msgid "Section"
+msgstr "分段"
+
+msgid "Fetching data set info"
+msgstr ""
+
+msgid "Error occurred while loading data set info"
+msgstr ""
+
+msgid "Value"
+msgstr "值"
+
+msgid "Totals"
+msgstr "总共"
+
+msgid "Audit log"
+msgstr ""
+
+msgid "Something went wrong loading the audit log"
+msgstr ""
+
+msgid "Not available offline"
+msgstr "离线不可用"
+
+msgid "No audit log for this data item."
+msgstr ""
+
+msgid "Unmark for follow-up"
+msgstr ""
+
+msgid "Mark for follow-up"
+msgstr "后续标记"
+
+msgid "Empty values can't be marked for follow -up"
+msgstr ""
+
+msgid "Code: {{code}}"
+msgstr ""
+
+msgid "ID: {{id}}"
+msgstr ""
+
+msgid "Last updated {{- timeAgo}} by {{- name}}"
+msgstr ""
+
+msgid "Marked for follow-up"
+msgstr "标记为后续"
+
+msgid "Comment"
+msgstr "评论"
+
+msgid "There was a problem loading the comment for this data item"
+msgstr ""
+
+msgid "Choose an option"
+msgstr ""
+
+msgid "Saving..."
+msgstr ""
+
+msgid "Save comment"
+msgstr "保存注释"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "No comment for this data item."
+msgstr ""
+
+msgid "Edit comment"
+msgstr ""
+
+msgid "Add comment"
+msgstr "添加备注"
+
+msgid "Details"
+msgstr "详情"
+
+msgid "History"
+msgstr "历史"
+
+msgid "Something went wrong loading the history"
+msgstr ""
+
+msgid "No history for this data item."
+msgstr ""
+
+msgid "Average value: {{avg}}"
+msgstr ""
+
+msgid "Delete limits"
+msgstr ""
+
+msgid "Edit limits"
+msgstr ""
+
+msgid "Minimum"
+msgstr ""
+
+msgid "Maximum"
+msgstr "最大"
+
+msgid "A miminum is required when providing a maximum"
+msgstr ""
+
+msgid "A maximum is required when providing a minimum"
+msgstr ""
+
+msgid "Minimum and maximum limits"
+msgstr ""
+
+msgid "Try again, or contact your system administrator."
+msgstr ""
+
+msgid "Add limits"
+msgstr ""
+
+msgid "No limits set for this data item."
+msgstr ""
+
+msgid "Save limits"
+msgstr ""
+
+msgid ""
+"Here we could override the message for E2017 error with a custom message in "
+"the FE"
+msgstr ""
+
+msgid "The current selection does not have a form"
+msgstr ""
+
+msgid "This data set has no assigned Data Elements"
+msgstr ""
+
+msgid ""
+"There are no Data Elements in this data set. Adds some Data Elements to use "
+"this data set."
+msgstr ""
+
+msgid "Filter fields in all sections"
+msgstr ""
+
+msgid "Filter fields"
+msgstr ""
+
+msgid "Clear filter"
+msgstr ""
+
+msgid "Indicators"
+msgstr "指标"
+
+msgid "Values"
+msgstr "值"
+
+msgid "Yes"
+msgstr "是"
+
+msgid "No"
+msgstr "否"
+
+msgid "Clear"
+msgstr "清除"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Upload an image"
+msgstr ""
+
+msgid "Upload a file"
+msgstr "上传一个文件"
+
+msgid ""
+"Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
+msgstr ""
+
+msgid "Please provide a valid time in the format HH{{c}}MM"
+msgstr ""
+
+msgid ""
+"Please make sure the value of this input is less than the value in "
+"\"{{otherField}}\"."
+msgstr ""
+
+msgid ""
+"Please make sure the value of this input is more than the value in "
+"\"{{otherField}}\"."
+msgstr ""
+
+msgid "Type here to filter in this section"
+msgstr ""
+
+msgid "1 item hidden by filter"
+msgstr ""
+
+msgid "1 comment required"
+msgstr ""
+
+msgid "{{commentsCount}} comments required"
+msgstr ""
+
+msgid "{{displayShortName}} must have a comment when it doesn't have a value."
+msgstr ""
+
+msgid "High"
+msgstr "高"
+
+msgid "Medium"
+msgstr "中"
+
+msgid "Low"
+msgstr "低"
+
+msgid "{{length}} {{level}} priority alert"
+msgstr ""
+
+msgid "{{length}} {{level}} priority alerts"
+msgstr ""
+
+msgid "Validation"
+msgstr "验证"
+
+msgid "Run validation again"
+msgstr ""
+
+msgid "Export output"
+msgstr ""
+
+msgid "Alert summary"
+msgstr ""
+
+msgid "No validation alerts for this data."
+msgstr ""
+
+msgid "Running validation..."
+msgstr ""
+
+msgid "There was a problem running validation"
+msgstr ""
+
+msgid ""
+"Validation could not be run for this data. Try again or contact your system "
+"administrator."
+msgstr ""
+
+msgid ""
+"{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
+msgstr ""
+
+msgid ""
+"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
+"value"
+msgstr ""
+
+msgid "January"
+msgstr "一月"
+
+msgid "February"
+msgstr "二月"
+
+msgid "March"
+msgstr "三月"
+
+msgid "April"
+msgstr "四月"
+
+msgid "May"
+msgstr "五月"
+
+msgid "June"
+msgstr "六月"
+
+msgid "July"
+msgstr "七月"
+
+msgid "August"
+msgstr "八月"
+
+msgid "September"
+msgstr "九月"
+
+msgid "October"
+msgstr "十月"
+
+msgid "November"
+msgstr "十一月"
+
+msgid "December"
+msgstr "十二月"
+
+msgid "Week {{weekNumber}}"
+msgstr "{{weekNumber}}周"
+
+msgid "Bi-Week {{biWeekNumber}}"
+msgstr "  {{biWeekNumber}} 个两周"
+
+msgid "Daily"
+msgstr "每日"
+
+msgid "Weekly"
+msgstr "每周"
+
+msgid "Weekly (Start Wednesday)"
+msgstr "每周（始于周二）"
+
+msgid "Weekly (Start Thursday)"
+msgstr "每周（始于周四）"
+
+msgid "Weekly (Start Saturday)"
+msgstr "每周（始于周六）"
+
+msgid "Weekly (Start Sunday)"
+msgstr "每周（始于周日）"
+
+msgid "Bi-weekly"
+msgstr "两周"
+
+msgid "Monthly"
+msgstr "每月"
+
+msgid "Bi-monthly"
+msgstr "每两月"
+
+msgid "Quarterly"
+msgstr "季度"
+
+msgid "Six-monthly"
+msgstr "六个月"
+
+msgid "Six-monthly April"
+msgstr "半年四月"
+
+msgid "Six-monthly November"
+msgstr "每半年的11月"
+
+msgid "Yearly"
+msgstr "每年"
+
+msgid "Financial year (Start November)"
+msgstr "财政年（11月始）"
+
+msgid "Financial year (Start October)"
+msgstr "财政年度（十月开始）"
+
+msgid "Financial year (Start July)"
+msgstr "财政年度（7月开始）"
+
+msgid "Financial year (Start April)"
+msgstr "财政年度（4月开始）"
+
+msgid "{{title}} (disabled)"
+msgstr ""
+
+msgid "Close details sidebar"
+msgstr ""

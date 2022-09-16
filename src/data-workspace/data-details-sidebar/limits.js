@@ -7,7 +7,7 @@ import LimitsDisplay from './limits-display.js'
 import NoLimits from './no-limits.js'
 import UpdateLimits from './update-limits.js'
 
-const title = i18n.t('Minimum and maximum limits')
+const title = i18n.t('Min and max limits')
 
 export default function Limits({ dataValue }) {
     const [open, setOpen] = useState(true)

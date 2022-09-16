@@ -11,7 +11,7 @@ const Cell = ({ value, state }) => (
                 className={cx(styles.input, {
                     [styles.inputInvalid]: state === 'INVALID',
                     [styles.inputSynced]: state === 'SYNCED',
-                    [styles.inputDisabled]: state === 'LOCKED',
+                    [styles.inputLocked]: state === 'LOCKED',
                 })}
             >
                 {value}

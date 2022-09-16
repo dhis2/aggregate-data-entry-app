@@ -42,20 +42,21 @@ function UpdateLimits({
         >
             <div className={styles.limits}>
                 <LimitsAverageValueInfo avg={average} />
+                <div className={styles.limitsDisplayWrapper}>
+                    <LimitsInput
+                        {...minField.input}
+                        label={limitInputLabelsByName.min}
+                        error={!!minField.meta.error}
+                    />
 
-                <LimitsInput
-                    {...minField.input}
-                    label={limitInputLabelsByName.min}
-                    error={!!minField.meta.error}
-                />
+                    <div className={styles.spaceBetween}></div>
 
-                <div className={styles.spaceBetween}></div>
-
-                <LimitsInput
-                    {...maxField.input}
-                    label={limitInputLabelsByName.max}
-                    error={!!maxField.meta.error}
-                />
+                    <LimitsInput
+                        {...maxField.input}
+                        label={limitInputLabelsByName.max}
+                        error={!!maxField.meta.error}
+                    />
+                </div>
             </div>
 
             <LimitsValidationErrorMessage errors={errors} />
