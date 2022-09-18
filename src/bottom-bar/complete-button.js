@@ -1,8 +1,8 @@
 import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Button, CircularLoader } from '@dhis2/ui'
+import { Button } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React from 'react'
 import {
     useConnectionStatus,
     useDataValueSet,
@@ -21,16 +21,14 @@ export default function CompleteButton({ disabled }) {
     })
 
     const dataValueSet = useDataValueSet()
-    const [isLoading, setIsLoading] = useState(false)
     // `mutate` doesn't return a promise, `mutateAsync` does
     const { mutateAsync: setFormCompletion } = useSetFormCompletionMutation()
 
-    const onCompleteClick = useOnCompleteCallback(setIsLoading)
+    const onCompleteClick = useOnCompleteCallback()
     const onIncompleteClick = function onIncompleteClick() {
-        !offline && setIsLoading(true)
-        setFormCompletion({ completed: false })
-            .catch(() => showErrorAlert(incompletingFormFailedMessage))
-            .finally(() => setIsLoading(false))
+        setFormCompletion({ completed: false }).catch(() =>
+            showErrorAlert(incompletingFormFailedMessage)
+        )
     }
 
     // We don't want to hide the button while the mutation is refetching,
@@ -47,11 +45,7 @@ export default function CompleteButton({ disabled }) {
 
     return (
         <>
-            <Button
-                disabled={disabled}
-                onClick={onClick}
-                icon={isLoading ? <CircularLoader small /> : null}
-            >
+            <Button disabled={disabled} onClick={onClick}>
                 {label}
             </Button>
         </>
