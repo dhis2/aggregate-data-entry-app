@@ -16,7 +16,7 @@ import App from './app.js'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
 import useQueryClient from './query-client/use-query-client.js'
 
-const enableRQDevtools = true //process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
+const enableRQDevtools = process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
 
 /**
  * @param {Object} props
