@@ -24,6 +24,10 @@
     outline: 1px solid #a0adba;
 }
 
+.active {
+    background-color: #fff !important;
+}
+
 .highlighted {
     outline: 3px solid var(--colors-grey800) !important;
     border: none !important;
@@ -31,6 +35,7 @@
     /* Fix to prevent bottom outline to be clipped by next cell*/
     z-index: 1;
 }
+
 
 .highlighted.active {
     outline-color: var(--theme-focus) !important;
@@ -40,10 +45,11 @@
     background: var(--colors-grey300);
 }
 
-.invalid:not(.highlighted) {
+.invalid:not(.active) {
     background: var(--colors-red200);
-    outline: 1px solid var(--colors-red600) !important;
+    outline: 1px solid var(--colors-red600);
 }
+
 .invalid:hover {
     background: #ffb3bc;
 }
