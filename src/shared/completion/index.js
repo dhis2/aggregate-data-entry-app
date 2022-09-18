@@ -1,1 +1,1 @@
-export { default as useSetFormCompletionMutation } from './use-set-form-completion-mutation.js'
+export * from './use-set-form-completion-mutation.js'
