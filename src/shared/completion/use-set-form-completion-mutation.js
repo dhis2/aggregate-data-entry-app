@@ -2,6 +2,7 @@ import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
+import { mutationKeys } from './mutation-key-factory.js'
 
 const MUTATION_SET_FORM_COMPLETION = {
     resource: 'dataEntry/dataSetCompletion',
@@ -33,12 +34,7 @@ const createMutateFn = (engine) =>
         })
     }
 
-const createMutationKey = (params) => [
-    'dataEntry/dataSetCompletion',
-    { params, entity: 'dataSetCompletion' },
-]
-
-export default function useSetFormCompletionMutation() {
+export function useSetFormCompletionMutation() {
     const queryClient = useQueryClient()
     const engine = useDataEngine()
     const mutationFn = createMutateFn(engine)
@@ -49,19 +45,17 @@ export default function useSetFormCompletionMutation() {
 
     const dataValueSetQueryKey = useDataValueSetQueryKey()
     const { params } = dataValueSetQueryKey[1]
-    const mutationKey = createMutationKey(params)
-
+    const mutationKey = mutationKeys.complete(params)
+    //console.log('use mutation', mutationKey, mutationFn)
     return useMutation(mutationFn, {
-        retry: 0, // @TODO: Is this correct?
+        // retry: 0, // @TODO: Is this correct?
         mutationKey,
         onMutate: async ({ completed: complete }) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic delete)
             await queryClient.cancelQueries(dataValueSetQueryKey)
-
             // Snapshot the previous value
             const previousDataValueSet =
                 queryClient.getQueryData(dataValueSetQueryKey)
-
             // Optimistically overwrite the completion status
             queryClient.setQueryData(dataValueSetQueryKey, () => ({
                 ...previousDataValueSet,
@@ -70,7 +64,6 @@ export default function useSetFormCompletionMutation() {
                     complete,
                 },
             }))
-
             const context = {
                 complete,
                 previousDataValueSet,
@@ -96,5 +89,11 @@ export default function useSetFormCompletionMutation() {
                 context.previousDataValueSet
             )
         },
+    })
+}
+
+export function setCompletionMutationDefaults(queryClient, engine) {
+    queryClient.setMutationDefaults(mutationKeys.complete(), {
+        mutationFn: createMutateFn(engine),
     })
 }
