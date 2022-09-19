@@ -31,8 +31,7 @@
 .highlighted {
     outline: 3px solid var(--colors-grey800) !important;
     border: none !important;
-    background: #fff;
-    /* Fix to prevent bottom outline to be clipped by next cell*/
+    /* Fix to prevent bottom outline to be clipped by next cell */
     z-index: 1;
 }
 
