@@ -9,8 +9,10 @@ const inititalState = {
 
 export const useValueStore = create((set, get) => ({
     ...inititalState,
-    getDataValue: ({ dataElementId, cocId }) => {
-        return get().dataValueSet.dataValues?.[dataElementId]?.[cocId]
+    getDataValue: ({ dataElementId, categoryOptionComboId }) => {
+        return get().dataValueSet.dataValues?.[dataElementId]?.[
+            categoryOptionComboId
+        ]
     },
 
     getDataValues: () => get().dataValueSet?.dataValues,
