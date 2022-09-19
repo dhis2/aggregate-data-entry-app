@@ -1,5 +1,5 @@
 import { useDataQuery } from '@dhis2/app-runtime'
-import { useMemo } from 'react'
+import { useMemo, useEffect, useCallback } from 'react'
 import { patchMissingDisplayName } from './patch-missing-display-name.js'
 
 export const createRootQuery = (ids) =>
@@ -25,23 +25,51 @@ export const createRootQuery = (ids) =>
  * @param {boolean} [options.isUserDataViewFallback]
  * @returns {Object}
  */
-export const useRootOrgData = (ids, { isUserDataViewFallback } = {}) => {
+export const useRootOrgData = (
+    ids,
+    { isUserDataViewFallback, prefetchedOrganisationUnits } = {}
+) => {
     const query = createRootQuery(ids)
+    const prefetchedRoots = useMemo(() => {
+        const prefetchedRoots = prefetchedOrganisationUnits?.reduce(
+            (roots, unit) => {
+                if (ids.includes(unit.id)) {
+                    roots[unit.id] = unit
+                }
+                return roots
+            },
+            {}
+        )
+        return prefetchedRoots &&
+            Object.values(prefetchedRoots).length === ids.length
+            ? patchMissingDisplayName(prefetchedRoots)
+            : undefined
+    }, [ids, prefetchedOrganisationUnits])
     const variables = { isUserDataViewFallback }
     const rootOrgUnits = useDataQuery(query, {
         variables,
+        lazy: true,
     })
     const { called, loading, error, data, refetch } = rootOrgUnits
+    const fetchedRoots = useMemo(
+        () => (data ? patchMissingDisplayName(data) : undefined),
+        [data]
+    )
+    const refetchIfNotPrefetched = useCallback(() => {
+        if (!prefetchedRoots) {
+            refetch()
+        }
+    }, [prefetchedRoots, refetch])
 
-    const patchedData = useMemo(() => {
-        return data ? patchMissingDisplayName(data) : data
-    }, [data])
+    useEffect(() => {
+        refetchIfNotPrefetched()
+    }, [refetchIfNotPrefetched])
 
     return {
-        called,
-        loading,
-        error: error || null,
-        data: patchedData || null,
+        called: prefetchedRoots ? true : called,
+        loading: prefetchedRoots ? false : loading,
+        error: prefetchedRoots ? null : error || null,
+        data: prefetchedRoots ?? fetchedRoots,
         refetch,
     }
 }

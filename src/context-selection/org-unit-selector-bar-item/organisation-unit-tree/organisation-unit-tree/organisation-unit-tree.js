@@ -1,6 +1,6 @@
 import { requiredIf } from '@dhis2/prop-types'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { OrganisationUnitNode } from '../organisation-unit-node/index.js'
 import { orgUnitPathPropType } from '../prop-types.js'
 import { defaultRenderNodeLabel } from './default-render-node-label/index.js'
@@ -27,6 +27,8 @@ const OrganisationUnitTree = ({
     selected,
     singleSelection,
     suppressAlphabeticalSorting,
+    offlineLevels,
+    prefetchedOrganisationUnits,
 
     expanded: expandedControlled,
     handleExpand: handleExpandControlled,
@@ -36,15 +38,16 @@ const OrganisationUnitTree = ({
     onCollapse,
     onChildrenLoaded,
 }) => {
-    const rootIds = filterRootIds(
-        filter,
-        Array.isArray(roots) ? roots : [roots]
+    const rootIds = useMemo(
+        () => filterRootIds(filter, Array.isArray(roots) ? roots : [roots]),
+        [roots, filter]
     )
     const reloadId = useForceReload(forceReload)
     const [prevReloadId, setPrevReloadId] = useState(reloadId)
     const { called, loading, error, data, refetch } = useRootOrgData(rootIds, {
         isUserDataViewFallback,
         suppressAlphabeticalSorting,
+        prefetchedOrganisationUnits,
     })
 
     const { expanded, handleExpand, handleCollapse } = useExpanded({
@@ -175,6 +178,27 @@ OrganisationUnitTree.propTypes = {
 
     /** When provided, the 'isUserDataViewFallback' option will be sent when requesting the org units */
     isUserDataViewFallback: PropTypes.bool,
+
+    /**
+     * Used by the component to determine if children can be found in the prefetchedOrgUnits
+     * or if they need to be fetched from the server
+     */
+    offlineLevels: requiredIf(
+        (props) => !!props.prefetchedOrganisationUnits,
+        PropTypes.number
+    ),
+
+    /** When provided the org unit tree will get node children from there if possible */
+    prefetchedOrganisationUnits: requiredIf(
+        (props) => !!props.offlineLevels,
+        PropTypes.arrayOf(
+            PropTypes.shape({
+                displayName: PropTypes.string,
+                id: PropTypes.string,
+                path: PropTypes.string,
+            })
+        )
+    ),
 
     /** Renders the actual node component for each leaf, can be used to
      * customize the node. The default function just returns the node's
