@@ -10,12 +10,15 @@ export default function useUserOrgUnits() {
             'me',
             {
                 params: {
-                    fields: ['organisationUnits[id]'],
+                    fields: ['organisationUnits[id,level,path]'],
                 },
             },
         ],
         {
-            select: (data) => data.organisationUnits.map(({ id }) => id),
+            select: ({ organisationUnits }) => ({
+                organisationUnits,
+                ids: organisationUnits.map(({ id }) => id),
+            }),
         }
     )
 
