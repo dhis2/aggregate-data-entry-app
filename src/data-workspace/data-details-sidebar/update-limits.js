@@ -19,7 +19,7 @@ function UpdateLimits({
     onCancel,
 }) {
     const form = useForm()
-    const { submitting, errors, touched } = form.getState()
+    const { submitting, submitFailed, errors } = form.getState()
 
     const minField = useField('min', {
         initialValue: limits.min,
@@ -46,8 +46,7 @@ function UpdateLimits({
                     <LimitsInput
                         {...minField.input}
                         label={limitInputLabelsByName.min}
-                        error={minField.meta.touched && !!minField.meta.error}
-                        meta={minField.meta}
+                        error={submitFailed && !!minField.meta.error}
                     />
 
                     <div className={styles.spaceBetween}></div>
@@ -55,13 +54,12 @@ function UpdateLimits({
                     <LimitsInput
                         {...maxField.input}
                         label={limitInputLabelsByName.max}
-                        error={maxField.meta.touched && !!maxField.meta.error}
-                        meta={maxField.meta}
+                        error={submitFailed && !!maxField.meta.error}
                     />
                 </div>
             </div>
 
-            <LimitsValidationErrorMessage errors={errors} touched={touched} />
+            {submitFailed && <LimitsValidationErrorMessage errors={errors} />}
 
             <ButtonStrip>
                 <Button small primary type="submit" loading={submitting}>
