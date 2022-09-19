@@ -1,4 +1,5 @@
 const config = {
+    name: 'data-entry',
     type: 'app',
     title: 'Data Entry (Beta)',
     pwa: {
