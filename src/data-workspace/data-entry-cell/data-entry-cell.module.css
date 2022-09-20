@@ -41,7 +41,15 @@
 }
 
 .disabled {
-    background: var(--colors-grey300);
+    background-color: var(--colors-grey200);
+    background-size: 8px 8px;
+    background-image: repeating-linear-gradient(
+        45deg,
+        var(--colors-grey300) 0,
+        var(--colors-grey300) 0.8px,
+        var(--colors-grey200) 0,
+        var(--colors-grey200) 50%
+    );
 }
 
 .invalid:not(.active) {

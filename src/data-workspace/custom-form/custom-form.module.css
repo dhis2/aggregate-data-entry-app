@@ -9,7 +9,15 @@
     height: auto;
 }
 .customForm :global(td:empty) {
-    background-color: var(--colors-grey100);
+    background-color: var(--colors-grey200);
+    background-size: 8px 8px;
+    background-image: repeating-linear-gradient(
+        45deg,
+        var(--colors-grey300) 0,
+        var(--colors-grey300) 0.8px,
+        var(--colors-grey200) 0,
+        var(--colors-grey200) 50%
+    );
     cursor: not-allowed;
 }
 .customForm :global(td.dhis2-data-entry-app-custom-form-label-cell) {
