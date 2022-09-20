@@ -17,7 +17,6 @@ import {
     useMetadata,
     useSetDataValueMutation,
 } from '../../shared/index.js'
-import { useHasCommentContext } from '../has-comment/has-comment-context.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
