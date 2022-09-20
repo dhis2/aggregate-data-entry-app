@@ -30,6 +30,7 @@ describe('<BasicInformation />', () => {
             followUp: false,
             code: '',
             value: '',
+            displayFormName: 'Item name (form)',
         }
 
         const { getByRole } = render(
@@ -40,7 +41,9 @@ describe('<BasicInformation />', () => {
             />
         )
 
-        expect(getByRole('heading', { name: item.name })).toBeInTheDocument()
+        expect(
+            getByRole('heading', { name: item.displayFormName })
+        ).toBeInTheDocument()
     })
 
     it('renders the item ID', () => {
