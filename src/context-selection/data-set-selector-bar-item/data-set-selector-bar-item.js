@@ -48,8 +48,8 @@ export default function DataSetSelectorBarItem() {
     const { data: metadata } = useMetadata()
     const [dataSetOpen, setDataSetOpen] = useState(false)
     const [dataSetId, setDataSetId] = useDataSetId()
-    const dataSets = Object.values(selectors.getDataSets(metadata))
-    const selectableDataSets = dataSets
+    const dataSets = selectors.getDataSets(metadata)
+    const selectableDataSets = Object.values(dataSets)
         .map(({ id, displayName }) => ({
             label: displayName,
             value: id,
@@ -59,8 +59,9 @@ export default function DataSetSelectorBarItem() {
 
     // Select the first item if there's only one
     useEffect(() => {
-        if (dataSets.length === 1) {
-            setDataSetId(dataSets[0].id)
+        const dataSetIDs = Object.values(dataSets).map(({ id }) => id)
+        if (dataSetIDs.length === 1) {
+            setDataSetId(dataSetIDs[0])
         }
     }, [dataSets, setDataSetId])
 
