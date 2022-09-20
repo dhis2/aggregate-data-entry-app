@@ -51,7 +51,13 @@ export default function usePrefetchedOrganisationUnits() {
             'organisationUnits',
             {
                 params: {
-                    fields: ['id', 'displayName', 'path'],
+                    fields: [
+                        'id',
+                        'displayName',
+                        'path',
+                        'children::size',
+                        'level',
+                    ],
                     paging: false,
                     filter: `level:in:[${offlineLevels.join()}]`,
                 },
