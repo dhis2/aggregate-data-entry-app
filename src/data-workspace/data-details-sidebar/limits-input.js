@@ -2,13 +2,20 @@ import { Box, Field, Input } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './limits-input.module.css'
-
 // @TODO: Talk to @joe about this
 // Not using the `InputField` component from @dhis2/ui
 // because that one always shows the error.
 // In this case we want to show the errors below the entire form,
 // otherwise the text has very limited space
-export default function LimitsInput({ label, name, onChange, value, error }) {
+export default function LimitsInput({
+    label,
+    name,
+    onChange,
+    onFocus,
+    onBlur,
+    value,
+    error,
+}) {
     return (
         <Field label={label} name={name} className={styles.container}>
             <Box>
@@ -18,6 +25,8 @@ export default function LimitsInput({ label, name, onChange, value, error }) {
                     name={name}
                     value={value || ''}
                     error={error}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                 />
             </Box>
         </Field>
@@ -29,5 +38,7 @@ LimitsInput.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
+    onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
 }
