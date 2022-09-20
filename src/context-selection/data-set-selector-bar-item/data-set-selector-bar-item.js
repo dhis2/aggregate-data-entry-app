@@ -59,7 +59,7 @@ export default function DataSetSelectorBarItem() {
 
     // Select the first item if there's only one
     useEffect(() => {
-        const dataSetIDs = Object.values(dataSets).map(({ id }) => id)
+        const dataSetIDs = Object.keys(dataSets)
         if (dataSetIDs.length === 1) {
             setDataSetId(dataSetIDs[0])
         }
