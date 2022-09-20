@@ -3,7 +3,6 @@ import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
-import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { BottomBar } from '../bottom-bar/index.js'
 import {
     useMetadata,
@@ -107,13 +106,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                 </main>
 
                 <footer className={footerClasses}>
-                    <div
-                        // This div and its content will be removed
-                        // once we can display this in the headerbar
-                        className={styles.mutationIndicator}
-                    >
-                        <MutationIndicator />
-                    </div>
                     <BottomBar />
                 </footer>
             </div>
