@@ -1,13 +1,16 @@
 import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
+import { useIsMutating } from '@tanstack/react-query'
 import { useSetRightHandPanel } from '../right-hand-panel/index.js'
 import {
     selectors,
     useConnectionStatus,
     useDataSetId,
+    useImperativeCancelCompletionMutation,
     useImperativeValidate,
     useMetadata,
     useSetFormCompletionMutation,
+    useSetFormCompletionMutationKey,
     validationResultsSidebarId,
 } from '../shared/index.js'
 
@@ -44,10 +47,12 @@ function useOnCompleteWhenValidRequiredClick() {
             .then(({ commentRequiredViolations, validationRuleViolations }) => {
                 // if the form is invalid, show the sidebar and show an
                 // alert to the user
-                if (hasViolations(
-                    commentRequiredViolations,
-                    validationRuleViolations
-                )) {
+                if (
+                    hasViolations(
+                        commentRequiredViolations,
+                        validationRuleViolations
+                    )
+                ) {
                     setRightHandPanel(validationResultsSidebarId)
                     return Promise.reject(
                         new Error(
@@ -76,14 +81,21 @@ function useOnCompleteWhenValidNotRequiredClick() {
     return () => {
         return Promise.all([
             validate()
-                .then(({ commentRequiredViolations, validationRuleViolations }) => {
-                    if (hasViolations(
+                .then(
+                    ({
                         commentRequiredViolations,
-                        validationRuleViolations
-                    )) {
-                        setRightHandPanel(validationResultsSidebarId)
+                        validationRuleViolations,
+                    }) => {
+                        if (
+                            hasViolations(
+                                commentRequiredViolations,
+                                validationRuleViolations
+                            )
+                        ) {
+                            setRightHandPanel(validationResultsSidebarId)
+                        }
                     }
-                })
+                )
                 .catch((e) => {
                     console.error(e)
                     // For now this can fail "silently".
@@ -105,7 +117,7 @@ function useOnCompleteWithoutValidationClick() {
     return () => setFormCompletion({ completed: true })
 }
 
-export default function useOnCompleteCallback(setIsLoading) {
+export default function useOnCompleteCallback() {
     const { offline } = useConnectionStatus()
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
@@ -114,6 +126,9 @@ export default function useOnCompleteCallback(setIsLoading) {
     const { show: showErrorAlert } = useAlert((message) => message, {
         critical: true,
     })
+    const setFormCompletionMutationKey = useSetFormCompletionMutationKey()
+    const isLoading = useIsMutating(setFormCompletionMutationKey)
+    const cancelCompletionMutation = useImperativeCancelCompletionMutation()
     const onCompleteWhenValidRequiredClick =
         useOnCompleteWhenValidRequiredClick()
     const onCompleteWhenValidNotRequiredClick =
@@ -122,13 +137,18 @@ export default function useOnCompleteCallback(setIsLoading) {
         useOnCompleteWithoutValidationClick()
 
     return () => {
-        if (!offline) {
-            // we don't need to show a loading spinner when offline
-            setIsLoading(true)
+        if (isLoading) {
+            cancelCompletionMutation()
         }
 
         let promise
-        if (offline) {
+        if (isLoading && offline) {
+            // No need to complete when the completion request
+            // hasn't been sent yet due to being offline.
+            // It's important to still perform the request online as we don't
+            // know if the mutation actually reached the server already
+            return Promise.resolve()
+        } else if (offline) {
             // When offline, we can't validate, so we simply complete the form
             promise = onCompleteWithoutValidationClick()
         } else if (validCompleteOnly && !offline) {
@@ -137,9 +157,10 @@ export default function useOnCompleteCallback(setIsLoading) {
             promise = onCompleteWhenValidNotRequiredClick()
         }
 
-        return promise
-            // this will eventually catch any error thrown and display the error message
-            .catch((e) => showErrorAlert(e.message))
-            .finally(() => setIsLoading(false))
+        return (
+            promise
+                // this will eventually catch any error thrown and display the error message
+                .catch((e) => showErrorAlert(e.message))
+        )
     }
 }

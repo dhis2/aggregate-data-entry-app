@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-16T12:30:56.210Z\n"
-"PO-Revision-Date: 2022-09-16T12:30:56.210Z\n"
+"POT-Creation-Date: 2022-09-20T08:52:08.983Z\n"
+"PO-Revision-Date: 2022-09-20T08:52:08.983Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -62,6 +62,9 @@ msgstr "Last incompleted by"
 
 msgid "Couldn't validate the form, please try again later"
 msgstr "Couldn't validate the form, please try again later"
+
+msgid "Couldn't validate the form. This does not effect form completion!"
+msgstr "Couldn't validate the form. This does not effect form completion!"
 
 msgid "The form can't be completed while invalid"
 msgstr "The form can't be completed while invalid"
@@ -468,6 +471,13 @@ msgstr "Type here to filter in this section"
 
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
+
+msgid ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
+msgstr ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
