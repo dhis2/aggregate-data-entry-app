@@ -44,11 +44,14 @@ const OrganisationUnitTree = ({
     )
     const reloadId = useForceReload(forceReload)
     const [prevReloadId, setPrevReloadId] = useState(reloadId)
-    const { called, loading, error, data, refetch } = useRootOrgData(rootIds, {
-        isUserDataViewFallback,
-        suppressAlphabeticalSorting,
-        prefetchedOrganisationUnits,
-    })
+    const { called, loading, error, rootNodes, refetch } = useRootOrgData(
+        rootIds,
+        {
+            isUserDataViewFallback,
+            suppressAlphabeticalSorting,
+            prefetchedOrganisationUnits,
+        }
+    )
 
     const { expanded, handleExpand, handleCollapse } = useExpanded({
         initiallyExpanded,
@@ -80,36 +83,38 @@ const OrganisationUnitTree = ({
             {error && <RootError error={error} />}
             {!error &&
                 !isLoading &&
-                rootIds.map((rootId) => {
-                    const rootNode = data[rootId]
-
-                    return (
-                        <OrganisationUnitNode
-                            key={rootNode.path}
-                            rootId={rootId}
-                            autoExpandLoadingError={autoExpandLoadingError}
-                            dataTest={dataTest}
-                            disableSelection={disableSelection}
-                            displayName={rootNode.displayName}
-                            expanded={expanded}
-                            highlighted={highlighted}
-                            id={rootId}
-                            isUserDataViewFallback={isUserDataViewFallback}
-                            filter={filter}
-                            path={rootNode.path}
-                            renderNodeLabel={renderNodeLabel}
-                            selected={selected}
-                            singleSelection={singleSelection}
-                            suppressAlphabeticalSorting={
-                                suppressAlphabeticalSorting
-                            }
-                            onChange={onChange}
-                            onChildrenLoaded={onChildrenLoaded}
-                            onCollapse={handleCollapse}
-                            onExpand={handleExpand}
-                        />
-                    )
-                })}
+                rootNodes.map((rootNode) => (
+                    <OrganisationUnitNode
+                        key={rootNode.path}
+                        rootId={rootNode.id}
+                        autoExpandLoadingError={autoExpandLoadingError}
+                        dataTest={dataTest}
+                        disableSelection={disableSelection}
+                        displayName={rootNode.displayName}
+                        expanded={expanded}
+                        highlighted={highlighted}
+                        id={rootNode.id}
+                        isUserDataViewFallback={isUserDataViewFallback}
+                        filter={filter}
+                        path={rootNode.path}
+                        childCount={rootNode.children}
+                        renderNodeLabel={renderNodeLabel}
+                        selected={selected}
+                        singleSelection={singleSelection}
+                        suppressAlphabeticalSorting={
+                            suppressAlphabeticalSorting
+                        }
+                        onChange={onChange}
+                        onChildrenLoaded={onChildrenLoaded}
+                        onCollapse={handleCollapse}
+                        onExpand={handleExpand}
+                        level={rootNode.level}
+                        offlineLevels={offlineLevels}
+                        prefetchedOrganisationUnits={
+                            prefetchedOrganisationUnits
+                        }
+                    />
+                ))}
         </div>
     )
 }

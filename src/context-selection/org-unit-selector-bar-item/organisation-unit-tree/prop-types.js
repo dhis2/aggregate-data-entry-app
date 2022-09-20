@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 /* eslint-disable max-params */
 
 const UNIT_ID_PATTERN = '[a-zA-Z][a-zA-Z0-9]{10}'
@@ -31,3 +32,10 @@ export const orgUnitIdPropType = (
         )
     }
 }
+
+export const orgUnitPropType = PropTypes.shape({
+    children: PropTypes.number,
+    displayName: PropTypes.string,
+    id: PropTypes.string,
+    path: PropTypes.string,
+})

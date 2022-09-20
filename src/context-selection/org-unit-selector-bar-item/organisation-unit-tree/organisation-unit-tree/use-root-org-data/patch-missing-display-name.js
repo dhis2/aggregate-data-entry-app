@@ -9,12 +9,8 @@
  * @param {Object[]} nodes
  * @returns {}
  */
-export const patchMissingDisplayName = (nodes) => {
-    const nodeEntries = Object.entries(nodes)
-    const nodesWithDisplayName = nodeEntries.map(([id, node]) => {
-        const displayName = node.displayName || ''
-        return [id, { ...node, displayName }]
-    })
-
-    return Object.fromEntries(nodesWithDisplayName)
-}
+export const patchMissingDisplayName = (nodes) =>
+    nodes.map((node) => ({
+        displayName: node.displayName || '',
+        ...node,
+    }))

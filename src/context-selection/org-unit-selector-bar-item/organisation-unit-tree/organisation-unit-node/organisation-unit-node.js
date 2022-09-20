@@ -1,19 +1,20 @@
 import i18n from '@dhis2/d2-i18n'
 import { Node } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { leftTrimToRootId } from '../helpers/index.js'
-import { orgUnitPathPropType } from '../prop-types.js'
+import { orgUnitPathPropType, orgUnitPropType } from '../prop-types.js'
 import { ErrorMessage } from './error-message.js'
 import { hasDescendantSelectedPaths } from './has-descendant-selected-paths.js'
 import { Label } from './label/index.js'
 import { LoadingSpinner } from './loading-spinner.js'
 import { OrganisationUnitNodeChildren } from './organisation-unit-node-children.js'
 import { useOpenState } from './use-open-state.js'
-import { useOrgData } from './use-org-data/index.js'
+import { useOrgChildren } from './use-org-children.js'
 
 export const OrganisationUnitNode = ({
     autoExpandLoadingError,
+    childCount,
     dataTest,
     disableSelection,
     displayName,
@@ -21,7 +22,10 @@ export const OrganisationUnitNode = ({
     highlighted,
     id,
     isUserDataViewFallback,
+    level,
+    offlineLevels,
     path,
+    prefetchedOrganisationUnits,
     renderNodeLabel,
     rootId,
     selected,
@@ -33,21 +37,24 @@ export const OrganisationUnitNode = ({
     onCollapse,
     onExpand,
 }) => {
-    const orgData = useOrgData(id, {
-        isUserDataViewFallback,
-        displayName,
-    })
-
     const strippedPath = leftTrimToRootId(path, rootId)
     const node = {
         // guarantee that displayName and id are avaiable before data loaded
         displayName,
         id,
-        ...(orgData.data || {}),
         // do not override strippedPath with path from loaded data
         path: strippedPath,
+        childCount,
+        level,
     }
-    const hasChildren = !!node.children && node.children > 0
+    const { show, loading, error, nodes, fetch } = useOrgChildren({
+        node,
+        suppressAlphabeticalSorting,
+        onComplete: onChildrenLoaded,
+        offlineLevels,
+        prefetchedOrganisationUnits,
+    })
+    const hasChildren = childCount > 0
 
     const hasSelectedDescendants = hasDescendantSelectedPaths(
         strippedPath,
@@ -57,7 +64,7 @@ export const OrganisationUnitNode = ({
     const isHighlighted = highlighted.includes(path)
     const { open, onToggleOpen } = useOpenState({
         autoExpandLoadingError,
-        errorMessage: orgData.error && orgData.error.toString(),
+        errorMessage: error && error.toString(),
         path: strippedPath,
         expanded,
         onExpand,
@@ -70,10 +77,8 @@ export const OrganisationUnitNode = ({
 
     const labelContent = renderNodeLabel({
         disableSelection,
-        hasChildren,
+        childCount,
         hasSelectedDescendants,
-        loading: orgData.loading,
-        error: orgData.error,
         selected,
         open,
         path,
@@ -89,7 +94,7 @@ export const OrganisationUnitNode = ({
             node={node}
             fullPath={path}
             open={open}
-            loading={orgData.loading}
+            loading={loading}
             checked={isSelected}
             rootId={rootId}
             onChange={onChange}
@@ -116,8 +121,14 @@ export const OrganisationUnitNode = ({
      * 3. Error: There are children and loading information somehow failed
      * 4. Child nodes: There are children and the node is open
      */
-    const showPlaceholder = hasChildren && !open && !orgData.error
-    const showChildNodes = hasChildren && open && !orgData.error
+    const showPlaceholder = hasChildren && !open
+    const showChildNodes = hasChildren && open
+
+    useEffect(() => {
+        if (open && hasChildren && !nodes) {
+            fetch()
+        }
+    }, [hasChildren, open, nodes, fetch])
 
     return (
         <Node
@@ -126,9 +137,9 @@ export const OrganisationUnitNode = ({
             onOpen={onToggleOpen}
             onClose={onToggleOpen}
             component={label}
-            icon={orgData.loading && <LoadingSpinner />}
+            icon={loading && <LoadingSpinner />}
         >
-            {orgData.error && (
+            {error && (
                 <ErrorMessage dataTest={dataTest}>
                     {i18n.t('Could not load children')}
                 </ErrorMessage>
@@ -139,6 +150,7 @@ export const OrganisationUnitNode = ({
                     // Prevent cirular imports
                     OrganisationUnitNode={OrganisationUnitNode}
                     node={node}
+                    show={show}
                     autoExpandLoadingError={autoExpandLoadingError}
                     dataTest={dataTest}
                     disableSelection={disableSelection}
@@ -156,6 +168,10 @@ export const OrganisationUnitNode = ({
                     selected={selected}
                     singleSelection={singleSelection}
                     suppressAlphabeticalSorting={suppressAlphabeticalSorting}
+                    nodes={nodes}
+                    childCount={childCount}
+                    offlineLevels={offlineLevels}
+                    prefetchedOrganisationUnits={prefetchedOrganisationUnits}
                 />
             )}
         </Node>
@@ -170,17 +186,20 @@ OrganisationUnitNode.propTypes = {
     onChange: PropTypes.func.isRequired,
 
     autoExpandLoadingError: PropTypes.bool,
+    childCount: PropTypes.number,
     disableSelection: PropTypes.bool,
     displayName: PropTypes.string,
     expanded: PropTypes.arrayOf(orgUnitPathPropType),
     filter: PropTypes.arrayOf(orgUnitPathPropType),
     highlighted: PropTypes.arrayOf(orgUnitPathPropType),
     isUserDataViewFallback: PropTypes.bool,
+    level: PropTypes.number,
+    offlineLevels: PropTypes.number,
     path: orgUnitPathPropType,
+    prefetchedOrganisationUnits: PropTypes.arrayOf(orgUnitPropType),
     selected: PropTypes.arrayOf(orgUnitPathPropType),
     singleSelection: PropTypes.bool,
     suppressAlphabeticalSorting: PropTypes.bool,
-
     onChildrenLoaded: PropTypes.func,
     onCollapse: PropTypes.func,
     onExpand: PropTypes.func,

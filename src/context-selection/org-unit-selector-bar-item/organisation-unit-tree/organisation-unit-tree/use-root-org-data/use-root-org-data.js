@@ -2,21 +2,17 @@ import { useDataQuery } from '@dhis2/app-runtime'
 import { useMemo, useEffect, useCallback } from 'react'
 import { patchMissingDisplayName } from './patch-missing-display-name.js'
 
-export const createRootQuery = (ids) =>
-    ids.reduce(
-        (query, id) => ({
-            ...query,
-            [id]: {
-                id,
-                resource: `organisationUnits`,
-                params: ({ isUserDataViewFallback }) => ({
-                    isUserDataViewFallback,
-                    fields: ['displayName', 'path', 'id'],
-                }),
-            },
+export const rootsQuery = {
+    roots: {
+        resource: `organisationUnits`,
+        params: ({ isUserDataViewFallback, ids }) => ({
+            isUserDataViewFallback,
+            filter: `id:in:[${ids.join()}]`,
+            paging: false,
+            fields: ['displayName', 'path', 'id', 'children::size', 'level'],
         }),
-        {}
-    )
+    },
+}
 
 /**
  * @param {string[]} ids
@@ -29,47 +25,43 @@ export const useRootOrgData = (
     ids,
     { isUserDataViewFallback, prefetchedOrganisationUnits } = {}
 ) => {
-    const query = createRootQuery(ids)
+    const { called, loading, error, data, refetch } = useDataQuery(rootsQuery, {
+        variables: { isUserDataViewFallback, ids },
+        lazy: true,
+    })
+
     const prefetchedRoots = useMemo(() => {
-        const prefetchedRoots = prefetchedOrganisationUnits?.reduce(
-            (roots, unit) => {
-                if (ids.includes(unit.id)) {
-                    roots[unit.id] = unit
-                }
-                return roots
-            },
-            {}
+        const prefetchedRoots = prefetchedOrganisationUnits?.filter(({ id }) =>
+            ids.includes(id)
         )
-        return prefetchedRoots &&
-            Object.values(prefetchedRoots).length === ids.length
+        return prefetchedRoots && prefetchedRoots.length === ids.length
             ? patchMissingDisplayName(prefetchedRoots)
             : undefined
     }, [ids, prefetchedOrganisationUnits])
-    const variables = { isUserDataViewFallback }
-    const rootOrgUnits = useDataQuery(query, {
-        variables,
-        lazy: true,
-    })
-    const { called, loading, error, data, refetch } = rootOrgUnits
+
     const fetchedRoots = useMemo(
-        () => (data ? patchMissingDisplayName(data) : undefined),
+        () =>
+            data
+                ? patchMissingDisplayName(data.roots.organisationUnits)
+                : undefined,
         [data]
     )
-    const refetchIfNotPrefetched = useCallback(() => {
+
+    const fetchIfNotPrefetched = useCallback(() => {
         if (!prefetchedRoots) {
             refetch()
         }
     }, [prefetchedRoots, refetch])
 
     useEffect(() => {
-        refetchIfNotPrefetched()
-    }, [refetchIfNotPrefetched])
+        fetchIfNotPrefetched()
+    }, [fetchIfNotPrefetched])
 
     return {
         called: prefetchedRoots ? true : called,
         loading: prefetchedRoots ? false : loading,
         error: prefetchedRoots ? null : error || null,
-        data: prefetchedRoots ?? fetchedRoots,
+        rootNodes: prefetchedRoots ?? fetchedRoots,
         refetch,
     }
 }
