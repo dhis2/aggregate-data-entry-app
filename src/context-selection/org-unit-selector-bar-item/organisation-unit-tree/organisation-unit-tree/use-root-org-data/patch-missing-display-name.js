@@ -11,6 +11,6 @@
  */
 export const patchMissingDisplayName = (nodes) =>
     nodes.map((node) => ({
-        displayName: node.displayName || '',
         ...node,
+        displayName: node.displayName || '',
     }))

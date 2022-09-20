@@ -1,22 +1,16 @@
 import { CircularLoader } from '@dhis2-ui/loader'
 import React from 'react'
-import { resolve } from 'styled-jsx/css'
+import styles from './loading-spinner.module.css'
 
-const loadingSpinnerStyles = resolve`
-    .extrasmall {
-        display: block;
-        margin: 3px 0;
-    }
-`
-
+/**
+ * After moving this component to this app repo, the tests broke
+ * due to styled-jsx's resolve helper. So for now as an easy fix,
+ * we're just using a css-module.
+ * If this component were to move back to @dhis2/ui we'd have to
+ * ensure this change is not included.
+ */
 export const LoadingSpinner = () => (
-    <div>
-        <CircularLoader extrasmall className={loadingSpinnerStyles.className} />
-        <style>{loadingSpinnerStyles.styles}</style>
-        <style jsx>{`
-            div {
-                width: 24px;
-            }
-        `}</style>
+    <div className={styles.container}>
+        <CircularLoader extrasmall className={styles.extraSmall} />
     </div>
 )

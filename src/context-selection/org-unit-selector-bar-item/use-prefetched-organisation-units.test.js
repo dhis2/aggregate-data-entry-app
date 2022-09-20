@@ -184,7 +184,7 @@ describe('usePrefetchedOrganisationUnits', () => {
             })
         )
         expect(params).toEqual({
-            fields: ['id', 'displayName', 'path'],
+            fields: ['id', 'displayName', 'path', 'children::size', 'level'],
             paging: false,
             filter: 'level:in:[1,2,3]',
         })

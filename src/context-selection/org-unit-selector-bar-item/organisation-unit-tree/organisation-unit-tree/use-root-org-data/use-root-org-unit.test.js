@@ -32,13 +32,15 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
     })
 
     const dataProviderData = {
-        organisationUnits: jest.fn(() => {
-            return {
-                id: 'A0000000000',
-                path: '/A0000000000',
-                displayName: 'Org Unit 1',
-            }
-        }),
+        organisationUnits: jest.fn(() => ({
+            organisationUnits: [
+                {
+                    id: 'A0000000000',
+                    path: '/A0000000000',
+                    displayName: 'Org Unit 1',
+                },
+            ],
+        })),
     }
 
     const wrapper = ({ children }) => (
@@ -54,9 +56,10 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
 
         expect(result.current).toEqual(
             expect.objectContaining({
+                called: true,
                 loading: true,
                 error: null,
-                data: null,
+                rootNodes: undefined,
             })
         )
         expect(result.current.refetch).toBeInstanceOf(Function)
@@ -72,15 +75,16 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
 
         expect(result.current).toEqual(
             expect.objectContaining({
-                loading: false,
+                called: true,
                 error: null,
-                data: {
-                    A0000000000: {
+                loading: false,
+                rootNodes: [
+                    {
                         id: 'A0000000000',
                         path: '/A0000000000',
                         displayName: 'Org Unit 1',
                     },
-                },
+                ],
             })
         )
     })
@@ -107,9 +111,10 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
 
         expect(result.current).toEqual(
             expect.objectContaining({
+                called: true,
                 loading: false,
                 error: new Error('Error message'),
-                data: null,
+                rootNodes: undefined,
             })
         )
     })
@@ -155,12 +160,14 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
 
     it('should patch the display name if it is missing', async () => {
         const dataProviderDataWithoutDisplayName = {
-            organisationUnits: jest.fn(() => {
-                return {
-                    id: 'A0000000000',
-                    path: '/A0000000000',
-                }
-            }),
+            organisationUnits: jest.fn(() => ({
+                organisationUnits: [
+                    {
+                        id: 'A0000000000',
+                        path: '/A0000000000',
+                    },
+                ],
+            })),
         }
 
         const wrapperWithoutDisplayName = ({ children }) => (
@@ -178,15 +185,16 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
 
         expect(result.current).toEqual(
             expect.objectContaining({
+                called: true,
                 loading: false,
                 error: null,
-                data: {
-                    A0000000000: {
+                rootNodes: [
+                    {
                         id: 'A0000000000',
                         path: '/A0000000000',
                         displayName: '',
                     },
-                },
+                ],
             })
         )
     })

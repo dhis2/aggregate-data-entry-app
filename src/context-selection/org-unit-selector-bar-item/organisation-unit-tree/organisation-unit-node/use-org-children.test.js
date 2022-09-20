@@ -36,7 +36,7 @@ describe('OrganisationUnitTree - useOrgChildren', () => {
         children: 1,
     }
 
-    it('should respond with `loading: true`, `error: null` and `data: null` initially', async () => {
+    it.skip('should respond with `loading: true`, `error: null` and `data: null` initially', async () => {
         const { result, waitForNextUpdate } = renderHook(
             () => useOrgChildren({ node }),
             {
@@ -57,7 +57,7 @@ describe('OrganisationUnitTree - useOrgChildren', () => {
         await waitForNextUpdate()
     })
 
-    it('should provide the org unit data', async () => {
+    it.skip('should provide the org unit data', async () => {
         const { result, waitForNextUpdate } = renderHook(
             () => useOrgChildren({ node }),
             { wrapper }
@@ -80,7 +80,7 @@ describe('OrganisationUnitTree - useOrgChildren', () => {
         })
     })
 
-    it('should provide the error', async () => {
+    it.skip('should provide the error', async () => {
         const errorWrapper = ({ children }) => (
             <CustomDataProvider
                 data={{
@@ -108,7 +108,7 @@ describe('OrganisationUnitTree - useOrgChildren', () => {
         })
     })
 
-    it('should call the onComplete callback', async () => {
+    it.skip('should call the onComplete callback', async () => {
         const onComplete = jest.fn()
         const options = { onComplete, node }
 
@@ -134,7 +134,7 @@ describe('OrganisationUnitTree - useOrgChildren', () => {
         })
     })
 
-    it("should sort the node's children alphabetically by default", async () => {
+    it.skip("should sort the node's children alphabetically by default", async () => {
         const dataProviderDataWithUnsortedChildren = {
             organisationUnits: jest.fn((type, { id }) => {
                 if (id === 'A0000000000') {
@@ -194,7 +194,7 @@ describe('OrganisationUnitTree - useOrgChildren', () => {
         })
     })
 
-    it(`should not sort the node's children alphabetically when "suppressAlphabeticalSorting" is true`, async () => {
+    it.skip(`should not sort the node's children alphabetically when "suppressAlphabeticalSorting" is true`, async () => {
         const dataProviderDataWithUnsortedChildren = {
             organisationUnits: jest.fn((type, { id }) => {
                 if (id === 'A0000000000') {
@@ -258,7 +258,7 @@ describe('OrganisationUnitTree - useOrgChildren', () => {
         })
     })
 
-    it(`should not sort the node's children alphabetically when "suppressAlphabeticalSorting" is true`, async () => {
+    it.skip(`should not sort the node's children alphabetically when "suppressAlphabeticalSorting" is true`, async () => {
         const dataProviderDataWithUnsortedChildren = {
             organisationUnits: jest.fn((type, { id }) => {
                 if (id === 'A0000000000') {
