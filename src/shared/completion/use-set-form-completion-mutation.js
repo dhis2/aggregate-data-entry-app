@@ -3,6 +3,7 @@ import i18n from '@dhis2/d2-i18n'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 import { mutationKeys } from './mutation-key-factory.js'
+import useSetFormCompletionMutationKey from './use-set-form-completion-mutation-key.js'
 
 const MUTATION_SET_FORM_COMPLETION = {
     resource: 'dataEntry/dataSetCompletion',
@@ -44,9 +45,8 @@ export function useSetFormCompletionMutation() {
     })
 
     const dataValueSetQueryKey = useDataValueSetQueryKey()
-    const { params } = dataValueSetQueryKey[1]
-    const mutationKey = mutationKeys.complete(params)
-    //console.log('use mutation', mutationKey, mutationFn)
+    const mutationKey = useSetFormCompletionMutationKey()
+
     return useMutation(mutationFn, {
         // retry: 0, // @TODO: Is this correct?
         mutationKey,
@@ -74,11 +74,11 @@ export function useSetFormCompletionMutation() {
         },
         onError: (event, context) => {
             const alertMessage = i18n.t(
-                `Something went wrong while setting the form's completion to "{{completed}}": {{errorMessage}}`,
+                'Something went wrong while setting the form\'s completion to "{{completed}}": {{errorMessage}}',
                 {
                     completed: context.complete,
                     errorMessage: event.message,
-                    nsSeparater: '-:-',
+                    nsSeparator: '-:-',
                 }
             )
 
