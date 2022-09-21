@@ -47,7 +47,7 @@ const LoadApp = ({ children }) => {
                 error
                 title={i18n.t('There was a problem loading metadata')}
             >
-                {error?.message || userError?.message}
+                {error?.message}
             </NoticeBox>
         )
     }
