@@ -1,0 +1,22 @@
+import create from 'zustand'
+
+const inititalState = {
+    authorities: [],
+}
+
+const ALL_AUTHORITY = 'ALL'
+const DELETE_MIN_MAX_AUTHORITY = 'F_MINMAX_DATAELEMENT_DELETE'
+const ADD_MIN_MAX_AUTHORITY = 'F_MINMAX_DATAELEMENT_ADD'
+
+export const useUserInfoStore = create((set, get) => ({
+    ...inititalState,
+    setAuthorities: (values) => set({ authorities: values ?? inititalState }),
+    getCanDeleteMinMax: () =>
+        get().authorities.some((auth) =>
+            [DELETE_MIN_MAX_AUTHORITY, ALL_AUTHORITY].includes(auth)
+        ),
+    getCanAddMinMax: () =>
+        get().authorities.some((auth) =>
+            [ADD_MIN_MAX_AUTHORITY, ALL_AUTHORITY].includes(auth)
+        ),
+}))

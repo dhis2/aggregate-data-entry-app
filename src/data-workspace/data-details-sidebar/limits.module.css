@@ -59,3 +59,7 @@
 .limitsDisplayWrapperMargin {
     margin-bottom: var(--spacers-dp12);
 }
+
+.onlyDeleteButton {
+    margin-left: -8px;
+}

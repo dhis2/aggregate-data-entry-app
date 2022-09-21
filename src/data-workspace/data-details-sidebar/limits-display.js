@@ -41,6 +41,8 @@ export default function LimitsDisplay({
     min,
     max,
     onEditClick,
+    canAdd,
+    canDelete,
 }) {
     const average = calculateAverage(min, max)
 
@@ -76,13 +78,20 @@ export default function LimitsDisplay({
                     </div>
                 )}
             </div>
-
             <ButtonStrip>
-                <EditButton onClick={onEditClick} />
-                <LimitsDeleteButton
-                    dataElementId={dataElementId}
-                    categoryOptionComboId={categoryOptionComboId}
-                />
+                {canAdd && <EditButton onClick={onEditClick} />}
+                {canDelete && (
+                    <div
+                        className={cx({
+                            [styles.onlyDeleteButton]: !canAdd && canDelete,
+                        })}
+                    >
+                        <LimitsDeleteButton
+                            dataElementId={dataElementId}
+                            categoryOptionComboId={categoryOptionComboId}
+                        />
+                    </div>
+                )}
             </ButtonStrip>
         </div>
     )
@@ -92,6 +101,8 @@ LimitsDisplay.propTypes = {
     categoryOptionComboId: PropTypes.string.isRequired,
     dataElementId: PropTypes.string.isRequired,
     onEditClick: PropTypes.func.isRequired,
+    canAdd: PropTypes.bool,
+    canDelete: PropTypes.bool,
     max: PropTypes.number,
     min: PropTypes.number,
 }
