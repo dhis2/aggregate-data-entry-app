@@ -55,7 +55,7 @@ export default function CompleteButton({ disabled }) {
         return null
     }
 
-    const isComplete = dataValueSet.data.completeStatus.complete
+    const isComplete = dataValueSet.data.completeStatus?.complete
     const onClick = isComplete ? onIncompleteClick : onCompleteClick
     const label = isComplete
         ? i18n.t('Mark incomplete')

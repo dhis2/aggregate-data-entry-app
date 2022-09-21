@@ -70,7 +70,7 @@ export default function MainToolBar() {
                 </button>
             )}
 
-            {data?.completeStatus.lastUpdatedBy && (
+            {data?.completeStatus?.lastUpdatedBy && (
                 <span
                     className={cx(styles.completionSummary, styles.toolbarItem)}
                 >
