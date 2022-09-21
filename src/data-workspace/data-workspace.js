@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
@@ -21,10 +22,10 @@ import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
+    const queryClient = useQueryClient()
     const { data: metadata } = useMetadata()
     useCheckLockStatus()
     const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
-
     const updateStore = useValueStore((state) => state.setDataValueSet)
     const initialDataValuesFetch = useDataValueSet({
         onSuccess: (data) => {
@@ -44,6 +45,20 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
     const formKey = useContextSelectionId()
+
+    // force refetch when context-selection changes
+    useEffect(() => {
+        if (isValidSelection) {
+            // note this will only refetch "active"/mounted queries,
+            // so it's safe to not provide a queryKey
+            queryClient.invalidateQueries(null, {
+                // if new selection is not in cache, a refetch will already be in-flight
+                // so we do not need to send another one.
+                cancelRefetch: false,
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [formKey])
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
