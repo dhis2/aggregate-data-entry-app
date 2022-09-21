@@ -52,7 +52,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
             // note this will only refetch "active"/mounted queries,
             // so it's safe to not provide a queryKey
             queryClient.invalidateQueries(null, {
-                // if new selection is not in cache, a refetch will already be in-flight
+                // if new selection is not in cache, a fetch will already be in-flight
                 // so we do not need to send another one.
                 cancelRefetch: false,
             })
