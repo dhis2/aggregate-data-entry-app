@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-20T12:26:25.876Z\n"
-"PO-Revision-Date: 2022-09-20T12:26:25.876Z\n"
+"POT-Creation-Date: 2022-09-21T14:22:02.290Z\n"
+"PO-Revision-Date: 2022-09-21T14:22:02.290Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -363,12 +363,6 @@ msgstr "Min"
 
 msgid "Max"
 msgstr "Max"
-
-msgid "A min is required when providing a max"
-msgstr "A min is required when providing a max"
-
-msgid "A max is required when providing a min"
-msgstr "A max is required when providing a min"
 
 msgid "Min and max limits"
 msgstr "Min and max limits"

@@ -33,10 +33,36 @@ Given(
 Given(
     'a data set, org unit and period have been selected and the data set has a tabbed sectioned form',
     () => {
-        cy.visit(
-            '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021'
-        )
-        cy.get('[data-test="data-set-selector"]').should('exist')
+        const selectedId = 'V8MHeZHIrcP'
+        cy.fixture('context-selection/metadata-complete').then((metadata) => {
+            const metadataWithPatchedTabbedTrue = {
+                ...metadata,
+                dataSets: metadata.dataSets.map((ds) => {
+                    if (ds.id !== selectedId) {
+                        return ds
+                    }
+
+                    return {
+                        ...ds,
+                        renderAsTabs: true,
+                    }
+                }),
+            }
+
+            cy.intercept('GET', /api[/][0-9]+[/]dataEntry[/]metadata/, {
+                body: metadataWithPatchedTabbedTrue,
+            }).as('selectableDataSetsRequest')
+
+            const selectedDataSet = metadataWithPatchedTabbedTrue.dataSets.find(
+                ({ id }) => id === selectedId
+            )
+            cy.wrap(selectedDataSet).as('selectedDataSet')
+
+            cy.visitAndLoad(
+                '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021'
+            )
+            cy.get('[data-test="data-set-selector"]').should('exist')
+        })
     }
 )
 
