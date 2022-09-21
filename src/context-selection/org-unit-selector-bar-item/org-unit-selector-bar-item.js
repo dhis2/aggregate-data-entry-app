@@ -119,7 +119,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                         dataTest="org-unit-selector-tree"
                                         singleSelection
                                         filter={filteredOrgUnitPaths}
-                                        roots={userOrgUnits.data?.ids || []}
+                                        roots={userOrgUnits.data || []}
                                         selected={selected}
                                         expanded={expanded}
                                         handleExpand={handleExpand}
@@ -150,7 +150,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                             prefetchedOrganisationUnits.offlineLevels
                                         }
                                         prefetchedOrganisationUnits={
-                                            prefetchedOrganisationUnits.organisationUnits
+                                            prefetchedOrganisationUnits.data
                                         }
                                     />
                                 )}

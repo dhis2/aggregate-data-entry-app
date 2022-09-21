@@ -1,85 +1,139 @@
-import { useQuery } from '@tanstack/react-query'
-import useLoadConfigOfflineOrgUnitLevel from './use-load-config-offline-org-unit-level.js'
-import useOrganisationUnitLevels from './use-organisation-unit-levels.js'
-import useUserOrgUnits from './use-user-org-units.js'
+import { useQueries } from '@tanstack/react-query'
+
+const computeDeepestLevel = (rootLevel, offlineLevels, configOfflineLevel) => {
+    if (offlineLevels) {
+        return rootLevel + offlineLevels - 1
+    }
+    if (configOfflineLevel) {
+        return configOfflineLevel
+    }
+    return 1
+}
 
 const computeOfflineLevels = (
-    userOrgUnits,
-    organisationUnitLevels,
+    userOrgUnitRoot,
+    filledOrganisationUnitLevels,
     configOfflineOrgUnitLevel
 ) => {
-    // Highest as in at the top of the hierarchy, so this is actually the lowest number
-    const userHighestLevel = Math.min(...userOrgUnits.map((unit) => unit.level))
-    const userOfflineOrganisationUnitLevel = organisationUnitLevels.find(
-        (oul) => oul.level === userHighestLevel
+    const filledOrganisationUnitLevel = filledOrganisationUnitLevels.find(
+        (level) => level === userOrgUnitRoot.level
     )
-    const userOfflineLevels =
-        // base: read offline levels from user org-unit-level
-        userOfflineOrganisationUnitLevel.offlineLevels ??
-        // fallback: use offline levels from system-config
-        configOfflineOrgUnitLevel.level ??
-        // theoretical: prefetch at least the user org-unit-level
-        1
+    const deepestLevel = computeDeepestLevel(
+        userOrgUnitRoot,
+        filledOrganisationUnitLevel?.offlineLevels,
+        configOfflineOrgUnitLevel
+    )
 
     return Array.from(
-        { length: userOfflineLevels - userHighestLevel + 1 },
-        (_, i) => userHighestLevel + i
+        { length: deepestLevel - userOrgUnitRoot.level + 1 },
+        (_, i) => userOrgUnitRoot.level + i
     )
 }
 
-/**
- * As the service worker caches request responses,
- * it should suffice to simply perform all request the org unit tree would
- * perform as well in advance
- */
-export default function usePrefetchedOrganisationUnits() {
-    const userOrgUnits = useUserOrgUnits()
-    const organisationUnitLevels = useOrganisationUnitLevels()
-    const configOfflineOrgUnitLevel = useLoadConfigOfflineOrgUnitLevel()
-    const offlineLevels =
-        userOrgUnits.data &&
-        organisationUnitLevels.data &&
-        configOfflineOrgUnitLevel.data
-            ? computeOfflineLevels(
-                  userOrgUnits.data.organisationUnits,
-                  organisationUnitLevels.data,
-                  configOfflineOrgUnitLevel.data
-              )
-            : []
-    const offlineUnits = useQuery(
-        [
-            'organisationUnits',
+const useOfflineLevels = () => {
+    const results = useQueries({
+        queries: [
             {
-                params: {
-                    fields: [
-                        'id',
-                        'displayName',
-                        'path',
-                        'children::size',
-                        'level',
-                    ],
-                    paging: false,
-                    filter: `level:in:[${offlineLevels.join()}]`,
-                },
+                queryKey: [
+                    'me',
+                    {
+                        params: {
+                            fields: ['organisationUnits[id,level,path]'],
+                        },
+                    },
+                ],
+                select: (data) =>
+                    data.organisationUnits.map(({ id, level }) => ({
+                        id,
+                        level,
+                    })),
+            },
+            {
+                queryKey: [
+                    'filledOrganisationUnitLevels',
+                    {
+                        params: {
+                            // @TODO: api ignores the `fields` query param
+                            // See: https://jira.dhis2.org/browse/TECH-973
+                            fields: ['level', 'offlineLevels'],
+                        },
+                    },
+                ],
+                select: (data) =>
+                    data.map(({ id, level, offlineLevels }) => ({
+                        id,
+                        level,
+                        offlineLevels,
+                    })),
+            },
+            {
+                queryKey: ['configuration/offlineOrganisationUnitLevel'],
+                select: ({ level }) => level,
             },
         ],
-        {
-            enabled: offlineLevels.length > 1,
-        }
-    )
+    })
+    const loading = results.some(({ isLoading }) => isLoading)
+    const error = results.find(({ error }) => error)
+    const [
+        userOrgUnitRoots,
+        filledOrganisationUnitLevels,
+        configOfflineOrgUnitLevel,
+    ] = results.map(({ data }) => data)
 
     return {
-        organisationUnits: offlineUnits.data?.organisationUnits,
-        offlineLevels: offlineLevels?.[offlineLevels.length - 1],
-        loading:
-            offlineUnits.isLoading ||
-            userOrgUnits.loading ||
-            organisationUnitLevels.loading ||
-            configOfflineOrgUnitLevel.loading,
-        error:
-            offlineUnits.error ||
-            userOrgUnits.error ||
-            organisationUnitLevels.error ||
-            configOfflineOrgUnitLevel.error,
+        loading,
+        error,
+        offlineLevels:
+            !loading && !error
+                ? userOrgUnitRoots.map((userOrgUnitRoot) => ({
+                      id: userOrgUnitRoot.id,
+                      offlineLevels: computeOfflineLevels(
+                          userOrgUnitRoot,
+                          filledOrganisationUnitLevels,
+                          configOfflineOrgUnitLevel
+                      ),
+                  }))
+                : undefined,
+    }
+}
+
+const createPrefetchQueryArgs = ({ id, offlineLevels }) => ({
+    queryKey: [
+        'organisationUnits',
+        {
+            id,
+            params: {
+                fields: [
+                    'id',
+                    'displayName',
+                    'path',
+                    'children::size',
+                    'level',
+                ],
+                includeDescendants: true,
+                paging: false,
+                filter: `level:in:[${offlineLevels?.join()}]`,
+            },
+        },
+    ],
+    enabled: Boolean(id && offlineLevels?.length >= 1),
+    select: ({ organisationUnits }) => organisationUnits,
+})
+
+export default function usePrefetchedOrganisationUnits() {
+    const { loading, error, offlineLevels } = useOfflineLevels()
+    const results = useQueries({
+        queries: offlineLevels?.map(createPrefetchQueryArgs) ?? [],
+    })
+
+    const anyLoading = loading || results.some(({ isLoading }) => isLoading)
+    const anyError = error || results.find(({ error }) => error)
+    return {
+        loading: anyLoading,
+        error: anyError,
+        data:
+            !anyLoading && !anyError
+                ? results.reduce((acc, { data }) => acc.concat(data), [])
+                : undefined,
     }
 }
