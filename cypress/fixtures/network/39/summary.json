@@ -1,15 +1,8 @@
 {
-    "count": 1068,
-    "totalResponseSize": 4503069,
-    "duplicates": 972,
-    "nonDeterministicResponses": 118,
+    "count": 0,
+    "totalResponseSize": 0,
+    "duplicates": 0,
+    "nonDeterministicResponses": 0,
     "apiVersion": "39",
-    "fixtureFiles": [
-        "static_resources.json",
-        "category_options_for_each_category_in_the_category_combination_connected_to_the_data_set_can_be_selected.json",
-        "a_data_set_can_be_selected.json",
-        "an_org_unit_can_be_selected.json",
-        "a_period_can_be_selected.json",
-        "a_section_filter_can_be_selected.json"
-    ]
+    "fixtureFiles": []
 }

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-15T09:24:03.195Z\n"
-"PO-Revision-Date: 2022-09-15T09:24:03.195Z\n"
+"POT-Creation-Date: 2022-09-22T08:32:08.043Z\n"
+"PO-Revision-Date: 2022-09-22T08:32:08.043Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -293,20 +293,14 @@ msgstr "Delete limits"
 msgid "Edit limits"
 msgstr "Edit limits"
 
-msgid "Minimum"
-msgstr "Minimum"
+msgid "Min"
+msgstr "Min"
 
-msgid "Maximum"
-msgstr "Maximum"
+msgid "Max"
+msgstr "Max"
 
-msgid "A miminum is required when providing a maximum"
-msgstr "A miminum is required when providing a maximum"
-
-msgid "A maximum is required when providing a minimum"
-msgstr "A maximum is required when providing a minimum"
-
-msgid "Minimum and maximum limits"
-msgstr "Minimum and maximum limits"
+msgid "Min and max limits"
+msgstr "Min and max limits"
 
 msgid "Try again, or contact your system administrator."
 msgstr "Try again, or contact your system administrator."
