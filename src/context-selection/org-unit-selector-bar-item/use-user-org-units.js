@@ -15,10 +15,7 @@ export default function useUserOrgUnits() {
             },
         ],
         {
-            select: ({ organisationUnits }) => ({
-                organisationUnits,
-                ids: organisationUnits.map(({ id }) => id),
-            }),
+            select: (data) => data.organisationUnits.map(({ id }) => id),
         }
     )
 
