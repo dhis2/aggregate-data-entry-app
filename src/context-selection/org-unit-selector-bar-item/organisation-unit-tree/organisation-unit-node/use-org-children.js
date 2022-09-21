@@ -37,9 +37,10 @@ export const useOrgChildren = ({
             lazy: true,
         }
     )
+
     const prefetchedChildren = useMemo(
         () =>
-            node.level < offlineLevels
+            offlineLevels.includes(node.level + 1)
                 ? getPreFetchedChildren(prefetchedOrganisationUnits, node)
                 : null,
         [node, offlineLevels, prefetchedOrganisationUnits]

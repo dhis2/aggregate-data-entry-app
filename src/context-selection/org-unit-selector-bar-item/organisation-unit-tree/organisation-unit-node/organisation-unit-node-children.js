@@ -109,7 +109,7 @@ OrganisationUnitNodeChildren.propTypes = {
     isUserDataViewFallback: PropTypes.bool,
     loading: PropTypes.bool,
     nodes: PropTypes.arrayOf(orgUnitPropType),
-    offlineLevels: PropTypes.number,
+    offlineLevels: PropTypes.arrayOf(PropTypes.number),
     prefetchedOrganisationUnits: PropTypes.arrayOf(orgUnitPropType),
     selected: PropTypes.arrayOf(orgUnitPathPropType),
     show: PropTypes.bool,

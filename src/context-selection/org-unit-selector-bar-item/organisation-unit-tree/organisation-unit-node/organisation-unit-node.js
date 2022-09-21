@@ -194,7 +194,7 @@ OrganisationUnitNode.propTypes = {
     highlighted: PropTypes.arrayOf(orgUnitPathPropType),
     isUserDataViewFallback: PropTypes.bool,
     level: PropTypes.number,
-    offlineLevels: PropTypes.number,
+    offlineLevels: PropTypes.arrayOf(PropTypes.number),
     path: orgUnitPathPropType,
     prefetchedOrganisationUnits: PropTypes.arrayOf(orgUnitPropType),
     selected: PropTypes.arrayOf(orgUnitPathPropType),

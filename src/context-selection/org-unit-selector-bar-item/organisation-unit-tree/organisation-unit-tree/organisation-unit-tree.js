@@ -109,7 +109,7 @@ const OrganisationUnitTree = ({
                         onCollapse={handleCollapse}
                         onExpand={handleExpand}
                         level={rootNode.level}
-                        offlineLevels={offlineLevels}
+                        offlineLevels={offlineLevels[rootNode.id]}
                         prefetchedOrganisationUnits={
                             prefetchedOrganisationUnits
                         }
@@ -190,7 +190,7 @@ OrganisationUnitTree.propTypes = {
      */
     offlineLevels: requiredIf(
         (props) => !!props.prefetchedOrganisationUnits,
-        PropTypes.number
+        PropTypes.objectOf(PropTypes.arrayOf(PropTypes.number))
     ),
 
     /** When provided the org unit tree will get node children from there if possible */

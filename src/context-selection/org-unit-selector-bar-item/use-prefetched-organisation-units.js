@@ -85,19 +85,19 @@ const useOfflineLevels = () => {
         error,
         offlineLevels:
             !loading && !error
-                ? userOrgUnitRoots.map((userOrgUnitRoot) => ({
-                      id: userOrgUnitRoot.id,
-                      offlineLevels: computeOfflineLevels(
+                ? userOrgUnitRoots.reduce((acc, userOrgUnitRoot) => {
+                      acc[userOrgUnitRoot.id] = computeOfflineLevels(
                           userOrgUnitRoot,
                           filledOrganisationUnitLevels,
                           configOfflineOrgUnitLevel
-                      ),
-                  }))
-                : undefined,
+                      )
+                      return acc
+                  }, {})
+                : {},
     }
 }
 
-const createPrefetchQueryArgs = ({ id, offlineLevels }) => ({
+const createPrefetchQueryArgs = ([id, offlineLevels]) => ({
     queryKey: [
         'organisationUnits',
         {
@@ -123,7 +123,7 @@ const createPrefetchQueryArgs = ({ id, offlineLevels }) => ({
 export default function usePrefetchedOrganisationUnits() {
     const { loading, error, offlineLevels } = useOfflineLevels()
     const results = useQueries({
-        queries: offlineLevels?.map(createPrefetchQueryArgs) ?? [],
+        queries: Object.entries(offlineLevels).map(createPrefetchQueryArgs),
     })
 
     const anyLoading = loading || results.some(({ isLoading }) => isLoading)
@@ -131,9 +131,10 @@ export default function usePrefetchedOrganisationUnits() {
     return {
         loading: anyLoading,
         error: anyError,
-        data:
+        offlineOrganisationUnits:
             !anyLoading && !anyError
                 ? results.reduce((acc, { data }) => acc.concat(data), [])
                 : undefined,
+        offlineLevels,
     }
 }

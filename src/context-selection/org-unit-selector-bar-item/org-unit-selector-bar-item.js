@@ -150,7 +150,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                             prefetchedOrganisationUnits.offlineLevels
                                         }
                                         prefetchedOrganisationUnits={
-                                            prefetchedOrganisationUnits.data
+                                            prefetchedOrganisationUnits.offlineOrganisationUnits
                                         }
                                     />
                                 )}
