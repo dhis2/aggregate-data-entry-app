@@ -258,4 +258,48 @@ describe('<Comment />', () => {
             expect(saveButton).not.toBeInTheDocument()
         })
     })
+
+    it('should show unsaved comment when going back to cell with unsaved comment', async () => {
+        const firstItem = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            comment: 'original comment',
+        }
+
+        const secondItem = {
+            categoryOptionCombo: 'coc-id-2',
+            dataElement: 'de-id-2',
+            comment: 'second item comment',
+        }
+
+        const changedComment = 'changed comment'
+
+        // show first item
+        const { getByRole, getByText, rerender, findByText } = render(
+            <Comment item={firstItem} />
+        )
+
+        // change the comment
+        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        const input = getByRole('textbox')
+        fireEvent.change(input, {
+            target: { value: changedComment },
+        })
+
+        fireEvent.blur(input)
+
+        // show second item
+        rerender(<Comment item={secondItem} />)
+        await findByText('second item comment')
+
+        // go back to first item
+        rerender(<Comment item={firstItem} />)
+
+        // it should show the changed unsaved text
+        await findByText(changedComment)
+
+        // when canceling, it should revert to original text
+        userEvent.click(getByText('Cancel'))
+        await findByText('original comment')
+    })
 })

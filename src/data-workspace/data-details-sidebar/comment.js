@@ -8,15 +8,18 @@ import {
     TextAreaFieldFF,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, useField } from 'react-final-form'
 import {
     ExpandableUnit,
     selectors,
+    useUnsavedDataStore,
     useLockedContext,
     useMetadata,
     useSetDataValueMutation,
+    useContextSelectionId,
 } from '../../shared/index.js'
+import { getCellId } from '../../shared/stores/unsaved-data-store.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
@@ -58,10 +61,16 @@ CommentOptionSelector.propTypes = {
     inputOnChange: PropTypes.func,
 }
 
-const CommentEditField = ({ comment, commentOptionSetId }) => {
-    const { input, meta } = useField('comment', {
+const CommentEditField = ({
+    comment,
+    commentOptionSetId,
+    onBlur,
+    unsavedComment,
+    commentId,
+}) => {
+    const { input, meta } = useField(`comment_${commentId}`, {
         subscription: { value: true },
-        initialValue: comment || '',
+        initialValue: unsavedComment || comment || '',
     })
 
     return (
@@ -73,6 +82,7 @@ const CommentEditField = ({ comment, commentOptionSetId }) => {
                 />
             )}
             <TextAreaFieldFF
+                onBlur={onBlur}
                 input={input}
                 meta={meta}
                 className={styles.textArea}
@@ -83,15 +93,42 @@ const CommentEditField = ({ comment, commentOptionSetId }) => {
 
 CommentEditField.propTypes = {
     comment: PropTypes.string,
+    commentId: PropTypes.string,
     commentOptionSetId: PropTypes.string,
+    unsavedComment: PropTypes.string,
+    onBlur: PropTypes.func,
 }
 
-function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
+function CommentEditForm({
+    item,
+    open,
+    setOpen,
+    syncComment,
+    closeEditor,
+    unsavedComment,
+    commentId,
+}) {
+    const contextSelectionId = useContextSelectionId()
+    const cellId = getCellId({ contextSelectionId, item })
+    const setUnsavedComment = useUnsavedDataStore(
+        (state) => state.setUnsavedComment
+    )
+
     const onSubmit = (values) => {
         // Don't send `undefined` (or 'undefined' will be stored as the comment)
-        const comment = values.comment || ''
+        const comment = values[`comment_${commentId}`] || ''
         syncComment({ comment })
+        setUnsavedComment(cellId, null)
         closeEditor()
+    }
+
+    const onBlur = ({ value }) => {
+        setUnsavedComment(cellId, value)
+    }
+
+    const cancel = () => {
+        closeEditor()
+        setUnsavedComment(cellId, null)
     }
 
     return (
@@ -102,6 +139,9 @@ function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
                         <CommentEditField
                             comment={item?.comment}
                             commentOptionSetId={item?.commentOptionSetId}
+                            commentId={commentId}
+                            onBlur={onBlur}
+                            unsavedComment={unsavedComment}
                         />
 
                         <ButtonStrip>
@@ -120,7 +160,7 @@ function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
                                 small
                                 secondary
                                 disabled={submitting}
-                                onClick={closeEditor}
+                                onClick={cancel}
                             >
                                 {i18n.t('Cancel')}
                             </Button>
@@ -134,6 +174,7 @@ function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
 
 CommentEditForm.propTypes = {
     closeEditor: PropTypes.func.isRequired,
+    commentId: PropTypes.string.isRequired,
     item: PropTypes.shape({
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
@@ -143,6 +184,7 @@ CommentEditForm.propTypes = {
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
     syncComment: PropTypes.func.isRequired,
+    unsavedComment: PropTypes.string,
 }
 
 export default function Comment({ item }) {
@@ -153,6 +195,15 @@ export default function Comment({ item }) {
         deId: item.dataElement,
         cocId: item.categoryOptionCombo,
     })
+    const contextSelectionId = useContextSelectionId()
+    const commentId = getCellId({ contextSelectionId, item })
+    const unsavedComment = useUnsavedDataStore((state) =>
+        state.getUnsavedComment(commentId)
+    )
+
+    useEffect(() => {
+        setEditing(false)
+    }, [item])
 
     // Only show loader if request is in flight,
     // otherwise spinner can show endlessly while paused offline
@@ -172,7 +223,7 @@ export default function Comment({ item }) {
         )
     }
 
-    if (editing) {
+    if (editing || unsavedComment) {
         return (
             <CommentEditForm
                 item={item}
@@ -180,6 +231,8 @@ export default function Comment({ item }) {
                 setOpen={setOpen}
                 syncComment={setDataValueComment.mutate}
                 closeEditor={() => setEditing(false)}
+                unsavedComment={unsavedComment}
+                commentId={commentId}
             />
         )
     }
