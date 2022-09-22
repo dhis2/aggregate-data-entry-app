@@ -1,5 +1,5 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { useDataValueSetQueryKey } from '../../shared/index.js'
+import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 import {
     optimisticallyDeleteDataValue,
     optimisticallySetDataValue,
