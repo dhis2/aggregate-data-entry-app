@@ -1,0 +1,7 @@
+.center {
+    margin-top: var(--spacers-dp48)
+}
+
+.noticeBoxWrapper {
+    margin: var(--spacers-dp8) var(--spacers-dp12) var(--spacers-dp8) var(--spacers-dp12);
+}

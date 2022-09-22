@@ -1,0 +1,80 @@
+/* Composable classes */
+.hw100 {
+    height: 100%;
+    width: 100%;
+}
+.cellPadding {
+    padding: 8px 16px 8px 8px;
+}
+.whiteButton {
+    background-color: #fff !important;
+}
+/* For use in non-text cells: */
+.densePadding {
+    padding: 1px 16px 1px 8px;
+}
+
+.basicInput {
+    composes: hw100 cellPadding;
+    background: none;
+    border: none;
+}
+.basicInput:focus-visible {
+    /* Hide default focus styles; handled by wrapper */
+    outline: none;
+}
+.alignToEnd {
+    text-align: right;
+}
+
+/* The resize property on this could be changed later. */
+/* See https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ */
+.longText {
+    composes: basicInput;
+    resize: none;
+}
+
+.checkboxWrapper {
+    composes: hw100 densePadding;
+    display: flex;
+    align-items: center;
+}
+
+.radioFlexWrapper {
+    composes: hw100 densePadding;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.hidden {
+    visibility: hidden;
+}
+
+.selectFlexWrapper {
+    composes: hw100 densePadding;
+    display: flex;
+    /* Align button and select */
+    align-items: baseline;
+    gap: 8px;
+}
+.selectFlexItem {
+    flex-grow: 1;
+}
+
+.fileInputWrapper {
+    composes: hw100 densePadding;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.fileInput {
+    /* Fixes extra padding at the bottom of the UI component */
+    margin-bottom: -4px;
+}
+.fileLink {
+    color: var(--colors-grey700);
+}
+.deleteFileButton {
+    composes: whiteButton;
+    margin-left: 8px;
+}

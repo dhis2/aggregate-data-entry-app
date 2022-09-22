@@ -1,0 +1,33 @@
+.wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+        'workspace'
+        'footer';
+    grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.formWrapper {
+    grid-area: workspace;
+    padding: 8px 0;
+    overflow: auto;
+}
+
+.formArea {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    min-width: 600px;
+    padding: 8px;
+    background-color: #fff;
+}
+
+.footer {
+    grid-area: footer;
+    position: relative;
+}
+
+.formMessageBox {
+    margin: var(--spacers-dp8) var(--spacers-dp12) var(--spacers-dp8) var(--spacers-dp12);
+}

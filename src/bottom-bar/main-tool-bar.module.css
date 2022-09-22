@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+}
+
+.toolbarItem {
+    display: flex;
+    margin-right: 12px;
+}
+
+.toolbarItem:last-child {
+    /*
+     * This way we avoid a break/overflow when the
+     * margin would "spill over" otherwise
+     */
+    margin-right: 0;
+}
+
+.icon {
+    display: block;
+    margin-right: 4px;
+    height: 16px;
+    width: 16px;
+}
+
+.goToInvalidValue, .completionSummary {
+    display: flex;
+    align-items: center;
+    border: 0;
+    padding: 4px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.goToInvalidValue {
+    background: var(--colors-red200);
+}
+
+.completionSummary {
+    background: var(--colors-blue050);
+}
+
+.completedByLabel:after {
+    content: ' ';
+}
+
+.mutationIndicator {
+    margin-left: auto;
+    margin-right: var(--spacers-dp4)
+}

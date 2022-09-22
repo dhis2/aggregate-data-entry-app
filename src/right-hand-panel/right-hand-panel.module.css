@@ -1,0 +1,11 @@
+.wrapper {
+    background: white;
+    height: 100%;
+    border-left: 1px solid var(--colors-grey400);
+}
+
+.portalAnchor {
+    min-height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}

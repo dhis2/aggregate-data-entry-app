@@ -1,0 +1,46 @@
+.itemContentContainer {
+    width: 400px;
+    min-height: 280px;
+    max-height: 70vh;
+    display: flex;
+    padding: var(--spacers-dp8);
+    flex-direction: column;
+}
+
+.searchInputContainer {
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--colors-grey300);
+    margin-bottom: 8px;
+    flex-grow: 0;
+}
+
+.orgUnitTreeContainer {
+    flex-grow: 1;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.labelContentContainer {
+    padding: var(--spacers-dp8);
+    margin-top: var(--spacers-dp4);
+    display: flex;
+    align-items: center;
+    color: var(--colors-grey600);
+}
+
+.label {
+    font-size: 13px;
+    line-height: 16px;
+    padding-left: var(--spacers-dp4);
+}
+
+.disabled {
+    color: var(--theme-disabled);
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+}
+
+.disabled span {
+    margin-left: var(--spacers-dp4);
+}

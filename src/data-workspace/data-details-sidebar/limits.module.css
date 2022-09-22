@@ -1,0 +1,65 @@
+.averageValue {
+    display: flex;
+    align-items: center;
+    gap: var(--spacers-dp4);
+    margin-bottom: var(--spacers-dp12);
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--colors-grey800);
+}
+
+.spaceBetween {
+    display: inline-block;
+    width: 50px;
+    margin: 0 var(--spacers-dp16);
+    border-top: 2px solid var(--colors-grey300);
+}
+
+.input {
+    display: inline-block;
+    width: 60px;
+    margin-bottom: var(--spacers-dp12);
+}
+
+.placeholder {
+    margin-bottom: var(--spacers-dp12);
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--colors-grey600);
+}
+
+.limits {
+}
+
+.limit {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--spacers-dp4);
+    text-align: center;
+}
+
+.limitLabel {
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--colors-grey700);
+}
+
+.limitValue {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: var(--colors-grey900);
+}
+
+.limitsDisplayWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.limitsDisplayWrapperMargin {
+    margin-bottom: var(--spacers-dp12);
+}
+
+.onlyDeleteButton {
+    margin-left: -8px;
+}

@@ -1,0 +1,73 @@
+.cellBase {
+    border: 1px solid var(--colors-grey400) !important;
+    padding: 8px !important;
+    height: auto !important;
+    font-size: 13px !important;
+    line-height: 15px !important; 
+}
+
+.tableHeader {
+    composes: cellBase;
+    background-color: var(--colors-grey200);
+    font-weight: 500;
+}
+
+.categoryNameHeader {
+    composes: tableHeader;
+    font-weight: 300;
+    text-align: right;
+}
+
+.dataElementName {
+    composes: cellBase;
+    min-width: 240px;
+    max-width: 350px;
+}
+
+.active {
+    background-color: var(--colors-grey300);
+}
+
+.tableCell {
+    composes: cellBase;
+    min-width: 100px;
+}
+
+.hiddenByFilterCell {
+    color: var(--colors-grey600);
+    composes: cellBase;
+}
+
+.table td {
+    height: 32px;
+    padding: 8px 16px 8px 8px;
+}
+
+.paddingCell {
+    composes: tableHeader;
+    background-color: var(--colors-grey200);
+    background-size: 8px 8px;
+    background-image: repeating-linear-gradient(
+        45deg,
+        var(--colors-grey300) 0,
+        var(--colors-grey300) 0.8px,
+        var(--colors-grey200) 0,
+        var(--colors-grey200) 50%
+    );
+}
+
+.totalCell,
+.indicatorCell {
+    composes: tableCell;
+    background: var(--colors-grey300);
+    text-align: right;
+}
+
+.totalHeader {
+    composes: totalCell;
+    font-weight: initial;
+}
+
+.hidden {
+    display: none;
+}

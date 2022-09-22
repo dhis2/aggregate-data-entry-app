@@ -1,0 +1,26 @@
+.comment, .placeholder {
+    font-size: 14px;
+    line-height: 19px;
+    margin: 0 0 var(--spacers-dp12);
+}
+
+.comment {
+    padding-left: 6px;
+    border-left: 2px solid var(--colors-grey400);
+    color: var(--colors-grey900);
+
+    /* this is a "pre" element, so we need this */
+    font-family: inherit;
+}
+
+.placeholder {
+    color: var(--colors-grey600);
+}
+
+.textArea {
+    margin-bottom: var(--spacers-dp12);
+}
+
+.commentOptionSelect {
+    margin-bottom: var(--spacers-dp8);
+}
