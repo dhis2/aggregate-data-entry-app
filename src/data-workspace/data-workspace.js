@@ -20,7 +20,7 @@ import {
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-
+import { dataValueSets as dataValueSetQueryKey } from './query-key-factory.js'
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const queryClient = useQueryClient()
     const { data: metadata } = useMetadata()
@@ -52,12 +52,16 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     useEffect(() => {
         if (validFormKey) {
             // note this will only refetch "active"/mounted queries,
-            // so it's safe to not provide a queryKey
-            queryClient.invalidateQueries(null, {
-                // if new selection is not in cache, a fetch will already be in-flight
-                // so we do not need to send another one.
-                cancelRefetch: false,
-            })
+            // so it's safe to not provide params
+            queryClient.invalidateQueries(
+                dataValueSetQueryKey.all,
+                { type: 'active' },
+                {
+                    // if new selection is not in cache, a fetch will already be in-flight
+                    // so we do not need to send another one.
+                    cancelRefetch: false,
+                }
+            )
         }
     }, [validFormKey, queryClient])
 

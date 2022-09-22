@@ -1,4 +1,5 @@
 export const dataValueSets = {
+    all: ['dataEntry/dataValues'],
     byIds: ({
         dataSetId,
         periodId,
@@ -14,7 +15,7 @@ export const dataValueSets = {
             cp: categoryOptionIds.join(';'),
         }
 
-        return ['dataEntry/dataValues', { params }]
+        return [...dataValueSets.all, { params }]
     },
 }
 
