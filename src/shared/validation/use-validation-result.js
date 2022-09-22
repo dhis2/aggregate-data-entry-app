@@ -1,5 +1,5 @@
 import { useQueries } from '@tanstack/react-query'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useApiAttributeParams } from '../use-api-attribute-params.js'
 import {
     useDataSetId,
@@ -17,7 +17,7 @@ import {
  * @params {Object} options
  * @params {Boolean} options.enabled - Defaults to `true`
  **/
-export default function useValidationResult() {
+export default function useValidationResult({ enabled = true, onError, onSuccess } = {}) {
     const [dataSetId] = useDataSetId()
     const [periodId] = usePeriodId()
     const [orgUnitId] = useOrgUnitId()
@@ -37,8 +37,8 @@ export default function useValidationResult() {
 
     const results = useQueries({
         queries: [
-            { queryKey: validationQueryKey },
-            { queryKey: validationMetaDataQueryKey },
+            { queryKey: validationQueryKey, enabled },
+            { queryKey: validationMetaDataQueryKey, enabled },
         ],
     })
 
@@ -48,18 +48,29 @@ export default function useValidationResult() {
 
     const [validationQuery, metaDataQuery] = results
 
-    return {
-        refetch,
-        error: validationQuery.error || metaDataQuery.error,
-        isLoading: validationQuery.isLoading || metaDataQuery.isLoading,
-        isRefetching:
-            validationQuery.isRefetching || metaDataQuery.isRefetching,
-        data:
-            validationQuery.data && metaDataQuery.data
-                ? buildValidationResult(
-                      validationQuery.data,
-                      metaDataQuery.data
-                  )
-                : undefined,
-    }
+    const error = validationQuery.error || metaDataQuery.error
+    const isLoading = validationQuery.isLoading || metaDataQuery.isLoading
+    const isRefetching =
+        validationQuery.isRefetching || metaDataQuery.isRefetching
+    const data =
+        validationQuery.data && metaDataQuery.data
+            ? buildValidationResult(
+                  validationQuery.data,
+                  metaDataQuery.data
+              )
+            : undefined
+
+    useEffect(() => {
+        if (error && enabled && onError) {
+            onError(error)
+        }
+    }, [error, enabled, onError])
+
+    useEffect(() => {
+        if (!error && !isLoading && !isRefetching && enabled && onSuccess) {
+            onSuccess(data)
+        }
+    }, [error, isLoading, isRefetching, data, enabled, onSuccess])
+
+    return { refetch, error, isLoading, isRefetching, data }
 }

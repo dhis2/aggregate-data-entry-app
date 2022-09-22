@@ -35,7 +35,11 @@ const createMutateFn = (engine) =>
         })
     }
 
-export function useSetFormCompletionMutation() {
+export function useSetFormCompletionMutation({
+    onMutate,
+    onError,
+    onSettled,
+} = {}) {
     const queryClient = useQueryClient()
     const engine = useDataEngine()
     const mutationFn = createMutateFn(engine)
@@ -51,6 +55,8 @@ export function useSetFormCompletionMutation() {
         // retry: 0, // @TODO: Is this correct?
         mutationKey,
         onMutate: async ({ completed: complete }) => {
+            onMutate && onMutate({ complete })
+
             // Cancel any outgoing refetches (so they don't overwrite our optimistic delete)
             await queryClient.cancelQueries(dataValueSetQueryKey)
             // Snapshot the previous value
@@ -73,6 +79,7 @@ export function useSetFormCompletionMutation() {
             return context
         },
         onError: (event, context) => {
+            onError && onError(event, context)
             const alertMessage = i18n.t(
                 'Something went wrong while setting the form\'s completion to "{{completed}}": {{errorMessage}}',
                 {
@@ -89,6 +96,7 @@ export function useSetFormCompletionMutation() {
                 context.previousDataValueSet
             )
         },
+        onSettled,
     })
 }
 
