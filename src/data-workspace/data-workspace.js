@@ -46,9 +46,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     // used to reset form-state when context-selection is changed
     const formKey = useContextSelectionId()
 
+    // to keep one stable dependency for effect below
+    const validFormKey = isValidSelection ? formKey : false
     // force refetch when context-selection changes
     useEffect(() => {
-        if (isValidSelection) {
+        if (validFormKey) {
             // note this will only refetch "active"/mounted queries,
             // so it's safe to not provide a queryKey
             queryClient.invalidateQueries(null, {
@@ -57,8 +59,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                 cancelRefetch: false,
             })
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [formKey])
+    }, [validFormKey, queryClient])
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
