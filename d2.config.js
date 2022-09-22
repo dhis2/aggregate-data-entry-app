@@ -6,7 +6,6 @@ const config = {
     minDHIS2Version: '2.39',
     coreApp: true,
     pwa: {
-        // Need this for offline testing. Can disable in other branches if desired
         enabled: true,
         caching: {
             patternsToOmitFromAppShell: [
