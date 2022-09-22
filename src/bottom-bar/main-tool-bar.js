@@ -3,6 +3,7 @@ import { Button, IconErrorFilled16, IconInfo16, colors } from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import React from 'react'
+import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { validationResultsSidebarId } from '../data-workspace/constants.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
 import {
@@ -95,6 +96,9 @@ export default function MainToolBar() {
                     </span>
                 </span>
             )}
+            <div className={styles.mutationIndicator}>
+                <MutationIndicator />
+            </div>
         </div>
     )
 }

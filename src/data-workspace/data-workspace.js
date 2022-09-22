@@ -1,9 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
 import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
-import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import { BottomBar } from '../bottom-bar/index.js'
 import {
     useMetadata,
@@ -20,12 +20,12 @@ import {
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-
+import { dataValueSets as dataValueSetQueryKey } from './query-key-factory.js'
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
+    const queryClient = useQueryClient()
     const { data: metadata } = useMetadata()
     useCheckLockStatus()
     const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
-
     const updateStore = useValueStore((state) => state.setDataValueSet)
     const initialDataValuesFetch = useDataValueSet({
         onSuccess: (data) => {
@@ -45,6 +45,25 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
     const formKey = useContextSelectionId()
+
+    // to keep one stable dependency for effect below
+    const validFormKey = isValidSelection ? formKey : false
+    // force refetch when context-selection changes
+    useEffect(() => {
+        if (validFormKey) {
+            // note this will only refetch "active"/mounted queries,
+            // so it's safe to not provide params
+            queryClient.invalidateQueries(
+                dataValueSetQueryKey.all,
+                { type: 'active' },
+                {
+                    // if new selection is not in cache, a fetch will already be in-flight
+                    // so we do not need to send another one.
+                    cancelRefetch: false,
+                }
+            )
+        }
+    }, [validFormKey, queryClient])
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
@@ -107,13 +126,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                 </main>
 
                 <footer className={footerClasses}>
-                    <div
-                        // This div and its content will be removed
-                        // once we can display this in the headerbar
-                        className={styles.mutationIndicator}
-                    >
-                        <MutationIndicator />
-                    </div>
                     <BottomBar />
                 </footer>
             </div>

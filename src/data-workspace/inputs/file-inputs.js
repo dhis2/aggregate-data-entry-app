@@ -108,7 +108,12 @@ export const FileResourceInput = ({
             {file ? (
                 <>
                     <IconAttachment16 color={colors.grey700} />
-                    <a href={fileLink} className={styles.fileLink}>
+                    <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={fileLink}
+                        className={styles.fileLink}
+                    >
                         {file.name}
                     </a>
                     {` (${formatFileSize(file.size)})`}

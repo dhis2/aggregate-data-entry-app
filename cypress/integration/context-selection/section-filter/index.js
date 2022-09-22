@@ -79,7 +79,7 @@ When('the user selects a section', () => {
 })
 
 Then('no "all sections" option should be available', () => {
-    cy.contains('Show all sections').should('not.exist')
+    cy.contains('All sections').should('not.exist')
 })
 
 Then('that section should be selected', () => {
@@ -92,7 +92,7 @@ Then('that section should be selected', () => {
 
 Then('the "all sections" option should be selected', () => {
     cy.get('[data-test="section-filter-selector"]')
-        .contains('Show all sections')
+        .contains('All sections')
         .should('exist')
 })
 
@@ -100,7 +100,7 @@ Then('the first section should be selected by default', () => {
     // open
     cy.get('[data-test="section-filter-selector"]').click()
     // there should be no "show all" option
-    cy.contains('Show all sections').should('not.exist')
+    cy.contains('All sections').should('not.exist')
     // get the first option's text
     cy.get('[data-test="menu-select"] li:nth-child(1)')
         .invoke('text')
