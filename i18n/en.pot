@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-07T10:30:31.473Z\n"
-"PO-Revision-Date: 2022-09-07T10:30:31.473Z\n"
+"POT-Creation-Date: 2022-09-22T08:32:08.043Z\n"
+"PO-Revision-Date: 2022-09-22T08:32:08.043Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -18,8 +18,14 @@ msgstr ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 
-msgid "There are {{ pendingMutations }} pending mutations"
-msgstr "There are {{ pendingMutations }} pending mutations"
+msgid "There was a problem loading metadata"
+msgstr "There was a problem loading metadata"
+
+msgid "There is {{pendingMutations}} pending change."
+msgstr "There is {{pendingMutations}} pending change."
+
+msgid "There are {{pendingMutations}} pending changes."
+msgstr "There are {{pendingMutations}} pending changes."
 
 msgid "Synced"
 msgstr "Synced"
@@ -39,8 +45,11 @@ msgstr "Mark incomplete"
 msgid "Mark complete"
 msgstr "Mark complete"
 
-msgid "3 invalid values not saved"
-msgstr "3 invalid values not saved"
+msgid "1 invalid value not saved"
+msgstr "1 invalid value not saved"
+
+msgid "{{numberOfErrors}} invalid values not saved"
+msgstr "{{numberOfErrors}} invalid values not saved"
 
 msgid "Completed by"
 msgstr "Completed by"
@@ -161,6 +170,15 @@ msgstr "No organisation units could be found"
 msgid "Dataset is not assigned to this organisation unit"
 msgstr "Dataset is not assigned to this organisation unit"
 
+msgid "No children match filter"
+msgstr "No children match filter"
+
+msgid "Could not load children"
+msgstr "Could not load children"
+
+msgid "Error: {{ ERRORMESSAGE }}"
+msgstr "Error: {{ ERRORMESSAGE }}"
+
 msgid "Fetching organisation unit info"
 msgstr "Fetching organisation unit info"
 
@@ -218,6 +236,9 @@ msgstr "Code: {{code}}"
 msgid "ID: {{id}}"
 msgstr "ID: {{id}}"
 
+msgid "Description: {{description}}"
+msgstr "Description: {{description}}"
+
 msgid "Last updated {{- timeAgo}} by {{- name}}"
 msgstr "Last updated {{- timeAgo}} by {{- name}}"
 
@@ -272,20 +293,14 @@ msgstr "Delete limits"
 msgid "Edit limits"
 msgstr "Edit limits"
 
-msgid "Minimum"
-msgstr "Minimum"
+msgid "Min"
+msgstr "Min"
 
-msgid "Maximum"
-msgstr "Maximum"
+msgid "Max"
+msgstr "Max"
 
-msgid "A miminum is required when providing a maximum"
-msgstr "A miminum is required when providing a maximum"
-
-msgid "A maximum is required when providing a minimum"
-msgstr "A maximum is required when providing a minimum"
-
-msgid "Minimum and maximum limits"
-msgstr "Minimum and maximum limits"
+msgid "Min and max limits"
+msgstr "Min and max limits"
 
 msgid "Try again, or contact your system administrator."
 msgstr "Try again, or contact your system administrator."
@@ -309,6 +324,9 @@ msgstr ""
 msgid "The current selection does not have a form"
 msgstr "The current selection does not have a form"
 
+msgid "There was a problem loading data values"
+msgstr "There was a problem loading data values"
+
 msgid "This data set has no assigned Data Elements"
 msgstr "This data set has no assigned Data Elements"
 
@@ -318,6 +336,18 @@ msgid ""
 msgstr ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
+
+msgid "Data cannot be added or changed outside of the data input period."
+msgstr "Data cannot be added or changed outside of the data input period."
+
+msgid "Data cannot be added or changed because data entry has concluded."
+msgstr "Data cannot be added or changed because data entry has concluded."
+
+msgid "Data cannot be added or changed because data has been approved."
+msgstr "Data cannot be added or changed because data has been approved."
+
+msgid "Data set locked"
+msgstr "Data set locked"
 
 msgid "Filter fields in all sections"
 msgstr "Filter fields in all sections"
@@ -407,9 +437,6 @@ msgstr "Validation"
 
 msgid "Run validation again"
 msgstr "Run validation again"
-
-msgid "Export output"
-msgstr "Export output"
 
 msgid "Alert summary"
 msgstr "Alert summary"

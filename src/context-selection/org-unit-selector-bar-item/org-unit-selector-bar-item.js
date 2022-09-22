@@ -1,12 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import {
-    OrganisationUnitTree,
-    OrganisationUnitTreeRootError,
-    OrganisationUnitTreeRootLoading,
-    SelectorBarItem,
-    IconBlock16,
-    Divider,
-} from '@dhis2/ui'
+import { SelectorBarItem, IconBlock16, Divider } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import {
@@ -18,10 +11,15 @@ import {
 import DebouncedSearchInput from './debounced-search-input.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import css from './org-unit-selector-bar-item.module.css'
+import {
+    OrganisationUnitTree,
+    OrganisationUnitTreeRootError,
+    OrganisationUnitTreeRootLoading,
+} from './organisation-unit-tree/index.js'
 import useExpandedState from './use-expanded-state.js'
-import useLoadOfflineLevels from './use-load-offline-levels.js'
 import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
 import useOrgUnit from './use-organisation-unit.js'
+import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
 
@@ -39,7 +37,7 @@ UnclickableLabel.propTypes = {
 }
 
 export default function OrganisationUnitSetSelectorBarItem() {
-    useLoadOfflineLevels()
+    const prefetchedOrganisationUnits = usePrefetchedOrganisationUnits()
 
     const [filter, setFilter] = useState('')
     const orgUnitPathsByName = useOrgUnitPathsByName(filter)
@@ -61,6 +59,8 @@ export default function OrganisationUnitSetSelectorBarItem() {
     const disabled = !dataSetId
     const filteredOrgUnitPaths = filter ? orgUnitPathsByName.data : []
     const orgUnitPathsByNameLoading =
+        // offline levels need to be prefetched before rendering the org-unit-tree
+        prefetchedOrganisationUnits.loading ||
         // Either a filter has been set but the hook
         // hasn't been called yet
         (filter !== '' && !orgUnitPathsByName.called) ||
@@ -92,10 +92,14 @@ export default function OrganisationUnitSetSelectorBarItem() {
                             )}
 
                             {!orgUnitPathsByNameLoading &&
-                                orgUnitPathsByName.error && (
+                                (orgUnitPathsByName.error ||
+                                    prefetchedOrganisationUnits.error) && (
                                     <OrganisationUnitTreeRootError
                                         dataTest="org-unit-selector-error"
-                                        error={orgUnitPathsByName.error}
+                                        error={
+                                            orgUnitPathsByName.error ||
+                                            prefetchedOrganisationUnits.error
+                                        }
                                     />
                                 )}
 
@@ -142,6 +146,12 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                                 />
                                             )
                                         }}
+                                        offlineLevels={
+                                            prefetchedOrganisationUnits.offlineLevels
+                                        }
+                                        prefetchedOrganisationUnits={
+                                            prefetchedOrganisationUnits.offlineOrganisationUnits
+                                        }
                                     />
                                 )}
                         </div>
