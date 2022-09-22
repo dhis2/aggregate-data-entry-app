@@ -17,6 +17,8 @@ function UpdateLimits({
     categoryOptionComboId,
     dataElementId,
     onCancel,
+    canAdd,
+    canDelete,
 }) {
     const form = useForm()
     const { submitting, submitFailed, errors } = form.getState()
@@ -47,6 +49,7 @@ function UpdateLimits({
                         {...minField.input}
                         label={limitInputLabelsByName.min}
                         error={submitFailed && !!minField.meta.error}
+                        disabled={!canAdd}
                     />
 
                     <div className={styles.spaceBetween}></div>
@@ -55,6 +58,7 @@ function UpdateLimits({
                         {...maxField.input}
                         label={limitInputLabelsByName.max}
                         error={submitFailed && !!maxField.meta.error}
+                        disabled={!canAdd}
                     />
                 </div>
             </div>
@@ -62,9 +66,13 @@ function UpdateLimits({
             {submitFailed && <LimitsValidationErrorMessage errors={errors} />}
 
             <ButtonStrip>
-                <Button small primary type="submit" loading={submitting}>
-                    {submitting ? i18n.t('Saving...') : i18n.t('Save limits')}
-                </Button>
+                {canAdd && (
+                    <Button small primary type="submit" loading={submitting}>
+                        {submitting
+                            ? i18n.t('Saving...')
+                            : i18n.t('Save limits')}
+                    </Button>
+                )}
 
                 <Button
                     small
@@ -75,13 +83,15 @@ function UpdateLimits({
                     {i18n.t('Cancel')}
                 </Button>
 
-                <LimitsDeleteButton
-                    dataElementId={dataElementId}
-                    categoryOptionComboId={categoryOptionComboId}
-                    disabled={
-                        limits.min === undefined && limits.max === undefined
-                    }
-                />
+                {canDelete && (
+                    <LimitsDeleteButton
+                        dataElementId={dataElementId}
+                        categoryOptionComboId={categoryOptionComboId}
+                        disabled={
+                            limits.min === undefined && limits.max === undefined
+                        }
+                    />
+                )}
             </ButtonStrip>
         </form>
     )
@@ -95,6 +105,8 @@ UpdateLimits.propTypes = {
         min: PropTypes.number,
     }).isRequired,
     onCancel: PropTypes.func.isRequired,
+    canAdd: PropTypes.bool,
+    canDelete: PropTypes.bool,
 }
 
 // In order to be able to use `useForm` and `useField`,
@@ -107,6 +119,8 @@ export default function UpdateLimitsWrapper({
     valueType,
     onDone,
     onCancel,
+    canAdd,
+    canDelete,
 }) {
     return (
         <LimitsFormWrapper
@@ -120,6 +134,8 @@ export default function UpdateLimitsWrapper({
                 categoryOptionComboId={categoryOptionComboId}
                 dataElementId={dataElementId}
                 onCancel={onCancel}
+                canAdd={canAdd}
+                canDelete={canDelete}
             />
         </LimitsFormWrapper>
     )
@@ -135,4 +151,6 @@ UpdateLimitsWrapper.propTypes = {
     valueType: PropTypes.string.isRequired,
     onCancel: PropTypes.func.isRequired,
     onDone: PropTypes.func.isRequired,
+    canAdd: PropTypes.bool,
+    canDelete: PropTypes.bool,
 }
