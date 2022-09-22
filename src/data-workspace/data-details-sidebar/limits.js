@@ -1,7 +1,11 @@
 import i18n from '@dhis2/d2-i18n'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { ExpandableUnit, useUserInfoStore } from '../../shared/index.js'
+import {
+    ExpandableUnit,
+    useUserInfo,
+    userInfoSelectors,
+} from '../../shared/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import LimitsDisplay from './limits-display.js'
 import NoLimits from './no-limits.js'
@@ -19,9 +23,10 @@ export default function Limits({ dataValue }) {
 
     const limits = useMinMaxLimits(dataElement, categoryOptionCombo)
 
-    const canDelete = useUserInfoStore((state) => state.getCanDeleteMinMax())
+    const { data: userInfo } = useUserInfo()
 
-    const canAdd = useUserInfoStore((state) => state.getCanAddMinMax())
+    const canDelete = userInfoSelectors.getCanDeleteMinMax(userInfo)
+    const canAdd = userInfoSelectors.getCanAddMinMax(userInfo)
 
     if (!editing && !limits.min && !limits.max) {
         const onAddLimitsClick = () => setEditing(true)

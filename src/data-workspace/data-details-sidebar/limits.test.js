@@ -1,5 +1,5 @@
 import React from 'react'
-import { useUserInfoStore } from '../../shared/stores/index.js'
+import { useUserInfo } from '../../shared/use-user-info/use-user-info.js'
 import { render } from '../../test-utils/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import Limits from './limits.js'
@@ -8,26 +8,19 @@ jest.mock('../use-min-max-limits.js', () => ({
     useMinMaxLimits: jest.fn(),
 }))
 
-jest.mock('../../shared/stores/index.js', () => ({
-    useUserInfoStore: jest.fn(),
+jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
+    useUserInfo: jest.fn(),
 }))
 
 describe('<Limits />', () => {
     describe('when has limits to render', () => {
         beforeAll(() => {
             useMinMaxLimits.mockReturnValue({ min: 3, max: 4 })
-            useUserInfoStore.mockImplementation((func) => {
-                const state = {
-                    getCanDeleteMinMax: () => {
-                        return true
-                    },
-                    getCanAddMinMax: () => {
-                        return true
-                    },
-                }
-
-                return func(state)
-            })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
         })
 
         it('is expanded by default', () => {
@@ -78,18 +71,11 @@ describe('<Limits />', () => {
     describe('when user does not have authority to add min/max', () => {
         beforeAll(() => {
             useMinMaxLimits.mockReturnValue({ min: 3, max: 4 })
-            useUserInfoStore.mockImplementation((func) => {
-                const state = {
-                    getCanDeleteMinMax: () => {
-                        return false
-                    },
-                    getCanAddMinMax: () => {
-                        return false
-                    },
-                }
-
-                return func(state)
-            })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: [],
+                },
+            }))
         })
 
         it('does not show edit button', () => {
@@ -113,18 +99,11 @@ describe('<Limits />', () => {
     describe('when has no limits to render', () => {
         beforeAll(() => {
             useMinMaxLimits.mockReturnValue({})
-            useUserInfoStore.mockImplementation((func) => {
-                const state = {
-                    getCanDeleteMinMax: () => {
-                        return true
-                    },
-                    getCanAddMinMax: () => {
-                        return true
-                    },
-                }
-
-                return func(state)
-            })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
         })
 
         it(`is disabled if value of itemType prop is not 'numerical'`, () => {
