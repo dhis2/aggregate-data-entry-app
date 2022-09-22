@@ -3,10 +3,10 @@ import {
     startYear,
     yearlyPeriodTypes,
     addFullPeriodTimeToDate,
-    getCurrentDate,
     getFixedPeriodsForTypeAndDateRange,
     getYearlyPeriodIdForTypeAndYear,
     parsePeriodId,
+    useNowAtServerTimezone,
 } from '../../shared/index.js'
 
 export default function usePeriods({
@@ -15,13 +15,16 @@ export default function usePeriods({
     year,
     dateLimit,
 }) {
+    const nowAtServerTimezone = useNowAtServerTimezone()
+    const dateString = nowAtServerTimezone.toISOString().split('T')[0]
+
     return useMemo(() => {
         if (!periodType) {
             return []
         }
 
         let periods
-        const currentDate = getCurrentDate()
+        const currentDate = new Date(dateString)
 
         if (yearlyPeriodTypes.includes(periodType)) {
             const futureYearLimit = new Date(currentDate)
@@ -60,5 +63,5 @@ export default function usePeriods({
         }
 
         return periods.reverse()
-    }, [periodType, openFuturePeriods, year, dateLimit])
+    }, [periodType, dateString, openFuturePeriods, year, dateLimit])
 }
