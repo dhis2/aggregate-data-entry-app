@@ -8,7 +8,7 @@ import {
     useDataValueParams,
     useDeleteDataValueMutation,
     useUploadFileDataValueMutation,
-} from '../data-value-mutations/index.js'
+} from '../../shared/index.js'
 import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
