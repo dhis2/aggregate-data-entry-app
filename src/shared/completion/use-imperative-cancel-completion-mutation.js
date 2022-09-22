@@ -24,15 +24,15 @@ export default function useImperativeCancelCompletionMutation() {
         //   callback in the `useSetFormCompletionMutation` does not?
         const { completed } = foundMutation.options.variables
 
-        const previousDataValueSet =
-            queryClient.getQueryData(dataValueSetQueryKey)
-
-        queryClient.setQueryData(dataValueSetQueryKey, () => ({
-            ...previousDataValueSet,
-            completeStatus: {
-                ...previousDataValueSet.completeStatus,
-                complete: !completed,
-            },
-        }))
+        queryClient.setQueryData(
+            dataValueSetQueryKey,
+            (previousDataValueSet) => ({
+                ...previousDataValueSet,
+                completeStatus: {
+                    ...previousDataValueSet.completeStatus,
+                    complete: !completed,
+                },
+            })
+        )
     }
 }

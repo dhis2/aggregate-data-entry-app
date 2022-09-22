@@ -137,12 +137,10 @@ export default function useOnCompleteCallback() {
         useOnCompleteWithoutValidationClick()
 
     return () => {
-        if (isLoading) {
-            cancelCompletionMutation()
-        }
-
         let promise
+
         if (isLoading && offline) {
+            cancelCompletionMutation()
             // No need to complete when the completion request
             // hasn't been sent yet due to being offline.
             // It's important to still perform the request online as we don't

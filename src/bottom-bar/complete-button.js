@@ -6,10 +6,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {
     useConnectionStatus,
-    useDataValueSet,
+    useImperativeCancelCompletionMutation,
     useSetFormCompletionMutation,
     useSetFormCompletionMutationKey,
-    useImperativeCancelCompletionMutation,
+    useValueStore,
 } from '../shared/index.js'
 import useOnCompleteCallback from './use-on-complete-callback.js'
 
@@ -25,7 +25,8 @@ export default function CompleteButton({ disabled }) {
         critical: true,
     })
 
-    const dataValueSet = useDataValueSet()
+    const isComplete = useValueStore((state) => state.isComplete())
+
     // `mutate` doesn't return a promise, `mutateAsync` does
     const { mutateAsync: setFormCompletion } = useSetFormCompletionMutation()
     const cancelCompletionMutation = useImperativeCancelCompletionMutation()
@@ -49,13 +50,6 @@ export default function CompleteButton({ disabled }) {
         )
     }
 
-    // We don't want to hide the button while the mutation is refetching,
-    // so as long as there's data (and stale data), we'll show the button
-    if (!dataValueSet.data) {
-        return null
-    }
-
-    const isComplete = dataValueSet.data.completeStatus?.complete
     const onClick = isComplete ? onIncompleteClick : onCompleteClick
     const label = isComplete
         ? i18n.t('Mark incomplete')

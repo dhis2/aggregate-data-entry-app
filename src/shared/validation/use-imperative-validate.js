@@ -1,10 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useApiAttributeParams } from '../use-api-attribute-params.js'
-import {
-    useDataSetId,
-    useOrgUnitId,
-    usePeriodId,
-} from '../use-context-selection/index.js'
+import { useContextSelection } from '../use-context-selection/index.js'
 import buildValidationResult from './build-validation-result.js'
 import {
     getValidationMetaDataQueryKey,
@@ -18,11 +14,10 @@ import {
  **/
 export default function useImperativeValidate() {
     const client = useQueryClient()
-    const [dataSetId] = useDataSetId()
-    const [periodId] = usePeriodId()
-    const [orgUnitId] = useOrgUnitId()
+    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const {
         attributeCombo: categoryComboId,
+        // Note these are sorted:
         attributeOptions: categoryOptionIds,
     } = useApiAttributeParams()
 
