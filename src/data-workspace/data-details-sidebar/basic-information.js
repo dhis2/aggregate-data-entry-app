@@ -8,8 +8,21 @@ import ItemPropType from './item-prop-type.js'
 
 const BasicInformation = ({ item }) => (
     <div className={styles.unit}>
-        <h1 className={styles.title}>{item.name}</h1>
+        <h1 className={styles.title}>
+            {item.displayFormName}
+            {item.categoryOptionComboName &&
+                ` | ${item.categoryOptionComboName}`}
+        </h1>
+
         <ul className={styles.elements}>
+            {item.description && (
+                <li>
+                    {i18n.t('Description: {{- description}}', {
+                        description: item.description,
+                        nsSeparator: '-:-',
+                    })}
+                </li>
+            )}
             {item.code && (
                 <li>
                     {i18n.t('Code: {{code}}', {
@@ -19,19 +32,17 @@ const BasicInformation = ({ item }) => (
                 </li>
             )}
             <li>
-                {i18n.t('ID: {{id}}', {
+                {i18n.t('Data element ID: {{id}}', {
                     id: item.dataElement,
                     nsSeparator: '-:-',
                 })}
             </li>
-            {item.description && (
-                <li>
-                    {i18n.t('Description: {{description}}', {
-                        description: item.description,
-                        nsSeparator: '-:-',
-                    })}
-                </li>
-            )}
+            <li>
+                {i18n.t('Category option combo ID: {{id}}', {
+                    id: item.categoryOptionCombo,
+                    nsSeparator: '-:-',
+                })}
+            </li>
             <li>
                 {item.lastUpdated && (
                     <Tooltip content={item.lastUpdated.toString()}>
