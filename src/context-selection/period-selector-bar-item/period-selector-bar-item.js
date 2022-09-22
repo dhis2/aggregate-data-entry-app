@@ -66,6 +66,22 @@ export const PeriodSelectorBarItem = () => {
         }
     }, [dataSetPeriodType, selectedPeriod?.year, dateLimit])
 
+    useEffect(() => {
+        if (selectedPeriod) {
+            const endDate = new Date(selectedPeriod?.endDate)
+            if (endDate >= dateLimit) {
+                setPeriodId(undefined)
+            }
+            if (selectedPeriod?.periodType?.type !== dataSet?.periodType) {
+                setPeriodId(undefined)
+            }
+        } else {
+            if (periodId) {
+                setPeriodId(undefined)
+            }
+        }
+    }, [selectedPeriod, dateLimit, dataSet, periodId, setPeriodId])
+
     const selectorBarItemValue = useSelectorBarItemValue()
 
     return (

@@ -34,10 +34,11 @@ function useHandleDataSetIdChange() {
     )
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
-    const [dataSetId] = useDataSetId()
+    const [dataSetId, setDataSetId] = useDataSetId()
     const [prevDataSetId, setPrevDataSetId] = useState(dataSetId)
     const [orgUnitId, setOrgUnitId] = useOrgUnitId()
     const { data: metadata } = useMetadata()
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const {
         organisationUnits: assignedOrgUnits,
         periodType: dataSetPeriodType,
@@ -45,7 +46,14 @@ function useHandleDataSetIdChange() {
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
 
     useEffect(() => {
-        if (dataSetId !== prevDataSetId) {
+        if (!dataSet) {
+            setHighlightedFieldId(null)
+            setDataSetId(undefined)
+            setPeriodId(undefined)
+            setOrgUnitId(undefined)
+            setAttributeOptionComboSelection(undefined)
+        }
+        if (dataSetId !== prevDataSetId || !dataSet) {
             // clear out highlightedFieldId if dataset has changed
             setHighlightedFieldId(null)
 
@@ -82,6 +90,8 @@ function useHandleDataSetIdChange() {
         setOrgUnitId,
         orgUnitId,
         setHighlightedFieldId,
+        dataSet,
+        setDataSetId,
     ])
 }
 
@@ -93,7 +103,6 @@ function useHandleOrgUnitIdChange() {
     const [prevOrgUnitId, setPrevOrgUnitId] = useState(orgUnitId)
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
-
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
@@ -204,7 +213,8 @@ function useHandlePeriodIdChange() {
 }
 
 function useHandleAttributeOptionComboSelectionChange() {
-    const [attributeOptionComboSelection] = useAttributeOptionComboSelection()
+    const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
+        useAttributeOptionComboSelection()
     const [
         prevAttributeOptionComboSelection,
         setPrevAttributeOptionComboSelection,
@@ -221,6 +231,7 @@ function useHandleAttributeOptionComboSelectionChange() {
         attributeOptionComboSelection,
         prevAttributeOptionComboSelection,
         setPrevAttributeOptionComboSelection,
+        setAttributeOptionComboSelection,
     ])
 }
 

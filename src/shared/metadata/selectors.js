@@ -463,6 +463,9 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                 categoryOptions
             )
             const period = parsePeriodId(periodId)
+            if (!period) {
+                return []
+            }
             const periodStartDate = new Date(period.startDate)
 
             // periodEndDate is up to following start date

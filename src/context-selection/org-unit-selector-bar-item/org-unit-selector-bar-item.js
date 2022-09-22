@@ -8,7 +8,7 @@ import {
     Divider,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     selectors,
     useMetadata,
@@ -51,7 +51,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
     const { organisationUnits: assignedOrgUnits } =
         selectors.getDataSetById(metadata, dataSetId) || {}
 
-    const [, setOrgUnitId] = useOrgUnitId()
+    const [orgUnitId, setOrgUnitId] = useOrgUnitId()
 
     const orgUnit = useOrgUnit()
     const userOrgUnits = useUserOrgUnits()
@@ -66,6 +66,19 @@ export default function OrganisationUnitSetSelectorBarItem() {
         (filter !== '' && !orgUnitPathsByName.called) ||
         // or it's actually loading
         orgUnitPathsByName.loading
+
+    useEffect(() => {
+        // set as undefined if orgUnit is undefined
+        if (!orgUnit && orgUnitId) {
+            setOrgUnitId(undefined)
+        }
+        if (orgUnitId && assignedOrgUnits) {
+            if (!assignedOrgUnits.includes(orgUnitId)) {
+                setOrgUnitId(undefined)
+            }
+        }
+        // set as undefined if orgUnit is not assigned to dataset
+    }, [assignedOrgUnits, orgUnitId, orgUnit, setOrgUnitId])
 
     return (
         <div data-test="org-unit-selector">
