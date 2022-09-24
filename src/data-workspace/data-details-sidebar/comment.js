@@ -1,6 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
 import {
-    CircularLoader,
     Button,
     ButtonStrip,
     SingleSelect,
@@ -25,7 +24,7 @@ import LoadingError from './loading-error.js'
 
 const title = i18n.t('Comment')
 const errorMessage = i18n.t(
-    'There was a problem loading the comment for this data item'
+    'There was a problem updating the comment for this data item'
 )
 
 const CommentOptionSelector = ({ commentOptionSetId, inputOnChange }) => {
@@ -62,13 +61,13 @@ CommentOptionSelector.propTypes = {
 }
 
 const CommentEditField = ({
+    fieldName,
     comment,
     commentOptionSetId,
     onBlur,
     unsavedComment,
-    commentId,
 }) => {
-    const { input, meta } = useField(`comment_${commentId}`, {
+    const { input, meta } = useField(fieldName, {
         subscription: { value: true },
         initialValue: unsavedComment || comment || '',
     })
@@ -93,8 +92,8 @@ const CommentEditField = ({
 
 CommentEditField.propTypes = {
     comment: PropTypes.string,
-    commentId: PropTypes.string,
     commentOptionSetId: PropTypes.string,
+    fieldName: PropTypes.string,
     unsavedComment: PropTypes.string,
     onBlur: PropTypes.func,
 }
@@ -107,6 +106,7 @@ function CommentEditForm({
     closeEditor,
     unsavedComment,
     commentId,
+    isError,
 }) {
     const contextSelectionId = useContextSelectionId()
     const cellId = getCellId({ contextSelectionId, item })
@@ -114,12 +114,22 @@ function CommentEditForm({
         (state) => state.setUnsavedComment
     )
 
-    const onSubmit = (values) => {
-        // Don't send `undefined` (or 'undefined' will be stored as the comment)
-        const comment = values[`comment_${commentId}`] || ''
-        syncComment({ comment })
-        setUnsavedComment(cellId, null)
-        closeEditor()
+    const deleteUnsavedComment = useUnsavedDataStore(
+        (state) => state.deleteUnsavedComment
+    )
+
+    const fieldName = `comment_${commentId}`
+
+    const onSubmit = async (values) => {
+        try {
+            // Don't send `undefined` (or 'undefined' will be stored as the comment)
+            const comment = values[fieldName] || ''
+            await syncComment({ comment })
+            deleteUnsavedComment(cellId)
+            closeEditor()
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     const onBlur = ({ value }) => {
@@ -128,7 +138,7 @@ function CommentEditForm({
 
     const cancel = () => {
         closeEditor()
-        setUnsavedComment(cellId, null)
+        deleteUnsavedComment(cellId)
     }
 
     return (
@@ -137,9 +147,9 @@ function CommentEditForm({
                 {({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
                         <CommentEditField
+                            fieldName={fieldName}
                             comment={item?.comment}
                             commentOptionSetId={item?.commentOptionSetId}
-                            commentId={commentId}
                             onBlur={onBlur}
                             unsavedComment={unsavedComment}
                         />
@@ -168,6 +178,11 @@ function CommentEditForm({
                     </form>
                 )}
             </Form>
+            {isError && (
+                <div className={styles.errorWrapper}>
+                    <LoadingError title={errorMessage} />
+                </div>
+            )}
         </ExpandableUnit>
     )
 }
@@ -184,6 +199,7 @@ CommentEditForm.propTypes = {
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
     syncComment: PropTypes.func.isRequired,
+    isError: PropTypes.bool,
     unsavedComment: PropTypes.string,
 }
 
@@ -205,34 +221,17 @@ export default function Comment({ item }) {
         setEditing(false)
     }, [item])
 
-    // Only show loader if request is in flight,
-    // otherwise spinner can show endlessly while paused offline
-    if (setDataValueComment.isLoading && !setDataValueComment.isPaused) {
-        return (
-            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
-                <CircularLoader small />
-            </ExpandableUnit>
-        )
-    }
-
-    if (setDataValueComment.isError) {
-        return (
-            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
-                <LoadingError title={errorMessage} />
-            </ExpandableUnit>
-        )
-    }
-
     if (editing || unsavedComment) {
         return (
             <CommentEditForm
                 item={item}
                 open={open}
                 setOpen={setOpen}
-                syncComment={setDataValueComment.mutate}
+                syncComment={setDataValueComment.mutateAsync}
                 closeEditor={() => setEditing(false)}
                 unsavedComment={unsavedComment}
                 commentId={commentId}
+                isError={setDataValueComment.isError}
             />
         )
     }
