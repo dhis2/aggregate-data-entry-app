@@ -50,7 +50,10 @@ export function InnerWrapper({
     fieldname,
     deId,
     cocId,
+<<<<<<< HEAD
     syncStatus,
+=======
+>>>>>>> refactor: move lastSyncedValue to mutatior
 }) {
     const hasComment = useValueStore((state) =>
         state.hasComment({
@@ -61,9 +64,17 @@ export function InnerWrapper({
     const { item } = useHighlightedFieldIdContext()
     const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
-        meta: { invalid, active },
-    } = useField(fieldname, { subscription: { invalid: true, active: true } })
-
+        input: { value },
+        meta: { invalid, active, data },
+    } = useField(fieldname, {
+        subscription: {
+            value: true,
+            invalid: true,
+            active: true,
+            data: true,
+        },
+    })
+    const synced = data.lastSyncedValue === value
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
@@ -74,7 +85,7 @@ export function InnerWrapper({
     // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
         ? styles.invalid
-        : activeMutations === 0 && syncStatus.synced
+        : activeMutations === 0 && synced
         ? styles.synced
         : null
 
@@ -90,7 +101,7 @@ export function InnerWrapper({
             {children}
             <SyncStatusIndicator
                 isLoading={activeMutations > 0}
-                isSynced={syncStatus.synced}
+                isSynced={synced}
             />
             <CommentIndicator hasComment={hasComment} />
         </div>
@@ -103,8 +114,11 @@ InnerWrapper.propTypes = {
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     locked: PropTypes.bool,
+<<<<<<< HEAD
     syncStatus: PropTypes.shape({
         synced: PropTypes.bool,
         syncing: PropTypes.bool,
     }),
+=======
+>>>>>>> refactor: move lastSyncedValue to mutatior
 }

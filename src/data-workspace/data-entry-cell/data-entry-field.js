@@ -20,6 +20,7 @@ export const DataEntryField = React.memo(function DataEntryField({
     const [syncStatus, setSyncStatus] = useState({
         syncing: false,
         synced: false,
+        lastSyncedValue: undefined,
     })
     const { locked } = useLockedContext()
 
@@ -38,6 +39,7 @@ export const DataEntryField = React.memo(function DataEntryField({
                     dataElement={de}
                     categoryOptionCombo={coc}
                     setSyncStatus={setSyncStatus}
+                    syncStatus={syncStatus}
                     disabled={disabled}
                     locked={locked}
                 />

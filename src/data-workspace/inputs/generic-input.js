@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
-import { useField } from 'react-final-form'
+import React from 'react'
+import { useField, useForm } from 'react-final-form'
 import {
     NUMBER_TYPES,
     VALUE_TYPES,
@@ -25,7 +25,6 @@ export const GenericInput = ({
     fieldname,
     deId,
     cocId,
-    setSyncStatus,
     valueType,
     onKeyDown,
     onFocus,
@@ -46,16 +45,17 @@ export const GenericInput = ({
             return value.trim()
         }
     }
+    const form = useForm()
     const { input, meta } = useField(fieldname, {
         validate: validateByValueTypeWithLimits(valueType, limits),
-        subscription: { value: true, dirty: true, valid: true },
+        subscription: { value: true, dirty: true, valid: true, data: true },
         format: formatValue,
         formatOnBlur: true,
         // This is require to ensure form is validated on first page load
         // this is because the validate prop doesn't rerender when limits change
         data: limits,
     })
-    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
+
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -64,8 +64,9 @@ export const GenericInput = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    setLastSyncedValue(value)
-                    setSyncStatus({ syncing: false, synced: true })
+                    form.mutators.setFieldData(fieldname, {
+                        lastSyncedValue: value,
+                    })
                 },
             }
         )
@@ -75,7 +76,7 @@ export const GenericInput = ({
         const { value } = input
         const formattedValue = formatValue(value)
         const { valid } = meta
-        if (valid && formattedValue !== lastSyncedValue) {
+        if (valid && formattedValue !== meta.data.lastSyncedValue) {
             syncData(formattedValue)
         }
     }

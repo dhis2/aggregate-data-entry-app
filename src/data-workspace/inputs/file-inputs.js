@@ -68,12 +68,11 @@ export const FileResourceInput = ({
         input.onChange({ name: newFile.name, size: newFile.size })
         input.onBlur()
         if (newFile instanceof File) {
-            setSyncStatus({ syncing: true, synced: false })
             uploadFile(
                 { file: newFile },
                 {
                     onSuccess: () => {
-                        setSyncStatus({ syncing: false, synced: true })
+                        setSyncStatus({ synced: true })
                     },
                 }
             )
@@ -83,10 +82,9 @@ export const FileResourceInput = ({
     const handleDelete = () => {
         input.onChange('')
         input.onBlur()
-        setSyncStatus({ syncing: true, synced: false })
         deleteFile(null, {
             onSuccess: () => {
-                setSyncStatus({ syncing: false, synced: true })
+                setSyncStatus({ synced: true })
             },
         })
     }

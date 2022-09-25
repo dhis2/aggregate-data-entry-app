@@ -60,6 +60,7 @@ export function EntryFieldInput({
     dataElement: de,
     categoryOptionCombo: coc,
     setSyncStatus,
+    syncStatus,
     disabled,
     locked,
 }) {
@@ -102,6 +103,7 @@ export function EntryFieldInput({
             disabled,
             locked,
             setSyncStatus,
+            syncStatus,
             onFocus,
             onKeyDown,
         }),
@@ -112,6 +114,7 @@ export function EntryFieldInput({
             disabled,
             locked,
             setSyncStatus,
+            syncStatus,
             onFocus,
             onKeyDown,
         ]
@@ -136,4 +139,5 @@ EntryFieldInput.propTypes = {
     fieldname: PropTypes.string,
     locked: PropTypes.bool,
     setSyncStatus: PropTypes.func,
+    syncStatus: PropTypes.object,
 }

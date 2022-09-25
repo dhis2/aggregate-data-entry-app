@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
-import React, { useState } from 'react'
+import React from 'react'
 import { useField } from 'react-final-form'
 import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
@@ -20,6 +20,7 @@ export const BooleanRadios = ({
     disabled,
     locked,
     setSyncStatus,
+    syncStatus,
     onKeyDown,
     onFocus,
 }) => {
@@ -59,7 +60,6 @@ export const BooleanRadios = ({
         input: { value: fieldvalue },
         meta,
     } = useField(fieldname)
-    const [lastSyncedValue, setLastSyncedValue] = useState(fieldvalue)
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
@@ -69,8 +69,7 @@ export const BooleanRadios = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    setLastSyncedValue(value)
-                    setSyncStatus({ syncing: false, synced: true })
+                    setSyncStatus({ synced: true, lastSyncedValue: value })
                 },
             }
         )
@@ -82,7 +81,7 @@ export const BooleanRadios = ({
     const handleChange = (value) => {
         const { valid } = meta
         // If this value has changed, sync it to server if valid
-        if (valid && value !== lastSyncedValue) {
+        if (valid && value !== syncStatus.lastSyncedValue) {
             syncData(value)
         }
     }
