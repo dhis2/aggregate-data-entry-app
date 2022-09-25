@@ -2,8 +2,8 @@ import { IconMore16, colors } from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect } from 'react'
+import { useField, useForm } from 'react-final-form'
 import {
     mutationKeys as dataValueMutationKeys,
     useDataValueParams,
@@ -61,16 +61,28 @@ export function InnerWrapper({
     const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
         input: { value },
-        meta: { invalid, active, data },
+        meta: { invalid, active, data, dirty },
     } = useField(fieldname, {
         subscription: {
             value: true,
             invalid: true,
             active: true,
             data: true,
+            dirty: true,
         },
     })
-    const synced = data.lastSyncedValue === value
+    const form = useForm()
+
+    // initalize lastSyncedValue
+    useEffect(
+        () =>
+            form.mutators.setFieldData(fieldname, {
+                lastSyncedValue: value,
+            }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    )
+    const synced = dirty && data.lastSyncedValue === value
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({

@@ -65,7 +65,8 @@ export const FileResourceInput = ({
 
     const handleChange = ({ files }) => {
         const newFile = files[0]
-        input.onChange({ name: newFile.name, size: newFile.size })
+        const newFileValue = { name: newFile.name, size: newFile.size }
+        input.onChange(newFileValue)
         input.onBlur()
         if (newFile instanceof File) {
             uploadFile(
@@ -73,7 +74,7 @@ export const FileResourceInput = ({
                 {
                     onSuccess: () => {
                         form.mutators.setFieldData(fieldname, {
-                            lastSyncedValue: newFile,
+                            lastSyncedValue: newFileValue,
                         })
                     },
                 }
