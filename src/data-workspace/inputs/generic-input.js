@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useField, useForm } from 'react-final-form'
+import { useField } from 'react-final-form'
 import {
     NUMBER_TYPES,
     VALUE_TYPES,
@@ -23,6 +23,7 @@ const htmlTypeAttrsByValueType = {
 
 export const GenericInput = ({
     fieldname,
+    form,
     deId,
     cocId,
     valueType,
@@ -45,7 +46,6 @@ export const GenericInput = ({
             return value.trim()
         }
     }
-    const form = useForm()
     const { input, meta } = useField(fieldname, {
         validate: validateByValueTypeWithLimits(valueType, limits),
         subscription: { value: true, dirty: true, valid: true, data: true },

@@ -19,12 +19,12 @@ const formatFileSize = (size) => {
 
 export const FileResourceInput = ({
     fieldname,
+    form,
     image,
     deId,
     cocId,
     disabled,
     locked,
-    setSyncStatus,
     onKeyDown,
     onFocus,
 }) => {
@@ -72,7 +72,9 @@ export const FileResourceInput = ({
                 { file: newFile },
                 {
                     onSuccess: () => {
-                        setSyncStatus({ synced: true })
+                        form.mutators.setFieldData(fieldname, {
+                            lastSyncedValue: newFile,
+                        })
                     },
                 }
             )
@@ -84,7 +86,7 @@ export const FileResourceInput = ({
         input.onBlur()
         deleteFile(null, {
             onSuccess: () => {
-                setSyncStatus({ synced: true })
+                form.mutators.setFieldData(fieldname, null)
             },
         })
     }

@@ -50,10 +50,6 @@ export function InnerWrapper({
     fieldname,
     deId,
     cocId,
-<<<<<<< HEAD
-    syncStatus,
-=======
->>>>>>> refactor: move lastSyncedValue to mutatior
 }) {
     const hasComment = useValueStore((state) =>
         state.hasComment({
@@ -114,11 +110,4 @@ InnerWrapper.propTypes = {
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     locked: PropTypes.bool,
-<<<<<<< HEAD
-    syncStatus: PropTypes.shape({
-        synced: PropTypes.bool,
-        syncing: PropTypes.bool,
-    }),
-=======
->>>>>>> refactor: move lastSyncedValue to mutatior
 }

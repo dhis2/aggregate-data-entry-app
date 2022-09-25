@@ -11,6 +11,7 @@ export const convertCallbackSignatures = (props) => ({
 })
 
 export const InputPropTypes = {
+    form: PropTypes.object,
     onKeyDown: PropTypes.func.isRequired,
     cocId: PropTypes.string,
     deId: PropTypes.string,
