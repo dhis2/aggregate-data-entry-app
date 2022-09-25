@@ -32,7 +32,9 @@ export const TrueOnlyCheckbox = ({
             {
                 onSuccess: () => {
                     form.mutators.setFieldData(fieldname, {
-                        lastSyncedValue: value,
+                        // value will be formatted to boolean, so keep same format
+                        // '' becomes false
+                        lastSyncedValue: !!value,
                     })
                 },
             }
@@ -43,7 +45,9 @@ export const TrueOnlyCheckbox = ({
     const handleBlur = () => {
         // For 'True only', can only send 'true' (or '1') or ''
         const value = input.checked ? 'true' : ''
-        if (valid && value !== data.lastSyncedValue) {
+        const lastVal = data.lastSyncedValue ? 'true' : ''
+
+        if (valid && value !== lastVal) {
             syncData(value)
         }
     }
