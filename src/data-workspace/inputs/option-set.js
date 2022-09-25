@@ -38,7 +38,9 @@ export const OptionSet = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    form.mutators.setFieldData({ lastSyncedValue: value })
+                    form.mutators.setFieldData(fieldname, {
+                        lastSyncedValue: value,
+                    })
                 },
             }
         )
