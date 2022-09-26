@@ -3,8 +3,8 @@ import { useQueryClient, useMutation } from '@tanstack/react-query'
 import {
     useContextSelection,
     useApiAttributeParams,
+    dataValueSetQueryKey as dataValueSetQueryKeys,
 } from '../../shared/index.js'
-import { dataValueSets } from '../query-key-factory.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
 function deleteLimit(previousDataValueSet, deletedLimit, targetIndex) {
@@ -38,7 +38,7 @@ export default function useDeleteLimits(onDone) {
         attributeOptions: categoryOptionIds,
     } = useApiAttributeParams()
 
-    const dataValueSetQueryKey = dataValueSets.byIds({
+    const dataValueSetQueryKey = dataValueSetQueryKeys.byIds({
         dataSetId,
         periodId,
         orgUnitId,
