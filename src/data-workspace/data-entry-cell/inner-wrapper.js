@@ -63,6 +63,9 @@ export function InnerWrapper({
         input: { value },
         meta: { invalid, active, data, dirty },
     } = useField(fieldname, {
+        // by default undefined is formatted to ''
+        // this preserves the format used in the input-component
+        format: (v) => v,
         subscription: {
             value: true,
             invalid: true,
@@ -75,13 +78,15 @@ export function InnerWrapper({
 
     // initalize lastSyncedValue
     useEffect(
-        () =>
+        () => {
             form.mutators.setFieldData(fieldname, {
                 lastSyncedValue: value,
-            }),
+            })
+        },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         []
     )
+
     const synced = dirty && data.lastSyncedValue === value
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
