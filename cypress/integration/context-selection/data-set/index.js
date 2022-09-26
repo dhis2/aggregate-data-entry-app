@@ -53,7 +53,7 @@ Given('only one selectable data set exists', () => {
             dataSets: metadata.dataSets.slice(0, 1),
         }
 
-        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+        cy.intercept('GET', /api[/][40|39][/]dataEntry[/]metadata/, {
             body: response,
         }).as('selectableDataSetsRequest')
 
