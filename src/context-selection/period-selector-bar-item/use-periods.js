@@ -9,6 +9,14 @@ import {
     useNowAtServerTimezone,
 } from '../../shared/index.js'
 
+const getLocalDateString = (date) => {
+    const yyyy = date.getFullYear()
+    const mm = String(date.getMonth() + 1).padStart(2, '0')
+    const dd = String(date.getDate()).padStart(2, '0')
+
+    return `${yyyy}-${mm}-${dd}`
+}
+
 export default function usePeriods({
     periodType,
     openFuturePeriods,
@@ -16,7 +24,7 @@ export default function usePeriods({
     dateLimit,
 }) {
     const nowAtServerTimezone = useNowAtServerTimezone()
-    const dateString = nowAtServerTimezone.toISOString().split('T')[0]
+    const dateString = getLocalDateString(nowAtServerTimezone)
 
     return useMemo(() => {
         if (!periodType) {
