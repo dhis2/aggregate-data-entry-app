@@ -6,12 +6,15 @@ export const getPreFetchedChildren = (offlineUnits, parent) => {
         throw new Error('No parent to fetch children from')
     }
 
+    const fullParentPath = `${parent.path}/`
+
     return offlineUnits
-        .filter((unit) => {
-            const fullParentPath = `${parent.path}/`
-            const isDescendant = unit.path.startsWith(fullParentPath)
+        .filter(({ id, path }) => {
+            const unitPathFromUserRoot = path.substring(path.indexOf(parent.id))
+            const fullUnitPath = `/${unitPathFromUserRoot}`
+            const isDescendant = fullUnitPath.startsWith(fullParentPath)
             const isDirectDescendant =
-                unit.path.replace(fullParentPath, '') === unit.id
+                fullUnitPath.replace(fullParentPath, '') === id
             return isDescendant && isDirectDescendant
         })
         .sort((a, b) => a.displayName > b.displayName)
