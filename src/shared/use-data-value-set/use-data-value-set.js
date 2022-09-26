@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
@@ -75,9 +75,11 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
 
+    const isMutating = useIsMutating(queryKey[0]) > 0
+
     const result = useQuery(queryKey, {
         // TODO: Disable if disconnected from DHIS2 server?
-        enabled: isValidSelection,
+        enabled: !isMutating && isValidSelection,
         staleTime: Infinity,
         select: select,
         // Fetch once, no matter the network connectivity;
