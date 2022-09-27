@@ -68,17 +68,13 @@ export default function OrganisationUnitSetSelectorBarItem() {
         orgUnitPathsByName.loading
 
     useEffect(() => {
-        // set as undefined if orgUnit is undefined
-        if (!orgUnit && orgUnitId) {
-            setOrgUnitId(undefined)
-        }
+        // set as undefined if orgUnit is not assigned to dataset
         if (orgUnitId && assignedOrgUnits) {
             if (!assignedOrgUnits.includes(orgUnitId)) {
                 setOrgUnitId(undefined)
             }
         }
-        // set as undefined if orgUnit is not assigned to dataset
-    }, [assignedOrgUnits, orgUnitId, orgUnit, setOrgUnitId])
+    }, [orgUnitId, assignedOrgUnits, setOrgUnitId])
 
     return (
         <div data-test="org-unit-selector">

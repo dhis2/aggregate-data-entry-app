@@ -7,13 +7,9 @@ import styles from './section.module.css'
 
 export const SectionForm = ({ dataSet, globalFilterText }) => {
     const [sectionId] = useSectionFilter()
-    const sectionsMatchingFilter = dataSet.sections.filter(
-        (s) => s.id === sectionId
-    )
-    const filteredSections =
-        sectionId && sectionsMatchingFilter?.length > 0
-            ? sectionsMatchingFilter
-            : dataSet.sections
+    const filteredSections = sectionId
+        ? dataSet.sections.filter((s) => s.id === sectionId)
+        : dataSet.sections
 
     if (dataSet.renderAsTabs) {
         return (
@@ -60,12 +56,10 @@ SectionForm.propTypes = {
 
 const TabbedSectionForm = ({ dataSetId, sections, globalFilterText }) => {
     const [sectionId, setSelectedId] = useSectionFilter()
-    const sectionsMatchingFilter = sections.filter((s) => s.id === sectionId)
 
-    const section =
-        sectionId && sectionsMatchingFilter?.length > 0
-            ? sections.find((s) => s.id === sectionId)
-            : sections[0]
+    const section = sectionId
+        ? sections.find((s) => s.id === sectionId)
+        : sections[0]
 
     return (
         <div>

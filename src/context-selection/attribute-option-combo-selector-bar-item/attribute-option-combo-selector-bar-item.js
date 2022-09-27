@@ -8,6 +8,7 @@ import {
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
+    useAttributeOptionComboSelection,
 } from '../../shared/index.js'
 import CategoriesMenu from './categories-menu.js'
 import useSelected from './use-selected.js'
@@ -52,6 +53,8 @@ export default function AttributeOptionComboSelectorBarItem({
         metadata,
         dataSetId
     )
+    const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
+        useAttributeOptionComboSelection()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
@@ -62,6 +65,36 @@ export default function AttributeOptionComboSelectorBarItem({
 
     const [open, setOpen] = useState(false)
     const { select, selected } = useSelected()
+
+    useEffect(() => {
+        const relevantCategories = relevantCategoriesWithOptions.map(
+            ({ id }) => id
+        )
+
+        for (const categoryId of Object.keys(attributeOptionComboSelection)) {
+            const relevantCategoryOptions = relevantCategoriesWithOptions
+                .filter(({ id }) => id === categoryId)[0]
+                ?.categoryOptions.map(({ id }) => id)
+            if (!relevantCategories.includes(categoryId)) {
+                setAttributeOptionComboSelection(undefined)
+                return
+            }
+            if (
+                !relevantCategoryOptions.includes(
+                    attributeOptionComboSelection[categoryId]
+                )
+            ) {
+                setAttributeOptionComboSelection(undefined)
+                return
+            }
+        }
+    }, [
+        attributeOptionComboSelection,
+        relevantCategoriesWithOptions,
+        metadata,
+        setAttributeOptionComboSelection,
+    ])
+
     const label = useSelectorBarItemLabel(categoryCombo)
     const valueLabel = useSelectorBarItemValue(categoryCombo)
     const onChange = ({ selected, categoryId }) =>

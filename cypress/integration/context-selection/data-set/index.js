@@ -50,13 +50,7 @@ Given('only one selectable data set exists', () => {
     cy.fixture('context-selection/metadata-complete').then((metadata) => {
         const response = {
             ...metadata,
-            dataSets: [
-                {
-                    displayName: 'Lonely dataset',
-                    id: 'allByMyself',
-                    categoryCombo: { id: 'bjDvmb4bfuf' },
-                },
-            ],
+            dataSets: metadata.dataSets.slice(0, 1),
         }
 
         cy.intercept('GET', /api[/][0-9]+[/]dataEntry[/]metadata/, {
@@ -65,6 +59,10 @@ Given('only one selectable data set exists', () => {
 
         cy.visitAndLoad('/')
     })
+})
+
+Given('a link references an invalid data set', () => {
+    cy.visit(`/#/?dataSetId=FAKEDATASET`)
 })
 
 When('selects a data set', () => {

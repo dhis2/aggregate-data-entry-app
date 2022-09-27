@@ -104,6 +104,12 @@ When('the user selects a section', () => {
     cy.get('[data-test="menu-select"] li:nth-child(2)').click()
 })
 
+Given('a link references an invalid section', () => {
+    cy.visit(
+        '#/?dataSetId=V8MHeZHIrcP&orgUnitId=O6uvpzGd5pu&periodId=2020&sectionFilter=InvalidSection'
+    )
+})
+
 Then('no "all sections" option should be available', () => {
     cy.contains('All sections').should('not.exist')
 })

@@ -46,14 +46,14 @@ function useHandleDataSetIdChange() {
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
 
     useEffect(() => {
-        if (!dataSet) {
+        if (dataSetId && !dataSet) {
             setHighlightedFieldId(null)
             setDataSetId(undefined)
             setPeriodId(undefined)
             setOrgUnitId(undefined)
             setAttributeOptionComboSelection(undefined)
         }
-        if (dataSetId !== prevDataSetId || !dataSet) {
+        if (dataSetId !== prevDataSetId) {
             // clear out highlightedFieldId if dataset has changed
             setHighlightedFieldId(null)
 
@@ -103,6 +103,7 @@ function useHandleOrgUnitIdChange() {
     const [prevOrgUnitId, setPrevOrgUnitId] = useState(orgUnitId)
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
+
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
@@ -213,8 +214,7 @@ function useHandlePeriodIdChange() {
 }
 
 function useHandleAttributeOptionComboSelectionChange() {
-    const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
-        useAttributeOptionComboSelection()
+    const [attributeOptionComboSelection] = useAttributeOptionComboSelection()
     const [
         prevAttributeOptionComboSelection,
         setPrevAttributeOptionComboSelection,
@@ -231,7 +231,6 @@ function useHandleAttributeOptionComboSelectionChange() {
         attributeOptionComboSelection,
         prevAttributeOptionComboSelection,
         setPrevAttributeOptionComboSelection,
-        setAttributeOptionComboSelection,
     ])
 }
 

@@ -77,10 +77,8 @@ export const PeriodSelectorBarItem = () => {
             if (selectedPeriod?.periodType?.type !== dataSet?.periodType) {
                 setPeriodId(undefined)
             }
-        } else {
-            if (periodId) {
-                setPeriodId(undefined)
-            }
+        } else if (periodId) {
+            setPeriodId(undefined)
         }
     }, [selectedPeriod, dateLimit, dataSet, periodId, setPeriodId])
 
