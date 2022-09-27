@@ -62,7 +62,7 @@
 }
 
 .synced {
-    background: var(--colors-green050);
+    background: var(--colors-green100);
 }
 .synced:hover {
     background: #d8eeda;
@@ -83,8 +83,8 @@
 .topRightTriangle {
     width: 0;
     height: 0;
-    border-top: 3px solid var(--colors-green300);
-    border-right: 3px solid var(--colors-green300);
+    border-top: 3px solid var(--colors-green400);
+    border-right: 3px solid var(--colors-green400);
     border-bottom: 3px solid transparent;
     border-left: 3px solid transparent;
 }

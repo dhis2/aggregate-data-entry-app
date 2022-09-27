@@ -3,7 +3,7 @@ import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 

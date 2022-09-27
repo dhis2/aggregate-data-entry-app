@@ -5,9 +5,9 @@
     "env": {
         "dhis2DataTestPrefix": "dhis2-dataentry",
         "networkMode": "live",
-        "dhis2ApiVersion": "39"
+        "dhis2ApiVersion": "40"
     },
     "experimentalInteractiveRunEvents": true,
     "testFiles": ["**/*.feature.js", "**/*.feature"],
-    "defaultCommandTimeout": 20000
+    "defaultCommandTimeout": 30000
 }
