@@ -1,19 +1,22 @@
 import { useMemo } from 'react'
 import {
-    getCurrentDate,
     getFixedPeriodsForTypeAndDateRange,
     addFullPeriodTimeToDate,
     removeFullPeriodTimeToDate,
     selectors,
     useDataSetId,
     useMetadata,
+    useNowAtServerTimezone,
+    getCurrentDate,
 } from '../../shared/index.js'
 
-export const computeDateLimit = ({ dataSetId, metadata }) => {
-    const now = getCurrentDate()
-
+export const computeDateLimit = ({
+    dataSetId,
+    metadata,
+    nowAtServerTimezone = getCurrentDate(),
+}) => {
     if (!dataSetId) {
-        return now
+        return nowAtServerTimezone
     }
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
@@ -21,14 +24,14 @@ export const computeDateLimit = ({ dataSetId, metadata }) => {
     const openFuturePeriods = dataSet?.openFuturePeriods || 0
 
     if (openFuturePeriods <= 0) {
-        return now
+        return nowAtServerTimezone
     }
 
     // will only get the current period
     const [currentPeriod] = getFixedPeriodsForTypeAndDateRange({
         periodType,
-        startDate: removeFullPeriodTimeToDate(now, periodType),
-        endDate: now,
+        startDate: removeFullPeriodTimeToDate(nowAtServerTimezone, periodType),
+        endDate: nowAtServerTimezone,
     })
 
     let startDateLimit = new Date(currentPeriod.startDate)
@@ -42,13 +45,15 @@ export const computeDateLimit = ({ dataSetId, metadata }) => {
 export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
+    const nowAtServerTimezone = useNowAtServerTimezone()
 
     return useMemo(
         () =>
             computeDateLimit({
                 dataSetId,
                 metadata,
+                nowAtServerTimezone,
             }),
-        [dataSetId, metadata]
+        [dataSetId, metadata, nowAtServerTimezone]
     )
 }
