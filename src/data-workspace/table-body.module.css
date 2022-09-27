@@ -67,3 +67,7 @@
     composes: totalCell;
     font-weight: initial;
 }
+
+.hidden {
+    display: none;
+}

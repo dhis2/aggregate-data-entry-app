@@ -15,8 +15,8 @@ import {
     selectors,
     useLockedContext,
     useMetadata,
+    useSetDataValueMutation,
 } from '../../shared/index.js'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
