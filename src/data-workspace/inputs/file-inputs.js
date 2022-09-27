@@ -87,7 +87,9 @@ export const FileResourceInput = ({
         input.onBlur()
         deleteFile(null, {
             onSuccess: () => {
-                form.mutators.setFieldData(fieldname, null)
+                form.mutators.setFieldData(fieldname, {
+                    lastSyncedValue: null,
+                })
             },
         })
     }
