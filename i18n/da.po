@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-09-07T10:30:31.473Z\n"
+"POT-Creation-Date: 2022-09-22T16:07:53.237Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: phil_dhis2, 2022\n"
 "Language-Team: Danish (https://www.transifex.com/hisp-uio/teams/100509/da/)\n"
@@ -23,10 +23,25 @@ msgid ""
 "administrator to request access."
 msgstr ""
 
-msgid "There are {{ pendingMutations }} pending mutations"
+msgid "There was a problem loading metadata"
+msgstr ""
+
+msgid "There is {{pendingMutations}} pending change."
+msgstr ""
+
+msgid "There are {{pendingMutations}} pending changes."
 msgstr ""
 
 msgid "Synced"
+msgstr ""
+
+msgid "Couldn't incomplete the form, please try again later"
+msgstr ""
+
+msgid "Mark incomplete"
+msgstr ""
+
+msgid "Mark complete"
 msgstr ""
 
 msgid "Hide details"
@@ -38,16 +53,81 @@ msgstr ""
 msgid "Run validation"
 msgstr ""
 
-msgid "Mark incomplete"
+msgid "1 invalid value not saved"
 msgstr ""
 
-msgid "Mark complete"
+msgid "{{numberOfErrors}} invalid values not saved"
 msgstr ""
 
-msgid "3 invalid values not saved"
+msgid "Last completed by"
 msgstr ""
 
-msgid "Completed by"
+msgid "Last incompleted by"
+msgstr ""
+
+msgid "Couldn't validate the form, please try again later"
+msgstr ""
+
+msgid "Couldn't validate the form. This does not effect form completion!"
+msgstr ""
+
+msgid "The form can't be completed while invalid"
+msgstr ""
+
+msgid "1 comment required"
+msgstr ""
+
+msgid "{{commentsCount}} comments required"
+msgstr ""
+
+msgid "{{displayShortName}} must have a comment when it doesn't have a value."
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Low"
+msgstr ""
+
+msgid "{{length}} {{level}} priority alert"
+msgstr ""
+
+msgid "{{length}} {{level}} priority alerts"
+msgstr ""
+
+msgid "Validation"
+msgstr ""
+
+msgid "Run validation again"
+msgstr ""
+
+msgid "Alert summary"
+msgstr ""
+
+msgid "No validation alerts for this data."
+msgstr ""
+
+msgid "Running validation..."
+msgstr ""
+
+msgid "There was a problem running validation"
+msgstr ""
+
+msgid ""
+"Validation could not be run for this data. Try again or contact your system "
+"administrator."
+msgstr ""
+
+msgid ""
+"{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
+msgstr ""
+
+msgid ""
+"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
+"value"
 msgstr ""
 
 msgid ""
@@ -162,6 +242,15 @@ msgstr ""
 msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
+msgid "No children match filter"
+msgstr ""
+
+msgid "Could not load children"
+msgstr ""
+
+msgid "Error: {{ ERRORMESSAGE }}"
+msgstr ""
+
 msgid "Fetching organisation unit info"
 msgstr ""
 
@@ -174,7 +263,7 @@ msgstr ""
 msgid "Choose a period"
 msgstr ""
 
-msgid "Show all sections"
+msgid "All sections"
 msgstr ""
 
 msgid "Section"
@@ -213,10 +302,16 @@ msgstr ""
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
 
+msgid "Description: {{- description}}"
+msgstr ""
+
 msgid "Code: {{code}}"
 msgstr ""
 
-msgid "ID: {{id}}"
+msgid "Data element ID: {{id}}"
+msgstr ""
+
+msgid "Category option combo ID: {{id}}"
 msgstr ""
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
@@ -273,19 +368,13 @@ msgstr ""
 msgid "Edit limits"
 msgstr ""
 
-msgid "Minimum"
-msgstr ""
+msgid "Min"
+msgstr "Min"
 
-msgid "Maximum"
-msgstr ""
+msgid "Max"
+msgstr "Max"
 
-msgid "A miminum is required when providing a maximum"
-msgstr ""
-
-msgid "A maximum is required when providing a minimum"
-msgstr ""
-
-msgid "Minimum and maximum limits"
+msgid "Min and max limits"
 msgstr ""
 
 msgid "Try again, or contact your system administrator."
@@ -300,12 +389,10 @@ msgstr ""
 msgid "Save limits"
 msgstr ""
 
-msgid ""
-"Here we could override the message for E2017 error with a custom message in "
-"the FE"
+msgid "The current selection does not have a form"
 msgstr ""
 
-msgid "The current selection does not have a form"
+msgid "There was a problem loading data values"
 msgstr ""
 
 msgid "This data set has no assigned Data Elements"
@@ -314,6 +401,18 @@ msgstr ""
 msgid ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
+msgstr ""
+
+msgid "Data cannot be added or changed outside of the data input period."
+msgstr ""
+
+msgid "Data cannot be added or changed because data entry has concluded."
+msgstr ""
+
+msgid "Data cannot be added or changed because data has been approved."
+msgstr ""
+
+msgid "Data set locked"
 msgstr ""
 
 msgid "Filter fields in all sections"
@@ -372,63 +471,14 @@ msgstr ""
 msgid "1 item hidden by filter"
 msgstr ""
 
-msgid "1 comment required"
-msgstr ""
-
-msgid "{{commentsCount}} comments required"
-msgstr ""
-
-msgid "{{displayShortName}} must have a comment when it doesn't have a value."
-msgstr ""
-
-msgid "High"
-msgstr ""
-
-msgid "Medium"
-msgstr ""
-
-msgid "Low"
-msgstr ""
-
-msgid "{{length}} {{level}} priority alert"
-msgstr ""
-
-msgid "{{length}} {{level}} priority alerts"
-msgstr ""
-
-msgid "Validation"
-msgstr ""
-
-msgid "Run validation again"
-msgstr ""
-
-msgid "Export output"
-msgstr ""
-
-msgid "Alert summary"
-msgstr ""
-
-msgid "No validation alerts for this data."
-msgstr ""
-
-msgid "Running validation..."
-msgstr ""
-
-msgid "There was a problem running validation"
+msgid ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
 msgstr ""
 
 msgid ""
-"Validation could not be run for this data. Try again or contact your system "
-"administrator."
-msgstr ""
-
-msgid ""
-"{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
-msgstr ""
-
-msgid ""
-"{{leftDescription}} cannot have a value when {{rightDescription}} has a "
-"value"
+"Here we could override the message for E2017 error with a custom message in "
+"the FE"
 msgstr ""
 
 msgid "January"
