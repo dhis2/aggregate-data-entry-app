@@ -34,7 +34,7 @@ Given(
     'a data set, org unit and period have been selected and the data set has a tabbed sectioned form',
     () => {
         cy.visit(
-            '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021'
+            '/#/?dataSetId=Rl58JxmKJo2&orgUnitId=ImspTQPwCqd&periodId=202112'
         )
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
@@ -44,7 +44,7 @@ Given(
     'a data set, org unit and period have been selected and the data set has some sections',
     () => {
         cy.visit(
-            '/#/?dataSetId=Rl58JxmKJo2&orgUnitId=ImspTQPwCqd&periodId=2020'
+            '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=O6uvpzGd5pu&periodId=2020'
         )
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
