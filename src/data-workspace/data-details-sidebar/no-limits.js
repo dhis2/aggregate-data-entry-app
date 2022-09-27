@@ -32,17 +32,18 @@ AddButton.propTypes = {
     onAddLimitsClick: PropTypes.func.isRequired,
 }
 
-export default function NoLimits({ onAddLimitsClick }) {
+export default function NoLimits({ onAddLimitsClick, canAdd }) {
     return (
         <div className={sharedStyles.limit}>
             <p className={noLimitsStyles.label}>
                 {i18n.t('No limits set for this data item.')}
             </p>
-            <AddButton onAddLimitsClick={onAddLimitsClick} />
+            {canAdd && <AddButton onAddLimitsClick={onAddLimitsClick} />}
         </div>
     )
 }
 
 NoLimits.propTypes = {
     onAddLimitsClick: PropTypes.func.isRequired,
+    canAdd: PropTypes.bool,
 }

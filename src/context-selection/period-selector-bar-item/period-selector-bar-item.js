@@ -3,12 +3,12 @@ import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
 import {
     yearlyPeriodTypes,
-    getCurrentDate,
     selectors,
     useMetadata,
     usePeriod,
     useDataSetId,
     usePeriodId,
+    useNowAtServerTimezone,
 } from '../../shared/index.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
@@ -25,6 +25,8 @@ const getMaxYear = (dateLimit) => {
 }
 
 export const PeriodSelectorBarItem = () => {
+    const nowAtServerTimezone = useNowAtServerTimezone()
+    const fullYear = nowAtServerTimezone.getFullYear()
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()
     const selectedPeriod = usePeriod(periodId)
@@ -35,7 +37,7 @@ export const PeriodSelectorBarItem = () => {
     const openFuturePeriods = dataSet?.openFuturePeriods || 0
 
     const [year, setYear] = useState(
-        selectedPeriod?.year || getCurrentDate().getFullYear()
+        selectedPeriod?.year || nowAtServerTimezone.getFullYear()
     )
 
     const dateLimit = useDateLimit()
@@ -61,10 +63,10 @@ export const PeriodSelectorBarItem = () => {
             setMaxYear(newMaxYear)
 
             if (!selectedPeriod?.year) {
-                setYear(getCurrentDate().getFullYear())
+                setYear(fullYear)
             }
         }
-    }, [dataSetPeriodType, selectedPeriod?.year, dateLimit])
+    }, [dataSetPeriodType, selectedPeriod?.year, dateLimit, fullYear])
 
     useEffect(() => {
         if (selectedPeriod) {

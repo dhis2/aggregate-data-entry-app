@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
@@ -49,10 +49,11 @@ function mapDataValuesToFormInitialValues(dataValues) {
 const select = createSelector(
     (data) => data,
     (data) => {
+        const completeStatus = data.completeStatus
         const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
         const minMaxValues = data.minMaxValues || {}
         const lockStatus = data.lockStatus || ''
-        return { dataValues, minMaxValues, lockStatus }
+        return { completeStatus, dataValues, minMaxValues, lockStatus }
     }
 )
 
@@ -73,23 +74,17 @@ const select = createSelector(
 export const useDataValueSet = ({ onSuccess } = {}) => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
-    const queryClient = useQueryClient()
 
     const result = useQuery(queryKey, {
         // TODO: Disable if disconnected from DHIS2 server?
-        enabled: !queryClient.isMutating() && isValidSelection,
+        enabled: isValidSelection,
+        staleTime: Infinity,
         select: select,
         // Fetch once, no matter the network connectivity;
         // will be 'paused' if offline and the request fails.
         // Important to try the network when on offline/local DHIS2 implmnt'ns
         networkMode: 'offlineFirst',
-        refetchOnMount: (query) => {
-            // only refetch on mount if the query was just hydrated
-            // this should only happen during initial app-load.
-            // If we were to return 'false' the query would not be refetch on first mount
-            // because it's mounted with hydrated-state
-            return !!query.meta.isHydrated
-        },
+        refetchOnMount: false,
         refetchOnReconnect: false,
         meta: { persist: true },
         onSuccess,

@@ -33,10 +33,36 @@ Given(
 Given(
     'a data set, org unit and period have been selected and the data set has a tabbed sectioned form',
     () => {
-        cy.visit(
-            '/#/?dataSetId=Rl58JxmKJo2&orgUnitId=ImspTQPwCqd&periodId=202112'
-        )
-        cy.get('[data-test="data-set-selector"]').should('exist')
+        const selectedId = 'V8MHeZHIrcP'
+        cy.fixture('context-selection/metadata-complete').then((metadata) => {
+            const metadataWithPatchedTabbedTrue = {
+                ...metadata,
+                dataSets: metadata.dataSets.map((ds) => {
+                    if (ds.id !== selectedId) {
+                        return ds
+                    }
+
+                    return {
+                        ...ds,
+                        renderAsTabs: true,
+                    }
+                }),
+            }
+
+            cy.intercept('GET', /api[/][0-9]+[/]dataEntry[/]metadata/, {
+                body: metadataWithPatchedTabbedTrue,
+            }).as('selectableDataSetsRequest')
+
+            const selectedDataSet = metadataWithPatchedTabbedTrue.dataSets.find(
+                ({ id }) => id === selectedId
+            )
+            cy.wrap(selectedDataSet).as('selectedDataSet')
+
+            cy.visitAndLoad(
+                '/#/?dataSetId=V8MHeZHIrcP&orgUnitId=ImspTQPwCqd&periodId=2021'
+            )
+            cy.get('[data-test="data-set-selector"]').should('exist')
+        })
     }
 )
 
@@ -79,7 +105,7 @@ When('the user selects a section', () => {
 })
 
 Then('no "all sections" option should be available', () => {
-    cy.contains('Show all sections').should('not.exist')
+    cy.contains('All sections').should('not.exist')
 })
 
 Then('that section should be selected', () => {
@@ -92,7 +118,7 @@ Then('that section should be selected', () => {
 
 Then('the "all sections" option should be selected', () => {
     cy.get('[data-test="section-filter-selector"]')
-        .contains('Show all sections')
+        .contains('All sections')
         .should('exist')
 })
 
@@ -100,7 +126,7 @@ Then('the first section should be selected by default', () => {
     // open
     cy.get('[data-test="section-filter-selector"]').click()
     // there should be no "show all" option
-    cy.contains('Show all sections').should('not.exist')
+    cy.contains('All sections').should('not.exist')
     // get the first option's text
     cy.get('[data-test="menu-select"] li:nth-child(1)')
         .invoke('text')

@@ -1,5 +1,5 @@
 {
-    "name": "data-entry",
+    "name": "aggregate-data-entry-app",
     "version": "1.0.0",
     "description": "",
     "license": "BSD-3-Clause",
@@ -8,7 +8,7 @@
         "build": "d2-app-scripts build",
         "start": "d2-app-scripts start",
         "start:nobrowser": "BROWSER=none yarn start",
-        "test": "d2-app-scripts test",
+        "test": "TZ=Etc/UTC d2-app-scripts test",
         "deploy": "d2-app-scripts deploy",
         "format": "d2-style apply",
         "format:staged": "d2-style apply --staged",

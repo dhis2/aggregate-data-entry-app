@@ -47,7 +47,7 @@ export default function SectionFilterSelectorBarItem() {
 
     const selectableOptions = dataSet?.renderAsTabs
         ? sectionOptions
-        : [{ value: undefined, label: i18n.t('Show all sections') }].concat(
+        : [{ value: undefined, label: i18n.t('All sections') }].concat(
               ...sectionOptions
           )
 
@@ -58,7 +58,7 @@ export default function SectionFilterSelectorBarItem() {
                 value={sectionFilterValue}
                 open={open}
                 setOpen={setOpen}
-                noValueMessage={i18n.t('Show all sections')}
+                noValueMessage={i18n.t('All sections')}
             >
                 <MenuSelect
                     values={selectableOptions}
