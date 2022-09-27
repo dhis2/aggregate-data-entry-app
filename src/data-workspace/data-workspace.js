@@ -16,11 +16,12 @@ import {
     useIsValidSelection,
     useLockedContext,
     useValueStore,
+    dataValueSetQueryKey,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { dataValueSets as dataValueSetQueryKey } from './query-key-factory.js'
+
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const queryClient = useQueryClient()
     const { data: metadata } = useMetadata()
