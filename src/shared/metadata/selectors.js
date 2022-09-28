@@ -73,6 +73,20 @@ export const getCategoryOptionCombosByCategoryComboId = (
  * selectors that should have a cache per parameter (say an id) should use re-reselect.
  */
 
+/**
+ * @param {*} metadata
+ * @param {string} categoryComboId
+ * @param {string} categoryOptionComboId
+ */
+export const getCategoryOptionCombo = createCachedSelector(
+    getCategoryComboById,
+    (_, __, categoryOptionComboId) => categoryOptionComboId,
+    (categoryCombo, categoryOptionComboId) =>
+        categoryCombo?.categoryOptionCombos.find(
+            (coc) => coc.id === categoryOptionComboId
+        )
+)((_, __, categoryOptionComboId) => categoryOptionComboId)
+
 export const getCategoryOptionsByCategoryOptionComboId = createCachedSelector(
     (metadata) => metadata,
     (metadata) => getCategoryCombos(metadata),

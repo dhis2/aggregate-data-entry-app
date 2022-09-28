@@ -8,23 +8,29 @@ import {
 import { CAN_HAVE_LIMITS_TYPES } from '../value-types.js'
 
 function gatherHighlightedFieldData({
+    metadata,
     dataValue,
     dataElement,
-    categoryCombo,
     categoryOptionComboId,
 }) {
     const { optionSet, valueType, commentOptionSet } = dataElement
     const canHaveLimits = optionSet
         ? false
         : CAN_HAVE_LIMITS_TYPES.includes(valueType)
-
-    const categoryOptionCombo = categoryCombo.categoryOptionCombos.find(
-        (coc) => coc.id === categoryOptionComboId
+    const categoryCombo = selectors.getCategoryComboById(
+        metadata,
+        dataElement.categoryCombo.id
+    )
+    const categoryOptionCombo = selectors.getCategoryOptionCombo(
+        metadata,
+        categoryCombo.id,
+        categoryOptionComboId
     )
 
     const categoryOptionComboName = categoryCombo.isDefault
         ? ''
         : categoryOptionCombo.displayName
+
     if (dataValue) {
         return {
             ...dataValue,
@@ -74,20 +80,16 @@ export default function useHighlightedField() {
         item?.dataElementId
     )
 
-    const categoryCombo = selectors.getCategoryOption(
-        metadata,
-        item?.categoryComboId
-    )
-
     return useMemo(() => {
         if (!item || !dataElement) {
             return null
         }
+
         return gatherHighlightedFieldData({
+            metadata,
             dataValue,
             dataElement,
-            categoryCombo: categoryCombo,
             categoryOptionComboId: item.categoryOptionComboId,
         })
-    }, [item, dataElement, dataValue, categoryCombo])
+    }, [item, dataElement, dataValue, metadata])
 }
