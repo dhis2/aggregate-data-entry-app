@@ -1,5 +1,6 @@
 import React from 'react'
 import useHighlightedField from '../../shared/highlighted-field/use-highlighted-field.js'
+import { useUserInfo } from '../../shared/use-user-info/use-user-info.js'
 import { render } from '../../test-utils/render.js'
 import DataDetailsSidebar from './data-details-sidebar.js'
 jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
@@ -19,22 +20,60 @@ const mockUseHighlightedFieldReturn = {
     valueType: 'INTEGER_ZERO_OR_POSITIVE',
     canHaveLimits: true,
     categoryOptionCombo: 'HllvX50cXC0',
+    categoryOptionComboName: '', //default
     name: 'EXP Drugs Expense',
+    displayFormName: 'EXP Drugs Expense',
     code: 'EXP_DRUGS',
     value: 1,
 }
 
 describe('DataDetailsSideBar', () => {
     describe('Basic info', () => {
-        it('should display the basic information', async () => {
+        beforeAll(() => {
             useHighlightedField.mockReturnValue({
                 ...mockUseHighlightedFieldReturn,
             })
-
-            const { queryByTestId } = renderComponent()
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
+        })
+        it('should display the basic information', async () => {
+            const { getByText } = renderComponent()
 
             expect(
-                queryByTestId('data-details-sidebar-basic-information')
+                getByText(`Details`, {
+                    exact: false,
+                })
+            ).toBeInTheDocument()
+        })
+        it('should display the dataElement name', async () => {
+            const { getByText } = renderComponent()
+
+            expect(
+                getByText(`${mockUseHighlightedFieldReturn.displayFormName}`, {
+                    exact: false,
+                })
+            ).toBeInTheDocument()
+        })
+
+        it('should display the coc name if not default', async () => {
+            const mockedHighlightedField = {
+                ...mockUseHighlightedFieldReturn,
+                categoryOptionComboName: 'Lab',
+            }
+            useHighlightedField.mockReturnValue({
+                ...mockedHighlightedField,
+            })
+            const { getByText } = renderComponent()
+            expect(
+                getByText(
+                    `${mockedHighlightedField.displayFormName} | ${mockedHighlightedField.categoryOptionComboName}`,
+                    {
+                        exact: false,
+                    }
+                )
             ).toBeInTheDocument()
         })
     })

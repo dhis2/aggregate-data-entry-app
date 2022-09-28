@@ -14,7 +14,7 @@ const item = {
     lastUpdated: '2022-06-28T14:51:14.435',
     storedBy: 'Firstname Lastname',
     followUp: false,
-    code: '',
+    code: 'this-is-the-code',
     value: '',
     displayFormName: 'Item name (form)',
 }

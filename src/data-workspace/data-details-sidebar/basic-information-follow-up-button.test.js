@@ -1,10 +1,10 @@
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { useSetDataValueMutation } from '../../shared/index.js'
+import { useSetDataValueMutation } from '../../shared/data-value-mutations/data-value-mutations.js'
 import { render } from '../../test-utils/render.js'
 import FollowUpButton from './basic-information-follow-up-button.js'
 
-jest.mock('../data-value-mutations/data-value-mutations.js', () => ({
+jest.mock('../../shared/data-value-mutations/data-value-mutations.js', () => ({
     useSetDataValueMutation: jest.fn().mockImplementation(() => ({
         mutate: jest.fn(),
     })),
