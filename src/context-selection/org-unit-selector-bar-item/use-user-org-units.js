@@ -10,7 +10,7 @@ export default function useUserOrgUnits() {
             'me',
             {
                 params: {
-                    fields: ['organisationUnits[id]'],
+                    fields: ['organisationUnits[id,level,path]'],
                 },
             },
         ],

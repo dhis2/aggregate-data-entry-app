@@ -1,6 +1,9 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import { QueryClient } from '@tanstack/react-query'
-import { setDataValueMutationDefaults } from '../../data-workspace/data-value-mutations/index.js'
+import {
+    setDataValueMutationDefaults,
+    setCompletionMutationDefaults,
+} from '../../shared/index.js'
 import createQueryFn from './create-query-fn.js'
 
 const logger = {
@@ -30,7 +33,7 @@ const useQueryClient = () => {
     // we need default mutation functions for each query-key
     // so that paused mutations can resume after a page reload
     setDataValueMutationDefaults(queryClient, engine)
-
+    setCompletionMutationDefaults(queryClient, engine)
     return queryClient
 }
 

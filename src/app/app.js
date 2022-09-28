@@ -1,27 +1,26 @@
 import React, { useState } from 'react'
 import './app.css'
+import { ValidationResultsSidebar } from '../bottom-bar/index.js'
 import { ContextualHelpSidebar } from '../context-selection/contextual-help-sidebar/index.js'
 import { ContextSelection } from '../context-selection/index.js'
-import {
-    DataWorkspace,
-    DataDetailsSidebar,
-    contextualHelpSidebarId,
-    dataDetailsSidebarId,
-    validationResultsSidebarId,
-    ValidationResultsSidebar,
-} from '../data-workspace/index.js'
+import { DataWorkspace, DataDetailsSidebar } from '../data-workspace/index.js'
 import {
     RightHandPanel,
     useRightHandPanelContext,
 } from '../right-hand-panel/index.js'
+import {
+    contextualHelpSidebarId,
+    dataDetailsSidebarId,
+    validationResultsSidebarId,
+} from '../shared/index.js'
 import { Layout } from './layout/index.js'
 import LoadApp from './load-app.js'
 // import { MutationIndicator } from './mutation-indicator/index.js'
 
 const idSidebarMap = {
+    [contextualHelpSidebarId]: ContextualHelpSidebar,
     [dataDetailsSidebarId]: DataDetailsSidebar,
     [validationResultsSidebarId]: ValidationResultsSidebar,
-    [contextualHelpSidebarId]: ContextualHelpSidebar,
 }
 
 /**

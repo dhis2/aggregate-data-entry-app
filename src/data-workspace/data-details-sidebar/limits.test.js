@@ -1,4 +1,5 @@
 import React from 'react'
+import { useUserInfo } from '../../shared/use-user-info/use-user-info.js'
 import { render } from '../../test-utils/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import Limits from './limits.js'
@@ -7,10 +8,19 @@ jest.mock('../use-min-max-limits.js', () => ({
     useMinMaxLimits: jest.fn(),
 }))
 
+jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
+    useUserInfo: jest.fn(),
+}))
+
 describe('<Limits />', () => {
     describe('when has limits to render', () => {
         beforeAll(() => {
             useMinMaxLimits.mockReturnValue({ min: 3, max: 4 })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
         })
 
         it('is expanded by default', () => {
@@ -58,9 +68,42 @@ describe('<Limits />', () => {
         })
     })
 
+    describe('when user does not have authority to add min/max', () => {
+        beforeAll(() => {
+            useMinMaxLimits.mockReturnValue({ min: 3, max: 4 })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: [],
+                },
+            }))
+        })
+
+        it('does not show edit button', () => {
+            const { queryByRole } = render(
+                <Limits
+                    dataValue={{
+                        canHaveLimits: true,
+                        categoryOptionCombo: 'cat-combo-id',
+                        dataElement: 'de-id',
+                        valueType: 'INTEGER',
+                    }}
+                />
+            )
+
+            expect(
+                queryByRole('button', { name: 'Edit limits' })
+            ).not.toBeInTheDocument()
+        })
+    })
+
     describe('when has no limits to render', () => {
         beforeAll(() => {
             useMinMaxLimits.mockReturnValue({})
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
         })
 
         it(`is disabled if value of itemType prop is not 'numerical'`, () => {
@@ -76,7 +119,7 @@ describe('<Limits />', () => {
             )
 
             expect(
-                getByText('Minimum and maximum limits (disabled)')
+                getByText('Min and max limits (disabled)')
             ).toBeInTheDocument()
         })
 

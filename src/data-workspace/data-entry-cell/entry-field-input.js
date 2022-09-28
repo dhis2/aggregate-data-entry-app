@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo, useEffect } from 'react'
 import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
-import { VALUE_TYPES, useHighlightedFieldStore } from '../../shared/index.js'
-import { dataDetailsSidebarId } from '../constants.js'
+import {
+    VALUE_TYPES,
+    dataDetailsSidebarId,
+    useHighlightedFieldStore,
+} from '../../shared/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,

@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, ButtonStrip, Tooltip } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useConnectionStatus } from '../../shared/index.js'
@@ -40,6 +41,8 @@ export default function LimitsDisplay({
     min,
     max,
     onEditClick,
+    canAdd,
+    canDelete,
 }) {
     const average = calculateAverage(min, max)
 
@@ -47,11 +50,16 @@ export default function LimitsDisplay({
         <div className={styles.limits}>
             <LimitsAverageValueInfo avg={average} />
 
-            <div>
+            <div
+                className={cx(
+                    styles.limitsDisplayWrapper,
+                    styles.limitsDisplayWrapperMargin
+                )}
+            >
                 {min !== null && (
                     <div className={styles.limit}>
                         <span className={styles.limitLabel}>
-                            {i18n.t('Minimum')}
+                            {i18n.t('Min')}
                         </span>
                         <span className={styles.limitValue}>{min}</span>
                     </div>
@@ -64,19 +72,26 @@ export default function LimitsDisplay({
                 {max !== null && (
                     <div className={styles.limit}>
                         <span className={styles.limitLabel}>
-                            {i18n.t('Maximum')}
+                            {i18n.t('Max')}
                         </span>
                         <span className={styles.limitValue}>{max}</span>
                     </div>
                 )}
             </div>
-
             <ButtonStrip>
-                <EditButton onClick={onEditClick} />
-                <LimitsDeleteButton
-                    dataElementId={dataElementId}
-                    categoryOptionComboId={categoryOptionComboId}
-                />
+                {canAdd && <EditButton onClick={onEditClick} />}
+                {canDelete && (
+                    <div
+                        className={cx({
+                            [styles.onlyDeleteButton]: !canAdd && canDelete,
+                        })}
+                    >
+                        <LimitsDeleteButton
+                            dataElementId={dataElementId}
+                            categoryOptionComboId={categoryOptionComboId}
+                        />
+                    </div>
+                )}
             </ButtonStrip>
         </div>
     )
@@ -86,6 +101,8 @@ LimitsDisplay.propTypes = {
     categoryOptionComboId: PropTypes.string.isRequired,
     dataElementId: PropTypes.string.isRequired,
     onEditClick: PropTypes.func.isRequired,
+    canAdd: PropTypes.bool,
+    canDelete: PropTypes.bool,
     max: PropTypes.number,
     min: PropTypes.number,
 }

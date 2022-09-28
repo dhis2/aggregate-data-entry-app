@@ -1,8 +1,11 @@
 const config = {
+    id: '4a5b87dc-015c-47db-ae77-f2f42e3bbb5a',
+    name: 'aggregate-data-entry',
     type: 'app',
-    title: 'Data Entry',
+    title: 'Data Entry (Beta)',
+    minDHIS2Version: '2.39',
+    coreApp: true,
     pwa: {
-        // Need this for offline testing. Can disable in other branches if desired
         enabled: true,
         caching: {
             patternsToOmitFromAppShell: [

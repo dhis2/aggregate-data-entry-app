@@ -3,11 +3,10 @@ import { NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useFormState } from 'react-final-form'
-import { useRightHandPanelContext } from '../right-hand-panel/index.js'
 import {
     LockedStates,
-    useFormChangedSincePanelOpenedContext,
     useLockedContext,
+    useEntryFormStore,
 } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
@@ -35,21 +34,16 @@ const formTypeToComponent = {
 
 export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
-    const { setFormChangedSincePanelOpened } =
-        useFormChangedSincePanelOpenedContext()
-    const rightHandPanelContext = useRightHandPanelContext()
     const { locked, lockStatus } = useLockedContext()
     const formType = dataSet.formType
+    const setFormErrors = useEntryFormStore((state) => state.setErrors)
+
     useFormState({
         onChange: (formState) => {
-            // set formChanged when the form is dirty and the right hand panel is open
-            // components in the right hand panel will reset the formChanged state to false
-            if (formState.dirty && rightHandPanelContext.id) {
-                setFormChangedSincePanelOpened(true)
-            }
+            setFormErrors(formState.errors)
         },
         subscription: {
-            dirty: true,
+            errors: true,
         },
     })
 

@@ -1,12 +1,12 @@
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useField } from 'react-final-form'
+import { useSetDataValueMutation } from '../../shared/index.js'
 import { render } from '../../test-utils/render.js'
-import { useSetDataValueMutation } from '../data-value-mutations/data-value-mutations.js'
 import { BooleanRadios } from './boolean-radios.js'
 
 jest.mock('react-final-form')
-jest.mock('../data-value-mutations/data-value-mutations.js')
+jest.mock('../../shared/data-value-mutations/data-value-mutations.js')
 
 describe('boolean-radios', () => {
     const props = {

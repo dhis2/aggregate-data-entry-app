@@ -1,5 +1,7 @@
 # Data entry app
 
+[Live demo development branch](https://dhis2-data-entry.netlify.app/#/)
+
 ## Global state
 
 We're using use-query-params to store part of the app's state in the url query

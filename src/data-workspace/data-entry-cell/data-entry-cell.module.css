@@ -24,30 +24,45 @@
     outline: 1px solid #a0adba;
 }
 
+.active {
+    background-color: #fff !important;
+}
+
 .highlighted {
     outline: 3px solid var(--colors-grey800) !important;
     border: none !important;
-    background: #fff !important;
+    /* Fix to prevent bottom outline to be clipped by next cell */
+    z-index: 1;
 }
+
 
 .highlighted.active {
     outline-color: var(--theme-focus) !important;
 }
 
 .disabled {
-    background: var(--colors-grey300);
+    background-color: var(--colors-grey200);
+    background-size: 8px 8px;
+    background-image: repeating-linear-gradient(
+        45deg,
+        var(--colors-grey300) 0,
+        var(--colors-grey300) 0.8px,
+        var(--colors-grey200) 0,
+        var(--colors-grey200) 50%
+    );
 }
 
-.invalid:not(.highlighted) {
+.invalid:not(.active) {
     background: var(--colors-red200);
-    outline: 1px solid var(--colors-red600) !important;
+    outline: 1px solid var(--colors-red600);
 }
+
 .invalid:hover {
     background: #ffb3bc;
 }
 
 .synced {
-    background: var(--colors-green050);
+    background: var(--colors-green100);
 }
 .synced:hover {
     background: #d8eeda;
@@ -68,8 +83,8 @@
 .topRightTriangle {
     width: 0;
     height: 0;
-    border-top: 3px solid var(--colors-green300);
-    border-right: 3px solid var(--colors-green300);
+    border-top: 3px solid var(--colors-green400);
+    border-right: 3px solid var(--colors-green400);
     border-bottom: 3px solid transparent;
     border-left: 3px solid transparent;
 }

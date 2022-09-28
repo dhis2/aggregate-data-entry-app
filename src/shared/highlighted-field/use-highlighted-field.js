@@ -10,6 +10,7 @@ import { CAN_HAVE_LIMITS_TYPES } from '../value-types.js'
 function gatherHighlightedFieldData({
     dataValue,
     dataElement,
+    categoryCombo,
     categoryOptionComboId,
 }) {
     const { optionSet, valueType, commentOptionSet } = dataElement
@@ -17,15 +18,25 @@ function gatherHighlightedFieldData({
         ? false
         : CAN_HAVE_LIMITS_TYPES.includes(valueType)
 
+    const categoryOptionCombo = categoryCombo.categoryOptionCombos.find(
+        (coc) => coc.id === categoryOptionComboId
+    )
+
+    const categoryOptionComboName = categoryCombo.isDefault
+        ? ''
+        : categoryOptionCombo.displayName
     if (dataValue) {
         return {
             ...dataValue,
             valueType,
             canHaveLimits,
+            categoryOptionCombo: categoryOptionComboId,
+            categoryOptionComboName: categoryOptionComboName,
             name: dataElement.displayName,
             code: dataElement.code,
             commentOptionSetId: commentOptionSet?.id,
             description: dataElement.description,
+            displayFormName: dataElement.displayFormName,
         }
     }
 
@@ -33,6 +44,7 @@ function gatherHighlightedFieldData({
         valueType,
         canHaveLimits,
         categoryOptionCombo: categoryOptionComboId,
+        categoryOptionComboName: categoryOptionComboName,
         dataElement: dataElement.id,
         name: dataElement.displayName,
         lastUpdated: '',
@@ -42,6 +54,7 @@ function gatherHighlightedFieldData({
         code: null,
         commentOptionSetId: commentOptionSet?.id,
         description: dataElement.description,
+        displayFormName: dataElement.displayFormName,
     }
 }
 
@@ -61,6 +74,11 @@ export default function useHighlightedField() {
         item?.dataElementId
     )
 
+    const categoryCombo = selectors.getCategoryOption(
+        metadata,
+        item?.categoryComboId
+    )
+
     return useMemo(() => {
         if (!item || !dataElement) {
             return null
@@ -68,7 +86,8 @@ export default function useHighlightedField() {
         return gatherHighlightedFieldData({
             dataValue,
             dataElement,
+            categoryCombo: categoryCombo,
             categoryOptionComboId: item.categoryOptionComboId,
         })
-    }, [item, dataElement, dataValue])
+    }, [item, dataElement, dataValue, categoryCombo])
 }

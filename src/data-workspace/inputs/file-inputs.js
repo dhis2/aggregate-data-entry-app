@@ -8,7 +8,7 @@ import {
     useDataValueParams,
     useDeleteDataValueMutation,
     useUploadFileDataValueMutation,
-} from '../data-value-mutations/index.js'
+} from '../../shared/index.js'
 import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
@@ -108,7 +108,12 @@ export const FileResourceInput = ({
             {file ? (
                 <>
                     <IconAttachment16 color={colors.grey700} />
-                    <a href={fileLink} className={styles.fileLink}>
+                    <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={fileLink}
+                        className={styles.fileLink}
+                    >
                         {file.name}
                     </a>
                     {` (${formatFileSize(file.size)})`}
