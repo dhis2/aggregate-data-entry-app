@@ -1,7 +1,7 @@
 import create from 'zustand'
 
 export const useHighlightedFieldStore = create((set, get) => ({
-    item: null,
+    highlightedFieldId: null,
 
     /**
      *
@@ -10,16 +10,15 @@ export const useHighlightedFieldStore = create((set, get) => ({
      * @param {} field.categoryOptionComboId id of the categoryOptionCombo
      * @returns
      */
-    setHighlightedField: (item) => set({ item }),
-    getHighlightedField: () => get().item,
+    setHighlightedField: (highlightedFieldId) => set({ highlightedFieldId }),
+    getHighlightedField: () => get().highlightedFieldId,
     isFieldHighlighted: ({ dataElementId, categoryOptionComboId }) => {
-        const item = get().item
-        if (!item) {
-            return false
-        }
+        const highlightedFieldId = get().highlightedFieldId
+
         return (
-            item.dataElementId === dataElementId &&
-            item.categoryOptionComboId === categoryOptionComboId
+            !!highlightedFieldId &&
+            highlightedFieldId.dataElementId === dataElementId &&
+            highlightedFieldId.categoryOptionComboId === categoryOptionComboId
         )
     },
 }))
