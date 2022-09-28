@@ -6,16 +6,8 @@ import {
     getFixedPeriodsForTypeAndDateRange,
     getYearlyPeriodIdForTypeAndYear,
     parsePeriodId,
-    useNowAtServerTimezone,
+    useCurrentDateStringAtServerTimezone,
 } from '../../shared/index.js'
-
-const getLocalDateString = (date) => {
-    const yyyy = date.getFullYear()
-    const mm = String(date.getMonth() + 1).padStart(2, '0')
-    const dd = String(date.getDate()).padStart(2, '0')
-
-    return `${yyyy}-${mm}-${dd}`
-}
 
 export default function usePeriods({
     periodType,
@@ -23,8 +15,7 @@ export default function usePeriods({
     year,
     dateLimit,
 }) {
-    const nowAtServerTimezone = useNowAtServerTimezone()
-    const dateString = getLocalDateString(nowAtServerTimezone)
+    const adjustedCurrentDateString = useCurrentDateStringAtServerTimezone()
 
     return useMemo(() => {
         if (!periodType) {
@@ -32,7 +23,7 @@ export default function usePeriods({
         }
 
         let periods
-        const currentDate = new Date(dateString)
+        const currentDate = new Date(adjustedCurrentDateString)
 
         if (yearlyPeriodTypes.includes(periodType)) {
             const futureYearLimit = new Date(currentDate)
@@ -71,5 +62,11 @@ export default function usePeriods({
         }
 
         return periods.reverse()
-    }, [periodType, dateString, openFuturePeriods, year, dateLimit])
+    }, [
+        periodType,
+        adjustedCurrentDateString,
+        openFuturePeriods,
+        year,
+        dateLimit,
+    ])
 }
