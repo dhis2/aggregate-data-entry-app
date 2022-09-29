@@ -11,6 +11,7 @@ import {
     useLockedContext,
     useEntryFormStore,
     validationResultsSidebarId,
+    useValidationStore,
 } from '../shared/index.js'
 import CompleteButton from './complete-button.js'
 import styles from './main-tool-bar.module.css'
@@ -28,10 +29,13 @@ export default function MainToolBar() {
     const { data } = useDataValueSet()
 
     const validateDisabled = activeMutations > 0
+    const setValidationToRefresh = useValidationStore(
+        (store) => store.setValidationToRefresh
+    )
 
     const validate = () => {
         if (rightHandPanel.id === validationResultsSidebarId) {
-            rightHandPanel.hide()
+            setValidationToRefresh(true)
         } else {
             rightHandPanel.show(validationResultsSidebarId)
         }
