@@ -18,6 +18,32 @@ describe('<Comment />', () => {
         useSetDataValueMutation.mockClear()
     })
 
+    const mockSetDataValueMutation = (mockError = false) => {
+        jest.spyOn(console, 'error').mockImplementation(() => {})
+        useSetDataValueMutation.mockImplementation(() => {
+            const [error, setError] = useState(false)
+            const [loading, setLoading] = useState(false)
+            return {
+                isLoading: loading,
+                isError: error,
+                mutateAsync: async () => {
+                    if (!mockError) {
+                        setLoading(true)
+                        setLoading(false)
+                        return Promise.resolve()
+                    } else {
+                        setLoading(true)
+                        setLoading(false)
+                        setError(true)
+                        return Promise.reject()
+                    }
+                },
+            }
+        })
+    }
+
+    const mockSetDataValueMutationError = () => mockSetDataValueMutation(true)
+
     it('is expanded by default', () => {
         const item = {
             categoryOptionCombo: 'coc-id',
@@ -68,13 +94,7 @@ describe('<Comment />', () => {
     })
 
     it('shows a loading indicator when submitting a comment change', async () => {
-        useSetDataValueMutation.mockImplementation(() => {
-            const [loading, setLoading] = useState(false)
-            return {
-                isLoading: loading,
-                mutate: () => setLoading(true),
-            }
-        })
+        mockSetDataValueMutation()
 
         const item = {
             categoryOptionCombo: 'coc-id',
@@ -178,14 +198,7 @@ describe('<Comment />', () => {
     })
 
     it('shows a the error message when submitting a comment fails', async () => {
-        useSetDataValueMutation.mockImplementation(() => {
-            const [error, setError] = useState(false)
-            return {
-                isLoading: false,
-                isError: error,
-                mutate: () => setError(true),
-            }
-        })
+        mockSetDataValueMutationError()
 
         const item = {
             categoryOptionCombo: 'coc-id',
@@ -208,23 +221,20 @@ describe('<Comment />', () => {
 
         expect(
             queryByRole('heading', {
-                name: 'There was a problem loading the comment for this data item',
+                name: 'There was a problem updating the comment for this data item',
             })
         ).not.toBeInTheDocument()
 
         userEvent.click(getByRole('button', { name: 'Save comment' }))
         expect(
             getByRole('heading', {
-                name: 'There was a problem loading the comment for this data item',
+                name: 'There was a problem updating the comment for this data item',
             })
         ).toBeInTheDocument()
     })
 
     it('should show the comment as text when done editing', async () => {
-        useSetDataValueMutation.mockImplementation(() => {
-            return { mutate: () => {} }
-        })
-
+        mockSetDataValueMutation()
         const item = {
             categoryOptionCombo: 'coc-id',
             dataElement: 'de-id',
@@ -257,5 +267,102 @@ describe('<Comment />', () => {
             expect(editButton).toBeInTheDocument()
             expect(saveButton).not.toBeInTheDocument()
         })
+    })
+
+    it('should show unsaved comment when going back to cell with unsaved comment', async () => {
+        const firstItem = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            comment: 'original comment',
+        }
+
+        const secondItem = {
+            categoryOptionCombo: 'coc-id-2',
+            dataElement: 'de-id-2',
+            comment: 'second item comment',
+        }
+
+        const changedComment = 'changed comment'
+
+        // show first item
+        const { getByRole, getByText, rerender, findByText } = render(
+            <Comment item={firstItem} />
+        )
+
+        // change the comment
+        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        const input = getByRole('textbox')
+        fireEvent.change(input, {
+            target: { value: changedComment },
+        })
+
+        fireEvent.blur(input)
+
+        // show second item
+        rerender(<Comment item={secondItem} />)
+        await findByText('second item comment')
+
+        // go back to first item
+        rerender(<Comment item={firstItem} />)
+
+        // it should show the changed unsaved text
+        await findByText(changedComment)
+
+        // when canceling, it should revert to original text
+        userEvent.click(getByText('Cancel'))
+        await findByText('original comment')
+    })
+
+    it('should show unsaved comment if saving failed', async () => {
+        mockSetDataValueMutationError()
+
+        const firstItem = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            comment: 'original comment',
+        }
+
+        const secondItem = {
+            categoryOptionCombo: 'coc-id-2',
+            dataElement: 'de-id-2',
+            comment: 'second item comment',
+        }
+
+        const changedComment = 'changed comment'
+
+        // show first item
+        const { getByRole, getByText, rerender, findByText, findByRole } =
+            render(<Comment item={firstItem} />)
+
+        // change the comment
+        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        const input = getByRole('textbox')
+        fireEvent.change(input, {
+            target: { value: changedComment },
+        })
+
+        fireEvent.blur(input)
+
+        userEvent.click(getByRole('button', { name: 'Save comment' }))
+
+        expect(
+            await findByRole('heading', {
+                name: 'There was a problem updating the comment for this data item',
+            })
+        ).toBeInTheDocument()
+
+        // show second item
+        rerender(<Comment item={secondItem} />)
+        await findByText('second item comment')
+
+        // go back to first item
+        rerender(<Comment item={firstItem} />)
+
+        // it should show the changed unsaved text
+        await findByText(changedComment)
+
+        // when canceling, it should revert to original text
+        userEvent.click(getByText('Cancel'))
+        await findByText('original comment')
     })
 })

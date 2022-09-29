@@ -51,6 +51,7 @@ export default function LimitsDisplay({
             <LimitsAverageValueInfo avg={average} />
 
             <div
+                data-test="limits-display"
                 className={cx(
                     styles.limitsDisplayWrapper,
                     styles.limitsDisplayWrapperMargin
