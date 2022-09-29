@@ -2,8 +2,8 @@ import { IconMore16, colors } from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect } from 'react'
+import { useField, useForm } from 'react-final-form'
 import {
     mutationKeys as dataValueMutationKeys,
     useDataValueParams,
@@ -50,7 +50,6 @@ export function InnerWrapper({
     fieldname,
     deId,
     cocId,
-    syncStatus,
 }) {
     const hasComment = useValueStore((state) =>
         state.hasComment({
@@ -61,9 +60,34 @@ export function InnerWrapper({
     const { item } = useHighlightedFieldIdContext()
     const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
-        meta: { invalid, active },
-    } = useField(fieldname, { subscription: { invalid: true, active: true } })
+        input: { value },
+        meta: { invalid, active, data, dirty },
+    } = useField(fieldname, {
+        // by default undefined is formatted to ''
+        // this preserves the format used in the input-component
+        format: (v) => v,
+        subscription: {
+            value: true,
+            invalid: true,
+            active: true,
+            data: true,
+            dirty: true,
+        },
+    })
+    const form = useForm()
 
+    // initalize lastSyncedValue
+    useEffect(
+        () => {
+            form.mutators.setFieldData(fieldname, {
+                lastSyncedValue: value,
+            })
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    )
+
+    const synced = dirty && data.lastSyncedValue === value
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
@@ -74,7 +98,7 @@ export function InnerWrapper({
     // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
         ? styles.invalid
-        : activeMutations === 0 && syncStatus.synced
+        : activeMutations === 0 && synced
         ? styles.synced
         : null
 
@@ -90,7 +114,7 @@ export function InnerWrapper({
             {children}
             <SyncStatusIndicator
                 isLoading={activeMutations > 0}
-                isSynced={syncStatus.synced}
+                isSynced={synced}
             />
             <CommentIndicator hasComment={hasComment} />
         </div>
@@ -103,8 +127,4 @@ InnerWrapper.propTypes = {
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
     locked: PropTypes.bool,
-    syncStatus: PropTypes.shape({
-        synced: PropTypes.bool,
-        syncing: PropTypes.bool,
-    }),
 }
