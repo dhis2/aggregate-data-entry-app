@@ -1,11 +1,19 @@
 import i18n from '@dhis2/d2-i18n'
-import { Button, IconErrorFilled16, IconInfo16, colors } from '@dhis2/ui'
+import {
+    Button,
+    IconErrorFilled16,
+    IconInfo16,
+    Tooltip,
+    colors,
+} from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import React from 'react'
 import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
 import {
+    useConnectionStatus,
     useDataValueSet,
     useDataValueSetQueryKey,
     useLockedContext,
@@ -15,6 +23,28 @@ import {
 } from '../shared/index.js'
 import CompleteButton from './complete-button.js'
 import styles from './main-tool-bar.module.css'
+
+function ValidationButtonTooltip({ validateDisabled, offline, children }) {
+    if (!validateDisabled) {
+        return children
+    }
+
+    const tooltipContent = offline
+        ? i18n.t('Validation is not available offline')
+        : i18n.t('Validation is not available while changes are pending')
+
+    return (
+        <div className={styles.tooltipToolbarItem}>
+            <Tooltip content={tooltipContent}>{children}</Tooltip>
+        </div>
+    )
+}
+
+ValidationButtonTooltip.propTypes = {
+    children: PropTypes.any.isRequired,
+    offline: PropTypes.bool,
+    validateDisabled: PropTypes.bool,
+}
 
 export default function MainToolBar() {
     const rightHandPanel = useRightHandPanelContext()
@@ -26,9 +56,10 @@ export default function MainToolBar() {
     const numberOfErrors = useEntryFormStore((state) =>
         state.getNumberOfErrors()
     )
+    const { offline } = useConnectionStatus()
+    const validateDisabled = offline || activeMutations > 0
     const { data } = useDataValueSet()
 
-    const validateDisabled = activeMutations > 0
     const setValidationToRefresh = useValidationStore(
         (store) => store.setValidationToRefresh
     )
@@ -43,13 +74,18 @@ export default function MainToolBar() {
 
     return (
         <div className={styles.container}>
-            <Button
-                disabled={validateDisabled}
-                className={styles.toolbarItem}
-                onClick={validate}
+            <ValidationButtonTooltip
+                validateDisabled={validateDisabled}
+                offline={offline}
             >
-                {i18n.t('Run validation')}
-            </Button>
+                <Button
+                    disabled={validateDisabled}
+                    className={styles.toolbarItem}
+                    onClick={validate}
+                >
+                    {i18n.t('Run validation')}
+                </Button>
+            </ValidationButtonTooltip>
 
             <div className={styles.toolbarItem}>
                 <CompleteButton disabled={locked} />
