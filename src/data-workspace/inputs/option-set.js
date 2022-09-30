@@ -1,28 +1,35 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, SingleSelect, SingleSelectOption } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React from 'react'
 import { useField } from 'react-final-form'
-import { useMetadata, selectors } from '../../shared/index.js'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import {
+    useMetadata,
+    selectors,
+    useSetDataValueMutation,
+} from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
 export const OptionSet = ({
     fieldname,
+    form,
     optionSetId,
     deId,
     cocId,
-    setSyncStatus,
     onKeyDown,
     onFocus,
     disabled,
     locked,
 }) => {
-    const { input } = useField(fieldname, { subscription: { value: true } })
+    const {
+        input,
+        meta: { data },
+    } = useField(fieldname, {
+        subscription: { value: true, data: true },
+    })
     const { data: metadata } = useMetadata()
 
-    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -31,8 +38,9 @@ export const OptionSet = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    setLastSyncedValue(value)
-                    setSyncStatus({ syncing: false, synced: true })
+                    form.mutators.setFieldData(fieldname, {
+                        lastSyncedValue: value,
+                    })
                 },
             }
         )
@@ -40,7 +48,7 @@ export const OptionSet = ({
 
     const handleChange = (value) => {
         // For a select using onChange, don't need to check valid or dirty, respectively
-        if (value !== lastSyncedValue) {
+        if (value !== data.lastSyncedValue) {
             syncData(value)
         }
     }

@@ -5,19 +5,14 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { HashRouter, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
-import HasCommentProvider from '../data-workspace/has-comment/has-comment-provider.js'
 import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.js'
 import { RightHandPanelProvider } from '../right-hand-panel/index.js'
-import {
-    HighlightedFieldIdProvider,
-    FormChangedSincePanelOpenedProvider,
-    LockedProvider,
-} from '../shared/index.js'
+import { HighlightedFieldIdProvider, LockedProvider } from '../shared/index.js'
 import App from './app.js'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
 import useQueryClient from './query-client/use-query-client.js'
 
-const enableRQDevtools = true //process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
+const enableRQDevtools = process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
 
 /**
  * @param {Object} props
@@ -38,7 +33,6 @@ export function OuterComponents({
     router: Router,
     queryClient,
 }) {
-    console.log(process.env)
     return (
         <>
             <CssReset />
@@ -49,15 +43,11 @@ export function OuterComponents({
                     <QueryParamProvider ReactRouterRoute={Route}>
                         <LockedProvider>
                             <HighlightedFieldIdProvider>
-                                <FormChangedSincePanelOpenedProvider>
-                                    <RightHandPanelProvider>
-                                        <PrintAreaProvider>
-                                            <HasCommentProvider>
-                                                {children}
-                                            </HasCommentProvider>
-                                        </PrintAreaProvider>
-                                    </RightHandPanelProvider>
-                                </FormChangedSincePanelOpenedProvider>
+                                <RightHandPanelProvider>
+                                    <PrintAreaProvider>
+                                        {children}
+                                    </PrintAreaProvider>
+                                </RightHandPanelProvider>
                             </HighlightedFieldIdProvider>
                         </LockedProvider>
                     </QueryParamProvider>

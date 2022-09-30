@@ -48,3 +48,8 @@
 .completedByLabel:after {
     content: ' ';
 }
+
+.mutationIndicator {
+    margin-left: auto;
+    margin-right: var(--spacers-dp4)
+}

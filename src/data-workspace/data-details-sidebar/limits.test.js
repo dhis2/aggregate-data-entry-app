@@ -1,4 +1,7 @@
+import { fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
+import { useUserInfo } from '../../shared/use-user-info/use-user-info.js'
 import { render } from '../../test-utils/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import Limits from './limits.js'
@@ -7,10 +10,19 @@ jest.mock('../use-min-max-limits.js', () => ({
     useMinMaxLimits: jest.fn(),
 }))
 
+jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
+    useUserInfo: jest.fn(),
+}))
+
 describe('<Limits />', () => {
     describe('when has limits to render', () => {
         beforeAll(() => {
             useMinMaxLimits.mockReturnValue({ min: 3, max: 4 })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
         })
 
         it('is expanded by default', () => {
@@ -58,9 +70,42 @@ describe('<Limits />', () => {
         })
     })
 
+    describe('when user does not have authority to add min/max', () => {
+        beforeAll(() => {
+            useMinMaxLimits.mockReturnValue({ min: 3, max: 4 })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: [],
+                },
+            }))
+        })
+
+        it('does not show edit button', () => {
+            const { queryByRole } = render(
+                <Limits
+                    dataValue={{
+                        canHaveLimits: true,
+                        categoryOptionCombo: 'cat-combo-id',
+                        dataElement: 'de-id',
+                        valueType: 'INTEGER',
+                    }}
+                />
+            )
+
+            expect(
+                queryByRole('button', { name: 'Edit limits' })
+            ).not.toBeInTheDocument()
+        })
+    })
+
     describe('when has no limits to render', () => {
         beforeAll(() => {
             useMinMaxLimits.mockReturnValue({})
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
         })
 
         it(`is disabled if value of itemType prop is not 'numerical'`, () => {
@@ -76,7 +121,7 @@ describe('<Limits />', () => {
             )
 
             expect(
-                getByText('Minimum and maximum limits (disabled)')
+                getByText('Min and max limits (disabled)')
             ).toBeInTheDocument()
         })
 
@@ -106,6 +151,65 @@ describe('<Limits />', () => {
             expect(
                 queryByRole('button', { name: 'Delete limits' })
             ).not.toBeInTheDocument()
+        })
+    })
+
+    describe('when limits have unsaved changes', () => {
+        beforeEach(() => {
+            useMinMaxLimits.mockReturnValue({ min: 0, max: 10 })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
+        })
+        afterEach(jest.clearAllMocks)
+
+        it('renders the item limits', async () => {
+            const firstItem = {
+                canHaveLimits: true,
+                categoryOptionCombo: 'cat-combo-id',
+                dataElement: 'de-id',
+                valueType: 'INTEGER',
+            }
+            const secondItem = {
+                canHaveLimits: true,
+                categoryOptionCombo: 'cat-combo-id-2',
+                dataElement: 'de-id-2',
+                valueType: 'INTEGER',
+            }
+            const {
+                findByRole,
+                getByRole,
+                rerender,
+                getByLabelText,
+                findByLabelText,
+                getByTestId,
+                queryByLabelText,
+            } = render(<Limits dataValue={firstItem} />)
+
+            // Edit the first item and change its min and max without saving
+            userEvent.click(await findByRole('button', { name: 'Edit limits' }))
+            const minInput = getByLabelText('Min')
+            const maxInput = getByLabelText('Max')
+            fireEvent.change(minInput, {
+                target: { value: '1' },
+            })
+            fireEvent.change(maxInput, {
+                target: { value: '99' },
+            })
+            fireEvent.blur(maxInput)
+
+            // go to second item
+            rerender(<Limits dataValue={secondItem} />)
+
+            // go back to first item and expect that the unsaved changes should show in edit mode (in inputs)
+            rerender(<Limits dataValue={firstItem} />)
+            expect(await findByLabelText('Min')).toHaveValue('1')
+            expect(getByLabelText('Max')).toHaveValue('99')
+            userEvent.click(getByRole('button', { name: 'Cancel' }))
+            expect(queryByLabelText('Min')).toBeNull()
+            expect(getByTestId('limits-display')).toHaveTextContent('Min0Max10')
         })
     })
 })

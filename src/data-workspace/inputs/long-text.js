@@ -1,24 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
 export const LongText = ({
     fieldname,
+    form,
     deId,
     cocId,
-    setSyncStatus,
     onKeyDown,
     onFocus,
     disabled,
     locked,
 }) => {
-    const { input, meta } = useField(fieldname, {
-        subscription: { value: true, dirty: true, valid: true },
+    const {
+        input,
+        meta: { valid, data },
+    } = useField(fieldname, {
+        subscription: { value: true, dirty: true, valid: true, data: true },
     })
 
-    const [lastSyncedValue, setLastSyncedValue] = useState(input.value)
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -27,8 +29,9 @@ export const LongText = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    setLastSyncedValue(value)
-                    setSyncStatus({ syncing: false, synced: true })
+                    form.mutators.setFieldData(fieldname, {
+                        lastSyncedValue: value,
+                    })
                 },
             }
         )
@@ -36,8 +39,7 @@ export const LongText = ({
 
     const handleBlur = () => {
         const { value } = input
-        const { valid } = meta
-        if (valid && value !== lastSyncedValue) {
+        if (valid && value !== data.lastSyncedValue) {
             syncData(value)
         }
     }

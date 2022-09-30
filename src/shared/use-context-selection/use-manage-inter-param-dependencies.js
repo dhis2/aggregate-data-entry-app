@@ -95,12 +95,12 @@ function useHandleOrgUnitIdChange() {
         useAttributeOptionComboSelection()
 
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit({
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId,
-        })
+            orgUnitId
+        )
 
     useEffect(() => {
         if (orgUnitId !== prevOrgUnitId) {
@@ -174,12 +174,12 @@ function useHandlePeriodIdChange() {
     const [periodId] = usePeriodId()
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit({
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId,
-        })
+            orgUnitId
+        )
 
     useEffect(() => {
         if (periodId !== prevPeriodId) {

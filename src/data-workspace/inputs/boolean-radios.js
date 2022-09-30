@@ -1,9 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
-import React, { useState } from 'react'
+import React from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
@@ -15,11 +15,11 @@ import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 // does `isEqual` prop help make 1/true and 0/false/'' equal?
 export const BooleanRadios = ({
     fieldname,
+    form,
     deId,
     cocId,
     disabled,
     locked,
-    setSyncStatus,
     onKeyDown,
     onFocus,
 }) => {
@@ -57,9 +57,10 @@ export const BooleanRadios = ({
 
     const {
         input: { value: fieldvalue },
-        meta,
-    } = useField(fieldname)
-    const [lastSyncedValue, setLastSyncedValue] = useState(fieldvalue)
+        meta: { valid, data },
+    } = useField(fieldname, {
+        subscription: { value: true, valid: true, data: true },
+    })
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
@@ -69,8 +70,9 @@ export const BooleanRadios = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    setLastSyncedValue(value)
-                    setSyncStatus({ syncing: false, synced: true })
+                    form.mutators.setFieldData(fieldname, {
+                        lastSyncedValue: value,
+                    })
                 },
             }
         )
@@ -80,9 +82,8 @@ export const BooleanRadios = ({
     delete clearButtonProps.type
 
     const handleChange = (value) => {
-        const { valid } = meta
         // If this value has changed, sync it to server if valid
-        if (valid && value !== lastSyncedValue) {
+        if (valid && value !== data.lastSyncedValue) {
             syncData(value)
         }
     }

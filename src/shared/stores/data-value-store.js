@@ -9,9 +9,13 @@ const inititalState = {
 
 export const useValueStore = create((set, get) => ({
     ...inititalState,
-    getDataValue: ({ dataElementId, cocId }) => {
-        return get().dataValueSet.dataValues[dataElementId]?.[cocId]
+    getDataValue: ({ dataElementId, categoryOptionComboId }) => {
+        return get().dataValueSet.dataValues?.[dataElementId]?.[
+            categoryOptionComboId
+        ]
     },
+
+    isComplete: () => get().dataValueSet?.completeStatus?.complete,
 
     getDataValues: () => get().dataValueSet?.dataValues,
     setDataValueSet: (values) => set({ dataValueSet: values ?? inititalState }),
@@ -21,5 +25,13 @@ export const useValueStore = create((set, get) => ({
                 minMaxValue.categoryOptionCombo === categoryOptionComboId &&
                 minMaxValue.dataElement === dataElementId
         )
+    },
+    hasComment: ({ dataElementId, categoryOptionComboId }) => {
+        const dataValue = get().getDataValue({
+            dataElementId,
+            categoryOptionComboId,
+        })
+
+        return !!dataValue?.comment
     },
 }))

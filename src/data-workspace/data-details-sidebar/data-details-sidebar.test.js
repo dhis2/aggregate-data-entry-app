@@ -2,9 +2,13 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import useHighlightedField from '../../shared/highlighted-field/use-highlighted-field.js'
+import { useUserInfo } from '../../shared/use-user-info/use-user-info.js'
 import { render } from '../../test-utils/render.js'
 import DataDetailsSidebar from './data-details-sidebar.js'
 jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
+jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
+    useUserInfo: jest.fn(),
+}))
 
 describe('DataDetailsSideBar', () => {
     const hide = jest.fn()
@@ -47,6 +51,11 @@ describe('DataDetailsSideBar', () => {
             ...dataElementDefaultProps,
             value: '1',
         })
+        useUserInfo.mockImplementation(() => ({
+            data: {
+                authorities: ['ALL'],
+            },
+        }))
     })
     afterEach(jest.clearAllMocks)
     describe('Basic info', () => {

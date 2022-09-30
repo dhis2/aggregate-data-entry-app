@@ -10,14 +10,18 @@ import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { validationResultsSidebarId } from '../data-workspace/constants.js'
+import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
 import {
     useConnectionStatus,
+    useDataValueSet,
     useDataValueSetQueryKey,
     useLockedContext,
     useEntryFormStore,
+    validationResultsSidebarId,
+    useValidationStore,
 } from '../shared/index.js'
+import CompleteButton from './complete-button.js'
 import styles from './main-tool-bar.module.css'
 
 function ValidationButtonTooltip({ validateDisabled, offline, children }) {
@@ -53,20 +57,20 @@ export default function MainToolBar() {
         state.getNumberOfErrors()
     )
     const { offline } = useConnectionStatus()
-
     const validateDisabled = offline || activeMutations > 0
+    const { data } = useDataValueSet()
 
-    const isComplete = true // @TODO(isComplete): implement me!
-    const complete = () => console.log('@TODO(complete): implement me!')
-    const incomplete = () => console.log('@TODO(incomplete): implement me!')
+    const setValidationToRefresh = useValidationStore(
+        (store) => store.setValidationToRefresh
+    )
+
     const validate = () => {
         if (rightHandPanel.id === validationResultsSidebarId) {
-            rightHandPanel.hide()
+            setValidationToRefresh(true)
         } else {
             rightHandPanel.show(validationResultsSidebarId)
         }
     }
-    const completedBy = 'Firstname Lastname' // @TODO(completedBy): implement me!
 
     return (
         <div className={styles.container}>
@@ -83,15 +87,9 @@ export default function MainToolBar() {
                 </Button>
             </ValidationButtonTooltip>
 
-            <Button
-                disabled={locked}
-                className={styles.toolbarItem}
-                onClick={isComplete ? incomplete : complete}
-            >
-                {isComplete
-                    ? i18n.t('Mark incomplete')
-                    : i18n.t('Mark complete')}
-            </Button>
+            <div className={styles.toolbarItem}>
+                <CompleteButton disabled={locked} />
+            </div>
 
             {numberOfErrors > 0 && (
                 <button
@@ -113,7 +111,7 @@ export default function MainToolBar() {
                 </button>
             )}
 
-            {isComplete && (
+            {data?.completeStatus?.lastUpdatedBy && (
                 <span
                     className={cx(styles.completionSummary, styles.toolbarItem)}
                 >
@@ -125,12 +123,17 @@ export default function MainToolBar() {
 
                     <span>
                         <span className={styles.completedByLabel}>
-                            {i18n.t('Completed by')}
+                            {data.completeStatus.complete
+                                ? i18n.t('Last completed by')
+                                : i18n.t('Last incompleted by')}
                         </span>
-                        {completedBy}
+                        {data?.completeStatus.lastUpdatedBy}
                     </span>
                 </span>
             )}
+            <div className={styles.mutationIndicator}>
+                <MutationIndicator />
+            </div>
         </div>
     )
 }

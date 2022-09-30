@@ -6,7 +6,7 @@ const getDataSetSelectorValueLabelByContent = (selectorValueLabel) => {
 
 Given('one of some selectable data sets has been selected', () => {
     cy.fixture('context-selection/metadata-complete').then((metadata) => {
-        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+        cy.intercept('GET', /api[/][0-9]+[/]dataEntry[/]metadata/, {
             body: metadata,
         }).as('selectableDataSetsRequest')
 
@@ -18,7 +18,7 @@ Given('one of some selectable data sets has been selected', () => {
 })
 
 Given('no data set has been selected yet', () => {
-    cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+    cy.intercept('GET', /api[/][0-9]+[/]dataEntry[/]metadata/, {
         fixture: 'context-selection/metadata-complete',
     }).as('selectableDataSetsRequest')
 
@@ -27,7 +27,7 @@ Given('no data set has been selected yet', () => {
 
 Given('no selectable data set exists', () => {
     cy.fixture('context-selection/metadata-complete').then((metadata) => {
-        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+        cy.intercept('GET', /api[/][0-9]+[/]dataEntry[/]metadata/, {
             body: {
                 ...metadata,
                 dataSets: [],
@@ -39,7 +39,7 @@ Given('no selectable data set exists', () => {
 })
 
 Given('some selectable data sets exists', () => {
-    cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+    cy.intercept('GET', /api[/][0-9]+[/]dataEntry[/]metadata/, {
         fixture: 'context-selection/metadata-complete',
     }).as('selectableDataSetsRequest')
 
@@ -53,7 +53,7 @@ Given('only one selectable data set exists', () => {
             dataSets: metadata.dataSets.slice(0, 1),
         }
 
-        cy.intercept('GET', /api[/]39[/]dataEntry[/]metadata/, {
+        cy.intercept('GET', /api[/][0-9]+[/]dataEntry[/]metadata/, {
             body: response,
         }).as('selectableDataSetsRequest')
 

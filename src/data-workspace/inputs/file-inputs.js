@@ -8,7 +8,7 @@ import {
     useDataValueParams,
     useDeleteDataValueMutation,
     useUploadFileDataValueMutation,
-} from '../data-value-mutations/index.js'
+} from '../../shared/index.js'
 import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
@@ -19,12 +19,12 @@ const formatFileSize = (size) => {
 
 export const FileResourceInput = ({
     fieldname,
+    form,
     image,
     deId,
     cocId,
     disabled,
     locked,
-    setSyncStatus,
     onKeyDown,
     onFocus,
 }) => {
@@ -65,15 +65,17 @@ export const FileResourceInput = ({
 
     const handleChange = ({ files }) => {
         const newFile = files[0]
-        input.onChange({ name: newFile.name, size: newFile.size })
+        const newFileValue = { name: newFile.name, size: newFile.size }
+        input.onChange(newFileValue)
         input.onBlur()
         if (newFile instanceof File) {
-            setSyncStatus({ syncing: true, synced: false })
             uploadFile(
                 { file: newFile },
                 {
                     onSuccess: () => {
-                        setSyncStatus({ syncing: false, synced: true })
+                        form.mutators.setFieldData(fieldname, {
+                            lastSyncedValue: newFileValue,
+                        })
                     },
                 }
             )
@@ -83,10 +85,11 @@ export const FileResourceInput = ({
     const handleDelete = () => {
         input.onChange('')
         input.onBlur()
-        setSyncStatus({ syncing: true, synced: false })
         deleteFile(null, {
             onSuccess: () => {
-                setSyncStatus({ syncing: false, synced: true })
+                form.mutators.setFieldData(fieldname, {
+                    lastSyncedValue: null,
+                })
             },
         })
     }
@@ -108,7 +111,12 @@ export const FileResourceInput = ({
             {file ? (
                 <>
                     <IconAttachment16 color={colors.grey700} />
-                    <a href={fileLink} className={styles.fileLink}>
+                    <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={fileLink}
+                        className={styles.fileLink}
+                    >
                         {file.name}
                     </a>
                     {` (${formatFileSize(file.size)})`}
