@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-30T08:51:43.336Z\n"
-"PO-Revision-Date: 2022-09-30T08:51:43.336Z\n"
+"POT-Creation-Date: 2022-09-30T09:14:01.095Z\n"
+"PO-Revision-Date: 2022-09-30T09:14:01.095Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -47,6 +47,12 @@ msgstr "Hide details"
 
 msgid "View details"
 msgstr "View details"
+
+msgid "Validation is not available offline"
+msgstr "Validation is not available offline"
+
+msgid "Validation is not available while changes are pending"
+msgstr "Validation is not available while changes are pending"
 
 msgid "Run validation"
 msgstr "Run validation"
@@ -286,6 +292,9 @@ msgstr "Fetching data set info"
 
 msgid "Error occurred while loading data set info"
 msgstr "Error occurred while loading data set info"
+
+msgid "Custom forms couldn't be made available offline. {{error}}"
+msgstr "Custom forms couldn't be made available offline. {{error}}"
 
 msgid "Value"
 msgstr "Value"
