@@ -3,6 +3,7 @@ import { QueryClient } from '@tanstack/react-query'
 import {
     setDataValueMutationDefaults,
     setCompletionMutationDefaults,
+    useApiError,
 } from '../../shared/index.js'
 import createQueryFn from './create-query-fn.js'
 
@@ -17,6 +18,7 @@ const queryClient = new QueryClient({ logger })
 const useQueryClient = () => {
     const engine = useDataEngine()
     const queryFn = createQueryFn(engine)
+    const { onError } = useApiError()
 
     queryClient.setDefaultOptions({
         queries: {
@@ -26,6 +28,9 @@ const useQueryClient = () => {
             cacheTime: Infinity,
             // https://react-query-alpha.tanstack.com/guides/network-mode
             networkMode: 'offlineFirst',
+        },
+        mutations: {
+            onError,
         },
     })
 

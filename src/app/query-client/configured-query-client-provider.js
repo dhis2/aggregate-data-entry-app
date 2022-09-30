@@ -17,6 +17,7 @@ const persistOptions = {
             const shouldPersist = query?.meta?.persist === true
             return isSuccess && shouldPersist
         },
+        shouldDehydrateMutation: () => true,
     },
     hydrateOptions: {
         defaultOptions: {
