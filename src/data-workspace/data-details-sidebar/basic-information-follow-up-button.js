@@ -4,10 +4,12 @@ import React from 'react'
 import {
     useHighlightedField,
     useSetDataValueMutation,
+    useCanUserEditFields,
 } from '../../shared/index.js'
 import ItemPropType from './item-prop-type.js'
 
 const FollowUpButton = ({ item }) => {
+    const canUserEditFields = useCanUserEditFields()
     const { value } = useHighlightedField()
     const isEmptyField = !value
 
@@ -31,12 +33,13 @@ const FollowUpButton = ({ item }) => {
         )
     }
 
+    const disabled = isEmptyField || !canUserEditFields
     const markForFollowUpButton = (
         <Button
             secondary
             icon={<IconFlag24 color={colors.grey600} />}
             onClick={onMarkForFollowUp}
-            disabled={isEmptyField}
+            disabled={disabled}
         >
             {i18n.t('Mark for follow-up')}
         </Button>
@@ -56,8 +59,21 @@ const FollowUpButton = ({ item }) => {
         )
     }
 
+    if (!canUserEditFields) {
+        return (
+            <Tooltip
+                content={i18n.t(
+                    'You do not have the authority to mark this value for follow -up'
+                )}
+            >
+                {markForFollowUpButton}
+            </Tooltip>
+        )
+    }
+
     return <>{markForFollowUpButton}</>
 }
+
 FollowUpButton.propTypes = {
     item: ItemPropType.isRequired,
 }

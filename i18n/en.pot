@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-26T16:14:30.586Z\n"
-"PO-Revision-Date: 2022-09-26T16:14:30.586Z\n"
+"POT-Creation-Date: 2022-09-30T08:51:43.336Z\n"
+"PO-Revision-Date: 2022-09-30T08:51:43.336Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -20,6 +20,9 @@ msgstr ""
 
 msgid "There was a problem loading metadata"
 msgstr "There was a problem loading metadata"
+
+msgid "The metadata response is invalid"
+msgstr "The metadata response is invalid"
 
 msgid "There is {{pendingMutations}} pending change."
 msgstr "There is {{pendingMutations}} pending change."
@@ -95,6 +98,13 @@ msgstr "{{length}} {{level}} priority alerts"
 
 msgid "Validation"
 msgstr "Validation"
+
+msgid ""
+"Data in the entry form has changed, so validation output might be "
+"incorrect. Run validation again to check the current data."
+msgstr ""
+"Data in the entry form has changed, so validation output might be "
+"incorrect. Run validation again to check the current data."
 
 msgid "Run validation again"
 msgstr "Run validation again"
@@ -304,6 +314,9 @@ msgstr "Mark for follow-up"
 msgid "Empty values can't be marked for follow -up"
 msgstr "Empty values can't be marked for follow -up"
 
+msgid "You do not have the authority to mark this value for follow -up"
+msgstr "You do not have the authority to mark this value for follow -up"
+
 msgid "Description: {{- description}}"
 msgstr "Description: {{- description}}"
 
@@ -325,8 +338,8 @@ msgstr "Marked for follow-up"
 msgid "Comment"
 msgstr "Comment"
 
-msgid "There was a problem loading the comment for this data item"
-msgstr "There was a problem loading the comment for this data item"
+msgid "There was a problem updating the comment for this data item"
+msgstr "There was a problem updating the comment for this data item"
 
 msgid "Choose an option"
 msgstr "Choose an option"
@@ -340,14 +353,17 @@ msgstr "Save comment"
 msgid "Cancel"
 msgstr "Cancel"
 
-msgid "No comment for this data item."
-msgstr "No comment for this data item."
-
 msgid "Edit comment"
 msgstr "Edit comment"
 
 msgid "Add comment"
 msgstr "Add comment"
+
+msgid "No comment for this data item."
+msgstr "No comment for this data item."
+
+msgid "You do not have the authority to add or edit comments"
+msgstr "You do not have the authority to add or edit comments"
 
 msgid "Details"
 msgstr "Details"
@@ -367,8 +383,14 @@ msgstr "Average value: {{avg}}"
 msgid "Delete limits"
 msgstr "Delete limits"
 
+msgid "You do not have the authority to delete limits"
+msgstr "You do not have the authority to delete limits"
+
 msgid "Edit limits"
 msgstr "Edit limits"
+
+msgid "You do not have the authority to add limits"
+msgstr "You do not have the authority to add limits"
 
 msgid "Min"
 msgstr "Min"
@@ -415,6 +437,9 @@ msgstr "Data cannot be added or changed because data entry has concluded."
 
 msgid "Data cannot be added or changed because data has been approved."
 msgstr "Data cannot be added or changed because data has been approved."
+
+msgid "You do not have the authority to edit entry forms"
+msgstr "You do not have the authority to edit entry forms"
 
 msgid "Data set locked"
 msgstr "Data set locked"
