@@ -19,12 +19,12 @@ const formatFileSize = (size) => {
 
 export const FileResourceInput = ({
     fieldname,
+    form,
     image,
     deId,
     cocId,
     disabled,
     locked,
-    setSyncStatus,
     onKeyDown,
     onFocus,
 }) => {
@@ -65,15 +65,17 @@ export const FileResourceInput = ({
 
     const handleChange = ({ files }) => {
         const newFile = files[0]
-        input.onChange({ name: newFile.name, size: newFile.size })
+        const newFileValue = { name: newFile.name, size: newFile.size }
+        input.onChange(newFileValue)
         input.onBlur()
         if (newFile instanceof File) {
-            setSyncStatus({ syncing: true, synced: false })
             uploadFile(
                 { file: newFile },
                 {
                     onSuccess: () => {
-                        setSyncStatus({ syncing: false, synced: true })
+                        form.mutators.setFieldData(fieldname, {
+                            lastSyncedValue: newFileValue,
+                        })
                     },
                 }
             )
@@ -83,10 +85,11 @@ export const FileResourceInput = ({
     const handleDelete = () => {
         input.onChange('')
         input.onBlur()
-        setSyncStatus({ syncing: true, synced: false })
         deleteFile(null, {
             onSuccess: () => {
-                setSyncStatus({ syncing: false, synced: true })
+                form.mutators.setFieldData(fieldname, {
+                    lastSyncedValue: null,
+                })
             },
         })
     }
