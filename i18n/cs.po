@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-09-22T16:07:53.237Z\n"
+"POT-Creation-Date: 2022-09-26T16:14:30.586Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: trendspotter <jirka.p@volny.cz>, 2022\n"
 "Language-Team: Czech (https://www.transifex.com/hisp-uio/teams/100509/cs/)\n"
@@ -26,7 +26,7 @@ msgstr ""
 "systému."
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "Při načítání metadat došlo k problému"
 
 msgid "There is {{pendingMutations}} pending change."
 msgstr ""
@@ -38,49 +38,49 @@ msgid "Synced"
 msgstr "Synchronizováno"
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "Formulář se nepodařilo vyplnit, zkuste to prosím znovu později"
 
 msgid "Mark incomplete"
 msgstr "Označit jako neúplné"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "Označit jako dokončené"
 
 msgid "Hide details"
 msgstr "Skrýt detaily"
 
 msgid "View details"
-msgstr ""
+msgstr "Zobrazit podrobnosti"
 
 msgid "Run validation"
 msgstr "Spustit ověření"
 
 msgid "1 invalid value not saved"
-msgstr ""
+msgstr "1 neplatná hodnota nebyla uložena"
 
 msgid "{{numberOfErrors}} invalid values not saved"
 msgstr ""
 
 msgid "Last completed by"
-msgstr ""
+msgstr "Naposledy dokončeno"
 
 msgid "Last incompleted by"
-msgstr ""
+msgstr "Naposledy nedokončeno od"
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "Formulář se nepodařilo ověřit, zkuste to prosím znovu později"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
-msgstr ""
+msgstr "Formulář se nepodařilo ověřit. Toto nemá vliv na vyplnění formuláře!"
 
 msgid "The form can't be completed while invalid"
-msgstr ""
+msgstr "Pokud je formulář neplatný, nelze jej vyplnit"
 
 msgid "1 comment required"
-msgstr ""
+msgstr "Je vyžadován 1 komentář"
 
 msgid "{{commentsCount}} comments required"
-msgstr ""
+msgstr "Počet požadovaných komentářů: {{commentsCount}}"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
@@ -104,7 +104,7 @@ msgid "Validation"
 msgstr "Ověření"
 
 msgid "Run validation again"
-msgstr ""
+msgstr "Spusťte znovu ověření"
 
 msgid "Alert summary"
 msgstr ""
@@ -141,7 +141,7 @@ msgid "Choose a data set"
 msgstr ""
 
 msgid "No available options"
-msgstr ""
+msgstr "Žádné dostupné možnosti"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
@@ -152,34 +152,34 @@ msgid "Hide menu"
 msgstr "Skrýt nabídku"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "Výchozí kombinace atributů"
 
 msgid "0 selections"
-msgstr ""
+msgstr "0 výběrů"
 
 msgid "1 selection"
-msgstr ""
+msgstr "1 výběr"
 
 msgid "{{amount}} selections"
-msgstr ""
+msgstr "{{amount}} výběrů"
 
 msgid "Cell reference"
 msgstr ""
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "Uloženo a synchronizováno na server"
 
 msgid "Waiting to sync, saved locally"
-msgstr ""
+msgstr "Čeká na synchronizaci, uloženo místně"
 
 msgid "Data item has a comment"
-msgstr ""
+msgstr "Datová položka má komentář"
 
 msgid "Invalid value, not saved"
-msgstr ""
+msgstr "Neplatná hodnota, neuloženo"
 
 msgid "Locked, not editable"
-msgstr ""
+msgstr "Uzamčeno, nelze upravovat"
 
 msgid "Help"
 msgstr "Nápověda"
@@ -191,25 +191,25 @@ msgid "Show details"
 msgstr "Ukázat detaily"
 
 msgid "Ctrl + Enter"
-msgstr ""
+msgstr "Ctrl + Enter"
 
 msgid "Cmd + Enter"
-msgstr ""
+msgstr "Cmd + Enter"
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "Přejít na další buňku"
 
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "Přejít na předchozí buňku"
 
 msgid "Shift + Tab"
-msgstr ""
+msgstr "Shift + Tab"
 
 msgid "Could not find a data set for the selected id"
-msgstr ""
+msgstr "Pro vybrané ID nelze najít soubor dat"
 
 msgid "There are no data sets available!"
 msgstr ""
@@ -218,7 +218,7 @@ msgid "Data set"
 msgstr "Datová sada"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "Tiskový formulář s hodnotami"
 
 msgid "Print empty form"
 msgstr ""
@@ -236,28 +236,28 @@ msgid "Organisation unit"
 msgstr "Organizační jednotka"
 
 msgid "Choose a organisation unit"
-msgstr ""
+msgstr "Vyberte organizační jednotku"
 
 msgid "No organisation units could be found"
-msgstr ""
+msgstr "Nebyly nalezeny žádné organizační jednotky"
 
 msgid "Dataset is not assigned to this organisation unit"
-msgstr ""
+msgstr "Datová sada není přiřazena k této organizační jednotce"
 
 msgid "No children match filter"
 msgstr "Filtru neodpovídají žádné podřízené"
 
 msgid "Could not load children"
-msgstr ""
+msgstr "Nelze načíst podřazené"
 
 msgid "Error: {{ ERRORMESSAGE }}"
 msgstr "Chyba: {{ERRORMESSAGE}}"
 
 msgid "Fetching organisation unit info"
-msgstr ""
+msgstr "Načítání informací o organizační jednotce"
 
 msgid "Error occurred while loading organisation unit info"
-msgstr ""
+msgstr "Při načítání informací o organizační jednotce došlo k chybě"
 
 msgid "Period"
 msgstr "Období"
@@ -266,16 +266,16 @@ msgid "Choose a period"
 msgstr "Vyberte období"
 
 msgid "All sections"
-msgstr ""
+msgstr "Všechny sekce"
 
 msgid "Section"
 msgstr "Sekce"
 
 msgid "Fetching data set info"
-msgstr ""
+msgstr "Načítání informací o datové sadě"
 
 msgid "Error occurred while loading data set info"
-msgstr ""
+msgstr "Při načítání informací o datové sadě došlo k chybě"
 
 msgid "Value"
 msgstr "Hodnota"
@@ -284,37 +284,37 @@ msgid "Totals"
 msgstr "Součty"
 
 msgid "Audit log"
-msgstr ""
+msgstr "Protokol auditu"
 
 msgid "Something went wrong loading the audit log"
-msgstr ""
+msgstr "Při načítání protokolu auditu se něco pokazilo"
 
 msgid "Not available offline"
 msgstr "Není k dispozici offline"
 
 msgid "No audit log for this data item."
-msgstr ""
+msgstr "Pro tuto datovou položku neexistuje žádný protokol auditu."
 
 msgid "Unmark for follow-up"
-msgstr ""
+msgstr "Zrušit označení pro sledování"
 
 msgid "Mark for follow-up"
 msgstr "Označit pro další sledování"
 
 msgid "Empty values can't be marked for follow -up"
-msgstr ""
+msgstr "Prázdné hodnoty nelze označit pro sledování"
 
 msgid "Description: {{- description}}"
-msgstr ""
+msgstr "Popis: {{- description}}"
 
 msgid "Code: {{code}}"
-msgstr ""
+msgstr "Kód: {{code}}"
 
 msgid "Data element ID: {{id}}"
-msgstr ""
+msgstr "ID datového prvku: {{id}}"
 
 msgid "Category option combo ID: {{id}}"
-msgstr ""
+msgstr "ID kombinace možností kategorie: {{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
 msgstr ""
@@ -326,13 +326,13 @@ msgid "Comment"
 msgstr "Komentář"
 
 msgid "There was a problem loading the comment for this data item"
-msgstr ""
+msgstr "Při načítání komentáře k této datové položce došlo k problému"
 
 msgid "Choose an option"
-msgstr ""
+msgstr "Zvolte možnost"
 
 msgid "Saving..."
-msgstr ""
+msgstr "Ukládání..."
 
 msgid "Save comment"
 msgstr "Uložit komentář"
@@ -341,10 +341,10 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 msgid "No comment for this data item."
-msgstr ""
+msgstr "K této datové položce není žádný komentář."
 
 msgid "Edit comment"
-msgstr ""
+msgstr "Upravit komentář"
 
 msgid "Add comment"
 msgstr "Přidat komentář"
@@ -356,37 +356,37 @@ msgid "History"
 msgstr "Historie"
 
 msgid "Something went wrong loading the history"
-msgstr ""
+msgstr "Něco se pokazilo při načítání historie"
 
 msgid "No history for this data item."
-msgstr ""
+msgstr "Pro tuto datovou položku není žádná historie."
 
 msgid "Average value: {{avg}}"
-msgstr ""
+msgstr "Průměrná hodnota: {{avg}}"
 
 msgid "Delete limits"
-msgstr ""
+msgstr "Smazat limity"
 
 msgid "Edit limits"
-msgstr ""
+msgstr "Upravit limity"
 
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 msgid "Max"
 msgstr "Max"
 
 msgid "Min and max limits"
-msgstr ""
+msgstr "Minimální a maximální limity"
 
 msgid "Try again, or contact your system administrator."
-msgstr ""
+msgstr "Zkuste to znovu nebo se obraťte na správce systému."
 
 msgid "Add limits"
-msgstr ""
+msgstr "Přidat limity"
 
 msgid "No limits set for this data item."
-msgstr ""
+msgstr "Pro tuto datovou položku nejsou nastavena žádná omezení."
 
 msgid "Save limits"
 msgstr ""
@@ -452,36 +452,42 @@ msgstr "Nahrát soubor"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
-msgstr ""
+msgstr "Zadejte prosím platné datum a čas ve formátu RRRR-MM-DD HH{{c}}MM"
 
 msgid "Please provide a valid time in the format HH{{c}}MM"
-msgstr ""
+msgstr "Zadejte prosím platný čas ve formátu HH{{c}}MM"
 
 msgid ""
 "Please make sure the value of this input is less than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Ujistěte se, že hodnota tohoto vstupu je menší než hodnota v "
+"\"{{otherField}}\"."
 
 msgid ""
 "Please make sure the value of this input is more than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Ujistěte se prosím, že hodnota tohoto vstupu je větší než hodnota v "
+"\"{{otherField}}\"."
 
 msgid "Type here to filter in this section"
-msgstr ""
+msgstr "Chcete-li filtrovat v této sekci, zadejte zde"
 
 msgid "1 item hidden by filter"
-msgstr ""
+msgstr "1 položka skrytá filtrem"
 
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr ""
+"Při nastavování dokončení formuláře na „{{completed}}“ se něco pokazilo: "
+"{{errorMessage}}"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
-msgstr ""
+msgstr "Zde bychom mohli přepsat zprávu o chybě E2017 vlastní zprávou ve FE"
 
 msgid "January"
 msgstr "Leden"
@@ -580,7 +586,7 @@ msgid "Financial year (Start April)"
 msgstr "Finanční rok (od dubna)"
 
 msgid "{{title}} (disabled)"
-msgstr ""
+msgstr "{{title}} (zakázáno)"
 
 msgid "Close details sidebar"
-msgstr ""
+msgstr "Zavřít postranní panel podrobností"
