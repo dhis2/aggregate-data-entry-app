@@ -5,6 +5,7 @@ import {
     SingleSelect,
     SingleSelectOption,
     TextAreaFieldFF,
+    Tooltip,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
@@ -12,11 +13,12 @@ import { Form, useField } from 'react-final-form'
 import {
     ExpandableUnit,
     selectors,
-    useUnsavedDataStore,
+    useCanUserEditFields,
+    useContextSelectionId,
     useLockedContext,
     useMetadata,
     useSetDataValueMutation,
-    useContextSelectionId,
+    useUnsavedDataStore,
 } from '../../shared/index.js'
 import { getCellId } from '../../shared/stores/unsaved-data-store.js'
 import styles from './comment.module.css'
@@ -204,6 +206,7 @@ CommentEditForm.propTypes = {
 }
 
 export default function Comment({ item }) {
+    const canUserEditFields = useCanUserEditFields()
     const { locked } = useLockedContext()
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
@@ -236,6 +239,17 @@ export default function Comment({ item }) {
         )
     }
 
+    const addEditButton = (
+        <Button
+            small
+            secondary
+            onClick={() => setEditing(true)}
+            disabled={!canUserEditFields || locked}
+        >
+            {item.comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
+        </Button>
+    )
+
     return (
         <ExpandableUnit title={title} open={open} onToggle={setOpen}>
             {item.comment && (
@@ -258,14 +272,17 @@ export default function Comment({ item }) {
                 </p>
             )}
 
-            <Button
-                small
-                secondary
-                onClick={() => setEditing(true)}
-                disabled={locked}
-            >
-                {item.comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
-            </Button>
+            {!canUserEditFields && (
+                <Tooltip
+                    content={i18n.t(
+                        'You do not have the authority to add or edit comments'
+                    )}
+                >
+                    {addEditButton}
+                </Tooltip>
+            )}
+
+            {canUserEditFields && addEditButton}
         </ExpandableUnit>
     )
 }

@@ -1,7 +1,11 @@
 import { fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { useState } from 'react'
-import { useMetadata, useSetDataValueMutation } from '../../shared/index.js'
+import {
+    useMetadata,
+    useSetDataValueMutation,
+    useCanUserEditFields,
+} from '../../shared/index.js'
 import { render } from '../../test-utils/index.js'
 import Comment from './comment.js'
 
@@ -11,6 +15,11 @@ jest.mock('../../shared/data-value-mutations/data-value-mutations.js', () => ({
 
 jest.mock('../../shared/metadata/use-metadata.js', () => ({
     useMetadata: jest.fn(() => ({})),
+}))
+
+jest.mock('../../shared/use-user-info/use-can-user-edit-fields.js', () => ({
+    __esModule: true,
+    default: jest.fn(() => true),
 }))
 
 describe('<Comment />', () => {
@@ -364,5 +373,37 @@ describe('<Comment />', () => {
         // when canceling, it should revert to original text
         userEvent.click(getByText('Cancel'))
         await findByText('original comment')
+    })
+
+    it('should not allow adding a comment when the user does not have the required authority', () => {
+        useCanUserEditFields.mockImplementation(() => false)
+
+        const item = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            comment: '',
+        }
+
+        const { getByRole } = render(<Comment item={item} />)
+
+        expect(getByRole('button', { name: 'Add comment' })).toHaveAttribute(
+            'disabled'
+        )
+    })
+
+    it('should not allow editing a comment when the user does not have the required authority', () => {
+        useCanUserEditFields.mockImplementation(() => false)
+
+        const item = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            comment: 'This is a comment',
+        }
+
+        const { getByRole } = render(<Comment item={item} />)
+
+        expect(getByRole('button', { name: 'Edit comment' })).toHaveAttribute(
+            'disabled'
+        )
     })
 })
