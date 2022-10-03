@@ -1,5 +1,4 @@
 import { useAlert } from '@dhis2/app-runtime'
-import i18n from '@dhis2/d2-i18n'
 /**
  * A dictionary taking the shape A dictionary taking the shape Dictionary<ErrorCode, AlertProps> to override the display message for a certain error code
  * Potential error codes can be found here: https://github.com/dhis2/dhis2-core/blob/28a6aa052f221626e583a84bc18d80c0a8fa0927/dhis-2/dhis-api/src/main/java/org/hisp/dhis/feedback/ErrorCode.java#L97
@@ -12,12 +11,13 @@ const customErrorAlertProps = {
  * A dictionary taking the shape Dictionary<ErrorCode, AlertProps>
  */
 const statusCodeErrorAlertProps = {
-    401: {
-        message: i18n.t(
-            'Session Expired. Please reload to log in again. You will not lose any data.'
-        ),
-        actions: [{ label: 'Reload now', onClick: () => location.reload() }],
-    },
+    // this is handled in `retry`
+    // 401: {
+    //     message: i18n.t(
+    //         'Session Expired. Please reload to log in again. You will not lose any data.'
+    //     ),
+    //     actions: [{ label: 'Reload now', onClick: () => location.reload() }],
+    // },
 }
 
 /**

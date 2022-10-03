@@ -6,6 +6,8 @@ import createIDBPersister from './persister.js'
 
 const persister = createIDBPersister()
 
+const persistErrorTypes = new Set(['network', 'access'])
+
 const persistOptions = {
     persister,
     maxAge: Infinity,
@@ -18,10 +20,10 @@ const persistOptions = {
             return isSuccess && shouldPersist
         },
         shouldDehydrateMutation: (mutation) => {
-            const isNetworkError =
+            const shouldPersistError =
                 mutation.state.status === 'error' &&
-                mutation.state.error?.type === 'network'
-            return mutation.state.isPaused || isNetworkError
+                persistErrorTypes.has(mutation.state.error?.type)
+            return mutation.state.isPaused || shouldPersistError
         },
     },
     hydrateOptions: {

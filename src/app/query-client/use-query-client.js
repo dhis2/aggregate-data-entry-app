@@ -7,6 +7,7 @@ import {
     defaultOnSuccess,
 } from '../../shared/index.js'
 import createQueryFn from './create-query-fn.js'
+import { useSessionExpiredAlert } from './use-session-expired-alert.js'
 
 const logger = {
     log: console.log,
@@ -14,12 +15,16 @@ const logger = {
     error: () => {},
 }
 
+// error-types that should trigger offline-mode
+const triggerOfflineErrorTypes = new Set(['network', 'access'])
 const queryClient = new QueryClient({ logger })
 
 const useQueryClient = () => {
     const engine = useDataEngine()
     const queryFn = createQueryFn(engine)
     const { onError } = useApiError()
+
+    const { show: showSessionExpiredAlert } = useSessionExpiredAlert()
 
     queryClient.setDefaultOptions({
         networkMode: 'offlineFirst',
@@ -33,13 +38,15 @@ const useQueryClient = () => {
             onSuccess: defaultOnSuccess(),
         },
         mutations: {
-            retry: (_, error) => {
-                // if error was a network-error, set to offline
-                // if we do this in `onError`, the current mutation will not be paused!
-                if (error?.type === 'network') {
+            retry: (failureCount, error) => {
+                if (triggerOfflineErrorTypes.has(error?.type)) {
                     onlineManager.setOnline(false)
                 }
-                return 1
+                // need to handle this here, because onError will not be called when mutation is paused
+                if (failureCount === 0 && error?.type === 'access') {
+                    showSessionExpiredAlert()
+                }
+                return failureCount < 1 ? true : false
             },
             onError,
             networkMode: 'offlineFirst',
