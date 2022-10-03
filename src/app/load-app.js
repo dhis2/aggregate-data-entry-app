@@ -32,14 +32,16 @@ const LoadApp = ({ children }) => {
         )
     }
 
-    if (!metadata.data) {
+    if (userInfo.isError) {
         return (
             <NoticeBox
                 error
                 className={css.noticeBoxWrapper}
-                title={i18n.t('There was a problem loading metadata')}
+                title={i18n.t(
+                    "There was a problem loading the user's information"
+                )}
             >
-                {i18n.t('The metadata response is invalid')}
+                {userInfo.error}
             </NoticeBox>
         )
     }
