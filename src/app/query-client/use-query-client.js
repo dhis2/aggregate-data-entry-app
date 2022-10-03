@@ -1,5 +1,5 @@
 import { useDataEngine } from '@dhis2/app-runtime'
-import { QueryClient } from '@tanstack/react-query'
+import { onlineManager, QueryClient } from '@tanstack/react-query'
 import {
     setDataValueMutationDefaults,
     setCompletionMutationDefaults,
@@ -33,6 +33,14 @@ const useQueryClient = () => {
             onSuccess: defaultOnSuccess(),
         },
         mutations: {
+            retry: (_, error) => {
+                // if error was a network-error, set to offline
+                // if we do this in `onError`, the current mutation will not be paused!
+                if (error?.type === 'network') {
+                    onlineManager.setOnline(false)
+                }
+                return 1
+            },
             onError,
             networkMode: 'offlineFirst',
             onSuccess: defaultOnSuccess(),

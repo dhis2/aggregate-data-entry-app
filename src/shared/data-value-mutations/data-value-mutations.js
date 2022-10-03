@@ -25,7 +25,6 @@ function useSharedDataValueMutation({
     const { onError: handleMutationError } = useApiError()
 
     return useMutation(mutationFn, {
-        retry: 1,
         mutationKey: mutationKey,
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)

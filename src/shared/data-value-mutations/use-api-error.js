@@ -1,6 +1,5 @@
 import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { onlineManager } from '@tanstack/react-query'
 /**
  * A dictionary taking the shape A dictionary taking the shape Dictionary<ErrorCode, AlertProps> to override the display message for a certain error code
  * Potential error codes can be found here: https://github.com/dhis2/dhis2-core/blob/28a6aa052f221626e583a84bc18d80c0a8fa0927/dhis-2/dhis-api/src/main/java/org/hisp/dhis/feedback/ErrorCode.java#L97
@@ -55,11 +54,8 @@ export const useApiError = () => {
         })
     )
 
-    const onError = (error) => {
+    const onError = function handleError(error) {
         if (error?.type === 'network') {
-            // do not want to show alert when network-errors occur
-            // this just means server is unreachable, and we go offline
-            onlineManager.setOnline(false)
             return {
                 shouldRollback: false,
             }

@@ -74,8 +74,6 @@ export default function useUpdateLimits(onDone) {
     }
 
     return useMutation(mutationFn, {
-        retry: 1,
-
         // Used to identify whether this mutation is running
         mutationKey: dataValueSetQueryKey,
 
