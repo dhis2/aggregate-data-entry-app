@@ -17,7 +17,12 @@ const persistOptions = {
             const shouldPersist = query?.meta?.persist === true
             return isSuccess && shouldPersist
         },
-        shouldDehydrateMutation: () => true,
+        shouldDehydrateMutation: (mutation) => {
+            const isNetworkError =
+                mutation.state.status === 'error' &&
+                mutation.state.error?.type === 'network'
+            return mutation.state.isPaused || isNetworkError
+        },
     },
     hydrateOptions: {
         defaultOptions: {
