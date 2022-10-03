@@ -1,6 +1,9 @@
 import React from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation } from '../../shared/index.js'
+import {
+    useSetDataValueMutation,
+    defaultOnSuccess,
+} from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
@@ -28,11 +31,11 @@ export const LongText = ({
             // Empty values need an empty string
             { value: value || '' },
             {
-                onSuccess: () => {
+                onSuccess: defaultOnSuccess(() => {
                     form.mutators.setFieldData(fieldname, {
                         lastSyncedValue: value,
                     })
-                },
+                }),
             }
         )
     }

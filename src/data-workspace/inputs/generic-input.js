@@ -6,6 +6,7 @@ import {
     NUMBER_TYPES,
     VALUE_TYPES,
     useSetDataValueMutation,
+    defaultOnSuccess,
 } from '../../shared/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import styles from './inputs.module.css'
@@ -63,11 +64,11 @@ export const GenericInput = ({
             // Empty values need an empty string
             { value: value || '' },
             {
-                onSuccess: () => {
+                onSuccess: defaultOnSuccess(() => {
                     form.mutators.setFieldData(fieldname, {
                         lastSyncedValue: value,
                     })
-                },
+                }),
             }
         )
     }

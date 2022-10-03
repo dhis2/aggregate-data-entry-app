@@ -1,8 +1,4 @@
-import {
-    useQueryClient,
-    useMutation,
-    onlineManager,
-} from '@tanstack/react-query'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 import {
     optimisticallyDeleteDataValue,
@@ -31,11 +27,9 @@ function useSharedDataValueMutation({
     return useMutation(mutationFn, {
         retry: 1,
         mutationKey: mutationKey,
-
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await queryClient.cancelQueries(dataValueSetQueryKey)
-            onlineManager.setOnline(undefined)
             // Snapshot the previous value
             // (Can be undefined when offline, in which case create a dummy response)
             const previousQueryData = queryClient.getQueryData(

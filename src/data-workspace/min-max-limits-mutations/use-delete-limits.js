@@ -4,6 +4,7 @@ import {
     useContextSelection,
     useApiAttributeParams,
     dataValueSetQueryKey as dataValueSetQueryKeys,
+    defaultOnSuccess,
 } from '../../shared/index.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
@@ -76,7 +77,7 @@ export default function useDeleteLimits(onDone) {
         mutationKey: dataValueSetQueryKey,
 
         // Used so the limits UI can switch from form to value display
-        onSuccess: onDone,
+        onSuccess: defaultOnSuccess(onDone),
 
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic delete)

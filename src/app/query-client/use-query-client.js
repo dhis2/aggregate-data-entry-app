@@ -4,6 +4,7 @@ import {
     setDataValueMutationDefaults,
     setCompletionMutationDefaults,
     useApiError,
+    defaultOnSuccess,
 } from '../../shared/index.js'
 import createQueryFn from './create-query-fn.js'
 
@@ -21,6 +22,7 @@ const useQueryClient = () => {
     const { onError } = useApiError()
 
     queryClient.setDefaultOptions({
+        networkMode: 'offlineFirst',
         queries: {
             queryFn,
             refetchOnWindowFocus: false,
@@ -28,12 +30,14 @@ const useQueryClient = () => {
             cacheTime: Infinity,
             // https://react-query-alpha.tanstack.com/guides/network-mode
             networkMode: 'offlineFirst',
+            onSuccess: defaultOnSuccess(),
         },
         mutations: {
             onError,
+            networkMode: 'offlineFirst',
+            onSuccess: defaultOnSuccess(),
         },
     })
-
     // set mutation defaults
     // we need default mutation functions for each query-key
     // so that paused mutations can resume after a page reload

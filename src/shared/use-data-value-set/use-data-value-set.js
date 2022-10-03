@@ -1,5 +1,6 @@
 import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
+import { defaultOnSuccess } from '../../shared/default-on-success.js'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
@@ -89,7 +90,7 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
         refetchOnMount: false,
         refetchOnReconnect: false,
         meta: { persist: true },
-        onSuccess,
+        onSuccess: defaultOnSuccess(onSuccess),
     })
 
     return result
