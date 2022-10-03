@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-09-26T16:14:30.586Z\n"
+"POT-Creation-Date: 2022-09-30T09:14:01.095Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: easylin <lin_xd@126.com>, 2022\n"
 "Language-Team: Chinese (https://www.transifex.com/hisp-uio/teams/100509/zh/)\n"
@@ -28,6 +28,9 @@ msgstr "您无权访问数据审批应用程序。请联系系统管理员以请
 
 msgid "There was a problem loading metadata"
 msgstr "加载元数据时出现问题"
+
+msgid "The metadata response is invalid"
+msgstr ""
 
 msgid "There is {{pendingMutations}} pending change."
 msgstr "有 {{pendingMutations}} 待更改。"
@@ -52,6 +55,12 @@ msgstr "隐藏细节"
 
 msgid "View details"
 msgstr "查看详情"
+
+msgid "Validation is not available offline"
+msgstr ""
+
+msgid "Validation is not available while changes are pending"
+msgstr ""
 
 msgid "Run validation"
 msgstr "进行验证"
@@ -103,6 +112,11 @@ msgstr "{{length}} {{level}} 优先级警报"
 
 msgid "Validation"
 msgstr "验证"
+
+msgid ""
+"Data in the entry form has changed, so validation output might be incorrect."
+" Run validation again to check the current data."
+msgstr ""
 
 msgid "Run validation again"
 msgstr "再次运行验证"
@@ -278,6 +292,9 @@ msgstr "获取数据集信息"
 msgid "Error occurred while loading data set info"
 msgstr "加载数据集信息时出错"
 
+msgid "Custom forms couldn't be made available offline. {{error}}"
+msgstr ""
+
 msgid "Value"
 msgstr "值"
 
@@ -305,6 +322,9 @@ msgstr "后续标记"
 msgid "Empty values can't be marked for follow -up"
 msgstr "空值不能标记为跟进"
 
+msgid "You do not have the authority to mark this value for follow -up"
+msgstr ""
+
 msgid "Description: {{- description}}"
 msgstr "说明：{{-说明}}"
 
@@ -326,8 +346,8 @@ msgstr "标记为后续"
 msgid "Comment"
 msgstr "评论"
 
-msgid "There was a problem loading the comment for this data item"
-msgstr "加载此数据项的评论时出现问题"
+msgid "There was a problem updating the comment for this data item"
+msgstr ""
 
 msgid "Choose an option"
 msgstr "选择一个选项"
@@ -341,14 +361,17 @@ msgstr "保存注释"
 msgid "Cancel"
 msgstr "取消"
 
-msgid "No comment for this data item."
-msgstr "对此数据项无评论。"
-
 msgid "Edit comment"
 msgstr "编辑评论"
 
 msgid "Add comment"
 msgstr "添加备注"
+
+msgid "No comment for this data item."
+msgstr "对此数据项无评论。"
+
+msgid "You do not have the authority to add or edit comments"
+msgstr ""
 
 msgid "Details"
 msgstr "详情"
@@ -368,8 +391,14 @@ msgstr "平均值：{{avg}}"
 msgid "Delete limits"
 msgstr "删除限制"
 
+msgid "You do not have the authority to delete limits"
+msgstr ""
+
 msgid "Edit limits"
 msgstr "编辑限制"
+
+msgid "You do not have the authority to add limits"
+msgstr ""
 
 msgid "Min"
 msgstr "最小"
@@ -414,6 +443,9 @@ msgstr "由于数据录入已结束，无法添加或更改数据。"
 
 msgid "Data cannot be added or changed because data has been approved."
 msgstr "由于数据已获批准，因此无法添加或更改数据。"
+
+msgid "You do not have the authority to edit entry forms"
+msgstr ""
 
 msgid "Data set locked"
 msgstr "数据集锁定"

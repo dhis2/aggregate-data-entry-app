@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-09-26T16:14:30.586Z\n"
+"POT-Creation-Date: 2022-09-30T09:14:01.095Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: trendspotter <jirka.p@volny.cz>, 2022\n"
 "Language-Team: Czech (https://www.transifex.com/hisp-uio/teams/100509/cs/)\n"
@@ -27,6 +27,9 @@ msgstr ""
 
 msgid "There was a problem loading metadata"
 msgstr "Při načítání metadat došlo k problému"
+
+msgid "The metadata response is invalid"
+msgstr ""
 
 msgid "There is {{pendingMutations}} pending change."
 msgstr ""
@@ -51,6 +54,12 @@ msgstr "Skrýt detaily"
 
 msgid "View details"
 msgstr "Zobrazit podrobnosti"
+
+msgid "Validation is not available offline"
+msgstr ""
+
+msgid "Validation is not available while changes are pending"
+msgstr ""
 
 msgid "Run validation"
 msgstr "Spustit ověření"
@@ -102,6 +111,11 @@ msgstr ""
 
 msgid "Validation"
 msgstr "Ověření"
+
+msgid ""
+"Data in the entry form has changed, so validation output might be incorrect."
+" Run validation again to check the current data."
+msgstr ""
 
 msgid "Run validation again"
 msgstr "Spusťte znovu ověření"
@@ -277,6 +291,9 @@ msgstr "Načítání informací o datové sadě"
 msgid "Error occurred while loading data set info"
 msgstr "Při načítání informací o datové sadě došlo k chybě"
 
+msgid "Custom forms couldn't be made available offline. {{error}}"
+msgstr ""
+
 msgid "Value"
 msgstr "Hodnota"
 
@@ -304,6 +321,9 @@ msgstr "Označit pro další sledování"
 msgid "Empty values can't be marked for follow -up"
 msgstr "Prázdné hodnoty nelze označit pro sledování"
 
+msgid "You do not have the authority to mark this value for follow -up"
+msgstr ""
+
 msgid "Description: {{- description}}"
 msgstr "Popis: {{- description}}"
 
@@ -325,8 +345,8 @@ msgstr "Označeno pro další sledování"
 msgid "Comment"
 msgstr "Komentář"
 
-msgid "There was a problem loading the comment for this data item"
-msgstr "Při načítání komentáře k této datové položce došlo k problému"
+msgid "There was a problem updating the comment for this data item"
+msgstr ""
 
 msgid "Choose an option"
 msgstr "Zvolte možnost"
@@ -340,14 +360,17 @@ msgstr "Uložit komentář"
 msgid "Cancel"
 msgstr "Zrušit"
 
-msgid "No comment for this data item."
-msgstr "K této datové položce není žádný komentář."
-
 msgid "Edit comment"
 msgstr "Upravit komentář"
 
 msgid "Add comment"
 msgstr "Přidat komentář"
+
+msgid "No comment for this data item."
+msgstr "K této datové položce není žádný komentář."
+
+msgid "You do not have the authority to add or edit comments"
+msgstr ""
 
 msgid "Details"
 msgstr "Detaily"
@@ -367,8 +390,14 @@ msgstr "Průměrná hodnota: {{avg}}"
 msgid "Delete limits"
 msgstr "Smazat limity"
 
+msgid "You do not have the authority to delete limits"
+msgstr ""
+
 msgid "Edit limits"
 msgstr "Upravit limity"
+
+msgid "You do not have the authority to add limits"
+msgstr ""
 
 msgid "Min"
 msgstr "Min"
@@ -412,6 +441,9 @@ msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
 
 msgid "Data cannot be added or changed because data has been approved."
+msgstr ""
+
+msgid "You do not have the authority to edit entry forms"
 msgstr ""
 
 msgid "Data set locked"
