@@ -27,17 +27,20 @@ const useQueryClient = () => {
     const { show: showSessionExpiredAlert } = useSessionExpiredAlert()
 
     queryClient.setDefaultOptions({
-        networkMode: 'offlineFirst',
         queries: {
+            // Fetch once, no matter the network connectivity;
+            // will be 'paused' if offline and the request fails.
+            // Important to try the network when on offline/local DHIS2 implmnt'ns
+            // https://react-query-alpha.tanstack.com/guides/network-mode
+            networkMode: 'offlineFirst',
             queryFn,
             refetchOnWindowFocus: false,
             // Inactive queries were being garbage collected immediately unless set to Infinity
             cacheTime: Infinity,
-            // https://react-query-alpha.tanstack.com/guides/network-mode
-            networkMode: 'offlineFirst',
             onSuccess: defaultOnSuccess(),
         },
         mutations: {
+            networkMode: 'offlineFirst',
             retry: (failureCount, error) => {
                 if (triggerOfflineErrorTypes.has(error?.type)) {
                     onlineManager.setOnline(false)
@@ -46,10 +49,10 @@ const useQueryClient = () => {
                 if (failureCount === 0 && error?.type === 'access') {
                     showSessionExpiredAlert()
                 }
+                // same as retry: 1
                 return failureCount < 1 ? true : false
             },
             onError,
-            networkMode: 'offlineFirst',
             onSuccess: defaultOnSuccess(),
         },
     })

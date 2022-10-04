@@ -83,10 +83,6 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
         enabled: !isMutating && isValidSelection,
         staleTime: Infinity,
         select: select,
-        // Fetch once, no matter the network connectivity;
-        // will be 'paused' if offline and the request fails.
-        // Important to try the network when on offline/local DHIS2 implmnt'ns
-        networkMode: 'offlineFirst',
         refetchOnMount: false,
         refetchOnReconnect: false,
         meta: { persist: true },
