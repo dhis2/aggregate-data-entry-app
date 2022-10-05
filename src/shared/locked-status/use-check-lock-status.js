@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useCurrentDateStringAtServerTimezone } from '../index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import {
     usePeriodId,
@@ -7,6 +6,7 @@ import {
     useOrgUnitId,
 } from '../use-context-selection/use-context-selection.js'
 import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
+import { useDateStringAtServerTimezone } from '../use-date-string-at-server-timezone/index.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 
@@ -40,7 +40,7 @@ export const useCheckLockStatus = () => {
     const [dataSetId] = useDataSetId()
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
-    const adjustedCurrentDateString = useCurrentDateStringAtServerTimezone()
+    const adjustedCurrentDateString = useDateStringAtServerTimezone()
     const { data: metadata } = useMetadata()
     const { setLockStatus } = useLockedContext()
     const dataValueSet = useDataValueSet()

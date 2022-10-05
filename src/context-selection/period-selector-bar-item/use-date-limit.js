@@ -6,7 +6,7 @@ import {
     selectors,
     useDataSetId,
     useMetadata,
-    useCurrentDateStringAtServerTimezone,
+    useDateStringAtServerTimezone,
 } from '../../shared/index.js'
 
 export const computeDateLimit = ({
@@ -45,7 +45,7 @@ export const computeDateLimit = ({
 export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
-    const adjustedCurrentDateString = useCurrentDateStringAtServerTimezone()
+    const adjustedCurrentDateString = useDateStringAtServerTimezone()
 
     return useMemo(
         () =>

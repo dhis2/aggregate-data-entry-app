@@ -9,16 +9,17 @@ const getLocalDateString = (date) => {
     return `${yyyy}-${mm}-${dd}`
 }
 
-export const useCurrentDateStringAtServerTimezone = () => {
+const useDateStringAtServerTimezone = (date = getCurrentDate()) => {
     const { systemInfo } = useConfig()
-    const localNow = getCurrentDate()
     const nowAtServerTimeZone = new Date(
-        localNow.toLocaleString('en-US', {
+        date.toLocaleString('en-US', {
             timeZone: systemInfo.serverTimeZoneId,
         })
     )
-    const timeOffset = nowAtServerTimeZone.getTime() - localNow.getTime()
-    const adjustedDate = new Date(localNow.getTime() + timeOffset)
+    const timeOffset = nowAtServerTimeZone.getTime() - date.getTime()
+    const adjustedDate = new Date(date.getTime() + timeOffset)
 
     return getLocalDateString(adjustedDate)
 }
+
+export default useDateStringAtServerTimezone
