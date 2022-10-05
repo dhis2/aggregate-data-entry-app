@@ -42,12 +42,17 @@ const useQueryClient = () => {
         mutations: {
             networkMode: 'offlineFirst',
             retry: (failureCount, error) => {
-                if (triggerOfflineErrorTypes.has(error?.type)) {
+                const triggerOffline = triggerOfflineErrorTypes.has(error?.type)
+                if (triggerOffline) {
                     onlineManager.setOnline(false)
                 }
                 // need to handle this here, because onError will not be called when mutation is paused
                 if (failureCount === 0 && error?.type === 'access') {
                     showSessionExpiredAlert()
+                }
+                if (triggerOffline) {
+                    // always retry errors that trigger offlineMode
+                    return true
                 }
                 // same as retry: 1
                 return failureCount < 1 ? true : false
