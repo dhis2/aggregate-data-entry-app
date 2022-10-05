@@ -29,13 +29,13 @@ msgid "There was a problem loading metadata"
 msgstr "Při načítání metadat došlo k problému"
 
 msgid "The metadata response is invalid"
-msgstr ""
+msgstr "Odpověď metadat je neplatná"
 
 msgid "There is {{pendingMutations}} pending change."
-msgstr ""
+msgstr "Čeká na změnu {{pendingMutations}}."
 
 msgid "There are {{pendingMutations}} pending changes."
-msgstr ""
+msgstr "Počet nevyřízených změn: {{pendingMutations}}."
 
 msgid "Synced"
 msgstr "Synchronizováno"
@@ -56,10 +56,10 @@ msgid "View details"
 msgstr "Zobrazit podrobnosti"
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "Ověření není dostupné offline"
 
 msgid "Validation is not available while changes are pending"
-msgstr ""
+msgstr "Ověření není k dispozici, dokud změny čekají"
 
 msgid "Run validation"
 msgstr "Spustit ověření"
@@ -68,7 +68,7 @@ msgid "1 invalid value not saved"
 msgstr "1 neplatná hodnota nebyla uložena"
 
 msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
+msgstr "{{numberOfErrors}} neplatných hodnot nebylo uloženo"
 
 msgid "Last completed by"
 msgstr "Naposledy dokončeno"
@@ -92,7 +92,7 @@ msgid "{{commentsCount}} comments required"
 msgstr "Počet požadovaných komentářů: {{commentsCount}}"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
-msgstr ""
+msgstr "{{displayShortName}} musí mít komentář, pokud nemá hodnotu."
 
 msgid "High"
 msgstr "Vysoký"
@@ -116,15 +116,17 @@ msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
 " Run validation again to check the current data."
 msgstr ""
+"Data ve vstupním formuláři se změnila, takže výstup ověření může být "
+"nesprávný. Spusťte znovu ověření a zkontrolujte aktuální data."
 
 msgid "Run validation again"
 msgstr "Spusťte znovu ověření"
 
 msgid "Alert summary"
-msgstr ""
+msgstr "Shrnutí upozornění"
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "Pro tato data nejsou žádná upozornění na ověření."
 
 msgid "Running validation..."
 msgstr ""
@@ -199,7 +201,7 @@ msgid "Help"
 msgstr "Nápověda"
 
 msgid "Shortcuts"
-msgstr ""
+msgstr "Zkratky"
 
 msgid "Show details"
 msgstr "Ukázat detaily"
