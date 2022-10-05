@@ -31,18 +31,14 @@ const errorDetailsMessagePriority = [
 ]
 
 const resolveAlertProps = (error) => {
-    let errorMessage = {
-        message: error.message,
-    }
     // find alertProps for errorCode, using detail-prop according to priority above
     for (const [key, errorMap] of errorDetailsMessagePriority) {
         const errorCode = error?.details[key]
         if (errorCode) {
-            errorMessage = errorMap[errorCode]
-            break
+            return errorMap[errorCode]
         }
     }
-    return errorMessage
+    return { message: error.message }
 }
 
 export const useApiError = () => {

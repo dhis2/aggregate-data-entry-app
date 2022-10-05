@@ -9,10 +9,6 @@ export const useSessionExpiredAlert = () => {
             ),
         () => ({
             critical: true,
-
-            message: i18n.t(
-                'Session Expired. Please reload to log in again. You will not lose any data.'
-            ),
             actions: [
                 { label: 'Reload now', onClick: () => location.reload() },
             ],
