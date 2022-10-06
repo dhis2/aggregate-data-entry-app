@@ -86,7 +86,6 @@ const useQueryClient = () => {
                     error?.type === 'access' &&
                     error?.httpStatusCode === 401
                 ) {
-                    console.log({ error })
                     showSessionExpiredAlert()
                 }
                 if (triggerOffline) {
@@ -94,7 +93,7 @@ const useQueryClient = () => {
                     return true
                 }
                 // same as retry: 1
-                return failureCount < 1 ? true : false
+                return failureCount < 1
             },
             onError,
             onSuccess: defaultOnSuccess(),
