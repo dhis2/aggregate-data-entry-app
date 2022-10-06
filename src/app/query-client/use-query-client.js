@@ -19,6 +19,20 @@ const logger = {
 const triggerOfflineErrorTypes = new Set(['network', 'access'])
 const queryClient = new QueryClient({ logger })
 
+// workaround to update header-bar online-status
+// TODO: might want to change this when header-bar has implemented configurable status
+let isOnline = onlineManager.isOnline()
+onlineManager.subscribe(() => {
+    const onlineManagerOnline = onlineManager.isOnline()
+    const event = onlineManagerOnline ? 'online' : 'offline'
+    // this is needed to prevent infinite loop, since onlineManager is also listening to the same events
+    // which would trigger this subscription-callback infinitely
+    if (isOnline !== onlineManagerOnline) {
+        isOnline = onlineManagerOnline
+        window.dispatchEvent(new Event(event))
+    }
+})
+
 const useQueryClient = () => {
     const engine = useDataEngine()
     const queryFn = createQueryFn(engine)
@@ -45,6 +59,7 @@ const useQueryClient = () => {
                 const triggerOffline = triggerOfflineErrorTypes.has(error?.type)
                 if (triggerOffline) {
                     onlineManager.setOnline(false)
+                    onlineManager.onOnline(false)
                 }
                 // need to handle this here, because onError will not be called when mutation is paused
                 if (failureCount === 0 && error?.type === 'access') {
