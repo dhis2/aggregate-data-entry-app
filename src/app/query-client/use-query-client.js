@@ -19,16 +19,35 @@ const logger = {
 const triggerOfflineErrorTypes = new Set(['network', 'access'])
 const queryClient = new QueryClient({ logger })
 
-// workaround to update header-bar online-status
+// Set "custom" event-listener
+// This is almost the same implementation as default in tanstack/query
+// However, it is needed because default-implementation will not go online after manual onlineManager.setOnline(false) -calls
+// tanstack/query source: https://github.com/TanStack/query/blob/357ec041a6fcc4a550f3df02c12ecc7bcdefbc05/packages/query-core/src/onlineManager.ts#L14
+onlineManager.setEventListener((setOnline) => {
+    const listener = ({ type }) => {
+        const online = type === 'online'
+        setOnline(online)
+    }
+    window.addEventListener('online', listener, false)
+    window.addEventListener('offline', listener, false)
+    return () => {
+        window.removeEventListener('online', listener)
+        window.removeEventListener('offline', listener)
+    }
+})
+
+// Workaround to update header-bar online-status
+// This basically just makes sure "manual" onlineManager.setOnline() results in a window-event
+// that the header-bar is listening to
 // TODO: might want to change this when header-bar has implemented configurable status
-let isOnline = onlineManager.isOnline()
+let prevOnline = onlineManager.isOnline()
 onlineManager.subscribe(() => {
     const onlineManagerOnline = onlineManager.isOnline()
     const event = onlineManagerOnline ? 'online' : 'offline'
     // this is needed to prevent infinite loop, since onlineManager is also listening to the same events
     // which would trigger this subscription-callback infinitely
-    if (isOnline !== onlineManagerOnline) {
-        isOnline = onlineManagerOnline
+    if (prevOnline !== onlineManagerOnline) {
+        prevOnline = onlineManagerOnline
         window.dispatchEvent(new Event(event))
     }
 })
@@ -62,7 +81,12 @@ const useQueryClient = () => {
                     onlineManager.onOnline(false)
                 }
                 // need to handle this here, because onError will not be called when mutation is paused
-                if (failureCount === 0 && error?.type === 'access') {
+                if (
+                    failureCount === 0 &&
+                    error?.type === 'access' &&
+                    error?.httpStatusCode === 401
+                ) {
+                    console.log({ error })
                     showSessionExpiredAlert()
                 }
                 if (triggerOffline) {
