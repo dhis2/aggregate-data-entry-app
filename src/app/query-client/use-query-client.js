@@ -4,7 +4,7 @@ import {
     setDataValueMutationDefaults,
     setCompletionMutationDefaults,
     useApiError,
-    defaultOnSuccess,
+    handleDefaultOnSuccess,
 } from '../../shared/index.js'
 import createQueryFn from './create-query-fn.js'
 import { useSessionExpiredAlert } from './use-session-expired-alert.js'
@@ -70,7 +70,7 @@ const useQueryClient = () => {
             refetchOnWindowFocus: false,
             // Inactive queries were being garbage collected immediately unless set to Infinity
             cacheTime: Infinity,
-            onSuccess: defaultOnSuccess(),
+            onSuccess: handleDefaultOnSuccess,
         },
         mutations: {
             networkMode: 'offlineFirst',
@@ -96,7 +96,7 @@ const useQueryClient = () => {
                 return failureCount < 1
             },
             onError,
-            onSuccess: defaultOnSuccess(),
+            onSuccess: handleDefaultOnSuccess,
         },
     })
     // set mutation defaults

@@ -7,7 +7,6 @@ import {
     useMetadata,
     selectors,
     useSetDataValueMutation,
-    defaultOnSuccess,
 } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
@@ -38,11 +37,11 @@ export const OptionSet = ({
             // Empty values need an empty string
             { value: value || '' },
             {
-                onSuccess: defaultOnSuccess(() => {
+                onSuccess: () => {
                     form.mutators.setFieldData(fieldname, {
                         lastSyncedValue: value,
                     })
-                }),
+                },
             }
         )
     }

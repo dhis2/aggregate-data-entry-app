@@ -1,10 +1,7 @@
 import { Checkbox } from '@dhis2/ui'
 import React from 'react'
 import { useField } from 'react-final-form'
-import {
-    useSetDataValueMutation,
-    defaultOnSuccess,
-} from '../../shared/index.js'
+import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
@@ -33,13 +30,13 @@ export const TrueOnlyCheckbox = ({
             // Empty values need an empty string
             { value: value || '' },
             {
-                onSuccess: defaultOnSuccess(() => {
+                onSuccess: () => {
                     form.mutators.setFieldData(fieldname, {
                         // value will be formatted to boolean, so keep same format
                         // '' becomes false
                         lastSyncedValue: !!value,
                     })
-                }),
+                },
             }
         )
     }

@@ -8,7 +8,6 @@ import {
     useDataValueParams,
     useDeleteDataValueMutation,
     useUploadFileDataValueMutation,
-    defaultOnSuccess,
 } from '../../shared/index.js'
 import useFileInputUrl from '../use-file-input-url.js'
 import styles from './inputs.module.css'
@@ -73,11 +72,11 @@ export const FileResourceInput = ({
             uploadFile(
                 { file: newFile },
                 {
-                    onSuccess: defaultOnSuccess(() => {
+                    onSuccess: () => {
                         form.mutators.setFieldData(fieldname, {
                             lastSyncedValue: newFileValue,
                         })
-                    }),
+                    },
                 }
             )
         }
@@ -87,11 +86,11 @@ export const FileResourceInput = ({
         input.onChange('')
         input.onBlur()
         deleteFile(null, {
-            onSuccess: defaultOnSuccess(() => {
+            onSuccess: () => {
                 form.mutators.setFieldData(fieldname, {
                     lastSyncedValue: null,
                 })
-            }),
+            },
         })
     }
 
