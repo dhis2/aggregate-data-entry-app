@@ -21,7 +21,9 @@ const createPrefetchQueryArgs = ([id, offlineLevels]) => ({
         },
     ],
     enabled: Boolean(id && offlineLevels?.length >= 1),
-    select: ({ organisationUnits }) => organisationUnits,
+    // the response will be a single representation of an orgUnit if length === 1
+    select: (data) =>
+        data?.organisationUnits ? data.organisationUnits : [data],
 })
 
 export default function usePrefetchedOrganisationUnits() {
