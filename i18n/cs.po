@@ -129,15 +129,17 @@ msgid "No validation alerts for this data."
 msgstr "Pro tato data nejsou žádná upozornění na ověření."
 
 msgid "Running validation..."
-msgstr ""
+msgstr "Probíhá ověřování..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "Vyskytl se problém při ověřování"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"Pro tato data nebylo možné provést ověření. Zkuste to znovu nebo se obraťte "
+"na správce systému."
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
@@ -154,7 +156,7 @@ msgid ""
 msgstr ""
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "Vyberte datovou sadu"
 
 msgid "No available options"
 msgstr "Žádné dostupné možnosti"
@@ -228,7 +230,7 @@ msgid "Could not find a data set for the selected id"
 msgstr "Pro vybrané ID nelze najít soubor dat"
 
 msgid "There are no data sets available!"
-msgstr ""
+msgstr "Nejsou k dispozici žádné datové sady!"
 
 msgid "Data set"
 msgstr "Datová sada"
@@ -237,16 +239,16 @@ msgid "Print form with values"
 msgstr "Tiskový formulář s hodnotami"
 
 msgid "Print empty form"
-msgstr ""
+msgstr "Vytisknout prázdný formulář"
 
 msgid "Options"
 msgstr "Možnosti"
 
 msgid "Search org units"
-msgstr ""
+msgstr "Hledat organizační jednotky"
 
 msgid "Choose a data set first"
-msgstr ""
+msgstr "Nejprve vyberte datovou sadu"
 
 msgid "Organisation unit"
 msgstr "Organizační jednotka"
