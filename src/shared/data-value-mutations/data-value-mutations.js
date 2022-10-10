@@ -11,7 +11,7 @@ import {
     useUploadFileDataValueMutationFunction,
 } from './mutation-functions.js'
 import { mutationKeys } from './mutation-key-factory.js'
-import useApiError from './use-api-error.js'
+import { useApiError } from './use-api-error.js'
 import { useDataValueParams } from './use-data-value-params.js'
 
 function useSharedDataValueMutation({
@@ -25,13 +25,10 @@ function useSharedDataValueMutation({
     const { onError: handleMutationError } = useApiError()
 
     return useMutation(mutationFn, {
-        retry: 1,
         mutationKey: mutationKey,
-
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await queryClient.cancelQueries(dataValueSetQueryKey)
-
             // Snapshot the previous value
             // (Can be undefined when offline, in which case create a dummy response)
             const previousQueryData = queryClient.getQueryData(
@@ -53,11 +50,13 @@ function useSharedDataValueMutation({
 
         // If the mutation fails, use the context returned from onMutate to roll back
         onError: (err, newDataValue, context) => {
-            handleMutationError(err)
-            queryClient.setQueryData(
-                dataValueSetQueryKey,
-                context.previousQueryData
-            )
+            const { shouldRollback } = handleMutationError(err)
+            if (shouldRollback) {
+                queryClient.setQueryData(
+                    dataValueSetQueryKey,
+                    context.previousQueryData
+                )
+            }
         },
     })
 }

@@ -1,5 +1,6 @@
 import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
+import { defaultOnSuccess } from '../../shared/default-on-success.js'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
@@ -82,14 +83,10 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
         enabled: !isMutating && isValidSelection,
         staleTime: Infinity,
         select: select,
-        // Fetch once, no matter the network connectivity;
-        // will be 'paused' if offline and the request fails.
-        // Important to try the network when on offline/local DHIS2 implmnt'ns
-        networkMode: 'offlineFirst',
         refetchOnMount: false,
         refetchOnReconnect: false,
         meta: { persist: true },
-        onSuccess,
+        onSuccess: defaultOnSuccess(onSuccess),
     })
 
     return result
