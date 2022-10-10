@@ -24,6 +24,9 @@ const lockedNoticeBoxMessages = {
     [LockedStates.LOCKED_APPROVED]: i18n.t(
         'Data cannot be added or changed because data has been approved.'
     ),
+    [LockedStates.LOCKED_NO_AUTHORITY]: i18n.t(
+        'You do not have the authority to edit entry forms'
+    ),
 }
 
 const formTypeToComponent = {

@@ -10,6 +10,7 @@ import {
     useValueStore,
     useIsFirstRender,
     useValidationResult,
+    useValidationStore,
 } from '../../shared/index.js'
 import ValidationCommentsViolations from './validation-comments-violations.js'
 import { validationLevels } from './validation-config.js'
@@ -39,6 +40,20 @@ export default function ValidationResultsSidebar({ hide }) {
     } = useValidationResult()
     const showLoader = isLoading || isRefetching
 
+    const shouldValidationRefresh = useValidationStore((store) =>
+        store.getValidationToRefresh()
+    )
+    const setValidationToRefresh = useValidationStore(
+        (store) => store.setValidationToRefresh
+    )
+
+    useEffect(() => {
+        if (shouldValidationRefresh) {
+            refetch()
+            setValidationToRefresh(false)
+        }
+    }, [refetch, shouldValidationRefresh, setValidationToRefresh])
+
     const queryKey = useDataValueSetQueryKey()
     const activeMutations = useIsMutating({
         mutationKey: queryKey,
@@ -67,9 +82,9 @@ export default function ValidationResultsSidebar({ hide }) {
                 {dataChangedSinceValidation && (
                     <div className={styles.dataChangedNotice}>
                         <NoticeBox title="Data has changed since validation was run">
-                            Data in the entry form has changed, so validation
-                            output might be incorrect. Run validation again to
-                            check the current data.
+                            {i18n.t(
+                                'Data in the entry form has changed, so validation output might be incorrect. Run validation again to check the current data.'
+                            )}
                         </NoticeBox>
                     </div>
                 )}

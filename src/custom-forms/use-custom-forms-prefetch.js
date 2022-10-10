@@ -1,12 +1,26 @@
+import { useAlert } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
 import { useQueryClient } from '@tanstack/react-query'
 import keys from './query-key-factory.js'
 import useCustomForms from './use-custom-forms.js'
 
-const useCustomFormsPrefetch = () => {
-    const queryClient = useQueryClient()
-    const { isSuccess, data } = useCustomForms()
+function getAlertSettings() {
+    return { warning: true }
+}
 
-    if (isSuccess) {
+const useCustomFormsPrefetch = () => {
+    const { show: showAlert } = useAlert((message) => message, getAlertSettings)
+    const queryClient = useQueryClient()
+    const { isSuccess, isError, error, data } = useCustomForms()
+
+    if (isError) {
+        showAlert(
+            i18n.t(
+                "Custom forms couldn't be made available offline. {{error}}",
+                { error }
+            )
+        )
+    } else if (isSuccess) {
         for (const customForm of data) {
             const queryKey = keys.byId(customForm.id)
 

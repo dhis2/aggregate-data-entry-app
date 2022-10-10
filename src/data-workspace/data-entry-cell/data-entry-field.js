@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React from 'react'
 import {
     useLockedContext,
     useHighlightedFieldStore,
@@ -23,12 +23,7 @@ export const DataEntryField = React.memo(function DataEntryField({
             categoryOptionComboId: coc.id,
         })
     )
-    // todo: perhaps this could be refactored to use DV mutation state
-    // See https://dhis2.atlassian.net/browse/TECH-1316
-    const [syncStatus, setSyncStatus] = useState({
-        syncing: false,
-        synced: false,
-    })
+
     const { locked } = useLockedContext()
 
     return (
@@ -37,7 +32,6 @@ export const DataEntryField = React.memo(function DataEntryField({
                 fieldname={fieldname}
                 deId={de.id}
                 cocId={coc.id}
-                syncStatus={syncStatus}
                 disabled={disabled}
                 locked={locked}
                 highlighted={highlighted}
@@ -46,7 +40,6 @@ export const DataEntryField = React.memo(function DataEntryField({
                     fieldname={fieldname}
                     dataElement={de}
                     categoryOptionCombo={coc}
-                    setSyncStatus={setSyncStatus}
                     disabled={disabled}
                     locked={locked}
                     highlighted={highlighted}

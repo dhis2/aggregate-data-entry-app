@@ -1,10 +1,14 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, colors, IconFlag24, Tooltip } from '@dhis2/ui'
 import React from 'react'
-import { useSetDataValueMutation } from '../../shared/index.js'
+import {
+    useSetDataValueMutation,
+    useCanUserEditFields,
+} from '../../shared/index.js'
 import ItemPropType from './item-prop-type.js'
 
 const FollowUpButton = ({ item }) => {
+    const canUserEditFields = useCanUserEditFields()
     const isEmptyField = !item?.value
 
     const setDataValueFollowup = useSetDataValueMutation({
@@ -27,12 +31,13 @@ const FollowUpButton = ({ item }) => {
         )
     }
 
+    const disabled = isEmptyField || !canUserEditFields
     const markForFollowUpButton = (
         <Button
             secondary
             icon={<IconFlag24 color={colors.grey600} />}
             onClick={onMarkForFollowUp}
-            disabled={isEmptyField}
+            disabled={disabled}
         >
             {i18n.t('Mark for follow-up')}
         </Button>
@@ -53,8 +58,21 @@ const FollowUpButton = ({ item }) => {
         )
     }
 
+    if (!canUserEditFields) {
+        return (
+            <Tooltip
+                content={i18n.t(
+                    'You do not have the authority to mark this value for follow -up'
+                )}
+            >
+                {markForFollowUpButton}
+            </Tooltip>
+        )
+    }
+
     return <>{markForFollowUpButton}</>
 }
+
 FollowUpButton.propTypes = {
     item: ItemPropType,
 }
