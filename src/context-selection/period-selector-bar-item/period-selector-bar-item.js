@@ -8,7 +8,9 @@ import {
     usePeriod,
     useDataSetId,
     usePeriodId,
-    useDateStringAtServerTimezone,
+    getCurrentDate,
+    formatJsDateToDateString,
+    useClientDateAtServerTimezone,
 } from '../../shared/index.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
@@ -25,7 +27,8 @@ const getMaxYear = (dateLimit) => {
 }
 
 export const PeriodSelectorBarItem = () => {
-    const adjustedCurrentDateString = useDateStringAtServerTimezone()
+    const currentDateAtServerTimezone = useClientDateAtServerTimezone(getCurrentDate())
+    const adjustedCurrentDateString = formatJsDateToDateString(currentDateAtServerTimezone)
     const currentFullYear = parseInt(adjustedCurrentDateString.split('-')[0])
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()

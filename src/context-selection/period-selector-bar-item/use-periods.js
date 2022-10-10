@@ -6,7 +6,9 @@ import {
     getFixedPeriodsForTypeAndDateRange,
     getYearlyPeriodIdForTypeAndYear,
     parsePeriodId,
-    useDateStringAtServerTimezone,
+    getCurrentDate,
+    formatJsDateToDateString,
+    useClientDateAtServerTimezone,
 } from '../../shared/index.js'
 
 export default function usePeriods({
@@ -15,7 +17,8 @@ export default function usePeriods({
     year,
     dateLimit,
 }) {
-    const adjustedCurrentDateString = useDateStringAtServerTimezone()
+    const currentDateAtServerTimezone = useClientDateAtServerTimezone(getCurrentDate())
+    const adjustedCurrentDateString = formatJsDateToDateString(currentDateAtServerTimezone)
 
     return useMemo(() => {
         if (!periodType) {
