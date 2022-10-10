@@ -1,6 +1,7 @@
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useSetDataValueMutation } from '../../shared/data-value-mutations/data-value-mutations.js'
+import useCanUserEditFields from '../../shared/use-user-info/use-can-user-edit-fields.js'
 import { render } from '../../test-utils/render.js'
 import FollowUpButton from './basic-information-follow-up-button.js'
 
@@ -9,6 +10,10 @@ jest.mock('../../shared/data-value-mutations/data-value-mutations.js', () => ({
         mutate: jest.fn(),
     })),
 }))
+
+jest.mock('../../shared/use-user-info/use-can-user-edit-fields.js')
+
+useCanUserEditFields.mockImplementation(() => true)
 
 const mockItemBase = {
     dataElement: 'ixDKJGrGtFg',
@@ -45,7 +50,7 @@ describe('FollowUpButton', () => {
     })
 
     describe('when item is passed', () => {
-        it(`should render a tooltip`, () => {
+        it(`should not render a tooltip`, () => {
             const { queryByTestId } = render(
                 <FollowUpButton item={{ ...mockItemBase, followUp: false }} />
             )
@@ -91,7 +96,6 @@ describe('FollowUpButton', () => {
                 )
 
                 userEvent.click(getByText('Mark for follow-up'))
-
                 expect(mutate).toHaveBeenCalledWith({
                     followUp: true,
                 })
@@ -128,6 +132,27 @@ describe('FollowUpButton', () => {
                     followUp: false,
                 })
             })
+        })
+    })
+    describe('when user cannot edit field', () => {
+        beforeAll(() => {
+            useCanUserEditFields.mockReturnValue(false)
+        })
+        it(`should render a tooltip`, () => {
+            const { getByTestId } = render(
+                <FollowUpButton item={{ value: mockItemBase }} />
+            )
+
+            expect(
+                getByTestId('dhis2-uicore-tooltip-reference')
+            ).toBeInTheDocument()
+        })
+        it(`should render a Mark for follow-up button as disabled`, () => {
+            const { getByText } = render(
+                <FollowUpButton item={{ value: mockItemBase }} />
+            )
+
+            expect(getByText('Mark for follow-up')).toBeDisabled()
         })
     })
 })
