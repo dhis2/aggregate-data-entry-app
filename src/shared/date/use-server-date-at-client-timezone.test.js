@@ -24,7 +24,9 @@ describe('useCurrentDateStringAtServerTimezone hook', () => {
      */
 
     it('changes to later date when ahead of server time at day start', () => {
-        getCurrentDate.mockImplementation(() => new Date('2021-10-10 00:00:00-02:00'))
+        getCurrentDate.mockImplementation(
+            () => new Date('2021-10-10 00:00:00-02:00')
+        )
         const date = new Date('2021-08-30 22:01:00-02:00')
         const actual = useClientDateAtServerTimezone(date)
         const expected = new Date('2021-08-31 00:01:00')
@@ -32,7 +34,9 @@ describe('useCurrentDateStringAtServerTimezone hook', () => {
     })
 
     it('changes to older date when behind of server time at day end', () => {
-        getCurrentDate.mockImplementation(() => new Date('2021-10-10 00:00:00+02:00'))
+        getCurrentDate.mockImplementation(
+            () => new Date('2021-10-10 00:00:00+02:00')
+        )
         const date = new Date('2021-08-31 00:01:00+02:00')
         const actual = useClientDateAtServerTimezone(date)
         const expected = new Date('2021-08-30 22:01:00')

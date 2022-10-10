@@ -45,8 +45,11 @@ export const useCheckLockStatus = () => {
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const currentDate = getCurrentDate()
-    const currentDateAtServerTimezone = useClientDateAtServerTimezone(currentDate)
-    const adjustedCurrentDateString = formatJsDateToDateString(currentDateAtServerTimezone)
+    const currentDateAtServerTimezone =
+        useClientDateAtServerTimezone(currentDate)
+    const adjustedCurrentDateString = formatJsDateToDateString(
+        currentDateAtServerTimezone
+    )
     const { data: metadata } = useMetadata()
     const { setLockStatus } = useLockedContext()
     const dataValueSet = useDataValueSet()

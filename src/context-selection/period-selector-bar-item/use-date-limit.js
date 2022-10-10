@@ -7,18 +7,16 @@ import {
     useDataSetId,
     useMetadata,
     getCurrentDate,
-    formatJsDateToDateString,
     useClientDateAtServerTimezone,
 } from '../../shared/index.js'
 
 export const computeDateLimit = ({
     dataSetId,
     metadata,
-    adjustedCurrentDateString,
+    currentDateAtServerTimezone,
 }) => {
-    const dateAtServerTimeZone = new Date(adjustedCurrentDateString)
     if (!dataSetId) {
-        return dateAtServerTimeZone
+        return currentDateAtServerTimezone
     }
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
@@ -26,14 +24,17 @@ export const computeDateLimit = ({
     const openFuturePeriods = dataSet?.openFuturePeriods || 0
 
     if (openFuturePeriods <= 0) {
-        return dateAtServerTimeZone
+        return currentDateAtServerTimezone
     }
 
     // will only get the current period
     const [currentPeriod] = getFixedPeriodsForTypeAndDateRange({
         periodType,
-        startDate: removeFullPeriodTimeToDate(dateAtServerTimeZone, periodType),
-        endDate: dateAtServerTimeZone,
+        startDate: removeFullPeriodTimeToDate(
+            currentDateAtServerTimezone,
+            periodType
+        ),
+        endDate: currentDateAtServerTimezone,
     })
 
     let startDateLimit = new Date(currentPeriod.startDate)
@@ -47,16 +48,17 @@ export const computeDateLimit = ({
 export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
-    const currentDateAtServerTimezone = useClientDateAtServerTimezone(getCurrentDate())
-    const adjustedCurrentDateString = formatJsDateToDateString(currentDateAtServerTimezone)
+    const currentDateAtServerTimezone = useClientDateAtServerTimezone(
+        getCurrentDate()
+    )
 
     return useMemo(
         () =>
             computeDateLimit({
                 dataSetId,
                 metadata,
-                adjustedCurrentDateString,
+                currentDateAtServerTimezone,
             }),
-        [dataSetId, metadata, adjustedCurrentDateString]
+        [dataSetId, metadata, currentDateAtServerTimezone]
     )
 }

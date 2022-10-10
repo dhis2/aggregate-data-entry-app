@@ -2,7 +2,13 @@ import React from 'react'
 import useHighlightedField from '../../shared/highlighted-field/use-highlighted-field.js'
 import { render } from '../../test-utils/index.js'
 import BasicInformation from './basic-information.js'
+
 jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
+
+jest.mock('../../shared/date/use-server-date-at-client-timezone.js', () => ({
+    __esModule: true,
+    default: jest.fn((date) => date),
+}))
 
 const noop = () => {}
 
@@ -16,9 +22,11 @@ describe('<BasicInformation />', () => {
             value: '1',
         })
     })
+
     afterEach(() => {
         jest.useRealTimers()
     })
+
     it('renders the item name in a heading', () => {
         const item = {
             categoryOptionCombo: 'coc-1',

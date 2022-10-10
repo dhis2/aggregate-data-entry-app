@@ -5,7 +5,14 @@ import useHighlightedField from '../../shared/highlighted-field/use-highlighted-
 import { useUserInfo } from '../../shared/use-user-info/use-user-info.js'
 import { render } from '../../test-utils/render.js'
 import DataDetailsSidebar from './data-details-sidebar.js'
+
+jest.mock('../../shared/date/use-server-date-at-client-timezone.js', () => ({
+    __esModule: true,
+    default: jest.fn((date) => date),
+}))
+
 jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
+
 jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
     useUserInfo: jest.fn(),
 }))

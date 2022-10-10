@@ -5,8 +5,7 @@ import { computeDateLimit } from './use-date-limit.js'
  */
 describe('computeDateLimit', () => {
     it('should be current date if no openFuturePeriods', () => {
-        const dateString = '2022-09-27'
-        const now = new Date(dateString)
+        const now = new Date('2022-09-27')
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -17,17 +16,17 @@ describe('computeDateLimit', () => {
                 },
             },
         }
+
         const actual = computeDateLimit({
             dataSetId,
             metadata,
-            adjustedCurrentDateString: dateString,
+            currentDateAtServerTimezone: now,
         })
 
         expect(actual).toEqual(now)
     })
 
     it('should be 2022-10-01 if current date: 2022-08-31, periodType: Monthly, openFuturePeriods: 2', () => {
-        const dateString = '2022-08-31'
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -41,7 +40,7 @@ describe('computeDateLimit', () => {
         const actual = computeDateLimit({
             dataSetId,
             metadata,
-            adjustedCurrentDateString: dateString,
+            currentDateAtServerTimezone: new Date('2022-08-31'),
         })
         const expected = new Date('2022-10-01')
 
@@ -49,7 +48,6 @@ describe('computeDateLimit', () => {
     })
 
     it('should be 2022-10-01 if current date: 2022-08-01, periodType: Monthly, openFuturePeriods: 2', () => {
-        const dateString = '2022-08-01'
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -63,7 +61,7 @@ describe('computeDateLimit', () => {
         const actual = computeDateLimit({
             dataSetId,
             metadata,
-            adjustedCurrentDateString: dateString,
+            currentDateAtServerTimezone: new Date('2022-08-01'),
         })
         const expected = new Date('2022-10-01')
 
@@ -71,7 +69,6 @@ describe('computeDateLimit', () => {
     })
 
     it('should be 2025-01-01 if current date: 2022-08-01, periodType: Yearly, openFuturePeriods: 3', () => {
-        const dateString = '2022-08-01'
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -85,7 +82,7 @@ describe('computeDateLimit', () => {
         const actual = computeDateLimit({
             dataSetId,
             metadata,
-            adjustedCurrentDateString: dateString,
+            currentDateAtServerTimezone: new Date('2022-08-01'),
         })
         const expected = new Date('2025-01-01')
 

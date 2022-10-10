@@ -17,8 +17,12 @@ export default function usePeriods({
     year,
     dateLimit,
 }) {
-    const currentDateAtServerTimezone = useClientDateAtServerTimezone(getCurrentDate())
-    const adjustedCurrentDateString = formatJsDateToDateString(currentDateAtServerTimezone)
+    const currentDateAtServerTimezone = useClientDateAtServerTimezone(
+        getCurrentDate()
+    )
+    const adjustedCurrentDateString = formatJsDateToDateString(
+        currentDateAtServerTimezone
+    )
 
     return useMemo(() => {
         if (!periodType) {

@@ -27,8 +27,12 @@ const getMaxYear = (dateLimit) => {
 }
 
 export const PeriodSelectorBarItem = () => {
-    const currentDateAtServerTimezone = useClientDateAtServerTimezone(getCurrentDate())
-    const adjustedCurrentDateString = formatJsDateToDateString(currentDateAtServerTimezone)
+    const currentDateAtServerTimezone = useClientDateAtServerTimezone(
+        getCurrentDate()
+    )
+    const adjustedCurrentDateString = formatJsDateToDateString(
+        currentDateAtServerTimezone
+    )
     const currentFullYear = parseInt(adjustedCurrentDateString.split('-')[0])
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()

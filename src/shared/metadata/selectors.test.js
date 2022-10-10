@@ -816,6 +816,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
     })
 
     describe('getCategoriesWithOptionsWithinPeriodWithOrgUnit', () => {
+        const convertClientDateAtServerTimezone = (date) => date
         it('should return all category options if none have end dates', () => {
             const datasetid = 'dataset-id-1a'
             const periodid = '202201'
@@ -875,7 +876,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                convertClientDateAtServerTimezone
             )
 
             expect(actual).toEqual(expected)
@@ -936,7 +938,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                convertClientDateAtServerTimezone
             )
 
             expect(actual).toEqual(expected)
@@ -1004,7 +1007,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                convertClientDateAtServerTimezone
             )
 
             expect(actual).toEqual(expected)
@@ -1072,7 +1076,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                convertClientDateAtServerTimezone
             )
 
             expect(actual).toEqual(expected)
@@ -1148,7 +1153,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                convertClientDateAtServerTimezone
             )
 
             expect(actual).toEqual(expected)

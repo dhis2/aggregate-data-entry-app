@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConvertClientDateAtServerTimezone } from '../date/index.js'
 import { parsePeriodId } from '../fixed-periods/index.js'
 import { useSetHighlightedFieldIdContext } from '../highlighted-field/use-highlighted-field-context.js'
 import { useMetadata, selectors } from '../metadata/index.js'
@@ -94,12 +95,15 @@ function useHandleOrgUnitIdChange() {
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
 
+    const convertClientDateAtServerTimezone =
+        useConvertClientDateAtServerTimezone()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId
+            orgUnitId,
+            convertClientDateAtServerTimezone
         )
 
     useEffect(() => {
@@ -173,12 +177,15 @@ function useHandlePeriodIdChange() {
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
+    const convertClientDateAtServerTimezone =
+        useConvertClientDateAtServerTimezone()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId
+            orgUnitId,
+            convertClientDateAtServerTimezone
         )
 
     useEffect(() => {

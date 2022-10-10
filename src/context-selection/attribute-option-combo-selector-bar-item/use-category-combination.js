@@ -1,5 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import { parsePeriodId, useDataSetId, usePeriodId } from '../../shared/index.js'
+import {
+    parsePeriodId,
+    useConvertClientDateAtServerTimezone,
+    useDataSetId,
+    usePeriodId,
+} from '../../shared/index.js'
 
 const isOptionWithinPeriod = ({
     periodStartDate,
@@ -32,6 +37,8 @@ const isOptionWithinPeriod = ({
 }
 
 export default function useCategoryCombination() {
+    const convertClientDateAtServerTimezone =
+        useConvertClientDateAtServerTimezone()
     const [periodId] = usePeriodId()
     const [dataSetId] = useDataSetId()
     const params = {
@@ -55,8 +62,14 @@ export default function useCategoryCombination() {
         enabled: !!dataSetId && !!periodId,
         select: (data) => {
             const period = parsePeriodId(periodId)
-            const periodStartDate = new Date(period.startDate)
-            const periodEndDate = new Date(period.endDate)
+            // period dates are computed client side, category option stard and
+            // end dates are in the server timezone
+            const periodStartDate = convertClientDateAtServerTimezone(
+                new Date(period.startDate)
+            )
+            const periodEndDate = convertClientDateAtServerTimezone(
+                new Date(period.endDate)
+            )
 
             const { categories } = data.categoryCombo
             const categoriesWithFilteredOptions = categories.map(

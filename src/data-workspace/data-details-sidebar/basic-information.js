@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Tooltip, IconFlag16, colors } from '@dhis2/ui'
 import moment from 'moment'
 import React from 'react'
-import { useDateStringAtServerTimezone } from '../../shared/index.js'
+import { useServerDateAtClientTimezone } from '../../shared/index.js'
 import FollowUpButton from './basic-information-follow-up-button.js'
 import styles from './basic-information.module.css'
 import ItemPropType from './item-prop-type.js'
@@ -11,8 +11,9 @@ const BasicInformation = ({ item }) => {
     // This might pass "undefined" to moment and subsequently a wrong
     // "timeAgo", but in that case we won't render anything anyway, so there's
     // nothing to worry about in case there is no "item"
-    const lastUpdatedUtcDate = moment.utc(item?.lastUpdated).getDate()
-    const adjustedLastUpdated = useDateStringAtServerTimezone(lastUpdatedUtcDate)
+    const lastUpdatedUtcDate = new Date(item.lastUpdated)
+    const adjustedLastUpdated =
+        useServerDateAtClientTimezone(lastUpdatedUtcDate)
     const timeAgo = moment(adjustedLastUpdated).fromNow()
 
     return (
@@ -55,10 +56,13 @@ const BasicInformation = ({ item }) => {
                 <li>
                     {item.lastUpdated && (
                         <Tooltip content={item.lastUpdated.toString()}>
-                            {i18n.t('Last updated {{- timeAgo}} by {{- name}}', {
-                                timeAgo,
-                                name: item.storedBy,
-                            })}
+                            {i18n.t(
+                                'Last updated {{- timeAgo}} by {{- name}}',
+                                {
+                                    timeAgo,
+                                    name: item.storedBy,
+                                }
+                            )}
                         </Tooltip>
                     )}
                 </li>
