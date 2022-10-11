@@ -79,11 +79,9 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return null
     }
 
-    // Currently this can cause the form to reload when going back online
-    if (
-        initialDataValuesFetch.isFetching &&
-        initialDataValuesFetch.data === undefined
-    ) {
+    // We want to block initialization of form if in-flight
+    // or else we might use stale data that won't be updated once request completes
+    if (initialDataValuesFetch.isFetching) {
         return (
             <CenteredContent>
                 <CircularLoader />
