@@ -54,7 +54,7 @@ function useHandleDataSetIdChange() {
         if (dataSetId && !dataSet) {
             showWarningAlert(
                 i18n.t(
-                    'There was a problem loading the {{objectType}} selection ({{id}}).You might not have access, or the selection might be invalid.',
+                    'There was a problem loading the {{objectType}} selection ({{id}}). You might not have access, or the selection might be invalid.',
                     {
                         objectType: 'Data Set',
                         id: dataSetId,
