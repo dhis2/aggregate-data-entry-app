@@ -6,6 +6,8 @@ import createIDBPersister from './persister.js'
 
 const persister = createIDBPersister()
 
+const persistErrorTypes = new Set(['network', 'access'])
+
 const persistOptions = {
     persister,
     maxAge: Infinity,
@@ -17,23 +19,41 @@ const persistOptions = {
             const shouldPersist = query?.meta?.persist === true
             return isSuccess && shouldPersist
         },
+        shouldDehydrateMutation: (mutation) => {
+            const shouldPersistError =
+                mutation.state.status === 'error' &&
+                persistErrorTypes.has(mutation.state.error?.type)
+            return mutation.state.isPaused || shouldPersistError
+        },
+    },
+    hydrateOptions: {
+        defaultOptions: {
+            queries: {
+                meta: {
+                    // meta-property is not persisted, so this makes sure dehydrated-queries will
+                    // be persisted again
+                    persist: true,
+                    // can be used to check if the query originates from the persisted-store
+                    isHydrated: true,
+                },
+            },
+        },
     },
 }
-
-export const ConfiguredQueryClientProvider = ({ children, queryClient }) => {
+export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
     return (
         <PersistQueryClientProvider
             client={queryClient}
             persistOptions={persistOptions}
+            onSuccess={() => {
+                queryClient.resumePausedMutations()
+            }}
         >
             {children}
         </PersistQueryClientProvider>
     )
 }
-
-const propTypes = {
+ConfiguredQueryClientProvider.propTypes = {
     queryClient: PropTypes.instanceOf(QueryClient).isRequired,
     children: PropTypes.node,
 }
-
-ConfiguredQueryClientProvider.propTypes = propTypes

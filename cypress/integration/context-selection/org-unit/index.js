@@ -83,9 +83,9 @@ When('the root org unit have been loaded', () => {
     ).should('exist')
 })
 
-When('selects an org unit', () => {
+When('selects the org unit {string}', (orgUnitName) => {
     cy.get(
-        `[data-test="org-unit-selector-tree-node-label"]:contains("Sierra Leone")`
+        `[data-test="org-unit-selector-tree-node-label"]:contains(${orgUnitName})`
     ).click()
 })
 
@@ -220,7 +220,7 @@ When(
             'ART monthly summary'
         ).click()
 
-        cy.contains('Child Health')
+        cy.contains('Child Health').click()
     }
 )
 

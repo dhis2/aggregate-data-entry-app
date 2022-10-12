@@ -5,3 +5,6 @@ src/locales
 build
 cypress.env.json
 .vscode
+.env.development.local
+.env.test.local
+.env.production.local

@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
+import { useForm } from 'react-final-form'
 import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
 import {
     VALUE_TYPES,
+    dataDetailsSidebarId,
     useSetHighlightedFieldIdContext,
 } from '../../shared/index.js'
-import { dataDetailsSidebarId } from '../constants.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
     GenericInput,
@@ -21,7 +22,6 @@ function InputComponent({ sharedProps, de }) {
     if (de.optionSet) {
         return <OptionSet {...sharedProps} optionSetId={de.optionSet.id} />
     }
-
     // Otherwise, check for the valueType
     switch (de.valueType) {
         case VALUE_TYPES.BOOLEAN: {
@@ -60,15 +60,15 @@ export function EntryFieldInput({
     fieldname,
     dataElement: de,
     categoryOptionCombo: coc,
-    setSyncStatus,
     disabled,
+    locked,
 }) {
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
 
     // used so we don't consume the "id" which
     // would cause this component to rerender
     const setRightHandPanel = useSetRightHandPanel()
-
+    const form = useForm()
     // todo: maybe move to InnerWrapper?
     // See https://dhis2.atlassian.net/browse/TECH-1296
     const onKeyDown = useCallback(
@@ -97,14 +97,15 @@ export function EntryFieldInput({
     const sharedProps = useMemo(
         () => ({
             fieldname,
+            form,
             deId: de.id,
             cocId: coc.id,
             disabled,
-            setSyncStatus,
+            locked,
             onFocus,
             onKeyDown,
         }),
-        [fieldname, de, coc, disabled, setSyncStatus, onFocus, onKeyDown]
+        [fieldname, form, de, coc, disabled, locked, onFocus, onKeyDown]
     )
 
     return <InputComponent sharedProps={sharedProps} de={de} />
@@ -124,5 +125,5 @@ EntryFieldInput.propTypes = {
     }),
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
-    setSyncStatus: PropTypes.func,
+    locked: PropTypes.bool,
 }

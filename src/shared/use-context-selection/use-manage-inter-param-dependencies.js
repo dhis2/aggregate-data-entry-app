@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { parsePeriodId } from '../fixed-periods/index.js'
+import { useSetHighlightedFieldIdContext } from '../highlighted-field/use-highlighted-field-context.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { filterObject } from '../utils.js'
 import {
@@ -35,12 +36,19 @@ function useHandleDataSetIdChange() {
         useAttributeOptionComboSelection()
     const [dataSetId] = useDataSetId()
     const [prevDataSetId, setPrevDataSetId] = useState(dataSetId)
+    const [orgUnitId, setOrgUnitId] = useOrgUnitId()
     const { data: metadata } = useMetadata()
-    const dataSet = selectors.getDataSetById(metadata, dataSetId)
-    const dataSetPeriodType = dataSet?.periodType
+    const {
+        organisationUnits: assignedOrgUnits,
+        periodType: dataSetPeriodType,
+    } = selectors.getDataSetById(metadata, dataSetId) || {}
+    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
 
     useEffect(() => {
         if (dataSetId !== prevDataSetId) {
+            // clear out highlightedFieldId if dataset has changed
+            setHighlightedFieldId(null)
+
             // unset period if new data set has a different period type
             if (previousPeriodType !== dataSetPeriodType) {
                 setPeriodId(undefined)
@@ -49,6 +57,14 @@ function useHandleDataSetIdChange() {
 
             // unset attribute options
             setAttributeOptionComboSelection(undefined)
+
+            // if orgUnit is not assigned to dataset, clear out orgUnit assignment
+            if (
+                orgUnitId !== undefined &&
+                !assignedOrgUnits?.includes(orgUnitId)
+            ) {
+                setOrgUnitId(undefined)
+            }
 
             setPrevDataSetId(dataSetId)
         }
@@ -62,6 +78,10 @@ function useHandleDataSetIdChange() {
         setPeriodId,
         attributeOptionComboSelection,
         setAttributeOptionComboSelection,
+        assignedOrgUnits,
+        setOrgUnitId,
+        orgUnitId,
+        setHighlightedFieldId,
     ])
 }
 
@@ -75,12 +95,12 @@ function useHandleOrgUnitIdChange() {
         useAttributeOptionComboSelection()
 
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit({
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId,
-        })
+            orgUnitId
+        )
 
     useEffect(() => {
         if (orgUnitId !== prevOrgUnitId) {
@@ -154,12 +174,12 @@ function useHandlePeriodIdChange() {
     const [periodId] = usePeriodId()
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
     const relevantCategoriesWithOptions =
-        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit({
+        selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId,
-        })
+            orgUnitId
+        )
 
     useEffect(() => {
         if (periodId !== prevPeriodId) {

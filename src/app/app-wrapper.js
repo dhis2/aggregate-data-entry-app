@@ -7,13 +7,13 @@ import { HashRouter, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.js'
 import { RightHandPanelProvider } from '../right-hand-panel/index.js'
-import {
-    HighlightedFieldIdProvider,
-    FormChangedSincePanelOpenedProvider,
-} from '../shared/index.js'
+import { HighlightedFieldIdProvider, LockedProvider } from '../shared/index.js'
+import '../locales/index.js'
 import App from './app.js'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
 import useQueryClient from './query-client/use-query-client.js'
+
+const enableRQDevtools = process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
 
 /**
  * @param {Object} props
@@ -39,18 +39,18 @@ export function OuterComponents({
             <CssReset />
             <CssVariables colors spacers theme />
             <ConfiguredQueryClientProvider queryClient={queryClient}>
-                <ReactQueryDevtools />
+                {enableRQDevtools && <ReactQueryDevtools />}
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
-                        <HighlightedFieldIdProvider>
-                            <FormChangedSincePanelOpenedProvider>
+                        <LockedProvider>
+                            <HighlightedFieldIdProvider>
                                 <RightHandPanelProvider>
                                     <PrintAreaProvider>
                                         {children}
                                     </PrintAreaProvider>
                                 </RightHandPanelProvider>
-                            </FormChangedSincePanelOpenedProvider>
-                        </HighlightedFieldIdProvider>
+                            </HighlightedFieldIdProvider>
+                        </LockedProvider>
                     </QueryParamProvider>
                 </Router>
             </ConfiguredQueryClientProvider>

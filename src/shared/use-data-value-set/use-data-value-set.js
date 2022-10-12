@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
+import { defaultOnSuccess } from '../../shared/default-on-success.js'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
@@ -20,7 +21,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
                 value,
                 comment,
                 storedBy,
-                followup,
+                followUp,
                 lastUpdated,
             }
         ) => {
@@ -29,7 +30,7 @@ function mapDataValuesToFormInitialValues(dataValues) {
                 dataElement,
                 comment,
                 storedBy,
-                followup,
+                followUp,
                 lastUpdated,
             }
 
@@ -49,24 +50,43 @@ function mapDataValuesToFormInitialValues(dataValues) {
 const select = createSelector(
     (data) => data,
     (data) => {
+        const completeStatus = data.completeStatus
         const dataValues = mapDataValuesToFormInitialValues(data.dataValues)
         const minMaxValues = data.minMaxValues || {}
-        return { dataValues, minMaxValues }
+        const lockStatus = data.lockStatus || ''
+        return { completeStatus, dataValues, minMaxValues, lockStatus }
     }
 )
 
-const meta = { persist: true }
-
-export const useDataValueSet = () => {
+/**
+ * If this query is used while offline, since it uses the 'offlineFirst'
+ * network mode, the query will be try once, then be PAUSED
+ * and its data will be undefined.
+ * Consumers will need to adapt accordingly to allow forms to load offline.
+ *
+ * Here are some values to expect while offline:
+ * isPaused = true
+ * isFetching = false
+ * isLoading = true
+ * data = undefined
+ *
+ * TODO: This is no longer using the dataValueSet endpoint; should rename.
+ */
+export const useDataValueSet = ({ onSuccess } = {}) => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
+
+    const isMutating = useIsMutating(queryKey[0]) > 0
+
     const result = useQuery(queryKey, {
-        // Only enable this query if there are no ongoing mutations
-        enabled: isValidSelection,
-        select,
-        // Only fetch whilst offline, to prevent optimistic updates from being overwritten
-        networkMode: 'online',
-        meta,
+        // TODO: Disable if disconnected from DHIS2 server?
+        enabled: !isMutating && isValidSelection,
+        staleTime: Infinity,
+        select: select,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        meta: { persist: true },
+        onSuccess: defaultOnSuccess(onSuccess),
     })
 
     return result

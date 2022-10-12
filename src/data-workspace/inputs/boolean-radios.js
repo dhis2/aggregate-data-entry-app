@@ -1,9 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
-import React, { useState } from 'react'
+import React from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
@@ -15,10 +15,11 @@ import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 // does `isEqual` prop help make 1/true and 0/false/'' equal?
 export const BooleanRadios = ({
     fieldname,
+    form,
     deId,
     cocId,
     disabled,
-    setSyncStatus,
+    locked,
     onKeyDown,
     onFocus,
 }) => {
@@ -54,7 +55,13 @@ export const BooleanRadios = ({
         subscription: { value: true },
     })
 
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const {
+        input: { value: fieldvalue },
+        meta: { valid, data },
+    } = useField(fieldname, {
+        subscription: { value: true, valid: true, data: true },
+    })
+
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -63,8 +70,9 @@ export const BooleanRadios = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    setLastSyncedValue(value)
-                    setSyncStatus({ syncing: false, synced: true })
+                    form.mutators.setFieldData(fieldname, {
+                        lastSyncedValue: value,
+                    })
                 },
             }
         )
@@ -73,45 +81,38 @@ export const BooleanRadios = ({
     const clearButtonProps = convertCallbackSignatures(clearField.input)
     delete clearButtonProps.type
 
-    const {
-        input: { value: fieldvalue },
-        meta,
-    } = useField(fieldname)
-
-    const handleBlur = () => {
-        const { dirty, valid } = meta
-        const value = fieldvalue || ''
+    const handleChange = (value) => {
         // If this value has changed, sync it to server if valid
-        if (dirty && valid && value !== lastSyncedValue) {
+        if (valid && value !== data.lastSyncedValue) {
             syncData(value)
         }
     }
 
     return (
-        <div className={styles.radioFlexWrapper}>
+        <div className={styles.radioFlexWrapper} onClick={onFocus}>
             <Radio
                 dense
                 label={i18n.t('Yes')}
                 value={'true'}
                 {...convertCallbackSignatures(yesField.input)}
-                onBlur={(_, e) => {
-                    handleBlur()
-                    yesField.input.onBlur(e)
+                onChange={(_, e) => {
+                    handleChange('true')
+                    yesField.input.onChange(e)
                 }}
                 onKeyDown={onKeyDown}
-                disabled={disabled}
+                disabled={disabled || locked}
             />
             <Radio
                 dense
                 label={i18n.t('No')}
                 value={'false'}
                 {...convertCallbackSignatures(noField.input)}
-                onBlur={(_, e) => {
-                    handleBlur()
-                    noField.input.onBlur(e)
+                onChange={(_, e) => {
+                    handleChange('false')
+                    noField.input.onChange(e)
                 }}
                 onKeyDown={onKeyDown}
-                disabled={disabled}
+                disabled={disabled || locked}
             />
             <Button
                 small
@@ -128,12 +129,8 @@ export const BooleanRadios = ({
                     syncData('')
                     clearField.input.onBlur()
                 }}
-                onBlur={() => {
-                    handleBlur() // Probably handled by onClick, but included here for safety
-                    clearField.input.onBlur()
-                }}
                 onKeyDown={onKeyDown}
-                disabled={disabled}
+                disabled={disabled || locked}
             >
                 {i18n.t('Clear')}
             </Button>

@@ -1,12 +1,16 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React from 'react'
 import { useField } from 'react-final-form'
-import { NUMBER_TYPES, VALUE_TYPES } from '../../shared/index.js'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import {
+    NUMBER_TYPES,
+    VALUE_TYPES,
+    useSetDataValueMutation,
+} from '../../shared/index.js'
+import { useMinMaxLimits } from '../use-min-max-limits.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
-import { validatorsByValueType } from './validators.js'
+import { validateByValueTypeWithLimits } from './validators.js'
 
 const htmlTypeAttrsByValueType = {
     [VALUE_TYPES.DATE]: 'date',
@@ -19,15 +23,39 @@ const htmlTypeAttrsByValueType = {
 
 export const GenericInput = ({
     fieldname,
+    form,
     deId,
     cocId,
-    setSyncStatus,
     valueType,
     onKeyDown,
     onFocus,
     disabled,
+    locked,
 }) => {
-    const [lastSyncedValue, setLastSyncedValue] = useState()
+    const limits = useMinMaxLimits(deId, cocId)
+    const formatValue = (value) => {
+        if (value === undefined) {
+            return undefined
+        } else if (
+            value.trim() &&
+            NUMBER_TYPES.includes(valueType) &&
+            Number.isFinite(Number(value))
+        ) {
+            return Number(value).toString()
+        } else {
+            return value.trim()
+        }
+    }
+    const { input, meta } = useField(fieldname, {
+        validate: validateByValueTypeWithLimits(valueType, limits),
+        subscription: { value: true, dirty: true, valid: true, data: true },
+        format: formatValue,
+        formatOnBlur: true,
+        // This is required to ensure form is validated on first page load
+        // this is because the validate prop doesn't rerender when limits change
+        data: limits,
+    })
+
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -36,30 +64,27 @@ export const GenericInput = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    setLastSyncedValue(value)
-                    setSyncStatus({ syncing: false, synced: true })
+                    form.mutators.setFieldData(fieldname, {
+                        lastSyncedValue: value,
+                    })
                 },
             }
         )
     }
 
-    const { input, meta } = useField(fieldname, {
-        validate: validatorsByValueType[valueType],
-        subscription: { value: true, dirty: true, valid: true },
-    })
-
     const handleBlur = () => {
         const { value } = input
-        const hasEmptySpaces = value && value.trim() === ''
-        const { dirty, valid } = meta
-        if (dirty && valid && !hasEmptySpaces && value !== lastSyncedValue) {
-            syncData(value.trim())
+        const formattedValue = formatValue(value)
+        const { valid } = meta
+        if (valid && formattedValue !== meta.data.lastSyncedValue) {
+            syncData(formattedValue)
         }
     }
 
     return (
         <input
             {...input}
+            value={input.value ?? ''}
             className={cx(styles.basicInput, {
                 [styles.alignToEnd]: NUMBER_TYPES.includes(valueType),
             })}
@@ -75,6 +100,7 @@ export const GenericInput = ({
             autoComplete="off"
             onKeyDown={onKeyDown}
             disabled={disabled}
+            readOnly={locked}
         />
     )
 }

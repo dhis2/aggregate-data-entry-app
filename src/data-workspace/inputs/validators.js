@@ -11,7 +11,7 @@ import {
     number,
     url,
 } from '@dhis2/ui-forms'
-import { VALUE_TYPES } from '../../shared/index.js'
+import { CAN_HAVE_LIMITS_TYPES, VALUE_TYPES } from '../../shared/index.js'
 
 export const text = createMaxCharacterLength(50000)
 export const letter = createMaxCharacterLength(1)
@@ -85,6 +85,24 @@ export const validatorsByValueType = {
     [VALUE_TYPES.TIME]: time,
     [VALUE_TYPES.UNIT_INTERVAL]: unitInterval,
     [VALUE_TYPES.URL]: url,
+}
+
+export const validateByValueTypeWithLimits = (valueType, limits) => {
+    const validators = []
+
+    if (validatorsByValueType[valueType]) {
+        validators.push(validatorsByValueType[valueType])
+    }
+
+    if (
+        CAN_HAVE_LIMITS_TYPES.includes(valueType) &&
+        Number.isFinite(limits?.min) &&
+        Number.isFinite(limits?.max)
+    ) {
+        validators.push(createNumberRange(limits.min, limits.max))
+    }
+
+    return composeValidators(...validators)
 }
 
 export const minMaxValidatorsByValueType = {

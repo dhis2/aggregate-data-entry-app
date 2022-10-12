@@ -1,48 +1,66 @@
 import i18n from '@dhis2/d2-i18n'
+import { SelectorBarItem, IconBlock16, Divider } from '@dhis2/ui'
+import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import {
+    selectors,
+    useMetadata,
+    useDataSetId,
+    useOrgUnitId,
+} from '../../shared/index.js'
+import DebouncedSearchInput from './debounced-search-input.js'
+import DisabledTooltip from './disabled-tooltip.js'
+import css from './org-unit-selector-bar-item.module.css'
 import {
     OrganisationUnitTree,
     OrganisationUnitTreeRootError,
     OrganisationUnitTreeRootLoading,
-    SelectorBarItem,
-} from '@dhis2/ui'
-import React, { useState } from 'react'
-import { useDataSetId, useOrgUnitId } from '../../shared/index.js'
-import DebouncedSearchInput from './debounced-search-input.js'
-import DisabledTooltip from './disabled-tooltip.js'
-import css from './org-unit-selector-bar-item.module.css'
+} from './organisation-unit-tree/index.js'
 import useExpandedState from './use-expanded-state.js'
-import useLoadOfflineLevels from './use-load-offline-levels.js'
 import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
 import useOrgUnit from './use-organisation-unit.js'
+import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
 
+const UnclickableLabel = ({ label }) => {
+    return (
+        <div className={css.disabled}>
+            <IconBlock16 />
+            <span>{label}</span>
+        </div>
+    )
+}
+
+UnclickableLabel.propTypes = {
+    label: PropTypes.any.isRequired,
+}
+
 export default function OrganisationUnitSetSelectorBarItem() {
-    useLoadOfflineLevels()
+    const prefetchedOrganisationUnits = usePrefetchedOrganisationUnits()
 
     const [filter, setFilter] = useState('')
     const orgUnitPathsByName = useOrgUnitPathsByName(filter)
 
     const [orgUnitOpen, setOrgUnitOpen] = useState(false)
     const { expanded, handleExpand, handleCollapse } = useExpandedState()
+    const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
+    const { organisationUnits: assignedOrgUnits } =
+        selectors.getDataSetById(metadata, dataSetId) || {}
+
     const [, setOrgUnitId] = useOrgUnitId()
 
     const orgUnit = useOrgUnit()
     const userOrgUnits = useUserOrgUnits()
-
-    // @TODO: Figure out how to only use org units that are connected to the
-    // data set. Currently the api only returns paths for the units on the
-    // lowest level, Task: Figure out if only the lowest levels should be
-    // selectable, if the levels above are missing from the response or whether
-    // all parent units are automatically selectable as well
-    // const dataSetOrgUnitPaths = useDataSetOrgUnitPaths()
 
     const selectorBarItemValue = useSelectorBarItemValue()
     const selected = orgUnit.data ? [orgUnit.data.path] : []
     const disabled = !dataSetId
     const filteredOrgUnitPaths = filter ? orgUnitPathsByName.data : []
     const orgUnitPathsByNameLoading =
+        // offline levels need to be prefetched before rendering the org-unit-tree
+        prefetchedOrganisationUnits.loading ||
         // Either a filter has been set but the hook
         // hasn't been called yet
         (filter !== '' && !orgUnitPathsByName.called) ||
@@ -74,10 +92,14 @@ export default function OrganisationUnitSetSelectorBarItem() {
                             )}
 
                             {!orgUnitPathsByNameLoading &&
-                                orgUnitPathsByName.error && (
+                                (orgUnitPathsByName.error ||
+                                    prefetchedOrganisationUnits.error) && (
                                     <OrganisationUnitTreeRootError
                                         dataTest="org-unit-selector-error"
-                                        error={orgUnitPathsByName.error}
+                                        error={
+                                            orgUnitPathsByName.error ||
+                                            prefetchedOrganisationUnits.error
+                                        }
                                     />
                                 )}
 
@@ -106,11 +128,41 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                             // Not sure why this is necessary, but when not done,
                                             // it causes bugs in the UI
                                             e.stopPropagation()
-                                            setOrgUnitId(id)
-                                            setOrgUnitOpen(false)
+                                            if (
+                                                assignedOrgUnits?.includes(id)
+                                            ) {
+                                                setOrgUnitId(id)
+                                                setOrgUnitOpen(false)
+                                            }
                                         }}
+                                        renderNodeLabel={({ node, label }) => {
+                                            return assignedOrgUnits?.includes(
+                                                node?.id
+                                            ) ? (
+                                                label
+                                            ) : (
+                                                <UnclickableLabel
+                                                    label={label}
+                                                />
+                                            )
+                                        }}
+                                        offlineLevels={
+                                            prefetchedOrganisationUnits.offlineLevels
+                                        }
+                                        prefetchedOrganisationUnits={
+                                            prefetchedOrganisationUnits.offlineOrganisationUnits
+                                        }
                                     />
                                 )}
+                        </div>
+                        <Divider margin="0" />
+                        <div className={css.labelContentContainer}>
+                            <IconBlock16 />
+                            <span className={css.label}>
+                                {i18n.t(
+                                    'Dataset is not assigned to this organisation unit'
+                                )}
+                            </span>
                         </div>
                     </div>
                 </SelectorBarItem>

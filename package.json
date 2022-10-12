@@ -1,6 +1,6 @@
 {
-    "name": "data-entry",
-    "version": "1.0.0",
+    "name": "aggregate-data-entry-app",
+    "version": "100.0.0",
     "description": "",
     "license": "BSD-3-Clause",
     "private": true,
@@ -8,7 +8,7 @@
         "build": "d2-app-scripts build",
         "start": "d2-app-scripts start",
         "start:nobrowser": "BROWSER=none yarn start",
-        "test": "d2-app-scripts test",
+        "test": "TZ=Etc/UTC d2-app-scripts test",
         "deploy": "d2-app-scripts deploy",
         "format": "d2-style apply",
         "format:staged": "d2-style apply --staged",
@@ -53,6 +53,7 @@
         "classnames": "^2.3.1",
         "expr-eval": "^2.0.2",
         "final-form": "^4.20.6",
+        "final-form-set-field-data": "^1.0.2",
         "history": "^5.1.0",
         "html-react-parser": "^1.4.8",
         "idb-keyval": "^6.1.0",
@@ -65,7 +66,8 @@
         "react-router-dom": "^5",
         "reselect": "^4.1.5",
         "tabbable": "^5.2.1",
-        "use-query-params": "^1.2.3"
+        "use-query-params": "^1.2.3",
+        "zustand": "^4.1.1"
     },
     "engines": {
         "node": ">=14.0.0"

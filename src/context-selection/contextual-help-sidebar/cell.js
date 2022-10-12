@@ -11,7 +11,7 @@ const Cell = ({ value, state }) => (
                 className={cx(styles.input, {
                     [styles.inputInvalid]: state === 'INVALID',
                     [styles.inputSynced]: state === 'SYNCED',
-                    [styles.inputDisabled]: state === 'LOCKED',
+                    [styles.inputLocked]: state === 'LOCKED',
                 })}
             >
                 {value}
@@ -22,9 +22,9 @@ const Cell = ({ value, state }) => (
                     <div className={styles.topRightTriangle} />
                 )}
             </div>
-            <div className={styles.bottomLeftIndicator}>
+            <div className={styles.bottomRightIndicator}>
                 {state === 'HAS_COMMENT' && (
-                    <div className={styles.bottomLeftTriangle} />
+                    <div className={styles.bottomRightTriangle} />
                 )}
             </div>
         </div>

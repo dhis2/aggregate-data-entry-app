@@ -17,6 +17,10 @@
     margin-right: 0;
 }
 
+.tooltipToolbarItem {
+    margin-right: 12px;
+}
+
 .icon {
     display: block;
     margin-right: 4px;
@@ -43,4 +47,9 @@
 
 .completedByLabel:after {
     content: ' ';
+}
+
+.mutationIndicator {
+    margin-left: auto;
+    margin-right: var(--spacers-dp4)
 }

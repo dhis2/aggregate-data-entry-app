@@ -2,12 +2,14 @@ import { IconMore16, colors } from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect } from 'react'
+import { useField, useForm } from 'react-final-form'
 import {
+    mutationKeys as dataValueMutationKeys,
     useDataValueParams,
-    getDataValueMutationKey,
-} from '../data-value-mutations/index.js'
+    useHighlightedFieldIdContext,
+    useValueStore,
+} from '../../shared/index.js'
 import styles from './data-entry-cell.module.css'
 
 /** Three dots or triangle in top-right corner of cell */
@@ -28,14 +30,14 @@ SyncStatusIndicator.propTypes = {
 }
 
 /** Grey triangle in bottom left of cell */
-const CommentIndicator = ({ isComment }) => {
+const CommentIndicator = ({ hasComment }) => {
     return (
-        <div className={styles.bottomLeftIndicator}>
-            {isComment && <div className={styles.bottomLeftTriangle} />}
+        <div className={styles.bottomRightIndicator}>
+            {hasComment && <div className={styles.bottomRightTriangle} />}
         </div>
     )
 }
-CommentIndicator.propTypes = { isComment: PropTypes.bool }
+CommentIndicator.propTypes = { hasComment: PropTypes.bool }
 
 /**
  * This inner wrapper provides styles and layout for the entry field based on
@@ -44,26 +46,59 @@ CommentIndicator.propTypes = { isComment: PropTypes.bool }
 export function InnerWrapper({
     children,
     disabled,
+    locked,
     fieldname,
     deId,
     cocId,
-    syncStatus,
 }) {
+    const hasComment = useValueStore((state) =>
+        state.hasComment({
+            dataElementId: deId,
+            categoryOptionComboId: cocId,
+        })
+    )
+    const { item } = useHighlightedFieldIdContext()
+    const highlighted = item && deId === item.de.id && cocId === item.coc.id
     const {
-        meta: { active, invalid },
-    } = useField(fieldname, { subscription: { active: true, invalid: true } })
+        input: { value },
+        meta: { invalid, active, data, dirty },
+    } = useField(fieldname, {
+        // by default undefined is formatted to ''
+        // this preserves the format used in the input-component
+        format: (v) => v,
+        subscription: {
+            value: true,
+            invalid: true,
+            active: true,
+            data: true,
+            dirty: true,
+        },
+    })
+    const form = useForm()
 
+    // initalize lastSyncedValue
+    useEffect(
+        () => {
+            form.mutators.setFieldData(fieldname, {
+                lastSyncedValue: value,
+            })
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    )
+
+    const synced = dirty && data.lastSyncedValue === value
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
-        mutationKey: getDataValueMutationKey(dataValueParams),
+        mutationKey: dataValueMutationKeys.all(dataValueParams),
     })
 
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
         ? styles.invalid
-        : activeMutations === 0 && syncStatus.synced
+        : activeMutations === 0 && synced
         ? styles.synced
         : null
 
@@ -71,16 +106,17 @@ export function InnerWrapper({
         <div
             className={cx(styles.cellInnerWrapper, cellStateClassName, {
                 [styles.active]: active,
+                [styles.highlighted]: highlighted,
                 [styles.disabled]: disabled,
+                [styles.locked]: locked,
             })}
         >
             {children}
             <SyncStatusIndicator
                 isLoading={activeMutations > 0}
-                isSynced={syncStatus.synced}
+                isSynced={synced}
             />
-            {/* todo: show indicator if there is a comment */}
-            <CommentIndicator isComment={false} />
+            <CommentIndicator hasComment={hasComment} />
         </div>
     )
 }
@@ -90,8 +126,5 @@ InnerWrapper.propTypes = {
     deId: PropTypes.string,
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
-    syncStatus: PropTypes.shape({
-        synced: PropTypes.bool,
-        syncing: PropTypes.bool,
-    }),
+    locked: PropTypes.bool,
 }

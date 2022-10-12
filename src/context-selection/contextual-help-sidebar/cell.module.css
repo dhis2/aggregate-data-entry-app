@@ -1,5 +1,6 @@
 .cell {
     composes: dataEntryCell from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+    border: none;
 }
 
 .cellInnerWrapper {
@@ -7,33 +8,36 @@
 }
 
 .input {
-    composes: input from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
-}
-
-.inputDisabled {
-    background: var(--colors-grey300);
+    composes: densePadding from '../../data-workspace/inputs/inputs.module.css';
+    composes: alignToEnd from '../../data-workspace/inputs/inputs.module.css';
+    outline: 1px solid var(--colors-grey400);
 }
 
 .inputInvalid {
-    composes: inputInvalid from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+    composes: invalid from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }
 
 .inputSynced {
-    composes: inputSynced from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+    composes: synced from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.inputLocked {
+    composes: locked from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+    cursor: not-allowed;
 }
 
 .topRightIndicator {
     composes: topRightIndicator from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }
 
-.bottomLeftIndicator {
-    composes: bottomLeftIndicator from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+.bottomRightIndicator {
+    composes: bottomRightIndicator from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }
 
 .topRightTriangle {
     composes: topRightTriangle from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }
 
-.bottomLeftTriangle {
-    composes: bottomLeftTriangle from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+.bottomRightTriangle {
+    composes: bottomRightTriangle from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }

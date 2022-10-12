@@ -1,34 +1,20 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button } from '@dhis2/ui'
 import React from 'react'
-import { dataDetailsSidebarId } from '../data-workspace/constants.js'
 import { useRightHandPanelContext } from '../right-hand-panel/index.js'
-import { useMetadata, selectors, useHighlightedField } from '../shared/index.js'
+import { dataDetailsSidebarId, useHighlightedField } from '../shared/index.js'
 import styles from './data-item-bar.module.css'
 
 export default function DataItemBar() {
     const rightHandPanel = useRightHandPanelContext()
     const item = useHighlightedField()
-    const { data: metadata } = useMetadata()
-
-    const dataElement = selectors.getDataElementById(metadata, item.dataElement)
-    const categoryOptions = selectors.getCategoryOptionsByCategoryOptionComboId(
-        metadata,
-        item.categoryOptionCombo
-    )
-
-    // We don't want to display "default"
-    const categoryOptionComboDisplayName = categoryOptions
-        .filter(({ isDefault }) => !isDefault)
-        .map(({ displayShortName }) => displayShortName)
-        .join(', ')
 
     return (
         <div className={styles.container}>
             <span className={styles.name}>
-                {dataElement.displayName}
-                {categoryOptionComboDisplayName &&
-                    ` | ${categoryOptionComboDisplayName}`}
+                {item.displayFormName}
+                {item.categoryOptionComboName &&
+                    ` | ${item.categoryOptionComboName}`}
             </span>
 
             <Button

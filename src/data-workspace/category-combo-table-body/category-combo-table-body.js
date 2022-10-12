@@ -1,4 +1,5 @@
 import { TableBody, TableRow, TableCell } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 import { useMetadata, selectors } from '../../shared/index.js'
@@ -43,16 +44,19 @@ export const CategoryComboTableBody = React.memo(
                 ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
                 : []
 
-        const filteredDataElements = dataElements.filter((de) => {
+        const filteredDeIds = new Set()
+        // filter out elements that do not match filterText
+        dataElements.forEach((de) => {
             const name = de.displayFormName.toLowerCase()
-            return (
-                (!filterText || name.includes(filterText.toLowerCase())) &&
-                (!globalFilterText ||
-                    name.includes(globalFilterText.toLowerCase()))
-            )
+            if (
+                (filterText && !name.includes(filterText.toLowerCase())) ||
+                (globalFilterText &&
+                    !name.includes(globalFilterText.toLowerCase()))
+            ) {
+                filteredDeIds.add(de.id)
+            }
         })
-        const hiddenItemsCount =
-            dataElements.length - filteredDataElements.length
+        const hiddenItemsCount = filteredDeIds.size
 
         return (
             <TableBody>
@@ -63,9 +67,14 @@ export const CategoryComboTableBody = React.memo(
                     paddingCells={paddingCells}
                     checkTableActive={checkTableActive}
                 />
-                {filteredDataElements.map((de, i) => {
+                {dataElements.map((de, i) => {
                     return (
-                        <TableRow key={de.id}>
+                        <TableRow
+                            key={de.id}
+                            className={cx({
+                                [styles.hidden]: filteredDeIds.has(de.id),
+                            })}
+                        >
                             <DataElementCell dataElement={de} />
                             {sortedCOCs.map((coc) => (
                                 <DataEntryCell key={coc.id}>

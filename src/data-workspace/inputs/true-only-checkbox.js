@@ -1,25 +1,28 @@
 import { Checkbox } from '@dhis2/ui'
-import React, { useState } from 'react'
+import React from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation } from '../data-value-mutations/index.js'
+import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { convertCallbackSignatures, InputPropTypes } from './utils.js'
 
 export const TrueOnlyCheckbox = ({
     fieldname,
+    form,
     deId,
     cocId,
-    setSyncStatus,
     onKeyDown,
     onFocus,
     disabled,
+    locked,
 }) => {
-    const { input, meta } = useField(fieldname, {
+    const {
+        input,
+        meta: { valid, data },
+    } = useField(fieldname, {
         type: 'checkbox',
-        subscription: { value: true, dirty: true, valid: true },
+        subscription: { value: true, dirty: true, valid: true, data: true },
     })
 
-    const [lastSyncedValue, setLastSyncedValue] = useState()
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
         // todo: Here's where an error state could be set: ('onError')
@@ -28,8 +31,11 @@ export const TrueOnlyCheckbox = ({
             { value: value || '' },
             {
                 onSuccess: () => {
-                    setLastSyncedValue(value)
-                    setSyncStatus({ syncing: false, synced: true })
+                    form.mutators.setFieldData(fieldname, {
+                        // value will be formatted to boolean, so keep same format
+                        // '' becomes false
+                        lastSyncedValue: !!value,
+                    })
                 },
             }
         )
@@ -39,14 +45,15 @@ export const TrueOnlyCheckbox = ({
     const handleBlur = () => {
         // For 'True only', can only send 'true' (or '1') or ''
         const value = input.checked ? 'true' : ''
-        const { dirty, valid } = meta
-        if (dirty && valid && value !== lastSyncedValue) {
+        const lastVal = data.lastSyncedValue ? 'true' : ''
+
+        if (valid && value !== lastVal) {
             syncData(value)
         }
     }
 
     return (
-        <div className={styles.checkboxWrapper}>
+        <div className={styles.checkboxWrapper} onClick={onFocus}>
             <Checkbox
                 dense
                 {...convertCallbackSignatures(input)}
@@ -59,7 +66,7 @@ export const TrueOnlyCheckbox = ({
                     input.onBlur(e)
                 }}
                 onKeyDown={onKeyDown}
-                disabled={disabled}
+                disabled={disabled || locked}
             />
         </div>
     )

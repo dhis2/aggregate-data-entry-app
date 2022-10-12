@@ -1,64 +1,117 @@
 import i18n from '@dhis2/d2-i18n'
-import { Button, IconErrorFilled16, IconInfo16, colors } from '@dhis2/ui'
+import {
+    Button,
+    IconErrorFilled16,
+    IconInfo16,
+    Tooltip,
+    colors,
+} from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import React from 'react'
-import { validationResultsSidebarId } from '../data-workspace/constants.js'
+import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
-import { useDataValueSetQueryKey } from '../shared/index.js'
+import {
+    useConnectionStatus,
+    useDataValueSet,
+    useDataValueSetQueryKey,
+    useLockedContext,
+    useEntryFormStore,
+    validationResultsSidebarId,
+    useValidationStore,
+} from '../shared/index.js'
+import CompleteButton from './complete-button.js'
 import styles from './main-tool-bar.module.css'
+
+function ValidationButtonTooltip({ validateDisabled, offline, children }) {
+    if (!validateDisabled) {
+        return children
+    }
+
+    const tooltipContent = offline
+        ? i18n.t('Validation is not available offline')
+        : i18n.t('Validation is not available while changes are pending')
+
+    return (
+        <div className={styles.tooltipToolbarItem}>
+            <Tooltip content={tooltipContent}>{children}</Tooltip>
+        </div>
+    )
+}
+
+ValidationButtonTooltip.propTypes = {
+    children: PropTypes.any.isRequired,
+    offline: PropTypes.bool,
+    validateDisabled: PropTypes.bool,
+}
 
 export default function MainToolBar() {
     const rightHandPanel = useRightHandPanelContext()
     const queryKey = useDataValueSetQueryKey()
+    const { locked } = useLockedContext()
     const activeMutations = useIsMutating({
         mutationKey: queryKey,
     })
+    const numberOfErrors = useEntryFormStore((state) =>
+        state.getNumberOfErrors()
+    )
+    const { offline } = useConnectionStatus()
+    const validateDisabled = offline || activeMutations > 0
+    const { data } = useDataValueSet()
 
-    const validateDisabled = activeMutations > 0
+    const setValidationToRefresh = useValidationStore(
+        (store) => store.setValidationToRefresh
+    )
 
-    const isComplete = true // @TODO(isComplete): implement me!
-    const complete = () => console.log('@TODO(complete): implement me!')
-    const incomplete = () => console.log('@TODO(incomplete): implement me!')
     const validate = () => {
         if (rightHandPanel.id === validationResultsSidebarId) {
-            rightHandPanel.hide()
+            setValidationToRefresh(true)
         } else {
             rightHandPanel.show(validationResultsSidebarId)
         }
     }
-    const completedBy = 'Firstname Lastname' // @TODO(completedBy): implement me!
 
     return (
         <div className={styles.container}>
-            <Button
-                disabled={validateDisabled}
-                className={styles.toolbarItem}
-                onClick={validate}
+            <ValidationButtonTooltip
+                validateDisabled={validateDisabled}
+                offline={offline}
             >
-                {i18n.t('Run validation')}
-            </Button>
+                <Button
+                    disabled={validateDisabled}
+                    className={styles.toolbarItem}
+                    onClick={validate}
+                >
+                    {i18n.t('Run validation')}
+                </Button>
+            </ValidationButtonTooltip>
 
-            <Button
-                className={styles.toolbarItem}
-                onClick={isComplete ? incomplete : complete}
-            >
-                {isComplete
-                    ? i18n.t('Mark incomplete')
-                    : i18n.t('Mark complete')}
-            </Button>
+            <div className={styles.toolbarItem}>
+                <CompleteButton disabled={locked} />
+            </div>
 
-            <button className={cx(styles.goToInvalidValue, styles.toolbarItem)}>
-                <span className={cx(styles.icon, styles.goToInvalidValueIcon)}>
-                    <IconErrorFilled16 color={colors.red700} />
-                </span>
+            {numberOfErrors > 0 && (
+                <button
+                    className={cx(styles.goToInvalidValue, styles.toolbarItem)}
+                >
+                    <span
+                        className={cx(styles.icon, styles.goToInvalidValueIcon)}
+                    >
+                        <IconErrorFilled16 color={colors.red700} />
+                    </span>
+                    <span className={styles.goToInvalidValueLabel}>
+                        {numberOfErrors === 1
+                            ? i18n.t('1 invalid value not saved')
+                            : i18n.t(
+                                  '{{numberOfErrors}} invalid values not saved',
+                                  { numberOfErrors }
+                              )}
+                    </span>
+                </button>
+            )}
 
-                <span className={styles.goToInvalidValueLabel}>
-                    {i18n.t('3 invalid values not saved')}
-                </span>
-            </button>
-
-            {isComplete && (
+            {data?.completeStatus?.lastUpdatedBy && (
                 <span
                     className={cx(styles.completionSummary, styles.toolbarItem)}
                 >
@@ -70,12 +123,17 @@ export default function MainToolBar() {
 
                     <span>
                         <span className={styles.completedByLabel}>
-                            {i18n.t('Completed by')}
+                            {data.completeStatus.complete
+                                ? i18n.t('Last completed by')
+                                : i18n.t('Last incompleted by')}
                         </span>
-                        {completedBy}
+                        {data?.completeStatus.lastUpdatedBy}
                     </span>
                 </span>
             )}
+            <div className={styles.mutationIndicator}>
+                <MutationIndicator />
+            </div>
         </div>
     )
 }

@@ -6,9 +6,13 @@ import React from 'react'
 const MutationIndicator = () => {
     const pendingMutations = useIsMutating()
     const message = pendingMutations
-        ? i18n.t('There are {{ pendingMutations }} pending mutations', {
-              pendingMutations,
-          })
+        ? pendingMutations === 1
+            ? i18n.t('There is {{pendingMutations}} pending change.', {
+                  pendingMutations,
+              })
+            : i18n.t('There are {{pendingMutations}} pending changes.', {
+                  pendingMutations,
+              })
         : i18n.t('Synced')
 
     return (
