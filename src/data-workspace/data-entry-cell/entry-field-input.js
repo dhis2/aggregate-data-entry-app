@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, useMemo, useEffect } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useForm } from 'react-final-form'
 import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
 import {
     VALUE_TYPES,
     dataDetailsSidebarId,
     useHighlightedFieldStore,
+    useComponentWillUnmount,
 } from '../../shared/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
@@ -67,6 +68,13 @@ export function EntryFieldInput({
     const setHighlightedFieldId = useHighlightedFieldStore(
         (state) => state.setHighlightedField
     )
+
+    useComponentWillUnmount(() => {
+        if (highlighted) {
+            setHighlightedFieldId(null)
+        }
+    }, [highlighted])
+
     // used so we don't consume the "id" which
     // would cause this component to rerender
     const setRightHandPanel = useSetRightHandPanel()
@@ -98,16 +106,6 @@ export function EntryFieldInput({
             categoryOptionComboId: coc.id,
         })
     }, [de.id, coc.id, setHighlightedFieldId])
-
-    useEffect(() => {
-        return () => {
-            if (highlighted) {
-                setHighlightedFieldId(null)
-            }
-        }
-        // only used to cleanup on unmount - cannot include deps here
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     const sharedProps = useMemo(
         () => ({
