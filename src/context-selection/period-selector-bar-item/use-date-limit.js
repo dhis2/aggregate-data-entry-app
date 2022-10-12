@@ -6,15 +6,20 @@ import {
     selectors,
     useDataSetId,
     useMetadata,
+    formatJsDateToDateString,
     getCurrentDate,
-    useClientDateAtServerTimezone,
+    useConvertClientDateAtServerTimezone,
 } from '../../shared/index.js'
 
 export const computeDateLimit = ({
     dataSetId,
     metadata,
-    currentDateAtServerTimezone,
+    convertClientDateAtServerTimezone,
 }) => {
+    const currentDateAtServerTimezone = convertClientDateAtServerTimezone(
+        getCurrentDate()
+    )
+
     if (!dataSetId) {
         return currentDateAtServerTimezone
     }
@@ -48,17 +53,22 @@ export const computeDateLimit = ({
 export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
-    const currentDateAtServerTimezone = useClientDateAtServerTimezone(
+    const convertClientDateAtServerTimezone = useConvertClientDateAtServerTimezone()
+    const currentDateAtServerTimezone = convertClientDateAtServerTimezone(
         getCurrentDate()
     )
+    const dateWithoutTime = formatJsDateToDateString(currentDateAtServerTimezone)
 
     return useMemo(
-        () =>
-            computeDateLimit({
-                dataSetId,
-                metadata,
-                currentDateAtServerTimezone,
-            }),
-        [dataSetId, metadata, currentDateAtServerTimezone]
+        () => computeDateLimit({
+            dataSetId,
+            metadata,
+            convertClientDateAtServerTimezone,
+        }),
+
+        // Adding `dateWithoutTime` to the dependency array so this hook will
+        // recompute the date limit when the actual date changes
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [dataSetId, metadata, dateWithoutTime, convertClientDateAtServerTimezone]
     )
 }
