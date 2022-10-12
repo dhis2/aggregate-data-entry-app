@@ -11,9 +11,8 @@ const BasicInformation = ({ item }) => {
     // This might pass "undefined" to moment and subsequently a wrong
     // "timeAgo", but in that case we won't render anything anyway, so there's
     // nothing to worry about in case there is no "item"
-    const lastUpdatedUtcDate = new Date(item.lastUpdated)
-    const adjustedLastUpdated =
-        useServerDateAtClientTimezone(lastUpdatedUtcDate)
+    const lastUpdated = new Date(item.lastUpdated)
+    const adjustedLastUpdated = useServerDateAtClientTimezone(lastUpdated)
     const timeAgo = moment(adjustedLastUpdated).fromNow()
 
     return (
