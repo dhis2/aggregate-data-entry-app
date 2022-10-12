@@ -1,3 +1,4 @@
+import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import PropTypes from 'prop-types'
@@ -66,7 +67,24 @@ export default function AttributeOptionComboSelectorBarItem({
     const [open, setOpen] = useState(false)
     const { select, selected } = useSelected()
 
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
+    })
+
     useEffect(() => {
+        const resetAttributeOptionComboSelection = (id) => {
+            setAttributeOptionComboSelection(undefined)
+            showWarningAlert(
+                i18n.t(
+                    'There was a problem loading the {{objectType}} selection ({{id}}).You might not have access, or the selection might be invalid.',
+                    {
+                        objectType: 'Attribute Option Combo',
+                        id,
+                    }
+                )
+            )
+        }
+
         const relevantCategories = relevantCategoriesWithOptions.map(
             ({ id }) => id
         )
@@ -76,7 +94,7 @@ export default function AttributeOptionComboSelectorBarItem({
                 .filter(({ id }) => id === categoryId)[0]
                 ?.categoryOptions.map(({ id }) => id)
             if (!relevantCategories.includes(categoryId)) {
-                setAttributeOptionComboSelection(undefined)
+                resetAttributeOptionComboSelection(categoryId)
                 return
             }
             if (
@@ -84,7 +102,9 @@ export default function AttributeOptionComboSelectorBarItem({
                     attributeOptionComboSelection[categoryId]
                 )
             ) {
-                setAttributeOptionComboSelection(undefined)
+                resetAttributeOptionComboSelection(
+                    attributeOptionComboSelection[categoryId]
+                )
                 return
             }
         }
@@ -93,6 +113,7 @@ export default function AttributeOptionComboSelectorBarItem({
         relevantCategoriesWithOptions,
         metadata,
         setAttributeOptionComboSelection,
+        showWarningAlert,
     ])
 
     const label = useSelectorBarItemLabel(categoryCombo)

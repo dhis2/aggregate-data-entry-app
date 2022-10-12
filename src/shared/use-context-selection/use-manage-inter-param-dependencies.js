@@ -1,3 +1,5 @@
+import { useAlert } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
 import { useEffect, useState } from 'react'
 import { parsePeriodId } from '../fixed-periods/index.js'
 import { useSetHighlightedFieldIdContext } from '../highlighted-field/use-highlighted-field-context.js'
@@ -44,9 +46,21 @@ function useHandleDataSetIdChange() {
         periodType: dataSetPeriodType,
     } = selectors.getDataSetById(metadata, dataSetId) || {}
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
+    })
 
     useEffect(() => {
         if (dataSetId && !dataSet) {
+            showWarningAlert(
+                i18n.t(
+                    'There was a problem loading the {{objectType}} selection ({{id}}).You might not have access, or the selection might be invalid.',
+                    {
+                        objectType: 'Data Set',
+                        id: dataSetId,
+                    }
+                )
+            )
             setHighlightedFieldId(null)
             setDataSetId(undefined)
             setPeriodId(undefined)
@@ -92,6 +106,7 @@ function useHandleDataSetIdChange() {
         setHighlightedFieldId,
         dataSet,
         setDataSetId,
+        showWarningAlert,
     ])
 }
 

@@ -1,3 +1,4 @@
+import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
@@ -35,6 +36,9 @@ export const PeriodSelectorBarItem = () => {
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const dataSetPeriodType = dataSet?.periodType
     const openFuturePeriods = dataSet?.openFuturePeriods || 0
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
+    })
 
     const [year, setYear] = useState(
         selectedPeriod?.year || nowAtServerTimezone.getFullYear()
@@ -69,18 +73,33 @@ export const PeriodSelectorBarItem = () => {
     }, [dataSetPeriodType, selectedPeriod?.year, dateLimit, fullYear])
 
     useEffect(() => {
+        const resetPeriod = (id) => {
+            showWarningAlert(`The Period (${id}) is not open or is invalid.`)
+            i18n.t('The Period ({{id}}) is not open or is invalid.', {
+                id,
+            })
+            setPeriodId(undefined)
+        }
+
         if (selectedPeriod) {
             const endDate = new Date(selectedPeriod?.endDate)
             if (endDate >= dateLimit) {
-                setPeriodId(undefined)
+                resetPeriod(periodId)
             }
             if (selectedPeriod?.periodType?.type !== dataSet?.periodType) {
-                setPeriodId(undefined)
+                resetPeriod(periodId)
             }
         } else if (periodId) {
             setPeriodId(undefined)
         }
-    }, [selectedPeriod, dateLimit, dataSet, periodId, setPeriodId])
+    }, [
+        selectedPeriod,
+        dateLimit,
+        dataSet,
+        periodId,
+        setPeriodId,
+        showWarningAlert,
+    ])
 
     const selectorBarItemValue = useSelectorBarItemValue()
 
