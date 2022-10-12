@@ -29,7 +29,7 @@ Given(
         })
 
         cy.visit(
-            '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202212'
+            '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202112'
         )
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
