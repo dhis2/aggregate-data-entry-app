@@ -1,8 +1,12 @@
 /**
  * Initialise a Date instance with Date.now() for Jest mocking.
- * This can be removed once we upgrade Jest to a verion which
- * supports `jest.setSystemTime`.
  */
 export default function getCurrentDate() {
-    return new Date(Date.now())
+    const currentDate = new Date(Date.now())
+
+    // This will ensure that there's no rounding issue when calculating the
+    // offset to the server time
+    currentDate.setMilliseconds(0)
+
+    return currentDate
 }
