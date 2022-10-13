@@ -5,9 +5,12 @@ import BasicInformation from './basic-information.js'
 
 jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
 
-jest.mock('../../shared/date/use-server-date-at-client-timezone.js', () => ({
+jest.mock('../../shared/date/use-client-server-date.js', () => ({
     __esModule: true,
-    default: jest.fn((date) => date),
+    default: jest.fn(({ serverDate }) => ({
+        serverDate,
+        clientDate: serverDate,
+    })),
 }))
 
 const noop = () => {}
