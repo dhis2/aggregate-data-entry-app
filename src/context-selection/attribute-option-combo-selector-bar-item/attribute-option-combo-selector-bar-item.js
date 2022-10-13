@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import {
     selectors,
-    useConvertClientDateAtServerTimezone,
+    useClientServerDateUtils,
     useDataSetId,
     useMetadata,
     useOrgUnitId,
@@ -53,15 +53,14 @@ export default function AttributeOptionComboSelectorBarItem({
         metadata,
         dataSetId
     )
-    const convertClientDateAtServerTimezone =
-        useConvertClientDateAtServerTimezone()
+    const { fromClientDate } = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
             orgUnitId,
-            convertClientDateAtServerTimezone
+            fromClientDate
         )
 
     const [open, setOpen] = useState(false)
