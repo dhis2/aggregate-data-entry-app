@@ -1,8 +1,5 @@
 import { useEffect } from 'react'
-import {
-    formatJsDateToDateString,
-    useClientDateAtServerTimezone,
-} from '../date/index.js'
+import { formatJsDateToDateString, useClientServerDate } from '../date/index.js'
 import { getCurrentDate } from '../fixed-periods/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import {
@@ -45,10 +42,9 @@ export const useCheckLockStatus = () => {
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const currentDate = getCurrentDate()
-    const currentDateAtServerTimezone =
-        useClientDateAtServerTimezone(currentDate)
+    const clientServerDate = useClientServerDate({ clientDate: currentDate })
     const adjustedCurrentDateString = formatJsDateToDateString(
-        currentDateAtServerTimezone
+        clientServerDate.serverDate
     )
     const { data: metadata } = useMetadata()
     const { setLockStatus } = useLockedContext()
