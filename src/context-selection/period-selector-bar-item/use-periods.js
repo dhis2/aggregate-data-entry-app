@@ -8,7 +8,8 @@ import {
     parsePeriodId,
     getCurrentDate,
     formatJsDateToDateString,
-    useClientDateAtServerTimezone,
+    useClientServerDate,
+    useClientServerDateUtils,
 } from '../../shared/index.js'
 
 export default function usePeriods({
@@ -17,63 +18,74 @@ export default function usePeriods({
     year,
     dateLimit,
 }) {
-    const currentDateAtServerTimezone = useClientDateAtServerTimezone(
-        getCurrentDate()
-    )
+    const currentDate = getCurrentDate()
+    const { fromClientDate } = useClientServerDateUtils({
+        clientDate: currentDate,
+    })
+    const clientServerDate = useClientServerDate({ clientDate: currentDate })
     const adjustedCurrentDateString = formatJsDateToDateString(
-        currentDateAtServerTimezone
+        clientServerDate.serverDate
     )
 
-    return useMemo(() => {
-        if (!periodType) {
-            return []
-        }
+    return useMemo(
+        () => {
+            if (!periodType) {
+                return []
+            }
 
-        let periods
-        const currentDate = new Date(adjustedCurrentDateString)
+            let periods
+            const { serverDate } = fromClientDate(getCurrentDate())
 
-        if (yearlyPeriodTypes.includes(periodType)) {
-            const futureYearLimit = new Date(currentDate)
-            const validFuturePeriods =
-                openFuturePeriods >= 0 ? openFuturePeriods : 0
-            futureYearLimit.setFullYear(
-                currentDate.getFullYear() + validFuturePeriods
-            )
-            const yearsCount =
-                currentDate.getFullYear() - startYear + validFuturePeriods
-            periods = Array.from(Array(yearsCount))
-                .map((_, index) => {
-                    const year = index + startYear
-                    const periodId = getYearlyPeriodIdForTypeAndYear(
-                        periodType,
-                        year
+            if (yearlyPeriodTypes.includes(periodType)) {
+                const futureYearLimit = new Date(serverDate)
+                const validFuturePeriods =
+                    openFuturePeriods >= 0 ? openFuturePeriods : 0
+                futureYearLimit.setFullYear(
+                    serverDate.getFullYear() + validFuturePeriods
+                )
+                const yearsCount =
+                    serverDate.getFullYear() - startYear + validFuturePeriods
+                periods = Array.from(Array(yearsCount))
+                    .map((_, index) => {
+                        const year = index + startYear
+                        const periodId = getYearlyPeriodIdForTypeAndYear(
+                            periodType,
+                            year
+                        )
+                        return parsePeriodId(periodId)
+                    })
+                    .filter(
+                        ({ endDate }) => new Date(endDate) < futureYearLimit
                     )
-                    return parsePeriodId(periodId)
+            } else {
+                // Make sure we add options that start this year but span into
+                // the next year if we're not in the current year
+                // limit is between the first and second start dates of the following year
+                const nextYearLimitDate = addFullPeriodTimeToDate(
+                    `${year + 1}-01-01`,
+                    periodType
+                )
+                nextYearLimitDate.setDate(nextYearLimitDate.getDate() - 1)
+
+                periods = getFixedPeriodsForTypeAndDateRange({
+                    periodType,
+                    startDate: `${year}-01-01`,
+                    endDate: new Date(Math.min(dateLimit, nextYearLimitDate)),
                 })
-                .filter(({ endDate }) => new Date(endDate) < futureYearLimit)
-        } else {
-            // Make sure we add options that start this year but span into
-            // the next year if we're not in the current year
-            // limit is between the first and second start dates of the following year
-            const nextYearLimitDate = addFullPeriodTimeToDate(
-                `${year + 1}-01-01`,
-                periodType
-            )
-            nextYearLimitDate.setDate(nextYearLimitDate.getDate() - 1)
+            }
 
-            periods = getFixedPeriodsForTypeAndDateRange({
-                periodType,
-                startDate: `${year}-01-01`,
-                endDate: new Date(Math.min(dateLimit, nextYearLimitDate)),
-            })
-        }
-
-        return periods.reverse()
-    }, [
-        periodType,
-        adjustedCurrentDateString,
-        openFuturePeriods,
-        year,
-        dateLimit,
-    ])
+            return periods.reverse()
+        },
+        // Adding `adjustedCurrentDateString` to the dependency array so this hook will
+        // recompute the date limit when the actual date changes
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [
+            periodType,
+            adjustedCurrentDateString,
+            openFuturePeriods,
+            year,
+            dateLimit,
+            fromClientDate,
+        ]
+    )
 }
