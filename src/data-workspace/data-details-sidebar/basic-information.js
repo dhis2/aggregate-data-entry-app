@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Tooltip, IconFlag16, colors } from '@dhis2/ui'
 import moment from 'moment'
 import React from 'react'
-import { useServerDateAtClientTimezone } from '../../shared/index.js'
+import { useClientServerDate } from '../../shared/index.js'
 import FollowUpButton from './basic-information-follow-up-button.js'
 import styles from './basic-information.module.css'
 import ItemPropType from './item-prop-type.js'
@@ -12,8 +12,10 @@ const BasicInformation = ({ item }) => {
     // "timeAgo", but in that case we won't render anything anyway, so there's
     // nothing to worry about in case there is no "item"
     const lastUpdated = new Date(item.lastUpdated)
-    const adjustedLastUpdated = useServerDateAtClientTimezone(lastUpdated)
-    const timeAgo = moment(adjustedLastUpdated).fromNow()
+    const clientServerDate = useClientServerDate({ serverDate: lastUpdated })
+    // @TODO: This is not being translated!
+    // https://dhis2.atlassian.net/browse/TECH-1461
+    const timeAgo = moment(clientServerDate.clientDate).fromNow()
 
     return (
         <div className={styles.unit}>
