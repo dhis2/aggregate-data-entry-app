@@ -1,4 +1,4 @@
-name: 'dhis2: pr preview'
+name: 'dhis2: netlify deploy pr'
 
 # Requirements:
 #
@@ -17,7 +17,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    preview:
+    deploy:
         runs-on: ubuntu-latest
         if: "!github.event.push.repository.fork && github.actor != 'dependabot[bot]'"
         steps:
