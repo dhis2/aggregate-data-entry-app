@@ -34,8 +34,9 @@ const resolveAlertProps = (error) => {
     // find alertProps for errorCode, using detail-prop according to priority above
     for (const [key, errorMap] of errorDetailsMessagePriority) {
         const errorCode = error?.details[key]
-        if (errorCode) {
-            return errorMap[errorCode]
+        const mappedCode = errorMap[errorCode]
+        if (mappedCode) {
+            return mappedCode
         }
     }
     return { message: error.message }
@@ -56,9 +57,12 @@ export const useApiError = () => {
                 shouldRollback: false,
             }
         } else {
+            console.log('alertprops', { error })
             const alertProps = resolveAlertProps(error)
+            console.log('after ', alertProps)
             // show a custom message if one is set, otherwise display the error returned from the API
             showAlert(alertProps)
+            console.log('after show')
             // Also log the stack trace to the console (useful if there's a non-network error)
             console.error(error)
 
