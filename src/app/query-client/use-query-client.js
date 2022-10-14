@@ -70,7 +70,6 @@ const useQueryClient = () => {
             refetchOnWindowFocus: false,
             // Inactive queries were being garbage collected immediately unless set to Infinity
             cacheTime: Infinity,
-            onSuccess: handleDefaultOnSuccess,
         },
         mutations: {
             networkMode: 'offlineFirst',
