@@ -1,0 +1,42 @@
+.wrapperDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.innerDiv {
+    width: 400px;
+    text-align: center;
+}
+
+.svgWrapper {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.headingText {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    color: var(--colors-grey900);  
+    margin-top: 32px;
+}
+
+.instructionsText {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--colors-grey800);  
+    margin-top: 16px;
+}
+
+.linkText {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--colors-grey800);  
+    margin-top: 24px;
+}
