@@ -60,7 +60,9 @@ const BasicInformation = ({ item }) => {
                         // Safeguard! Using item because the `lastUpdated`
                         // variable will always have a value
                         item.lastUpdated && (
-                            <Tooltip content={item.lastUpdated.toString()}>
+                            <Tooltip
+                                content={lastUpdated.clientDate.toString()}
+                            >
                                 {i18n.t(
                                     'Last updated {{- timeAgo}} by {{- name}}',
                                     { timeAgo, name: item.storedBy }
