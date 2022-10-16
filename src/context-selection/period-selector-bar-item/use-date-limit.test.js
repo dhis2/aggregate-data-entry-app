@@ -1,12 +1,25 @@
+import { renderHook } from '@testing-library/react-hooks'
+import { useClientServerDateUtils, getCurrentDate } from '../../shared/index.js'
 import { computeDateLimit } from './use-date-limit.js'
+
+jest.mock('../../shared/fixed-periods/get-current-date.js', () => ({
+    __esModule: true,
+    default: jest.fn(() => new Date()),
+}))
+
+jest.mock('../../shared/date/use-server-time-offset.js', () => ({
+    __esModule: true,
+    default: jest.fn(() => 0),
+}))
 
 /**
  * Should add future periods, even when spanning over several years
  */
 describe('computeDateLimit', () => {
+    getCurrentDate.mockImplementation(() => new Date('2022-09-27'))
+
     it('should be current date if no openFuturePeriods', () => {
-        const dateString = '2022-09-27'
-        const now = new Date(dateString)
+        const { result } = renderHook(() => useClientServerDateUtils())
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -17,17 +30,19 @@ describe('computeDateLimit', () => {
                 },
             },
         }
+
         const actual = computeDateLimit({
             dataSetId,
             metadata,
-            adjustedCurrentDateString: dateString,
+            fromClientDate: result.current.fromClientDate,
         })
 
-        expect(actual).toEqual(now)
+        expect(actual).toEqual(new Date('2022-09-27'))
     })
 
     it('should be 2022-10-01 if current date: 2022-08-31, periodType: Monthly, openFuturePeriods: 2', () => {
-        const dateString = '2022-08-31'
+        getCurrentDate.mockImplementation(() => new Date('2022-08-31'))
+        const { result } = renderHook(() => useClientServerDateUtils())
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -41,7 +56,7 @@ describe('computeDateLimit', () => {
         const actual = computeDateLimit({
             dataSetId,
             metadata,
-            adjustedCurrentDateString: dateString,
+            fromClientDate: result.current.fromClientDate,
         })
         const expected = new Date('2022-10-01')
 
@@ -49,7 +64,8 @@ describe('computeDateLimit', () => {
     })
 
     it('should be 2022-10-01 if current date: 2022-08-01, periodType: Monthly, openFuturePeriods: 2', () => {
-        const dateString = '2022-08-01'
+        getCurrentDate.mockImplementation(() => new Date('2022-08-01'))
+        const { result } = renderHook(() => useClientServerDateUtils())
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -63,7 +79,7 @@ describe('computeDateLimit', () => {
         const actual = computeDateLimit({
             dataSetId,
             metadata,
-            adjustedCurrentDateString: dateString,
+            fromClientDate: result.current.fromClientDate,
         })
         const expected = new Date('2022-10-01')
 
@@ -71,7 +87,8 @@ describe('computeDateLimit', () => {
     })
 
     it('should be 2025-01-01 if current date: 2022-08-01, periodType: Yearly, openFuturePeriods: 3', () => {
-        const dateString = '2022-08-01'
+        getCurrentDate.mockImplementation(() => new Date('2022-08-01'))
+        const { result } = renderHook(() => useClientServerDateUtils())
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -85,7 +102,7 @@ describe('computeDateLimit', () => {
         const actual = computeDateLimit({
             dataSetId,
             metadata,
-            adjustedCurrentDateString: dateString,
+            fromClientDate: result.current.fromClientDate,
         })
         const expected = new Date('2025-01-01')
 

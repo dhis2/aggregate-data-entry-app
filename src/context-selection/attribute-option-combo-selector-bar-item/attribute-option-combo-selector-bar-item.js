@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import {
     selectors,
-    useMetadata,
+    useClientServerDateUtils,
     useDataSetId,
+    useMetadata,
     useOrgUnitId,
     usePeriodId,
 } from '../../shared/index.js'
@@ -52,12 +53,14 @@ export default function AttributeOptionComboSelectorBarItem({
         metadata,
         dataSetId
     )
+    const { fromClientDate } = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId
+            orgUnitId,
+            fromClientDate
         )
 
     const [open, setOpen] = useState(false)
