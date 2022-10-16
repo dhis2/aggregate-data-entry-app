@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-hooks'
 import useClientServerDate from './use-client-server-date.js'
 import useServerTimeOffset from './use-server-time-offset.js'
 
@@ -26,62 +26,14 @@ describe('useClientServerDate', () => {
         )
     })
 
-    it('should return the client- & serverDate and setters', () => {
+    it('should return the client- & serverDate', () => {
         useServerTimeOffset.mockImplementation(() => 7200000)
         const clientDate = new Date('2022-10-13 10:00:00')
         const { result } = renderHook(() => useClientServerDate({ clientDate }))
 
-        expect(result.current).toEqual(
-            expect.objectContaining({
-                clientDate: new Date('2022-10-13 10:00:00'),
-                serverDate: new Date('2022-10-13 08:00:00'),
-            })
-        )
-        expect(typeof result.current.setClientDate).toBe('function')
-        expect(typeof result.current.setServerDate).toBe('function')
-    })
-
-    it('should update the client- and serverDate when using the client date setter', async () => {
-        useServerTimeOffset.mockImplementation(() => 7200000)
-        const clientDate = new Date('2022-10-13 10:00:00')
-        const { result, waitFor } = renderHook(() =>
-            useClientServerDate({ clientDate })
-        )
-
-        act(() => {
-            const nextClientDate = new Date('2022-10-13 13:00:00')
-            result.current.setClientDate(nextClientDate)
-        })
-
-        await waitFor(() => {
-            expect(result.current).toEqual(
-                expect.objectContaining({
-                    clientDate: new Date('2022-10-13 13:00:00'),
-                    serverDate: new Date('2022-10-13 11:00:00'),
-                })
-            )
-        })
-    })
-
-    it('should update the client- and serverDate when using the server date setter', async () => {
-        useServerTimeOffset.mockImplementation(() => 7200000)
-        const serverDate = new Date('2022-10-13 08:00:00')
-        const { result, waitFor } = renderHook(() =>
-            useClientServerDate({ serverDate })
-        )
-
-        act(() => {
-            const nextServerDate = new Date('2022-10-13 11:00:00')
-            result.current.setServerDate(nextServerDate)
-        })
-
-        await waitFor(() => {
-            expect(result.current).toEqual(
-                expect.objectContaining({
-                    clientDate: new Date('2022-10-13 13:00:00'),
-                    serverDate: new Date('2022-10-13 11:00:00'),
-                })
-            )
+        expect(result.current).toEqual({
+            clientDate: new Date('2022-10-13 10:00:00'),
+            serverDate: new Date('2022-10-13 08:00:00'),
         })
     })
 })
