@@ -8,7 +8,6 @@ import {
     usePeriod,
     useDataSetId,
     usePeriodId,
-    getCurrentDate,
     formatJsDateToDateString,
     useClientServerDate,
 } from '../../shared/index.js'
@@ -27,12 +26,9 @@ const getMaxYear = (dateLimit) => {
 }
 
 export const PeriodSelectorBarItem = () => {
-    const currentDate = getCurrentDate()
-    const clientServerDate = useClientServerDate({ clientDate: currentDate })
-    const adjustedCurrentDateString = formatJsDateToDateString(
-        clientServerDate.serverDate
-    )
-    const currentFullYear = parseInt(adjustedCurrentDateString.split('-')[0])
+    const currentDate = useClientServerDate()
+    const currentDay = formatJsDateToDateString(currentDate.serverDate)
+    const currentFullYear = parseInt(currentDay.split('-')[0])
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()
     const selectedPeriod = usePeriod(periodId)

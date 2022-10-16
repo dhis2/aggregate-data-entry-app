@@ -13,10 +13,10 @@ import {
 } from '../../shared/index.js'
 
 export const computeDateLimit = ({ dataSetId, metadata, fromClientDate }) => {
-    const currentDateAtServerTimezone = fromClientDate(getCurrentDate())
+    const currentDate = fromClientDate(getCurrentDate())
 
     if (!dataSetId) {
-        return currentDateAtServerTimezone.serverDate
+        return currentDate.serverDate
     }
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
@@ -24,17 +24,17 @@ export const computeDateLimit = ({ dataSetId, metadata, fromClientDate }) => {
     const openFuturePeriods = dataSet?.openFuturePeriods || 0
 
     if (openFuturePeriods <= 0) {
-        return currentDateAtServerTimezone.serverDate
+        return currentDate.serverDate
     }
 
     // will only get the current period
     const [currentPeriod] = getFixedPeriodsForTypeAndDateRange({
         periodType,
         startDate: removeFullPeriodTimeToDate(
-            currentDateAtServerTimezone.serverDate,
+            currentDate.serverDate,
             periodType
         ),
-        endDate: currentDateAtServerTimezone.serverDate,
+        endDate: currentDate.serverDate,
     })
 
     let startDateLimit = new Date(currentPeriod.startDate)
@@ -49,10 +49,8 @@ export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
     const { fromClientDate } = useClientServerDateUtils()
-    const clientServerDate = useClientServerDate()
-    const dateWithoutTime = formatJsDateToDateString(
-        clientServerDate.serverDate
-    )
+    const currentDate = useClientServerDate()
+    const currentDay = formatJsDateToDateString(currentDate.serverDate)
 
     return useMemo(
         () =>
@@ -65,6 +63,6 @@ export const useDateLimit = () => {
         // Adding `dateWithoutTime` to the dependency array so this hook will
         // recompute the date limit when the actual date changes
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [dataSetId, metadata, dateWithoutTime, fromClientDate]
+        [dataSetId, metadata, currentDay, fromClientDate]
     )
 }

@@ -11,11 +11,12 @@ const BasicInformation = ({ item }) => {
     // This might pass "undefined" to moment and subsequently a wrong
     // "timeAgo", but in that case we won't render anything anyway, so there's
     // nothing to worry about in case there is no "item"
-    const lastUpdated = new Date(item.lastUpdated)
-    const clientServerDate = useClientServerDate({ serverDate: lastUpdated })
+    const lastUpdated = useClientServerDate({
+        serverDate: new Date(item.lastUpdated),
+    })
     // @TODO: This is not being translated!
     // https://dhis2.atlassian.net/browse/TECH-1461
-    const timeAgo = moment(clientServerDate.clientDate).fromNow()
+    const timeAgo = moment(lastUpdated.clientDate).fromNow()
 
     return (
         <div className={styles.unit}>
@@ -55,17 +56,18 @@ const BasicInformation = ({ item }) => {
                     })}
                 </li>
                 <li>
-                    {item.lastUpdated && (
-                        <Tooltip content={item.lastUpdated.toString()}>
-                            {i18n.t(
-                                'Last updated {{- timeAgo}} by {{- name}}',
-                                {
-                                    timeAgo,
-                                    name: item.storedBy,
-                                }
-                            )}
-                        </Tooltip>
-                    )}
+                    {
+                        // Safeguard! Using item because the `lastUpdated`
+                        // variable will always have a value
+                        item.lastUpdated && (
+                            <Tooltip content={item.lastUpdated.toString()}>
+                                {i18n.t(
+                                    'Last updated {{- timeAgo}} by {{- name}}',
+                                    { timeAgo, name: item.storedBy }
+                                )}
+                            </Tooltip>
+                        )
+                    }
                 </li>
 
                 {item.followUp ? (

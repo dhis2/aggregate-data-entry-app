@@ -18,14 +18,9 @@ export default function usePeriods({
     year,
     dateLimit,
 }) {
-    const currentDate = getCurrentDate()
-    const { fromClientDate } = useClientServerDateUtils({
-        clientDate: currentDate,
-    })
-    const clientServerDate = useClientServerDate({ clientDate: currentDate })
-    const adjustedCurrentDateString = formatJsDateToDateString(
-        clientServerDate.serverDate
-    )
+    const { fromClientDate } = useClientServerDateUtils()
+    const currentDate = useClientServerDate()
+    const currentDay = formatJsDateToDateString(currentDate.serverDate)
 
     return useMemo(
         () => {
@@ -34,6 +29,8 @@ export default function usePeriods({
             }
 
             let periods
+            // Not using `currentDate` as that's cause this hook to recalculate
+            // on every render as a JS Date is a timestamp, not a date
             const { serverDate } = fromClientDate(getCurrentDate())
 
             if (yearlyPeriodTypes.includes(periodType)) {
@@ -76,12 +73,12 @@ export default function usePeriods({
 
             return periods.reverse()
         },
-        // Adding `adjustedCurrentDateString` to the dependency array so this hook will
+        // Adding `currentDay` to the dependency array so this hook will
         // recompute the date limit when the actual date changes
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [
             periodType,
-            adjustedCurrentDateString,
+            currentDay,
             openFuturePeriods,
             year,
             dateLimit,
