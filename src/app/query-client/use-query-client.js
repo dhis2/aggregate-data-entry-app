@@ -86,8 +86,9 @@ const useQueryClient = () => {
                     // always retry errors that trigger offlineMode
                     return true
                 }
-                // same as retry: 1
-                return failureCount < 1
+                // most likely not necessary to retry-errors that are not "temporal" - eg. 400,409 etc
+                // same as retry: 0
+                return false
             },
             onError,
             onSuccess: handleDefaultOnSuccess,

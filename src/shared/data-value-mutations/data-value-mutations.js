@@ -1,4 +1,9 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
+import {
+    ApiMutationError,
+    FetchError,
+    useApiError,
+} from '../api-errors/index.js'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 import {
     optimisticallyDeleteDataValue,
@@ -11,7 +16,6 @@ import {
     useUploadFileDataValueMutationFunction,
 } from './mutation-functions.js'
 import { mutationKeys } from './mutation-key-factory.js'
-import { useApiError } from './use-api-error.js'
 import { useDataValueParams } from './use-data-value-params.js'
 
 function useSharedDataValueMutation({
@@ -22,6 +26,7 @@ function useSharedDataValueMutation({
 }) {
     const queryClient = useQueryClient()
     const dataValueSetQueryKey = useDataValueSetQueryKey()
+
     const { onError: handleMutationError } = useApiError()
 
     return useMutation(mutationFn, {
@@ -45,12 +50,21 @@ function useSharedDataValueMutation({
 
             // This return value becomes the `context` variable in
             // onError (and onSettled) handlers
-            return { previousQueryData }
+            return { previousQueryData, mutationKey }
         },
 
         // If the mutation fails, use the context returned from onMutate to roll back
         onError: (err, newDataValue, context) => {
+            // this should always be the case, unless a SyntaxError occurs?
+            if (err instanceof FetchError) {
+                err = new ApiMutationError(
+                    err,
+                    context.mutationKey,
+                    newDataValue
+                )
+            }
             const { shouldRollback } = handleMutationError(err)
+
             if (shouldRollback) {
                 queryClient.setQueryData(
                     dataValueSetQueryKey,

@@ -8,3 +8,7 @@ export const shouldTriggerOffline = (error) => {
 export const shouldPersistError = (error) => {
     return temporalErrorsStatusCodes.has(error?.httpStatusCode)
 }
+
+export const shouldRollbackError = (error) => {
+    return !temporalErrorsStatusCodes.has(error?.httpStatusCode)
+}

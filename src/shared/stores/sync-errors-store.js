@@ -1,25 +1,45 @@
 import create from 'zustand'
-import { parseCellId, getCellIdFromMutationKey } from './get-cell-id.js'
+import {
+    parseCellId,
+    getCellIdFromMutationKey,
+    getCellIdFromDataValueParams,
+} from './get-cell-id.js'
 
 const inititalState = {
     // keyed by cellId, see getCellId
     errors: {},
 }
 
+// API for stored errors
+export const createSyncError = (error, value, mutationKey) => {
+    return {
+        error,
+        value,
+        mutationKey,
+    }
+}
+
 export const useSyncErrorsStore = create((set, get) => ({
     ...inititalState,
-    setError: (cellId, value) =>
+    setErrorById: (cellId, error) =>
         set((state) => {
-            const comments = { ...state.comments }
-            comments[cellId] = value
-            return { comments }
+            const errors = { ...state.errors }
+            errors[cellId] = error
+            console.log('setting error', cellId, errors)
+            return { errors }
         }),
-    setErrorByMutationKey: (mutationKey, value) => {
+    setErrorByMutationKey: (mutationKey, error) => {
         const cellId = getCellIdFromMutationKey(mutationKey)
-        get().setError(cellId, value)
+        get().setErrorById(cellId, error)
+    },
+    setError: (apiMutationError) => {
+        const cellId = getCellIdFromMutationKey(apiMutationError.mutationKey)
+        get().setErrorById(cellId, apiMutationError)
     },
     getErrors: () => get().errors,
-    getError: (cellId) => get().errors[cellId],
+    getErrorById: (cellId) => get().errors[cellId],
+    getErrorByDataValueParams: (dataValueParams) =>
+        get().getErrorById(getCellIdFromDataValueParams(dataValueParams)),
     getErrorByMutationKey: (mutationKey) =>
         get().getError(getCellIdFromMutationKey(mutationKey)),
     getErrorsForSelection: (contextSelectionId) => {

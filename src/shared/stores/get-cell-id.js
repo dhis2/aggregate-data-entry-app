@@ -12,6 +12,7 @@ export const parseCellId = (cellId) => {
     const [contextSelectionId, dataElement, categoryOptionCombo] =
         cellId.split('_')
     const parsedContextSelectionId = parseContextSelectionId(contextSelectionId)
+
     return {
         ...parsedContextSelectionId,
         dataElement,
@@ -29,6 +30,7 @@ export const getCellIdFromDataValueParams = (params) => {
         orgUnitId: params.ou,
         periodId: params.ps,
     })
+
     return getCellId({
         contextSelectionId,
         item: { categoryOptionCombo: params.co, dataElement: params.de },
@@ -36,4 +38,4 @@ export const getCellIdFromDataValueParams = (params) => {
 }
 
 export const getCellIdFromMutationKey = (mutationKey) =>
-    getCellIdFromDataValueParams(mutationKey[1])
+    getCellIdFromDataValueParams(mutationKey[1].params)

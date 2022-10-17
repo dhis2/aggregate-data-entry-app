@@ -8,6 +8,7 @@ import {
     mutationKeys as dataValueMutationKeys,
     useDataValueParams,
     useValueStore,
+    useSyncErrorsStore,
 } from '../../shared/index.js'
 import styles from './data-entry-cell.module.css'
 
@@ -92,14 +93,20 @@ export function InnerWrapper({
     const activeMutations = useIsMutating({
         mutationKey: dataValueMutationKeys.all(dataValueParams),
     })
+    const hasSyncError = useSyncErrorsStore((state) =>
+        state.getErrorByDataValueParams(dataValueParams)
+    )
+
+    console.log({ hasErrors: hasSyncError })
 
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
-    const cellStateClassName = invalid
-        ? styles.invalid
-        : activeMutations === 0 && synced
-        ? styles.synced
-        : null
+    const cellStateClassName =
+        invalid || hasSyncError
+            ? styles.invalid
+            : activeMutations === 0 && synced
+            ? styles.synced
+            : null
 
     return (
         <div

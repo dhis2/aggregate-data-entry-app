@@ -1,4 +1,7 @@
 import { useAlert } from '@dhis2/app-runtime'
+import { useSyncErrorsStore } from '../stores/sync-errors-store.js'
+import { shouldRollbackError } from './api-errors.js'
+import { ApiMutationError } from './api-mutation-error.js'
 /**
  * A dictionary taking the shape Dictionary<ErrorCode, AlertProps> to override the display message for a certain error code
  * Potential error codes can be found here: https://github.com/dhis2/dhis2-core/blob/28a6aa052f221626e583a84bc18d80c0a8fa0927/dhis-2/dhis-api/src/main/java/org/hisp/dhis/feedback/ErrorCode.java#L97
@@ -39,7 +42,9 @@ const resolveAlertProps = (error) => {
             return mappedCode
         }
     }
-    return { message: error.message }
+    return {
+        message: error.message,
+    }
 }
 
 export const useApiError = () => {
@@ -51,26 +56,28 @@ export const useApiError = () => {
         })
     )
 
-    const onError = function handleError(error) {
-        if (error?.type === 'network') {
-            return {
-                shouldRollback: false,
-            }
-        } else {
-            console.log('alertprops', { error })
-            const alertProps = resolveAlertProps(error)
-            console.log('after ', alertProps)
-            // show a custom message if one is set, otherwise display the error returned from the API
-            showAlert(alertProps)
-            console.log('after show')
-            // Also log the stack trace to the console (useful if there's a non-network error)
-            console.error(error)
+    const setSyncError = useSyncErrorsStore((state) => state.setError)
 
-            return {
-                shouldRollback: true,
-            }
+    const onError = function handleError(error) {
+        const shouldRollback = shouldRollbackError(error)
+        if (!shouldRollback) {
+            return { shouldRollback }
+        }
+
+        const alertProps = resolveAlertProps(error)
+        // error should always be ApiMutationError sanity-check
+        if (error instanceof ApiMutationError) {
+            setSyncError(error)
+        }
+        // show a custom message if one is set, otherwise display the error returned from the API
+        showAlert(alertProps)
+        // Also log the stack trace to the console (useful if there's a non-network error)
+        console.error(error)
+        return {
+            shouldRollback,
         }
     }
+
     return {
         onError,
     }
