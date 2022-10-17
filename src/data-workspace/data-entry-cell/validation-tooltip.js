@@ -1,7 +1,6 @@
 import { Tooltip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useField } from 'react-final-form'
 import styles from './data-entry-cell.module.css'
 
 /**
@@ -63,24 +62,7 @@ TooltipManager.propTypes = {
     onMouseOver: PropTypes.func,
 }
 
-export const ValidationTooltip = ({ children, fieldname }) => {
-    const {
-        meta: { invalid, error, active },
-    } = useField(fieldname, {
-        subscription: { invalid: true, error: true, active: true },
-    })
-    const [content, setContent] = React.useState(error)
-
-    // Keep tooltip content even when `error` is undefined so tooltip still has
-    // content when closing after cell becomes valid again
-    React.useEffect(() => {
-        if (error) {
-            setContent(error)
-        }
-    }, [error])
-
-    console.log('tooltip', content)
-
+export const ValidationTooltip = ({ children, content, invalid, active }) => {
     return (
         <Tooltip content={content}>
             {(props) => (
@@ -92,6 +74,9 @@ export const ValidationTooltip = ({ children, fieldname }) => {
     )
 }
 ValidationTooltip.propTypes = {
+    active: PropTypes.bool,
     children: PropTypes.node,
+    content: PropTypes.string,
     fieldname: PropTypes.string,
+    invalid: PropTypes.bool,
 }

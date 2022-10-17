@@ -36,8 +36,21 @@ export const useSyncErrorsStore = create((set, get) => ({
         const cellId = getCellIdFromMutationKey(apiMutationError.mutationKey)
         get().setErrorById(cellId, apiMutationError)
     },
+
+    clearErrorById: (cellId) =>
+        set((state) => {
+            const errors = { ...state.errors }
+            delete errors[cellId]
+            return { errors }
+        }),
+    clearErrorByMutationKey: (mutationKey) => {
+        const cellId = getCellIdFromMutationKey(mutationKey)
+        get().clearErrorById(cellId)
+    },
+    clearAll: () => set(inititalState),
+
     getErrors: () => get().errors,
-    getErrorById: (cellId) => get().errors[cellId],
+    getErrorById: (cellId) => get().getErrors()[cellId],
     getErrorByDataValueParams: (dataValueParams) =>
         get().getErrorById(getCellIdFromDataValueParams(dataValueParams)),
     getErrorByMutationKey: (mutationKey) =>

@@ -11,6 +11,7 @@ import {
     useSyncErrorsStore,
 } from '../../shared/index.js'
 import styles from './data-entry-cell.module.css'
+import { ValidationTooltip } from './validation-tooltip.js'
 
 /** Three dots or triangle in top-right corner of cell */
 const SyncStatusIndicator = ({ isLoading, isSynced }) => {
@@ -61,7 +62,7 @@ export function InnerWrapper({
 
     const {
         input: { value },
-        meta: { invalid, active, data, dirty },
+        meta: { invalid, active, data, dirty, error },
     } = useField(fieldname, {
         // by default undefined is formatted to ''
         // this preserves the format used in the input-component
@@ -72,6 +73,7 @@ export function InnerWrapper({
             active: true,
             data: true,
             dirty: true,
+            error: true,
         },
     })
     const form = useForm()
@@ -87,43 +89,50 @@ export function InnerWrapper({
         []
     )
 
-    const synced = dirty && data.lastSyncedValue === value
     // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
     const activeMutations = useIsMutating({
         mutationKey: dataValueMutationKeys.all(dataValueParams),
     })
-    const hasSyncError = useSyncErrorsStore((state) =>
+    const syncError = useSyncErrorsStore((state) =>
         state.getErrorByDataValueParams(dataValueParams)
     )
 
-    console.log({ hasErrors: hasSyncError })
+    const errorMessage = error ?? syncError?.displayMessage
+    const synced = dirty && data.lastSyncedValue === value && !errorMessage
 
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName =
-        invalid || hasSyncError
+        invalid || syncError
             ? styles.invalid
             : activeMutations === 0 && synced
             ? styles.synced
             : null
 
     return (
-        <div
-            className={cx(styles.cellInnerWrapper, cellStateClassName, {
-                [styles.active]: active,
-                [styles.highlighted]: highlighted,
-                [styles.disabled]: disabled,
-                [styles.locked]: locked,
-            })}
+        <ValidationTooltip
+            fieldname={fieldname}
+            active={active}
+            invalid={invalid || !!syncError}
+            content={errorMessage}
         >
-            {children}
-            <SyncStatusIndicator
-                isLoading={activeMutations > 0}
-                isSynced={synced}
-            />
-            <CommentIndicator hasComment={hasComment} />
-        </div>
+            <div
+                className={cx(styles.cellInnerWrapper, cellStateClassName, {
+                    [styles.active]: active,
+                    [styles.highlighted]: highlighted,
+                    [styles.disabled]: disabled,
+                    [styles.locked]: locked,
+                })}
+            >
+                {children}
+                <SyncStatusIndicator
+                    isLoading={activeMutations > 0}
+                    isSynced={synced}
+                />
+                <CommentIndicator hasComment={hasComment} />
+            </div>
+        </ValidationTooltip>
     )
 }
 InnerWrapper.propTypes = {

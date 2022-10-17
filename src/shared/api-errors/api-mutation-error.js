@@ -41,7 +41,6 @@ export class ApiMutationError extends FetchError {
         for (const [key, errorMap] of errorDetailsMessagePriority) {
             const errorCode = this.details[key]
             const mappedCode = errorMap[errorCode]
-            console.log({ errorCode, mappedCode })
             if (mappedCode) {
                 return typeof mappedCode === 'function'
                     ? mappedCode(this)

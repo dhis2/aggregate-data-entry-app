@@ -4,6 +4,8 @@ import {
     isFetchError,
     useApiError,
 } from '../api-errors/index.js'
+import { defaultOnSuccess } from '../default-on-success.js'
+import { useSyncErrorsStore } from '../stores/sync-errors-store.js'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 import {
     optimisticallyDeleteDataValue,
@@ -28,7 +30,9 @@ function useSharedDataValueMutation({
     const dataValueSetQueryKey = useDataValueSetQueryKey()
 
     const { onError: handleMutationError } = useApiError()
-
+    const clearError = useSyncErrorsStore(
+        (state) => state.clearErrorByMutationKey
+    )
     return useMutation(mutationFn, {
         mutationKey: mutationKey,
         onMutate: async (variables) => {
@@ -72,6 +76,9 @@ function useSharedDataValueMutation({
                 )
             }
         },
+        onSuccess: defaultOnSuccess((data, value, { mutationKey }) =>
+            clearError(mutationKey)
+        ),
     })
 }
 
