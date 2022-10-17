@@ -25,10 +25,10 @@ export const getCellIdFromDataValueParams = (params) => {
         return null
     }
     const contextSelectionId = getContextSelectionId({
-        attributeOptions: params.co?.split(';'),
+        attributeOptions: params.cp?.split(';'),
         dataSetId: params.ds,
         orgUnitId: params.ou,
-        periodId: params.ps,
+        periodId: params.pe,
     })
 
     return getCellId({
