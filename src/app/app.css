@@ -14,7 +14,7 @@ body {
         display: none;
     }
 
-    .hide-for-print {
+    .hideForPrint {
         display: none !important;
     }
     

@@ -112,7 +112,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
-    const footerClasses = classNames(styles.footer, 'hide-for-print')
+    const footerClasses = classNames(styles.footer, styles.hideForPrint)
     const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (

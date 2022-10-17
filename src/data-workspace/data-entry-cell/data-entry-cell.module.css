@@ -104,3 +104,9 @@
     color: var(--colors-grey700) !important;
     cursor: not-allowed;
 }
+
+@media print {
+    .hideForPrint {
+        composes: hideForPrint from '../../app/app.css'
+    }
+}
