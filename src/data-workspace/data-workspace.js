@@ -16,11 +16,12 @@ import {
     useIsValidSelection,
     useLockedContext,
     useValueStore,
+    dataValueSetQueryKey,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { dataValueSets as dataValueSetQueryKey } from './query-key-factory.js'
+
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const queryClient = useQueryClient()
     const { data: metadata } = useMetadata()
@@ -78,11 +79,9 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return null
     }
 
-    // Currently this can cause the form to reload when going back online
-    if (
-        initialDataValuesFetch.isFetching &&
-        initialDataValuesFetch.data === undefined
-    ) {
+    // We want to block initialization of form if in-flight
+    // or else we might use stale data that won't be updated once request completes
+    if (initialDataValuesFetch.isFetching) {
         return (
             <CenteredContent>
                 <CircularLoader />

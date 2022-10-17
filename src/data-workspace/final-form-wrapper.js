@@ -1,3 +1,4 @@
+import setFieldData from 'final-form-set-field-data'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Form } from 'react-final-form'
@@ -37,6 +38,7 @@ export function FinalFormWrapper({ children, dataValueSet }) {
             initialValues={initialValues}
             subscriptions={subscriptions}
             keepDirtyOnReinitialize
+            mutators={{ setFieldData }}
         >
             {() => children}
         </Form>

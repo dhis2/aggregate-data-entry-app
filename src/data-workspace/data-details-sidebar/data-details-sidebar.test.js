@@ -5,15 +5,22 @@ import useHighlightedField from '../../shared/highlighted-field/use-highlighted-
 import { useUserInfo } from '../../shared/use-user-info/use-user-info.js'
 import { render } from '../../test-utils/render.js'
 import DataDetailsSidebar from './data-details-sidebar.js'
+
+jest.mock('../../shared/date/use-server-time-offset.js', () => ({
+    __esModule: true,
+    default: () => 0,
+}))
+
 jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
+
 jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
     useUserInfo: jest.fn(),
 }))
 
 describe('DataDetailsSideBar', () => {
     const hide = jest.fn()
-
     const dataValuesMock = jest.fn()
+
     const renderComponent = (overrideDefaultData = {}) => {
         const dataForCustomProvider = {
             dataValues: dataValuesMock,
@@ -34,6 +41,7 @@ describe('DataDetailsSideBar', () => {
             dataForCustomProvider,
         })
     }
+
     let dataElementDefaultProps
     beforeEach(() => {
         dataElementDefaultProps = {
@@ -57,7 +65,9 @@ describe('DataDetailsSideBar', () => {
             },
         }))
     })
+
     afterEach(jest.clearAllMocks)
+
     describe('Basic info', () => {
         describe('Mark for followup', () => {
             let expectedMutationParams
@@ -70,6 +80,7 @@ describe('DataDetailsSideBar', () => {
                     pe: '2022April',
                 }
             })
+
             it('should show allow marking an item for followup', async () => {
                 const { getByText, findByText } = renderComponent()
 

@@ -6,17 +6,17 @@ import {
     selectors,
     useDataSetId,
     useMetadata,
-    useNowAtServerTimezone,
+    formatJsDateToDateString,
     getCurrentDate,
+    useClientServerDateUtils,
+    useClientServerDate,
 } from '../../shared/index.js'
 
-export const computeDateLimit = ({
-    dataSetId,
-    metadata,
-    nowAtServerTimezone = getCurrentDate(),
-}) => {
+export const computeDateLimit = ({ dataSetId, metadata, fromClientDate }) => {
+    const currentDate = fromClientDate(getCurrentDate())
+
     if (!dataSetId) {
-        return nowAtServerTimezone
+        return currentDate.serverDate
     }
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
@@ -24,14 +24,17 @@ export const computeDateLimit = ({
     const openFuturePeriods = dataSet?.openFuturePeriods || 0
 
     if (openFuturePeriods <= 0) {
-        return nowAtServerTimezone
+        return currentDate.serverDate
     }
 
     // will only get the current period
     const [currentPeriod] = getFixedPeriodsForTypeAndDateRange({
         periodType,
-        startDate: removeFullPeriodTimeToDate(nowAtServerTimezone, periodType),
-        endDate: nowAtServerTimezone,
+        startDate: removeFullPeriodTimeToDate(
+            currentDate.serverDate,
+            periodType
+        ),
+        endDate: currentDate.serverDate,
     })
 
     let startDateLimit = new Date(currentPeriod.startDate)
@@ -45,15 +48,21 @@ export const computeDateLimit = ({
 export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
-    const nowAtServerTimezone = useNowAtServerTimezone()
+    const { fromClientDate } = useClientServerDateUtils()
+    const currentDate = useClientServerDate()
+    const currentDay = formatJsDateToDateString(currentDate.serverDate)
 
     return useMemo(
         () =>
             computeDateLimit({
                 dataSetId,
                 metadata,
-                nowAtServerTimezone,
+                fromClientDate,
             }),
-        [dataSetId, metadata, nowAtServerTimezone]
+
+        // Adding `dateWithoutTime` to the dependency array so this hook will
+        // recompute the date limit when the actual date changes
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [dataSetId, metadata, currentDay, fromClientDate]
     )
 }

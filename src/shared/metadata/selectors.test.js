@@ -1,3 +1,5 @@
+import { renderHook } from '@testing-library/react-hooks'
+import { useClientServerDateUtils, useServerTimeOffset } from '../date/index.js'
 import {
     getCategories,
     getCategoriesByCategoryComboId,
@@ -22,6 +24,11 @@ import {
     getSections,
     getDataElementsByDataSetIdSorted,
 } from './selectors.js'
+
+jest.mock('../date/use-server-time-offset.js', () => ({
+    __esModule: true,
+    default: jest.fn(() => 0),
+}))
 
 describe('simple selectors', () => {
     describe('getCategories', () => {
@@ -816,6 +823,9 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
     })
 
     describe('getCategoriesWithOptionsWithinPeriodWithOrgUnit', () => {
+        useServerTimeOffset.mockImplementation(() => 7200000)
+        const { result } = renderHook(() => useClientServerDateUtils())
+
         it('should return all category options if none have end dates', () => {
             const datasetid = 'dataset-id-1a'
             const periodid = '202201'
@@ -875,7 +885,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                result.current.fromClientDate
             )
 
             expect(actual).toEqual(expected)
@@ -936,7 +947,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                result.current.fromClientDate
             )
 
             expect(actual).toEqual(expected)
@@ -1004,7 +1016,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                result.current.fromClientDate
             )
 
             expect(actual).toEqual(expected)
@@ -1072,7 +1085,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                result.current.fromClientDate
             )
 
             expect(actual).toEqual(expected)
@@ -1148,7 +1162,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 metadata,
                 datasetid,
                 periodid,
-                orgunitid
+                orgunitid,
+                result.current.fromClientDate
             )
 
             expect(actual).toEqual(expected)

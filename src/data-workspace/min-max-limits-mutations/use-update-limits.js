@@ -1,6 +1,9 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { useDataValueSetQueryKey } from '../../shared/index.js'
+import {
+    useDataValueSetQueryKey,
+    defaultOnSuccess,
+} from '../../shared/index.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
 function addLimit(previousDataValueSet, newLimit) {
@@ -71,13 +74,11 @@ export default function useUpdateLimits(onDone) {
     }
 
     return useMutation(mutationFn, {
-        retry: 1,
-
         // Used to identify whether this mutation is running
         mutationKey: dataValueSetQueryKey,
 
         // Used so the limits UI can switch from form to value display
-        onSuccess: onDone,
+        onSuccess: defaultOnSuccess(onDone),
 
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)

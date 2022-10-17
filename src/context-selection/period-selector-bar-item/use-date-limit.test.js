@@ -1,26 +1,25 @@
-import getCurrentDate from '../../shared/fixed-periods/get-current-date.js'
+import { renderHook } from '@testing-library/react-hooks'
+import { useClientServerDateUtils, getCurrentDate } from '../../shared/index.js'
 import { computeDateLimit } from './use-date-limit.js'
 
 jest.mock('../../shared/fixed-periods/get-current-date.js', () => ({
     __esModule: true,
-    default: jest.fn(),
+    default: jest.fn(() => new Date()),
+}))
+
+jest.mock('../../shared/date/use-server-time-offset.js', () => ({
+    __esModule: true,
+    default: jest.fn(() => 0),
 }))
 
 /**
  * Should add future periods, even when spanning over several years
  */
 describe('computeDateLimit', () => {
-    afterEach(() => {
-        getCurrentDate.mockClear()
-    })
+    getCurrentDate.mockImplementation(() => new Date('2022-09-27'))
 
     it('should be current date if no openFuturePeriods', () => {
-        const now = new Date()
-
-        getCurrentDate.mockImplementation(() => {
-            return now
-        })
-
+        const { result } = renderHook(() => useClientServerDateUtils())
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -35,18 +34,15 @@ describe('computeDateLimit', () => {
         const actual = computeDateLimit({
             dataSetId,
             metadata,
+            fromClientDate: result.current.fromClientDate,
         })
 
-        const expected = getCurrentDate()
-
-        expect(actual).toEqual(expected)
+        expect(actual).toEqual(new Date('2022-09-27'))
     })
 
     it('should be 2022-10-01 if current date: 2022-08-31, periodType: Monthly, openFuturePeriods: 2', () => {
-        getCurrentDate.mockImplementation(() => {
-            return new Date('2022-08-31')
-        })
-
+        getCurrentDate.mockImplementation(() => new Date('2022-08-31'))
+        const { result } = renderHook(() => useClientServerDateUtils())
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -57,22 +53,19 @@ describe('computeDateLimit', () => {
                 },
             },
         }
-
         const actual = computeDateLimit({
             dataSetId,
             metadata,
+            fromClientDate: result.current.fromClientDate,
         })
-
         const expected = new Date('2022-10-01')
 
         expect(actual.getTime()).toEqual(expected.getTime())
     })
 
     it('should be 2022-10-01 if current date: 2022-08-01, periodType: Monthly, openFuturePeriods: 2', () => {
-        getCurrentDate.mockImplementation(() => {
-            return new Date('2022-08-01')
-        })
-
+        getCurrentDate.mockImplementation(() => new Date('2022-08-01'))
+        const { result } = renderHook(() => useClientServerDateUtils())
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -83,22 +76,19 @@ describe('computeDateLimit', () => {
                 },
             },
         }
-
         const actual = computeDateLimit({
             dataSetId,
             metadata,
+            fromClientDate: result.current.fromClientDate,
         })
-
         const expected = new Date('2022-10-01')
 
         expect(actual.getTime()).toEqual(expected.getTime())
     })
 
     it('should be 2025-01-01 if current date: 2022-08-01, periodType: Yearly, openFuturePeriods: 3', () => {
-        getCurrentDate.mockImplementation(() => {
-            return new Date('2022-08-01')
-        })
-
+        getCurrentDate.mockImplementation(() => new Date('2022-08-01'))
+        const { result } = renderHook(() => useClientServerDateUtils())
         const dataSetId = 'dataSetId'
         const metadata = {
             dataSets: {
@@ -109,12 +99,11 @@ describe('computeDateLimit', () => {
                 },
             },
         }
-
         const actual = computeDateLimit({
             dataSetId,
             metadata,
+            fromClientDate: result.current.fromClientDate,
         })
-
         const expected = new Date('2025-01-01')
 
         expect(actual.getTime()).toEqual(expected.getTime())

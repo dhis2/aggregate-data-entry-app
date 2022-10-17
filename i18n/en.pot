@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-26T16:14:30.586Z\n"
-"PO-Revision-Date: 2022-09-26T16:14:30.586Z\n"
+"POT-Creation-Date: 2022-10-10T14:06:05.620Z\n"
+"PO-Revision-Date: 2022-10-10T14:06:05.620Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -21,6 +21,9 @@ msgstr ""
 msgid "There was a problem loading metadata"
 msgstr "There was a problem loading metadata"
 
+msgid "There was a problem loading the user's information"
+msgstr "There was a problem loading the user's information"
+
 msgid "There is {{pendingMutations}} pending change."
 msgstr "There is {{pendingMutations}} pending change."
 
@@ -29,6 +32,9 @@ msgstr "There are {{pendingMutations}} pending changes."
 
 msgid "Synced"
 msgstr "Synced"
+
+msgid "Session Expired. Please reload to log in again. You will not lose any data."
+msgstr "Session Expired. Please reload to log in again. You will not lose any data."
 
 msgid "Couldn't incomplete the form, please try again later"
 msgstr "Couldn't incomplete the form, please try again later"
@@ -44,6 +50,12 @@ msgstr "Hide details"
 
 msgid "View details"
 msgstr "View details"
+
+msgid "Validation is not available offline"
+msgstr "Validation is not available offline"
+
+msgid "Validation is not available while changes are pending"
+msgstr "Validation is not available while changes are pending"
 
 msgid "Run validation"
 msgstr "Run validation"
@@ -95,6 +107,13 @@ msgstr "{{length}} {{level}} priority alerts"
 
 msgid "Validation"
 msgstr "Validation"
+
+msgid ""
+"Data in the entry form has changed, so validation output might be "
+"incorrect. Run validation again to check the current data."
+msgstr ""
+"Data in the entry form has changed, so validation output might be "
+"incorrect. Run validation again to check the current data."
 
 msgid "Run validation again"
 msgstr "Run validation again"
@@ -277,6 +296,9 @@ msgstr "Fetching data set info"
 msgid "Error occurred while loading data set info"
 msgstr "Error occurred while loading data set info"
 
+msgid "Custom forms couldn't be made available offline. {{error}}"
+msgstr "Custom forms couldn't be made available offline. {{error}}"
+
 msgid "Value"
 msgstr "Value"
 
@@ -304,6 +326,9 @@ msgstr "Mark for follow-up"
 msgid "Empty values can't be marked for follow -up"
 msgstr "Empty values can't be marked for follow -up"
 
+msgid "You do not have the authority to mark this value for follow -up"
+msgstr "You do not have the authority to mark this value for follow -up"
+
 msgid "Description: {{- description}}"
 msgstr "Description: {{- description}}"
 
@@ -325,8 +350,8 @@ msgstr "Marked for follow-up"
 msgid "Comment"
 msgstr "Comment"
 
-msgid "There was a problem loading the comment for this data item"
-msgstr "There was a problem loading the comment for this data item"
+msgid "There was a problem updating the comment for this data item"
+msgstr "There was a problem updating the comment for this data item"
 
 msgid "Choose an option"
 msgstr "Choose an option"
@@ -340,14 +365,17 @@ msgstr "Save comment"
 msgid "Cancel"
 msgstr "Cancel"
 
-msgid "No comment for this data item."
-msgstr "No comment for this data item."
-
 msgid "Edit comment"
 msgstr "Edit comment"
 
 msgid "Add comment"
 msgstr "Add comment"
+
+msgid "No comment for this data item."
+msgstr "No comment for this data item."
+
+msgid "You do not have the authority to add or edit comments"
+msgstr "You do not have the authority to add or edit comments"
 
 msgid "Details"
 msgstr "Details"
@@ -367,8 +395,14 @@ msgstr "Average value: {{avg}}"
 msgid "Delete limits"
 msgstr "Delete limits"
 
+msgid "You do not have the authority to delete limits"
+msgstr "You do not have the authority to delete limits"
+
 msgid "Edit limits"
 msgstr "Edit limits"
+
+msgid "You do not have the authority to add limits"
+msgstr "You do not have the authority to add limits"
 
 msgid "Min"
 msgstr "Min"
@@ -415,6 +449,9 @@ msgstr "Data cannot be added or changed because data entry has concluded."
 
 msgid "Data cannot be added or changed because data has been approved."
 msgstr "Data cannot be added or changed because data has been approved."
+
+msgid "You do not have the authority to edit entry forms"
+msgstr "You do not have the authority to edit entry forms"
 
 msgid "Data set locked"
 msgstr "Data set locked"

@@ -446,7 +446,8 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
         getDataSetById,
         (_, __, periodId) => periodId,
         (_, __, ___, orgUnitId) => orgUnitId,
-        (metadata, dataSet, periodId, orgUnitId) => {
+        (_, __, ___, ____, fromClientDate) => fromClientDate,
+        (metadata, dataSet, periodId, orgUnitId, fromClientDate) => {
             if (!dataSet?.id || !periodId) {
                 return []
             }
@@ -466,7 +467,10 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
             if (!period) {
                 return []
             }
-            const periodStartDate = new Date(period.startDate)
+            const clientPeriodStartDate = new Date(period.startDate)
+            const periodStartDate = fromClientDate(
+                clientPeriodStartDate
+            ).serverDate
 
             // periodEndDate is up to following start date
             let periodEndDate = addFullPeriodTimeToDate(

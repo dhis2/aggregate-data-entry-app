@@ -1,6 +1,7 @@
 import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { useEffect, useState } from 'react'
+import { useClientServerDateUtils } from '../date/index.js'
 import { parsePeriodId } from '../fixed-periods/index.js'
 import { useSetHighlightedFieldIdContext } from '../highlighted-field/use-highlighted-field-context.js'
 import { useMetadata, selectors } from '../metadata/index.js'
@@ -119,12 +120,14 @@ function useHandleOrgUnitIdChange() {
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
 
+    const clientServerDateUtils = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId
+            orgUnitId,
+            clientServerDateUtils.fromClientDate
         )
 
     useEffect(() => {
@@ -198,12 +201,14 @@ function useHandlePeriodIdChange() {
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
+    const clientServerDateUtils = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId
+            orgUnitId,
+            clientServerDateUtils.fromClientDate
         )
 
     useEffect(() => {

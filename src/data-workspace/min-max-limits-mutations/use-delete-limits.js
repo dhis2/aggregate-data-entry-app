@@ -3,8 +3,9 @@ import { useQueryClient, useMutation } from '@tanstack/react-query'
 import {
     useContextSelection,
     useApiAttributeParams,
+    dataValueSetQueryKey as dataValueSetQueryKeys,
+    defaultOnSuccess,
 } from '../../shared/index.js'
-import { dataValueSets } from '../query-key-factory.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
 function deleteLimit(previousDataValueSet, deletedLimit, targetIndex) {
@@ -38,7 +39,7 @@ export default function useDeleteLimits(onDone) {
         attributeOptions: categoryOptionIds,
     } = useApiAttributeParams()
 
-    const dataValueSetQueryKey = dataValueSets.byIds({
+    const dataValueSetQueryKey = dataValueSetQueryKeys.byIds({
         dataSetId,
         periodId,
         orgUnitId,
@@ -70,13 +71,11 @@ export default function useDeleteLimits(onDone) {
     }
 
     return useMutation(mutationFn, {
-        retry: 1,
-
         // Used to identify whether this mutation is running
         mutationKey: dataValueSetQueryKey,
 
         // Used so the limits UI can switch from form to value display
-        onSuccess: onDone,
+        onSuccess: defaultOnSuccess(onDone),
 
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic delete)
