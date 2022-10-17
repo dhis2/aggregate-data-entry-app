@@ -2,77 +2,31 @@ import { useAlert } from '@dhis2/app-runtime'
 import { useSyncErrorsStore } from '../stores/sync-errors-store.js'
 import { shouldRollbackError } from './api-errors.js'
 import { ApiMutationError } from './api-mutation-error.js'
-/**
- * A dictionary taking the shape Dictionary<ErrorCode, AlertProps> to override the display message for a certain error code
- * Potential error codes can be found here: https://github.com/dhis2/dhis2-core/blob/28a6aa052f221626e583a84bc18d80c0a8fa0927/dhis-2/dhis-api/src/main/java/org/hisp/dhis/feedback/ErrorCode.java#L97
- */
-const customErrorAlertProps = {
-    // E2017: { message: i18n.t('Here we could override the message for E2017 error with a custom message in the FE') }
-}
-
-/**
- * A dictionary taking the shape Dictionary<ErrorCode, AlertProps>
- */
-const statusCodeErrorAlertProps = {
-    // this is handled in `retry`
-    // 401: {
-    //     message: i18n.t(
-    //         'Session Expired. Please reload to log in again. You will not lose any data.'
-    //     ),
-    //     actions: [{ label: 'Reload now', onClick: () => location.reload() }],
-    // },
-}
-
-/**
- * This is a list over maps from error.details.key to the customErrorAlertProps-map above.
- * Array is used to preserve the order.
- *  Eg if error has both .errorCode and .httpStatusCode, errorCode will be used to get the custom-message.
- */
-const errorDetailsMessagePriority = [
-    ['errorCode', customErrorAlertProps],
-    ['httpStatusCode', statusCodeErrorAlertProps],
-]
-
-const resolveAlertProps = (error) => {
-    // find alertProps for errorCode, using detail-prop according to priority above
-    for (const [key, errorMap] of errorDetailsMessagePriority) {
-        const errorCode = error?.details[key]
-        const mappedCode = errorMap[errorCode]
-        if (mappedCode) {
-            return mappedCode
-        }
-    }
-    return {
-        message: error.message,
-    }
-}
 
 export const useApiError = () => {
-    const { show: showAlert } = useAlert(
-        ({ message }) => message,
-        (props) => ({
-            ...props,
-            critical: true,
-        })
-    )
+    const { show: showAlert } = useAlert((message) => message, {
+        critical: true,
+    })
 
     const setSyncError = useSyncErrorsStore((state) => state.setError)
 
     const onError = function handleError(error) {
         const shouldRollback = shouldRollbackError(error)
+        // dont treat non-rollback errors as errors
         if (!shouldRollback) {
             return { shouldRollback }
         }
-
-        const alertProps = resolveAlertProps(error)
-        // error should always be ApiMutationError sanity-check
-        if (error instanceof ApiMutationError) {
-            setSyncError(error)
-        }
-        // show a custom message if one is set, otherwise display the error returned from the API
-        showAlert(alertProps)
-        // Also log the stack trace to the console (useful if there's a non-network error)
+        // Log the stack trace to the console
         console.error(error)
+        // error should be ApiMutationError, but handle other errors gracefully
+        if (!(error instanceof ApiMutationError)) {
+            return { shouldRollback }
+        }
+
+        const alertMessage = error.displayMessage
+        setSyncError(error)
+        showAlert(alertMessage)
+
         return {
             shouldRollback,
         }

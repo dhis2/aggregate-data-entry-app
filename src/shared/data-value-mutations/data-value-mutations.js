@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import {
     ApiMutationError,
-    FetchError,
+    isFetchError,
     useApiError,
 } from '../api-errors/index.js'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
@@ -56,7 +56,7 @@ function useSharedDataValueMutation({
         // If the mutation fails, use the context returned from onMutate to roll back
         onError: (err, newDataValue, context) => {
             // this should always be the case, unless a SyntaxError occurs?
-            if (err instanceof FetchError) {
+            if (isFetchError(err)) {
                 err = new ApiMutationError(
                     err,
                     context.mutationKey,
