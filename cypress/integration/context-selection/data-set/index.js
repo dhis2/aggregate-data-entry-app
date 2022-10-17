@@ -89,11 +89,15 @@ Then('a list of data sets should be displayed', () => {
 })
 
 Then('a no-value-label should be displayed', () => {
-    cy.contains('Choose a data set').should('exist')
+    cy.get('[data-test="data-set-selector"]')
+        .contains('Choose a data set')
+        .should('exist')
 })
 
 Then('a value-label should be displayed', () => {
-    cy.contains('Choose a data set').should('not.exist')
+    cy.get('[data-test="data-set-selector"]')
+        .contains('Choose a data set')
+        .should('not.exist')
 })
 
 Then('nothing but a loading message should be displayed', () => {
