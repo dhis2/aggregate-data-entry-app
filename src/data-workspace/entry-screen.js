@@ -39,7 +39,7 @@ const EmptyStateIcon = () => (
 )
 
 const documentationLink =
-    'https://docs.dhis2.org/en/use/user-guides/dhis-core-version-master/collecting-data/data-entry.html'
+    'https://docs.dhis2.org/en/use/user-guides/dhis-core-version-master/collecting-data/data-entry-beta.html'
 
 export const EntryScreen = () => (
     <div className={styles.wrapperDiv}>
