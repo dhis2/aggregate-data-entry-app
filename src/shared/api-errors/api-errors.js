@@ -4,7 +4,7 @@ const temporalErrorsStatusCodes = new Set([401, 403, 502, 503, 504])
 const isTemporalError = (error) => {
     return (
         error?.type === 'network' ||
-        temporalErrorsStatusCodes.has(error?.details.httpStatusCode)
+        temporalErrorsStatusCodes.has(error?.details?.httpStatusCode)
     )
 }
 
