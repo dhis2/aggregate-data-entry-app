@@ -94,17 +94,19 @@ export function InnerWrapper({
         []
     )
 
-    // Detect if this field is sending data
     const dataValueParams = useDataValueParams({ deId, cocId })
+    // Detect if this field is sending data
     const activeMutations = useIsMutating({
         mutationKey: dataValueMutationKeys.all(dataValueParams),
     })
     const syncError = useSyncErrorsStore((state) =>
         state.getErrorByDataValueParams(dataValueParams)
     )
-
+    const clearSyncError = useSyncErrorsStore(
+        (state) => state.clearErrorByDataValueParams
+    )
     const errorMessage = error ?? syncError?.displayMessage
-    const synced = dirty && data.lastSyncedValue === value && !errorMessage
+    const synced = dirty && data.lastSyncedValue === value
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
@@ -112,6 +114,13 @@ export function InnerWrapper({
         : activeMutations === 0 && synced
         ? styles.synced
         : null
+
+    // clear error if reset to initital-value
+    useEffect(() => {
+        if (!dirty || synced) {
+            clearSyncError(dataValueParams)
+        }
+    }, [clearSyncError, dirty, dataValueParams, synced])
 
     return (
         <ValidationTooltip
