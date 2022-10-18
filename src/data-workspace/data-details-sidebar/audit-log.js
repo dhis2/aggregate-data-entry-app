@@ -14,7 +14,11 @@ import {
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ExpandableUnit, useConnectionStatus } from '../../shared/index.js'
+import {
+    ExpandableUnit,
+    useConnectionStatus,
+    useClientServerDateUtils,
+} from '../../shared/index.js'
 import styles from './audit-log.module.css'
 import useDataValueContext from './use-data-value-context.js'
 import useOpenState from './use-open-state.js'
@@ -25,6 +29,7 @@ export default function AuditLog({ item }) {
     const { offline } = useConnectionStatus()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
+    const { fromServerDate } = useClientServerDateUtils()
 
     if (!offline && (!open || dataValueContext.isLoading)) {
         return (
@@ -101,10 +106,13 @@ export default function AuditLog({ item }) {
                             } = audit
                             const key = `${de}-${pe}-${ou}-${coc}-${created}`
 
+                            const { clientDate: createdDateClient } =
+                                fromServerDate(new Date(created))
+
                             return (
                                 <DataTableRow key={key}>
                                     <DataTableCell>
-                                        {moment(created).format(
+                                        {moment(createdDateClient).format(
                                             'YYYY-MM-DD HH:mm'
                                         )}
                                     </DataTableCell>
