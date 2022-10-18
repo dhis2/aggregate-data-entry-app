@@ -54,6 +54,24 @@ Given('no data set has been selected', () => {
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
+Given('a link references a period which is not valid', () => {
+    cy.visit(`/#/?dataSetId=lyLU2wR22tC&periodId=FakePeriod`)
+})
+
+Given(
+    'a link references a period of a different type than that associated with the data set',
+    () => {
+        cy.visit(`/#/?dataSetId=lyLU2wR22tC&periodId=2020`)
+    }
+)
+
+Given(
+    'a link references a period in the future beyond the allowed open future periods for the data set',
+    () => {
+        cy.visit(`/#/?dataSetId=lyLU2wR22tC&periodId=210012`)
+    }
+)
+
 When('selects the first period option', () => {
     cy.get('[data-test="period-selector-menu"] li:first-child').as(
         'firstOption'

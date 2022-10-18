@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useCurrentDateStringAtServerTimezone } from '../index.js'
+import { formatJsDateToDateString, useClientServerDate } from '../date/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import {
     usePeriodId,
@@ -40,7 +40,8 @@ export const useCheckLockStatus = () => {
     const [dataSetId] = useDataSetId()
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
-    const adjustedCurrentDateString = useCurrentDateStringAtServerTimezone()
+    const currentDate = useClientServerDate()
+    const currentDayString = formatJsDateToDateString(currentDate.serverDate)
     const { data: metadata } = useMetadata()
     const { setLockStatus } = useLockedContext()
     const dataValueSet = useDataValueSet()
@@ -51,7 +52,7 @@ export const useCheckLockStatus = () => {
                 dataSetId,
                 periodId,
                 metadata,
-                adjustedCurrentDateString,
+                currentDayString,
             })
         ) {
             // mark as invalid for data input period
@@ -74,7 +75,7 @@ export const useCheckLockStatus = () => {
         periodId,
         dataValueSet.data?.lockStatus,
         setLockStatus,
-        adjustedCurrentDateString,
+        currentDayString,
     ])
 }
 

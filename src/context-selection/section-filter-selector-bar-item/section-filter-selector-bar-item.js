@@ -26,11 +26,19 @@ export default function SectionFilterSelectorBarItem() {
 
     useOnDependentParamsChange(deselect)
 
-    // select first section if renderAsTabs === true
     useEffect(() => {
         const sections = dataSet?.sections
+        // select first section if renderAsTabs === true
         if (dataSet?.renderAsTabs && !sectionFilter && sections?.length) {
             setSectionFilter(sections[0].id)
+        }
+        // clear out section if it is invalid
+        if (
+            sections &&
+            sectionFilter &&
+            !sections.map(({ id }) => id).includes(sectionFilter)
+        ) {
+            setSectionFilter(undefined)
         }
     }, [dataSet, sectionFilter, setSectionFilter])
 

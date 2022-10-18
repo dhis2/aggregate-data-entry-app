@@ -1,13 +1,16 @@
+import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import {
     selectors,
-    useMetadata,
+    useClientServerDateUtils,
     useDataSetId,
+    useMetadata,
     useOrgUnitId,
     usePeriodId,
+    useAttributeOptionComboSelection,
 } from '../../shared/index.js'
 import CategoriesMenu from './categories-menu.js'
 import useSelected from './use-selected.js'
@@ -52,16 +55,70 @@ export default function AttributeOptionComboSelectorBarItem({
         metadata,
         dataSetId
     )
+    const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
+        useAttributeOptionComboSelection()
+    const { fromClientDate } = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId
+            orgUnitId,
+            fromClientDate
         )
 
     const [open, setOpen] = useState(false)
     const { select, selected } = useSelected()
+
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
+    })
+
+    useEffect(() => {
+        const resetAttributeOptionComboSelection = (id) => {
+            setAttributeOptionComboSelection(undefined)
+            showWarningAlert(
+                i18n.t(
+                    'There was a problem loading the {{objectType}} selection ({{id}}). You might not have access, or the selection might be invalid.',
+                    {
+                        objectType: 'Attribute Option Combo',
+                        id,
+                    }
+                )
+            )
+        }
+
+        const relevantCategories = relevantCategoriesWithOptions.map(
+            ({ id }) => id
+        )
+
+        for (const categoryId of Object.keys(attributeOptionComboSelection)) {
+            const relevantCategoryOptions = relevantCategoriesWithOptions
+                .filter(({ id }) => id === categoryId)[0]
+                ?.categoryOptions.map(({ id }) => id)
+            if (!relevantCategories.includes(categoryId)) {
+                resetAttributeOptionComboSelection(categoryId)
+                return
+            }
+            if (
+                !relevantCategoryOptions.includes(
+                    attributeOptionComboSelection[categoryId]
+                )
+            ) {
+                resetAttributeOptionComboSelection(
+                    attributeOptionComboSelection[categoryId]
+                )
+                return
+            }
+        }
+    }, [
+        attributeOptionComboSelection,
+        relevantCategoriesWithOptions,
+        metadata,
+        setAttributeOptionComboSelection,
+        showWarningAlert,
+    ])
+
     const label = useSelectorBarItemLabel(categoryCombo)
     const valueLabel = useSelectorBarItemValue(categoryCombo)
     const onChange = ({ selected, categoryId }) =>

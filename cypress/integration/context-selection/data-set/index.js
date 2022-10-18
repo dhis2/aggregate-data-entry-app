@@ -61,6 +61,10 @@ Given('only one selectable data set exists', () => {
     })
 })
 
+Given('a link references an invalid data set', () => {
+    cy.visit(`/#/?dataSetId=FAKEDATASET`)
+})
+
 When('selects a data set', () => {
     cy.fixture('context-selection/metadata-complete').then(({ dataSets }) => {
         cy.get('[data-test="data-set-selector-menu"] li:first-child')
@@ -89,11 +93,15 @@ Then('a list of data sets should be displayed', () => {
 })
 
 Then('a no-value-label should be displayed', () => {
-    cy.contains('Choose a data set').should('exist')
+    cy.get('[data-test="data-set-selector"]')
+        .contains('Choose a data set')
+        .should('exist')
 })
 
 Then('a value-label should be displayed', () => {
-    cy.contains('Choose a data set').should('not.exist')
+    cy.get('[data-test="data-set-selector"]')
+        .contains('Choose a data set')
+        .should('not.exist')
 })
 
 Then('nothing but a loading message should be displayed', () => {

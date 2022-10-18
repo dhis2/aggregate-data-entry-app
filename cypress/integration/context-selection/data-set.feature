@@ -28,3 +28,7 @@ Feature: A data set can be selected
     Scenario: The only existing data set gets selected automatically
         Given only one selectable data set exists
         Then the only available data set should be selected
+
+    Scenario: An invalid data set is selected
+        Given a link references an invalid data set
+        Then a no-value-label should be displayed
