@@ -37,3 +37,11 @@ Feature: Category options for each category in the category combination connecte
     Scenario: All options of one category are "out of bound"
         Given a data set, org unit & period have been selected and the current date is outside the range of all of the option's validity dates of one category
         Then a message is being displayed in the data workspace
+
+    Scenario: The user enters a link with an invalid category option
+        Given a link references an invalid category option
+        Then the selector should show that zero items have been selected
+
+    Scenario: The user enters a link with an invalid category
+        Given a link references an invalid category
+        Then the selector should show that zero items have been selected

@@ -61,6 +61,10 @@ Given('only one selectable data set exists', () => {
     })
 })
 
+Given('a link references an invalid data set', () => {
+    cy.visit(`/#/?dataSetId=FAKEDATASET`)
+})
+
 When('selects a data set', () => {
     cy.fixture('context-selection/metadata-complete').then(({ dataSets }) => {
         cy.get('[data-test="data-set-selector-menu"] li:first-child')

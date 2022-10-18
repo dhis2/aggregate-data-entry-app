@@ -69,7 +69,7 @@ export default function DataSetSelectorBarItem() {
         <div data-test="data-set-selector">
             <SelectorBarItem
                 label={i18n.t('Data set')}
-                value={dataSetId ? dataSet.displayName : undefined}
+                value={dataSet?.displayName || undefined}
                 open={dataSetOpen}
                 setOpen={setDataSetOpen}
                 noValueMessage={i18n.t('Choose a data set')}
