@@ -160,8 +160,8 @@ function UpdatedValue({ value, previousValue }) {
     return (
         <>
             {previousValue && <Tag>{previousValue}</Tag>}
-            {/* space arrow-right space*/}
-            &nbsp;&rarr;&nbsp;
+            {/* arrow-right*/}
+            <span className={styles.rightArrow}>&rarr;</span>
             <Tag>{value}</Tag>
         </>
     )

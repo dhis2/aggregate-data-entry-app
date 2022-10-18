@@ -40,3 +40,7 @@
 .tableWrapper {
     overflow-x: scroll;
 }
+
+.rightArrow {
+    margin: 0 var(--spacers-dp4) 0 var(--spacers-dp4);
+}

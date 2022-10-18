@@ -9,9 +9,9 @@
 export default function processAudits(audits) {
     const processedExistingAudits = [...audits].map((audit, index) => {
         const previousValue =
-            audits?.[index + 1]?.auditType !== 'DELETE'
-                ? audits?.[index + 1]?.value
-                : undefined
+            audit?.auditType === 'CREATE'
+                ? undefined
+                : audits?.[index + 1]?.value
 
         return {
             ...audit,
