@@ -1,13 +1,8 @@
-import { useAlert } from '@dhis2/app-runtime'
 import { useSyncErrorsStore } from '../stores/sync-errors-store.js'
 import { shouldRollbackError } from './api-errors.js'
 import { ApiMutationError } from './api-mutation-error.js'
 
 export const useApiError = () => {
-    const { show: showAlert } = useAlert((message) => message, {
-        critical: true,
-    })
-
     const setSyncError = useSyncErrorsStore((state) => state.setError)
 
     const onError = function handleError(error) {
@@ -23,9 +18,7 @@ export const useApiError = () => {
             return { shouldRollback }
         }
 
-        const alertMessage = error.displayMessage
         setSyncError(error)
-        showAlert(alertMessage)
 
         return {
             shouldRollback,
