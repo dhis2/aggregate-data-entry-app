@@ -10,9 +10,16 @@ const Action = ({ label, shortcuts }) => (
         <div>{label}</div>
         <div className={styles.shortcutKeys}>
             {shortcuts.map((shortcut, index) => (
-                <span key={index} className={styles.shortcutKey}>
-                    {shortcut}
-                </span>
+                <>
+                    <span key={index} className={styles.shortcutKey}>
+                        {shortcut}
+                    </span>
+                    {index !== shortcuts.length - 1 && (
+                        <span className={styles.shortcutOr}>{` ${i18n.t(
+                            'or'
+                        )} `}</span>
+                    )}
+                </>
             ))}
         </div>
     </div>
