@@ -1,7 +1,8 @@
+import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem, IconBlock16, Divider } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     selectors,
     useMetadata,
@@ -39,6 +40,10 @@ UnclickableLabel.propTypes = {
 export default function OrganisationUnitSetSelectorBarItem() {
     const prefetchedOrganisationUnits = usePrefetchedOrganisationUnits()
 
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
+    })
+
     const [filter, setFilter] = useState('')
     const orgUnitPathsByName = useOrgUnitPathsByName(filter)
 
@@ -49,7 +54,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
     const { organisationUnits: assignedOrgUnits } =
         selectors.getDataSetById(metadata, dataSetId) || {}
 
-    const [, setOrgUnitId] = useOrgUnitId()
+    const [orgUnitId, setOrgUnitId] = useOrgUnitId()
 
     const orgUnit = useOrgUnit()
     const userOrgUnits = useUserOrgUnits()
@@ -66,6 +71,24 @@ export default function OrganisationUnitSetSelectorBarItem() {
         (filter !== '' && !orgUnitPathsByName.called) ||
         // or it's actually loading
         orgUnitPathsByName.loading
+
+    useEffect(() => {
+        // set as undefined if orgUnit is not assigned to dataset
+        if (orgUnitId && assignedOrgUnits) {
+            if (!assignedOrgUnits.includes(orgUnitId)) {
+                showWarningAlert(
+                    i18n.t(
+                        'There was a problem loading the {{objectType}} selection ({{id}}). You might not have access, or the selection might be invalid.',
+                        {
+                            objectType: 'Organisation Unit',
+                            id: orgUnitId,
+                        }
+                    )
+                )
+                setOrgUnitId(undefined)
+            }
+        }
+    }, [orgUnitId, assignedOrgUnits, setOrgUnitId, showWarningAlert])
 
     return (
         <div data-test="org-unit-selector">

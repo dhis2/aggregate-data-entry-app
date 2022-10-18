@@ -11,13 +11,20 @@ export function useIsValidSelection() {
     }
 
     const dataSet = selectors.getDataSetById(data, dataSetId)
-    const catComboId = dataSet.categoryCombo.id
+    const catComboId = dataSet?.categoryCombo?.id
     const categoryCombo = selectors.getCategoryComboById(data, catComboId)
+    if (
+        dataSet === undefined ||
+        categoryCombo === null ||
+        categoryCombo === undefined
+    ) {
+        return false
+    }
 
     const selectedOptions = Object.values(attributeOptionComboSelection)
 
     // if default catCombo, no selection is needed
-    if (categoryCombo.isDefault) {
+    if (categoryCombo?.isDefault) {
         return true
     }
 

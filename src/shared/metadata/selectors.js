@@ -464,6 +464,9 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                 categoryOptions
             )
             const period = parsePeriodId(periodId)
+            if (!period) {
+                return []
+            }
             const clientPeriodStartDate = new Date(period.startDate)
             const periodStartDate = fromClientDate(
                 clientPeriodStartDate
