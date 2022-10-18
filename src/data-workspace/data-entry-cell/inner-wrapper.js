@@ -1,4 +1,4 @@
-import { IconMore16, colors } from '@dhis2/ui'
+import { IconMore16, IconWarningFilled16, colors } from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
@@ -14,18 +14,23 @@ import styles from './data-entry-cell.module.css'
 import { ValidationTooltip } from './validation-tooltip.js'
 
 /** Three dots or triangle in top-right corner of cell */
-const SyncStatusIndicator = ({ isLoading, isSynced }) => {
+const SyncStatusIndicator = ({ error, isLoading, isSynced }) => {
+    let statusIcon = null
+    if (isLoading) {
+        statusIcon = <IconMore16 color={colors.grey700} />
+    } else if (error) {
+        statusIcon = <IconWarningFilled16 color={colors.yellow800} />
+    } else if (isSynced) {
+        statusIcon = <div className={styles.topRightTriangle} />
+    }
     return (
         <div className={cx(styles.topRightIndicator, styles.hideForPrint)}>
-            {isLoading ? (
-                <IconMore16 color={colors.grey700} />
-            ) : isSynced ? (
-                <div className={styles.topRightTriangle} />
-            ) : null}
+            {statusIcon}
         </div>
     )
 }
 SyncStatusIndicator.propTypes = {
+    error: PropTypes.object,
     isLoading: PropTypes.bool,
     isSynced: PropTypes.bool,
 }
@@ -100,15 +105,13 @@ export function InnerWrapper({
 
     const errorMessage = error ?? syncError?.displayMessage
     const synced = dirty && data.lastSyncedValue === value && !errorMessage
-
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
-    const cellStateClassName =
-        invalid || syncError
-            ? styles.invalid
-            : activeMutations === 0 && synced
-            ? styles.synced
-            : null
+    const cellStateClassName = invalid
+        ? styles.invalid
+        : activeMutations === 0 && synced
+        ? styles.synced
+        : null
 
     return (
         <ValidationTooltip
@@ -129,6 +132,7 @@ export function InnerWrapper({
                 <SyncStatusIndicator
                     isLoading={activeMutations > 0}
                     isSynced={synced}
+                    error={syncError}
                 />
                 <CommentIndicator hasComment={hasComment} />
             </div>
