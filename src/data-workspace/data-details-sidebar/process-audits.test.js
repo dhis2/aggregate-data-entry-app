@@ -27,7 +27,7 @@ test('processAudits', () => {
             value: '2',
             modifiedBy: 'admin',
             created: '2022-07-07T11:01:21.915',
-            auditType: 'UPDATE',
+            auditType: 'CREATE',
         },
         {
             dataElement: 'pikOziyCXbM',
@@ -73,7 +73,7 @@ test('processAudits', () => {
             value: '2',
             modifiedBy: 'admin',
             created: '2022-07-07T11:01:21.915',
-            auditType: 'UPDATE',
+            auditType: 'CREATE',
             previousValue: undefined,
         },
         {
