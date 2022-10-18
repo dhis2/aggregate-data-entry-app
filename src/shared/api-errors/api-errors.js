@@ -17,5 +17,5 @@ export const shouldPersistError = (error) => {
 }
 
 export const shouldRollbackError = (error) => {
-    return isTemporalError(error)
+    return !isTemporalError(error)
 }
