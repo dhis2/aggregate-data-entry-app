@@ -9,7 +9,7 @@ import styles from './entry-form.module.css'
 
 export default function FilterField({ value, setFilterText, formType }) {
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
-    const wrapperClasses = classNames(styles.filterWrapper, 'hide-for-print')
+    const wrapperClasses = classNames(styles.filterWrapper, styles.hideForPrint)
     return (
         <div className={wrapperClasses}>
             <InputField

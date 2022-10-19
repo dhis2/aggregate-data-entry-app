@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './right-hand-panel.module.css'
@@ -19,7 +20,7 @@ export default function RightHandPanel({ idSidebarMap }) {
     }
 
     return (
-        <div className={styles.wrapper}>
+        <div className={cx(styles.wrapper, styles.hideForPrint)}>
             <SidebarComponent show={show} hide={hide} />
         </div>
     )

@@ -66,3 +66,9 @@
 .sectionTab {
     margin-bottom: 8px;
 }
+
+@media print {
+    .hideForPrint {
+        composes: hideForPrint from '../../app/app.css'
+    }
+}
