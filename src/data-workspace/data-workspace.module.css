@@ -31,3 +31,9 @@
 .formMessageBox {
     margin: var(--spacers-dp8) var(--spacers-dp12) var(--spacers-dp8) var(--spacers-dp12);
 }
+
+@media print {
+    .hideForPrint {
+        composes: hideForPrint from '../app/app.css'
+    }
+}

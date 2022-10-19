@@ -9,13 +9,14 @@ import styles from './entry-form.module.css'
 
 export default function FilterField({ value, setFilterText, formType }) {
     const setHighlightedFieldId = useSetHighlightedFieldIdContext()
-    const wrapperClasses = classNames(styles.filterWrapper, 'hide-for-print')
+    const wrapperClasses = classNames(styles.filterWrapper, styles.hideForPrint)
     return (
         <div className={wrapperClasses}>
             <InputField
                 name="filter-input"
                 className={styles.filterField}
                 type="text"
+                dense
                 placeholder={
                     formType === FORM_TYPES.SECTION
                         ? i18n.t('Filter fields in all sections')

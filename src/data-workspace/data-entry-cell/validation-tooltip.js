@@ -25,7 +25,10 @@ const TooltipManager = React.forwardRef(function TooltipManager(
         else {
             close()
         }
-    }, [invalid, active, open, close])
+        // onMouseOut, onMouseOver are not stable references
+        // when included, useEffect refires and causes tooltip to flicker
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [invalid, active])
 
     // Only open the tooltip if the cell is invalid
     const handleMouseOver = () => {

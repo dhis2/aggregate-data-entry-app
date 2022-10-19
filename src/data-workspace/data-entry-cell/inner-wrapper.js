@@ -15,7 +15,7 @@ import styles from './data-entry-cell.module.css'
 /** Three dots or triangle in top-right corner of cell */
 const SyncStatusIndicator = ({ isLoading, isSynced }) => {
     return (
-        <div className={styles.topRightIndicator}>
+        <div className={cx(styles.topRightIndicator, styles.hideForPrint)}>
             {isLoading ? (
                 <IconMore16 color={colors.grey700} />
             ) : isSynced ? (
@@ -32,7 +32,7 @@ SyncStatusIndicator.propTypes = {
 /** Grey triangle in bottom left of cell */
 const CommentIndicator = ({ hasComment }) => {
     return (
-        <div className={styles.bottomRightIndicator}>
+        <div className={cx(styles.bottomRightIndicator, styles.hideForPrint)}>
             {hasComment && <div className={styles.bottomRightTriangle} />}
         </div>
     )
