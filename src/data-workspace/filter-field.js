@@ -26,14 +26,16 @@ export default function FilterField({ value, setFilterText, formType }) {
                 onChange={({ value }) => setFilterText(value)}
                 onFocus={() => setHighlightedFieldId(null)}
             />
-            <Button
-                secondary
-                small
-                name="Clear"
-                onClick={() => setFilterText('')}
-            >
-                {i18n.t('Clear filter')}
-            </Button>
+            {value && (
+                <Button
+                    secondary
+                    small
+                    name="Clear"
+                    onClick={() => setFilterText('')}
+                >
+                    {i18n.t('Clear filter')}
+                </Button>
+            )}
         </div>
     )
 }
