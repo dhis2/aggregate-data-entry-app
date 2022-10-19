@@ -1,0 +1,56 @@
+name: 'dhis2: netlify deploy branch'
+
+# Requirements:
+#
+# - Org secrets:
+#       DHIS2_BOT_NETLIFY_TOKEN
+#       DHIS2_BOT_GITHUB_TOKEN
+# - Repo secrets:
+#       NETLIFY_SITE_ID
+# - Customize the 'jobs.build.steps.netlify-deploy.publish-dir' property
+
+on:
+    push:
+        branches:
+            - development
+
+concurrency:
+    group: ${{ github.workflow}}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 16.x
+
+            - uses: c-hive/gha-yarn-cache@v1
+            - run: yarn install --frozen-lockfile
+
+            - name: Build
+              run: yarn d2-app-scripts build --standalone
+
+            - name: Deploy
+              id: netlify-deploy
+              uses: nwtgck/actions-netlify@v1.2.2
+              timeout-minutes: 1
+              with:
+                  github-token: ${{ secrets.DHIS2_BOT_GITHUB_TOKEN }}
+                  github-deployment-environment: 'netlify'
+                  github-deployment-description: 'Branch Deploy on Netlify'
+                  deploy-message: Github actions branch deploy
+                  enable-pull-request-comment: false
+                  enable-commit-comment: true
+                  enable-commit-status: true
+                  production-deploy: false
+                  alias: ${{ github.ref_name }}
+                  # customize according to project needs
+                  publish-dir: 'build/app'
+              env:
+                  # org secret
+                  NETLIFY_AUTH_TOKEN: ${{ secrets.DHIS2_BOT_NETLIFY_TOKEN }}
+                  # repo secret
+                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
