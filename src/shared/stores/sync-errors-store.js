@@ -61,4 +61,6 @@ export const useSyncErrorsStore = create((set, get) => ({
                 }
             })
     },
+
+    getNumberOfErrors: () => Object.keys(get().getErrors()).length,
 }))
