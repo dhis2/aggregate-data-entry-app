@@ -14,7 +14,11 @@ import {
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ExpandableUnit, useConnectionStatus } from '../../shared/index.js'
+import {
+    ExpandableUnit,
+    useConnectionStatus,
+    useClientServerDateUtils,
+} from '../../shared/index.js'
 import styles from './audit-log.module.css'
 import useDataValueContext from './use-data-value-context.js'
 import useOpenState from './use-open-state.js'
@@ -25,6 +29,7 @@ export default function AuditLog({ item }) {
     const { offline } = useConnectionStatus()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
+    const { fromServerDate } = useClientServerDateUtils()
 
     if (!offline && (!open || dataValueContext.isLoading)) {
         return (
@@ -74,56 +79,67 @@ export default function AuditLog({ item }) {
 
     return (
         <ExpandableUnit title={title} open={open} onToggle={setOpen}>
-            <DataTable>
-                <TableHead>
-                    <DataTableRow>
-                        <DataTableColumnHeader>Date</DataTableColumnHeader>
-                        <DataTableColumnHeader>User</DataTableColumnHeader>
-                        <DataTableColumnHeader>Change</DataTableColumnHeader>
-                    </DataTableRow>
-                </TableHead>
+            <div className={styles.tableWrapper}>
+                <DataTable>
+                    <TableHead>
+                        <DataTableRow>
+                            <DataTableColumnHeader>Date</DataTableColumnHeader>
+                            <DataTableColumnHeader>User</DataTableColumnHeader>
+                            <DataTableColumnHeader>
+                                Change
+                            </DataTableColumnHeader>
+                        </DataTableRow>
+                    </TableHead>
 
-                <TableBody>
-                    {audits.map((audit) => {
-                        const {
-                            modifiedBy: user,
-                            previousValue,
-                            value,
-                            created,
-                            auditType,
-                            dataElement: de,
-                            categoryOptionCombo: coc,
-                            period: pe,
-                            orgUnit: ou,
-                        } = audit
-                        const key = `${de}-${pe}-${ou}-${coc}`
+                    <TableBody>
+                        {audits.map((audit) => {
+                            const {
+                                modifiedBy: user,
+                                previousValue,
+                                value,
+                                created,
+                                auditType,
+                                dataElement: de,
+                                categoryOptionCombo: coc,
+                                period: pe,
+                                orgUnit: ou,
+                            } = audit
+                            const key = `${de}-${pe}-${ou}-${coc}-${created}`
 
-                        return (
-                            <DataTableRow key={key}>
-                                <DataTableCell>
-                                    {moment(created).format('YYYY-MM-DD HH:mm')}
-                                </DataTableCell>
-                                <DataTableCell>{user}</DataTableCell>
-                                <DataTableCell>
-                                    <div>
-                                        {auditType === 'DELETE' && (
-                                            <DeletedValue
-                                                previousValue={previousValue}
-                                            />
+                            const { clientDate: createdDateClient } =
+                                fromServerDate(new Date(created))
+
+                            return (
+                                <DataTableRow key={key}>
+                                    <DataTableCell>
+                                        {moment(createdDateClient).format(
+                                            'YYYY-MM-DD HH:mm'
                                         )}
-                                        {auditType === 'UPDATE' && (
-                                            <UpdatedValue
-                                                value={value}
-                                                previousValue={previousValue}
-                                            />
-                                        )}
-                                    </div>
-                                </DataTableCell>
-                            </DataTableRow>
-                        )
-                    })}
-                </TableBody>
-            </DataTable>
+                                    </DataTableCell>
+                                    <DataTableCell>{user}</DataTableCell>
+                                    <DataTableCell>
+                                        <div>
+                                            {auditType === 'DELETE' && (
+                                                <DeletedValue value={value} />
+                                            )}
+                                            {['UPDATE', 'CREATE'].includes(
+                                                auditType
+                                            ) && (
+                                                <UpdatedValue
+                                                    value={value}
+                                                    previousValue={
+                                                        previousValue
+                                                    }
+                                                />
+                                            )}
+                                        </div>
+                                    </DataTableCell>
+                                </DataTableRow>
+                            )
+                        })}
+                    </TableBody>
+                </DataTable>
+            </div>
         </ExpandableUnit>
     )
 }
@@ -136,32 +152,30 @@ AuditLog.propTypes = {
     }).isRequired,
 }
 
-function DeletedValue({ previousValue }) {
+function DeletedValue({ value }) {
     return (
-        <Tag negative>
-            <span style={{ textDecoration: 'line-through' }}>
-                {previousValue}
-            </span>
+        <Tag negative className={styles.lineThrough}>
+            {value}
         </Tag>
     )
 }
 
 DeletedValue.propTypes = {
-    previousValue: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
 }
 
 function UpdatedValue({ value, previousValue }) {
     return (
         <>
-            <Tag>{previousValue}</Tag>
-            {/* space arrow-right space*/}
-            &nbsp;&rarr;&nbsp;
+            {previousValue && <Tag>{previousValue}</Tag>}
+            {/* arrow-right*/}
+            <span className={styles.rightArrow}>&rarr;</span>
             <Tag>{value}</Tag>
         </>
     )
 }
 
 UpdatedValue.propTypes = {
-    previousValue: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
+    previousValue: PropTypes.string,
 }

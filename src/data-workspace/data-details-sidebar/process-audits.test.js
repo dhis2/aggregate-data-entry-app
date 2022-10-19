@@ -8,23 +8,13 @@ import processAudits from './process-audits.js'
  * 5. User sets the value to 3 and syncs
  */
 test('processAudits', () => {
-    const currentItem = {
-        dataElement: 'pikOziyCXbM',
-        period: '202206',
-        orgUnit: 'ImspTQPwCqd',
-        categoryOptionCombo: 'Prlt0C1RF0s',
-        value: '3',
-        modifiedBy: 'admin',
-        created: '2022-07-07T11:02:00.440',
-    }
-
     const audits = [
         {
             dataElement: 'pikOziyCXbM',
             period: '202206',
             orgUnit: 'ImspTQPwCqd',
             categoryOptionCombo: 'Prlt0C1RF0s',
-            value: '2',
+            value: '3',
             modifiedBy: 'admin',
             created: '2022-07-07T11:02:00.440',
             auditType: 'UPDATE',
@@ -34,10 +24,10 @@ test('processAudits', () => {
             period: '202206',
             orgUnit: 'ImspTQPwCqd',
             categoryOptionCombo: 'Prlt0C1RF0s',
-            value: '',
+            value: '2',
             modifiedBy: 'admin',
             created: '2022-07-07T11:01:21.915',
-            auditType: 'UPDATE',
+            auditType: 'CREATE',
         },
         {
             dataElement: 'pikOziyCXbM',
@@ -49,9 +39,19 @@ test('processAudits', () => {
             created: '2022-07-07T10:59:24.260',
             auditType: 'DELETE',
         },
+        {
+            dataElement: 'pikOziyCXbM',
+            period: '202206',
+            orgUnit: 'ImspTQPwCqd',
+            categoryOptionCombo: 'Prlt0C1RF0s',
+            value: '1',
+            modifiedBy: 'admin',
+            created: '2022-07-06T09:00:00.000',
+            auditType: 'CREATE',
+        },
     ]
 
-    const processedAudits = processAudits(audits, currentItem)
+    const processedAudits = processAudits(audits)
 
     expect(processedAudits).toEqual([
         {
@@ -73,19 +73,30 @@ test('processAudits', () => {
             value: '2',
             modifiedBy: 'admin',
             created: '2022-07-07T11:01:21.915',
-            auditType: 'UPDATE',
-            previousValue: '',
+            auditType: 'CREATE',
+            previousValue: undefined,
         },
         {
             dataElement: 'pikOziyCXbM',
             period: '202206',
             orgUnit: 'ImspTQPwCqd',
             categoryOptionCombo: 'Prlt0C1RF0s',
-            value: '',
+            value: '1',
             modifiedBy: 'admin',
             created: '2022-07-07T10:59:24.260',
             auditType: 'DELETE',
             previousValue: '1',
+        },
+        {
+            dataElement: 'pikOziyCXbM',
+            period: '202206',
+            orgUnit: 'ImspTQPwCqd',
+            categoryOptionCombo: 'Prlt0C1RF0s',
+            value: '1',
+            modifiedBy: 'admin',
+            created: '2022-07-06T09:00:00.000',
+            auditType: 'CREATE',
+            previousValue: undefined,
         },
     ])
 })
