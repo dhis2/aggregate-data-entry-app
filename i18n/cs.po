@@ -29,7 +29,7 @@ msgid "There was a problem loading metadata"
 msgstr "Při načítání metadat došlo k problému"
 
 msgid "There was a problem loading the user's information"
-msgstr ""
+msgstr "Při načítání informací o uživateli došlo k problému"
 
 msgid "There is {{pendingMutations}} pending change."
 msgstr "Čeká na změnu {{pendingMutations}}."
@@ -43,6 +43,8 @@ msgstr "Synchronizováno"
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
+"Relace vypršela. Chcete-li se znovu přihlásit, načtěte znovu. O žádná data "
+"nepřijdete."
 
 msgid "Couldn't incomplete the form, please try again later"
 msgstr "Formulář se nepodařilo vyplnit, zkuste to prosím znovu později"
@@ -108,10 +110,10 @@ msgid "Low"
 msgstr "Nízká"
 
 msgid "{{length}} {{level}} priority alert"
-msgstr ""
+msgstr "Upozornění na prioritu {{length}} {{level}}"
 
 msgid "{{length}} {{level}} priority alerts"
-msgstr ""
+msgstr "Upozornění na prioritu {{length}} {{level}}"
 
 msgid "Validation"
 msgstr "Ověření"
@@ -148,16 +150,20 @@ msgstr ""
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
 msgstr ""
+"{{leftDescription}} nemůže být prázdné, když má {{rightDescription}} hodnotu"
 
 msgid ""
 "{{leftDescription}} cannot have a value when {{rightDescription}} has a "
 "value"
 msgstr ""
+"{{leftDescription}} nemůže mít hodnotu, když {{rightDescription}} má hodnotu"
 
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
 msgstr ""
+"Některé kategorie nemají platné možnosti pro vybrané období nebo organizační"
+" jednotku ({{categories}})"
 
 msgid "Choose a data set"
 msgstr "Vyberte datovou sadu"
@@ -169,6 +175,8 @@ msgid ""
 "There are no options for {{categoryName}} for the selected period or "
 "organisation unit."
 msgstr ""
+"Pro {{categoryName}} pro vybrané období nebo organizační jednotku nejsou k "
+"dispozici žádné možnosti."
 
 msgid "Hide menu"
 msgstr "Skrýt nabídku"
@@ -186,7 +194,7 @@ msgid "{{amount}} selections"
 msgstr "{{amount}} výběrů"
 
 msgid "Cell reference"
-msgstr ""
+msgstr "Odkaz na buňku"
 
 msgid "Saved and synced to server"
 msgstr "Uloženo a synchronizováno na server"
@@ -300,7 +308,7 @@ msgid "Error occurred while loading data set info"
 msgstr "Při načítání informací o datové sadě došlo k chybě"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
-msgstr ""
+msgstr "Vlastní formuláře se nepodařilo zpřístupnit offline. {{error}}"
 
 msgid "Value"
 msgstr "Hodnota"
@@ -330,7 +338,7 @@ msgid "Empty values can't be marked for follow -up"
 msgstr "Prázdné hodnoty nelze označit pro sledování"
 
 msgid "You do not have the authority to mark this value for follow -up"
-msgstr ""
+msgstr "Nemáte oprávnění označit tuto hodnotu pro sledování"
 
 msgid "Description: {{- description}}"
 msgstr "Popis: {{- description}}"
@@ -345,7 +353,7 @@ msgid "Category option combo ID: {{id}}"
 msgstr "ID kombinace možností kategorie: {{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr ""
+msgstr "Naposledy aktualizováno {{- timeAgo}} uživatelem {{- name}}"
 
 msgid "Marked for follow-up"
 msgstr "Označeno pro další sledování"
@@ -354,7 +362,7 @@ msgid "Comment"
 msgstr "Komentář"
 
 msgid "There was a problem updating the comment for this data item"
-msgstr ""
+msgstr "Při aktualizaci komentáře pro tuto datovou položku došlo k problému"
 
 msgid "Choose an option"
 msgstr "Zvolte možnost"
@@ -378,7 +386,7 @@ msgid "No comment for this data item."
 msgstr "K této datové položce není žádný komentář."
 
 msgid "You do not have the authority to add or edit comments"
-msgstr ""
+msgstr "Nemáte oprávnění přidávat nebo upravovat komentáře"
 
 msgid "Details"
 msgstr "Detaily"
@@ -399,13 +407,13 @@ msgid "Delete limits"
 msgstr "Smazat limity"
 
 msgid "You do not have the authority to delete limits"
-msgstr ""
+msgstr "Nemáte oprávnění mazat limity"
 
 msgid "Edit limits"
 msgstr "Upravit limity"
 
 msgid "You do not have the authority to add limits"
-msgstr ""
+msgstr "Nemáte oprávnění přidávat limity"
 
 msgid "Min"
 msgstr "Min"
@@ -426,45 +434,47 @@ msgid "No limits set for this data item."
 msgstr "Pro tuto datovou položku nejsou nastavena žádná omezení."
 
 msgid "Save limits"
-msgstr ""
+msgstr "Uložit limity"
 
 msgid "The current selection does not have a form"
-msgstr ""
+msgstr "Aktuální výběr nemá formulář"
 
 msgid "There was a problem loading data values"
-msgstr ""
+msgstr "Při načítání datových hodnot došlo k problému"
 
 msgid "This data set has no assigned Data Elements"
-msgstr ""
+msgstr "Tato datová sada nemá přiřazené žádné datové prvky"
 
 msgid ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
 msgstr ""
+"V této sadě dat nejsou žádné datové prvky. Přidá některé datové prvky pro "
+"použití této datové sady."
 
 msgid "Data cannot be added or changed outside of the data input period."
-msgstr ""
+msgstr "Data nelze přidávat ani měnit mimo období zadávání dat."
 
 msgid "Data cannot be added or changed because data entry has concluded."
-msgstr ""
+msgstr "Data nelze přidat ani změnit, protože zadávání dat bylo ukončeno."
 
 msgid "Data cannot be added or changed because data has been approved."
-msgstr ""
+msgstr "Data nelze přidat ani změnit, protože data byla schválena."
 
 msgid "You do not have the authority to edit entry forms"
-msgstr ""
+msgstr "Nemáte oprávnění upravovat vstupní formuláře"
 
 msgid "Data set locked"
-msgstr ""
+msgstr "Datová sada uzamčena"
 
 msgid "Filter fields in all sections"
-msgstr ""
+msgstr "Filtrujte pole ve všech sekcích"
 
 msgid "Filter fields"
-msgstr ""
+msgstr "Filtrovat pole"
 
 msgid "Clear filter"
-msgstr ""
+msgstr "Vymazat filtr"
 
 msgid "Indicators"
 msgstr "Indikátory"
@@ -485,7 +495,7 @@ msgid "Delete"
 msgstr "Smazat"
 
 msgid "Upload an image"
-msgstr ""
+msgstr "Nahrajte obrázek"
 
 msgid "Upload a file"
 msgstr "Nahrát soubor"
@@ -518,7 +528,7 @@ msgid "1 item hidden by filter"
 msgstr "1 položka skrytá filtrem"
 
 msgid "An error occurred"
-msgstr ""
+msgstr "Vyskytla se chyba"
 
 msgid ""
 "Something went wrong while setting the form's completion to "
