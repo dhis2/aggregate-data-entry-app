@@ -9,9 +9,9 @@ export const computeDeepestLevel = (
         return rootLevel + offlineLevels - 1
     }
     if (configOfflineLevel) {
-        return configOfflineLevel
+        return Math.max(configOfflineLevel, rootLevel)
     }
-    return 1
+    return rootLevel
 }
 
 export const computeOfflineLevels = (
