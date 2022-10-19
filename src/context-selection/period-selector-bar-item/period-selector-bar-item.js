@@ -84,7 +84,7 @@ export const PeriodSelectorBarItem = () => {
         if (selectedPeriod) {
             const endDate = new Date(selectedPeriod?.endDate)
             if (endDate >= dateLimit) {
-                resetPeriod(periodId)
+                //  resetPeriod(periodId)
             }
             if (selectedPeriod?.periodType?.type !== dataSet?.periodType) {
                 resetPeriod(periodId)

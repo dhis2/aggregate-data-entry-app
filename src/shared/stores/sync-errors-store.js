@@ -10,22 +10,12 @@ const inititalState = {
     errors: {},
 }
 
-// API for stored errors
-export const createSyncError = (error, value, mutationKey) => {
-    return {
-        error,
-        value,
-        mutationKey,
-    }
-}
-
 export const useSyncErrorsStore = create((set, get) => ({
     ...inititalState,
     setErrorById: (cellId, error) =>
         set((state) => {
             const errors = { ...state.errors }
             errors[cellId] = error
-            console.log('setting error', cellId, errors)
             return { errors }
         }),
     setErrorByMutationKey: (mutationKey, error) => {
