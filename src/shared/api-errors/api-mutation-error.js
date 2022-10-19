@@ -63,6 +63,5 @@ export class ApiMutationError extends FetchError {
 
 export const isFetchError = (error) => {
     // instanceof does not work because FetchError is not the same class as app-runtime
-    // since we are using cjs-import (due to jest), and the import not being exposed in app-runtime or app-service-data
     return error.constructor.name === FetchError.name
 }
