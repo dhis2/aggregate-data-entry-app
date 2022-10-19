@@ -70,6 +70,14 @@ Feature: An org unit can be selected
         Given a data set and an org unit have been selected
         When the user selects a different data set connected to the currently selected org unit
         Then the org unit should remain selected
+    
+    Scenario: The user enters a link with an invalid organisation unit
+        Given a link references an invalid organisation unit
+        Then a no-value-label should be displayed
+
+    Scenario: The user enters a link with an invalid organisation unit / data set combination
+        Given a link references an organisation unit not assigned to the data set
+        Then a no-value-label should be displayed
 
     # # TODO: Need to figure out why dataSet.organisationUnits only return leaf-units
     # # Otherwise this can't be implemented

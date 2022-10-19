@@ -8,7 +8,7 @@ export default function useDataValueSetQueryKey() {
         attributeCombo: categoryComboId,
         // Note these are sorted:
         attributeOptions: categoryOptionIds,
-    } = useApiAttributeParams()
+    } = useApiAttributeParams() || {}
 
     return dataValueSets.byIds({
         dataSetId,
