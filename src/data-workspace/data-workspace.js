@@ -20,6 +20,7 @@ import {
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
+import { EntryScreen } from './entry-screen.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
@@ -76,7 +77,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     if (!isValidSelection) {
-        return null
+        return <EntryScreen />
     }
 
     // We want to block initialization of form if in-flight
@@ -112,7 +113,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
-    const footerClasses = classNames(styles.footer, 'hide-for-print')
+    const footerClasses = classNames(styles.footer, styles.hideForPrint)
     const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (

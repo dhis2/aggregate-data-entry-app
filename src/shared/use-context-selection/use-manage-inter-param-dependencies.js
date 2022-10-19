@@ -1,5 +1,8 @@
+import { useAlert } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
 import { useEffect, useState } from 'react'
 import { useHighlightedFieldStore } from '../../shared/index.js'
+import { useClientServerDateUtils } from '../date/index.js'
 import { parsePeriodId } from '../fixed-periods/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { filterObject } from '../utils.js'
@@ -34,19 +37,40 @@ function useHandleDataSetIdChange() {
     )
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
-    const [dataSetId] = useDataSetId()
+    const [dataSetId, setDataSetId] = useDataSetId()
     const [prevDataSetId, setPrevDataSetId] = useState(dataSetId)
     const [orgUnitId, setOrgUnitId] = useOrgUnitId()
     const { data: metadata } = useMetadata()
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const {
         organisationUnits: assignedOrgUnits,
         periodType: dataSetPeriodType,
     } = selectors.getDataSetById(metadata, dataSetId) || {}
+
     const setHighlightedFieldId = useHighlightedFieldStore(
         (state) => state.setHighlightedField
     )
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
+    })
 
     useEffect(() => {
+        if (dataSetId && !dataSet) {
+            showWarningAlert(
+                i18n.t(
+                    'There was a problem loading the {{objectType}} selection ({{id}}). You might not have access, or the selection might be invalid.',
+                    {
+                        objectType: 'Data Set',
+                        id: dataSetId,
+                    }
+                )
+            )
+            setHighlightedFieldId(null)
+            setDataSetId(undefined)
+            setPeriodId(undefined)
+            setOrgUnitId(undefined)
+            setAttributeOptionComboSelection(undefined)
+        }
         if (dataSetId !== prevDataSetId) {
             // clear out highlightedFieldId if dataset has changed
             setHighlightedFieldId(null)
@@ -84,6 +108,9 @@ function useHandleDataSetIdChange() {
         setOrgUnitId,
         orgUnitId,
         setHighlightedFieldId,
+        dataSet,
+        setDataSetId,
+        showWarningAlert,
     ])
 }
 
@@ -96,12 +123,14 @@ function useHandleOrgUnitIdChange() {
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
 
+    const clientServerDateUtils = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId
+            orgUnitId,
+            clientServerDateUtils.fromClientDate
         )
 
     useEffect(() => {
@@ -175,12 +204,14 @@ function useHandlePeriodIdChange() {
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
+    const clientServerDateUtils = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
-            orgUnitId
+            orgUnitId,
+            clientServerDateUtils.fromClientDate
         )
 
     useEffect(() => {

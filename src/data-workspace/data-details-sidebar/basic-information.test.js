@@ -2,7 +2,16 @@ import React from 'react'
 import useHighlightedField from '../../shared/highlighted-field/use-highlighted-field.js'
 import { render } from '../../test-utils/index.js'
 import BasicInformation from './basic-information.js'
+
 jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
+
+jest.mock('../../shared/date/use-client-server-date.js', () => ({
+    __esModule: true,
+    default: jest.fn(({ serverDate }) => ({
+        serverDate,
+        clientDate: serverDate,
+    })),
+}))
 
 const noop = () => {}
 
@@ -29,9 +38,11 @@ describe('<BasicInformation />', () => {
             value: '1',
         })
     })
+
     afterEach(() => {
         jest.useRealTimers()
     })
+
     it('renders the item name in a heading', () => {
         const { getByRole } = render(
             <BasicInformation

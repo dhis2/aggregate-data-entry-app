@@ -38,3 +38,15 @@ Feature: A period can be selected
         Given a data set with period range "yearly" and a period has been selected
         When the user selects a different data set with the period range "yearly"
         Then the previously selected period should still be selected
+    
+    Scenario: The user enters a link with an invalid period
+        Given a link references a period which is not valid
+        Then a no-value-label should be displayed
+
+    Scenario: The user enters a link with an period of a type that does not match data set's period type
+        Given a link references a period of a different type than that associated with the data set
+        Then a no-value-label should be displayed
+
+    Scenario: The user enters a link with an period in the future (beyond the data set's allowed open future periods)
+        Given a link references a period in the future beyond the allowed open future periods for the data set
+        Then a no-value-label should be displayed

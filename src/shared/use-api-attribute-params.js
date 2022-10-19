@@ -13,6 +13,9 @@ export const useApiAttributeParams = () => {
 
     if (data && dataSetId) {
         const dataSet = selectors.getDataSetById(data, dataSetId)
+        if (dataSet === null || dataSet === undefined) {
+            return
+        }
         const catComboId = dataSet.categoryCombo.id
         const categoryCombo = selectors.getCategoryComboById(data, catComboId)
 

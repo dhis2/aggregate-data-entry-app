@@ -1,8 +1,3 @@
-/* ":global(..)" necessary due to specificify of @dhis2/ui */
-:global(button).addButton {
-    display: block;
-}
-
 .label {
     color: var(--colors-grey600);
     font-size: 14px;

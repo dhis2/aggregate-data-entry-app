@@ -57,7 +57,7 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
     )
 
     const filterInputId = `filter-input-${section.id}`
-    const headerCellStyles = classNames(styles.headerCell, 'hide-for-print')
+    const headerCellStyles = classNames(styles.headerCell, styles.hideForPrint)
 
     return (
         <Table className={styles.table} suppressZebraStriping>

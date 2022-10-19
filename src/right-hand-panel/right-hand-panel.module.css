@@ -9,3 +9,9 @@
     overflow: hidden;
     overflow-y: auto;
 }
+
+@media print {
+    .hideForPrint {
+        composes: hideForPrint from '../app/app.css'
+    }
+}

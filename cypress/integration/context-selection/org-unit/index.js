@@ -38,6 +38,17 @@ Given(
     }
 )
 
+Given('a link references an invalid organisation unit', () => {
+    cy.visit(`/#/?dataSetId=lyLU2wR22tC&orgUnitId=FAKEOrgUnit`)
+})
+
+Given(
+    'a link references an organisation unit not assigned to the data set',
+    () => {
+        cy.visit(`/#/?dataSetId=lyLU2wR22tC&orgUnitId=fdc6uOvgoji`)
+    }
+)
+
 When('the user hovers the org unit selector', () => {
     cy.get('[data-test="org-unit-selector"] button > .label').trigger(
         'mouseover'
