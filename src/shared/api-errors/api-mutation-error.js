@@ -1,4 +1,3 @@
-import { FetchError } from '@dhis2/app-service-data/build/cjs/engine/index.js'
 import i18n from '../../locales/index.js'
 
 /* A dictionary taking the shape Dictionary<ErrorCode, (string | (error) => string)> to override the display message for a certain error code
@@ -28,6 +27,17 @@ const errorDetailsMessagePriority = [
     ['errorCode', customErrorAlertProps],
     ['httpStatusCode', statusCodeErrorAlertProps],
 ]
+
+// FetchError is not exposed from app-runtime
+// TODO: remove once https://github.com/dhis2/app-runtime/pull/1267 is merged
+
+export class FetchError extends Error {
+    constructor({ message, type, details = {} }) {
+        super(message)
+        this.type = type
+        this.details = details
+    }
+}
 
 export class ApiMutationError extends FetchError {
     constructor({ message, type, details = {} }, mutationKey, value) {
