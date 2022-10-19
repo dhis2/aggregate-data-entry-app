@@ -79,6 +79,7 @@ export default function MainToolBar() {
                 offline={offline}
             >
                 <Button
+                    small
                     disabled={validateDisabled}
                     className={styles.toolbarItem}
                     onClick={validate}

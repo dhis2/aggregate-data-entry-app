@@ -9,12 +9,13 @@ body {
     div {
         display: block !important; /* This is needed to get around issues with FireFox printing CSS grids: https://tosbourn.com/firefox-printing-issue-for-grid-css/ */
         max-width: 100% !important;
+        outline: none !important;
     }
     .app-shell-adapter > header  {
         display: none;
     }
 
-    .hide-for-print {
+    .hideForPrint {
         display: none !important;
     }
     
@@ -29,7 +30,7 @@ body {
     
     tr, td {
         break-inside: avoid;
-        page-break-inside: avoid;
+        page-break-inside: avoid;;
     }
 
     .form-cleared input,

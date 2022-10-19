@@ -18,8 +18,8 @@ export default function DataItemBar() {
             </span>
 
             <Button
+                secondary
                 small
-                className={styles.dataDetailsButton}
                 onClick={() => {
                     rightHandPanel.id === dataDetailsSidebarId
                         ? rightHandPanel.hide()

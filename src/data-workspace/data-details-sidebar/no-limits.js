@@ -6,7 +6,6 @@ import {
     useConnectionStatus,
     useCanUserEditFields,
 } from '../../shared/index.js'
-import sharedStyles from './limits.module.css'
 import noLimitsStyles from './no-limits.module.css'
 
 const buttonLabel = i18n.t('Add limits')
@@ -20,7 +19,7 @@ function AddButton({ onAddLimitsClick }) {
             <Tooltip
                 content={i18n.t('You do not have the authority to add limits')}
             >
-                <Button small disabled className={noLimitsStyles.addButton}>
+                <Button small secondary disabled>
                     {buttonLabel}
                 </Button>
             </Tooltip>
@@ -30,7 +29,7 @@ function AddButton({ onAddLimitsClick }) {
     if (offline) {
         return (
             <Tooltip content={i18n.t('Not available offline')}>
-                <Button small disabled className={noLimitsStyles.addButton}>
+                <Button small secondary disabled>
                     {buttonLabel}
                 </Button>
             </Tooltip>
@@ -38,7 +37,7 @@ function AddButton({ onAddLimitsClick }) {
     }
 
     return (
-        <Button small onClick={onAddLimitsClick}>
+        <Button small secondary onClick={onAddLimitsClick}>
             {buttonLabel}
         </Button>
     )
@@ -50,12 +49,12 @@ AddButton.propTypes = {
 
 export default function NoLimits({ onAddLimitsClick, canAdd }) {
     return (
-        <div className={sharedStyles.limit}>
+        <>
             <p className={noLimitsStyles.label}>
                 {i18n.t('No limits set for this data item.')}
             </p>
             {canAdd && <AddButton onAddLimitsClick={onAddLimitsClick} />}
-        </div>
+        </>
     )
 }
 
