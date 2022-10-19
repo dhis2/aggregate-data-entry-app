@@ -83,17 +83,6 @@ export function InnerWrapper({
     })
     const form = useForm()
 
-    // initalize lastSyncedValue
-    useEffect(
-        () => {
-            form.mutators.setFieldData(fieldname, {
-                lastSyncedValue: value,
-            })
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
-    )
-
     const dataValueParams = useDataValueParams({ deId, cocId })
     // Detect if this field is sending data
     const activeMutations = useIsMutating({
@@ -106,21 +95,34 @@ export function InnerWrapper({
         (state) => state.clearErrorByDataValueParams
     )
     const errorMessage = error ?? syncError?.displayMessage
-    const synced = dirty && data.lastSyncedValue === value
+    const valueSynced = data.lastSyncedValue === value
+    const showSynced = dirty && valueSynced
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
         ? styles.invalid
-        : activeMutations === 0 && synced
+        : activeMutations === 0 && showSynced
         ? styles.synced
         : null
 
+    // initalize lastSyncedValue
+    useEffect(
+        () => {
+            if (!syncError) {
+                form.mutators.setFieldData(fieldname, {
+                    lastSyncedValue: value,
+                })
+            }
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    )
     // clear error if reset to initital-value
     useEffect(() => {
-        if (!dirty || synced) {
+        if (valueSynced) {
             clearSyncError(dataValueParams)
         }
-    }, [clearSyncError, dirty, dataValueParams, synced])
+    }, [clearSyncError, dataValueParams, valueSynced])
 
     return (
         <ValidationTooltip
@@ -140,7 +142,7 @@ export function InnerWrapper({
                 {children}
                 <SyncStatusIndicator
                     isLoading={activeMutations > 0}
-                    isSynced={synced}
+                    isSynced={showSynced}
                     error={syncError}
                 />
                 <CommentIndicator hasComment={hasComment} />
