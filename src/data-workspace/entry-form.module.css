@@ -14,3 +14,9 @@
 .filterField {
     width: 420px;
 }
+
+@media print {
+    .hideForPrint {
+        composes: hideForPrint from '../app/app.css'
+    }
+}
