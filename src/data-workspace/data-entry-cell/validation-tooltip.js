@@ -27,6 +27,7 @@ const TooltipManager = React.forwardRef(function TooltipManager(
         }
         // onMouseOut, onMouseOver are not stable references
         // when included, useEffect refires and causes tooltip to flicker
+        // TODO add onMouseOut, onMouseOver once https://dhis2.atlassian.net/browse/LIBS-359 is fixed
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [invalid, active])
 
@@ -77,6 +78,8 @@ export const ValidationTooltip = ({ children, fieldname }) => {
             setContent(error)
         }
     }, [error])
+
+    console.log('tooltip', content)
 
     return (
         <Tooltip content={content}>
