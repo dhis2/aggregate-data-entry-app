@@ -57,7 +57,7 @@ export default function CompleteButton({ disabled }) {
 
     return (
         <>
-            <Button disabled={disabled} onClick={onClick}>
+            <Button small disabled={disabled} onClick={onClick}>
                 {label}
             </Button>
         </>

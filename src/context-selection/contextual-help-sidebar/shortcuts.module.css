@@ -15,9 +15,16 @@
     color: var(--colors-grey900);
 }
 
+.shortcutOr {
+    font-size: 13px;
+    line-height: 16px;
+    color: var(--colors-grey900);
+    padding: 4px 0 4px 0;
+}
+
 .shortcutKeys {
     display: inline-flex;
-    gap: var(--spacers-dp16);
+    gap: var(--spacers-dp8);
 }
 
 .shortcutKey {
