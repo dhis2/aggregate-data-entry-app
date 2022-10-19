@@ -48,19 +48,22 @@ export const useSyncErrorsStore = create((set, get) => ({
     getErrorByDataValueParams: (dataValueParams) =>
         get().getErrorById(getCellIdFromDataValueParams(dataValueParams)),
     getErrorByMutationKey: (mutationKey) =>
-        get().getError(getCellIdFromMutationKey(mutationKey)),
+        get().getErrorById(getCellIdFromMutationKey(mutationKey)),
     getErrorsForSelection: (contextSelectionId) => {
         const errors = get().getErrors()
         return Object.entries(errors)
             .filter(([key]) => key.startsWith(contextSelectionId))
             .map(([key, error]) => {
-                const fieldId = parseCellId(key)
+                const field = parseCellId(key)
                 return {
-                    fieldId,
+                    field,
                     error,
                 }
             })
     },
 
-    getNumberOfErrors: () => Object.keys(get().getErrors()).length,
+    getNumberOfErrors: (errors) => {
+        const errorsToCount = errors ?? get().getErrors()
+        return Object.keys(errorsToCount).length
+    },
 }))

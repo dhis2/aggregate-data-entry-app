@@ -3,7 +3,11 @@ import { IconErrorFilled16, IconWarningFilled16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useEntryFormStore, useSyncErrorsStore } from '../shared/index.js'
+import {
+    useEntryFormStore,
+    useSyncErrorsStore,
+    useContextSelectionId,
+} from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
 const invalidMessage = (numberOfErrors) =>
@@ -55,11 +59,12 @@ ErrorSummaryButton.propTypes = {
 }
 
 export default function ErrorSummary() {
+    const contextSelectionId = useContextSelectionId()
     const numberOfEntryFormErrors = useEntryFormStore((state) =>
         state.getNumberOfErrors()
     )
     const numberOfSyncingErrors = useSyncErrorsStore((state) =>
-        state.getNumberOfErrors()
+        state.getNumberOfErrors(state.getErrorsForSelection(contextSelectionId))
     )
 
     return (
