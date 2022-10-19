@@ -72,7 +72,6 @@ export function useContextSelectionId() {
     const [{ attributeOptionComboSelection, dataSetId, orgUnitId, periodId }] =
         useContextSelection()
 
-    // Sort these to produce consistent results
     const attributeOptions = Object.values(attributeOptionComboSelection)
     // generate an identifier based on the context-selection
     return getContextSelectionId({
@@ -89,6 +88,7 @@ export const getContextSelectionId = ({
     orgUnitId,
     periodId,
 }) => {
+    // Sort these to produce consistent results
     const joinedAttributeOptions = attributeOptions.sort().join(';')
     return [joinedAttributeOptions, dataSetId, orgUnitId, periodId].join()
 }
