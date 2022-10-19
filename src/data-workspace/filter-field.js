@@ -16,6 +16,7 @@ export default function FilterField({ value, setFilterText, formType }) {
                 name="filter-input"
                 className={styles.filterField}
                 type="text"
+                dense
                 placeholder={
                     formType === FORM_TYPES.SECTION
                         ? i18n.t('Filter fields in all sections')
