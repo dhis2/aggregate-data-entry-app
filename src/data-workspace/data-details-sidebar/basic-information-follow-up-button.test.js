@@ -104,7 +104,7 @@ describe('FollowUpButton', () => {
     })
 
     describe('when item is marked for followup', () => {
-        it('should display button text as "Mark for follow-up"', async () => {
+        it('should display button text as "Unmark for follow-up"', async () => {
             const { getByText } = render(
                 <FollowUpButton item={{ ...mockItemBase, followUp: true }} />
             )
