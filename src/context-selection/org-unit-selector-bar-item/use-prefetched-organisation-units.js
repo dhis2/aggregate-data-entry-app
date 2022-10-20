@@ -24,8 +24,10 @@ const createPrefetchQueryArgs = ([id, offlineLevels]) => ({
     // the response will be a single representation of an orgUnit if length === 1
     // the selector logic patches to return consistent format
     // to revert when backend is fixed: see https://dhis2.atlassian.net/browse/DHIS2-13901
-    select: (data) =>
-        data?.organisationUnits ? data.organisationUnits : [data],
+    select: (results) =>
+        Array.isArray(results.organisationUnits)
+            ? results.organisationUnits
+            : [results],
 })
 
 export default function usePrefetchedOrganisationUnits() {
