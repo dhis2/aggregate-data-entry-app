@@ -3,7 +3,6 @@ import i18n from '@dhis2/d2-i18n'
 import { useEffect, useState } from 'react'
 import { useClientServerDateUtils } from '../date/index.js'
 import { parsePeriodId } from '../fixed-periods/index.js'
-import { useSetHighlightedFieldIdContext } from '../highlighted-field/use-highlighted-field-context.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { filterObject } from '../utils.js'
 import {
@@ -46,7 +45,7 @@ function useHandleDataSetIdChange() {
         organisationUnits: assignedOrgUnits,
         periodType: dataSetPeriodType,
     } = selectors.getDataSetById(metadata, dataSetId) || {}
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+
     const { show: showWarningAlert } = useAlert((message) => message, {
         warning: true,
     })
@@ -62,16 +61,12 @@ function useHandleDataSetIdChange() {
                     }
                 )
             )
-            setHighlightedFieldId(null)
             setDataSetId(undefined)
             setPeriodId(undefined)
             setOrgUnitId(undefined)
             setAttributeOptionComboSelection(undefined)
         }
         if (dataSetId !== prevDataSetId) {
-            // clear out highlightedFieldId if dataset has changed
-            setHighlightedFieldId(null)
-
             // unset period if new data set has a different period type
             if (previousPeriodType !== dataSetPeriodType) {
                 setPeriodId(undefined)
@@ -104,7 +99,6 @@ function useHandleDataSetIdChange() {
         assignedOrgUnits,
         setOrgUnitId,
         orgUnitId,
-        setHighlightedFieldId,
         dataSet,
         setDataSetId,
         showWarningAlert,

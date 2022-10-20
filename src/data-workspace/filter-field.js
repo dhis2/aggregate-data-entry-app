@@ -3,12 +3,10 @@ import { Button, InputField } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useSetHighlightedFieldIdContext } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import styles from './entry-form.module.css'
 
 export default function FilterField({ value, setFilterText, formType }) {
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
     const wrapperClasses = classNames(styles.filterWrapper, styles.hideForPrint)
     return (
         <div className={wrapperClasses}>
@@ -24,7 +22,6 @@ export default function FilterField({ value, setFilterText, formType }) {
                 }
                 value={value}
                 onChange={({ value }) => setFilterText(value)}
-                onFocus={() => setHighlightedFieldId(null)}
             />
             {value && (
                 <Button

@@ -5,7 +5,8 @@ import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
 import {
     VALUE_TYPES,
     dataDetailsSidebarId,
-    useSetHighlightedFieldIdContext,
+    useHighlightedFieldStore,
+    useComponentWillUnmount,
 } from '../../shared/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
@@ -62,8 +63,17 @@ export function EntryFieldInput({
     categoryOptionCombo: coc,
     disabled,
     locked,
+    highlighted,
 }) {
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
+    const setHighlightedFieldId = useHighlightedFieldStore(
+        (state) => state.setHighlightedField
+    )
+
+    useComponentWillUnmount(() => {
+        if (highlighted) {
+            setHighlightedFieldId(null)
+        }
+    }, [highlighted])
 
     // used so we don't consume the "id" which
     // would cause this component to rerender
@@ -91,8 +101,11 @@ export function EntryFieldInput({
 
     // todo: inner wrapper?
     const onFocus = useCallback(() => {
-        setHighlightedFieldId({ de, coc })
-    }, [de, coc, setHighlightedFieldId])
+        setHighlightedFieldId({
+            dataElementId: de.id,
+            categoryOptionComboId: coc.id,
+        })
+    }, [de.id, coc.id, setHighlightedFieldId])
 
     const sharedProps = useMemo(
         () => ({
@@ -125,5 +138,6 @@ EntryFieldInput.propTypes = {
     }),
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
+    highlighted: PropTypes.bool,
     locked: PropTypes.bool,
 }

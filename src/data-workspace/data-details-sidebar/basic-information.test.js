@@ -15,6 +15,19 @@ jest.mock('../../shared/date/use-client-server-date.js', () => ({
 
 const noop = () => {}
 
+const item = {
+    categoryOptionCombo: 'coc-1',
+    comment: null,
+    dataElement: 'item-1',
+    name: 'Item name',
+    lastUpdated: '2022-06-28T14:51:14.435',
+    storedBy: 'Firstname Lastname',
+    followUp: false,
+    code: 'this-is-the-code',
+    value: '',
+    displayFormName: 'Item name (form)',
+}
+
 describe('<BasicInformation />', () => {
     beforeEach(() => {
         jest.useFakeTimers('modern')
@@ -31,19 +44,6 @@ describe('<BasicInformation />', () => {
     })
 
     it('renders the item name in a heading', () => {
-        const item = {
-            categoryOptionCombo: 'coc-1',
-            comment: null,
-            dataElement: 'item-1',
-            name: 'Item name',
-            lastUpdated: '2022-06-28T14:51:14.435',
-            storedBy: 'Firstname Lastname',
-            followUp: false,
-            code: '',
-            value: '',
-            displayFormName: 'Item name (form)',
-        }
-
         const { getByRole } = render(
             <BasicInformation
                 item={item}
@@ -58,17 +58,6 @@ describe('<BasicInformation />', () => {
     })
 
     it('renders the item ID', () => {
-        const item = {
-            categoryOptionCombo: 'coc-1',
-            comment: null,
-            dataElement: 'item-1',
-            name: 'Item name',
-            lastUpdated: '2022-06-28T14:51:14.435',
-            storedBy: 'Firstname Lastname',
-            followUp: false,
-            code: '',
-            value: '',
-        }
         const { getByText } = render(
             <BasicInformation
                 item={item}
@@ -83,18 +72,6 @@ describe('<BasicInformation />', () => {
     })
 
     it('renders the item code', () => {
-        const item = {
-            categoryOptionCombo: 'coc-1',
-            comment: null,
-            dataElement: 'item-1',
-            name: 'Item name',
-            lastUpdated: '2022-06-28T14:51:14.435',
-            storedBy: 'Firstname Lastname',
-            followUp: false,
-            code: 'this is the code',
-            value: '',
-        }
-
         const { getByText } = render(
             <BasicInformation
                 item={item}
@@ -107,18 +84,6 @@ describe('<BasicInformation />', () => {
     })
 
     it('renders when the item was last updated as well as who updated it', () => {
-        const item = {
-            categoryOptionCombo: 'coc-1',
-            comment: null,
-            dataElement: 'item-1',
-            name: 'Item name',
-            lastUpdated: '2022-06-28T14:51:14.435',
-            storedBy: 'Firstname Lastname',
-            followUp: false,
-            code: 'this is the code',
-            value: '',
-        }
-
         const { getByText } = render(
             <BasicInformation
                 item={item}
@@ -132,46 +97,24 @@ describe('<BasicInformation />', () => {
     })
 
     it('renders the item description if one is provided', () => {
-        const item = {
-            categoryOptionCombo: 'coc-1',
-            comment: null,
-            dataElement: 'item-1',
-            name: 'Item name',
-            lastUpdated: '2022-06-28T14:51:14.435',
-            storedBy: 'Firstname Lastname',
-            followUp: false,
-            code: 'this is the code',
-            value: '',
-            description: 'this is the very helpful description',
+        const description = 'this is the very helpful description'
+        const itemWithDescription = {
+            ...item,
+            description,
         }
 
         const { getByText } = render(
             <BasicInformation
-                item={item}
+                item={itemWithDescription}
                 onMarkForFollowup={noop}
                 onUnmarkForFollowup={noop}
             />
         )
 
-        expect(
-            getByText(item.description, { exact: false })
-        ).toBeInTheDocument()
+        expect(getByText(description, { exact: false })).toBeInTheDocument()
     })
 
-    it('does not render a description line if description is not provided', () => {
-        const item = {
-            categoryOptionCombo: 'coc-1',
-            comment: null,
-            dataElement: 'item-1',
-            name: 'Item name',
-            lastUpdated: '2022-06-28T14:51:14.435',
-            storedBy: 'Firstname Lastname',
-            followUp: false,
-            code: 'this is the code',
-            value: '',
-            description: 'this is the very helpful description',
-        }
-
+    it('does NOT render a description line if description is not provided', () => {
         const { queryByText } = render(
             <BasicInformation
                 item={item}
@@ -180,6 +123,44 @@ describe('<BasicInformation />', () => {
             />
         )
 
-        expect(queryByText('Description:')).not.toBeInTheDocument()
+        expect(
+            queryByText('Description:', { exact: false })
+        ).not.toBeInTheDocument()
+    })
+
+    it('flags field as "Marked for follow-up" when followUp is set to true', () => {
+        const { getByText } = render(
+            <BasicInformation
+                item={{ ...item, followUp: true }}
+                onMarkForFollowup={noop}
+                onUnmarkForFollowup={noop}
+            />
+        )
+
+        expect(getByText('Marked for follow-up')).toBeInTheDocument()
+    })
+
+    it('does NOT flag field as "Marked for follow-up" when followUp is set to false', () => {
+        const { queryByText } = render(
+            <BasicInformation
+                item={{ ...item, followUp: false }}
+                onMarkForFollowup={noop}
+                onUnmarkForFollowup={noop}
+            />
+        )
+
+        expect(queryByText('Marked for follow-up')).not.toBeInTheDocument()
+    })
+
+    it('does NOT flag field as "Marked for follow-up" when followUp is set to false', () => {
+        const { queryByText } = render(
+            <BasicInformation
+                item={{ ...item, followUp: false }}
+                onMarkForFollowup={noop}
+                onUnmarkForFollowup={noop}
+            />
+        )
+
+        expect(queryByText('Mark for follow-up')).toBeInTheDocument()
     })
 })

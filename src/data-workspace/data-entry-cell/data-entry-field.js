@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useLockedContext } from '../../shared/index.js'
+import {
+    useLockedContext,
+    useHighlightedFieldStore,
+} from '../../shared/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { EntryFieldInput } from './entry-field-input.js'
 import { InnerWrapper } from './inner-wrapper.js'
@@ -14,6 +17,12 @@ export const DataEntryField = React.memo(function DataEntryField({
     // This field name results in this structure for the form data object:
     // { [deId]: { [cocId]: value } }
     const fieldname = getFieldId(de.id, coc.id)
+    const highlighted = useHighlightedFieldStore((state) =>
+        state.isFieldHighlighted({
+            dataElementId: de.id,
+            categoryOptionComboId: coc.id,
+        })
+    )
 
     const { locked } = useLockedContext()
 
@@ -25,6 +34,7 @@ export const DataEntryField = React.memo(function DataEntryField({
                 cocId={coc.id}
                 disabled={disabled}
                 locked={locked}
+                highlighted={highlighted}
             >
                 <EntryFieldInput
                     fieldname={fieldname}
@@ -32,6 +42,7 @@ export const DataEntryField = React.memo(function DataEntryField({
                     categoryOptionCombo={coc}
                     disabled={disabled}
                     locked={locked}
+                    highlighted={highlighted}
                 />
             </InnerWrapper>
         </ValidationTooltip>

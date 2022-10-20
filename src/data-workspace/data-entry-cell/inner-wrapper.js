@@ -7,7 +7,6 @@ import { useField, useForm } from 'react-final-form'
 import {
     mutationKeys as dataValueMutationKeys,
     useDataValueParams,
-    useHighlightedFieldIdContext,
     useValueStore,
 } from '../../shared/index.js'
 import styles from './data-entry-cell.module.css'
@@ -50,6 +49,7 @@ export function InnerWrapper({
     fieldname,
     deId,
     cocId,
+    highlighted,
 }) {
     const hasComment = useValueStore((state) =>
         state.hasComment({
@@ -57,8 +57,7 @@ export function InnerWrapper({
             categoryOptionComboId: cocId,
         })
     )
-    const { item } = useHighlightedFieldIdContext()
-    const highlighted = item && deId === item.de.id && cocId === item.coc.id
+
     const {
         input: { value },
         meta: { invalid, active, data, dirty },
@@ -126,5 +125,6 @@ InnerWrapper.propTypes = {
     deId: PropTypes.string,
     disabled: PropTypes.bool,
     fieldname: PropTypes.string,
+    highlighted: PropTypes.bool,
     locked: PropTypes.bool,
 }

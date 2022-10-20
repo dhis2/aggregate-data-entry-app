@@ -1,10 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Sidebar,
     SidebarProps,
     Title,
-    useDataValueSet,
     useHighlightedField,
 } from '../../shared/index.js'
 import AuditLog from './audit-log.js'
@@ -14,16 +13,17 @@ import History from './history.js'
 import Limits from './limits.js'
 
 export default function DataDetailsSidebar({ hide }) {
-    const dataValueSet = useDataValueSet()
-    const item = useHighlightedField()
+    const dataValue = useHighlightedField()
 
-    const dataValue = {
-        ...item,
-        ...dataValueSet.data?.dataValues[item.dataElement]?.[
-            item.categoryOptionCombo
-        ],
+    useEffect(() => {
+        if (!dataValue) {
+            hide()
+        }
+    }, [dataValue, hide])
+
+    if (!dataValue) {
+        return null
     }
-
     return (
         <Sidebar>
             <Title onClose={hide}>{i18n.t('Details')}</Title>

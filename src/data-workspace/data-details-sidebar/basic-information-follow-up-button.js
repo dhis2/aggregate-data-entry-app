@@ -2,7 +2,6 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, colors, IconFlag24, Tooltip } from '@dhis2/ui'
 import React from 'react'
 import {
-    useHighlightedField,
     useSetDataValueMutation,
     useCanUserEditFields,
 } from '../../shared/index.js'
@@ -10,12 +9,11 @@ import ItemPropType from './item-prop-type.js'
 
 const FollowUpButton = ({ item }) => {
     const canUserEditFields = useCanUserEditFields()
-    const { value } = useHighlightedField()
-    const isEmptyField = !value
+    const isEmptyField = !item?.value
 
     const setDataValueFollowup = useSetDataValueMutation({
-        deId: item.dataElement,
-        cocId: item.categoryOptionCombo,
+        deId: item?.dataElement,
+        cocId: item?.categoryOptionCombo,
     })
 
     const onMarkForFollowUp = async () => {
@@ -25,7 +23,7 @@ const FollowUpButton = ({ item }) => {
         await setDataValueFollowup.mutate({ followUp: false })
     }
 
-    if (item.followUp) {
+    if (item?.followUp) {
         return (
             <Button small secondary onClick={onUnmarkForFollowUp}>
                 {i18n.t('Unmark for follow-up')}
@@ -52,6 +50,7 @@ const FollowUpButton = ({ item }) => {
         // https://dhis2.atlassian.net/browse/TECH-1341
         return (
             <Tooltip
+                data-testid="custom-element"
                 content={i18n.t("Empty values can't be marked for follow -up")}
             >
                 {markForFollowUpButton}
@@ -75,7 +74,7 @@ const FollowUpButton = ({ item }) => {
 }
 
 FollowUpButton.propTypes = {
-    item: ItemPropType.isRequired,
+    item: ItemPropType,
 }
 
 export default FollowUpButton

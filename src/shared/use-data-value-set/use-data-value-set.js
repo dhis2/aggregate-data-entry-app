@@ -12,38 +12,18 @@ function mapDataValuesToFormInitialValues(dataValues) {
         return {}
     }
 
-    const formInitialValues = dataValues.reduce(
-        (
-            acc,
-            {
-                dataElement,
-                categoryOptionCombo,
-                value,
-                comment,
-                storedBy,
-                followUp,
-                lastUpdated,
+    const formInitialValues = dataValues.reduce((acc, dataValueData) => {
+        if (!acc[dataValueData.dataElement]) {
+            acc[dataValueData.dataElement] = {
+                [dataValueData.categoryOptionCombo]: dataValueData,
             }
-        ) => {
-            const dataValueData = {
-                value,
-                dataElement,
-                comment,
-                storedBy,
-                followUp,
-                lastUpdated,
-            }
+        } else {
+            acc[dataValueData.dataElement][dataValueData.categoryOptionCombo] =
+                dataValueData
+        }
 
-            if (!acc[dataElement]) {
-                acc[dataElement] = { [categoryOptionCombo]: dataValueData }
-            } else {
-                acc[dataElement][categoryOptionCombo] = dataValueData
-            }
-
-            return acc
-        },
-        {}
-    )
+        return acc
+    }, {})
     return formInitialValues
 }
 
