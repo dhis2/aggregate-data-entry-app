@@ -1,5 +1,5 @@
 // errors that will most likely succeed when server is reachable
-const temporalErrorsStatusCodes = new Set([401, 403, 502, 503, 504])
+const temporalErrorsStatusCodes = new Set([401, 502, 503, 504])
 
 const isTemporalError = (error) => {
     return (
