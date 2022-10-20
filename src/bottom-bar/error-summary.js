@@ -36,7 +36,7 @@ function ErrorSummaryButton({ numberOfErrors, invalid }) {
     const icon = invalid ? (
         <IconErrorFilled16 color={colors.red700} />
     ) : (
-        <IconWarningFilled16 color={colors.yellow700} />
+        <IconWarningFilled16 color={colors.yellow800} />
     )
 
     const message = invalid
