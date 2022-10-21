@@ -3,19 +3,18 @@ import { Button, InputField } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useSetHighlightedFieldIdContext } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import styles from './entry-form.module.css'
 
 export default function FilterField({ value, setFilterText, formType }) {
-    const setHighlightedFieldId = useSetHighlightedFieldIdContext()
-    const wrapperClasses = classNames(styles.filterWrapper, 'hide-for-print')
+    const wrapperClasses = classNames(styles.filterWrapper, styles.hideForPrint)
     return (
         <div className={wrapperClasses}>
             <InputField
                 name="filter-input"
                 className={styles.filterField}
                 type="text"
+                dense
                 placeholder={
                     formType === FORM_TYPES.SECTION
                         ? i18n.t('Filter fields in all sections')
@@ -23,16 +22,17 @@ export default function FilterField({ value, setFilterText, formType }) {
                 }
                 value={value}
                 onChange={({ value }) => setFilterText(value)}
-                onFocus={() => setHighlightedFieldId(null)}
             />
-            <Button
-                secondary
-                small
-                name="Clear"
-                onClick={() => setFilterText('')}
-            >
-                {i18n.t('Clear filter')}
-            </Button>
+            {value && (
+                <Button
+                    secondary
+                    small
+                    name="Clear"
+                    onClick={() => setFilterText('')}
+                >
+                    {i18n.t('Clear filter')}
+                </Button>
+            )}
         </div>
     )
 }

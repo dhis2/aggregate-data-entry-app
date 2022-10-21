@@ -1,21 +1,30 @@
 import i18n from '@dhis2/d2-i18n'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     ExpandableUnit,
     useUserInfo,
     userInfoSelectors,
+    useUnsavedDataStore,
+    useContextSelectionId,
+    getCellId,
 } from '../../shared/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import LimitsDisplay from './limits-display.js'
 import NoLimits from './no-limits.js'
-import UpdateLimits from './update-limits.js'
+import UpdateLimitsWrapper from './update-limits.js'
 
 const title = i18n.t('Min and max limits')
 
 export default function Limits({ dataValue }) {
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
+    const contextSelectionId = useContextSelectionId()
+
+    const cellId = getCellId({ item: dataValue, contextSelectionId })
+    const unsavedLimits = useUnsavedDataStore((state) => {
+        return state.getUnsavedLimits(cellId)
+    })
 
     const { valueType, dataElement, categoryOptionCombo, canHaveLimits } =
         dataValue
@@ -28,7 +37,20 @@ export default function Limits({ dataValue }) {
     const canDelete = userInfoSelectors.getCanDeleteMinMax(userInfo)
     const canAdd = userInfoSelectors.getCanAddMinMax(userInfo)
 
-    if (!editing && !limits.min && !limits.max) {
+    useEffect(() => {
+        setEditing(false)
+    }, [dataValue])
+
+    const deleteUnsavedLimits = useUnsavedDataStore(
+        (state) => state.deleteUnsavedLimits
+    )
+
+    const onDone = () => {
+        setEditing(false)
+        deleteUnsavedLimits(cellId)
+    }
+
+    if (!editing && !unsavedLimits && !limits.min && !limits.max) {
         const onAddLimitsClick = () => setEditing(true)
         return (
             <ExpandableUnit
@@ -42,7 +64,7 @@ export default function Limits({ dataValue }) {
         )
     }
 
-    if (editing) {
+    if (editing || unsavedLimits) {
         return (
             <ExpandableUnit
                 title={title}
@@ -50,15 +72,17 @@ export default function Limits({ dataValue }) {
                 open={open}
                 onToggle={setOpen}
             >
-                <UpdateLimits
+                <UpdateLimitsWrapper
                     dataElementId={dataElement}
                     categoryOptionComboId={categoryOptionCombo}
                     limits={limits}
                     valueType={valueType}
-                    onCancel={() => setEditing(false)}
-                    onDone={() => setEditing(false)}
+                    onCancel={onDone}
+                    onDone={onDone}
                     canAdd={canAdd}
                     canDelete={canDelete}
+                    unsavedLimits={unsavedLimits}
+                    cellId={cellId}
                 />
             </ExpandableUnit>
         )

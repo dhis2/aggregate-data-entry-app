@@ -1,28 +1,32 @@
 import i18n from '@dhis2/d2-i18n'
 import {
-    CircularLoader,
     Button,
     ButtonStrip,
     SingleSelect,
     SingleSelectOption,
     TextAreaFieldFF,
+    Tooltip,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, useField } from 'react-final-form'
 import {
     ExpandableUnit,
     selectors,
+    useCanUserEditFields,
+    useContextSelectionId,
     useLockedContext,
     useMetadata,
     useSetDataValueMutation,
+    useUnsavedDataStore,
+    getCellId,
 } from '../../shared/index.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 
 const title = i18n.t('Comment')
 const errorMessage = i18n.t(
-    'There was a problem loading the comment for this data item'
+    'There was a problem updating the comment for this data item'
 )
 
 const CommentOptionSelector = ({ commentOptionSetId, inputOnChange }) => {
@@ -58,10 +62,16 @@ CommentOptionSelector.propTypes = {
     inputOnChange: PropTypes.func,
 }
 
-const CommentEditField = ({ comment, commentOptionSetId }) => {
-    const { input, meta } = useField('comment', {
+const CommentEditField = ({
+    fieldName,
+    comment,
+    commentOptionSetId,
+    onBlur,
+    unsavedComment,
+}) => {
+    const { input, meta } = useField(fieldName, {
         subscription: { value: true },
-        initialValue: comment || '',
+        initialValue: unsavedComment || comment || '',
     })
 
     return (
@@ -73,6 +83,7 @@ const CommentEditField = ({ comment, commentOptionSetId }) => {
                 />
             )}
             <TextAreaFieldFF
+                onBlur={onBlur}
                 input={input}
                 meta={meta}
                 className={styles.textArea}
@@ -84,14 +95,52 @@ const CommentEditField = ({ comment, commentOptionSetId }) => {
 CommentEditField.propTypes = {
     comment: PropTypes.string,
     commentOptionSetId: PropTypes.string,
+    fieldName: PropTypes.string,
+    unsavedComment: PropTypes.string,
+    onBlur: PropTypes.func,
 }
 
-function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
-    const onSubmit = (values) => {
-        // Don't send `undefined` (or 'undefined' will be stored as the comment)
-        const comment = values.comment || ''
-        syncComment({ comment })
+function CommentEditForm({
+    item,
+    open,
+    setOpen,
+    syncComment,
+    closeEditor,
+    unsavedComment,
+    commentId,
+    isError,
+}) {
+    const contextSelectionId = useContextSelectionId()
+    const cellId = getCellId({ contextSelectionId, item })
+    const setUnsavedComment = useUnsavedDataStore(
+        (state) => state.setUnsavedComment
+    )
+
+    const deleteUnsavedComment = useUnsavedDataStore(
+        (state) => state.deleteUnsavedComment
+    )
+
+    const fieldName = `comment_${commentId}`
+
+    const onSubmit = async (values) => {
+        try {
+            // Don't send `undefined` (or 'undefined' will be stored as the comment)
+            const comment = values[fieldName] || ''
+            await syncComment({ comment })
+            deleteUnsavedComment(cellId)
+            closeEditor()
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const onBlur = ({ value }) => {
+        setUnsavedComment(cellId, value)
+    }
+
+    const cancel = () => {
         closeEditor()
+        deleteUnsavedComment(cellId)
     }
 
     return (
@@ -100,8 +149,11 @@ function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
                 {({ handleSubmit, submitting }) => (
                     <form onSubmit={handleSubmit}>
                         <CommentEditField
+                            fieldName={fieldName}
                             comment={item?.comment}
                             commentOptionSetId={item?.commentOptionSetId}
+                            onBlur={onBlur}
+                            unsavedComment={unsavedComment}
                         />
 
                         <ButtonStrip>
@@ -120,7 +172,7 @@ function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
                                 small
                                 secondary
                                 disabled={submitting}
-                                onClick={closeEditor}
+                                onClick={cancel}
                             >
                                 {i18n.t('Cancel')}
                             </Button>
@@ -128,12 +180,18 @@ function CommentEditForm({ item, open, setOpen, syncComment, closeEditor }) {
                     </form>
                 )}
             </Form>
+            {isError && (
+                <div className={styles.errorWrapper}>
+                    <LoadingError title={errorMessage} />
+                </div>
+            )}
         </ExpandableUnit>
     )
 }
 
 CommentEditForm.propTypes = {
     closeEditor: PropTypes.func.isRequired,
+    commentId: PropTypes.string.isRequired,
     item: PropTypes.shape({
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
@@ -143,9 +201,12 @@ CommentEditForm.propTypes = {
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
     syncComment: PropTypes.func.isRequired,
+    isError: PropTypes.bool,
+    unsavedComment: PropTypes.string,
 }
 
 export default function Comment({ item }) {
+    const canUserEditFields = useCanUserEditFields()
     const { locked } = useLockedContext()
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
@@ -153,36 +214,41 @@ export default function Comment({ item }) {
         deId: item.dataElement,
         cocId: item.categoryOptionCombo,
     })
+    const contextSelectionId = useContextSelectionId()
+    const commentId = getCellId({ contextSelectionId, item })
+    const unsavedComment = useUnsavedDataStore((state) =>
+        state.getUnsavedComment(commentId)
+    )
 
-    // Only show loader if request is in flight,
-    // otherwise spinner can show endlessly while paused offline
-    if (setDataValueComment.isLoading && !setDataValueComment.isPaused) {
-        return (
-            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
-                <CircularLoader small />
-            </ExpandableUnit>
-        )
-    }
+    useEffect(() => {
+        setEditing(false)
+    }, [item])
 
-    if (setDataValueComment.isError) {
-        return (
-            <ExpandableUnit title={title} open={open} onToggle={setOpen}>
-                <LoadingError title={errorMessage} />
-            </ExpandableUnit>
-        )
-    }
-
-    if (editing) {
+    if (editing || unsavedComment) {
         return (
             <CommentEditForm
                 item={item}
                 open={open}
                 setOpen={setOpen}
-                syncComment={setDataValueComment.mutate}
+                syncComment={setDataValueComment.mutateAsync}
                 closeEditor={() => setEditing(false)}
+                unsavedComment={unsavedComment}
+                commentId={commentId}
+                isError={setDataValueComment.isError}
             />
         )
     }
+
+    const addEditButton = (
+        <Button
+            small
+            secondary
+            onClick={() => setEditing(true)}
+            disabled={!canUserEditFields || locked}
+        >
+            {item.comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
+        </Button>
+    )
 
     return (
         <ExpandableUnit title={title} open={open} onToggle={setOpen}>
@@ -206,14 +272,17 @@ export default function Comment({ item }) {
                 </p>
             )}
 
-            <Button
-                small
-                secondary
-                onClick={() => setEditing(true)}
-                disabled={locked}
-            >
-                {item.comment ? i18n.t('Edit comment') : i18n.t('Add comment')}
-            </Button>
+            {!canUserEditFields && (
+                <Tooltip
+                    content={i18n.t(
+                        'You do not have the authority to add or edit comments'
+                    )}
+                >
+                    {addEditButton}
+                </Tooltip>
+            )}
+
+            {canUserEditFields && addEditButton}
         </ExpandableUnit>
     )
 }

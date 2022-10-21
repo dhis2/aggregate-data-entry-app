@@ -9,14 +9,10 @@ import css from './load-app.module.css'
 const LoadApp = ({ children }) => {
     useCustomFormsPrefetch()
 
-    const { isLoading, isError, data, error } = useMetadata()
-    const {
-        isLoading: userLoading,
-        isError: userIsError,
-        data: userData,
-    } = useUserInfo()
+    const metadata = useMetadata()
+    const userInfo = useUserInfo()
 
-    if (isLoading || userLoading) {
+    if (metadata.isLoading || userInfo.isLoading) {
         return (
             <CenteredContent className={css.center} position={'top'}>
                 <CircularLoader />
@@ -24,22 +20,33 @@ const LoadApp = ({ children }) => {
         )
     }
 
-    if (isError) {
-        console.error(data)
+    if (metadata.isError) {
         return (
             <NoticeBox
-                className={css.noticeBoxWrapper}
                 error
+                className={css.noticeBoxWrapper}
                 title={i18n.t('There was a problem loading metadata')}
             >
-                {error?.message}
+                {metadata.error}
             </NoticeBox>
         )
     }
 
-    if (data && (userData || userIsError)) {
-        return children
+    if (userInfo.isError) {
+        return (
+            <NoticeBox
+                error
+                className={css.noticeBoxWrapper}
+                title={i18n.t(
+                    "There was a problem loading the user's information"
+                )}
+            >
+                {userInfo.error}
+            </NoticeBox>
+        )
     }
+
+    return children
 }
 
 LoadApp.propTypes = {

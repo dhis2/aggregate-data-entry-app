@@ -1,14 +1,16 @@
+import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
 import {
     yearlyPeriodTypes,
-    getCurrentDate,
     selectors,
     useMetadata,
     usePeriod,
     useDataSetId,
     usePeriodId,
+    formatJsDateToDateString,
+    useClientServerDate,
 } from '../../shared/index.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
@@ -25,6 +27,9 @@ const getMaxYear = (dateLimit) => {
 }
 
 export const PeriodSelectorBarItem = () => {
+    const currentDate = useClientServerDate()
+    const currentDay = formatJsDateToDateString(currentDate.serverDate)
+    const currentFullYear = parseInt(currentDay.split('-')[0])
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()
     const selectedPeriod = usePeriod(periodId)
@@ -33,10 +38,11 @@ export const PeriodSelectorBarItem = () => {
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const dataSetPeriodType = dataSet?.periodType
     const openFuturePeriods = dataSet?.openFuturePeriods || 0
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
+    })
 
-    const [year, setYear] = useState(
-        selectedPeriod?.year || getCurrentDate().getFullYear()
-    )
+    const [year, setYear] = useState(selectedPeriod?.year || currentFullYear)
 
     const dateLimit = useDateLimit()
 
@@ -61,10 +67,39 @@ export const PeriodSelectorBarItem = () => {
             setMaxYear(newMaxYear)
 
             if (!selectedPeriod?.year) {
-                setYear(getCurrentDate().getFullYear())
+                setYear(currentFullYear)
             }
         }
-    }, [dataSetPeriodType, selectedPeriod?.year, dateLimit])
+    }, [dataSetPeriodType, selectedPeriod?.year, dateLimit, currentFullYear])
+
+    useEffect(() => {
+        const resetPeriod = (id) => {
+            showWarningAlert(`The Period (${id}) is not open or is invalid.`)
+            i18n.t('The Period ({{id}}) is not open or is invalid.', {
+                id,
+            })
+            setPeriodId(undefined)
+        }
+
+        if (selectedPeriod) {
+            const endDate = new Date(selectedPeriod?.endDate)
+            if (endDate >= dateLimit) {
+                resetPeriod(periodId)
+            }
+            if (selectedPeriod?.periodType?.type !== dataSet?.periodType) {
+                resetPeriod(periodId)
+            }
+        } else if (periodId) {
+            setPeriodId(undefined)
+        }
+    }, [
+        selectedPeriod,
+        dateLimit,
+        dataSet,
+        periodId,
+        setPeriodId,
+        showWarningAlert,
+    ])
 
     const selectorBarItemValue = useSelectorBarItemValue()
 

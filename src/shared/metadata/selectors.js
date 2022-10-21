@@ -73,6 +73,20 @@ export const getCategoryOptionCombosByCategoryComboId = (
  * selectors that should have a cache per parameter (say an id) should use re-reselect.
  */
 
+/**
+ * @param {*} metadata
+ * @param {string} categoryComboId
+ * @param {string} categoryOptionComboId
+ */
+export const getCategoryOptionCombo = createCachedSelector(
+    getCategoryComboById,
+    (_, __, categoryOptionComboId) => categoryOptionComboId,
+    (categoryCombo, categoryOptionComboId) =>
+        categoryCombo?.categoryOptionCombos.find(
+            (coc) => coc.id === categoryOptionComboId
+        )
+)((_, __, categoryOptionComboId) => categoryOptionComboId)
+
 export const getCategoryOptionsByCategoryOptionComboId = createCachedSelector(
     (metadata) => metadata,
     (metadata) => getCategoryCombos(metadata),
@@ -446,7 +460,8 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
         getDataSetById,
         (_, __, periodId) => periodId,
         (_, __, ___, orgUnitId) => orgUnitId,
-        (metadata, dataSet, periodId, orgUnitId) => {
+        (_, __, ___, ____, fromClientDate) => fromClientDate,
+        (metadata, dataSet, periodId, orgUnitId, fromClientDate) => {
             if (!dataSet?.id || !periodId) {
                 return []
             }
@@ -463,7 +478,13 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                 categoryOptions
             )
             const period = parsePeriodId(periodId)
-            const periodStartDate = new Date(period.startDate)
+            if (!period) {
+                return []
+            }
+            const clientPeriodStartDate = new Date(period.startDate)
+            const periodStartDate = fromClientDate(
+                clientPeriodStartDate
+            ).serverDate
 
             // periodEndDate is up to following start date
             let periodEndDate = addFullPeriodTimeToDate(

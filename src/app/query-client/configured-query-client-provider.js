@@ -2,6 +2,7 @@ import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { shouldPersistError } from '../../shared/index.js'
 import createIDBPersister from './persister.js'
 
 const persister = createIDBPersister()
@@ -16,6 +17,12 @@ const persistOptions = {
             const isSuccess = query.state.status === 'success'
             const shouldPersist = query?.meta?.persist === true
             return isSuccess && shouldPersist
+        },
+        shouldDehydrateMutation: (mutation) => {
+            const persistError =
+                mutation.state.status === 'error' &&
+                shouldPersistError(mutation.state.error)
+            return mutation.state.isPaused || persistError
         },
     },
     hydrateOptions: {

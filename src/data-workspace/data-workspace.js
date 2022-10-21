@@ -16,14 +16,18 @@ import {
     useIsValidSelection,
     useLockedContext,
     useValueStore,
+    dataValueSetQueryKey,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
+import { EntryScreen } from './entry-screen.js'
 import { FinalFormWrapper } from './final-form-wrapper.js'
-import { dataValueSets as dataValueSetQueryKey } from './query-key-factory.js'
+import { useHandleHeaderbarStatus } from './use-handle-headerbar-status.js'
+
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const queryClient = useQueryClient()
     const { data: metadata } = useMetadata()
+    useHandleHeaderbarStatus()
     useCheckLockStatus()
     const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
     const updateStore = useValueStore((state) => state.setDataValueSet)
@@ -75,14 +79,12 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     }
 
     if (!isValidSelection) {
-        return null
+        return <EntryScreen />
     }
 
-    // Currently this can cause the form to reload when going back online
-    if (
-        initialDataValuesFetch.isFetching &&
-        initialDataValuesFetch.data === undefined
-    ) {
+    // We want to block initialization of form if in-flight
+    // or else we might use stale data that won't be updated once request completes
+    if (initialDataValuesFetch.isFetching) {
         return (
             <CenteredContent>
                 <CircularLoader />
@@ -113,7 +115,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
-    const footerClasses = classNames(styles.footer, 'hide-for-print')
+    const footerClasses = classNames(styles.footer, styles.hideForPrint)
     const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (

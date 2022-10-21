@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+.validationTooltipMessage div:not(:first-child) {
+    margin-top: 8px;
+}
+
 .dataEntryCell {
     padding: 0px;
     min-width: 100px;
@@ -20,7 +24,7 @@
     /* Make this a coordinate context for corner indicators */
     position: relative;
 }
-.cellInnerWrapper:hover:not(.disabled) {
+.cellInnerWrapper:hover:not(.disabled):not(.highlighted) {
     outline: 1px solid #a0adba;
 }
 
@@ -29,8 +33,8 @@
 }
 
 .highlighted {
-    outline: 3px solid var(--colors-grey800) !important;
-    border: none !important;
+    outline: 3px solid var(--colors-grey800);
+    border: none;
     /* Fix to prevent bottom outline to be clipped by next cell */
     z-index: 1;
 }
@@ -62,7 +66,7 @@
 }
 
 .synced {
-    background: var(--colors-green050);
+    background: var(--colors-green100);
 }
 .synced:hover {
     background: #d8eeda;
@@ -83,8 +87,8 @@
 .topRightTriangle {
     width: 0;
     height: 0;
-    border-top: 3px solid var(--colors-green300);
-    border-right: 3px solid var(--colors-green300);
+    border-top: 3px solid var(--colors-green400);
+    border-right: 3px solid var(--colors-green400);
     border-bottom: 3px solid transparent;
     border-left: 3px solid transparent;
 }
@@ -103,4 +107,10 @@
 .locked * {
     color: var(--colors-grey700) !important;
     cursor: not-allowed;
+}
+
+@media print {
+    .hideForPrint {
+        composes: hideForPrint from '../../app/app.css'
+    }
 }

@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
+import { defaultOnSuccess } from '../../shared/default-on-success.js'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
@@ -11,38 +12,18 @@ function mapDataValuesToFormInitialValues(dataValues) {
         return {}
     }
 
-    const formInitialValues = dataValues.reduce(
-        (
-            acc,
-            {
-                dataElement,
-                categoryOptionCombo,
-                value,
-                comment,
-                storedBy,
-                followUp,
-                lastUpdated,
+    const formInitialValues = dataValues.reduce((acc, dataValueData) => {
+        if (!acc[dataValueData.dataElement]) {
+            acc[dataValueData.dataElement] = {
+                [dataValueData.categoryOptionCombo]: dataValueData,
             }
-        ) => {
-            const dataValueData = {
-                value,
-                dataElement,
-                comment,
-                storedBy,
-                followUp,
-                lastUpdated,
-            }
+        } else {
+            acc[dataValueData.dataElement][dataValueData.categoryOptionCombo] =
+                dataValueData
+        }
 
-            if (!acc[dataElement]) {
-                acc[dataElement] = { [categoryOptionCombo]: dataValueData }
-            } else {
-                acc[dataElement][categoryOptionCombo] = dataValueData
-            }
-
-            return acc
-        },
-        {}
-    )
+        return acc
+    }, {})
     return formInitialValues
 }
 
@@ -75,19 +56,17 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
     const isValidSelection = useIsValidSelection()
     const queryKey = useDataValueSetQueryKey()
 
+    const isMutating = useIsMutating(queryKey[0]) > 0
+
     const result = useQuery(queryKey, {
         // TODO: Disable if disconnected from DHIS2 server?
-        enabled: isValidSelection,
+        enabled: !isMutating && isValidSelection,
         staleTime: Infinity,
         select: select,
-        // Fetch once, no matter the network connectivity;
-        // will be 'paused' if offline and the request fails.
-        // Important to try the network when on offline/local DHIS2 implmnt'ns
-        networkMode: 'offlineFirst',
         refetchOnMount: false,
         refetchOnReconnect: false,
         meta: { persist: true },
-        onSuccess,
+        onSuccess: defaultOnSuccess(onSuccess),
     })
 
     return result

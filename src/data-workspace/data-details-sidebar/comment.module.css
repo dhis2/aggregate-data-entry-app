@@ -1,4 +1,5 @@
-.comment, .placeholder {
+.comment,
+.placeholder {
     font-size: 14px;
     line-height: 19px;
     margin: 0 0 var(--spacers-dp12);
@@ -23,4 +24,8 @@
 
 .commentOptionSelect {
     margin-bottom: var(--spacers-dp8);
+}
+
+.errorWrapper {
+    margin: var(--spacers-dp16) 0;
 }

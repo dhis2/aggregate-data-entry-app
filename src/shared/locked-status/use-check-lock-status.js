@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { getCurrentDate } from '../fixed-periods/index.js'
+import { formatJsDateToDateString, useClientServerDate } from '../date/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import {
     usePeriodId,
@@ -10,7 +10,12 @@ import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 
-const isDataInputPeriodLocked = (dataSetId, periodId, metadata) => {
+const isDataInputPeriodLocked = ({
+    dataSetId,
+    periodId,
+    metadata,
+    currentDayString,
+}) => {
     const dataInputPeriod = selectors.getApplicableDataInputPeriod(
         metadata,
         dataSetId,
@@ -21,23 +26,35 @@ const isDataInputPeriodLocked = (dataSetId, periodId, metadata) => {
         return false
     }
 
+    const currentDateAtServerTimeZone = new Date(currentDayString)
     const openingDate = new Date(dataInputPeriod.openingDate)
     const closingDate = new Date(dataInputPeriod.closingDate)
-    const now = getCurrentDate()
 
-    return openingDate > now || closingDate < now
+    return (
+        openingDate > currentDateAtServerTimeZone ||
+        closingDate < currentDateAtServerTimeZone
+    )
 }
 
 export const useCheckLockStatus = () => {
     const [dataSetId] = useDataSetId()
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
+    const currentDate = useClientServerDate()
+    const currentDayString = formatJsDateToDateString(currentDate.serverDate)
     const { data: metadata } = useMetadata()
     const { setLockStatus } = useLockedContext()
     const dataValueSet = useDataValueSet()
 
     useEffect(() => {
-        if (isDataInputPeriodLocked(dataSetId, periodId, metadata)) {
+        if (
+            isDataInputPeriodLocked({
+                dataSetId,
+                periodId,
+                metadata,
+                currentDayString,
+            })
+        ) {
             // mark as invalid for data input period
             setLockStatus(LockedStates.LOCKED_DATA_INPUT_PERIOD)
             return
@@ -58,6 +75,7 @@ export const useCheckLockStatus = () => {
         periodId,
         dataValueSet.data?.lockStatus,
         setLockStatus,
+        currentDayString,
     ])
 }
 

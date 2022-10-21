@@ -32,3 +32,15 @@
 .entryTimeAgo {
     color: var(--colors-grey600);
 }
+
+.lineThrough span {
+    text-decoration-line: line-through
+}
+
+.tableWrapper {
+    overflow-x: scroll;
+}
+
+.rightArrow {
+    margin: 0 var(--spacers-dp4) 0 var(--spacers-dp4);
+}
