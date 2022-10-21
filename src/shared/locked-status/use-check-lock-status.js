@@ -14,7 +14,7 @@ const isDataInputPeriodLocked = ({
     dataSetId,
     periodId,
     metadata,
-    adjustedCurrentDateString,
+    currentDayString,
 }) => {
     const dataInputPeriod = selectors.getApplicableDataInputPeriod(
         metadata,
@@ -26,7 +26,7 @@ const isDataInputPeriodLocked = ({
         return false
     }
 
-    const currentDateAtServerTimeZone = new Date(adjustedCurrentDateString)
+    const currentDateAtServerTimeZone = new Date(currentDayString)
     const openingDate = new Date(dataInputPeriod.openingDate)
     const closingDate = new Date(dataInputPeriod.closingDate)
 
