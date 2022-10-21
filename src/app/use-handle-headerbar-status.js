@@ -22,8 +22,6 @@ export const useHandleHeaderbarStatus = () => {
                 ? DELAY_SHOW
                 : DELAY_UPDATE
 
-        // use a delay so message does not "flicker"
-        const timeout = setTimeout(() => setOnlineStatusMessage(message), delay)
         const message = pendingMutations
             ? pendingMutations === 1
                 ? i18n.t('{{pendingMutations}} change saved locally', {
@@ -33,6 +31,9 @@ export const useHandleHeaderbarStatus = () => {
                       pendingMutations,
                   })
             : null
+
+        // use a delay so message does not "flicker"
+        const timeout = setTimeout(() => setOnlineStatusMessage(message), delay)
 
         return () => {
             clearTimeout(timeout)
