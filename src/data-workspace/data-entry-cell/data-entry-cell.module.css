@@ -42,7 +42,7 @@
 
 .highlighted.active {
     outline-color: var(--theme-focus) !important;
-}t
+}
 
 .disabled {
     background-color: var(--colors-grey200);
