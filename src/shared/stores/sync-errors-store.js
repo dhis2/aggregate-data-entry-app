@@ -18,10 +18,6 @@ export const useSyncErrorsStore = create((set, get) => ({
             errors[cellId] = error
             return { errors }
         }),
-    setErrorByMutationKey: (mutationKey, error) => {
-        const cellId = getCellIdFromMutationKey(mutationKey)
-        get().setErrorById(cellId, error)
-    },
     setError: (apiMutationError) => {
         const cellId = getCellIdFromMutationKey(apiMutationError.mutationKey)
         get().setErrorById(cellId, apiMutationError)
@@ -47,8 +43,6 @@ export const useSyncErrorsStore = create((set, get) => ({
     getErrorById: (cellId) => get().getErrors()[cellId],
     getErrorByDataValueParams: (dataValueParams) =>
         get().getErrorById(getCellIdFromDataValueParams(dataValueParams)),
-    getErrorByMutationKey: (mutationKey) =>
-        get().getErrorById(getCellIdFromMutationKey(mutationKey)),
     getErrorsForSelection: (contextSelectionId) => {
         const errors = get().getErrors()
         return Object.entries(errors)
