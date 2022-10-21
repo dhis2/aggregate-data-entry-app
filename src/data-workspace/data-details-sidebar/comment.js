@@ -19,8 +19,8 @@ import {
     useMetadata,
     useSetDataValueMutation,
     useUnsavedDataStore,
+    getCellId,
 } from '../../shared/index.js'
-import { getCellId } from '../../shared/stores/unsaved-data-store.js'
 import styles from './comment.module.css'
 import LoadingError from './loading-error.js'
 

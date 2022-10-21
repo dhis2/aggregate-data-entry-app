@@ -43,8 +43,3 @@ export const useUnsavedDataStore = create(
         },
     }))
 )
-
-export const getCellId = ({
-    contextSelectionId,
-    item: { categoryOptionCombo, dataElement },
-}) => `${contextSelectionId}_${dataElement}_${categoryOptionCombo}`

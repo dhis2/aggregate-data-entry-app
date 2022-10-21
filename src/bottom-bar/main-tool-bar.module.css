@@ -28,7 +28,7 @@
     width: 16px;
 }
 
-.goToInvalidValue, .completionSummary {
+.goToInvalidValue, .goToErrorValue, .completionSummary {
     display: flex;
     align-items: center;
     border: 0;
@@ -39,6 +39,10 @@
 
 .goToInvalidValue {
     background: var(--colors-red200);
+}
+
+.goToErrorValue {
+    background: var(--colors-yellow100);
 }
 
 .completionSummary {
