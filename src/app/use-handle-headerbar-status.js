@@ -18,9 +18,7 @@ export const useHandleHeaderbarStatus = () => {
         const nextShowMessage = !!pendingMutations
         // use a shorter delay when updating, use longer when hide -> show
         const delay =
-            nextShowMessage && didShowMessage !== nextShowMessage
-                ? DELAY_SHOW
-                : DELAY_UPDATE
+            didShowMessage !== nextShowMessage ? DELAY_SHOW : DELAY_UPDATE
 
         const message = pendingMutations
             ? pendingMutations === 1
