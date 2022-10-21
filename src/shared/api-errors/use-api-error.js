@@ -9,20 +9,16 @@ export const useApiError = () => {
         const shouldRollback = shouldRollbackError(error)
         // dont treat non-rollback errors as errors
         if (!shouldRollback) {
-            return { shouldRollback }
+            return
         }
         // Log the stack trace to the console
         console.error(error)
         // error should be ApiMutationError, but handle other errors gracefully
         if (!(error instanceof ApiMutationError)) {
-            return { shouldRollback }
+            return
         }
 
         setSyncError(error)
-
-        return {
-            shouldRollback,
-        }
     }
 
     return {

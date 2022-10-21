@@ -3,6 +3,7 @@ import {
     ApiMutationError,
     isFetchError,
     useApiError,
+    shouldRollbackError,
 } from '../api-errors/index.js'
 import { defaultOnSuccess } from '../default-on-success.js'
 import { useSyncErrorsStore } from '../stores/sync-errors-store.js'
@@ -67,7 +68,8 @@ function useSharedDataValueMutation({
                     newDataValue
                 )
             }
-            const { shouldRollback } = handleMutationError(err)
+            handleMutationError(err)
+            const { shouldRollback } = shouldRollbackError(err)
 
             if (shouldRollback) {
                 queryClient.setQueryData(
