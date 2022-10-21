@@ -5,9 +5,11 @@ import React from 'react'
 import { useCustomFormsPrefetch } from '../custom-forms/index.js'
 import { useMetadata, useUserInfo } from '../shared/index.js'
 import css from './load-app.module.css'
+import { useHandleHeaderbarStatus } from './use-handle-headerbar-status.js'
 
 const LoadApp = ({ children }) => {
     useCustomFormsPrefetch()
+    useHandleHeaderbarStatus()
 
     const metadata = useMetadata()
     const userInfo = useUserInfo()
