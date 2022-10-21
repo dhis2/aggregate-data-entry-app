@@ -3,17 +3,27 @@ import i18n from '@dhis2/d2-i18n'
 import { useIsMutating } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
-const UPDATE_DELAY = 2000
+// delaying from showing/hiding message
+const DELAY_SHOW = 2000
+// delay for updating number when shown
+const DELAY_UPDATE = 200
 
 export const useHandleHeaderbarStatus = () => {
     const pendingMutations = useIsMutating()
-    const { setOnlineStatusMessage } = useOnlineStatusMessage()
+    const { onlineStatusMessage, setOnlineStatusMessage } =
+        useOnlineStatusMessage()
+
+    const didShowMessage = !!onlineStatusMessage
     useEffect(() => {
+        const nextShowMessage = !!pendingMutations
+        // use a shorter delay when updating, use longer when hide -> show
+        const delay =
+            nextShowMessage && didShowMessage !== nextShowMessage
+                ? DELAY_SHOW
+                : DELAY_UPDATE
+
         // use a delay so message does not "flicker"
-        const timeout = setTimeout(
-            () => setOnlineStatusMessage(message),
-            UPDATE_DELAY
-        )
+        const timeout = setTimeout(() => setOnlineStatusMessage(message), delay)
         const message = pendingMutations
             ? pendingMutations === 1
                 ? i18n.t('{{pendingMutations}} change saved locally', {
@@ -24,11 +34,10 @@ export const useHandleHeaderbarStatus = () => {
                   })
             : null
 
-        //setOnlineStatusMessage(message)
         return () => {
             clearTimeout(timeout)
         }
-    }, [pendingMutations, setOnlineStatusMessage])
+    }, [pendingMutations, didShowMessage, setOnlineStatusMessage])
 }
 
 export default useHandleHeaderbarStatus
