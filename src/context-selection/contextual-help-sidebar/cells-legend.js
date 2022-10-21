@@ -42,6 +42,11 @@ export default function CellsLegend() {
             />
             <Divider />
             <CellsLegendSymbol
+                name={i18n.t('Failed to sync, not saved')}
+                state="ERROR"
+            />
+            <Divider />
+            <CellsLegendSymbol
                 name={i18n.t('Data item has a comment')}
                 state="HAS_COMMENT"
             />
@@ -51,6 +56,7 @@ export default function CellsLegend() {
                 state="INVALID"
             />
             <Divider />
+
             <CellsLegendSymbol
                 name={i18n.t('Locked, not editable')}
                 state="LOCKED"
