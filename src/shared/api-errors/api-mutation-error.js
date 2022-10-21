@@ -5,7 +5,7 @@ import i18n from '../../locales/index.js'
  */
 const customErrorMessages = {
     // E2017: i18n.t('Here we could override the message for E2017 error with a custom message in the FE')
-    E2022: i18n.t(`Selected period is after latest open future period.`),
+    E2022: i18n.t(`Selected period is after latest open future period`),
 }
 
 /**

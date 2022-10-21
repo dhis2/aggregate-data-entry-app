@@ -94,7 +94,16 @@ export function InnerWrapper({
     const clearSyncError = useSyncErrorsStore(
         (state) => state.clearErrorByDataValueParams
     )
-    const errorMessage = error ?? syncError?.displayMessage
+
+    const errorMessage =
+        error && syncError ? (
+            <div className={styles.validationTooltipMessage}>
+                <div>{error}</div>
+                <div>{syncError.displayMessage}</div>
+            </div>
+        ) : (
+            error ?? syncError?.displayMessage
+        )
     const valueSynced = data.lastSyncedValue === value
     const showSynced = dirty && valueSynced
     // todo: maybe use mutation state to improve this style handling
