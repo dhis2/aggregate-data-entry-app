@@ -72,9 +72,30 @@ export function useContextSelectionId() {
     const [{ attributeOptionComboSelection, dataSetId, orgUnitId, periodId }] =
         useContextSelection()
 
+    const attributeOptions = Object.values(attributeOptionComboSelection)
     // generate an identifier based on the context-selection
-    return Object.entries(attributeOptionComboSelection)
-        .map((keyVal) => keyVal.join(':'))
-        .concat([dataSetId, orgUnitId, periodId])
-        .join()
+    return getContextSelectionId({
+        attributeOptions,
+        dataSetId,
+        orgUnitId,
+        periodId,
+    })
+}
+
+export const getContextSelectionId = ({
+    attributeOptions = [],
+    dataSetId,
+    orgUnitId,
+    periodId,
+}) => {
+    // Sort these to produce consistent results
+    const joinedAttributeOptions = attributeOptions.sort().join(';')
+    return [joinedAttributeOptions, dataSetId, orgUnitId, periodId].join()
+}
+
+export const parseContextSelectionId = (contextSelectionId) => {
+    const [attributeOptions, dataSetId, orgUnitId, periodId] =
+        contextSelectionId.split(',')
+
+    return { attributeOptions, dataSetId, orgUnitId, periodId }
 }

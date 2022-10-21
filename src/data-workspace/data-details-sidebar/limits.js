@@ -7,8 +7,8 @@ import {
     userInfoSelectors,
     useUnsavedDataStore,
     useContextSelectionId,
+    getCellId,
 } from '../../shared/index.js'
-import { getCellId } from '../../shared/stores/unsaved-data-store.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import LimitsDisplay from './limits-display.js'
 import NoLimits from './no-limits.js'

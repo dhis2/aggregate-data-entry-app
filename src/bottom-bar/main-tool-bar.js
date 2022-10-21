@@ -1,11 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import {
-    Button,
-    IconErrorFilled16,
-    IconInfo16,
-    Tooltip,
-    colors,
-} from '@dhis2/ui'
+import { Button, IconInfo16, Tooltip, colors } from '@dhis2/ui'
 import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
@@ -17,11 +11,11 @@ import {
     useDataValueSet,
     useDataValueSetQueryKey,
     useLockedContext,
-    useEntryFormStore,
     validationResultsSidebarId,
     useValidationStore,
 } from '../shared/index.js'
 import CompleteButton from './complete-button.js'
+import ErrorSummary from './error-summary.js'
 import styles from './main-tool-bar.module.css'
 
 function ValidationButtonTooltip({ validateDisabled, offline, children }) {
@@ -53,9 +47,6 @@ export default function MainToolBar() {
     const activeMutations = useIsMutating({
         mutationKey: queryKey,
     })
-    const numberOfErrors = useEntryFormStore((state) =>
-        state.getNumberOfErrors()
-    )
     const { offline } = useConnectionStatus()
     const validateDisabled = offline || activeMutations > 0
     const { data } = useDataValueSet()
@@ -87,31 +78,10 @@ export default function MainToolBar() {
                     {i18n.t('Run validation')}
                 </Button>
             </ValidationButtonTooltip>
-
             <div className={styles.toolbarItem}>
                 <CompleteButton disabled={locked} />
             </div>
-
-            {numberOfErrors > 0 && (
-                <button
-                    className={cx(styles.goToInvalidValue, styles.toolbarItem)}
-                >
-                    <span
-                        className={cx(styles.icon, styles.goToInvalidValueIcon)}
-                    >
-                        <IconErrorFilled16 color={colors.red700} />
-                    </span>
-                    <span className={styles.goToInvalidValueLabel}>
-                        {numberOfErrors === 1
-                            ? i18n.t('1 invalid value not saved')
-                            : i18n.t(
-                                  '{{numberOfErrors}} invalid values not saved',
-                                  { numberOfErrors }
-                              )}
-                    </span>
-                </button>
-            )}
-
+            <ErrorSummary />
             {data?.completeStatus?.lastUpdatedBy && (
                 <span
                     className={cx(styles.completionSummary, styles.toolbarItem)}
