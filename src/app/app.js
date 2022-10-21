@@ -15,7 +15,6 @@ import {
 } from '../shared/index.js'
 import { Layout } from './layout/index.js'
 import LoadApp from './load-app.js'
-// import { MutationIndicator } from './mutation-indicator/index.js'
 
 const idSidebarMap = {
     [contextualHelpSidebarId]: ContextualHelpSidebar,
@@ -50,7 +49,6 @@ const App = () => {
                 main={dataWorkspace}
                 sidebar={<RightHandPanel idSidebarMap={idSidebarMap} />}
                 showSidebar={!!id}
-                // footer={<MutationIndicator />}
             />
         </LoadApp>
     )

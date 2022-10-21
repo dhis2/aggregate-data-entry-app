@@ -4,7 +4,6 @@ import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { MutationIndicator } from '../app/mutation-indicator/index.js'
 import useRightHandPanelContext from '../right-hand-panel/use-right-hand-panel-context.js'
 import {
     useConnectionStatus,
@@ -102,9 +101,6 @@ export default function MainToolBar() {
                     </span>
                 </span>
             )}
-            <div className={styles.mutationIndicator}>
-                <MutationIndicator />
-            </div>
         </div>
     )
 }
