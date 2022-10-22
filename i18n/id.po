@@ -4,16 +4,16 @@
 # Farida Sibuea <farida_sibuea@yahoo.com>, 2022
 # Raja Fathurrahim, 2022
 # Aprisa Chrysantina <aprisa.chrysantina@gmail.com>, 2022
-# Viktor Varland <viktor@dhis2.org>, 2022
 # Yusuf Setiawan <mohammadyusufsetiawan@gmail.com>, 2022
 # Untoro Dwi Raharjo <untoro.dwi.raharjo@mail.ugm.ac.id>, 2022
+# Viktor Varland <viktor@dhis2.org>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Untoro Dwi Raharjo <untoro.dwi.raharjo@mail.ugm.ac.id>, 2022\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
 "Language-Team: Indonesian (https://www.transifex.com/hisp-uio/teams/100509/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -212,7 +212,7 @@ msgid "Help"
 msgstr "Bantuan"
 
 msgid "or"
-msgstr ""
+msgstr "atau"
 
 msgid "Shortcuts"
 msgstr ""

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-09-22T16:07:53.237Z\n"
+"POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: Ibatov <ibatovk@who.int>, 2022\n"
 "Language-Team: Uzbek (Cyrillic) (https://www.transifex.com/hisp-uio/teams/100509/uz@Cyrl/)\n"
@@ -26,6 +26,9 @@ msgstr ""
 msgid "There was a problem loading metadata"
 msgstr ""
 
+msgid "There was a problem loading the user's information"
+msgstr ""
+
 msgid "There is {{pendingMutations}} pending change."
 msgstr ""
 
@@ -34,6 +37,10 @@ msgstr ""
 
 msgid "Synced"
 msgstr "Синхронизацияланган"
+
+msgid ""
+"Session Expired. Please reload to log in again. You will not lose any data."
+msgstr ""
 
 msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
@@ -48,6 +55,12 @@ msgid "Hide details"
 msgstr "Деталларни беркитиш"
 
 msgid "View details"
+msgstr ""
+
+msgid "Validation is not available offline"
+msgstr ""
+
+msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
@@ -101,6 +114,11 @@ msgstr ""
 msgid "Validation"
 msgstr "Тасдиқлаш"
 
+msgid ""
+"Data in the entry form has changed, so validation output might be incorrect."
+" Run validation again to check the current data."
+msgstr ""
+
 msgid "Run validation again"
 msgstr ""
 
@@ -133,6 +151,11 @@ msgstr ""
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
+msgstr ""
+
+msgid ""
+"There was a problem loading the {{objectType}} selection ({{id}}). You might"
+" not have access, or the selection might be invalid."
 msgstr ""
 
 msgid "Choose a data set"
@@ -181,6 +204,9 @@ msgstr ""
 
 msgid "Help"
 msgstr "Ёрдам"
+
+msgid "or"
+msgstr "ёки"
 
 msgid "Shortcuts"
 msgstr ""
@@ -257,6 +283,9 @@ msgstr ""
 msgid "Error occurred while loading organisation unit info"
 msgstr ""
 
+msgid "The Period ({{id}}) is not open or is invalid."
+msgstr ""
+
 msgid "Period"
 msgstr "Давр"
 
@@ -273,6 +302,9 @@ msgid "Fetching data set info"
 msgstr ""
 
 msgid "Error occurred while loading data set info"
+msgstr ""
+
+msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
@@ -302,6 +334,9 @@ msgstr "Кузатув учун белгиланг"
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
 
+msgid "You do not have the authority to mark this value for follow -up"
+msgstr ""
+
 msgid "Description: {{- description}}"
 msgstr ""
 
@@ -323,7 +358,7 @@ msgstr "Кузатув учун белгиланган"
 msgid "Comment"
 msgstr "Изоҳ"
 
-msgid "There was a problem loading the comment for this data item"
+msgid "There was a problem updating the comment for this data item"
 msgstr ""
 
 msgid "Choose an option"
@@ -338,14 +373,17 @@ msgstr "Фикр/изоҳни сақланг"
 msgid "Cancel"
 msgstr "Бекор қилиш"
 
-msgid "No comment for this data item."
-msgstr ""
-
 msgid "Edit comment"
 msgstr ""
 
 msgid "Add comment"
 msgstr "Изоҳ қўшиш"
+
+msgid "No comment for this data item."
+msgstr ""
+
+msgid "You do not have the authority to add or edit comments"
+msgstr ""
 
 msgid "Details"
 msgstr "Тафсилотлари"
@@ -365,7 +403,13 @@ msgstr ""
 msgid "Delete limits"
 msgstr ""
 
+msgid "You do not have the authority to delete limits"
+msgstr ""
+
 msgid "Edit limits"
+msgstr ""
+
+msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
@@ -412,7 +456,21 @@ msgstr ""
 msgid "Data cannot be added or changed because data has been approved."
 msgstr ""
 
+msgid "You do not have the authority to edit entry forms"
+msgstr ""
+
 msgid "Data set locked"
+msgstr ""
+
+msgid "Get started with data entry"
+msgstr ""
+
+msgid ""
+"Choose a data set, organisation unit, and period from the top bar to start "
+"entering data"
+msgstr ""
+
+msgid "Learn more about data entry"
 msgstr ""
 
 msgid "Filter fields in all sections"

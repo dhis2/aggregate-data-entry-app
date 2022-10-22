@@ -1,15 +1,15 @@
 # 
 # Translators:
-# Viktor Varland <viktor@dhis2.org>, 2022
 # phil_dhis2, 2022
 # Hamza Assada <7amza.it@gmail.com>, 2022
+# Viktor Varland <viktor@dhis2.org>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-10-06T23:27:22.669Z\n"
+"POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Hamza Assada <7amza.it@gmail.com>, 2022\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
 "Language-Team: Arabic (https://www.transifex.com/hisp-uio/teams/100509/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,6 +160,11 @@ msgid ""
 "organisation unit ({{categories}})"
 msgstr ""
 
+msgid ""
+"There was a problem loading the {{objectType}} selection ({{id}}). You might"
+" not have access, or the selection might be invalid."
+msgstr ""
+
 msgid "Choose a data set"
 msgstr ""
 
@@ -206,6 +211,9 @@ msgstr ""
 
 msgid "Help"
 msgstr "مساعدة"
+
+msgid "or"
+msgstr "أو"
 
 msgid "Shortcuts"
 msgstr "إختصارات"
@@ -281,6 +289,9 @@ msgstr "إحضار معلومات الوحدة التنظيمية"
 
 msgid "Error occurred while loading organisation unit info"
 msgstr "حدث خطأ أثناء تحميل معلومات الوحدة التنظيمية"
+
+msgid "The Period ({{id}}) is not open or is invalid."
+msgstr ""
 
 msgid "Period"
 msgstr "الفترة الزمنية"
@@ -460,6 +471,17 @@ msgstr "ليس لديك الصلاحية لتعديل نماذج الإدخال"
 msgid "Data set locked"
 msgstr ""
 
+msgid "Get started with data entry"
+msgstr ""
+
+msgid ""
+"Choose a data set, organisation unit, and period from the top bar to start "
+"entering data"
+msgstr ""
+
+msgid "Learn more about data entry"
+msgstr ""
+
 msgid "Filter fields in all sections"
 msgstr ""
 
@@ -518,9 +540,6 @@ msgid "Type here to filter in this section"
 msgstr "اكتب هنا للتصفية في هذا القسم"
 
 msgid "1 item hidden by filter"
-msgstr ""
-
-msgid "An error occurred"
 msgstr ""
 
 msgid ""
