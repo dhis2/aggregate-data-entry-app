@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
-"PO-Revision-Date: 2022-10-21T14:42:40.464Z\n"
+"POT-Creation-Date: 2022-10-26T08:02:12.284Z\n"
+"PO-Revision-Date: 2022-10-26T08:02:12.285Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -23,15 +23,6 @@ msgstr "There was a problem loading metadata"
 
 msgid "There was a problem loading the user's information"
 msgstr "There was a problem loading the user's information"
-
-msgid "There is {{pendingMutations}} pending change."
-msgstr "There is {{pendingMutations}} pending change."
-
-msgid "There are {{pendingMutations}} pending changes."
-msgstr "There are {{pendingMutations}} pending changes."
-
-msgid "Synced"
-msgstr "Synced"
 
 msgid "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr "Session Expired. Please reload to log in again. You will not lose any data."
@@ -51,6 +42,18 @@ msgstr "Hide details"
 msgid "View details"
 msgstr "View details"
 
+msgid "1 invalid value not saved"
+msgstr "1 invalid value not saved"
+
+msgid "{{numberOfErrors}} invalid values not saved"
+msgstr "{{numberOfErrors}} invalid values not saved"
+
+msgid "1 value failed to save"
+msgstr "1 value failed to save"
+
+msgid "{{numberOfErrors}} values failed to save"
+msgstr "{{numberOfErrors}} values failed to save"
+
 msgid "Validation is not available offline"
 msgstr "Validation is not available offline"
 
@@ -59,12 +62,6 @@ msgstr "Validation is not available while changes are pending"
 
 msgid "Run validation"
 msgstr "Run validation"
-
-msgid "1 invalid value not saved"
-msgstr "1 invalid value not saved"
-
-msgid "{{numberOfErrors}} invalid values not saved"
-msgstr "{{numberOfErrors}} invalid values not saved"
 
 msgid "Last completed by"
 msgstr "Last completed by"
@@ -197,6 +194,9 @@ msgstr "Saved and synced to server"
 
 msgid "Waiting to sync, saved locally"
 msgstr "Waiting to sync, saved locally"
+
+msgid "Failed to sync, not saved"
+msgstr "Failed to sync, not saved"
 
 msgid "Data item has a comment"
 msgstr "Data item has a comment"
@@ -541,12 +541,11 @@ msgstr "Type here to filter in this section"
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
 
-msgid ""
-"Something went wrong while setting the form's completion to "
-"\"{{completed}}\": {{errorMessage}}"
-msgstr ""
-"Something went wrong while setting the form's completion to "
-"\"{{completed}}\": {{errorMessage}}"
+msgid "{{pendingMutations}} change saved locally"
+msgstr "{{pendingMutations}} change saved locally"
+
+msgid "{{pendingMutations}} changes saved locally"
+msgstr "{{pendingMutations}} changes saved locally"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
@@ -554,6 +553,16 @@ msgid ""
 msgstr ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
+
+msgid "Selected period is after latest open future period"
+msgstr "Selected period is after latest open future period"
+
+msgid ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
+msgstr ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
 
 msgid "January"
 msgstr "January"
