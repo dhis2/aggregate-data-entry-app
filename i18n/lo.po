@@ -489,7 +489,7 @@ msgid "Indicators"
 msgstr "ຕົວຊີ້ວັດ"
 
 msgid "Values"
-msgstr ""
+msgstr "ຄ່າ"
 
 msgid "Yes"
 msgstr "ແມ່ນ"
