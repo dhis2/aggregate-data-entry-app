@@ -166,12 +166,12 @@ DeletedValue.propTypes = {
 
 function UpdatedValue({ value, previousValue }) {
     return (
-        <>
+        <div className={styles.alignToEnd}>
             {previousValue && <Tag>{previousValue}</Tag>}
             {/* arrow-right*/}
             <span className={styles.rightArrow}>&rarr;</span>
             <Tag>{value}</Tag>
-        </>
+        </div>
     )
 }
 
