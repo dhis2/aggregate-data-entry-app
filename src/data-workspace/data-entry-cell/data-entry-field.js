@@ -7,7 +7,6 @@ import {
 import { getFieldId } from '../get-field-id.js'
 import { EntryFieldInput } from './entry-field-input.js'
 import { InnerWrapper } from './inner-wrapper.js'
-import { ValidationTooltip } from './validation-tooltip.js'
 
 export const DataEntryField = React.memo(function DataEntryField({
     dataElement: de,
@@ -27,25 +26,23 @@ export const DataEntryField = React.memo(function DataEntryField({
     const { locked } = useLockedContext()
 
     return (
-        <ValidationTooltip fieldname={fieldname}>
-            <InnerWrapper
+        <InnerWrapper
+            fieldname={fieldname}
+            deId={de.id}
+            cocId={coc.id}
+            disabled={disabled}
+            locked={locked}
+            highlighted={highlighted}
+        >
+            <EntryFieldInput
                 fieldname={fieldname}
-                deId={de.id}
-                cocId={coc.id}
+                dataElement={de}
+                categoryOptionCombo={coc}
                 disabled={disabled}
                 locked={locked}
                 highlighted={highlighted}
-            >
-                <EntryFieldInput
-                    fieldname={fieldname}
-                    dataElement={de}
-                    categoryOptionCombo={coc}
-                    disabled={disabled}
-                    locked={locked}
-                    highlighted={highlighted}
-                />
-            </InnerWrapper>
-        </ValidationTooltip>
+            />
+        </InnerWrapper>
     )
 })
 

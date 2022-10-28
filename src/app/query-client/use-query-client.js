@@ -5,6 +5,7 @@ import {
     setCompletionMutationDefaults,
     useApiError,
     handleDefaultOnSuccess,
+    shouldTriggerOffline,
 } from '../../shared/index.js'
 import createQueryFn from './create-query-fn.js'
 import { useSessionExpiredAlert } from './use-session-expired-alert.js'
@@ -15,8 +16,6 @@ const logger = {
     error: () => {},
 }
 
-// error-types that should trigger offline-mode
-const triggerOfflineErrorTypes = new Set(['network', 'access'])
 const queryClient = new QueryClient({ logger })
 
 // Set "custom" event-listener
@@ -74,7 +73,8 @@ const useQueryClient = () => {
         mutations: {
             networkMode: 'offlineFirst',
             retry: (failureCount, error) => {
-                const triggerOffline = triggerOfflineErrorTypes.has(error?.type)
+                const triggerOffline = shouldTriggerOffline(error)
+
                 if (triggerOffline) {
                     onlineManager.setOnline(false)
                     onlineManager.onOnline(false)
@@ -82,8 +82,7 @@ const useQueryClient = () => {
                 // need to handle this here, because onError will not be called when mutation is paused
                 if (
                     failureCount === 0 &&
-                    error?.type === 'access' &&
-                    error?.httpStatusCode === 401
+                    error?.details.httpStatusCode === 401
                 ) {
                     showSessionExpiredAlert()
                 }
@@ -91,8 +90,9 @@ const useQueryClient = () => {
                     // always retry errors that trigger offlineMode
                     return true
                 }
-                // same as retry: 1
-                return failureCount < 1
+                // most likely not necessary to retry-errors that are not "temporal" - eg. 400,409 etc
+                // same as retry: 0
+                return false
             },
             onError,
             onSuccess: handleDefaultOnSuccess,

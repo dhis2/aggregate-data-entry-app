@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+.validationTooltipMessage div:not(:first-child) {
+    margin-top: 8px;
+}
+
 .dataEntryCell {
     padding: 0px;
     min-width: 100px;
@@ -38,7 +42,7 @@
 
 .highlighted.active {
     outline-color: var(--theme-focus) !important;
-}t
+}
 
 .disabled {
     background-color: var(--colors-grey200);

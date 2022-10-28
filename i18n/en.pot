@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-10-10T14:06:05.620Z\n"
-"PO-Revision-Date: 2022-10-10T14:06:05.620Z\n"
+"POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
+"PO-Revision-Date: 2022-10-21T14:42:40.464Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -154,6 +154,13 @@ msgstr ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
 
+msgid ""
+"There was a problem loading the {{objectType}} selection ({{id}}). You "
+"might not have access, or the selection might be invalid."
+msgstr ""
+"There was a problem loading the {{objectType}} selection ({{id}}). You "
+"might not have access, or the selection might be invalid."
+
 msgid "Choose a data set"
 msgstr "Choose a data set"
 
@@ -202,6 +209,9 @@ msgstr "Locked, not editable"
 
 msgid "Help"
 msgstr "Help"
+
+msgid "or"
+msgstr "or"
 
 msgid "Shortcuts"
 msgstr "Shortcuts"
@@ -277,6 +287,9 @@ msgstr "Fetching organisation unit info"
 
 msgid "Error occurred while loading organisation unit info"
 msgstr "Error occurred while loading organisation unit info"
+
+msgid "The Period ({{id}}) is not open or is invalid."
+msgstr "The Period ({{id}}) is not open or is invalid."
 
 msgid "Period"
 msgstr "Period"
@@ -455,6 +468,19 @@ msgstr "You do not have the authority to edit entry forms"
 
 msgid "Data set locked"
 msgstr "Data set locked"
+
+msgid "Get started with data entry"
+msgstr "Get started with data entry"
+
+msgid ""
+"Choose a data set, organisation unit, and period from the top bar to start "
+"entering data"
+msgstr ""
+"Choose a data set, organisation unit, and period from the top bar to start "
+"entering data"
+
+msgid "Learn more about data entry"
+msgstr "Learn more about data entry"
 
 msgid "Filter fields in all sections"
 msgstr "Filter fields in all sections"

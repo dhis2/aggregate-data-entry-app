@@ -1,4 +1,4 @@
-import { IconMore16, colors } from '@dhis2/ui'
+import { IconMore16, IconWarningFilled16, colors } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -18,6 +18,9 @@ const Cell = ({ value, state }) => (
             </div>
             <div className={styles.topRightIndicator}>
                 {state === 'LOADING' && <IconMore16 color={colors.grey700} />}
+                {state === 'ERROR' && (
+                    <IconWarningFilled16 color={colors.yellow800} />
+                )}
                 {state === 'SYNCED' && (
                     <div className={styles.topRightTriangle} />
                 )}
@@ -38,6 +41,7 @@ Cell.propTypes = {
         'HAS_COMMENT',
         'INVALID',
         'LOCKED',
+        'ERROR',
     ]).isRequired,
     value: PropTypes.string.isRequired,
 }

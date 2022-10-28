@@ -28,7 +28,7 @@
     width: 16px;
 }
 
-.goToInvalidValue, .completionSummary {
+.goToInvalidValue, .goToErrorValue, .completionSummary {
     display: flex;
     align-items: center;
     border: 0;
@@ -41,15 +41,14 @@
     background: var(--colors-red200);
 }
 
+.goToErrorValue {
+    background: var(--colors-yellow100);
+}
+
 .completionSummary {
     background: var(--colors-blue050);
 }
 
 .completedByLabel:after {
     content: ' ';
-}
-
-.mutationIndicator {
-    margin-left: auto;
-    margin-right: var(--spacers-dp4)
 }
