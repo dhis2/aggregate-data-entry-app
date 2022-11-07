@@ -1,3 +1,10 @@
+## [100.1.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.1.1...v100.1.2) (2022-11-07)
+
+
+### Bug Fixes
+
+* **indicators:** handle expressions that cannot be evaluated ([#241](https://github.com/dhis2/aggregate-data-entry-app/issues/241)) ([2942460](https://github.com/dhis2/aggregate-data-entry-app/commit/29424606367c398c791f633c69b2aaac1eb974f8))
+
 ## [100.1.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.1.0...v100.1.1) (2022-11-07)
 
 
