@@ -1,3 +1,20 @@
+## [100.1.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.1.0...v100.1.1) (2022-11-07)
+
+
+### Bug Fixes
+
+* **translations:** sync translations from transifex (development) ([6d043dc](https://github.com/dhis2/aggregate-data-entry-app/commit/6d043dc3ddcb71fff2d7446761ed76cb73d6eaa3))
+* **translations:** sync translations from transifex (development) ([cccf3af](https://github.com/dhis2/aggregate-data-entry-app/commit/cccf3af8f90faf76a78be5833227313c4b68b53b))
+* **translations:** sync translations from transifex (development) ([756b467](https://github.com/dhis2/aggregate-data-entry-app/commit/756b467cf33fb6f37c7ae99c6269a352525263f7))
+* **translations:** sync translations from transifex (development) ([02de709](https://github.com/dhis2/aggregate-data-entry-app/commit/02de709abca10f2b056ebce6436d1e311430c9f8))
+* **translations:** sync translations from transifex (development) ([e6044e8](https://github.com/dhis2/aggregate-data-entry-app/commit/e6044e85798683bee3300ec3196ef541944562f8))
+* **translations:** sync translations from transifex (development) ([be85c55](https://github.com/dhis2/aggregate-data-entry-app/commit/be85c55047f130fca838ebbf15ab9941b202f38f))
+* **translations:** sync translations from transifex (development) ([ecd8091](https://github.com/dhis2/aggregate-data-entry-app/commit/ecd8091f5759d46b98e86441f05357d2258e0c68))
+* **translations:** sync translations from transifex (development) ([5a402ae](https://github.com/dhis2/aggregate-data-entry-app/commit/5a402ae00d8c113463b3a3c05dc57b0035860d0b))
+* **translations:** sync translations from transifex (development) ([9fa7643](https://github.com/dhis2/aggregate-data-entry-app/commit/9fa7643ecc8e21abc37078760796a07303796b32))
+* **translations:** sync translations from transifex (development) ([bce1688](https://github.com/dhis2/aggregate-data-entry-app/commit/bce16887696eff0a790f2a0f9e2ee001325b4ccc))
+* update periods height [DHIS2-14006] ([6470b48](https://github.com/dhis2/aggregate-data-entry-app/commit/6470b48466db300684dca17bccbbec8c6d24e4af))
+
 # [100.1.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.0.0...v100.1.0) (2022-10-21)
 
 
