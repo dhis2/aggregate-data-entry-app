@@ -10,5 +10,6 @@
     ],
     "major": {
         "dependencyDashboardApproval": true
-    }
+    },
+    "timezone": "Europe/Oslo"
 }
