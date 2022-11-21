@@ -14,7 +14,13 @@ import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
  */
 // Use a mathematical expression parser instead of `eval`
 const parser = new Parser()
-const evaluate = (expression) => parser.parse(expression).evaluate()
+const evaluate = (expression) => {
+    try {
+        return parser.parse(expression).evaluate()
+    } catch {
+        return ''
+    }
+}
 /*
  * In an indicator expression template an `operand` can have one of these shapes:
  * 1. #{deId} for a data element
