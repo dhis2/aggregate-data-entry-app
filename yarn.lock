@@ -6842,14 +6842,7 @@ domexception@^2.0.1:
   dependencies:
     webidl-conversions "^5.0.0"
 
-domhandler@4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-4.3.0.tgz#16c658c626cf966967e306f966b431f77d4a5626"
-  integrity sha512-fC0aXNQXqKSFTr2wDNZDhsEYjCiYsDWl3D01kwt25hm1YIPyDGHvvi3rw+PLqHAl/m71MaiF7d5zvBr0p5UB2g==
-  dependencies:
-    domelementtype "^2.2.0"
-
-domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.2.2, domhandler@^4.3.1:
+domhandler@4.3.1, domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.2.2, domhandler@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-4.3.1.tgz#8d792033416f59d68bc03a5aa7b018c1ca89279c"
   integrity sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==
@@ -8822,12 +8815,12 @@ hpack.js@^2.1.6:
     readable-stream "^2.0.1"
     wbuf "^1.1.0"
 
-html-dom-parser@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-1.1.0.tgz#daf0ff559bb0c4ffe7543d507baeaf1e2ca14e2c"
-  integrity sha512-x3MOz8S8BkihGgggtp2N0U+JAWlD9iGERbjuBJH+gIGF9B1kGQh5x489IQ0YPqi8HyMIWCRLdJY1q3IaQlqG/Q==
+html-dom-parser@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-1.2.0.tgz#8f689b835982ffbf245eda99730e92b8462c111e"
+  integrity sha512-2HIpFMvvffsXHFUFjso0M9LqM+1Lm22BF+Df2ba+7QHJXjk63pWChEnI6YG27eaWqUdfnh5/Vy+OXrNTtepRsg==
   dependencies:
-    domhandler "4.3.0"
+    domhandler "4.3.1"
     htmlparser2 "7.2.0"
 
 html-element-map@^1.2.0:
@@ -8868,15 +8861,15 @@ html-minifier-terser@^6.0.2:
     relateurl "^0.2.7"
     terser "^5.10.0"
 
-html-react-parser@1.4.8:
-  version "1.4.8"
-  resolved "https://registry.yarnpkg.com/html-react-parser/-/html-react-parser-1.4.8.tgz#27bc0f9dc294c875daeca8a21a48d5b845a1364e"
-  integrity sha512-5XsBdFVhJLxdtRp7tWwZ6DwqOt6fJ+2lJc0lctwjX1yaxWNB41S5uzqii7vJcSCaabM+CK28U75e5f4wIMqdSg==
+html-react-parser@1.4.14:
+  version "1.4.14"
+  resolved "https://registry.yarnpkg.com/html-react-parser/-/html-react-parser-1.4.14.tgz#577b7a90be0c61eebbbc488d914ad08398c79ef5"
+  integrity sha512-pxhNWGie8Y+DGDpSh8cTa0k3g8PsDcwlfolA+XxYo1AGDeB6e2rdlyv4ptU9bOTiZ2i3fID+6kyqs86MN0FYZQ==
   dependencies:
-    domhandler "4.3.0"
-    html-dom-parser "1.1.0"
+    domhandler "4.3.1"
+    html-dom-parser "1.2.0"
     react-property "2.0.0"
-    style-to-js "1.1.0"
+    style-to-js "1.1.1"
 
 html-webpack-plugin@^5.5.0:
   version "5.5.0"
@@ -14619,10 +14612,10 @@ style-loader@^3.3.1:
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.3.1.tgz#057dfa6b3d4d7c7064462830f9113ed417d38575"
   integrity sha512-GPcQ+LDJbrcxHORTRes6Jy2sfvK2kS6hpSfI/fXhPt+spVzxF6LJ1dHLN9zIGmVaaP044YKaIatFaufENRiDoQ==
 
-style-to-js@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/style-to-js/-/style-to-js-1.1.0.tgz#631cbb20fce204019b3aa1fcb5b69d951ceac4ac"
-  integrity sha512-1OqefPDxGrlMwcbfpsTVRyzwdhr4W0uxYQzeA2F1CBc8WG04udg2+ybRnvh3XYL4TdHQrCahLtax2jc8xaE6rA==
+style-to-js@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/style-to-js/-/style-to-js-1.1.1.tgz#417786986cda61d4525c80aed9d1123a6a7af9b8"
+  integrity sha512-RJ18Z9t2B02sYhZtfWKQq5uplVctgvjTfLWT7+Eb1zjUjIrWzX5SdlkwLGQozrqarTmEzJJ/YmdNJCUNI47elg==
   dependencies:
     style-to-object "0.3.0"
 
