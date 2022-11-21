@@ -1,15 +1,15 @@
 # 
 # Translators:
-# Viktor Varland <viktor@dhis2.org>, 2022
 # phil_dhis2, 2022
 # Hamza Assada <7amza.it@gmail.com>, 2022
+# Viktor Varland <viktor@dhis2.org>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-09-22T16:07:53.237Z\n"
+"POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Hamza Assada <7amza.it@gmail.com>, 2022\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
 "Language-Team: Arabic (https://www.transifex.com/hisp-uio/teams/100509/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,6 +28,9 @@ msgstr ""
 msgid "There was a problem loading metadata"
 msgstr ""
 
+msgid "There was a problem loading the user's information"
+msgstr ""
+
 msgid "There is {{pendingMutations}} pending change."
 msgstr ""
 
@@ -35,21 +38,31 @@ msgid "There are {{pendingMutations}} pending changes."
 msgstr ""
 
 msgid "Synced"
-msgstr "المتزامنة"
+msgstr "متزامنة"
+
+msgid ""
+"Session Expired. Please reload to log in again. You will not lose any data."
+msgstr ""
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "تعذر تعيين النموذج كـ غير مكتمل، يرجى المحاولة مرة أخرى في وقت لاحق"
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "تعيين كـ غير مكتمل"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "تعيين كـ مكتمل"
 
 msgid "Hide details"
 msgstr "إخفاء التفاصيل"
 
 msgid "View details"
+msgstr "عرض التفاصيل"
+
+msgid "Validation is not available offline"
+msgstr ""
+
+msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
@@ -62,25 +75,25 @@ msgid "{{numberOfErrors}} invalid values not saved"
 msgstr ""
 
 msgid "Last completed by"
-msgstr ""
+msgstr "آخر تعيين كمكتمل بواسطة"
 
 msgid "Last incompleted by"
-msgstr ""
+msgstr "آخر تعيين كـ غير مكتمل بواسطة"
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "تعذر التحقق من صحة النموذج، يرجى المحاولة مرة أخرى في وقت لاحق"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
-msgstr ""
+msgstr "تعذر التحقق من صحة النموذج. هذا لا يؤثر على استكمال النموذج!"
 
 msgid "The form can't be completed while invalid"
-msgstr ""
+msgstr "لا يمكن إكمال النموذج وهو غير صحيح"
 
 msgid "1 comment required"
-msgstr ""
+msgstr "مطلوب تعليق واحد"
 
 msgid "{{commentsCount}} comments required"
-msgstr ""
+msgstr "مطلوب {{commentsCount}} تعليق"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
@@ -103,8 +116,16 @@ msgstr ""
 msgid "Validation"
 msgstr "التحقق"
 
-msgid "Run validation again"
+msgid ""
+"Data in the entry form has changed, so validation output might be incorrect."
+" Run validation again to check the current data."
 msgstr ""
+"تم تغيير البيانات الموجودة في نموذج الإدخال، لذا قد يكون نتيجة عملية التحقق "
+"من صحة النموذج غير صحيحة. قم بتشغيل التحقق مرة أخرى للتحقق من البيانات "
+"الحالية."
+
+msgid "Run validation again"
+msgstr "قم بتشغيل التحقق مرة أخرى"
 
 msgid "Alert summary"
 msgstr ""
@@ -113,15 +134,17 @@ msgid "No validation alerts for this data."
 msgstr ""
 
 msgid "Running validation..."
-msgstr ""
+msgstr "جارٍ تشغيل التحقق ..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "حدثت مشكلة أثناء تشغيل التحقق"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"لا يمكن تشغيل التحقق من الصحة على هذه البيانات. حاول مرة أخرى أو اتصل بمسؤول"
+" النظام."
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
@@ -137,11 +160,16 @@ msgid ""
 "organisation unit ({{categories}})"
 msgstr ""
 
+msgid ""
+"There was a problem loading the {{objectType}} selection ({{id}}). You might"
+" not have access, or the selection might be invalid."
+msgstr ""
+
 msgid "Choose a data set"
 msgstr ""
 
 msgid "No available options"
-msgstr ""
+msgstr "لا توجد خيارات متاحة"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
@@ -155,28 +183,28 @@ msgid "Default attribute combo"
 msgstr ""
 
 msgid "0 selections"
-msgstr ""
+msgstr "0 تحديدات"
 
 msgid "1 selection"
-msgstr ""
+msgstr "تحديد 1"
 
 msgid "{{amount}} selections"
-msgstr ""
+msgstr "{{amount}} تحديدات"
 
 msgid "Cell reference"
 msgstr ""
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "تم الحفظ والمزامنة مع الخادم"
 
 msgid "Waiting to sync, saved locally"
-msgstr ""
+msgstr "في انتظار المزامنة ، تم الحفظ محليًا"
 
 msgid "Data item has a comment"
 msgstr ""
 
 msgid "Invalid value, not saved"
-msgstr ""
+msgstr "قيمة غير صحيحة ، لم يتم حفظها"
 
 msgid "Locked, not editable"
 msgstr ""
@@ -184,29 +212,32 @@ msgstr ""
 msgid "Help"
 msgstr "مساعدة"
 
+msgid "or"
+msgstr "أو"
+
 msgid "Shortcuts"
-msgstr ""
+msgstr "إختصارات"
 
 msgid "Show details"
 msgstr "إظهار التفاصيل"
 
 msgid "Ctrl + Enter"
-msgstr ""
+msgstr "Ctrl + Enter"
 
 msgid "Cmd + Enter"
-msgstr ""
+msgstr "Cmd + Enter"
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "انتقل إلى الخلية التالية"
 
 msgid "Tab"
 msgstr ""
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "انتقل إلى الخلية السابقة"
 
 msgid "Shift + Tab"
-msgstr ""
+msgstr "Shift + Tab"
 
 msgid "Could not find a data set for the selected id"
 msgstr ""
@@ -218,16 +249,16 @@ msgid "Data set"
 msgstr "حزمة البيانات"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "طباعة النموذج مع القيم"
 
 msgid "Print empty form"
-msgstr ""
+msgstr "طباعة نموذج فارغ"
 
 msgid "Options"
 msgstr "الخيارات"
 
 msgid "Search org units"
-msgstr ""
+msgstr "البحث عن وحدة تنظيمية"
 
 msgid "Choose a data set first"
 msgstr ""
@@ -236,10 +267,10 @@ msgid "Organisation unit"
 msgstr "الوحدة التنظيمية"
 
 msgid "Choose a organisation unit"
-msgstr ""
+msgstr "اختر وحدة تنظيمية"
 
 msgid "No organisation units could be found"
-msgstr ""
+msgstr "لم يتم العثور على اية وحدات تنظيمية"
 
 msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
@@ -248,25 +279,28 @@ msgid "No children match filter"
 msgstr ""
 
 msgid "Could not load children"
-msgstr ""
+msgstr "تعذر تحميل الأبناء"
 
 msgid "Error: {{ ERRORMESSAGE }}"
 msgstr "خطأ: {{ERRORMESSAGE}}"
 
 msgid "Fetching organisation unit info"
-msgstr ""
+msgstr "إحضار معلومات الوحدة التنظيمية"
 
 msgid "Error occurred while loading organisation unit info"
+msgstr "حدث خطأ أثناء تحميل معلومات الوحدة التنظيمية"
+
+msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
 msgstr "الفترة الزمنية"
 
 msgid "Choose a period"
-msgstr ""
+msgstr "اختر فترة"
 
 msgid "All sections"
-msgstr ""
+msgstr "كل الأقسام"
 
 msgid "Section"
 msgstr "قسم"
@@ -277,11 +311,14 @@ msgstr ""
 msgid "Error occurred while loading data set info"
 msgstr ""
 
+msgid "Custom forms couldn't be made available offline. {{error}}"
+msgstr ""
+
 msgid "Value"
 msgstr "القيمة"
 
 msgid "Totals"
-msgstr "الإجمالي"
+msgstr "الإجماليات"
 
 msgid "Audit log"
 msgstr ""
@@ -299,13 +336,16 @@ msgid "Unmark for follow-up"
 msgstr ""
 
 msgid "Mark for follow-up"
-msgstr "اشر من أجل الملحق"
+msgstr "وضع علامة للمتابعة"
 
 msgid "Empty values can't be marked for follow -up"
-msgstr ""
+msgstr "لا يمكن تعليم القيم الفارغة للمتابعة"
+
+msgid "You do not have the authority to mark this value for follow -up"
+msgstr "ليس لديك الصلاحية لوضع علامة للمتابعة على هذه القيمة"
 
 msgid "Description: {{- description}}"
-msgstr ""
+msgstr "الوصف: {{- description}}"
 
 msgid "Code: {{code}}"
 msgstr ""
@@ -325,14 +365,14 @@ msgstr "مُعلَّم للمتابعة"
 msgid "Comment"
 msgstr "تعليق"
 
-msgid "There was a problem loading the comment for this data item"
-msgstr ""
+msgid "There was a problem updating the comment for this data item"
+msgstr "حدثت مشكلة أثناء تحديث التعليق لعنصر البيانات هذا"
 
 msgid "Choose an option"
-msgstr ""
+msgstr "إختر خياراً معينًا"
 
 msgid "Saving..."
-msgstr ""
+msgstr "يتم الحفظ..."
 
 msgid "Save comment"
 msgstr "حفظ التعليق"
@@ -340,14 +380,17 @@ msgstr "حفظ التعليق"
 msgid "Cancel"
 msgstr "إلغاء"
 
-msgid "No comment for this data item."
-msgstr ""
-
 msgid "Edit comment"
-msgstr ""
+msgstr "تعديل التعليق"
 
 msgid "Add comment"
 msgstr "اضافة تعليق"
+
+msgid "No comment for this data item."
+msgstr "لا يوجد تعليق لهذا العنصر."
+
+msgid "You do not have the authority to add or edit comments"
+msgstr "ليس لديك الصلاحية لإضافة أو تعديل التعليقات"
 
 msgid "Details"
 msgstr "التفاصيل"
@@ -367,11 +410,17 @@ msgstr ""
 msgid "Delete limits"
 msgstr ""
 
+msgid "You do not have the authority to delete limits"
+msgstr ""
+
 msgid "Edit limits"
 msgstr ""
 
-msgid "Min"
+msgid "You do not have the authority to add limits"
 msgstr ""
+
+msgid "Min"
+msgstr "الأدنى"
 
 msgid "Max"
 msgstr "الأعلى"
@@ -380,7 +429,7 @@ msgid "Min and max limits"
 msgstr ""
 
 msgid "Try again, or contact your system administrator."
-msgstr ""
+msgstr "حاول مرة أخرى، أو اتصل بمسؤول النظام."
 
 msgid "Add limits"
 msgstr ""
@@ -392,10 +441,10 @@ msgid "Save limits"
 msgstr ""
 
 msgid "The current selection does not have a form"
-msgstr ""
+msgstr "التحديد الحالي ليس له نموذج"
 
 msgid "There was a problem loading data values"
-msgstr ""
+msgstr "كانت هناك مشكلة في تحميل قيم البيانات"
 
 msgid "This data set has no assigned Data Elements"
 msgstr ""
@@ -407,14 +456,30 @@ msgstr ""
 
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
+"لا يمكن إضافة البيانات أو تغييرها خارج الفترة المعينة لإدخال البيانات."
 
 msgid "Data cannot be added or changed because data entry has concluded."
-msgstr ""
+msgstr "لا يمكن إضافة البيانات أو تغييرها بسبب انتهاء إدخال البيانات."
 
 msgid "Data cannot be added or changed because data has been approved."
 msgstr ""
+"لا يمكن إضافة البيانات أو تغييرها بسبب أنه قد تمت المصادقة على هذه البيانات."
+
+msgid "You do not have the authority to edit entry forms"
+msgstr "ليس لديك الصلاحية لتعديل نماذج الإدخال"
 
 msgid "Data set locked"
+msgstr ""
+
+msgid "Get started with data entry"
+msgstr ""
+
+msgid ""
+"Choose a data set, organisation unit, and period from the top bar to start "
+"entering data"
+msgstr ""
+
+msgid "Learn more about data entry"
 msgstr ""
 
 msgid "Filter fields in all sections"
@@ -445,30 +510,34 @@ msgid "Delete"
 msgstr "حذف"
 
 msgid "Upload an image"
-msgstr ""
+msgstr "تحميل صورة"
 
 msgid "Upload a file"
 msgstr "قم بتحميل ملف"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
-msgstr ""
+msgstr "يرجى تقديم تاريخ ووقت صالحين بالتنسيق YYYY-MM-DD HH {{c}} MM"
 
 msgid "Please provide a valid time in the format HH{{c}}MM"
-msgstr ""
+msgstr "يرجى تقديم وقت صالح بالتنسيق HH {{c}} MM"
 
 msgid ""
 "Please make sure the value of this input is less than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"الرجاء التأكد من أن قيمة هذا الإدخال أقل من القيمة الموجودة في "
+"\"{{otherField}}\"."
 
 msgid ""
 "Please make sure the value of this input is more than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"الرجاء التأكد من أن قيمة هذا الإدخال أكبر من القيمة الموجودة في "
+"\"{{otherField}}\"."
 
 msgid "Type here to filter in this section"
-msgstr ""
+msgstr "اكتب هنا للتصفية في هذا القسم"
 
 msgid "1 item hidden by filter"
 msgstr ""

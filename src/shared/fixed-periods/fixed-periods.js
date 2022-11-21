@@ -287,8 +287,9 @@ const getBiWeeklyPeriodType = (formatYyyyMmDd, fnFilter) => {
                 biWeekNumber,
             })} - ${period.startDate} - ${period.endDate}`
 
-            // if end date is Jan 4th or later, biweek belongs to next year
-            if (date.getFullYear() > year && date.getDate() >= 4) {
+            // if end date is Jan 11th or later, biweek belongs to next year
+            // Jan 11 is used because week 1 (Jan 4) may need to be included in previous year's biweeks
+            if (date.getFullYear() > year && date.getDate() >= 11) {
                 break
             }
 

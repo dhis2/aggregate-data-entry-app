@@ -1,7 +1,14 @@
 {
     "extends": [
         "config:base",
-        ":dependencyDashboardApproval",
-        ":enableVulnerabilityAlerts"
-    ]
+        ":automergeMinor",
+        ":automergePr",
+        ":automergeRequireAllStatusChecks",
+        ":enableVulnerabilityAlerts",
+        "npm:unpublishSafe"
+    ],
+    "major": {
+        "dependencyDashboardApproval": true
+    },
+    "timezone": "Europe/Oslo"
 }

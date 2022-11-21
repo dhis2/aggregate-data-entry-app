@@ -4,6 +4,7 @@ export default function useShouldHideClearButton() {
     const [selection] = useContextSelection()
 
     if (
+        !selection.dataSetId &&
         !selection.orgUnitId &&
         !selection.periodId &&
         !selection.attributeOptionComboSelection.length &&
