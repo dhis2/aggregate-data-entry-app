@@ -5,7 +5,8 @@
         ":automergePr",
         ":automergeRequireAllStatusChecks",
         ":enableVulnerabilityAlerts",
-        "npm:unpublishSafe"
+        "npm:unpublishSafe",
+        "schedule:nonOfficeHours"
     ],
     "major": {
         "dependencyDashboardApproval": true
