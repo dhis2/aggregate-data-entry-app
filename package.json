@@ -50,7 +50,7 @@
         "@tanstack/react-query-devtools": "4.3.0-beta.4",
         "@tanstack/react-query-persist-client": "4.0.10",
         "chart.js": "3.8.0",
-        "classnames": "2.3.1",
+        "classnames": "2.3.2",
         "expr-eval": "2.0.2",
         "final-form": "4.20.7",
         "final-form-set-field-data": "1.0.2",
