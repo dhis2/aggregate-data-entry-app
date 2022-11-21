@@ -109,10 +109,11 @@ const monthlyPeriodTypes = Object.keys(monthlyCounts)
 
 const getPreviousMonthNumber = (startMonth, periodType) => {
     const monthsToRemove = monthlyCounts[periodType]
-    if (startMonth - monthsToRemove < 0) {
-        return startMonth - monthsToRemove + 12
+    const monthDifference = startMonth - monthsToRemove
+    if (monthDifference < 0) {
+        return monthDifference + 12
     }
-    return startMonth - monthsToRemove
+    return monthDifference
 }
 
 export const addFullPeriodTimeToDate = createUpdateFullPeriodTimeToDate(1)
