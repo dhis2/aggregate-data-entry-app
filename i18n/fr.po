@@ -329,7 +329,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr ""
+msgstr "Non disponible hors ligne"
 
 msgid "No audit log for this data item."
 msgstr ""
