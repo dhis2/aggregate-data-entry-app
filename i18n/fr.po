@@ -55,7 +55,7 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "Mark comme inachevé"
 
 msgid "Mark complete"
 msgstr ""
