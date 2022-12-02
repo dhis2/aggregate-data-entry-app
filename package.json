@@ -39,7 +39,7 @@
         "enzyme": "3.11.0",
         "enzyme-adapter-react-16": "1.15.7",
         "eslint-plugin-cypress": "2.12.1",
-        "fake-indexeddb": "4.0.0",
+        "fake-indexeddb": "4.0.1",
         "start-server-and-test": "1.14.0"
     },
     "dependencies": {
