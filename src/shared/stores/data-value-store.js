@@ -18,9 +18,10 @@ export const valueStore = createStore((set, get) => ({
     isComplete: () => !!get().dataValueSet?.completeStatus?.complete,
 
     getDataValues: () => get().dataValueSet?.dataValues,
-    setDataValueSet: (values) => set({
-        dataValueSet: values ?? initialState.dataValueSet,
-    }),
+    setDataValueSet: (values) =>
+        set({
+            dataValueSet: values ?? initialState.dataValueSet,
+        }),
     getMinMaxValues: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet?.minMaxValues?.find(
             (minMaxValue) =>

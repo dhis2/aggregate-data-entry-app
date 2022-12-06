@@ -1,7 +1,7 @@
 import createOriginal from 'zustand'
 import * as zustand from 'zustand'
 
-const createStateWrapper = createState => (set, get) => {
+const createStateWrapper = (createState) => (set, get) => {
     const config = createState(set, get)
     return { setState: set, ...config }
 }

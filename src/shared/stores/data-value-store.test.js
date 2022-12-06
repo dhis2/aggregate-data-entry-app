@@ -1,4 +1,4 @@
-import { act, renderHook } from "@testing-library/react-hooks"
+import { act, renderHook } from '@testing-library/react-hooks'
 import { initialState, valueStore, useValueStore } from './data-value-store.js'
 
 describe('data value store', () => {
@@ -36,7 +36,7 @@ describe('data value store', () => {
                     dataValueSet: {
                         dataValues: {},
                         minMaxValues: [],
-                    }
+                    },
                 })
             )
         })
@@ -47,7 +47,7 @@ describe('data value store', () => {
             dataValues: {
                 'de-id': {
                     'coc-id': 'foobar',
-                }
+                },
             },
             minMaxValues: [],
         }
@@ -66,7 +66,7 @@ describe('data value store', () => {
 
     it('should return true when the data value set has been completed', async () => {
         const dataValueSet = {
-            completeStatus: { complete: true }
+            completeStatus: { complete: true },
         }
 
         valueStore.setState({ dataValueSet })
@@ -88,7 +88,7 @@ describe('data value store', () => {
 
     it('should return false when completeStatus.copmlete property does not exist', async () => {
         const dataValueSet = {
-            completeStatus: {}
+            completeStatus: {},
         }
 
         valueStore.setState({ dataValueSet })
@@ -100,7 +100,7 @@ describe('data value store', () => {
 
     it('should return false when completeStatus.copmlete is false', async () => {
         const dataValueSet = {
-            completeStatus: { complete: false }
+            completeStatus: { complete: false },
         }
 
         valueStore.setState({ dataValueSet })
@@ -115,9 +115,9 @@ describe('data value store', () => {
             dataValues: {
                 'de-id': {
                     'coc-id': {
-                        comment: 'This is a comment'
+                        comment: 'This is a comment',
                     },
-                }
+                },
             },
         }
 
@@ -137,9 +137,9 @@ describe('data value store', () => {
             dataValues: {
                 'de-id': {
                     'coc-id': {
-                        comment: ''
+                        comment: '',
                     },
-                }
+                },
             },
         }
 
@@ -159,7 +159,7 @@ describe('data value store', () => {
             dataValues: {
                 'de-id': {
                     'coc-id': {},
-                }
+                },
             },
         }
 
@@ -198,7 +198,7 @@ describe('data value store', () => {
                     categoryOptionCombo: 'coc-id',
                     min: 2,
                     max: 3,
-                }
+                },
             ],
         }
 
