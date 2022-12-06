@@ -1,14 +1,14 @@
-import create from 'zustand'
+import { createStore, useStore } from '../zustand/index.js'
 
-const inititalState = {
+export const initialState = {
     dataValueSet: {
         dataValues: {},
         minMaxValues: [],
     },
 }
 
-export const useValueStore = create((set, get) => ({
-    ...inititalState,
+export const valueStore = createStore((set, get) => ({
+    ...initialState,
     getDataValue: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet.dataValues?.[dataElementId]?.[
             categoryOptionComboId
@@ -37,3 +37,7 @@ export const useValueStore = create((set, get) => ({
         return !!dataValue?.comment
     },
 }))
+
+export function useValueStore(selector) {
+    return useStore(valueStore, selector)
+}
