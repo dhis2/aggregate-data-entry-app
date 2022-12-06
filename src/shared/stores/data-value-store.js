@@ -1,4 +1,4 @@
-import { createStore, useStore } from '../zustand/index.js'
+import { createStore, useStore } from 'zustand'
 
 export const initialState = {
     dataValueSet: {
