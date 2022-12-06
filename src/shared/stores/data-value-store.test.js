@@ -1,9 +1,11 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import { initialState, valueStore, useValueStore } from './data-value-store.js'
+import { useValueStore } from './data-value-store.js'
 
 describe('data value store', () => {
+    const initialState = useValueStore.getState()
+
     beforeEach(() => {
-        valueStore.setState(initialState)
+        useValueStore.setState(initialState)
     })
 
     it('should set the data value set', async () => {
@@ -52,7 +54,7 @@ describe('data value store', () => {
             minMaxValues: [],
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
 
         const { result } = renderHook(useValueStore)
 
@@ -69,7 +71,7 @@ describe('data value store', () => {
             completeStatus: { complete: true },
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const actual = result.current.isComplete()
@@ -79,7 +81,7 @@ describe('data value store', () => {
     it('should return false when completeStatus object does not exist', async () => {
         const dataValueSet = {}
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const actual = result.current.isComplete()
@@ -91,7 +93,7 @@ describe('data value store', () => {
             completeStatus: {},
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const actual = result.current.isComplete()
@@ -103,7 +105,7 @@ describe('data value store', () => {
             completeStatus: { complete: false },
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const actual = result.current.isComplete()
@@ -121,7 +123,7 @@ describe('data value store', () => {
             },
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const actual = result.current.hasComment({
@@ -143,7 +145,7 @@ describe('data value store', () => {
             },
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const actual = result.current.hasComment({
@@ -163,7 +165,7 @@ describe('data value store', () => {
             },
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const actual = result.current.hasComment({
@@ -179,7 +181,7 @@ describe('data value store', () => {
             dataValues: {},
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const actual = result.current.hasComment({
@@ -202,7 +204,7 @@ describe('data value store', () => {
             ],
         }
 
-        valueStore.setState({ dataValueSet })
+        useValueStore.setState({ dataValueSet })
         const { result } = renderHook(useValueStore)
 
         const expected = {

@@ -1,13 +1,13 @@
-import { createStore, useStore } from 'zustand'
+import create from 'zustand'
 
-export const initialState = {
+const initialState = {
     dataValueSet: {
         dataValues: {},
         minMaxValues: [],
     },
 }
 
-export const valueStore = createStore((set, get) => ({
+export const useValueStore = create((set, get) => ({
     ...initialState,
     getDataValue: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet.dataValues?.[dataElementId]?.[
@@ -38,7 +38,3 @@ export const valueStore = createStore((set, get) => ({
         return !!dataValue?.comment
     },
 }))
-
-export function useValueStore(selector) {
-    return useStore(valueStore, selector)
-}
