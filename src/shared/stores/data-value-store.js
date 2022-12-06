@@ -15,7 +15,7 @@ export const useValueStore = create((set, get) => ({
         ]
     },
 
-    isComplete: () => get().dataValueSet?.completeStatus?.complete,
+    isComplete: () => !!get().dataValueSet?.completeStatus?.complete,
 
     getDataValues: () => get().dataValueSet?.dataValues,
     setDataValueSet: (values) => set({ dataValueSet: values ?? inititalState }),
