@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
+"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
 "Language-Team: Vietnamese (https://www.transifex.com/hisp-uio/teams/100509/vi/)\n"
@@ -32,15 +32,6 @@ msgstr ""
 msgid "There was a problem loading the user's information"
 msgstr ""
 
-msgid "There is {{pendingMutations}} pending change."
-msgstr ""
-
-msgid "There are {{pendingMutations}} pending changes."
-msgstr ""
-
-msgid "Synced"
-msgstr "Đã đồng bộ"
-
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
@@ -60,6 +51,18 @@ msgstr "Ẩn chi tiết"
 msgid "View details"
 msgstr ""
 
+msgid "1 invalid value not saved"
+msgstr ""
+
+msgid "{{numberOfErrors}} invalid values not saved"
+msgstr ""
+
+msgid "1 value failed to save"
+msgstr ""
+
+msgid "{{numberOfErrors}} values failed to save"
+msgstr ""
+
 msgid "Validation is not available offline"
 msgstr ""
 
@@ -68,12 +71,6 @@ msgstr ""
 
 msgid "Run validation"
 msgstr "Kiểm tra sự hợp lệ"
-
-msgid "1 invalid value not saved"
-msgstr ""
-
-msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
 
 msgid "Last completed by"
 msgstr ""
@@ -194,6 +191,9 @@ msgid "Saved and synced to server"
 msgstr ""
 
 msgid "Waiting to sync, saved locally"
+msgstr ""
+
+msgid "Failed to sync, not saved"
 msgstr ""
 
 msgid "Data item has a comment"
@@ -532,14 +532,23 @@ msgstr ""
 msgid "1 item hidden by filter"
 msgstr ""
 
-msgid ""
-"Something went wrong while setting the form's completion to "
-"\"{{completed}}\": {{errorMessage}}"
+msgid "{{pendingMutations}} change saved locally"
+msgstr ""
+
+msgid "{{pendingMutations}} changes saved locally"
 msgstr ""
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
+msgstr ""
+
+msgid "Selected period is after latest open future period"
+msgstr ""
+
+msgid ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
 msgstr ""
 
 msgid "January"
