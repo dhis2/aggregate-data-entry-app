@@ -40,7 +40,7 @@
         "enzyme-adapter-react-16": "1.15.7",
         "eslint-plugin-cypress": "2.12.1",
         "fake-indexeddb": "4.0.1",
-        "start-server-and-test": "1.15.1"
+        "start-server-and-test": "1.15.2"
     },
     "dependencies": {
         "@dhis2/app-runtime": "3.6.0",
