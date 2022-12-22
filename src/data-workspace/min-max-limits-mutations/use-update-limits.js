@@ -114,7 +114,10 @@ export default function useUpdateLimits(onDone) {
 
             queryClient.setQueryData(
                 context.dataValueSetQueryKey,
-                context.previousDataValueSet
+                // It's important to use `|| {}` here!
+                // When providing `undefined` to `setQueryData`,
+                // no data will be set
+                context.previousDataValueSet || {}
             )
         },
     })
