@@ -30,16 +30,24 @@ export function TestWrapper({
     return <WrapperFromOptions>{content}</WrapperFromOptions>
 }
 
+export function Wrapper({ dataForCustomProvider, children, ...restOptions }) {
+    return (
+        <Provider baseUrl="http://dhis2-tests.org" apiVersion="39">
+            <CustomDataProvider data={dataForCustomProvider}>
+                <TestWrapper {...restOptions}>{children}</TestWrapper>
+            </CustomDataProvider>
+        </Provider>
+    )
+}
+
 export function render(ui, options = {}) {
     const { dataForCustomProvider, ...restOptions } = options
     return renderOrig(ui, {
         ...options,
         wrapper: ({ children }) => (
-            <Provider baseUrl="http://dhis2-tests.org" apiVersion="39">
-                <CustomDataProvider data={dataForCustomProvider}>
-                    <TestWrapper {...restOptions}>{children}</TestWrapper>
-                </CustomDataProvider>
-            </Provider>
+            <Wrapper data={dataForCustomProvider} {...restOptions}>
+                {children}
+            </Wrapper>
         ),
     })
 }
