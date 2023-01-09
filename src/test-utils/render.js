@@ -45,7 +45,10 @@ export function render(ui, options = {}) {
     return renderOrig(ui, {
         ...options,
         wrapper: ({ children }) => (
-            <Wrapper data={dataForCustomProvider} {...restOptions}>
+            <Wrapper
+                {...restOptions}
+                dataForCustomProvider={dataForCustomProvider}
+            >
                 {children}
             </Wrapper>
         ),
