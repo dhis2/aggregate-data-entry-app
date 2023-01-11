@@ -55,8 +55,14 @@ describe('useUpdateLimits', () => {
 
         await waitFor(() => result.current.isSuccess)
 
-        const { queries } = queryClient.queryCache
-        const dataValuesQuery = queries.find(({ queryKey }) => queryKey[0] === 'dataEntry/dataValues')
+        const dataValueSetQueryKey = dataValueSets.byIds({
+            dataSetId: 'ds-id',
+            periodId: 2022,
+            orgUnitId: 'ou-id',
+            categoryComboId: 'cc-id',
+            categoryOptionIds: ['co-id1', 'co-id2'],
+        })
+        const dataValuesQuery = queryClient.queryCache.find({ queryKey: dataValueSetQueryKey })
         const dataValuesQueryData = dataValuesQuery.state.data
 
         expect(dataValuesQueryData).toEqual({
@@ -100,8 +106,14 @@ describe('useUpdateLimits', () => {
 
         await waitFor(() => result.current.isError)
 
-        const { queries } = queryClient.queryCache
-        const dataValuesQuery = queries.find(({ queryKey }) => queryKey[0] === 'dataEntry/dataValues')
+        const dataValueSetQueryKey = dataValueSets.byIds({
+            dataSetId: 'ds-id',
+            periodId: 2022,
+            orgUnitId: 'ou-id',
+            categoryComboId: 'cc-id',
+            categoryOptionIds: ['co-id1', 'co-id2'],
+        })
+        const dataValuesQuery = queryClient.queryCache.find({ queryKey: dataValueSetQueryKey })
         const dataValuesQueryData = dataValuesQuery.state.data
 
         // The original value is `undefined`, but `queryClient.setQueryData`
