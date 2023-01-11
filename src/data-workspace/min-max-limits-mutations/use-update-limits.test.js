@@ -5,26 +5,33 @@ import { dataValueSets } from '../../shared/use-data-value-set/query-key-factory
 import { Wrapper, useTestQueryClient } from '../../test-utils/index.js'
 import useUpdateLimits from './use-update-limits.js'
 
-jest.mock('../../shared/use-data-value-set/use-data-value-set-query-key.js', () => ({
-    __esModule: true,
-    default: jest.fn()
-}))
+jest.mock(
+    '../../shared/use-data-value-set/use-data-value-set-query-key.js',
+    () => ({
+        __esModule: true,
+        default: jest.fn(),
+    })
+)
 
 describe('useUpdateLimits', () => {
-    useDataValueSetQueryKey.mockImplementation(() => dataValueSets.byIds({
-        dataSetId: 'ds-id',
-        periodId: 2022,
-        orgUnitId: 'ou-id',
-        categoryComboId: 'cc-id',
-        categoryOptionIds: ['co-id1', 'co-id2'],
-    }))
+    useDataValueSetQueryKey.mockImplementation(() =>
+        dataValueSets.byIds({
+            dataSetId: 'ds-id',
+            periodId: 2022,
+            orgUnitId: 'ou-id',
+            categoryComboId: 'cc-id',
+            categoryOptionIds: ['co-id1', 'co-id2'],
+        })
+    )
 
     function createQueryClient() {
         // There is no other way of getting the query client right now.
         // The reason is: There is no way to manualy create a new data engine
         // instance (from @dhis2/app-runtime) because the class is not being
         // exported.
-        const { result: { current: queryClient } } = renderHook(useTestQueryClient)
+        const {
+            result: { current: queryClient },
+        } = renderHook(useTestQueryClient)
         return queryClient
     }
 
@@ -62,7 +69,9 @@ describe('useUpdateLimits', () => {
             categoryComboId: 'cc-id',
             categoryOptionIds: ['co-id1', 'co-id2'],
         })
-        const dataValuesQuery = queryClient.queryCache.find({ queryKey: dataValueSetQueryKey })
+        const dataValuesQuery = queryClient.queryCache.find({
+            queryKey: dataValueSetQueryKey,
+        })
         const dataValuesQueryData = dataValuesQuery.state.data
 
         expect(dataValuesQueryData).toEqual({
@@ -73,8 +82,8 @@ describe('useUpdateLimits', () => {
                     orgUnit: 'orgUnitId',
                     minValue: 2,
                     maxValue: 3,
-                }
-            ]
+                },
+            ],
         })
     })
 
@@ -113,7 +122,9 @@ describe('useUpdateLimits', () => {
             categoryComboId: 'cc-id',
             categoryOptionIds: ['co-id1', 'co-id2'],
         })
-        const dataValuesQuery = queryClient.queryCache.find({ queryKey: dataValueSetQueryKey })
+        const dataValuesQuery = queryClient.queryCache.find({
+            queryKey: dataValueSetQueryKey,
+        })
         const dataValuesQueryData = dataValuesQuery.state.data
 
         // The original value is `undefined`, but `queryClient.setQueryData`
@@ -123,7 +134,9 @@ describe('useUpdateLimits', () => {
     })
 
     it('should pass the correct data to the data engine', async () => {
-        const minMaxValuesResolver = jest.fn(() => Promise.resolve({ min: 3, max: 4 }))
+        const minMaxValuesResolver = jest.fn(() =>
+            Promise.resolve({ min: 3, max: 4 })
+        )
         const queryClient = createQueryClient()
         const { result, waitFor } = renderHook(useUpdateLimits, {
             wrapper: ({ children }) => (
@@ -163,7 +176,7 @@ describe('useUpdateLimits', () => {
                 categoryOptionCombo: 'category-option-combo-id',
                 minValue: 2,
                 maxValue: 3,
-            }
+            },
         })
     })
 })
