@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
-"PO-Revision-Date: 2022-12-05T23:56:08.051Z\n"
+"POT-Creation-Date: 2023-01-14T18:11:50.459Z\n"
+"PO-Revision-Date: 2023-01-14T18:11:50.459Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -514,6 +514,9 @@ msgstr "Upload an image"
 
 msgid "Upload a file"
 msgstr "Upload a file"
+
+msgid "Choose option(s)"
+msgstr "Choose option(s)"
 
 msgid "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
