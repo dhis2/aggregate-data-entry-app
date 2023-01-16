@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-01-14T18:11:50.459Z\n"
-"PO-Revision-Date: 2023-01-14T18:11:50.459Z\n"
+"POT-Creation-Date: 2023-03-02T12:32:54.438Z\n"
+"PO-Revision-Date: 2023-03-02T12:32:54.438Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -261,6 +261,9 @@ msgstr "Search org units"
 msgid "Choose a data set first"
 msgstr "Choose a data set first"
 
+msgid "Dataset is not assigned to this organisation unit"
+msgstr "Dataset is not assigned to this organisation unit"
+
 msgid "Organisation unit"
 msgstr "Organisation unit"
 
@@ -269,9 +272,6 @@ msgstr "Choose a organisation unit"
 
 msgid "No organisation units could be found"
 msgstr "No organisation units could be found"
-
-msgid "Dataset is not assigned to this organisation unit"
-msgstr "Dataset is not assigned to this organisation unit"
 
 msgid "No children match filter"
 msgstr "No children match filter"
@@ -566,102 +566,6 @@ msgid ""
 msgstr ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
-
-msgid "January"
-msgstr "January"
-
-msgid "February"
-msgstr "February"
-
-msgid "March"
-msgstr "March"
-
-msgid "April"
-msgstr "April"
-
-msgid "May"
-msgstr "May"
-
-msgid "June"
-msgstr "June"
-
-msgid "July"
-msgstr "July"
-
-msgid "August"
-msgstr "August"
-
-msgid "September"
-msgstr "September"
-
-msgid "October"
-msgstr "October"
-
-msgid "November"
-msgstr "November"
-
-msgid "December"
-msgstr "December"
-
-msgid "Week {{weekNumber}}"
-msgstr "Week {{weekNumber}}"
-
-msgid "Bi-Week {{biWeekNumber}}"
-msgstr "Bi-Week {{biWeekNumber}}"
-
-msgid "Daily"
-msgstr "Daily"
-
-msgid "Weekly"
-msgstr "Weekly"
-
-msgid "Weekly (Start Wednesday)"
-msgstr "Weekly (Start Wednesday)"
-
-msgid "Weekly (Start Thursday)"
-msgstr "Weekly (Start Thursday)"
-
-msgid "Weekly (Start Saturday)"
-msgstr "Weekly (Start Saturday)"
-
-msgid "Weekly (Start Sunday)"
-msgstr "Weekly (Start Sunday)"
-
-msgid "Bi-weekly"
-msgstr "Bi-weekly"
-
-msgid "Monthly"
-msgstr "Monthly"
-
-msgid "Bi-monthly"
-msgstr "Bi-monthly"
-
-msgid "Quarterly"
-msgstr "Quarterly"
-
-msgid "Six-monthly"
-msgstr "Six-monthly"
-
-msgid "Six-monthly April"
-msgstr "Six-monthly April"
-
-msgid "Six-monthly November"
-msgstr "Six-monthly November"
-
-msgid "Yearly"
-msgstr "Yearly"
-
-msgid "Financial year (Start November)"
-msgstr "Financial year (Start November)"
-
-msgid "Financial year (Start October)"
-msgstr "Financial year (Start October)"
-
-msgid "Financial year (Start July)"
-msgstr "Financial year (Start July)"
-
-msgid "Financial year (Start April)"
-msgstr "Financial year (Start April)"
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (disabled)"

@@ -1,6 +1,18 @@
+import { createFixedPeriodFromPeriodId } from '@dhis2/multi-calendar-dates'
 import { useMemo } from 'react'
-import { parsePeriodId } from '../fixed-periods/index.js'
 
 export default function usePeriod(periodId) {
-    return useMemo(() => parsePeriodId(periodId), [periodId])
+    // @TODO(calendar)
+    const calendar = 'gregory'
+    return useMemo(() => {
+        if (!periodId) {
+            return null
+        }
+
+        try {
+            return createFixedPeriodFromPeriodId({ periodId, calendar })
+        } catch (e) {
+            return null
+        }
+    }, [periodId])
 }

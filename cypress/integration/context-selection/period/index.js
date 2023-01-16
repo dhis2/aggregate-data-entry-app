@@ -1,7 +1,7 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 
 Given('a data set has been selected', () => {
-    cy.visit(`/#/?dataSetId=lyLU2wR22tC`)
+    cy.visit(`/#/?dataSetId=Nyh6laLdBEJ`)
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
@@ -177,6 +177,9 @@ Then('the previously selected period should still be selected', () => {
 })
 
 Then('the user should only see options of that type for "monthly"', () => {
+    // go back to prev year to ensure we have a complete list of periods in the
+    // dropdown
+    cy.get('[data-test="yearnavigator-backbutton"]').click()
     cy.get('[data-test="period-selector-menu"] li').should('have.length', 12)
 })
 
@@ -194,18 +197,39 @@ Then('the user should only see options of that type for "yearly"', () => {
 })
 
 Then('the user should only see options of that type for "quarterly"', () => {
+    // go back to prev year to ensure we have a complete list of periods in the
+    // dropdown
+    cy.get('[data-test="yearnavigator-backbutton"]').click()
     cy.get('[data-test="period-selector-menu"] li').should('have.length', 4)
 })
 
 Then('the user should only see options of that type for "sixMonthly"', () => {
+    // go back to prev year to ensure we have a complete list of periods in the
+    // dropdown
+    cy.get('[data-test="yearnavigator-backbutton"]').click()
     cy.get('[data-test="period-selector-menu"] li').should('have.length', 2)
 })
 
 Then(
     'the user should only see options of that type for "financialApril"',
     () => {
-        const currentYear = new Date().getFullYear()
-        const yearsToBeDisplayed = currentYear - 1970 + 2 // year of 0-timestamp, 2 openFuturePeriods for dataset
+        const currentDate = new Date()
+        const currentYear = currentDate.getFullYear()
+        const currentMonth = currentDate.getMonth()
+        const beforeApril = currentMonth < 3 // 0-based index
+
+        // When current date before april,
+        // the future periods only span into the next year
+        // 2 openFuturePeriods for dataset
+        //   -> before April => current period + 1 extra year
+        //   -> after March => curent period (reaching into next year) + 2
+        //      extra years (reaching into the year after the next year)
+        const extraYears = beforeApril ? 1 : 2
+
+        // year of 0-timestamp,
+        // 2 openFuturePeriods for dataset -> current period + 1 extra year
+        const yearsToBeDisplayed = currentYear - 1970 + extraYears
+
         cy.get('[data-test="period-selector-menu"] li').should(
             'have.length',
             yearsToBeDisplayed
@@ -213,7 +237,10 @@ Then(
     }
 )
 
-// count varies by year; for 2021: 53 weeks
+// count varies by year; for 2021: 52 weeks
 Then('the user should only see options of that type for "weekly"', () => {
-    cy.get('[data-test="period-selector-menu"] li').should('have.length', 53)
+    // go back to prev year to ensure we have a complete list of periods in the
+    // dropdown
+    cy.get('[data-test="yearnavigator-backbutton"]').click()
+    cy.get('[data-test="period-selector-menu"] li').should('have.length', 52)
 })

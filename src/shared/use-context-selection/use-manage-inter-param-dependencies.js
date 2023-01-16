@@ -1,9 +1,10 @@
 import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
+import { createFixedPeriodFromPeriodId } from '@dhis2/multi-calendar-dates'
 import { useEffect, useState } from 'react'
 import { useClientServerDateUtils } from '../date/index.js'
-import { parsePeriodId } from '../fixed-periods/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
+import { periodTypesMapping } from '../period/index.js'
 import { filterObject } from '../utils.js'
 import {
     usePeriodId,
@@ -22,16 +23,29 @@ export default function useManageInterParamDependencies() {
 }
 
 function convertPeriodIdToPeriodType(periodId) {
+    // @TODO(calendar)
+    const calendar = 'gregory'
+
     if (!periodId) {
         return ''
     }
 
-    return parsePeriodId(periodId)?.periodType?.type || ''
+    // Prevents invalid periods from throwing a runtime error. If this happens,
+    // the app simply dismisses the invalid period id and notifies the user
+    try {
+        const periodType = createFixedPeriodFromPeriodId({
+            periodId,
+            calendar,
+        })?.periodType
+        return periodType || ''
+    } catch (e) {
+        return ''
+    }
 }
 
 function useHandleDataSetIdChange() {
     const [periodId, setPeriodId] = usePeriodId()
-    const [previousPeriodType, setPreviousPeriodType] = useState(
+    const [previousPeriodType, setPreviousPeriodType] = useState(() =>
         convertPeriodIdToPeriodType(periodId)
     )
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
@@ -43,8 +57,9 @@ function useHandleDataSetIdChange() {
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
     const {
         organisationUnits: assignedOrgUnits,
-        periodType: dataSetPeriodType,
+        periodType: dataSetPeriodTypeRaw,
     } = selectors.getDataSetById(metadata, dataSetId) || {}
+    const dataSetPeriodType = periodTypesMapping[dataSetPeriodTypeRaw]
 
     const { show: showWarningAlert } = useAlert((message) => message, {
         warning: true,
