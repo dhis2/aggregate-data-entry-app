@@ -1,7 +1,7 @@
 import create from 'zustand'
 
 export const useHighlightedFieldStore = create((set, get) => ({
-    highlightedField: null,
+    highlightedFieldId: null,
 
     /**
      *

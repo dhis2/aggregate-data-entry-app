@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-const inititalState = {
+const initialState = {
     dataValueSet: {
         dataValues: {},
         minMaxValues: [],
@@ -8,17 +8,20 @@ const inititalState = {
 }
 
 export const useValueStore = create((set, get) => ({
-    ...inititalState,
+    ...initialState,
     getDataValue: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet.dataValues?.[dataElementId]?.[
             categoryOptionComboId
         ]
     },
 
-    isComplete: () => get().dataValueSet?.completeStatus?.complete,
+    isComplete: () => !!get().dataValueSet?.completeStatus?.complete,
 
     getDataValues: () => get().dataValueSet?.dataValues,
-    setDataValueSet: (values) => set({ dataValueSet: values ?? inititalState }),
+    setDataValueSet: (values) =>
+        set({
+            dataValueSet: values ?? initialState.dataValueSet,
+        }),
     getMinMaxValues: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet?.minMaxValues?.find(
             (minMaxValue) =>

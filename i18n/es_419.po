@@ -1,20 +1,19 @@
 # 
 # Translators:
-# phil_dhis2, 2022
-# Viktor Varland <viktor@dhis2.org>, 2022
+# Jaime Bosque <jaime.bosque@dhis2.org>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
+"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
-"Language-Team: Tajik (https://www.transifex.com/hisp-uio/teams/100509/tg/)\n"
+"Last-Translator: Jaime Bosque <jaime.bosque@dhis2.org>, 2022\n"
+"Language-Team: Spanish (Latin America) (https://www.transifex.com/hisp-uio/teams/100509/es_419/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tg\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_419\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid "Not authorized"
 msgstr ""
@@ -28,15 +27,6 @@ msgid "There was a problem loading metadata"
 msgstr ""
 
 msgid "There was a problem loading the user's information"
-msgstr ""
-
-msgid "There is {{pendingMutations}} pending change."
-msgstr ""
-
-msgid "There are {{pendingMutations}} pending changes."
-msgstr ""
-
-msgid "Synced"
 msgstr ""
 
 msgid ""
@@ -53,9 +43,21 @@ msgid "Mark complete"
 msgstr ""
 
 msgid "Hide details"
-msgstr "Пинҳон кардани маълумоти муфассал"
+msgstr ""
 
 msgid "View details"
+msgstr ""
+
+msgid "1 invalid value not saved"
+msgstr ""
+
+msgid "{{numberOfErrors}} invalid values not saved"
+msgstr ""
+
+msgid "1 value failed to save"
+msgstr ""
+
+msgid "{{numberOfErrors}} values failed to save"
 msgstr ""
 
 msgid "Validation is not available offline"
@@ -65,12 +67,6 @@ msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
-msgstr "Иҷро кардани санҷиши эътибор"
-
-msgid "1 invalid value not saved"
-msgstr ""
-
-msgid "{{numberOfErrors}} invalid values not saved"
 msgstr ""
 
 msgid "Last completed by"
@@ -113,7 +109,7 @@ msgid "{{length}} {{level}} priority alerts"
 msgstr ""
 
 msgid "Validation"
-msgstr "Санҷиши эътибор"
+msgstr ""
 
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
@@ -171,7 +167,7 @@ msgid ""
 msgstr ""
 
 msgid "Hide menu"
-msgstr "Пинҳон кардани меню"
+msgstr ""
 
 msgid "Default attribute combo"
 msgstr ""
@@ -194,6 +190,9 @@ msgstr ""
 msgid "Waiting to sync, saved locally"
 msgstr ""
 
+msgid "Failed to sync, not saved"
+msgstr ""
+
 msgid "Data item has a comment"
 msgstr ""
 
@@ -204,16 +203,16 @@ msgid "Locked, not editable"
 msgstr ""
 
 msgid "Help"
-msgstr "Кӯмак"
+msgstr ""
 
 msgid "or"
-msgstr "ё"
+msgstr ""
 
 msgid "Shortcuts"
 msgstr ""
 
 msgid "Show details"
-msgstr "Нишон додани маълумоти муфассал"
+msgstr ""
 
 msgid "Ctrl + Enter"
 msgstr ""
@@ -240,7 +239,7 @@ msgid "There are no data sets available!"
 msgstr ""
 
 msgid "Data set"
-msgstr "Маҷмӯи иттилоот"
+msgstr ""
 
 msgid "Print form with values"
 msgstr ""
@@ -249,7 +248,7 @@ msgid "Print empty form"
 msgstr ""
 
 msgid "Options"
-msgstr "Имконот"
+msgstr ""
 
 msgid "Search org units"
 msgstr ""
@@ -258,7 +257,7 @@ msgid "Choose a data set first"
 msgstr ""
 
 msgid "Organisation unit"
-msgstr "Воҳиди сохторӣ"
+msgstr ""
 
 msgid "Choose a organisation unit"
 msgstr ""
@@ -288,7 +287,7 @@ msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
-msgstr "Давра"
+msgstr "Periodo"
 
 msgid "Choose a period"
 msgstr ""
@@ -297,7 +296,7 @@ msgid "All sections"
 msgstr ""
 
 msgid "Section"
-msgstr "Қисм"
+msgstr ""
 
 msgid "Fetching data set info"
 msgstr ""
@@ -309,10 +308,10 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr "Қимат"
+msgstr "Valor"
 
 msgid "Totals"
-msgstr "Ҳамагӣ"
+msgstr ""
 
 msgid "Audit log"
 msgstr ""
@@ -357,7 +356,7 @@ msgid "Marked for follow-up"
 msgstr ""
 
 msgid "Comment"
-msgstr "Шарҳ"
+msgstr ""
 
 msgid "There was a problem updating the comment for this data item"
 msgstr ""
@@ -369,10 +368,10 @@ msgid "Saving..."
 msgstr ""
 
 msgid "Save comment"
-msgstr "Захира кардани шарҳ"
+msgstr ""
 
 msgid "Cancel"
-msgstr "Бекор кардан"
+msgstr "Cancelar"
 
 msgid "Edit comment"
 msgstr ""
@@ -387,7 +386,7 @@ msgid "You do not have the authority to add or edit comments"
 msgstr ""
 
 msgid "Details"
-msgstr "Маълумоти муфассал"
+msgstr "Detalles"
 
 msgid "History"
 msgstr ""
@@ -414,10 +413,10 @@ msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
-msgstr "Мин"
+msgstr ""
 
 msgid "Max"
-msgstr "Макс"
+msgstr "Máx"
 
 msgid "Min and max limits"
 msgstr ""
@@ -484,22 +483,22 @@ msgid "Clear filter"
 msgstr ""
 
 msgid "Indicators"
-msgstr "Индикаторҳо"
+msgstr "Indicadores"
 
 msgid "Values"
-msgstr ""
+msgstr "Valores"
 
 msgid "Yes"
-msgstr "Ҳа"
+msgstr "Sí"
 
 msgid "No"
-msgstr "Не"
+msgstr "No"
 
 msgid "Clear"
-msgstr "Пок кардан"
+msgstr "Limpiar"
 
 msgid "Delete"
-msgstr "Нест кардан"
+msgstr "Borrar"
 
 msgid "Upload an image"
 msgstr ""
@@ -530,9 +529,10 @@ msgstr ""
 msgid "1 item hidden by filter"
 msgstr ""
 
-msgid ""
-"Something went wrong while setting the form's completion to "
-"\"{{completed}}\": {{errorMessage}}"
+msgid "{{pendingMutations}} change saved locally"
+msgstr ""
+
+msgid "{{pendingMutations}} changes saved locally"
 msgstr ""
 
 msgid ""
@@ -540,41 +540,49 @@ msgid ""
 "the FE"
 msgstr ""
 
+msgid "Selected period is after latest open future period"
+msgstr ""
+
+msgid ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
+msgstr ""
+
 msgid "January"
-msgstr "Январ"
+msgstr ""
 
 msgid "February"
-msgstr "Феврал"
+msgstr ""
 
 msgid "March"
-msgstr "Март"
+msgstr ""
 
 msgid "April"
-msgstr "Апрел"
+msgstr ""
 
 msgid "May"
-msgstr "Май"
+msgstr ""
 
 msgid "June"
-msgstr "Июн"
+msgstr ""
 
 msgid "July"
-msgstr "Июл"
+msgstr ""
 
 msgid "August"
-msgstr "Август"
+msgstr ""
 
 msgid "September"
-msgstr "Сентябр"
+msgstr ""
 
 msgid "October"
-msgstr "Октябр"
+msgstr ""
 
 msgid "November"
-msgstr "Ноябр"
+msgstr ""
 
 msgid "December"
-msgstr "Декабр"
+msgstr ""
 
 msgid "Week {{weekNumber}}"
 msgstr ""
@@ -583,10 +591,10 @@ msgid "Bi-Week {{biWeekNumber}}"
 msgstr ""
 
 msgid "Daily"
-msgstr "Ҳаррӯза"
+msgstr "Diario"
 
 msgid "Weekly"
-msgstr "Ҳафтаина"
+msgstr "Semanal"
 
 msgid "Weekly (Start Wednesday)"
 msgstr ""
@@ -604,16 +612,16 @@ msgid "Bi-weekly"
 msgstr ""
 
 msgid "Monthly"
-msgstr "Моҳона"
+msgstr "Mensual"
 
 msgid "Bi-monthly"
-msgstr "Ду маротиба дар як моҳ"
+msgstr ""
 
 msgid "Quarterly"
-msgstr "Семоҳа"
+msgstr ""
 
 msgid "Six-monthly"
-msgstr "Шашмоҳа"
+msgstr ""
 
 msgid "Six-monthly April"
 msgstr ""
@@ -622,7 +630,7 @@ msgid "Six-monthly November"
 msgstr ""
 
 msgid "Yearly"
-msgstr "Солона"
+msgstr "Anual"
 
 msgid "Financial year (Start November)"
 msgstr ""

@@ -1,7 +1,7 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
-const inititalState = {
+export const inititalState = {
     comments: {},
     limits: {},
 }

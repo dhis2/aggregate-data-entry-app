@@ -12,7 +12,7 @@ name: 'dhis2: netlify deploy production'
 on:
     push:
         branches:
-            - development
+            - master
 
 concurrency:
     group: ${{ github.workflow}}-${{ github.ref }}
@@ -22,12 +22,12 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: 16.x
+                  cache: yarn
 
-            - uses: c-hive/gha-yarn-cache@v1
             - run: yarn install --frozen-lockfile
 
             - name: Build
@@ -35,7 +35,7 @@ jobs:
 
             - name: Deploy
               id: netlify-deploy
-              uses: nwtgck/actions-netlify@v1.2.2
+              uses: nwtgck/actions-netlify@v2
               timeout-minutes: 1
               with:
                   github-token: ${{ secrets.DHIS2_BOT_GITHUB_TOKEN }}
@@ -45,7 +45,7 @@ jobs:
                   enable-pull-request-comment: false
                   enable-commit-comment: true
                   enable-commit-status: true
-                  production-branch: development
+                  production-branch: master
                   production-deploy: true
                   # customize according to project needs
                   publish-dir: 'build/app'

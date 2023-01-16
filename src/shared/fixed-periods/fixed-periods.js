@@ -3,6 +3,26 @@ import getCurrentDate from './get-current-date.js'
 
 export const startYear = 1970
 
+// Period types
+export const DAILY = 'Daily'
+export const WEEKLY = 'Weekly'
+export const WEEKLY_WEDNESDAY = 'WeeklyWednesday'
+export const WEEKLY_THURSDAY = 'WeeklyThursday'
+export const WEEKLY_SATURDAY = 'WeeklySaturday'
+export const WEEKLY_SUNDAY = 'WeeklySunday'
+export const BI_WEEKLY = 'BiWeekly'
+export const MONTHLY = 'Monthly'
+export const BI_MONTHLY = 'BiMonthly'
+export const QUARTERLY = 'Quarterly'
+export const SIX_MONTHLY = 'SixMonthly'
+export const SIX_MONTHLY_APRIL = 'SixMonthlyApril'
+export const SIX_MONTHLY_NOV = 'SixMonthlyNov'
+export const YEARLY = 'Yearly'
+export const FINANCIAL_APRIL = 'FinancialApril'
+export const FINANCIAL_JULY = 'FinancialJuly'
+export const FINANCIAL_OCT = 'FinancialOct'
+export const FINANCIAL_NOV = 'FinancialNov'
+
 export function getYearlyPeriodIdForTypeAndYear(type, year) {
     const yearStr = year.toString()
 
@@ -76,8 +96,43 @@ const createUpdateFullPeriodTimeToDate = (multiplier) => {
     }
 }
 
+const monthlyCounts = {
+    [MONTHLY]: 1,
+    [BI_MONTHLY]: 2,
+    [QUARTERLY]: 3,
+    [SIX_MONTHLY]: 6,
+    [SIX_MONTHLY_APRIL]: 6,
+    [SIX_MONTHLY_NOV]: 6,
+}
+
+const monthlyPeriodTypes = Object.keys(monthlyCounts)
+
+const getPreviousMonthNumber = (startMonth, periodType) => {
+    const monthsToRemove = monthlyCounts[periodType]
+    const monthDifference = startMonth - monthsToRemove
+    if (monthDifference < 0) {
+        return monthDifference + 12
+    }
+    return monthDifference
+}
+
 export const addFullPeriodTimeToDate = createUpdateFullPeriodTimeToDate(1)
-export const removeFullPeriodTimeToDate = createUpdateFullPeriodTimeToDate(-1)
+export const removeFullPeriodTimeToDate = (originalDate, periodType) => {
+    const naiveRemoveFullPeriodTimeToDate = createUpdateFullPeriodTimeToDate(-1)
+    const updatedDate = naiveRemoveFullPeriodTimeToDate(
+        originalDate,
+        periodType
+    )
+    if (monthlyPeriodTypes.includes(periodType)) {
+        while (
+            updatedDate.getMonth() !==
+            getPreviousMonthNumber(originalDate.getMonth(), periodType)
+        ) {
+            updatedDate.setDate(updatedDate.getDate() - 1)
+        }
+    }
+    return updatedDate
+}
 
 /*
  * This code is copied from the analytics repo as a temporary solution.
@@ -90,26 +145,6 @@ export const removeFullPeriodTimeToDate = createUpdateFullPeriodTimeToDate(-1)
  *   C. Adjusted period type variable names to equivalent of B, but in UPPER_SNAKE_CASE
  * IMO these changes should be implemented in the period package too
  */
-
-// Period types
-export const DAILY = 'Daily'
-export const WEEKLY = 'Weekly'
-export const WEEKLY_WEDNESDAY = 'WeeklyWednesday'
-export const WEEKLY_THURSDAY = 'WeeklyThursday'
-export const WEEKLY_SATURDAY = 'WeeklySaturday'
-export const WEEKLY_SUNDAY = 'WeeklySunday'
-export const BI_WEEKLY = 'BiWeekly'
-export const MONTHLY = 'Monthly'
-export const BI_MONTHLY = 'BiMonthly'
-export const QUARTERLY = 'Quarterly'
-export const SIX_MONTHLY = 'SixMonthly'
-export const SIX_MONTHLY_APRIL = 'SixMonthlyApril'
-export const SIX_MONTHLY_NOV = 'SixMonthlyNov'
-export const YEARLY = 'Yearly'
-export const FINANCIAL_APRIL = 'FinancialApril'
-export const FINANCIAL_JULY = 'FinancialJuly'
-export const FINANCIAL_OCT = 'FinancialOct'
-export const FINANCIAL_NOV = 'FinancialNov'
 
 const isValidDate = (date) => !isNaN(date.getTime())
 
@@ -287,8 +322,9 @@ const getBiWeeklyPeriodType = (formatYyyyMmDd, fnFilter) => {
                 biWeekNumber,
             })} - ${period.startDate} - ${period.endDate}`
 
-            // if end date is Jan 4th or later, biweek belongs to next year
-            if (date.getFullYear() > year && date.getDate() >= 4) {
+            // if end date is Jan 11th or later, biweek belongs to next year
+            // Jan 11 is used because week 1 (Jan 4) may need to be included in previous year's biweeks
+            if (date.getFullYear() > year && date.getDate() >= 11) {
                 break
             }
 

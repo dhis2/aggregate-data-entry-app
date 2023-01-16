@@ -1,4 +1,4 @@
-name: 'dhis2: netlify deploy pr'
+name: 'dhis2: netlify deploy branch'
 
 # Requirements:
 #
@@ -10,7 +10,9 @@ name: 'dhis2: netlify deploy pr'
 # - Customize the 'jobs.build.steps.netlify-deploy.publish-dir' property
 
 on:
-    pull_request:
+    push:
+        branches:
+            - development
 
 concurrency:
     group: ${{ github.workflow}}-${{ github.ref }}
@@ -19,7 +21,6 @@ concurrency:
 jobs:
     deploy:
         runs-on: ubuntu-latest
-        if: "!github.event.push.repository.fork && github.actor != 'dependabot[bot]'"
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
@@ -39,12 +40,13 @@ jobs:
               with:
                   github-token: ${{ secrets.DHIS2_BOT_GITHUB_TOKEN }}
                   github-deployment-environment: 'netlify'
-                  github-deployment-description: 'PR Preview on Netlify'
-                  deploy-message: ${{ github.event.pull_request.title }}
-                  enable-pull-request-comment: true
+                  github-deployment-description: 'Branch Deploy on Netlify'
+                  deploy-message: Github actions branch deploy
+                  enable-pull-request-comment: false
                   enable-commit-comment: true
                   enable-commit-status: true
-                  alias: pr-${{ github.event.number }}
+                  production-deploy: false
+                  alias: ${{ github.ref_name }}
                   # customize according to project needs
                   publish-dir: 'build/app'
               env:

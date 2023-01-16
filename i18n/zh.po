@@ -1,14 +1,14 @@
 # 
 # Translators:
-# Viktor Varland <viktor@dhis2.org>, 2022
 # 晓东 林 <13981924470@126.com>, 2022
 # phil_dhis2, 2022
+# Viktor Varland <viktor@dhis2.org>, 2022
 # easylin <lin_xd@126.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-09-30T09:14:01.095Z\n"
+"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: easylin <lin_xd@126.com>, 2022\n"
 "Language-Team: Chinese (https://www.transifex.com/hisp-uio/teams/100509/zh/)\n"
@@ -29,17 +29,12 @@ msgstr "您无权访问数据审批应用程序。请联系系统管理员以请
 msgid "There was a problem loading metadata"
 msgstr "加载元数据时出现问题"
 
-msgid "The metadata response is invalid"
-msgstr ""
+msgid "There was a problem loading the user's information"
+msgstr "加载用户信息时出现问题"
 
-msgid "There is {{pendingMutations}} pending change."
-msgstr "有 {{pendingMutations}} 待更改。"
-
-msgid "There are {{pendingMutations}} pending changes."
-msgstr "有 {{pendingMutations}} 个待定更改。"
-
-msgid "Synced"
-msgstr "已同步"
+msgid ""
+"Session Expired. Please reload to log in again. You will not lose any data."
+msgstr "会话已过期。请重新加载以重新登录。您不会丢失任何数据。"
 
 msgid "Couldn't incomplete the form, please try again later"
 msgstr "无法完成表单，请稍后再试"
@@ -56,20 +51,26 @@ msgstr "隐藏细节"
 msgid "View details"
 msgstr "查看详情"
 
-msgid "Validation is not available offline"
-msgstr ""
-
-msgid "Validation is not available while changes are pending"
-msgstr ""
-
-msgid "Run validation"
-msgstr "进行验证"
-
 msgid "1 invalid value not saved"
 msgstr "1 个无效值未保存"
 
 msgid "{{numberOfErrors}} invalid values not saved"
 msgstr "{{numberOfErrors}} 个无效值未保存"
+
+msgid "1 value failed to save"
+msgstr ""
+
+msgid "{{numberOfErrors}} values failed to save"
+msgstr ""
+
+msgid "Validation is not available offline"
+msgstr "验证不可用离线"
+
+msgid "Validation is not available while changes are pending"
+msgstr "更改未决时验证不可用"
+
+msgid "Run validation"
+msgstr "进行验证"
 
 msgid "Last completed by"
 msgstr "最后完成者"
@@ -116,7 +117,7 @@ msgstr "验证"
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
 " Run validation again to check the current data."
-msgstr ""
+msgstr "输入表单中的数据已更改，因此验证输出可能不正确。再次运行验证以检查当前数据。"
 
 msgid "Run validation again"
 msgstr "再次运行验证"
@@ -151,6 +152,11 @@ msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
 msgstr "某些类别对于所选期间或组织单位 ({{categories}}) 没有有效选项"
+
+msgid ""
+"There was a problem loading the {{objectType}} selection ({{id}}). You might"
+" not have access, or the selection might be invalid."
+msgstr "加载 {{objectType}} 选择 ({{id}}) 时出现问题。您可能没有访问权限，或者选择可能无效。"
 
 msgid "Choose a data set"
 msgstr "选择一个数据集"
@@ -187,6 +193,9 @@ msgstr "保存并同步到服务器"
 msgid "Waiting to sync, saved locally"
 msgstr "等待同步，本地保存"
 
+msgid "Failed to sync, not saved"
+msgstr ""
+
 msgid "Data item has a comment"
 msgstr "数据项有评论"
 
@@ -198,6 +207,9 @@ msgstr "已锁定，不可编辑"
 
 msgid "Help"
 msgstr "帮助"
+
+msgid "or"
+msgstr "或"
 
 msgid "Shortcuts"
 msgstr "捷径"
@@ -274,6 +286,9 @@ msgstr "获取组织单位信息"
 msgid "Error occurred while loading organisation unit info"
 msgstr "加载组织单位信息时出错"
 
+msgid "The Period ({{id}}) is not open or is invalid."
+msgstr "期间 ({{id}}) 未打开或无效。"
+
 msgid "Period"
 msgstr "期间"
 
@@ -293,7 +308,7 @@ msgid "Error occurred while loading data set info"
 msgstr "加载数据集信息时出错"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
-msgstr ""
+msgstr "自定义表单无法离线使用。 {{错误}}"
 
 msgid "Value"
 msgstr "值"
@@ -323,7 +338,7 @@ msgid "Empty values can't be marked for follow -up"
 msgstr "空值不能标记为跟进"
 
 msgid "You do not have the authority to mark this value for follow -up"
-msgstr ""
+msgstr "您无权将此值标记为后续跟进"
 
 msgid "Description: {{- description}}"
 msgstr "说明：{{-说明}}"
@@ -347,7 +362,7 @@ msgid "Comment"
 msgstr "评论"
 
 msgid "There was a problem updating the comment for this data item"
-msgstr ""
+msgstr "更新此数据项的评论时出现问题"
 
 msgid "Choose an option"
 msgstr "选择一个选项"
@@ -371,7 +386,7 @@ msgid "No comment for this data item."
 msgstr "对此数据项无评论。"
 
 msgid "You do not have the authority to add or edit comments"
-msgstr ""
+msgstr "您无权添加或编辑评论"
 
 msgid "Details"
 msgstr "详情"
@@ -392,13 +407,13 @@ msgid "Delete limits"
 msgstr "删除限制"
 
 msgid "You do not have the authority to delete limits"
-msgstr ""
+msgstr "您无权删除限制"
 
 msgid "Edit limits"
 msgstr "编辑限制"
 
 msgid "You do not have the authority to add limits"
-msgstr ""
+msgstr "您无权添加限制"
 
 msgid "Min"
 msgstr "最小"
@@ -445,10 +460,21 @@ msgid "Data cannot be added or changed because data has been approved."
 msgstr "由于数据已获批准，因此无法添加或更改数据。"
 
 msgid "You do not have the authority to edit entry forms"
-msgstr ""
+msgstr "您无权编辑参赛表格"
 
 msgid "Data set locked"
 msgstr "数据集锁定"
+
+msgid "Get started with data entry"
+msgstr "开始输入数据"
+
+msgid ""
+"Choose a data set, organisation unit, and period from the top bar to start "
+"entering data"
+msgstr "从顶部栏中选择数据集、组织单位和时间段以开始输入数据"
+
+msgid "Learn more about data entry"
+msgstr "了解有关数据输入的更多信息"
 
 msgid "Filter fields in all sections"
 msgstr "过滤所有部分中的字段"
@@ -506,15 +532,24 @@ msgstr "在此处键入以在此部分中过滤"
 msgid "1 item hidden by filter"
 msgstr "1 项被过滤器隐藏"
 
-msgid ""
-"Something went wrong while setting the form's completion to "
-"\"{{completed}}\": {{errorMessage}}"
-msgstr "将表单的完成设置为“{{completed}}”时出现问题：{{errorMessage}}"
+msgid "{{pendingMutations}} change saved locally"
+msgstr ""
+
+msgid "{{pendingMutations}} changes saved locally"
+msgstr ""
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
 msgstr "在这里，我们可以使用 FE 中的自定义消息覆盖 E2017 错误消息"
+
+msgid "Selected period is after latest open future period"
+msgstr ""
+
+msgid ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
+msgstr "将表单的完成设置为“{{completed}}”时出现问题：{{errorMessage}}"
 
 msgid "January"
 msgstr "一月"
