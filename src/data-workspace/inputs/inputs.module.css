@@ -61,9 +61,10 @@
     flex-grow: 1;
 }
 
-.select {
-    max-width: 150px;
+.selectMulti {
+    max-width: 40vw;
 }
+
 
 .fileInputWrapper {
     composes: hw100 densePadding;

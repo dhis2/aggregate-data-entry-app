@@ -6,6 +6,7 @@ import {
     MultiSelectOption,
     SingleSelectOption,
 } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useField } from 'react-final-form'
@@ -16,6 +17,15 @@ import {
 } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
+
+const MULTI_TEXT_SEPERATOR = ','
+
+// This is used to preserve the order of the optionSet for the selected options
+const createSortByOptionsOrder = (options) => (a, b) => {
+    const aIndex = options.findIndex((option) => option.code === a)
+    const bIndex = options.findIndex((option) => option.code === b)
+    return aIndex - bIndex
+}
 
 export const OptionSet = ({
     fieldname,
@@ -29,10 +39,21 @@ export const OptionSet = ({
     locked,
     multi,
 }) => {
+    const { data: metadata } = useMetadata()
+    const optionSet = selectors.getOptionSetById(metadata, optionSetId)
+    // filter out 'null' options
+    const options = optionSet.options.filter((opt) => !!opt)
+    const sortByOptionsOrder = createSortByOptionsOrder(options)
+
     const parse = (value) => {
-        console.log('parse', value)
         if (multi) {
-            return (value && value.join(',')) || ''
+            return (
+                (value &&
+                    value
+                        .sort(sortByOptionsOrder)
+                        .join(MULTI_TEXT_SEPERATOR)) ||
+                ''
+            )
         } else {
             // Empty values need an empty string
             return value || ''
@@ -44,20 +65,20 @@ export const OptionSet = ({
         meta: { data },
     } = useField(fieldname, {
         subscription: { value: true, data: true },
+        // format applies to the input.value
         format:
             // format to an array when multi, since component needs an array
             multi
                 ? (value) => {
-                      console.log({ value })
-                      const formatted = (value && value.split(',')) || []
-                      return formatted
+                      const formatted =
+                          (value && value.split(MULTI_TEXT_SEPERATOR)) || []
+                      return formatted.sort(sortByOptionsOrder)
                   }
                 : undefined,
+        // parse happens after onChange, and applies to the value saved in the internal form state
         // parse from array to a string, since the api expects a string
-        parse: multi ? parse : undefined,
+        parse,
     })
-
-    const { data: metadata } = useMetadata()
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (value) => {
@@ -83,25 +104,19 @@ export const OptionSet = ({
         }
     }
 
-    const optionSet = selectors.getOptionSetById(metadata, optionSetId)
-    // filter out 'null' options
-    const options = optionSet.options.filter((opt) => !!opt)
-
     const SelectComponent = multi ? MultiSelect : SingleSelect
     const SelectOptionComponent = multi ? MultiSelectOption : SingleSelectOption
     const placeholder = multi
         ? i18n.t('Choose option(s)')
         : i18n.t('Choose an option')
-    // if(multi) {
-    //     return <MultiSelectOptionSet options={options} input={input} disabled={disabled || locked} />
-    // }
+
     // todo: onBlur handler doesn't work, meaning the cell stays active.
     return (
         <div className={styles.selectFlexWrapper} onClick={onFocus}>
             <div className={styles.selectFlexItem}>
                 <SelectComponent
                     dense
-                    className={styles.select}
+                    className={cx({ [styles.selectMulti]: multi })}
                     name={input.name}
                     placeholder={placeholder}
                     selected={input.value || ''}
@@ -118,7 +133,6 @@ export const OptionSet = ({
                     onKeyDown={onKeyDown}
                     onBlur={() => input.onBlur()}
                     disabled={disabled || locked}
-                    inputMaxHeight={'24px'}
                 >
                     {options.map(({ id, code, displayName }) => (
                         <SelectOptionComponent
