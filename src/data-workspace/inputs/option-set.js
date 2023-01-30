@@ -72,7 +72,7 @@ export const OptionSet = ({
                 ? (value) => {
                       const formatted =
                           (value && value.split(MULTI_TEXT_SEPERATOR)) || []
-                      return formatted.sort(sortByOptionsOrder)
+                      return formatted
                   }
                 : undefined,
         // parse happens after onChange, and applies to the value saved in the internal form state
