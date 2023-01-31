@@ -129,7 +129,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
                             {!orgUnitPathsByNameLoading &&
                                 !!filter &&
                                 !filteredOrgUnitPaths.length && (
-                                    <div dataTest="org-unit-selector-none-found">
+                                    <div data-test="org-unit-selector-none-found">
                                         {i18n.t(
                                             'No organisation units could be found'
                                         )}
