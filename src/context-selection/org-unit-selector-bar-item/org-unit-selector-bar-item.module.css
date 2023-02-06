@@ -1,23 +1,25 @@
 .itemContentContainer {
-    width: 400px;
+    min-width: 400px;
     min-height: 280px;
     max-height: 70vh;
     display: flex;
-    padding: var(--spacers-dp8);
     flex-direction: column;
 }
 
 .searchInputContainer {
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--colors-grey300);
-    margin-bottom: 8px;
+    padding: var(--spacers-dp8) var(--spacers-dp8) 0;
     flex-grow: 0;
+}
+
+.dividerContainer {
+    flex-shrink: 0;
 }
 
 .orgUnitTreeContainer {
     flex-grow: 1;
     overflow: hidden;
     overflow-y: auto;
+    padding-left: var(--spacers-dp8);
 }
 
 .labelContentContainer {
@@ -36,11 +38,5 @@
 
 .disabled {
     color: var(--theme-disabled);
-    cursor: not-allowed;
-    display: flex;
-    align-items: center;
-}
-
-.disabled span {
-    margin-left: var(--spacers-dp4);
+    cursor: auto;
 }
