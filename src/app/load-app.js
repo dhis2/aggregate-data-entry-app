@@ -34,6 +34,7 @@ const LoadApp = ({ children }) => {
     }
 
     if (userInfo.isError) {
+        console.error(userInfo.error.message, userInfo.error.details)
         return (
             <NoticeBox
                 error
@@ -42,7 +43,7 @@ const LoadApp = ({ children }) => {
                     "There was a problem loading the user's information"
                 )}
             >
-                {userInfo.error}
+                {userInfo.error.message}
             </NoticeBox>
         )
     }
