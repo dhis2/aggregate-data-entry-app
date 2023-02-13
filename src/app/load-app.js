@@ -21,13 +21,14 @@ const LoadApp = ({ children }) => {
     }
 
     if (metadata.isError) {
+        console.error(metadata.error.message, metadata.error.details)
         return (
             <NoticeBox
                 error
                 className={css.noticeBoxWrapper}
                 title={i18n.t('There was a problem loading metadata')}
             >
-                {metadata.error}
+                {metadata.error.message}
             </NoticeBox>
         )
     }
