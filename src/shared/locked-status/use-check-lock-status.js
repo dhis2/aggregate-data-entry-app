@@ -11,32 +11,6 @@ import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 
-const isDataInputPeriodLocked = ({
-    dataSetId,
-    periodId,
-    metadata,
-    currentDayString,
-}) => {
-    const dataInputPeriod = selectors.getApplicableDataInputPeriod(
-        metadata,
-        dataSetId,
-        periodId
-    )
-
-    if (!dataInputPeriod) {
-        return false
-    }
-
-    const currentDateAtServerTimeZone = new Date(currentDayString)
-    const openingDate = new Date(dataInputPeriod.openingDate)
-    const closingDate = new Date(dataInputPeriod.closingDate)
-
-    return (
-        openingDate > currentDateAtServerTimeZone ||
-        closingDate < currentDateAtServerTimeZone
-    )
-}
-
 /** Check for status relative to dataInputPeriods and expiryDays */
 const getFrontendLockStatus = ({
     dataSetId,
@@ -71,7 +45,7 @@ const getFrontendLockStatus = ({
             (closingDate && currentDateAtServerTimeZone > parsedClosingDate)
         ) {
             return {
-                status: LockedStates.LOCKED_DATA_INPUT_PERIOD,
+                state: LockedStates.LOCKED_DATA_INPUT_PERIOD,
                 lockDate: null,
             }
         } else {
@@ -106,7 +80,7 @@ const getFrontendLockStatus = ({
         // lock exceptions
     }
 
-    return { status: LockedStates.OPEN, lockDate }
+    return { state: LockedStates.OPEN, lockDate }
 }
 
 export const useCheckLockStatus = () => {
@@ -129,29 +103,21 @@ export const useCheckLockStatus = () => {
             selectedPeriod,
         })
         console.log({ frontendLockStatus })
-        // if (frontendLockStatus) setLockStatus(frontendLockStatus); return
-
-        if (
-            isDataInputPeriodLocked({
-                dataSetId,
-                periodId,
-                metadata,
-                currentDayString,
-            })
-        ) {
-            // mark as invalid for data input period
-            setLockStatus(LockedStates.LOCKED_DATA_INPUT_PERIOD)
+        if (frontendLockStatus) {
+            setLockStatus(frontendLockStatus)
             return
         }
 
         // else default to lockStatus from dataValueSet
         if (BackendLockStatusMap[dataValueSet.data?.lockStatus]) {
-            setLockStatus(BackendLockStatusMap[dataValueSet.data?.lockStatus])
+            setLockStatus({
+                state: BackendLockStatusMap[dataValueSet.data?.lockStatus],
+            })
             return
         }
 
         // otherwise denote as open
-        setLockStatus(LockedStates.OPEN)
+        setLockStatus({ state: LockedStates.OPEN })
     }, [
         metadata,
         dataSetId,
@@ -171,23 +137,19 @@ export const updateLockStatusFromBackend = (
 ) => {
     // if the lock status is APPROVED, set to approved
     if (backEndLockStatus === 'APPROVED') {
-        setLockStatus(LockedStates.LOCKED_APPROVED)
-        // { status: LockedStatus.LOCKED_APPROVED, lockDate: null }
+        setLockStatus({ state: LockedStates.LOCKED_APPROVED })
         return
     }
 
     // if the lock status is LOCKED, this is locked due to expiry days
+    // (This value takes into account superuser and lock exceptions)
     if (backEndLockStatus === 'LOCKED') {
-        setLockStatus(LockedStates.LOCKED_EXPIRY_DAYS)
-        // { status: LockedStatus.LOCKED_EXPIRY_DAYS, lockDate: null }
+        setLockStatus({ state: LockedStates.LOCKED_EXPIRY_DAYS })
         return
     }
 
-    // a lock status of 'OPEN' from the backend could mean either that the form is open OR
-    // that the form should be locked due to data input period, SO
-    // set to OPEN unless frontend check has identified that data input period as out-of-bounds
-    if (frontEndLockStatus !== LockedStates.LOCKED_DATA_INPUT_PERIOD) {
-        setLockStatus(LockedStates.OPEN)
-        // { status: LockedStates.OPEN, lockDate: null }
-    }
+    // a lock status of 'OPEN' from the backend could mean either that the form
+    // is open OR that the form should be locked due to data input period.
+    // This check has been done by getFrontendLockStatus() and that value can
+    // be used
 }
