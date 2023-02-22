@@ -67,7 +67,7 @@ export const OptionSet = ({
         subscription: { value: true, data: true },
         // format applies to the input.value
         format:
-            // format to an array when multi, since component needs an array
+            // format to an array when multi, since component expects an array
             multi
                 ? (value) => {
                       const formatted =
@@ -99,6 +99,8 @@ export const OptionSet = ({
         // For a select using onChange, don't need to check valid or dirty, respectively
         if (value !== data.lastSyncedValue) {
             // need to parse here as well, since it's not parsed before onChange is called
+            // normally you would use the formState, where parse is called by finalForm,
+            // but since we are syncing after every change/blur we need to do this "twice".
             const parsedValue = parse(value)
             syncData(parsedValue)
         }
@@ -116,7 +118,9 @@ export const OptionSet = ({
             <div className={styles.selectFlexItem}>
                 <SelectComponent
                     dense
-                    className={cx({ [styles.selectMulti]: multi })}
+                    className={cx(styles.select, {
+                        [styles.selectMulti]: multi,
+                    })}
                     name={input.name}
                     placeholder={placeholder}
                     selected={input.value || ''}
@@ -147,7 +151,7 @@ export const OptionSet = ({
                 <Button
                     small
                     secondary
-                    className={styles.whiteButton}
+                    className={cx(styles.whiteButton, styles.hideForPrint)}
                     onClick={() => {
                         input.onChange('')
                         handleChange('')
