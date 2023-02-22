@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { TableCell, TableCellHead, TableRow } from '@dhis2/ui'
+import cx from 'classnames'
 import propTypes from 'prop-types'
 import React, { useMemo } from 'react'
 import styles from '../table-body.module.css'
@@ -7,7 +8,9 @@ import { calculateColumnTotals, calculateRowTotal } from './calculate-totals.js'
 import { useValueMatrix } from './use-value-matrix.js'
 
 export const TotalCell = ({ children }) => (
-    <TableCell className={styles.totalCell}>{children}</TableCell>
+    <TableCell className={cx('total-cell', styles.totalCell)}>
+        {children}
+    </TableCell>
 )
 
 TotalCell.propTypes = {
