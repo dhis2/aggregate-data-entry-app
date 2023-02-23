@@ -24,7 +24,7 @@ const getFrontendLockStatus = ({
         dataSetId,
         periodId
     )
-    const expiryDays = selectors.getDataSetById(metadata, dataSetId).expiryDays
+    const expiryDays = selectors.getDataSetById(metadata, dataSetId)?.expiryDays
 
     if (!applicableDataInputPeriod && !expiryDays) {
         // Nothing to check here then
