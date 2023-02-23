@@ -22,8 +22,19 @@ const MULTI_TEXT_SEPERATOR = ','
 
 // This is used to preserve the order of the optionSet for the selected options
 const createSortByOptionsOrder = (options) => (a, b) => {
-    const aIndex = options.findIndex((option) => option.code === a)
-    const bIndex = options.findIndex((option) => option.code === b)
+    let aIndex, bIndex
+    for (let i = 0; i < options.length; i++) {
+        if (aIndex && bIndex) {
+            break
+        }
+        const option = options[i]
+        if (option.code === a) {
+            aIndex = i
+        }
+        if (option.code === b) {
+            bIndex = i
+        }
+    }
     return aIndex - bIndex
 }
 
@@ -45,20 +56,10 @@ export const OptionSet = ({
     const options = optionSet.options.filter((opt) => !!opt)
     const sortByOptionsOrder = createSortByOptionsOrder(options)
 
-    const parse = (value) => {
-        if (multi) {
-            return (
-                (value &&
-                    value
-                        .sort(sortByOptionsOrder)
-                        .join(MULTI_TEXT_SEPERATOR)) ||
-                ''
-            )
-        } else {
-            // Empty values need an empty string
-            return value || ''
-        }
-    }
+    const parse = (value) =>
+        multi
+            ? value?.sort(sortByOptionsOrder).join(MULTI_TEXT_SEPERATOR) ?? ''
+            : value ?? '' // empty value needs an empty string
 
     const {
         input,
