@@ -24,7 +24,7 @@ const MULTI_TEXT_SEPERATOR = ','
 const createSortByOptionsOrder = (options) => (a, b) => {
     let aIndex, bIndex
     for (let i = 0; i < options.length; i++) {
-        if (aIndex && bIndex) {
+        if (aIndex !== undefined && bIndex !== undefined) {
             break
         }
         const option = options[i]
