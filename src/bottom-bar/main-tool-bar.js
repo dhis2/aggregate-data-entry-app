@@ -87,19 +87,18 @@ export default function MainToolBar() {
                 <span
                     className={cx(styles.completionSummary, styles.toolbarItem)}
                 >
-                    <span
-                        className={cx(styles.icon, styles.goToInvalidValueIcon)}
-                    >
+                    <span className={cx(styles.icon)}>
                         <IconInfo16 color={colors.grey700} />
                     </span>
 
                     <span>
-                        <span className={styles.completedByLabel}>
-                            {data.completeStatus.complete
-                                ? i18n.t('Last completed by')
-                                : i18n.t('Last incompleted by')}
-                        </span>
-                        {data?.completeStatus.lastUpdatedBy}
+                        {data.completeStatus.complete
+                            ? i18n.t('Last completed by {{-username}}', {
+                                  username: data?.completeStatus.lastUpdatedBy,
+                              })
+                            : i18n.t('Last incompleted by {{-username}}', {
+                                  username: data?.completeStatus.lastUpdatedBy,
+                              })}
                     </span>
                 </span>
             )}
