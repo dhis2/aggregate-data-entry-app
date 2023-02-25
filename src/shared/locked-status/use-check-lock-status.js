@@ -24,7 +24,7 @@ const getFrontendLockStatus = ({
     const applicableDataInputPeriod = selectors.getApplicableDataInputPeriod(
         metadata,
         dataSetId,
-        selectedPeriod.id
+        selectedPeriod?.id
     )
     const expiryDays = selectors.getDataSetById(metadata, dataSetId)?.expiryDays
 
@@ -57,7 +57,7 @@ const getFrontendLockStatus = ({
             }
         } else {
             // This might still be undefined, but that's okay
-            clientLockDate = parsedClosingDate.clientDate
+            clientLockDate = parsedClosingDate?.clientDate
         }
     }
 
@@ -109,6 +109,21 @@ export const useCheckLockStatus = () => {
     const { setLockStatus } = useLockedContext()
 
     useEffect(() => {
+        // prefer lock status from backend, found in dataValueSet
+        const backendLockStatus =
+            BackendLockStatusMap[dataValueSet.data?.lockStatus]
+        if (backendLockStatus) {
+            setLockStatus({ state: backendLockStatus })
+            return
+        }
+
+        // if either 1. backend status is 'OPEN' or 2. it's not defined yet,
+        // refine the lock status here from properties on the dataSet:
+        // (a lock status of 'OPEN' from the backend could mean either that the
+        // form is open OR that the form should be locked due to data input
+        // period.)
+        // Therefore, check the dataInputPeriod boundaries, and if the form IS
+        // open, get the date the form will close, if applicable.
         const frontendLockStatus = getFrontendLockStatus({
             dataSetId,
             selectedPeriod,
@@ -117,14 +132,6 @@ export const useCheckLockStatus = () => {
         })
         if (frontendLockStatus) {
             setLockStatus(frontendLockStatus)
-            return
-        }
-
-        // else default to lockStatus from dataValueSet
-        if (BackendLockStatusMap[dataValueSet.data?.lockStatus]) {
-            setLockStatus({
-                state: BackendLockStatusMap[dataValueSet.data?.lockStatus],
-            })
             return
         }
 
@@ -139,28 +146,4 @@ export const useCheckLockStatus = () => {
         setLockStatus,
         selectedPeriod,
     ])
-}
-
-export const updateLockStatusFromBackend = (
-    frontEndLockStatus,
-    backEndLockStatus,
-    setLockStatus
-) => {
-    // if the lock status is APPROVED, set to approved
-    if (backEndLockStatus === 'APPROVED') {
-        setLockStatus({ state: LockedStates.LOCKED_APPROVED })
-        return
-    }
-
-    // if the lock status is LOCKED, this is locked due to expiry days
-    // (This value takes into account superuser and lock exceptions)
-    if (backEndLockStatus === 'LOCKED') {
-        setLockStatus({ state: LockedStates.LOCKED_EXPIRY_DAYS })
-        return
-    }
-
-    // a lock status of 'OPEN' from the backend could mean either that the form
-    // is open OR that the form should be locked due to data input period.
-    // This check has been done by getFrontendLockStatus() and that value can
-    // be used
 }
