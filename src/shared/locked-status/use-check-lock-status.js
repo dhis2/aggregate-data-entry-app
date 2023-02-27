@@ -21,10 +21,14 @@ const getFrontendLockStatus = ({
     selectedPeriod,
     clientServerDateUtils: { fromServerDate, fromClientDate },
 }) => {
+    if (!selectedPeriod) {
+        return
+    }
+
     const applicableDataInputPeriod = selectors.getApplicableDataInputPeriod(
         metadata,
         dataSetId,
-        selectedPeriod?.id
+        selectedPeriod.id
     )
     const expiryDays = selectors.getDataSetById(metadata, dataSetId)?.expiryDays
 
