@@ -58,7 +58,9 @@ export const OptionSet = ({
 
     const parse = (value) =>
         multi
-            ? value?.sort(sortByOptionsOrder).join(MULTI_TEXT_SEPERATOR) ?? ''
+            ? (value &&
+                  value.sort(sortByOptionsOrder).join(MULTI_TEXT_SEPERATOR)) ??
+              ''
             : value ?? '' // empty value needs an empty string
 
     const {
