@@ -152,6 +152,7 @@ export const OptionSet = ({
             </div>
             {input.value && (
                 <Button
+                    {...input}
                     small
                     secondary
                     className={cx(styles.whiteButton, styles.hideForPrint)}
