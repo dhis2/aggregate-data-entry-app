@@ -35,6 +35,7 @@ body {
 
     .form-cleared input,
     .form-cleared [data-test="dhis2-uicore-select-input"],
+    .form-cleared .total-cell,
     .form-cleared textarea,
     .form-cleared input+div svg /* we are adding an svg to style the checkbox which we need to hide as well in empty forms*/ {
         visibility: hidden !important;
