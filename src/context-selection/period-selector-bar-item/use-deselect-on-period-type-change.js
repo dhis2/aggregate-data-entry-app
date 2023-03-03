@@ -15,6 +15,7 @@ const convertPeriodIdToPeriodType = (periodId) => {
                 ?.periodType || ''
         )
     } catch (e) {
+        console.error(e)
         // In case period id is invalid
         return ''
     }

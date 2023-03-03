@@ -1,3 +1,6 @@
+// @TODO: implement a way to make @dhis2/multi-calendar-dates accept custom
+// period types
+
 const periodTypesMapping = {
     Daily: 'DAILY',
     Weekly: 'WEEKLY',

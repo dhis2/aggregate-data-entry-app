@@ -51,6 +51,7 @@ export const PeriodSelectorBarItem = () => {
     const periods = usePeriods({
         periodType: dataSetPeriodType,
         openFuturePeriods,
+        dateLimit,
         year,
     })
 

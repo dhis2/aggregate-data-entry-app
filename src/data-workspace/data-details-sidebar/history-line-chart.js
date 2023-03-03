@@ -68,6 +68,7 @@ function createLabelsFromHistory(history) {
             return createFixedPeriodFromPeriodId({ periodId: period, calendar })
                 .displayName
         } catch (e) {
+            console.error(e)
             // In case period id is invalid
             return ''
         }

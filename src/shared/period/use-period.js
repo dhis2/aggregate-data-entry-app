@@ -12,6 +12,7 @@ export default function usePeriod(periodId) {
         try {
             return createFixedPeriodFromPeriodId({ periodId, calendar })
         } catch (e) {
+            console.error(e)
             return null
         }
     }, [periodId])

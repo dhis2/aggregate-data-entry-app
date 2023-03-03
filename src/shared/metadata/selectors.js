@@ -484,6 +484,7 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
             try {
                 period = createFixedPeriodFromPeriodId({ periodId, calendar })
             } catch (e) {
+                console.error(e)
                 // Handling invalid period ids
                 return []
             }
@@ -496,14 +497,12 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                 clientPeriodStartDate
             ).serverDate
 
-            // periodEndDate is up to following start date
             const [followingPeriod] = getAdjacentFixedPeriods({
                 period,
                 calendar,
                 steps: 1,
             })
 
-            // reduce perfiodEndDate by openPeriodsAfterCoEndDate
             const openPeriodsAfterCoEndDate = Math.max(
                 dataSet?.openPeriodsAfterCoEndDate || 0,
                 0
@@ -512,7 +511,7 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
             const previousPeriodsCount = openPeriodsAfterCoEndDate * -1
             const previousPeriods = previousPeriodsCount
                 ? getAdjacentFixedPeriods({
-                      steps: openPeriodsAfterCoEndDate * -1,
+                      steps: previousPeriodsCount,
                       period,
                       calendar: 'gregory',
                   })

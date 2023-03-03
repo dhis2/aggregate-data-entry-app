@@ -39,6 +39,7 @@ function convertPeriodIdToPeriodType(periodId) {
         })?.periodType
         return periodType || ''
     } catch (e) {
+        console.error(e)
         return ''
     }
 }

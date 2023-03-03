@@ -28,7 +28,7 @@ export const computePeriodDateLimit = ({
         calendar,
     })
 
-    if (openFuturePeriods === 0) {
+    if (openFuturePeriods <= 0) {
         return new Date(currentPeriod.startDate)
     }
 

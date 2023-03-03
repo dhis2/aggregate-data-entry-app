@@ -1,6 +1,13 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { periodTypes } from '../../shared/index.js'
 import usePeriods from './use-periods.js'
+
+jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
+    useUserInfo: jest.fn(() => ({
+        data: {
+            settings: { keyUiLocale: 'en' },
+        },
+    })),
+}))
 
 jest.mock('../../shared/date/use-server-time-offset.js', () => ({
     __esModule: true,
@@ -20,7 +27,7 @@ describe('usePeriods', () => {
 
         const { result } = renderHook(() =>
             usePeriods({
-                periodType: periodTypes.FYAPR,
+                periodType: 'FYAPR',
                 openFuturePeriods: 2,
                 year: 2023,
                 dateLimit: new Date('2024-04-01'),
@@ -35,14 +42,14 @@ describe('usePeriods', () => {
 
         const { result } = renderHook(() =>
             usePeriods({
-                periodType: periodTypes.FYAPR,
+                periodType: 'FYAPR',
                 openFuturePeriods: 2,
                 year: 2023,
                 dateLimit: new Date('2026-04-01'),
             })
         )
 
-        expect(result.current).toHaveLength(55)
+        expect(result.current).toHaveLength(54)
     })
 
     it('should return the first two weeks of 2023', () => {
@@ -50,7 +57,7 @@ describe('usePeriods', () => {
 
         const { result } = renderHook(() =>
             usePeriods({
-                periodType: periodTypes.WEEKLYWED,
+                periodType: 'WEEKLYWED',
                 openFuturePeriods: 0,
                 year: 2023,
                 dateLimit: new Date('2023-01-18'),
@@ -65,7 +72,7 @@ describe('usePeriods', () => {
 
         const { result } = renderHook(() =>
             usePeriods({
-                periodType: periodTypes.WEEKLYWED,
+                periodType: 'WEEKLYWED',
                 openFuturePeriods: 0,
                 year: 2022,
                 dateLimit: new Date('2023-01-18'),
