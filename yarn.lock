@@ -2441,10 +2441,10 @@
     "@js-temporal/polyfill" "^0.4.2"
     classnames "^2.3.2"
 
-"@dhis2/multi-calendar-dates@^1.0.0-alpha.21":
-  version "1.0.0-alpha.21"
-  resolved "https://registry.yarnpkg.com/@dhis2/multi-calendar-dates/-/multi-calendar-dates-1.0.0-alpha.21.tgz#6ad5948dec8b6bde2f52721acf6e99022f414f13"
-  integrity sha512-lkwSbs0WJuQl5o8b//d5RtqIV5a/NtETLbEx68hvL2IFz7sJgdcJvkPSEVr9KhLAagTpa3Cq7vOUXcqGKngoQA==
+"@dhis2/multi-calendar-dates@^1.0.0-alpha.22":
+  version "1.0.0-alpha.22"
+  resolved "https://registry.yarnpkg.com/@dhis2/multi-calendar-dates/-/multi-calendar-dates-1.0.0-alpha.22.tgz#c290f985a1687782dc03a5c367c2f5de95e4ae65"
+  integrity sha512-z4i999cMXt8EoW3idTWPk+BJl4CxoL28Cv7O7yGxPGkyLUlDE43VWf3KFsEhx+nUNrhSBOFavRZua8ZGnIBSkw==
   dependencies:
     "@js-temporal/polyfill" "^0.4.2"
     classnames "^2.3.2"

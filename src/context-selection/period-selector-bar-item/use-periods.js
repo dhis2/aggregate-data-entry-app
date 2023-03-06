@@ -12,6 +12,7 @@ export default function usePeriods({
     periodType,
     year,
     dateLimit,
+    // only required when periodType is a yearly period type
     openFuturePeriods,
 }) {
     // @TODO(calendar)

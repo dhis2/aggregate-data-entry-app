@@ -78,7 +78,6 @@ describe('usePeriods', () => {
         const { result } = renderHook(() =>
             usePeriods({
                 periodType: 'WEEKLYWED',
-                openFuturePeriods: 0,
                 year: 2023,
                 dateLimit: new Date('2023-01-18'),
             })
@@ -93,12 +92,25 @@ describe('usePeriods', () => {
         const { result } = renderHook(() =>
             usePeriods({
                 periodType: 'WEEKLYWED',
-                openFuturePeriods: 0,
                 year: 2022,
                 dateLimit: new Date('2023-01-18'),
             })
         )
 
         expect(result.current.length).toBe(53)
+    })
+
+    it('should return the the first 10 days of 2023', () => {
+        jest.setSystemTime(new Date('2023-01-09')) // Thursday
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType: 'DAILY',
+                year: 2023,
+                dateLimit: new Date('2023-01-11'),
+            })
+        )
+
+        expect(result.current.length).toBe(10)
     })
 })
