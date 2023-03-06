@@ -5,9 +5,15 @@ import {
     formatJsDateToDateString,
     useClientServerDate,
     useUserInfo,
+    yearlyFixedPeriodTypes,
 } from '../../shared/index.js'
 
-export default function usePeriods({ periodType, year, dateLimit }) {
+export default function usePeriods({
+    periodType,
+    year,
+    dateLimit,
+    openFuturePeriods,
+}) {
     // @TODO(calendar)
     const calendar = 'gregory'
     const { data: userInfo } = useUserInfo()
@@ -24,17 +30,22 @@ export default function usePeriods({ periodType, year, dateLimit }) {
             return []
         }
 
+        const yearForGenerating = yearlyFixedPeriodTypes.includes(periodType)
+            ? year + openFuturePeriods
+            : year
+        const endsBefore = moment(dateLimit).format('yyyy-MM-DD')
+
         return generateFixedPeriods({
             calendar,
             periodType,
-            year,
-            endsBefore: moment(dateLimit).format('yyyy-MM-DD'),
+            year: yearForGenerating,
+            endsBefore,
             locale,
 
             // only used when generating yearly periods, so save to use
             // here, regardless of the period type.
             // + 1 so we include 1970 as well
-            yearsCount: year - 1970 + 1,
+            yearsCount: yearForGenerating - 1970 + 1,
         })
-    }, [periodType, currentDay, year, dateLimit, locale])
+    }, [periodType, currentDay, year, dateLimit, locale, openFuturePeriods])
 }

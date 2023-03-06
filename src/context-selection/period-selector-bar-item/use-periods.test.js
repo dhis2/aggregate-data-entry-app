@@ -45,11 +45,31 @@ describe('usePeriods', () => {
                 periodType: 'FYAPR',
                 openFuturePeriods: 2,
                 year: 2023,
-                dateLimit: new Date('2026-04-01'),
+                dateLimit: new Date('2025-04-01'),
             })
         )
 
-        expect(result.current).toHaveLength(54)
+        const first = result.current[0]
+        const last = result.current[result.current.length - 1]
+        expect(result.current.length).toBe(55)
+        expect(first).toEqual({
+            periodType: 'FYAPR',
+            name: 'April 2024 - March 2025',
+            displayName: 'April 2024 - March 2025',
+            id: '2024April',
+            iso: '2024April',
+            startDate: '2024-04-01',
+            endDate: '2025-03-31',
+        })
+        expect(last).toEqual({
+            periodType: 'FYAPR',
+            name: 'April 1970 - March 1971',
+            displayName: 'April 1970 - March 1971',
+            id: '1970April',
+            iso: '1970April',
+            startDate: '1970-04-01',
+            endDate: '1971-03-31',
+        })
     })
 
     it('should return the first two weeks of 2023', () => {
