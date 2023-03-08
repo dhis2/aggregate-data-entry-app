@@ -31,12 +31,13 @@ export default function usePeriods({
             return []
         }
 
-        const yearForGenerating = yearlyFixedPeriodTypes.includes(periodType)
+        const isYearlyPeriodType = yearlyFixedPeriodTypes.includes(periodType)
+        const yearForGenerating = isYearlyPeriodType
             ? year + openFuturePeriods
             : year
         const endsBefore = moment(dateLimit).format('yyyy-MM-DD')
 
-        return generateFixedPeriods({
+        const generateFixedPeriodsPayload = {
             calendar,
             periodType,
             year: yearForGenerating,
@@ -47,6 +48,43 @@ export default function usePeriods({
             // here, regardless of the period type.
             // + 1 so we include 1970 as well
             yearsCount: yearForGenerating - 1970 + 1,
+        }
+        const periods = generateFixedPeriods(generateFixedPeriodsPayload)
+
+        if (isYearlyPeriodType) {
+            return periods
+        }
+
+        const [lastPeriodOfPrevYear] = generateFixedPeriods({
+            ...generateFixedPeriodsPayload,
+            year: yearForGenerating - 1,
+        }).slice(-1)
+        const [firstPeriodNextYear] = generateFixedPeriods({
+            ...generateFixedPeriodsPayload,
+            year: yearForGenerating + 1,
         })
+
+        // we want to display the last period of the previous year if it
+        // stretches into the current year
+        if (`${year}-01-01` <= lastPeriodOfPrevYear.endDate) {
+            const [lastPeriodOfPrevYear] = generateFixedPeriods({
+                ...generateFixedPeriodsPayload,
+                year: yearForGenerating - 1,
+            }).slice(-1)
+
+            periods.unshift(lastPeriodOfPrevYear)
+        }
+
+        // if we're allowed to display the first period of the next year, we
+        // want to display the first period of the next year if it starts in
+        // the current year
+        if (
+            firstPeriodNextYear &&
+            `${year + 1}-01-01` > firstPeriodNextYear.startDate
+        ) {
+            periods.push(firstPeriodNextYear)
+        }
+
+        return periods.reverse()
     }, [periodType, currentDay, year, dateLimit, locale, openFuturePeriods])
 }

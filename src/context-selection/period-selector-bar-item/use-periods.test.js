@@ -22,7 +22,254 @@ describe('usePeriods', () => {
         jest.setSystemTime(actualSystemTime)
     })
 
-    it('should return 54 financial year periods for FINANCIAL_APRIL on 2023-03-01', () => {
+    it('should return a list of daily periods', () => {
+        const periodType = 'DAILY'
+        const openFuturePeriods = 0
+        const year = 2023
+        const dateLimit = new Date('2023-03-01')
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType,
+                openFuturePeriods,
+                year,
+                dateLimit,
+            })
+        )
+
+        expect(result.current).toHaveLength(59)
+        expect(result.current[0]).toEqual(
+            expect.objectContaining({
+                endDate: '2023-02-28',
+                startDate: '2023-02-28',
+                id: '20230228',
+            })
+        )
+        expect(result.current[58]).toEqual(
+            expect.objectContaining({
+                endDate: '2023-01-01',
+                startDate: '2023-01-01',
+                id: '20230101',
+            })
+        )
+    })
+
+    it('should return a list of weekly periods', () => {
+        const periodType = 'WEEKLY'
+        const openFuturePeriods = 0
+        const year = 2023
+        const dateLimit = new Date('2023-03-01')
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType,
+                openFuturePeriods,
+                year,
+                dateLimit,
+            })
+        )
+
+        expect(result.current).toHaveLength(9)
+        expect(result.current[0]).toEqual(
+            expect.objectContaining({
+                startDate: '2023-02-20',
+                id: '2023W8',
+                endDate: '2023-02-26',
+            })
+        )
+        expect(result.current[8]).toEqual(
+            expect.objectContaining({
+                startDate: '2022-12-26',
+                id: '2022W52',
+                endDate: '2023-01-01',
+            })
+        )
+    })
+
+    it('should return a list of weekly periods for the previous year', () => {
+        const periodType = 'WEEKLY'
+        const openFuturePeriods = 0
+        const year = 2019
+        const dateLimit = new Date('2023-03-01')
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType,
+                openFuturePeriods,
+                year,
+                dateLimit,
+            })
+        )
+
+        expect(result.current).toHaveLength(53)
+        expect(result.current[0]).toEqual(
+            expect.objectContaining({
+                startDate: '2019-12-30',
+                id: '2020W1',
+                endDate: '2020-01-05',
+            })
+        )
+        expect(result.current[52]).toEqual(
+            expect.objectContaining({
+                startDate: '2018-12-31',
+                id: '2019W1',
+                endDate: '2019-01-06',
+            })
+        )
+    })
+
+    it('should return a list of monthly periods', () => {
+        const periodType = 'MONTHLY'
+        const openFuturePeriods = 0
+        const year = 2023
+        const dateLimit = new Date('2023-07-16')
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType,
+                openFuturePeriods,
+                year,
+                dateLimit,
+            })
+        )
+
+        expect(result.current).toHaveLength(6)
+        expect(result.current[0]).toEqual(
+            expect.objectContaining({
+                endDate: '2023-06-30',
+                startDate: '2023-06-01',
+                id: '202306',
+            })
+        )
+        expect(result.current[5]).toEqual(
+            expect.objectContaining({
+                endDate: '2023-01-31',
+                startDate: '2023-01-01',
+                id: '202301',
+            })
+        )
+    })
+
+    it('should return a list of quarterly periods', () => {
+        const periodType = 'QUARTERLY'
+        const openFuturePeriods = 0
+        const year = 2023
+        const dateLimit = new Date('2023-08-16')
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType,
+                openFuturePeriods,
+                year,
+                dateLimit,
+            })
+        )
+
+        expect(result.current).toHaveLength(2)
+        expect(result.current).toEqual([
+            expect.objectContaining({
+                endDate: '2023-06-30',
+                startDate: '2023-04-01',
+                id: '2023Q2',
+            }),
+            expect.objectContaining({
+                endDate: '2023-03-31',
+                startDate: '2023-01-01',
+                id: '2023Q1',
+            }),
+        ])
+    })
+
+    it('should return a list of sixmonthlynovember periods', () => {
+        const periodType = 'SIXMONTHLYNOV'
+        const openFuturePeriods = 0
+        const year = 2023
+        const dateLimit = new Date('2023-08-16')
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType,
+                openFuturePeriods,
+                year,
+                dateLimit,
+            })
+        )
+
+        expect(result.current).toHaveLength(1)
+        expect(result.current).toEqual([
+            expect.objectContaining({
+                startDate: '2022-11-01',
+                endDate: '2023-04-30',
+                id: '2022NovemberS1',
+            }),
+        ])
+    })
+
+    it('should return a list of yearly periods', () => {
+        const periodType = 'YEARLY'
+        const openFuturePeriods = 0
+        const year = 2023
+        const dateLimit = new Date('2023-08-16')
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType,
+                openFuturePeriods,
+                year,
+                dateLimit,
+            })
+        )
+
+        expect(result.current).toHaveLength(53)
+        expect(result.current[0]).toEqual(
+            expect.objectContaining({
+                endDate: '2022-12-31',
+                startDate: '2022-01-01',
+                id: '2022',
+            })
+        )
+        expect(result.current[52]).toEqual(
+            expect.objectContaining({
+                endDate: '1970-12-31',
+                startDate: '1970-01-01',
+                id: '1970',
+            })
+        )
+    })
+
+    it('should return a list of financial november periods', () => {
+        const periodType = 'FYNOV'
+        const openFuturePeriods = 0
+        const year = 2023
+        const dateLimit = new Date('2023-08-16')
+
+        const { result } = renderHook(() =>
+            usePeriods({
+                periodType,
+                openFuturePeriods,
+                year,
+                dateLimit,
+            })
+        )
+
+        expect(result.current).toHaveLength(52)
+        expect(result.current[0]).toEqual(
+            expect.objectContaining({
+                endDate: '2022-10-31',
+                startDate: '2021-11-01',
+                id: '2021Nov',
+            })
+        )
+        expect(result.current[51]).toEqual(
+            expect.objectContaining({
+                endDate: '1971-10-31',
+                startDate: '1970-11-01',
+                id: '1970Nov',
+            })
+        )
+    })
+
+    it('should return two additional FYAPR periods with openFuturePeriods of 2', () => {
         jest.setSystemTime(new Date('2023-03-01'))
 
         const { result } = renderHook(() =>
@@ -35,82 +282,5 @@ describe('usePeriods', () => {
         )
 
         expect(result.current).toHaveLength(54)
-    })
-
-    it('should return 55 financial year periods for FINANCIAL_APRIL on 2023-04-01', () => {
-        jest.setSystemTime(new Date('2023-04-01'))
-
-        const { result } = renderHook(() =>
-            usePeriods({
-                periodType: 'FYAPR',
-                openFuturePeriods: 2,
-                year: 2023,
-                dateLimit: new Date('2025-04-01'),
-            })
-        )
-
-        const first = result.current[0]
-        const last = result.current[result.current.length - 1]
-        expect(result.current.length).toBe(55)
-        expect(first).toEqual({
-            periodType: 'FYAPR',
-            name: 'April 2024 - March 2025',
-            displayName: 'April 2024 - March 2025',
-            id: '2024April',
-            iso: '2024April',
-            startDate: '2024-04-01',
-            endDate: '2025-03-31',
-        })
-        expect(last).toEqual({
-            periodType: 'FYAPR',
-            name: 'April 1970 - March 1971',
-            displayName: 'April 1970 - March 1971',
-            id: '1970April',
-            iso: '1970April',
-            startDate: '1970-04-01',
-            endDate: '1971-03-31',
-        })
-    })
-
-    it('should return the first two weeks of 2023', () => {
-        jest.setSystemTime(new Date('2023-01-19')) // Thursday
-
-        const { result } = renderHook(() =>
-            usePeriods({
-                periodType: 'WEEKLYWED',
-                year: 2023,
-                dateLimit: new Date('2023-01-18'),
-            })
-        )
-
-        expect(result.current).toHaveLength(2)
-    })
-
-    it('should return the last week of 2021 and all weeks of 2022 but the last one', () => {
-        jest.setSystemTime(new Date('2023-01-19')) // Thursday
-
-        const { result } = renderHook(() =>
-            usePeriods({
-                periodType: 'WEEKLYWED',
-                year: 2022,
-                dateLimit: new Date('2023-01-18'),
-            })
-        )
-
-        expect(result.current.length).toBe(53)
-    })
-
-    it('should return the the first 10 days of 2023', () => {
-        jest.setSystemTime(new Date('2023-01-09')) // Thursday
-
-        const { result } = renderHook(() =>
-            usePeriods({
-                periodType: 'DAILY',
-                year: 2023,
-                dateLimit: new Date('2023-01-11'),
-            })
-        )
-
-        expect(result.current.length).toBe(10)
     })
 })
