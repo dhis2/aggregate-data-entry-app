@@ -237,10 +237,20 @@ Then(
     }
 )
 
-// count varies by year; for 2021: 52 weeks
+// count varies by year; for 2022: 52 + 1 weeks (1 for the last week of the
+// previous year stretching into 2022)
 Then('the user should only see options of that type for "weekly"', () => {
-    // go back to prev year to ensure we have a complete list of periods in the
-    // dropdown
-    cy.get('[data-test="yearnavigator-backbutton"]').click()
-    cy.get('[data-test="period-selector-menu"] li').should('have.length', 52)
+    function goBackUntil2022() {
+        cy.get('[data-test="yearnavigator-currentyear"]').then(($curYear) => {
+            if (parseInt($curYear.text(), 10) > 2022) {
+                cy.get('[data-test="yearnavigator-backbutton"]').click()
+                goBackUntil2022()
+            }
+        })
+    }
+
+    // go back to ensure we have a complete list of periods in the dropdown
+    goBackUntil2022()
+
+    cy.get('[data-test="period-selector-menu"] li').should('have.length', 53)
 })
