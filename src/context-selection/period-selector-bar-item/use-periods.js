@@ -66,7 +66,10 @@ export default function usePeriods({
 
         // we want to display the last period of the previous year if it
         // stretches into the current year
-        if (`${year}-01-01` <= lastPeriodOfPrevYear.endDate) {
+        if (
+            lastPeriodOfPrevYear &&
+            `${year}-01-01` <= lastPeriodOfPrevYear.endDate
+        ) {
             const [lastPeriodOfPrevYear] = generateFixedPeriods({
                 ...generateFixedPeriodsPayload,
                 year: yearForGenerating - 1,
