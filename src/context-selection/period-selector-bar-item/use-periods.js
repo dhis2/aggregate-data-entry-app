@@ -1,88 +1,93 @@
+import { generateFixedPeriods } from '@dhis2/multi-calendar-dates'
+import moment from 'moment'
 import { useMemo } from 'react'
 import {
-    startYear,
-    yearlyPeriodTypes,
-    addFullPeriodTimeToDate,
-    getFixedPeriodsForTypeAndDateRange,
-    getYearlyPeriodIdForTypeAndYear,
-    parsePeriodId,
-    getCurrentDate,
     formatJsDateToDateString,
     useClientServerDate,
-    useClientServerDateUtils,
+    useUserInfo,
+    yearlyFixedPeriodTypes,
 } from '../../shared/index.js'
 
 export default function usePeriods({
     periodType,
-    openFuturePeriods,
     year,
     dateLimit,
+    // only required when periodType is a yearly period type
+    openFuturePeriods,
 }) {
-    const { fromClientDate } = useClientServerDateUtils()
+    // @TODO(calendar)
+    const calendar = 'gregory'
+    const { data: userInfo } = useUserInfo()
+    const { keyUiLocale: locale } = userInfo.settings
     const currentDate = useClientServerDate()
     const currentDay = formatJsDateToDateString(currentDate.serverDate)
 
-    return useMemo(
-        () => {
-            if (!periodType) {
-                return []
-            }
-
-            let periods
-            // Not using `currentDate` as that's cause this hook to recalculate
-            // on every render as a JS Date is a timestamp, not a date
-            const { serverDate } = fromClientDate(getCurrentDate())
-
-            if (yearlyPeriodTypes.includes(periodType)) {
-                const futureYearLimit = new Date(serverDate)
-                const validFuturePeriods =
-                    openFuturePeriods >= 0 ? openFuturePeriods : 0
-                futureYearLimit.setFullYear(
-                    serverDate.getFullYear() + validFuturePeriods
-                )
-                const yearsCount =
-                    serverDate.getFullYear() - startYear + validFuturePeriods
-                periods = Array.from(Array(yearsCount))
-                    .map((_, index) => {
-                        const year = index + startYear
-                        const periodId = getYearlyPeriodIdForTypeAndYear(
-                            periodType,
-                            year
-                        )
-                        return parsePeriodId(periodId)
-                    })
-                    .filter(
-                        ({ endDate }) => new Date(endDate) < futureYearLimit
-                    )
-            } else {
-                // Make sure we add options that start this year but span into
-                // the next year if we're not in the current year
-                // limit is between the first and second start dates of the following year
-                const nextYearLimitDate = addFullPeriodTimeToDate(
-                    `${year + 1}-01-01`,
-                    periodType
-                )
-                nextYearLimitDate.setDate(nextYearLimitDate.getDate() - 1)
-
-                periods = getFixedPeriodsForTypeAndDateRange({
-                    periodType,
-                    startDate: `${year}-01-01`,
-                    endDate: new Date(Math.min(dateLimit, nextYearLimitDate)),
-                })
-            }
-
-            return periods.reverse()
-        },
+    return useMemo(() => {
         // Adding `currentDay` to the dependency array so this hook will
         // recompute the date limit when the actual date changes
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [
+        currentDay
+
+        if (!periodType) {
+            return []
+        }
+
+        const isYearlyPeriodType = yearlyFixedPeriodTypes.includes(periodType)
+        const yearForGenerating = isYearlyPeriodType
+            ? year + openFuturePeriods
+            : year
+        const endsBefore = moment(dateLimit).format('yyyy-MM-DD')
+
+        const generateFixedPeriodsPayload = {
+            calendar,
             periodType,
-            currentDay,
-            openFuturePeriods,
-            year,
-            dateLimit,
-            fromClientDate,
-        ]
-    )
+            year: yearForGenerating,
+            endsBefore,
+            locale,
+
+            // only used when generating yearly periods, so save to use
+            // here, regardless of the period type.
+            // + 1 so we include 1970 as well
+            yearsCount: yearForGenerating - 1970 + 1,
+        }
+        const periods = generateFixedPeriods(generateFixedPeriodsPayload)
+
+        if (isYearlyPeriodType) {
+            return periods
+        }
+
+        const [lastPeriodOfPrevYear] = generateFixedPeriods({
+            ...generateFixedPeriodsPayload,
+            year: yearForGenerating - 1,
+        }).slice(-1)
+        const [firstPeriodNextYear] = generateFixedPeriods({
+            ...generateFixedPeriodsPayload,
+            year: yearForGenerating + 1,
+        })
+
+        // we want to display the last period of the previous year if it
+        // stretches into the current year
+        if (
+            lastPeriodOfPrevYear &&
+            `${year}-01-01` <= lastPeriodOfPrevYear.endDate
+        ) {
+            const [lastPeriodOfPrevYear] = generateFixedPeriods({
+                ...generateFixedPeriodsPayload,
+                year: yearForGenerating - 1,
+            }).slice(-1)
+
+            periods.unshift(lastPeriodOfPrevYear)
+        }
+
+        // if we're allowed to display the first period of the next year, we
+        // want to display the first period of the next year if it starts in
+        // the current year
+        if (
+            firstPeriodNextYear &&
+            `${year + 1}-01-01` > firstPeriodNextYear.startDate
+        ) {
+            periods.push(firstPeriodNextYear)
+        }
+
+        return periods.reverse()
+    }, [periodType, currentDay, year, dateLimit, locale, openFuturePeriods])
 }

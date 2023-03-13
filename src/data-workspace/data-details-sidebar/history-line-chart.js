@@ -1,3 +1,4 @@
+import { createFixedPeriodFromPeriodId } from '@dhis2/multi-calendar-dates'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -11,7 +12,6 @@ import {
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Line } from 'react-chartjs-2'
-import { parsePeriodId } from '../../shared/index.js'
 
 ChartJS.register(
     CategoryScale,
@@ -33,8 +33,20 @@ const options = {
 function sortHistoryByStartDate(history) {
     // [...history] ->  prevent mutating the original array
     return [...history].sort((left, right) => {
-        const leftStartDate = new Date(parsePeriodId(left.period).startDate)
-        const rightStartDate = new Date(parsePeriodId(right.period).startDate)
+        // @TODO(calendar)
+        const calendar = 'gregory'
+        const leftStartDate = new Date(
+            createFixedPeriodFromPeriodId({
+                periodId: left.period,
+                calendar,
+            }).startDate
+        )
+        const rightStartDate = new Date(
+            createFixedPeriodFromPeriodId({
+                periodId: right.period,
+                calendar,
+            }).startDate
+        )
 
         if (leftStartDate > rightStartDate) {
             return 1
@@ -49,7 +61,18 @@ function sortHistoryByStartDate(history) {
 }
 
 function createLabelsFromHistory(history) {
-    return history.map(({ period }) => parsePeriodId(period).displayName)
+    // @TODO(calendar)
+    const calendar = 'gregory'
+    return history.map(({ period }) => {
+        try {
+            return createFixedPeriodFromPeriodId({ periodId: period, calendar })
+                .displayName
+        } catch (e) {
+            console.error(e)
+            // In case period id is invalid
+            return ''
+        }
+    })
 }
 
 export default function HistoryLineChart({ history }) {

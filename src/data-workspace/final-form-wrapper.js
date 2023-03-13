@@ -31,7 +31,6 @@ export function FinalFormWrapper({ children, dataValueSet }) {
     // TODO: Reinitialize form `onSuccess` of dataValueSets query
     // See https://dhis2.atlassian.net/browse/TECH-1357
     const [initialValues] = useState(() => createInitialValues(dataValueSet))
-
     return (
         <Form
             onSubmit={onSubmit}

@@ -3,14 +3,15 @@ import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
 import {
-    yearlyPeriodTypes,
     selectors,
     useMetadata,
     usePeriod,
     useDataSetId,
     usePeriodId,
     formatJsDateToDateString,
+    periodTypesMapping,
     useClientServerDate,
+    yearlyFixedPeriodTypes,
 } from '../../shared/index.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
@@ -36,7 +37,7 @@ export const PeriodSelectorBarItem = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
     const dataSet = selectors.getDataSetById(metadata, dataSetId)
-    const dataSetPeriodType = dataSet?.periodType
+    const dataSetPeriodType = periodTypesMapping[dataSet?.periodType]
     const openFuturePeriods = dataSet?.openFuturePeriods || 0
     const { show: showWarningAlert } = useAlert((message) => message, {
         warning: true,
@@ -49,10 +50,9 @@ export const PeriodSelectorBarItem = () => {
     const [maxYear, setMaxYear] = useState(() => getMaxYear(dateLimit))
     const periods = usePeriods({
         periodType: dataSetPeriodType,
-        periodId,
         openFuturePeriods,
-        year,
         dateLimit,
+        year,
     })
 
     useEffect(() => {
@@ -86,7 +86,8 @@ export const PeriodSelectorBarItem = () => {
             if (endDate >= dateLimit) {
                 resetPeriod(periodId)
             }
-            if (selectedPeriod?.periodType?.type !== dataSet?.periodType) {
+
+            if (selectedPeriod?.periodType !== dataSetPeriodType) {
                 resetPeriod(periodId)
             }
         } else if (periodId) {
@@ -99,6 +100,7 @@ export const PeriodSelectorBarItem = () => {
         periodId,
         setPeriodId,
         showWarningAlert,
+        dataSetPeriodType,
     ])
 
     const selectorBarItemValue = useSelectorBarItemValue()
@@ -116,7 +118,9 @@ export const PeriodSelectorBarItem = () => {
                 >
                     {year ? (
                         <>
-                            {!yearlyPeriodTypes.includes(dataSetPeriodType) && (
+                            {!yearlyFixedPeriodTypes.includes(
+                                dataSetPeriodType
+                            ) && (
                                 <YearNavigator
                                     maxYear={maxYear}
                                     year={year}

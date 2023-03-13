@@ -1,6 +1,6 @@
 import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { SelectorBarItem, IconBlock16, Divider } from '@dhis2/ui'
+import { SelectorBarItem, Divider, Tooltip } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import {
@@ -27,8 +27,13 @@ import useUserOrgUnits from './use-user-org-units.js'
 const UnclickableLabel = ({ label }) => {
     return (
         <div className={css.disabled}>
-            <IconBlock16 />
-            <span>{label}</span>
+            <Tooltip
+                content={i18n.t(
+                    'Dataset is not assigned to this organisation unit'
+                )}
+            >
+                <span>{label}</span>
+            </Tooltip>
         </div>
     )
 }
@@ -108,7 +113,9 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                 onChange={setFilter}
                             />
                         </div>
-
+                        <div className={css.dividerContainer}>
+                            <Divider dense />
+                        </div>
                         <div className={css.orgUnitTreeContainer}>
                             {orgUnitPathsByNameLoading && (
                                 <OrganisationUnitTreeRootLoading dataTest="org-unit-selector-loading" />
@@ -129,7 +136,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
                             {!orgUnitPathsByNameLoading &&
                                 !!filter &&
                                 !filteredOrgUnitPaths.length && (
-                                    <div dataTest="org-unit-selector-none-found">
+                                    <div data-test="org-unit-selector-none-found">
                                         {i18n.t(
                                             'No organisation units could be found'
                                         )}
@@ -177,15 +184,6 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                         }
                                     />
                                 )}
-                        </div>
-                        <Divider margin="0" />
-                        <div className={css.labelContentContainer}>
-                            <IconBlock16 />
-                            <span className={css.label}>
-                                {i18n.t(
-                                    'Dataset is not assigned to this organisation unit'
-                                )}
-                            </span>
                         </div>
                     </div>
                 </SelectorBarItem>
