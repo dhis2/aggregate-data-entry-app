@@ -1,10 +1,9 @@
+import {
+    getAdjacentFixedPeriods,
+    createFixedPeriodFromPeriodId,
+} from '@dhis2/multi-calendar-dates'
 import { createCachedSelector } from 're-reselect'
 import { createSelector } from 'reselect'
-import {
-    addFullPeriodTimeToDate,
-    parsePeriodId,
-    removeFullPeriodTimeToDate,
-} from '../fixed-periods/index.js'
 import { cartesian } from '../utils.js'
 // Helper to group array items by an identifier
 
@@ -462,6 +461,9 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
         (_, __, ___, orgUnitId) => orgUnitId,
         (_, __, ___, ____, fromClientDate) => fromClientDate,
         (metadata, dataSet, periodId, orgUnitId, fromClientDate) => {
+            // @TODO(calendar)
+            const calendar = 'gregory'
+
             if (!dataSet?.id || !periodId) {
                 return []
             }
@@ -477,7 +479,16 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                 relevantCategories,
                 categoryOptions
             )
-            const period = parsePeriodId(periodId)
+
+            let period
+            try {
+                period = createFixedPeriodFromPeriodId({ periodId, calendar })
+            } catch (e) {
+                console.error(e)
+                // Handling invalid period ids
+                return []
+            }
+
             if (!period) {
                 return []
             }
@@ -486,23 +497,29 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                 clientPeriodStartDate
             ).serverDate
 
-            // periodEndDate is up to following start date
-            let periodEndDate = addFullPeriodTimeToDate(
-                periodStartDate,
-                period?.periodType?.type
-            )
+            const [followingPeriod] = getAdjacentFixedPeriods({
+                period,
+                calendar,
+                steps: 1,
+            })
 
-            // reduce perfiodEndDate by openPeriodsAfterCoEndDate
             const openPeriodsAfterCoEndDate = Math.max(
                 dataSet?.openPeriodsAfterCoEndDate || 0,
                 0
             )
-            for (let i = 0; i < openPeriodsAfterCoEndDate; i++) {
-                periodEndDate = removeFullPeriodTimeToDate(
-                    periodEndDate,
-                    period?.periodType?.type
-                )
-            }
+
+            const previousPeriodsCount = openPeriodsAfterCoEndDate * -1
+            const previousPeriods = previousPeriodsCount
+                ? getAdjacentFixedPeriods({
+                      steps: previousPeriodsCount,
+                      period,
+                      calendar: 'gregory',
+                  })
+                : []
+
+            const periodEndDate = new Date(
+                previousPeriods[0]?.startDate || followingPeriod.startDate
+            )
 
             // remove 1 day because endDate is 1 less than subsequent startDate
             periodEndDate.setDate(periodEndDate.getDate() - 1)
