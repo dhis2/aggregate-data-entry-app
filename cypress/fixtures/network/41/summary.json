@@ -1,0 +1,15 @@
+{
+    "count": 1139,
+    "totalResponseSize": 5375655,
+    "duplicates": 1045,
+    "nonDeterministicResponses": 53,
+    "apiVersion": "41",
+    "fixtureFiles": [
+        "static_resources.json",
+        "category_options_for_each_category_in_the_category_combination_connected_to_the_data_set_can_be_selected.json",
+        "a_data_set_can_be_selected.json",
+        "an_org_unit_can_be_selected.json",
+        "a_period_can_be_selected.json",
+        "a_section_filter_can_be_selected.json"
+    ]
+}

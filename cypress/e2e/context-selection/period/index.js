@@ -1,4 +1,10 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
+
+// It seems that the new cypress cucumber library splits different steps into
+// different test cases. Cypress does not persist aliases across tests,
+// mutable seem to be working though
+let selectedPeriodLabel = ''
+let selectedPeriodValue = ''
 
 Given('a data set has been selected', () => {
     cy.visit(`/#/?dataSetId=Nyh6laLdBEJ`)
@@ -79,14 +85,16 @@ When('selects the first period option', () => {
 
     cy.get('@firstOption')
         .invoke('text')
-        .as('selectedPeriodLabel')
-        .then(console.log.bind(null, 'first option label'))
+        .then(curSelectedPeriodLabel => {
+            selectedPeriodLabel = curSelectedPeriodLabel
+        })
 
     cy.get('@firstOption')
         .find('[data-value]')
         .invoke('attr', 'data-value')
-        .as('selectedPeriodValue')
-        .then(console.log.bind(null, 'first option value'))
+        .then(curSelectedPeriodValue => {
+            selectedPeriodValue = curSelectedPeriodValue
+        })
 
     cy.get('@firstOption').click()
 })
@@ -149,18 +157,15 @@ Then(
 Then(
     'that period option should be shown as the current value in the selector',
     () => {
-        cy.get('@selectedPeriodLabel').then((selectedPeriodLabel) => {
-            cy.get('[data-test="period-selector"]')
-                .contains(selectedPeriodLabel)
-                .should('exist')
-        })
+        console.log('> then: selectedPeriodLabel', selectedPeriodLabel)
+        cy.get('[data-test="period-selector"]')
+            .contains(selectedPeriodLabel)
+            .should('exist')
     }
 )
 
 Then('the period id should be persisted in the url', () => {
-    cy.get('@selectedPeriodValue').then((selectedPeriodValue) => {
-        cy.url().should('match', new RegExp(`&periodId=${selectedPeriodValue}`))
-    })
+    cy.url().should('match', new RegExp(`&periodId=${selectedPeriodValue}`))
 })
 
 Then('the previously selected period should be deselected', () => {
