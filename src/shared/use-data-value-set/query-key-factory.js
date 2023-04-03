@@ -5,14 +5,14 @@ export const dataValueSets = {
         periodId,
         orgUnitId,
         categoryComboId,
-        categoryOptionIds = [],
+        categoryOptionIds,
     }) => {
         const params = {
             ds: dataSetId,
             pe: periodId,
             ou: orgUnitId,
             cc: categoryComboId,
-            cp: categoryOptionIds.join(';'),
+            cp: categoryOptionIds && categoryOptionIds.join(';'),
         }
 
         return [...dataValueSets.all, { params }]
