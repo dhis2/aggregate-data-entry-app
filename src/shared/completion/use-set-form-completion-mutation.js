@@ -13,14 +13,17 @@ const MUTATION_SET_FORM_COMPLETION = {
         pe: periodId,
         ou: orgUnitId,
         cc: categoryComboId,
-        co: categoryOptionIds,
+        cp: categoryOptionIds,
         completed,
     }) => {
         return {
             dataSet: dataSetId,
             period: periodId,
             orgUnit: orgUnitId,
-            attribute: { combo: categoryComboId, options: categoryOptionIds },
+            attribute: {
+                combo: categoryComboId,
+                options: categoryOptionIds?.split(';'),
+            },
             completed,
         }
     },
