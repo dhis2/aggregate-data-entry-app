@@ -1,3 +1,10 @@
+## [100.2.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.0...v100.2.1) (2023-04-05)
+
+
+### Bug Fixes
+
+* include attribute options in completion post [DHIS2-15032] ([#311](https://github.com/dhis2/aggregate-data-entry-app/issues/311)) ([8df1dc0](https://github.com/dhis2/aggregate-data-entry-app/commit/8df1dc0f0ab66b50f33211145774da95576dd5e4))
+
 # [100.2.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.1.2...v100.2.0) (2023-03-13)
 
 
