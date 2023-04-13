@@ -8,7 +8,13 @@ export default function useOrgUnit() {
         {
             id,
             params: {
-                fields: ['id', 'displayName', 'path'],
+                fields: [
+                    'id',
+                    'displayName',
+                    'path',
+                    'openingDate',
+                    'closedDate',
+                ],
             },
         },
     ]
