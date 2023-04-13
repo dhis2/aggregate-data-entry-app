@@ -1,3 +1,4 @@
+import { FetchError } from '@dhis2/app-runtime'
 import i18n from '../../locales/index.js'
 
 /* A dictionary taking the shape Dictionary<ErrorCode, (string | (error) => string)> to override the display message for a certain error code
@@ -28,17 +29,6 @@ const errorDetailsMessagePriority = [
     ['httpStatusCode', statusCodeErrorMessages],
 ]
 
-// FetchError is not exposed from app-runtime
-// TODO: remove once https://github.com/dhis2/app-runtime/pull/1267 is merged
-
-export class FetchError extends Error {
-    constructor({ message, type, details = {} }) {
-        super(message)
-        this.type = type
-        this.details = details
-    }
-}
-
 export class ApiMutationError extends FetchError {
     constructor({ message, type, details = {} }, mutationKey, value) {
         super({ message, type, details })
@@ -61,7 +51,4 @@ export class ApiMutationError extends FetchError {
     }
 }
 
-export const isFetchError = (error) => {
-    // instanceof does not work because FetchError is not the same class as app-runtime
-    return error.constructor.name === FetchError.name
-}
+export const isFetchError = (error) => error instanceof FetchError
