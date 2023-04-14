@@ -1,3 +1,10 @@
+## [100.2.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.1...v100.2.2) (2023-04-14)
+
+
+### Bug Fixes
+
+* use FetchError class from app-runtime [DHIS2-15085] ([#316](https://github.com/dhis2/aggregate-data-entry-app/issues/316)) ([03c4b90](https://github.com/dhis2/aggregate-data-entry-app/commit/03c4b90eab8b41d4ff50a40bd9565a19602d658d))
+
 ## [100.2.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.0...v100.2.1) (2023-04-05)
 
 
