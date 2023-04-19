@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import useOrgUnit from '../../context-selection/org-unit-selector-bar-item/use-organisation-unit.js'
 import { formatJsDateToDateString, useClientServerDate } from '../date/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { usePeriod } from '../period/index.js'
@@ -9,6 +8,7 @@ import {
     useOrgUnitId,
 } from '../use-context-selection/use-context-selection.js'
 import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
+import { useOrgUnit } from '../use-org-unit/use-organisation-unit.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 

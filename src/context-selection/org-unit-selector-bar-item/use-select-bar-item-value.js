@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import useOrgUnit from './use-organisation-unit.js'
+import { useOrgUnit } from '../../shared/index.js'
 import useUserOrgUnits from './use-user-org-units.js'
 
 export default function useSelectorBarItemValue() {

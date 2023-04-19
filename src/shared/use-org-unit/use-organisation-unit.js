@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { useOrgUnitId } from '../../shared/index.js'
+import { useOrgUnitId } from '../use-context-selection/index.js'
 
-export default function useOrgUnit() {
+export const useOrgUnit = () => {
     const [id] = useOrgUnitId()
     const queryKey = [
         'organisationUnits',
