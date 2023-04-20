@@ -85,14 +85,14 @@ When('selects the first period option', () => {
 
     cy.get('@firstOption')
         .invoke('text')
-        .then(curSelectedPeriodLabel => {
+        .then((curSelectedPeriodLabel) => {
             selectedPeriodLabel = curSelectedPeriodLabel
         })
 
     cy.get('@firstOption')
         .find('[data-value]')
         .invoke('attr', 'data-value')
-        .then(curSelectedPeriodValue => {
+        .then((curSelectedPeriodValue) => {
             selectedPeriodValue = curSelectedPeriodValue
         })
 
