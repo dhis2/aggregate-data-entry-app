@@ -75,7 +75,7 @@ export function useSetFormCompletionMutation() {
 
             return context
         },
-        onError: (event, context) => {
+        onError: (event, _, context) => {
             const alertMessage = i18n.t(
                 'Something went wrong while setting the form\'s completion to "{{completed}}": {{errorMessage}}',
                 {
