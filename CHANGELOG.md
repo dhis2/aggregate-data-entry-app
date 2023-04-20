@@ -1,3 +1,10 @@
+## [100.2.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.2...v100.2.3) (2023-04-20)
+
+
+### Bug Fixes
+
+* rollback failed complete [DHIS2-15033] ([#312](https://github.com/dhis2/aggregate-data-entry-app/issues/312)) ([ce559cf](https://github.com/dhis2/aggregate-data-entry-app/commit/ce559cf23d33fa488d63b6e5600aeffc6ef0b0f5))
+
 ## [100.2.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.1...v100.2.2) (2023-04-14)
 
 
