@@ -1,3 +1,10 @@
+## [100.2.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.3...v100.2.4) (2023-04-20)
+
+
+### Bug Fixes
+
+* lock forms when organisation unit is closed [BETA-25] ([#317](https://github.com/dhis2/aggregate-data-entry-app/issues/317)) ([9a2531e](https://github.com/dhis2/aggregate-data-entry-app/commit/9a2531efaaa74e47564daebd159512effbea2998))
+
 ## [100.2.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.2...v100.2.3) (2023-04-20)
 
 
