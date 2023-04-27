@@ -1595,6 +1595,15 @@
     tunnel-agent "^0.6.0"
     uuid "^8.3.2"
 
+"@cypress/webpack-preprocessor@^5.17.0":
+  version "5.17.0"
+  resolved "https://registry.yarnpkg.com/@cypress/webpack-preprocessor/-/webpack-preprocessor-5.17.0.tgz#3f58cf333c5931094780e3ca14c9302a1965025e"
+  integrity sha512-HyFqHkrOrIIYOt4G+r3VK0kVYTcev1tEcqBI/0DJ4AzEuEgW/TB+cX56txy4Cgn60XXdJoul2utclZwUqOsPZA==
+  dependencies:
+    bluebird "3.7.1"
+    debug "^4.3.4"
+    lodash "^4.17.20"
+
 "@cypress/xvfb@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@cypress/xvfb/-/xvfb-1.2.4.tgz#2daf42e8275b39f4aa53c14214e557bd14e7748a"
@@ -2584,17 +2593,17 @@
     semver "^7.3.5"
     yargs "^16.2.0"
 
-"@dhis2/cypress-commands@9.0.2":
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/@dhis2/cypress-commands/-/cypress-commands-9.0.2.tgz#676870ccb2d5fe3811d5f480c7edf2f0b8507255"
-  integrity sha512-G6H9bOpjxqa2X+pc5vJqiwZLp+8utuac/BMRehb/8T6CeIWF4r6keCTq9HTof47szC+06JbsB2ZiviInmZGXJA==
+"@dhis2/cypress-commands@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@dhis2/cypress-commands/-/cypress-commands-10.0.0.tgz#96b5d61ad88d0a9844dbe48fcf9d81ab23020b06"
+  integrity sha512-1mlRANty+DaeYAsb8IjUal39t6R9kmO4egvrcrYN1vmejl9sy0RHlTsTSqocjQpBSKPH5Is3kBThLjnGsv3wFw==
   dependencies:
     jscodeshift "^0.11.0"
 
-"@dhis2/cypress-plugins@9.0.2":
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/@dhis2/cypress-plugins/-/cypress-plugins-9.0.2.tgz#6cbd58b2ce26a08e70045b81835504cd9ef6d8c9"
-  integrity sha512-FhHW5+8HBKIJwAl5fEv6lapTo76LLR9LtoS8iy4crc5RZnHlWgVqXeqG1sBFix93yd8nCFfYvOIP8+Y+x9mi5A==
+"@dhis2/cypress-plugins@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@dhis2/cypress-plugins/-/cypress-plugins-10.0.0.tgz#e33219e77a87e61135e25c5a4a34a85ed4a718e0"
+  integrity sha512-VsZgXLFrE4si6AEa+jotb1Mh0C8ZILNPyZlnOLccGs0STzQ9MK+8PejR2zJoYYXD2yTtsnlrMvFxjOd7W04vxw==
 
 "@dhis2/d2-i18n@^1.1.1":
   version "1.1.1"
@@ -5130,6 +5139,11 @@ blob-util@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/blob-util/-/blob-util-2.0.2.tgz#3b4e3c281111bb7f11128518006cdc60b403a1eb"
   integrity sha512-T7JQa+zsXXEa6/8ZhHcQEW1UFfVM49Ts65uBkFL6fz2QmrElqmbajIDJvuA0tEhRe5eIjpV9ZF+0RfZR9voJFQ==
+
+bluebird@3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.1.tgz#df70e302b471d7473489acf26a93d63b53f874de"
+  integrity sha512-DdmyoGCleJnkbp3nkbxTLJ18rjDsE4yCggEwKNXkeV123sPNfOCYeDoeuOY+F2FrSjO1YXcTU+dsy96KMy+gcg==
 
 bluebird@3.7.2, bluebird@^3.5.3, bluebird@^3.5.5, bluebird@^3.7.2:
   version "3.7.2"
