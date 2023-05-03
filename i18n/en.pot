@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
-"PO-Revision-Date: 2022-12-05T23:56:08.051Z\n"
+"POT-Creation-Date: 2023-05-03T12:33:36.000Z\n"
+"PO-Revision-Date: 2023-05-03T12:33:36.000Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -54,6 +54,9 @@ msgstr "1 value failed to save"
 msgid "{{numberOfErrors}} values failed to save"
 msgstr "{{numberOfErrors}} values failed to save"
 
+msgid "This form closes at {{-dateTime}}"
+msgstr "This form closes at {{-dateTime}}"
+
 msgid "Validation is not available offline"
 msgstr "Validation is not available offline"
 
@@ -63,11 +66,11 @@ msgstr "Validation is not available while changes are pending"
 msgid "Run validation"
 msgstr "Run validation"
 
-msgid "Last completed by"
-msgstr "Last completed by"
+msgid "Last completed by {{-username}}"
+msgstr "Last completed by {{-username}}"
 
-msgid "Last incompleted by"
-msgstr "Last incompleted by"
+msgid "Last incompleted by {{-username}}"
+msgstr "Last incompleted by {{-username}}"
 
 msgid "Couldn't validate the form, please try again later"
 msgstr "Couldn't validate the form, please try again later"
@@ -261,6 +264,9 @@ msgstr "Search org units"
 msgid "Choose a data set first"
 msgstr "Choose a data set first"
 
+msgid "Dataset is not assigned to this organisation unit"
+msgstr "Dataset is not assigned to this organisation unit"
+
 msgid "Organisation unit"
 msgstr "Organisation unit"
 
@@ -269,9 +275,6 @@ msgstr "Choose a organisation unit"
 
 msgid "No organisation units could be found"
 msgstr "No organisation units could be found"
-
-msgid "Dataset is not assigned to this organisation unit"
-msgstr "Dataset is not assigned to this organisation unit"
 
 msgid "No children match filter"
 msgstr "No children match filter"

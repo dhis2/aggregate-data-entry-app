@@ -94,10 +94,10 @@ export default function MainToolBar() {
                     <span>
                         {data.completeStatus.complete
                             ? i18n.t('Last completed by {{-username}}', {
-                                  username: data?.completeStatus.lastUpdatedBy,
+                                  username: data.completeStatus.lastUpdatedBy,
                               })
                             : i18n.t('Last incompleted by {{-username}}', {
-                                  username: data?.completeStatus.lastUpdatedBy,
+                                  username: data.completeStatus.lastUpdatedBy,
                               })}
                     </span>
                 </span>
