@@ -139,6 +139,20 @@ When('the user opens the dropdown for the category of that option', () => {
 When('the user selects a new period that options are valid for', () => {
     cy.contains('December 2021').should('exist')
     cy.get('[data-test="period-selector"]').click()
+
+    // test was written in 2022, the 2023 menu produces an empty list in
+    // January 2023, therefore we simply navigate back to the 2022 to ensure
+    // the integrity of the test for any future date
+    cy.get('[data-test="yearnavigator-currentyear"]').then(($span) => {
+        const yearStr = $span.text()
+        const currentYear = parseInt(yearStr, 10)
+        const stepsBack = currentYear - 2022
+
+        for (let i = 0; i < stepsBack; ++i) {
+            cy.get('[data-test="yearnavigator-backbutton"]').click()
+        }
+    })
+
     cy.get('[data-test="period-selector-menu"] li:nth-child(2)').click()
 })
 

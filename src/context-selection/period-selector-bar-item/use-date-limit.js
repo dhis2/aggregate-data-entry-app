@@ -1,50 +1,54 @@
+import {
+    getAdjacentFixedPeriods,
+    getFixedPeriodByDate,
+} from '@dhis2/multi-calendar-dates'
+import moment from 'moment'
 import { useMemo } from 'react'
 import {
-    getFixedPeriodsForTypeAndDateRange,
-    addFullPeriodTimeToDate,
-    removeFullPeriodTimeToDate,
     selectors,
     useDataSetId,
     useMetadata,
     formatJsDateToDateString,
     getCurrentDate,
+    periodTypesMapping,
     useClientServerDateUtils,
     useClientServerDate,
 } from '../../shared/index.js'
 
-export const computeDateLimit = ({ dataSetId, metadata, fromClientDate }) => {
-    const currentDate = fromClientDate(getCurrentDate())
-
-    if (!dataSetId) {
-        return currentDate.serverDate
-    }
-
-    const dataSet = selectors.getDataSetById(metadata, dataSetId)
-    const periodType = dataSet?.periodType
-    const openFuturePeriods = dataSet?.openFuturePeriods || 0
-
-    if (openFuturePeriods <= 0) {
-        return currentDate.serverDate
-    }
-
-    // will only get the current period
-    const [currentPeriod] = getFixedPeriodsForTypeAndDateRange({
+export const computePeriodDateLimit = ({
+    periodType,
+    serverDate,
+    openFuturePeriods = 0,
+}) => {
+    const calendar = 'gregory'
+    const date = moment(serverDate).format('yyyy-MM-DD')
+    const currentPeriod = getFixedPeriodByDate({
         periodType,
-        startDate: removeFullPeriodTimeToDate(
-            currentDate.serverDate,
-            periodType
-        ),
-        endDate: currentDate.serverDate,
+        date,
+        calendar,
     })
 
-    let startDateLimit = new Date(currentPeriod.startDate)
-
-    for (let i = 0; i <= openFuturePeriods; ++i) {
-        startDateLimit = addFullPeriodTimeToDate(startDateLimit, periodType)
+    if (openFuturePeriods <= 0) {
+        return new Date(currentPeriod.startDate)
     }
-    return startDateLimit
+
+    const followingPeriods = getAdjacentFixedPeriods({
+        period: currentPeriod,
+        calendar,
+        steps: openFuturePeriods,
+    })
+
+    const [lastFollowingPeriod] = followingPeriods.slice(-1)
+
+    return new Date(lastFollowingPeriod.startDate)
 }
 
+/**
+ * Returns the first date that is exluded. For example the currend period type
+ * is 'Daily' and two open future periods are allowed, then the date limit is
+ * two days ahead as that's the first day that's not allowed (the current
+ * period is a considered afuture period)
+ */
 export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
@@ -53,12 +57,23 @@ export const useDateLimit = () => {
     const currentDay = formatJsDateToDateString(currentDate.serverDate)
 
     return useMemo(
-        () =>
-            computeDateLimit({
-                dataSetId,
-                metadata,
-                fromClientDate,
-            }),
+        () => {
+            const currentDate = fromClientDate(getCurrentDate())
+            const dataSet = selectors.getDataSetById(metadata, dataSetId)
+
+            if (!dataSet) {
+                return currentDate.serverDate
+            }
+
+            const periodType = periodTypesMapping[dataSet.periodType]
+            const openFuturePeriods = dataSet.openFuturePeriods || 0
+
+            return computePeriodDateLimit({
+                periodType,
+                openFuturePeriods,
+                serverDate: currentDate.serverDate,
+            })
+        },
 
         // Adding `dateWithoutTime` to the dependency array so this hook will
         // recompute the date limit when the actual date changes

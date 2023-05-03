@@ -518,6 +518,9 @@ msgstr "Upload an image"
 msgid "Upload a file"
 msgstr "Upload a file"
 
+msgid "Choose option(s)"
+msgstr "Choose option(s)"
+
 msgid "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 
@@ -566,102 +569,6 @@ msgid ""
 msgstr ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
-
-msgid "January"
-msgstr "January"
-
-msgid "February"
-msgstr "February"
-
-msgid "March"
-msgstr "March"
-
-msgid "April"
-msgstr "April"
-
-msgid "May"
-msgstr "May"
-
-msgid "June"
-msgstr "June"
-
-msgid "July"
-msgstr "July"
-
-msgid "August"
-msgstr "August"
-
-msgid "September"
-msgstr "September"
-
-msgid "October"
-msgstr "October"
-
-msgid "November"
-msgstr "November"
-
-msgid "December"
-msgstr "December"
-
-msgid "Week {{weekNumber}}"
-msgstr "Week {{weekNumber}}"
-
-msgid "Bi-Week {{biWeekNumber}}"
-msgstr "Bi-Week {{biWeekNumber}}"
-
-msgid "Daily"
-msgstr "Daily"
-
-msgid "Weekly"
-msgstr "Weekly"
-
-msgid "Weekly (Start Wednesday)"
-msgstr "Weekly (Start Wednesday)"
-
-msgid "Weekly (Start Thursday)"
-msgstr "Weekly (Start Thursday)"
-
-msgid "Weekly (Start Saturday)"
-msgstr "Weekly (Start Saturday)"
-
-msgid "Weekly (Start Sunday)"
-msgstr "Weekly (Start Sunday)"
-
-msgid "Bi-weekly"
-msgstr "Bi-weekly"
-
-msgid "Monthly"
-msgstr "Monthly"
-
-msgid "Bi-monthly"
-msgstr "Bi-monthly"
-
-msgid "Quarterly"
-msgstr "Quarterly"
-
-msgid "Six-monthly"
-msgstr "Six-monthly"
-
-msgid "Six-monthly April"
-msgstr "Six-monthly April"
-
-msgid "Six-monthly November"
-msgstr "Six-monthly November"
-
-msgid "Yearly"
-msgstr "Yearly"
-
-msgid "Financial year (Start November)"
-msgstr "Financial year (Start November)"
-
-msgid "Financial year (Start October)"
-msgstr "Financial year (Start October)"
-
-msgid "Financial year (Start July)"
-msgstr "Financial year (Start July)"
-
-msgid "Financial year (Start April)"
-msgstr "Financial year (Start April)"
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (disabled)"

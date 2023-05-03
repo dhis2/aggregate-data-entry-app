@@ -61,6 +61,10 @@
     flex-grow: 1;
 }
 
+.selectMulti {
+    max-width: 25vw;
+}
+
 .fileInputWrapper {
     composes: hw100 densePadding;
     display: flex;
@@ -77,4 +81,22 @@
 .deleteFileButton {
     composes: whiteButton;
     margin-left: 8px;
+}
+@media print {
+    .hideForPrint {
+        composes: hideForPrint from '../../app/app.css'
+    }
+    /* hide icons when printing  */
+    .select svg {
+        visibility: hidden;
+    }
+
+    .select [data-test="dhis2-uicore-select-input"] {
+        border: 0;
+        box-shadow: none;
+    }
+
+    .select [data-test="dhis2-uicore-chip"] span {
+        margin-left: 0;
+    }
 }

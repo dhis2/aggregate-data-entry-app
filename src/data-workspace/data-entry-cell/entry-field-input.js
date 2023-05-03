@@ -21,7 +21,13 @@ import {
 function InputComponent({ sharedProps, de }) {
     // If this is an option set, return OptionSet component
     if (de.optionSet) {
-        return <OptionSet {...sharedProps} optionSetId={de.optionSet.id} />
+        return (
+            <OptionSet
+                {...sharedProps}
+                optionSetId={de.optionSet.id}
+                multi={de.valueType === 'MULTI_TEXT'}
+            />
+        )
     }
     // Otherwise, check for the valueType
     switch (de.valueType) {
