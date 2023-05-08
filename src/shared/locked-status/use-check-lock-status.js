@@ -25,22 +25,37 @@ const getFrontendLockStatus = ({
         return
     }
 
-    const applicableDataInputPeriod = selectors.getApplicableDataInputPeriod(
-        metadata,
-        dataSetId,
-        selectedPeriod.id
-    )
-    const expiryDays = selectors.getDataSetById(metadata, dataSetId)?.expiryDays
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
+    if (!dataSet) {
+        return
+    }
 
-    if (!applicableDataInputPeriod && !expiryDays) {
+    const { expiryDays, dataInputPeriods } = dataSet
+    if (dataInputPeriods.length === 0 && expiryDays === 0) {
         // Nothing to check here then
-        return null
+        return
     }
 
     let clientLockDate
     const currentDate = fromClientDate(getCurrentDate())
 
-    if (applicableDataInputPeriod) {
+    if (dataInputPeriods.length > 0) {
+        const applicableDataInputPeriod =
+            selectors.getApplicableDataInputPeriod(
+                metadata,
+                dataSetId,
+                selectedPeriod.id
+            )
+
+        if (!applicableDataInputPeriod) {
+            // If there are defined data input periods, but there is not one
+            // for this selected period, then the form is closed
+            return {
+                state: LockedStates.LOCKED_DATA_INPUT_PERIOD,
+                lockDate: null,
+            }
+        }
+
         const { openingDate, closingDate } = applicableDataInputPeriod
         // openingDate and closingDate can be undefined.
         // They are local to the server
@@ -59,10 +74,13 @@ const getFrontendLockStatus = ({
                 state: LockedStates.LOCKED_DATA_INPUT_PERIOD,
                 lockDate: null,
             }
-        } else {
-            // This might still be undefined, but that's okay
-            clientLockDate = parsedClosingDate?.clientDate
         }
+
+        // If we're here, the form isn't (yet) locked by the data input period.
+        // Set the clientLockDate to the input period's closing date (if this
+        // input period has one) before also checking expiry days.
+        // This might still be undefined, but that's okay
+        clientLockDate = parsedClosingDate?.clientDate
     }
 
     if (expiryDays > 0) {
@@ -95,6 +113,7 @@ const getFrontendLockStatus = ({
         // If this form is actually expired, don't lock it here; leave that
         // to the backend check, which can account for superuser exceptions or
         // lock exceptions
+        // (TO DO: implement this full check on the front-end - TECH-1428)
     }
 
     return { state: LockedStates.OPEN, lockDate: clientLockDate }
