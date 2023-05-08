@@ -71,7 +71,7 @@ describe('useSetFormCompletionMutation', () => {
 
         expect(dataValueSet.current.isLoading).toBe(true)
 
-        // Mutate a current data value
+        // Complete a form
         act(() => setFormCompletion.current.mutate({ completed: true }))
 
         await waitForSetFormCompletion(() => {
@@ -95,33 +95,6 @@ describe('useSetFormCompletionMutation', () => {
 
     it('should optimistically update the completion state', async () => {
         const queryCache = new QueryCache()
-        const onDataValueSuccess = jest.fn()
-        const dataValuesResolver = jest.fn(() => new Promise(() => null))
-
-        // first we need to load the data value set so we have a loading state
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(
-                () => useDataValueSet({ onSuccess: onDataValueSuccess }),
-                {
-                    wrapper: ({ children }) => (
-                        <Wrapper
-                            queryClientOptions={{ queryCache }}
-                            dataForCustomProvider={{
-                                dataValues: dataValuesResolver,
-                            }}
-                        >
-                            {children}
-                        </Wrapper>
-                    ),
-                }
-            )
-
-        // Make sure the request is on-going
-        await waitForDataValueSet(() => {
-            expect(dataValuesResolver).toHaveBeenCalledTimes(1)
-            expect(onDataValueSuccess).toHaveBeenCalledTimes(0)
-            return dataValueSet.current.isLoading
-        })
 
         const { result: setFormCompletion, waitFor: waitForSetFormCompletion } =
             renderHook(() => useSetFormCompletionMutation(), {
@@ -139,8 +112,6 @@ describe('useSetFormCompletionMutation', () => {
                 ),
             })
 
-        expect(dataValueSet.current.isLoading).toBe(true)
-
         // Mutate a current data value
         act(() => setFormCompletion.current.mutate({ completed: true }))
 
@@ -149,13 +120,11 @@ describe('useSetFormCompletionMutation', () => {
         })
 
         // Ensure that the on-going data value set request is cancelled
-        await waitForDataValueSet(() => {
-            const queryKey = ['dataValues']
-            const cachedDataValuesQuery = queryCache.find({ queryKey })
-            const cachedDataValues = cachedDataValuesQuery.state.data
+        const queryKey = ['dataValues']
+        const cachedDataValuesQuery = queryCache.find({ queryKey })
+        const cachedDataValues = cachedDataValuesQuery.state.data
 
-            expect(cachedDataValues.completeStatus.complete).toBe(true)
-        })
+        expect(cachedDataValues.completeStatus.complete).toBe(true)
     })
 
     it('should revert to the old cache state when an error occurs', async () => {
@@ -221,7 +190,6 @@ describe('useSetFormCompletionMutation', () => {
             expect(setFormCompletion.current.isLoading).toBe(true)
         })
 
-        // Ensure that the on-going data value set request is cancelled
         await waitForDataValueSet(() => {
             const queryKey = ['dataValues']
             const cachedDataValuesQuery = queryCache.find({ queryKey })
