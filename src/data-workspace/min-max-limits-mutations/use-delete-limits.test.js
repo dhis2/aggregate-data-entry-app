@@ -66,15 +66,8 @@ describe('useDeleteLimits', () => {
         // we need to wait for the initial data values to have been fetched
         // (and therefore cached)
         await waitForDataValueSet(() => {
-            if (dataValueSet.current.isSuccess) {
-                return true
-            }
-
-            if (dataValueSet.current.isError) {
-                return true
-            }
-
-            return false
+            const { isSuccess, isError } = dataValueSet.current
+            expect(isSuccess || isError).toBe(true)
         })
 
         // extract the cached values and make an assertion
@@ -122,7 +115,7 @@ describe('useDeleteLimits', () => {
             })
         })
 
-        await waitFor(() => result.current.isSuccess)
+        await waitFor(() => expect(result.current.isSuccess).toBe(true))
 
         // It should have updated the values in the cache
         const dataValuesQuery = queryCache.find({
@@ -167,15 +160,8 @@ describe('useDeleteLimits', () => {
         // we need to wait for the initial data values to have been fetched
         // (and therefore cached)
         await waitForDataValueSet(() => {
-            if (dataValueSet.current.isSuccess) {
-                return true
-            }
-
-            if (dataValueSet.current.isError) {
-                return true
-            }
-
-            return false
+            const { isSuccess, isError } = dataValueSet.current
+            expect(isSuccess || isError).toBe(true)
         })
 
         // extract the cached values and make an assertion
@@ -225,7 +211,7 @@ describe('useDeleteLimits', () => {
             })
         })
 
-        await waitFor(() => result.current.isError)
+        await waitFor(() => expect(result.current.isError).toBe(true))
 
         const dataValuesQuery = queryCache.find({
             queryKey: dataValueSetQueryKey,
@@ -282,15 +268,8 @@ describe('useDeleteLimits', () => {
         // we need to wait for the initial data values to have been fetched
         // (and therefore cached)
         await waitForDataValueSet(() => {
-            if (dataValueSet.current.isSuccess) {
-                return true
-            }
-
-            if (dataValueSet.current.isError) {
-                return true
-            }
-
-            return false
+            const { isSuccess, isError } = dataValueSet.current
+            expect(isSuccess || isError).toBe(true)
         })
 
         // extract the cached values and make an assertion
@@ -344,7 +323,7 @@ describe('useDeleteLimits', () => {
             })
         })
 
-        await waitFor(() => result.current.isSuccess)
+        await waitFor(() => expect(result.current.isSuccess).toBe(true))
 
         // Not an ideal way to test this, but I'm not sure if there's
         // any other way to test whether the correct query has been
