@@ -148,4 +148,33 @@ describe('useImperativeValidate', () => {
             commentRequiredViolations: {}
         })
     })
+
+    it('should return a function that rejects when a request fails', () => {
+        const fetchQuery = jest.fn((query) => {
+            if (query === 'validationQueryKey') {
+                return Promise.resolve({
+                    commentRequiredViolations: {},
+                    validationRuleViolations: [],
+                })
+            }
+
+            if (query === 'validationMetaDataQueryKey') {
+                return Promise.reject('An error occurred')
+            }
+
+            throw new Error('Should never get here')
+        })
+
+        useQueryClient.mockImplementation(() => ({ fetchQuery }))
+
+        const { result } = renderHook(useImperativeValidate, {
+            wrapper: ({ children }) => (
+                <Wrapper dataForCustomProvider={{}}>
+                    {children}
+                </Wrapper>
+            ),
+        })
+
+        expect(result.current()).rejects.toEqual('An error occurred')
+    })
 })
