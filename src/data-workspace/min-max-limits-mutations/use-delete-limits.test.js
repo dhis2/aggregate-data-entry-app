@@ -218,9 +218,6 @@ describe('useDeleteLimits', () => {
         })
         const dataValuesQueryData = dataValuesQuery.state.data
 
-        // The original value is `undefined`, but `queryClient.setQueryData`
-        // doesn't work with `undefined` as a value, so it has to be set to an
-        // empty object instead
         expect(dataValuesQueryData).toEqual({
             minMaxValues: [
                 {
