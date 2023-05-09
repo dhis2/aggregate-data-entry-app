@@ -20,6 +20,7 @@ export const computePeriodDateLimit = ({
     openFuturePeriods = 0,
 }) => {
     const calendar = 'gregory'
+    // serverDate is converted to YYYY-MM-DD string named date before being passed
     const date = serverDate.toLocaleDateString('sv')
     const currentPeriod = getFixedPeriodByDate({
         periodType,

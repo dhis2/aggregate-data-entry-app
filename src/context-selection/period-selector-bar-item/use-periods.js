@@ -34,6 +34,7 @@ export default function usePeriods({
         const yearForGenerating = isYearlyPeriodType
             ? year + openFuturePeriods
             : year
+        // dateLimit is converted to YYYY-MM-DD string named endsBefore before being passed
         const endsBefore = dateLimit.toLocaleDateString('sv')
 
         const generateFixedPeriodsPayload = {
