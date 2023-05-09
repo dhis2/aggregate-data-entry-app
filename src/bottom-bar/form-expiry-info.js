@@ -16,9 +16,10 @@ export default function FormExpiryInfo() {
         <>
             {!locked && lockDate && (
                 <Tooltip
-                    content={i18n.t('Closes at {{-dateTime}}', {
-                        dateTime: lockDate.toLocaleString(),
-                    })}
+                    content={i18n.t(
+                        'This form closes and will be locked at {{-dateTime}}',
+                        { dateTime: lockDate.toLocaleString() }
+                    )}
                 >
                     <span
                         className={cx(
@@ -31,7 +32,7 @@ export default function FormExpiryInfo() {
                         </span>
 
                         <span>
-                            {i18n.t('This form closes {{-relativeTime}}', {
+                            {i18n.t('Closes {{-relativeTime}}', {
                                 relativeTime: moment(lockDate).fromNow(),
                             })}
                         </span>
