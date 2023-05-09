@@ -111,9 +111,9 @@ const getFrontendLockStatus = ({
         }
 
         // If this form is actually expired, don't lock it here; leave that
-        // to the backend check, which can account for superuser exceptions or
-        // lock exceptions
-        // (TO DO: implement this full check on the front-end - TECH-1428)
+        // to the backend check, which can account for F_EDIT_EXPIRED
+        // authorities or lock exceptions
+        // TODO: implement this full check on the front-end (TECH-1428)
     }
 
     return { state: LockedStates.OPEN, lockDate: clientLockDate }
