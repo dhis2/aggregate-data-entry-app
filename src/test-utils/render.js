@@ -10,9 +10,10 @@ export function TestWrapper({
     wrapper: WrapperFromOptions,
     router = MemoryRouter,
     queryClient,
+    queryClientOptions,
     children,
 }) {
-    const defaultTestQueryClient = useTestQueryClient()
+    const defaultTestQueryClient = useTestQueryClient(queryClientOptions)
 
     const content = (
         <OuterComponents
@@ -30,16 +31,40 @@ export function TestWrapper({
     return <WrapperFromOptions>{content}</WrapperFromOptions>
 }
 
+export function Wrapper({
+    dataForCustomProvider,
+    queryClientOptions,
+    children,
+    ...restOptions
+}) {
+    return (
+        <Provider baseUrl="http://dhis2-tests.org" apiVersion="41">
+            <CustomDataProvider
+                data={dataForCustomProvider}
+                queryClientOptions={queryClientOptions}
+            >
+                <TestWrapper
+                    queryClientOptions={queryClientOptions}
+                    {...restOptions}
+                >
+                    {children}
+                </TestWrapper>
+            </CustomDataProvider>
+        </Provider>
+    )
+}
+
 export function render(ui, options = {}) {
     const { dataForCustomProvider, ...restOptions } = options
     return renderOrig(ui, {
         ...options,
         wrapper: ({ children }) => (
-            <Provider baseUrl="http://dhis2-tests.org" apiVersion="39">
-                <CustomDataProvider data={dataForCustomProvider}>
-                    <TestWrapper {...restOptions}>{children}</TestWrapper>
-                </CustomDataProvider>
-            </Provider>
+            <Wrapper
+                {...restOptions}
+                dataForCustomProvider={dataForCustomProvider}
+            >
+                {children}
+            </Wrapper>
         ),
     })
 }

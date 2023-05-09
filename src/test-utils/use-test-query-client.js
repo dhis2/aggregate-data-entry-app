@@ -8,7 +8,7 @@ const logger = {
     error: () => {},
 }
 
-export const useTestQueryClient = () => {
+export const useTestQueryClient = (queryClientOptions) => {
     const engine = useDataEngine()
     const queryFn = createQueryFn(engine)
     const queryClient = new QueryClient({
@@ -19,6 +19,7 @@ export const useTestQueryClient = () => {
             },
         },
         logger,
+        ...queryClientOptions,
     })
 
     return queryClient

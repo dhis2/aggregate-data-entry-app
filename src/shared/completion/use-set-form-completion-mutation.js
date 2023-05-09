@@ -53,17 +53,20 @@ export function useSetFormCompletionMutation() {
         onMutate: async ({ completed: complete }) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic delete)
             await queryClient.cancelQueries(dataValueSetQueryKey)
+
             // Snapshot the previous value
             const previousDataValueSet =
                 queryClient.getQueryData(dataValueSetQueryKey)
+
             // Optimistically overwrite the completion status
             queryClient.setQueryData(dataValueSetQueryKey, () => ({
                 ...previousDataValueSet,
                 completeStatus: {
-                    ...previousDataValueSet.completeStatus,
+                    ...previousDataValueSet?.completeStatus,
                     complete,
                 },
             }))
+
             const context = {
                 complete,
                 previousDataValueSet,
@@ -72,7 +75,7 @@ export function useSetFormCompletionMutation() {
 
             return context
         },
-        onError: (event, context) => {
+        onError: (event, _, context) => {
             const alertMessage = i18n.t(
                 'Something went wrong while setting the form\'s completion to "{{completed}}": {{errorMessage}}',
                 {
@@ -86,7 +89,8 @@ export function useSetFormCompletionMutation() {
 
             queryClient.setQueryData(
                 context.dataValueSetQueryKey,
-                context.previousDataValueSet
+                // need to use object as "undefined" won't set any data
+                context.previousDataValueSet || {}
             )
         },
     })
