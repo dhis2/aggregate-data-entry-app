@@ -1,5 +1,6 @@
-import { IconInfo16, colors } from '@dhis2/ui'
+import { IconInfo16, colors, Tooltip } from '@dhis2/ui'
 import cx from 'classnames'
+import moment from 'moment'
 import React from 'react'
 import i18n from '../locales/index.js'
 import { useLockedContext } from '../shared/index.js'
@@ -14,19 +15,28 @@ export default function FormExpiryInfo() {
     return (
         <>
             {!locked && lockDate && (
-                <span
-                    className={cx(styles.completionSummary, styles.toolbarItem)}
+                <Tooltip
+                    content={i18n.t('Closes at {{-dateTime}}', {
+                        dateTime: lockDate.toLocaleString(),
+                    })}
                 >
-                    <span className={cx(styles.icon)}>
-                        <IconInfo16 color={colors.grey700} />
-                    </span>
+                    <span
+                        className={cx(
+                            styles.completionSummary,
+                            styles.toolbarItem
+                        )}
+                    >
+                        <span className={cx(styles.icon)}>
+                            <IconInfo16 color={colors.grey700} />
+                        </span>
 
-                    <span>
-                        {i18n.t('This form closes at {{-dateTime}}', {
-                            dateTime: lockDate.toLocaleString(),
-                        })}
+                        <span>
+                            {i18n.t('This form closes {{-relativeTime}}', {
+                                relativeTime: moment(lockDate).fromNow(),
+                            })}
+                        </span>
                     </span>
-                </span>
+                </Tooltip>
             )}
         </>
     )
