@@ -64,6 +64,8 @@ const getFrontendLockStatus = ({
         const parsedClosingDate =
             closingDate && fromServerDate(new Date(closingDate))
 
+        console.log({ parsedClosingDate, parsedOpeningDate })
+
         if (
             (openingDate &&
                 currentDate.serverDate < parsedOpeningDate.serverDate) ||
@@ -84,18 +86,19 @@ const getFrontendLockStatus = ({
     }
 
     if (expiryDays > 0) {
-        // selectedPeriod.endDate is a string like '2023-02-20' --
-        // convert that to a date and get time to get ms to add expiry days.
+        // selectedPeriod.endDate is a string like '2023-02-20' -- this gets
+        // converted to a UTC time by default, but adding 'T00:00:00.000'
+        // to make an ISO string makes Date() parse it in the local zone.
+        // I.e., the UTC time is adjusted to give us the right server clock
+        // time but in the LOCAL time zone. This is the "server date" we need
+        // for the `clientServerDateUtils`.
+        const serverEndDate = new Date(selectedPeriod.endDate + 'T00:00:00.000')
+        // Convert that to ms to add expiry days.
         // Also add one day more because selectedPeriod.endDate is the START
         // of the period's last day (00:00), and we want the end of that day
         // (confirmed with backend behavior).
-        // Converting the selectedPeriod.endDate string to an object creates
-        // it in the client's timezone; parse it from there.
-        const expiryDate = fromClientDate(
-            new Date(
-                new Date(selectedPeriod.endDate).getTime() +
-                    (expiryDays + 1) * DAY_MS
-            )
+        const expiryDate = fromServerDate(
+            new Date(serverEndDate.getTime() + (expiryDays + 1) * DAY_MS)
         )
 
         if (currentDate.serverDate < expiryDate.serverDate) {
