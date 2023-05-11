@@ -58,7 +58,8 @@ const getFrontendLockStatus = ({
 
         const { openingDate, closingDate } = applicableDataInputPeriod
         // openingDate and closingDate can be undefined.
-        // They are local to the server
+        // They are ISO dates without a timezone, so should be parsed
+        // as "server dates"
         const parsedOpeningDate =
             openingDate && fromServerDate(new Date(openingDate))
         const parsedClosingDate =
