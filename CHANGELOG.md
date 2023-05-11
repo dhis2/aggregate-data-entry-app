@@ -1,3 +1,91 @@
+## [100.2.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.3...v100.2.4) (2023-04-20)
+
+
+### Bug Fixes
+
+* lock forms when organisation unit is closed [BETA-25] ([#317](https://github.com/dhis2/aggregate-data-entry-app/issues/317)) ([9a2531e](https://github.com/dhis2/aggregate-data-entry-app/commit/9a2531efaaa74e47564daebd159512effbea2998))
+
+## [100.2.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.2...v100.2.3) (2023-04-20)
+
+
+### Bug Fixes
+
+* rollback failed complete [DHIS2-15033] ([#312](https://github.com/dhis2/aggregate-data-entry-app/issues/312)) ([ce559cf](https://github.com/dhis2/aggregate-data-entry-app/commit/ce559cf23d33fa488d63b6e5600aeffc6ef0b0f5))
+
+## [100.2.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.1...v100.2.2) (2023-04-14)
+
+
+### Bug Fixes
+
+* use FetchError class from app-runtime [DHIS2-15085] ([#316](https://github.com/dhis2/aggregate-data-entry-app/issues/316)) ([03c4b90](https://github.com/dhis2/aggregate-data-entry-app/commit/03c4b90eab8b41d4ff50a40bd9565a19602d658d))
+
+## [100.2.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.0...v100.2.1) (2023-04-05)
+
+
+### Bug Fixes
+
+* include attribute options in completion post [DHIS2-15032] ([#311](https://github.com/dhis2/aggregate-data-entry-app/issues/311)) ([8df1dc0](https://github.com/dhis2/aggregate-data-entry-app/commit/8df1dc0f0ab66b50f33211145774da95576dd5e4))
+
+# [100.2.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.1.2...v100.2.0) (2023-03-13)
+
+
+### Bug Fixes
+
+* **use periods:** check if lastPeriodOfPrevYear exists ([1e65e17](https://github.com/dhis2/aggregate-data-entry-app/commit/1e65e17c09c6936d6edefe3b483c8c37ec2acde9))
+* **use periods:** reverse order & add first/last periods of next/prev year if in current year ([f046afa](https://github.com/dhis2/aggregate-data-entry-app/commit/f046afa4a46381b005c71a00f940c96fcbe8fa37))
+* implement PR feedback by [@tomzemp](https://github.com/tomzemp) from 2023-03-02 ([e58edee](https://github.com/dhis2/aggregate-data-entry-app/commit/e58edee5fc53f02e4f35ebe6b02e57a73c7c7802))
+* implement PR feedback by [@tomzemp](https://github.com/tomzemp) from 2023-03-04 ([5425a28](https://github.com/dhis2/aggregate-data-entry-app/commit/5425a283520bf45359c64acff4039201e92be686))
+* use multi-calendar-dates to address periods that don't start on Jan 1st ([8286888](https://github.com/dhis2/aggregate-data-entry-app/commit/8286888d9d64e50d64e44986b649d730d0ecc32f))
+* **data value store:** return boolean from isComplete selector ([6bf3a7f](https://github.com/dhis2/aggregate-data-entry-app/commit/6bf3a7f10b8bdc12d5e470afc17ad0c47af19c50))
+* **data value store:** set correct default when data value set falsy ([7dd21e2](https://github.com/dhis2/aggregate-data-entry-app/commit/7dd21e21794d019887f998cc99ab879659d080cc))
+* **deps:** bump platform and runtime deps [TECH-1462] ([#236](https://github.com/dhis2/aggregate-data-entry-app/issues/236)) ([057addd](https://github.com/dhis2/aggregate-data-entry-app/commit/057addd89f0c22e40fbb8c9d3215bc2aeadc1ee2))
+* **deps:** update dependency @tanstack/react-query-devtools to v4.24.13 ([6c19a7b](https://github.com/dhis2/aggregate-data-entry-app/commit/6c19a7b9ede8f4c50d158630bec58e25c6aee5e8))
+* **deps:** update dependency @tanstack/react-query-devtools to v4.24.14 ([f7d83d6](https://github.com/dhis2/aggregate-data-entry-app/commit/f7d83d615c85f1d3781cd50ba8ff145bb9568e60))
+* **deps:** update dependency chart.js to v3.9.1 ([cf5351c](https://github.com/dhis2/aggregate-data-entry-app/commit/cf5351cd0aa11b4aa2f29da608d0f32a9fa350d6))
+* **deps:** update dependency classnames to v2.3.2 ([d054883](https://github.com/dhis2/aggregate-data-entry-app/commit/d0548832b9f6e755aa6107203680902a2b998311))
+* **deps:** update dependency final-form to v4.20.9 ([617cd17](https://github.com/dhis2/aggregate-data-entry-app/commit/617cd173e8e02cb005c872deb3fa0db8b55e1cfc))
+* **deps:** update dependency html-react-parser to v1.4.14 ([9758efc](https://github.com/dhis2/aggregate-data-entry-app/commit/9758efc73bf06ed61301629975a1be2689246d46))
+* **deps:** update dependency idb-keyval to v6.2.0 ([fd3f936](https://github.com/dhis2/aggregate-data-entry-app/commit/fd3f9365aa806dff3d4a4e3c49e3daec6e7ed86e))
+* **deps:** update dependency query-string to v7.1.2 ([f833f36](https://github.com/dhis2/aggregate-data-entry-app/commit/f833f368a897bc04ff42ecf72e6eaf86d1c80bd6))
+* **deps:** update dependency query-string to v7.1.3 ([1d13164](https://github.com/dhis2/aggregate-data-entry-app/commit/1d1316408f02e6fd9897da4d41281efa1c8215d4))
+* **deps:** update dependency re-reselect to v4.0.1 ([1ca5332](https://github.com/dhis2/aggregate-data-entry-app/commit/1ca5332529a8f4373df7a43f939fd9c43a2f3f34))
+* **deps:** update dependency react-chartjs-2 to v4.3.1 ([347d055](https://github.com/dhis2/aggregate-data-entry-app/commit/347d05532dd843a9242801b289e7b193130d20e2))
+* **deps:** update dependency react-router-dom to v5.3.4 ([3e1c1c9](https://github.com/dhis2/aggregate-data-entry-app/commit/3e1c1c95c2b04388e85cd1de2752a384910c57e1))
+* **deps:** update dependency reselect to v4.1.7 ([d90509f](https://github.com/dhis2/aggregate-data-entry-app/commit/d90509f6cf6706595eaf9106497a62dd666769ce))
+* **deps:** update dependency zustand to v4.1.4 ([8494e6b](https://github.com/dhis2/aggregate-data-entry-app/commit/8494e6b381760f09177db85e952f46ada27bddec))
+* **deps:** update dependency zustand to v4.1.5 ([a3595fc](https://github.com/dhis2/aggregate-data-entry-app/commit/a3595fc84cfcdddb8740f2a2fdfe738d22adea83))
+* **deps:** update tanstack-query monorepo to v4.16.1 ([588f5ee](https://github.com/dhis2/aggregate-data-entry-app/commit/588f5ee70b57529d4a5a0e29c7443b10589c92aa))
+* **deps:** update tanstack-query monorepo to v4.17.1 ([af7b3c1](https://github.com/dhis2/aggregate-data-entry-app/commit/af7b3c1a05a29c14844d91ae855e031bbb2f9571))
+* **deps:** update tanstack-query monorepo to v4.18.0 ([ebe89f2](https://github.com/dhis2/aggregate-data-entry-app/commit/ebe89f2ea1cec3c464cfad60f48d3c24d08895dd))
+* **deps:** update tanstack-query monorepo to v4.19.0 ([3fc13e3](https://github.com/dhis2/aggregate-data-entry-app/commit/3fc13e3448fa41d029d286341d5fcc768b1ef5db))
+* **deps:** update tanstack-query monorepo to v4.19.1 ([1641918](https://github.com/dhis2/aggregate-data-entry-app/commit/16419185dbb03d0c97b0682c4905c298a6f95403))
+* **deps:** update tanstack-query monorepo to v4.20.2 ([6500139](https://github.com/dhis2/aggregate-data-entry-app/commit/6500139ec1cffe1929dada172a38891482d3aa6c))
+* **deps:** update tanstack-query monorepo to v4.20.4 ([9c44d3e](https://github.com/dhis2/aggregate-data-entry-app/commit/9c44d3e8f98f5ef7678d0de5ee6fa73d8d886d1b))
+* **deps:** update tanstack-query monorepo to v4.23.0 ([795f159](https://github.com/dhis2/aggregate-data-entry-app/commit/795f159f2f98816394c941af81ed38cd2aa56cf4))
+* **deps:** update tanstack-query monorepo to v4.24.10 ([8bb044e](https://github.com/dhis2/aggregate-data-entry-app/commit/8bb044e995b357d8ae3e1ed352fdd0cb75884f42))
+* **deps:** update tanstack-query monorepo to v4.24.4 ([fad8537](https://github.com/dhis2/aggregate-data-entry-app/commit/fad853704bbc779ff3b7fc090a7aa3c7f616c8d0))
+* **deps:** update tanstack-query monorepo to v4.24.6 ([5664987](https://github.com/dhis2/aggregate-data-entry-app/commit/56649874dacd56bd4bf65e6648ed31e94d0b1652))
+* **deps:** update tanstack-query monorepo to v4.24.9 ([da668de](https://github.com/dhis2/aggregate-data-entry-app/commit/da668de7b4535b4ca4d255ce223040d538651f4a))
+* **total-cell:** clear total value when printing empty form ([#298](https://github.com/dhis2/aggregate-data-entry-app/issues/298)) ([c3f3ecf](https://github.com/dhis2/aggregate-data-entry-app/commit/c3f3ecfe6c3725091df310cdc4346a6cac37f68b))
+* adjust disabled org unit style ([27945ca](https://github.com/dhis2/aggregate-data-entry-app/commit/27945cadc2e853abbc4ebde04d10f06ba517a715))
+* metadata and user info error handling ([#294](https://github.com/dhis2/aggregate-data-entry-app/issues/294)) ([7581e37](https://github.com/dhis2/aggregate-data-entry-app/commit/7581e37a0a18cc480dd410d823241a9cb23d8397))
+* **highlighted field store:** correct wrong initial state ([a6b53ae](https://github.com/dhis2/aggregate-data-entry-app/commit/a6b53aeaf8e58de1c2dd2e53b11b0e195105911f))
+* **translations:** sync translations from transifex (development) ([5eac173](https://github.com/dhis2/aggregate-data-entry-app/commit/5eac17312874d357fbecb549ccf9b94c543aa66a))
+* **translations:** sync translations from transifex (development) ([a02ad04](https://github.com/dhis2/aggregate-data-entry-app/commit/a02ad049f5b1cbf1da8ac9c85d2cb5ae1a1fcc88))
+* **translations:** sync translations from transifex (development) ([081ad05](https://github.com/dhis2/aggregate-data-entry-app/commit/081ad057202afb510348b390f12bbc6e9ccc4cd8))
+* **translations:** sync translations from transifex (development) ([65a053d](https://github.com/dhis2/aggregate-data-entry-app/commit/65a053daadad5aba556df7368bbe98598f25bda5))
+* **translations:** sync translations from transifex (development) ([48f6674](https://github.com/dhis2/aggregate-data-entry-app/commit/48f66740f72c25b03245c8b8e303748e1b325f7f))
+* clean up audit styling [TECH-1469] [TECH-1470] ([#237](https://github.com/dhis2/aggregate-data-entry-app/issues/237)) ([a545ee8](https://github.com/dhis2/aggregate-data-entry-app/commit/a545ee8fd22f17e2805476d040c4057bebcee276))
+* clear selections with only dataset [DHIS2-14039] ([#243](https://github.com/dhis2/aggregate-data-entry-app/issues/243)) ([e9beb53](https://github.com/dhis2/aggregate-data-entry-app/commit/e9beb53826dd2eadf52f037ad2889b3f5ede8fc1))
+* ensure biweeks allow entry over entire year [TECH-1308] ([#242](https://github.com/dhis2/aggregate-data-entry-app/issues/242)) ([bf931d8](https://github.com/dhis2/aggregate-data-entry-app/commit/bf931d81afa36156701a81ac1d36159f4c87acf8))
+* handle remove periods calculation for end-of-month [DHIS2-14007] ([#238](https://github.com/dhis2/aggregate-data-entry-app/issues/238)) ([c2b5724](https://github.com/dhis2/aggregate-data-entry-app/commit/c2b5724270d2b3dc4a4350f25337600f4c783fa6))
+
+
+### Features
+
+* **option-set:** add multi text support ([#290](https://github.com/dhis2/aggregate-data-entry-app/issues/290)) ([985f955](https://github.com/dhis2/aggregate-data-entry-app/commit/985f955d9d0ad7c82ab2fe6deb85b0ea8b6d89c0)), closes [#241](https://github.com/dhis2/aggregate-data-entry-app/issues/241)
+* **zustand:** create wrapper ([23d8182](https://github.com/dhis2/aggregate-data-entry-app/commit/23d8182d5668915c54fc77afaf773455b2206528))
+
 ## [100.1.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.1.1...v100.1.2) (2022-11-07)
 
 
