@@ -6,7 +6,6 @@ import { usePeriod } from '../period/index.js'
 import {
     usePeriodId,
     useDataSetId,
-    useOrgUnitId,
 } from '../use-context-selection/use-context-selection.js'
 import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
 import { useOrgUnit } from '../use-org-unit/use-organisation-unit.js'
@@ -164,7 +163,6 @@ const isOrgUnitLocked = ({
 
 export const useCheckLockStatus = () => {
     const [dataSetId] = useDataSetId()
-    const [orgUnitId] = useOrgUnitId()
     const orgUnit = useOrgUnit()
     const {
         data: {
@@ -226,7 +224,6 @@ export const useCheckLockStatus = () => {
     }, [
         metadata,
         dataSetId,
-        orgUnitId,
         orgUnitOpeningDateString,
         orgUnitClosedDateString,
         clientServerDateUtils,
