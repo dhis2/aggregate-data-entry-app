@@ -66,8 +66,6 @@ const getFrontendLockStatus = ({
         const parsedClosingDate =
             closingDate && fromServerDate(new Date(closingDate))
 
-        console.log({ parsedClosingDate, parsedOpeningDate })
-
         if (
             (openingDate &&
                 currentDate.serverDate < parsedOpeningDate.serverDate) ||
@@ -222,7 +220,6 @@ export const useCheckLockStatus = () => {
             setLockStatus(frontendLockStatus)
             return
         }
-
 
         // otherwise denote as open
         setLockStatus({ state: LockedStates.OPEN })
