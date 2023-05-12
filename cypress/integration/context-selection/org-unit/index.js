@@ -28,7 +28,7 @@ Given(
         cy.intercept(
             'GET',
             new RegExp(
-                `organisationUnits/ImspTQPwCqd[?]fields=id,displayName,path$`
+                `organisationUnits/ImspTQPwCqd[?]fields=id,displayName,path,openingDate,closedDate$`
             ),
             { statusCode: 404, body: '404 Not Found!' }
         )

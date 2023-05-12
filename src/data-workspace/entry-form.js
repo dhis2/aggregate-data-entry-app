@@ -18,6 +18,9 @@ const lockedNoticeBoxMessages = {
     [LockedStates.LOCKED_DATA_INPUT_PERIOD]: i18n.t(
         'Data cannot be added or changed outside of the data input period.'
     ),
+    [LockedStates.LOCKED_ORGANISATION_UNIT]: i18n.t(
+        'Data cannot be added or changed because organisation unit is closed for the selected period.'
+    ),
     [LockedStates.LOCKED_EXPIRY_DAYS]: i18n.t(
         'Data cannot be added or changed because data entry has concluded.'
     ),

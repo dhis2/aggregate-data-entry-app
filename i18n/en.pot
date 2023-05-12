@@ -463,6 +463,13 @@ msgstr ""
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr "Data cannot be added or changed outside of the data input period."
 
+msgid ""
+"Data cannot be added or changed because organisation unit is closed for the "
+"selected period."
+msgstr ""
+"Data cannot be added or changed because organisation unit is closed for the "
+"selected period."
+
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr "Data cannot be added or changed because data entry has concluded."
 
