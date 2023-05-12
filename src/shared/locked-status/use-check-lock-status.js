@@ -9,6 +9,7 @@ import {
 } from '../use-context-selection/use-context-selection.js'
 import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
 import { useOrgUnit } from '../use-org-unit/use-organisation-unit.js'
+import { useUserInfo, userInfoSelectors } from '../use-user-info/index.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 
@@ -20,6 +21,7 @@ const getFrontendLockStatus = ({
     metadata,
     selectedPeriod,
     clientServerDateUtils: { fromServerDate, fromClientDate },
+    userCanEditExpired,
 }) => {
     if (!selectedPeriod) {
         return
@@ -84,7 +86,7 @@ const getFrontendLockStatus = ({
         clientLockDate = parsedClosingDate?.clientDate
     }
 
-    if (expiryDays > 0) {
+    if (expiryDays > 0 && !userCanEditExpired) {
         // selectedPeriod.endDate is a string like '2023-02-20' -- this gets
         // converted to a UTC time by default, but adding 'T00:00'
         // to make an ISO string makes Date() parse it in the local zone.
@@ -106,15 +108,13 @@ const getFrontendLockStatus = ({
                 ? new Date(Math.min(clientLockDate, expiryDate.clientDate))
                 : expiryDate.clientDate
             // ! NB:
-            // This value is still shown, even if a form won't actually lock
-            // for a user due to superuser or lock exceptions, which might be
-            // misleading. That would take checking those exceptions on the
-            // front end, which are currently done on the backend
+            // Until lock exception checks are done, this value is still shown,
+            // even if the form won't actually lock due to a lock exception.
+            // This may be misleading
         }
 
         // If this form is actually expired, don't lock it here; leave that
-        // to the backend check, which can account for F_EDIT_EXPIRED
-        // authorities or lock exceptions
+        // to the backend check, which can account for lock exceptions
         // TODO: implement this full check on the front-end (TECH-1428)
     }
 
@@ -173,12 +173,14 @@ export const useCheckLockStatus = () => {
 
     const [periodId] = usePeriodId()
     const selectedPeriod = usePeriod(periodId)
-
     const clientServerDateUtils = useClientServerDateUtils()
 
     const { data: metadata } = useMetadata()
     const dataValueSet = useDataValueSet()
     const { setLockStatus } = useLockedContext()
+
+    const { data: userInfo } = useUserInfo()
+    const userCanEditExpired = userInfoSelectors.getCanEditExpired(userInfo)
 
     useEffect(() => {
         // prefer lock status from backend, found in dataValueSet
@@ -213,6 +215,7 @@ export const useCheckLockStatus = () => {
             selectedPeriod,
             metadata,
             clientServerDateUtils,
+            userCanEditExpired,
         })
         if (frontendLockStatus) {
             setLockStatus(frontendLockStatus)
@@ -227,6 +230,7 @@ export const useCheckLockStatus = () => {
         orgUnitOpeningDateString,
         orgUnitClosedDateString,
         clientServerDateUtils,
+        userCanEditExpired,
         dataValueSet.data?.lockStatus,
         setLockStatus,
         selectedPeriod,
