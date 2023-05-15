@@ -8,6 +8,7 @@ import {
     useMetadata,
     useDataSetId,
     useOrgUnitId,
+    useOrgUnit,
 } from '../../shared/index.js'
 import DebouncedSearchInput from './debounced-search-input.js'
 import DisabledTooltip from './disabled-tooltip.js'
@@ -19,7 +20,6 @@ import {
 } from './organisation-unit-tree/index.js'
 import useExpandedState from './use-expanded-state.js'
 import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
-import useOrgUnit from './use-organisation-unit.js'
 import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
