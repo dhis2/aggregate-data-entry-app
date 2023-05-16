@@ -1,3 +1,10 @@
+# [100.3.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.4...v100.3.0) (2023-05-16)
+
+
+### Features
+
+* form expiry info and data input periods [DHIS2-14600] [DHIS2-14218] ([#300](https://github.com/dhis2/aggregate-data-entry-app/issues/300)) ([5499e98](https://github.com/dhis2/aggregate-data-entry-app/commit/5499e98f9863713909dbfe7129c9063e767d3ab2)), closes [#313](https://github.com/dhis2/aggregate-data-entry-app/issues/313) [#314](https://github.com/dhis2/aggregate-data-entry-app/issues/314) [#315](https://github.com/dhis2/aggregate-data-entry-app/issues/315)
+
 ## [100.2.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.3...v100.2.4) (2023-04-20)
 
 
