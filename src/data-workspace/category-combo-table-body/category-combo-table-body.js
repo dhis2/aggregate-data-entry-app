@@ -68,12 +68,15 @@ export const CategoryComboTableBody = React.memo(
                     checkTableActive={checkTableActive}
                 />
                 {dataElements.map((de, i) => {
+                    const hidden = filteredDeIds.has(de.id)
                     return (
                         <TableRow
-                            key={de.id}
-                            className={cx({
-                                [styles.hidden]: filteredDeIds.has(de.id),
+                            dataTest={cx('dhis2-dataentry-tableinputrow', {
+                                ['dhis2-dataentry-tableinputrow-hidden']:
+                                    hidden,
                             })}
+                            key={de.id}
+                            className={cx({ [styles.hidden]: hidden })}
                         >
                             <DataElementCell dataElement={de} />
                             {sortedCOCs.map((coc) => (
@@ -124,7 +127,6 @@ export const CategoryComboTableBody = React.memo(
 CategoryComboTableBody.propTypes = {
     categoryCombo: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        categoryOptionCombos: PropTypes.array,
     }),
     dataElements: PropTypes.arrayOf(
         PropTypes.shape({
