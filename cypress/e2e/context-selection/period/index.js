@@ -1,11 +1,5 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
-// It seems that the new cypress cucumber library splits different steps into
-// different test cases. Cypress does not persist aliases across tests,
-// mutable seem to be working though
-let selectedPeriodLabel = ''
-let selectedPeriodValue = ''
-
 Given('a data set has been selected', () => {
     cy.visit(`/#/?dataSetId=Nyh6laLdBEJ`)
     cy.get('[data-test="data-set-selector"]').should('exist')
@@ -85,16 +79,12 @@ When('selects the first period option', () => {
 
     cy.get('@firstOption')
         .invoke('text')
-        .then((curSelectedPeriodLabel) => {
-            selectedPeriodLabel = curSelectedPeriodLabel
-        })
+        .as('selectedPeriodLabel', { type: 'static' })
 
     cy.get('@firstOption')
         .find('[data-value]')
         .invoke('attr', 'data-value')
-        .then((curSelectedPeriodValue) => {
-            selectedPeriodValue = curSelectedPeriodValue
-        })
+        .as('selectedPeriodValue', { type: 'static' })
 
     cy.get('@firstOption').click()
 })
@@ -157,15 +147,18 @@ Then(
 Then(
     'that period option should be shown as the current value in the selector',
     () => {
-        console.log('> then: selectedPeriodLabel', selectedPeriodLabel)
-        cy.get('[data-test="period-selector"]')
-            .contains(selectedPeriodLabel)
-            .should('exist')
+        cy.get('@selectedPeriodLabel').then(selectedPeriodLabel => {
+            cy.get('[data-test="period-selector"]')
+                .contains(selectedPeriodLabel)
+                .should('exist')
+        })
     }
 )
 
 Then('the period id should be persisted in the url', () => {
-    cy.url().should('match', new RegExp(`&periodId=${selectedPeriodValue}`))
+    cy.get('@selectedPeriodValue').then((selectedPeriodValue) => {
+        cy.url().should('include', `&periodId=${selectedPeriodValue}`)
+    })
 })
 
 Then('the previously selected period should be deselected', () => {
@@ -177,7 +170,7 @@ Then('the previously selected period should still be selected', () => {
         cy.get('[data-test="period-selector"]')
             .contains(previousPeriodId)
             .should('exist')
-        cy.url().should('match', new RegExp(`&periodId=${previousPeriodId}`))
+        cy.url().should('include', `&periodId=${previousPeriodId}`)
     })
 })
 
