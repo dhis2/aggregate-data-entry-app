@@ -28,6 +28,7 @@
         "jgs:start": "BROWSER=none yarn start --proxy https://debug.dhis2.org/dev"
     },
     "devDependencies": {
+        "@badeball/cypress-cucumber-preprocessor": "^16.0.0",
         "@cypress/webpack-preprocessor": "^5.17.0",
         "@dhis2/cli-app-scripts": "^10.2.3",
         "@dhis2/cli-style": "10.5.1",
@@ -45,7 +46,6 @@
         "start-server-and-test": "1.15.4"
     },
     "dependencies": {
-        "@badeball/cypress-cucumber-preprocessor": "^16.0.0",
         "@dhis2/app-runtime": "^3.8.0",
         "@dhis2/multi-calendar-dates": "^1.0.0-alpha.22",
         "@dhis2/ui": "^8.12.0",
