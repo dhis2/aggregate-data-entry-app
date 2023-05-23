@@ -147,7 +147,7 @@ Then(
 Then(
     'that period option should be shown as the current value in the selector',
     () => {
-        cy.get('@selectedPeriodLabel').then(selectedPeriodLabel => {
+        cy.get('@selectedPeriodLabel').then((selectedPeriodLabel) => {
             cy.get('[data-test="period-selector"]')
                 .contains(selectedPeriodLabel)
                 .should('exist')
