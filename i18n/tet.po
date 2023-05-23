@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-09-22T16:07:53.237Z\n"
+"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: phil_dhis2, 2022\n"
-"Language-Team: Tetum (Tetun) (https://www.transifex.com/hisp-uio/teams/100509/tet/)\n"
+"Language-Team: Tetum (Tetun) (https://app.transifex.com/hisp-uio/teams/100509/tet/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,13 +27,11 @@ msgstr ""
 msgid "There was a problem loading metadata"
 msgstr ""
 
-msgid "There is {{pendingMutations}} pending change."
+msgid "There was a problem loading the user's information"
 msgstr ""
 
-msgid "There are {{pendingMutations}} pending changes."
-msgstr ""
-
-msgid "Synced"
+msgid ""
+"Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
 
 msgid "Couldn't incomplete the form, please try again later"
@@ -51,14 +49,26 @@ msgstr "Subar detalles"
 msgid "View details"
 msgstr ""
 
-msgid "Run validation"
-msgstr "Halao validasaun"
-
 msgid "1 invalid value not saved"
 msgstr ""
 
 msgid "{{numberOfErrors}} invalid values not saved"
 msgstr ""
+
+msgid "1 value failed to save"
+msgstr ""
+
+msgid "{{numberOfErrors}} values failed to save"
+msgstr ""
+
+msgid "Validation is not available offline"
+msgstr ""
+
+msgid "Validation is not available while changes are pending"
+msgstr ""
+
+msgid "Run validation"
+msgstr "Halao validasaun"
 
 msgid "Last completed by"
 msgstr ""
@@ -102,6 +112,11 @@ msgstr ""
 msgid "Validation"
 msgstr ""
 
+msgid ""
+"Data in the entry form has changed, so validation output might be incorrect."
+" Run validation again to check the current data."
+msgstr ""
+
 msgid "Run validation again"
 msgstr ""
 
@@ -134,6 +149,11 @@ msgstr ""
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
+msgstr ""
+
+msgid ""
+"There was a problem loading the {{objectType}} selection ({{id}}). You might"
+" not have access, or the selection might be invalid."
 msgstr ""
 
 msgid "Choose a data set"
@@ -171,6 +191,9 @@ msgstr ""
 msgid "Waiting to sync, saved locally"
 msgstr ""
 
+msgid "Failed to sync, not saved"
+msgstr ""
+
 msgid "Data item has a comment"
 msgstr ""
 
@@ -182,6 +205,9 @@ msgstr ""
 
 msgid "Help"
 msgstr "Ajuda"
+
+msgid "or"
+msgstr ""
 
 msgid "Shortcuts"
 msgstr ""
@@ -231,6 +257,9 @@ msgstr ""
 msgid "Choose a data set first"
 msgstr ""
 
+msgid "Dataset is not assigned to this organisation unit"
+msgstr ""
+
 msgid "Organisation unit"
 msgstr "Unidade organizasional"
 
@@ -238,9 +267,6 @@ msgid "Choose a organisation unit"
 msgstr ""
 
 msgid "No organisation units could be found"
-msgstr ""
-
-msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "No children match filter"
@@ -256,6 +282,9 @@ msgid "Fetching organisation unit info"
 msgstr ""
 
 msgid "Error occurred while loading organisation unit info"
+msgstr ""
+
+msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
@@ -274,6 +303,9 @@ msgid "Fetching data set info"
 msgstr ""
 
 msgid "Error occurred while loading data set info"
+msgstr ""
+
+msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
@@ -303,6 +335,9 @@ msgstr ""
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
 
+msgid "You do not have the authority to mark this value for follow -up"
+msgstr ""
+
 msgid "Description: {{- description}}"
 msgstr ""
 
@@ -324,7 +359,7 @@ msgstr ""
 msgid "Comment"
 msgstr "Komentáriu"
 
-msgid "There was a problem loading the comment for this data item"
+msgid "There was a problem updating the comment for this data item"
 msgstr ""
 
 msgid "Choose an option"
@@ -339,13 +374,16 @@ msgstr "Rai komentáriu"
 msgid "Cancel"
 msgstr "Kansela"
 
-msgid "No comment for this data item."
-msgstr ""
-
 msgid "Edit comment"
 msgstr ""
 
 msgid "Add comment"
+msgstr ""
+
+msgid "No comment for this data item."
+msgstr ""
+
+msgid "You do not have the authority to add or edit comments"
 msgstr ""
 
 msgid "Details"
@@ -366,7 +404,13 @@ msgstr ""
 msgid "Delete limits"
 msgstr ""
 
+msgid "You do not have the authority to delete limits"
+msgstr ""
+
 msgid "Edit limits"
+msgstr ""
+
+msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
@@ -407,13 +451,32 @@ msgstr ""
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
 
+msgid ""
+"Data cannot be added or changed because organisation unit is closed for the "
+"selected period."
+msgstr ""
+
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
 
 msgid "Data cannot be added or changed because data has been approved."
 msgstr ""
 
+msgid "You do not have the authority to edit entry forms"
+msgstr ""
+
 msgid "Data set locked"
+msgstr ""
+
+msgid "Get started with data entry"
+msgstr ""
+
+msgid ""
+"Choose a data set, organisation unit, and period from the top bar to start "
+"entering data"
+msgstr ""
+
+msgid "Learn more about data entry"
 msgstr ""
 
 msgid "Filter fields in all sections"
@@ -449,6 +512,9 @@ msgstr ""
 msgid "Upload a file"
 msgstr ""
 
+msgid "Choose option(s)"
+msgstr ""
+
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr ""
@@ -472,9 +538,10 @@ msgstr ""
 msgid "1 item hidden by filter"
 msgstr ""
 
-msgid ""
-"Something went wrong while setting the form's completion to "
-"\"{{completed}}\": {{errorMessage}}"
+msgid "{{pendingMutations}} change saved locally"
+msgstr ""
+
+msgid "{{pendingMutations}} changes saved locally"
 msgstr ""
 
 msgid ""
@@ -482,101 +549,13 @@ msgid ""
 "the FE"
 msgstr ""
 
-msgid "January"
-msgstr "Janeiru"
-
-msgid "February"
-msgstr "Fevereiru"
-
-msgid "March"
-msgstr "Marsu"
-
-msgid "April"
-msgstr "Abril"
-
-msgid "May"
-msgstr "Mai"
-
-msgid "June"
-msgstr "Juñu"
-
-msgid "July"
-msgstr "Jullu"
-
-msgid "August"
-msgstr "Agostu"
-
-msgid "September"
-msgstr "Setembru"
-
-msgid "October"
-msgstr "Outubru"
-
-msgid "November"
-msgstr "Novembru"
-
-msgid "December"
-msgstr "Dezembru"
-
-msgid "Week {{weekNumber}}"
+msgid "Selected period is after latest open future period"
 msgstr ""
 
-msgid "Bi-Week {{biWeekNumber}}"
+msgid ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
 msgstr ""
-
-msgid "Daily"
-msgstr "Diáriu"
-
-msgid "Weekly"
-msgstr "Semanal"
-
-msgid "Weekly (Start Wednesday)"
-msgstr ""
-
-msgid "Weekly (Start Thursday)"
-msgstr ""
-
-msgid "Weekly (Start Saturday)"
-msgstr ""
-
-msgid "Weekly (Start Sunday)"
-msgstr ""
-
-msgid "Bi-weekly"
-msgstr ""
-
-msgid "Monthly"
-msgstr "Mensal"
-
-msgid "Bi-monthly"
-msgstr "Bimensal"
-
-msgid "Quarterly"
-msgstr "Trimestral"
-
-msgid "Six-monthly"
-msgstr "Semestral"
-
-msgid "Six-monthly April"
-msgstr "Abril semestral"
-
-msgid "Six-monthly November"
-msgstr ""
-
-msgid "Yearly"
-msgstr "Anual"
-
-msgid "Financial year (Start November)"
-msgstr ""
-
-msgid "Financial year (Start October)"
-msgstr "Outubru finanseiru"
-
-msgid "Financial year (Start July)"
-msgstr "Jullu finanseiru"
-
-msgid "Financial year (Start April)"
-msgstr "Abril finanseiru"
 
 msgid "{{title}} (disabled)"
 msgstr ""

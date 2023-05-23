@@ -5,10 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
+"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: Yury Rogachev <yury@dhis2.org>, 2022\n"
-"Language-Team: Uzbek (Latin) (https://www.transifex.com/hisp-uio/teams/100509/uz@Latn/)\n"
+"Language-Team: Uzbek (Latin) (https://app.transifex.com/hisp-uio/teams/100509/uz@Latn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -256,6 +256,9 @@ msgstr ""
 msgid "Choose a data set first"
 msgstr ""
 
+msgid "Dataset is not assigned to this organisation unit"
+msgstr ""
+
 msgid "Organisation unit"
 msgstr "Ташкилий бирлик"
 
@@ -263,9 +266,6 @@ msgid "Choose a organisation unit"
 msgstr ""
 
 msgid "No organisation units could be found"
-msgstr ""
-
-msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "No children match filter"
@@ -450,6 +450,11 @@ msgstr ""
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
 
+msgid ""
+"Data cannot be added or changed because organisation unit is closed for the "
+"selected period."
+msgstr ""
+
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
 
@@ -506,6 +511,9 @@ msgstr ""
 msgid "Upload a file"
 msgstr ""
 
+msgid "Choose option(s)"
+msgstr ""
+
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr ""
@@ -547,102 +555,6 @@ msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr ""
-
-msgid "January"
-msgstr "Yanvar"
-
-msgid "February"
-msgstr "Fevral"
-
-msgid "March"
-msgstr "Mart"
-
-msgid "April"
-msgstr "Аprel"
-
-msgid "May"
-msgstr "May"
-
-msgid "June"
-msgstr "Iyun"
-
-msgid "July"
-msgstr "Iyul"
-
-msgid "August"
-msgstr "Аvgust"
-
-msgid "September"
-msgstr "Sentyabr"
-
-msgid "October"
-msgstr "Oktyabr"
-
-msgid "November"
-msgstr "Noyabr"
-
-msgid "December"
-msgstr "Dekabr"
-
-msgid "Week {{weekNumber}}"
-msgstr "Hafta {{weekNumber}}"
-
-msgid "Bi-Week {{biWeekNumber}}"
-msgstr "Juft hafta {{biWeekNumber}}"
-
-msgid "Daily"
-msgstr "Кунлик"
-
-msgid "Weekly"
-msgstr "Ҳафталик"
-
-msgid "Weekly (Start Wednesday)"
-msgstr "Ҳафталик (Бошланиши Чоршанба)"
-
-msgid "Weekly (Start Thursday)"
-msgstr "Ҳафталик (Бошланиши Пайшанба)"
-
-msgid "Weekly (Start Saturday)"
-msgstr "Ҳафталик (Бошланиши Шанба)"
-
-msgid "Weekly (Start Sunday)"
-msgstr "Ҳафталик (Бошланиши Якшанба)"
-
-msgid "Bi-weekly"
-msgstr "Juft hafta"
-
-msgid "Monthly"
-msgstr "Ойлик"
-
-msgid "Bi-monthly"
-msgstr "Жуфт ойлик"
-
-msgid "Quarterly"
-msgstr "Ҳар квартал"
-
-msgid "Six-monthly"
-msgstr "Yarim yillik"
-
-msgid "Six-monthly April"
-msgstr "Yarim yillik Аprel"
-
-msgid "Six-monthly November"
-msgstr "Yarim yillik Noyabr"
-
-msgid "Yearly"
-msgstr "Йиллик"
-
-msgid "Financial year (Start November)"
-msgstr "Moliyaviy yil (Boshlanishi Noyabr)"
-
-msgid "Financial year (Start October)"
-msgstr "Молиявий йил (бошланиши Октябр)"
-
-msgid "Financial year (Start July)"
-msgstr "Молиявий йил (бошланиши Июл)"
-
-msgid "Financial year (Start April)"
-msgstr "Молиявий йил (бошланиши Апрел)"
 
 msgid "{{title}} (disabled)"
 msgstr ""
