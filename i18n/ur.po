@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-10-21T14:42:40.464Z\n"
+"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
-"Language-Team: Urdu (https://www.transifex.com/hisp-uio/teams/100509/ur/)\n"
+"Language-Team: Urdu (https://app.transifex.com/hisp-uio/teams/100509/ur/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,15 +28,6 @@ msgid "There was a problem loading metadata"
 msgstr ""
 
 msgid "There was a problem loading the user's information"
-msgstr ""
-
-msgid "There is {{pendingMutations}} pending change."
-msgstr ""
-
-msgid "There are {{pendingMutations}} pending changes."
-msgstr ""
-
-msgid "Synced"
 msgstr ""
 
 msgid ""
@@ -58,6 +49,18 @@ msgstr "تفصیل چھپاؤ"
 msgid "View details"
 msgstr ""
 
+msgid "1 invalid value not saved"
+msgstr ""
+
+msgid "{{numberOfErrors}} invalid values not saved"
+msgstr ""
+
+msgid "1 value failed to save"
+msgstr ""
+
+msgid "{{numberOfErrors}} values failed to save"
+msgstr ""
+
 msgid "Validation is not available offline"
 msgstr ""
 
@@ -66,12 +69,6 @@ msgstr ""
 
 msgid "Run validation"
 msgstr "توثیق چلائیں"
-
-msgid "1 invalid value not saved"
-msgstr ""
-
-msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
 
 msgid "Last completed by"
 msgstr ""
@@ -194,6 +191,9 @@ msgstr ""
 msgid "Waiting to sync, saved locally"
 msgstr ""
 
+msgid "Failed to sync, not saved"
+msgstr ""
+
 msgid "Data item has a comment"
 msgstr ""
 
@@ -257,6 +257,9 @@ msgstr ""
 msgid "Choose a data set first"
 msgstr ""
 
+msgid "Dataset is not assigned to this organisation unit"
+msgstr ""
+
 msgid "Organisation unit"
 msgstr "تنظیم یونٹ"
 
@@ -264,9 +267,6 @@ msgid "Choose a organisation unit"
 msgstr ""
 
 msgid "No organisation units could be found"
-msgstr ""
-
-msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "No children match filter"
@@ -451,6 +451,11 @@ msgstr ""
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
 
+msgid ""
+"Data cannot be added or changed because organisation unit is closed for the "
+"selected period."
+msgstr ""
+
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
 
@@ -507,6 +512,9 @@ msgstr ""
 msgid "Upload a file"
 msgstr ""
 
+msgid "Choose option(s)"
+msgstr ""
+
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr ""
@@ -530,9 +538,10 @@ msgstr ""
 msgid "1 item hidden by filter"
 msgstr ""
 
-msgid ""
-"Something went wrong while setting the form's completion to "
-"\"{{completed}}\": {{errorMessage}}"
+msgid "{{pendingMutations}} change saved locally"
+msgstr ""
+
+msgid "{{pendingMutations}} changes saved locally"
 msgstr ""
 
 msgid ""
@@ -540,101 +549,13 @@ msgid ""
 "the FE"
 msgstr ""
 
-msgid "January"
-msgstr "جنوری"
-
-msgid "February"
-msgstr "فروری"
-
-msgid "March"
-msgstr "مارچ"
-
-msgid "April"
-msgstr "اپریل"
-
-msgid "May"
-msgstr "مئی"
-
-msgid "June"
-msgstr "جون"
-
-msgid "July"
-msgstr "جولائی"
-
-msgid "August"
-msgstr "اگست"
-
-msgid "September"
-msgstr "ستمبر"
-
-msgid "October"
-msgstr "اکتوبر"
-
-msgid "November"
-msgstr "نومبر"
-
-msgid "December"
-msgstr "دسمبر"
-
-msgid "Week {{weekNumber}}"
+msgid "Selected period is after latest open future period"
 msgstr ""
 
-msgid "Bi-Week {{biWeekNumber}}"
+msgid ""
+"Something went wrong while setting the form's completion to "
+"\"{{completed}}\": {{errorMessage}}"
 msgstr ""
-
-msgid "Daily"
-msgstr "روزانہ"
-
-msgid "Weekly"
-msgstr "ہفتہ وار"
-
-msgid "Weekly (Start Wednesday)"
-msgstr "ہفتہ وار (بدھ شروع کریں)"
-
-msgid "Weekly (Start Thursday)"
-msgstr "ہفتہ وار (جمعرات شروع کریں)"
-
-msgid "Weekly (Start Saturday)"
-msgstr "ہفتہ وار (ہفتہ شروع کریں)"
-
-msgid "Weekly (Start Sunday)"
-msgstr "ہفتہ (اتوار شروع کریں)"
-
-msgid "Bi-weekly"
-msgstr ""
-
-msgid "Monthly"
-msgstr "ماہانہ"
-
-msgid "Bi-monthly"
-msgstr "دو ماہی"
-
-msgid "Quarterly"
-msgstr "سہ ماہی"
-
-msgid "Six-monthly"
-msgstr "چھ ماہی"
-
-msgid "Six-monthly April"
-msgstr "چھ ماہی اپریل"
-
-msgid "Six-monthly November"
-msgstr ""
-
-msgid "Yearly"
-msgstr "سالانہ"
-
-msgid "Financial year (Start November)"
-msgstr ""
-
-msgid "Financial year (Start October)"
-msgstr "مالی سال (اکتوبر شروع کریں)"
-
-msgid "Financial year (Start July)"
-msgstr "مالی سال (جولائی شروع کریں)"
-
-msgid "Financial year (Start April)"
-msgstr "مالی سال (اپریل شروع کریں)"
 
 msgid "{{title}} (disabled)"
 msgstr ""

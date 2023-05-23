@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
+"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: Karoline Tufte Lien <karoline@dhis2.org>, 2022\n"
-"Language-Team: Norwegian Bokmål (https://www.transifex.com/hisp-uio/teams/100509/nb/)\n"
+"Language-Team: Norwegian Bokmål (https://app.transifex.com/hisp-uio/teams/100509/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -257,6 +257,9 @@ msgstr ""
 msgid "Choose a data set first"
 msgstr ""
 
+msgid "Dataset is not assigned to this organisation unit"
+msgstr ""
+
 msgid "Organisation unit"
 msgstr "Organisasjonsenhet"
 
@@ -264,9 +267,6 @@ msgid "Choose a organisation unit"
 msgstr ""
 
 msgid "No organisation units could be found"
-msgstr ""
-
-msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "No children match filter"
@@ -451,6 +451,11 @@ msgstr ""
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
 
+msgid ""
+"Data cannot be added or changed because organisation unit is closed for the "
+"selected period."
+msgstr ""
+
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
 
@@ -507,6 +512,9 @@ msgstr ""
 msgid "Upload a file"
 msgstr "Last opp en fil"
 
+msgid "Choose option(s)"
+msgstr ""
+
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr ""
@@ -548,102 +556,6 @@ msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr ""
-
-msgid "January"
-msgstr "Januar"
-
-msgid "February"
-msgstr "Februar"
-
-msgid "March"
-msgstr "Mars"
-
-msgid "April"
-msgstr "April"
-
-msgid "May"
-msgstr "Mai"
-
-msgid "June"
-msgstr "Juni"
-
-msgid "July"
-msgstr "Juli"
-
-msgid "August"
-msgstr "August"
-
-msgid "September"
-msgstr "September"
-
-msgid "October"
-msgstr "Oktober"
-
-msgid "November"
-msgstr "November"
-
-msgid "December"
-msgstr "Desember"
-
-msgid "Week {{weekNumber}}"
-msgstr "Uke {{weekNumber}}"
-
-msgid "Bi-Week {{biWeekNumber}}"
-msgstr "Touke {{biWeekNumber}}"
-
-msgid "Daily"
-msgstr "Daglig"
-
-msgid "Weekly"
-msgstr "Ukentlig"
-
-msgid "Weekly (Start Wednesday)"
-msgstr "Ukentlig (start onsdag)"
-
-msgid "Weekly (Start Thursday)"
-msgstr "Ukentlig (start torsdag)"
-
-msgid "Weekly (Start Saturday)"
-msgstr "Ukentlig (start lørdag)"
-
-msgid "Weekly (Start Sunday)"
-msgstr "Ukentlig (start søndag)"
-
-msgid "Bi-weekly"
-msgstr "Toukentlig"
-
-msgid "Monthly"
-msgstr "Månedlig"
-
-msgid "Bi-monthly"
-msgstr "Tomånedlig"
-
-msgid "Quarterly"
-msgstr "Kvartalsvis"
-
-msgid "Six-monthly"
-msgstr "Halvårlig"
-
-msgid "Six-monthly April"
-msgstr "Halvårig April"
-
-msgid "Six-monthly November"
-msgstr "Halvårig November"
-
-msgid "Yearly"
-msgstr "Årlig"
-
-msgid "Financial year (Start November)"
-msgstr "Regnskapsår (start november)"
-
-msgid "Financial year (Start October)"
-msgstr "Regnskapsår (start oktober)"
-
-msgid "Financial year (Start July)"
-msgstr "Regnskapsår (start juli)"
-
-msgid "Financial year (Start April)"
-msgstr "Regnskapsår (start april)"
 
 msgid "{{title}} (disabled)"
 msgstr ""
