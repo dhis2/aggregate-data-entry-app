@@ -1,4 +1,4 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 Given('a data set but no org unit has been selected yet', () => {
     cy.visit('/#/?dataSetId=V8MHeZHIrcP&periodId=2021')

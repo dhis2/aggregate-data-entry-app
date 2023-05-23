@@ -101,7 +101,7 @@ jobs:
                   node-version: 14.x
 
             - name: End-to-End tests
-              uses: cypress-io/github-action@v2
+              uses: cypress-io/github-action@v5
               with:
                   # This should be a command that serves the app.
                   start: yarn d2-app-scripts start

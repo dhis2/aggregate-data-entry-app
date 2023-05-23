@@ -1,4 +1,4 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 Given('a data set has been selected', () => {
     cy.visit(`/#/?dataSetId=Nyh6laLdBEJ`)
@@ -79,14 +79,12 @@ When('selects the first period option', () => {
 
     cy.get('@firstOption')
         .invoke('text')
-        .as('selectedPeriodLabel')
-        .then(console.log.bind(null, 'first option label'))
+        .as('selectedPeriodLabel', { type: 'static' })
 
     cy.get('@firstOption')
         .find('[data-value]')
         .invoke('attr', 'data-value')
-        .as('selectedPeriodValue')
-        .then(console.log.bind(null, 'first option value'))
+        .as('selectedPeriodValue', { type: 'static' })
 
     cy.get('@firstOption').click()
 })
@@ -159,7 +157,7 @@ Then(
 
 Then('the period id should be persisted in the url', () => {
     cy.get('@selectedPeriodValue').then((selectedPeriodValue) => {
-        cy.url().should('match', new RegExp(`&periodId=${selectedPeriodValue}`))
+        cy.url().should('include', `&periodId=${selectedPeriodValue}`)
     })
 })
 
@@ -172,7 +170,7 @@ Then('the previously selected period should still be selected', () => {
         cy.get('[data-test="period-selector"]')
             .contains(previousPeriodId)
             .should('exist')
-        cy.url().should('match', new RegExp(`&periodId=${previousPeriodId}`))
+        cy.url().should('include', `&periodId=${previousPeriodId}`)
     })
 })
 

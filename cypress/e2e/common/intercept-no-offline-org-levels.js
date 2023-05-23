@@ -1,4 +1,4 @@
-import { Before } from 'cypress-cucumber-preprocessor/steps'
+import { Before } from '@badeball/cypress-cucumber-preprocessor'
 
 Before(() => {
     // When this is not done, the cypress:run:stubs command fails on CI for

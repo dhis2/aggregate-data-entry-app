@@ -1,9 +1,9 @@
 {
-    "count": 1401,
-    "totalResponseSize": 5387021,
-    "duplicates": 1290,
-    "nonDeterministicResponses": 103,
-    "apiVersion": "40",
+    "count": 1139,
+    "totalResponseSize": 5375655,
+    "duplicates": 1045,
+    "nonDeterministicResponses": 53,
+    "apiVersion": "41",
     "fixtureFiles": [
         "static_resources.json",
         "category_options_for_each_category_in_the_category_combination_connected_to_the_data_set_can_be_selected.json",
