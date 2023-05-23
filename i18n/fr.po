@@ -3,8 +3,8 @@
 # Gabriela Rodriguez <grodriguezcoronado@gmail.com>, 2022
 # Karoline Tufte Lien <karoline@dhis2.org>, 2022
 # Yayra Gomado <ygomado@hispwca.org>, 2022
-# Edem Kossi <ekossi@hispwca.org>, 2022
 # Bram Piot <bram.piot@gmail.com>, 2022
+# Edem Kossi <ekossi@hispwca.org>, 2022
 # phil_dhis2, 2022
 # Viktor Varland <viktor@dhis2.org>, 2022
 # Yao Selom SAKA (HISP WCA) <ysaka@hispwca.org>, 2022
@@ -12,10 +12,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
+"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: Yao Selom SAKA (HISP WCA) <ysaka@hispwca.org>, 2022\n"
-"Language-Team: French (https://www.transifex.com/hisp-uio/teams/100509/fr/)\n"
+"Language-Team: French (https://app.transifex.com/hisp-uio/teams/100509/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -265,6 +265,9 @@ msgstr ""
 msgid "Choose a data set first"
 msgstr ""
 
+msgid "Dataset is not assigned to this organisation unit"
+msgstr ""
+
 msgid "Organisation unit"
 msgstr "Unité d'organisation"
 
@@ -272,9 +275,6 @@ msgid "Choose a organisation unit"
 msgstr ""
 
 msgid "No organisation units could be found"
-msgstr ""
-
-msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "No children match filter"
@@ -459,6 +459,11 @@ msgstr ""
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
 
+msgid ""
+"Data cannot be added or changed because organisation unit is closed for the "
+"selected period."
+msgstr ""
+
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
 
@@ -515,6 +520,9 @@ msgstr ""
 msgid "Upload a file"
 msgstr ""
 
+msgid "Choose option(s)"
+msgstr ""
+
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr ""
@@ -556,102 +564,6 @@ msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr ""
-
-msgid "January"
-msgstr "Janvier"
-
-msgid "February"
-msgstr "Février"
-
-msgid "March"
-msgstr "Mars"
-
-msgid "April"
-msgstr "Avril"
-
-msgid "May"
-msgstr "Mai"
-
-msgid "June"
-msgstr "Juin"
-
-msgid "July"
-msgstr "Juillet"
-
-msgid "August"
-msgstr "Août"
-
-msgid "September"
-msgstr "Septembre"
-
-msgid "October"
-msgstr "Octobre"
-
-msgid "November"
-msgstr "Novembre"
-
-msgid "December"
-msgstr "Décembre"
-
-msgid "Week {{weekNumber}}"
-msgstr "Semaine{{NuméroSemaine}}"
-
-msgid "Bi-Week {{biWeekNumber}}"
-msgstr "bi-hebdomadaire {{biWeekNumber}}"
-
-msgid "Daily"
-msgstr "Quotidien"
-
-msgid "Weekly"
-msgstr "Hebdomadaire"
-
-msgid "Weekly (Start Wednesday)"
-msgstr "Hebdomadaire (début mercredi)"
-
-msgid "Weekly (Start Thursday)"
-msgstr "Hebdomadaire (début jeudi)"
-
-msgid "Weekly (Start Saturday)"
-msgstr "Hebdomadaire (début samedi)"
-
-msgid "Weekly (Start Sunday)"
-msgstr "Hebdomadaire (début dimanche)"
-
-msgid "Bi-weekly"
-msgstr "Bi-hebdomadaire"
-
-msgid "Monthly"
-msgstr "Mensuel"
-
-msgid "Bi-monthly"
-msgstr "Bimensuel"
-
-msgid "Quarterly"
-msgstr "Trimestriel"
-
-msgid "Six-monthly"
-msgstr "Semestriel"
-
-msgid "Six-monthly April"
-msgstr "Semestriel Avril"
-
-msgid "Six-monthly November"
-msgstr "Novembre semestriel"
-
-msgid "Yearly"
-msgstr "Annuel"
-
-msgid "Financial year (Start November)"
-msgstr "Année fiscale (Débutant par novembre)"
-
-msgid "Financial year (Start October)"
-msgstr "Année fiscale (Débutant par octobre)"
-
-msgid "Financial year (Start July)"
-msgstr "Année fiscale (Débutant par juillet)"
-
-msgid "Financial year (Start April)"
-msgstr "Année fiscale (Débutant par avril)"
 
 msgid "{{title}} (disabled)"
 msgstr ""
