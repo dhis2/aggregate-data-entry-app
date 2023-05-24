@@ -37,10 +37,10 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "අසම්පූර්ණ බව සලකුණු කරන්න"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "සම්පූර්ණ බව සලකුණු කරන්න"
 
 msgid "Hide details"
 msgstr ""
@@ -70,10 +70,10 @@ msgid "Run validation"
 msgstr ""
 
 msgid "Last completed by"
-msgstr ""
+msgstr "අවසන් වර සම්පූර්ණ කළේ"
 
 msgid "Last incompleted by"
-msgstr ""
+msgstr "අවසන් වර අසම්පූර්ණ කළේ"
 
 msgid "Couldn't validate the form, please try again later"
 msgstr ""
@@ -308,10 +308,10 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr ""
+msgstr "අගය"
 
 msgid "Totals"
-msgstr ""
+msgstr "එකතු"
 
 msgid "Audit log"
 msgstr ""
@@ -338,10 +338,10 @@ msgid "You do not have the authority to mark this value for follow -up"
 msgstr ""
 
 msgid "Description: {{- description}}"
-msgstr ""
+msgstr "විස්තරය : {{- description}}"
 
 msgid "Code: {{code}}"
-msgstr ""
+msgstr "කේතය : {{code}}"
 
 msgid "Data element ID: {{id}}"
 msgstr ""
@@ -365,7 +365,7 @@ msgid "Choose an option"
 msgstr ""
 
 msgid "Saving..."
-msgstr ""
+msgstr "සුරකිමින්..."
 
 msgid "Save comment"
 msgstr ""
@@ -389,7 +389,7 @@ msgid "Details"
 msgstr ""
 
 msgid "History"
-msgstr ""
+msgstr "ඉතිහාසය"
 
 msgid "Something went wrong loading the history"
 msgstr ""
@@ -413,10 +413,10 @@ msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
-msgstr ""
+msgstr "අවම"
 
 msgid "Max"
-msgstr ""
+msgstr "උපරිම"
 
 msgid "Min and max limits"
 msgstr ""
@@ -491,13 +491,13 @@ msgid "Indicators"
 msgstr ""
 
 msgid "Values"
-msgstr ""
+msgstr "අගයන්"
 
 msgid "Yes"
-msgstr ""
+msgstr "ඔව්"
 
 msgid "No"
-msgstr ""
+msgstr "නැත"
 
 msgid "Clear"
 msgstr ""
