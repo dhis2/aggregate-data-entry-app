@@ -36,6 +36,7 @@ export const replaceInputNode = (domNode, metadata) => {
 
     const [deId, cocId] = domNode.attribs.id.split('-')
     const dataElement = selectors.getDataElementById(metadata, deId)
+
     return (
         <DataEntryField
             dataElement={dataElement}
