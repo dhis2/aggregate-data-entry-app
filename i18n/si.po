@@ -94,13 +94,13 @@ msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
 
 msgid "High"
-msgstr ""
+msgstr "ඉහළ"
 
 msgid "Medium"
-msgstr ""
+msgstr "මාදි"
 
 msgid "Low"
-msgstr ""
+msgstr "පහළ"
 
 msgid "{{length}} {{level}} priority alert"
 msgstr ""
@@ -203,10 +203,10 @@ msgid "Locked, not editable"
 msgstr ""
 
 msgid "Help"
-msgstr ""
+msgstr "උදවු"
 
 msgid "or"
-msgstr ""
+msgstr "හෝ"
 
 msgid "Shortcuts"
 msgstr ""
