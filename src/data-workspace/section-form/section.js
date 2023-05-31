@@ -26,7 +26,7 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
         dataSetId,
         section.id
     )
-    const indicators = selectors.getIndicatorsBySection(
+    const indicators = selectors.getIndicatorsByDataSetIdAndSectionId(
         data,
         dataSetId,
         section.id
