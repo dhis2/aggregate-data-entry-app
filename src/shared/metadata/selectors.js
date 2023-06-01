@@ -349,7 +349,10 @@ export const getNrOfColumnsInCategoryCombo = createCachedSelector(
     getCategoriesByCategoryComboId,
     (categories) => {
         if (!categories) {
-            // @TODO: Is this really correct? Shouldn't it be 0?
+            // It returns the number of columns, not the number of
+            // categoryOptions or categories, and there should always be 1
+            // column to render. In case of missing references, it will just
+            // render a padding-cell
             return 1
         }
 
@@ -406,6 +409,12 @@ export const getComputedCategoryOptionIdsByCatComboId = createCachedSelector(
 )((_, categoryComboId) => categoryComboId)
 
 /**
+ * The `categoryOptionCombos` of a `categoryCombo` is a Set, and therefore
+ * unordered. To be able to render the cocs (eg. an entry field) in the correct
+ * order (same order as the table-header), we need to compute the
+ * categoryOptionCombos client side. This is basically a `cartesian-product` of
+ * all the `categoryOptions` in all `categories` in the `categoryCombo`.
+ *
  * @param {*} metadata
  * @param {*} categoryComboId
  */
@@ -413,12 +422,12 @@ export const getSortedCoCsByCatComboId = createCachedSelector(
     (metadata) => metadata,
     (_, categoryComboId) => categoryComboId,
     getComputedCategoryOptionIdsByCatComboId,
-    (metadata, categoryComboId, computedCategoryOptionIds) =>
-        computedCategoryOptionIds.map((categoryOptionIdVector) =>
+    (metadata, categoryComboId, categoryOptionIdsForCoC) =>
+        categoryOptionIdsForCoC.map((categoryOptionIds) =>
             getCoCByCategoryOptions(
                 metadata,
                 categoryComboId,
-                categoryOptionIdVector
+                categoryOptionIds
             )
         )
 )((_, categoryComboId) => categoryComboId)
