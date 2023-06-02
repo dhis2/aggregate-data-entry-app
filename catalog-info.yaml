@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: data-quality-app
+  annotations:
+    github.com/project-slug: dhis2/data-quality-app
+spec:
+  type: web-app
+  lifecycle: beta
+  owner: platform-frontend
