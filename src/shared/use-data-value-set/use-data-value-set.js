@@ -2,30 +2,8 @@ import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
 import { defaultOnSuccess } from '../../shared/default-on-success.js'
 import { useIsValidSelection } from '../use-context-selection/index.js'
+import mapDataValuesToFormInitialValues from './map-data-values-to-form-initial-values.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
-
-// Form value object structure: { [dataElementId]: { [cocId]: value } }
-function mapDataValuesToFormInitialValues(dataValues) {
-    // It's possible for the backend to return a response
-    // that does not have dataValues
-    if (!dataValues) {
-        return {}
-    }
-
-    const formInitialValues = dataValues.reduce((acc, dataValueData) => {
-        if (!acc[dataValueData.dataElement]) {
-            acc[dataValueData.dataElement] = {
-                [dataValueData.categoryOptionCombo]: dataValueData,
-            }
-        } else {
-            acc[dataValueData.dataElement][dataValueData.categoryOptionCombo] =
-                dataValueData
-        }
-
-        return acc
-    }, {})
-    return formInitialValues
-}
 
 const select = createSelector(
     (data) => data,
