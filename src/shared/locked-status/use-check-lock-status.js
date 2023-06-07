@@ -6,7 +6,7 @@ import {
     usePeriodId,
     useDataSetId,
     useOrgUnitId,
-} from '../use-context-selection/use-context-selection.js'
+} from '../use-context-selection/index.js'
 import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
 import { useOrgUnit } from '../use-org-unit/use-organisation-unit.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
@@ -38,7 +38,17 @@ const isDataInputPeriodLocked = ({
     )
 }
 
-const isOrgUnitLocked = ({
+/**
+ * An org unit is locked not based on the current date,
+ * but based on the selected period.
+ *
+ * -> If org unit's close date is before the period's end date,
+ *    then the user is not allowed to modify data.
+ *
+ * -> If the org unit's open date is after the period's start date,
+ *    then the user is not allowed to modify data.
+ */
+const isOrgUnitTimeConstraintWithinDataInputPeriodConstraint = ({
     orgUnitOpeningDateString,
     orgUnitClosedDateString,
     selectedPeriod,
@@ -61,7 +71,7 @@ const isOrgUnitLocked = ({
     // if orgUnitOpeningDate exists, it must be earlier than the periodStartDate
     if (orgUnitOpeningDateString) {
         const orgUnitOpeningDate = new Date(orgUnitOpeningDateString)
-        if (!(orgUnitOpeningDate <= periodStartDate)) {
+        if (orgUnitOpeningDate > periodStartDate) {
             return true
         }
     }
@@ -69,7 +79,7 @@ const isOrgUnitLocked = ({
     // if orgUnitClosedDate exists, it must be after the periodEndDate
     if (orgUnitClosedDateString) {
         const orgUnitClosedDate = new Date(orgUnitClosedDateString)
-        if (!(orgUnitClosedDate >= periodEndDate)) {
+        if (orgUnitClosedDate < periodEndDate) {
             return true
         }
     }
@@ -112,7 +122,7 @@ export const useCheckLockStatus = () => {
         }
 
         if (
-            isOrgUnitLocked({
+            isOrgUnitTimeConstraintWithinDataInputPeriodConstraint({
                 orgUnitOpeningDateString,
                 orgUnitClosedDateString,
                 selectedPeriod,
