@@ -1,3 +1,15 @@
+## [100.3.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.0...v100.3.1) (2023-06-08)
+
+
+### Bug Fixes
+
+* **cartesian:** return empty array when no vectors provided ([9ae2b81](https://github.com/dhis2/aggregate-data-entry-app/commit/9ae2b813e3f925796fabed578025f9016caea677))
+* **translations:** sync translations from transifex (development) ([474fc7b](https://github.com/dhis2/aggregate-data-entry-app/commit/474fc7bd40498d9bb9e44f8153a44f9efebb2f3b))
+* **translations:** sync translations from transifex (development) ([90c5870](https://github.com/dhis2/aggregate-data-entry-app/commit/90c587035977ca87953814580eb822edcc91979a))
+* **translations:** sync translations from transifex (development) ([82f9043](https://github.com/dhis2/aggregate-data-entry-app/commit/82f9043c0e8323497fd5b8a77640d9c0b99b9215))
+* **translations:** sync translations from transifex (development) ([72dff9a](https://github.com/dhis2/aggregate-data-entry-app/commit/72dff9a6a4f21fe02665c52b9e4fd5571a464310))
+* cover useSetFormCompletionMutation with tests ([#315](https://github.com/dhis2/aggregate-data-entry-app/issues/315)) ([930e50e](https://github.com/dhis2/aggregate-data-entry-app/commit/930e50ea20ea83f279a5dc5085288cbc03be35ef))
+
 # [100.3.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.2.4...v100.3.0) (2023-05-16)
 
 
