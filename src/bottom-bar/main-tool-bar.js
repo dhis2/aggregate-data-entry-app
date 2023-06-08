@@ -15,6 +15,7 @@ import {
 } from '../shared/index.js'
 import CompleteButton from './complete-button.js'
 import ErrorSummary from './error-summary.js'
+import FormExpiryInfo from './form-expiry-info.js'
 import styles from './main-tool-bar.module.css'
 
 function ValidationButtonTooltip({ validateDisabled, offline, children }) {
@@ -81,23 +82,23 @@ export default function MainToolBar() {
                 <CompleteButton disabled={locked} />
             </div>
             <ErrorSummary />
+            <FormExpiryInfo />
             {data?.completeStatus?.lastUpdatedBy && (
                 <span
                     className={cx(styles.completionSummary, styles.toolbarItem)}
                 >
-                    <span
-                        className={cx(styles.icon, styles.goToInvalidValueIcon)}
-                    >
+                    <span className={cx(styles.icon)}>
                         <IconInfo16 color={colors.grey700} />
                     </span>
 
                     <span>
-                        <span className={styles.completedByLabel}>
-                            {data.completeStatus.complete
-                                ? i18n.t('Last completed by')
-                                : i18n.t('Last incompleted by')}
-                        </span>
-                        {data?.completeStatus.lastUpdatedBy}
+                        {data.completeStatus.complete
+                            ? i18n.t('Last completed by {{-username}}', {
+                                  username: data.completeStatus.lastUpdatedBy,
+                              })
+                            : i18n.t('Last incompleted by {{-username}}', {
+                                  username: data.completeStatus.lastUpdatedBy,
+                              })}
                     </span>
                 </span>
             )}

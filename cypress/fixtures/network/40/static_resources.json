@@ -133,6 +133,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, no-store, max-age=0, must-revalidate",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         },
@@ -272,6 +273,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -304,6 +306,7 @@
             "access-control-allow-origin": "http://localhost:3000",
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -337,6 +340,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json;charset=utf-8",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -369,6 +373,7 @@
             "access-control-allow-origin": "http://localhost:3000",
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -443,7 +448,7 @@
         "path": "/api/40/staticContent/logo_banner",
         "featureName": null,
         "static": true,
-        "count": 52,
+        "count": 54,
         "nonDeterministic": false,
         "method": "GET",
         "requestBody": "",
@@ -468,6 +473,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -500,6 +506,7 @@
             "access-control-allow-origin": "http://localhost:3000",
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }

@@ -8,13 +8,11 @@ import { BottomBar } from '../bottom-bar/index.js'
 import {
     useMetadata,
     selectors,
-    updateLockStatusFromBackend,
     useCheckLockStatus,
     useDataSetId,
     useContextSelectionId,
     useDataValueSet,
     useIsValidSelection,
-    useLockedContext,
     useValueStore,
     dataValueSetQueryKey,
 } from '../shared/index.js'
@@ -29,17 +27,8 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const { data: metadata } = useMetadata()
     useHandleHeaderbarStatus()
     useCheckLockStatus()
-    const { lockStatus: frontEndLockStatus, setLockStatus } = useLockedContext()
     const updateStore = useValueStore((state) => state.setDataValueSet)
-    const initialDataValuesFetch = useDataValueSet({
-        onSuccess: (data) => {
-            updateLockStatusFromBackend(
-                frontEndLockStatus,
-                data?.lockStatus,
-                setLockStatus
-            )
-        },
-    })
+    const initialDataValuesFetch = useDataValueSet()
 
     useEffect(() => {
         updateStore(initialDataValuesFetch.data)
