@@ -48,7 +48,3 @@
 .completionSummary {
     background: var(--colors-blue050);
 }
-
-.completedByLabel:after {
-    content: ' ';
-}

@@ -28,6 +28,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json;charset=utf-8",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -61,6 +62,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -160,6 +162,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -193,6 +196,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -226,6 +230,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "max-age=0, must-revalidate, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -259,6 +264,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -292,6 +298,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -521,6 +528,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -554,6 +562,7 @@
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
             "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
@@ -619,12 +628,44 @@
             "access-control-allow-origin": "http://localhost:3000",
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }
     },
     {
         "path": "/api/40/dataSets/Lpw6GcnTrmS?fields=formType,sections%5Bid%2CdisplayName%5D,renderAsTabs",
+        "featureName": "Category options for each category in the category combination connected to the data set can be selected",
+        "static": false,
+        "count": 2,
+        "nonDeterministic": false,
+        "method": "GET",
+        "requestBody": "",
+        "requestHeaders": {
+            "host": "localhost:8080",
+            "proxy-connection": "keep-alive",
+            "accept": "application/json",
+            "origin": "http://localhost:3000",
+            "sec-fetch-site": "same-site",
+            "sec-fetch-mode": "cors"
+        },
+        "statusCode": 200,
+        "responseBody": "{\"sections\":[{\"displayName\":\"Training\",\"id\":\"arq0MEVL1LS\"},{\"displayName\":\"Support\",\"id\":\"fSVNuHniXk0\"}],\"renderAsTabs\":false,\"formType\":\"SECTION\"}",
+        "responseSize": 147,
+        "responseHeaders": {
+            "access-control-allow-credentials": "true",
+            "access-control-allow-origin": "http://localhost:3000",
+            "vary": "Origin",
+            "access-control-expose-headers": "ETag, Location",
+            "cache-control": "no-cache, private",
+            "content-type": "application/json",
+            "x-content-type-options": "nosniff",
+            "x-xss-protection": "1; mode=block",
+            "server": "Jetty(10.0.14)"
+        }
+    },
+    {
+        "path": "/api/40/dataEntry/dataValues?ds=Lpw6GcnTrmS&pe=202112&ou=ImspTQPwCqd&cc=WBW7RjsApsv&cp=STgy27fGvaU",
         "featureName": "Category options for each category in the category combination connected to the data set can be selected",
         "static": false,
         "count": 1,
@@ -640,8 +681,8 @@
             "sec-fetch-site": "cross-site"
         },
         "statusCode": 200,
-        "responseBody": "{\"sections\":[{\"displayName\":\"Training\",\"id\":\"arq0MEVL1LS\"},{\"displayName\":\"Support\",\"id\":\"fSVNuHniXk0\"}],\"renderAsTabs\":false,\"formType\":\"SECTION\"}",
-        "responseSize": 147,
+        "responseBody": "{\"dataValues\":[],\"minMaxValues\":[],\"lockStatus\":\"OPEN\",\"completeStatus\":{\"complete\":false}}",
+        "responseSize": 91,
         "responseHeaders": {
             "server": "nginx/1.21.1",
             "content-type": "application/json;charset=UTF-8",
@@ -651,7 +692,7 @@
             "access-control-allow-origin": "http://localhost:3000",
             "vary": "Origin",
             "access-control-expose-headers": "ETag, Location",
-            "cache-control": "no-cache, private",
+            "content-type": "application/json",
             "x-content-type-options": "nosniff",
             "x-xss-protection": "1; mode=block"
         }

@@ -40,7 +40,10 @@ const formTypeToComponent = {
 
 export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     const [globalFilterText, setGlobalFilterText] = React.useState('')
-    const { locked, lockStatus } = useLockedContext()
+    const {
+        locked,
+        lockStatus: { state: lockState },
+    } = useLockedContext()
     const formType = dataSet.formType
     const setFormErrors = useEntryFormStore((state) => state.setErrors)
 
@@ -59,7 +62,7 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
         <>
             {locked && (
                 <NoticeBox title={i18n.t('Data set locked')}>
-                    {lockedNoticeBoxMessages[lockStatus]}
+                    {lockedNoticeBoxMessages[lockState]}
                 </NoticeBox>
             )}
             {formType !== FORM_TYPES.CUSTOM && (
