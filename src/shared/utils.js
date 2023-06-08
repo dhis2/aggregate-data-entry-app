@@ -1,5 +1,9 @@
 // Computes the cartesian product of a matrix (array of array)
 export const cartesian = (args) => {
+    if (args.length === 0) {
+        return []
+    }
+
     const result = []
     const lim = args.length - 1
 

@@ -120,7 +120,7 @@ export const getCategoryOptionsByCategoryOptionComboId = createCachedSelector(
  * @param {string} dataSetId
  * @param {string} sectionId
  */
-export const getSection = createCachedSelector(
+export const getSectionByDataSetIdAndSectionId = createCachedSelector(
     getSectionsByDataSetId,
     (_, __, sectionId) => sectionId,
     (sections, sectionId) => sections.find((s) => s.id === sectionId)
@@ -134,7 +134,7 @@ export const getCategoriesByCategoryComboId = createCachedSelector(
     getCategoryComboById,
     getCategories,
     (categoryCombo, categories) =>
-        categoryCombo.categories.map((id) => categories[id])
+        categoryCombo?.categories.map((id) => categories[id])
 )((_, categoryComboId) => categoryComboId)
 
 /**
@@ -250,7 +250,8 @@ export const getDataElementsByDataSetIdSorted = createSelector(
 export const getIndicatorsByDataSetId = createCachedSelector(
     getIndicators,
     getDataSetById,
-    (indicators, dataSet) => dataSet.indicators.map((id) => indicators[id])
+    (indicators, dataSet) =>
+        dataSet?.indicators.map((id) => indicators[id]) || []
 )((_, dataSetId) => dataSetId)
 
 /**
@@ -261,7 +262,7 @@ export const getIndicatorsByDataSetId = createCachedSelector(
  * @param {*} sectionId
  */
 export const getDataElementsBySection = createCachedSelector(
-    getSection,
+    getSectionByDataSetIdAndSectionId,
     getDataElementsByDataSetId,
     (section, dataElements) =>
         section.dataElements.map((id) =>
@@ -274,10 +275,16 @@ export const getDataElementsBySection = createCachedSelector(
  * @param {*} dataSetId
  * @param {*} sectionId
  */
-export const getIndicatorsBySection = createCachedSelector(
-    getSection,
+export const getIndicatorsByDataSetIdAndSectionId = createCachedSelector(
+    getSectionByDataSetIdAndSectionId,
     getIndicators,
-    (section, indicators) => section.indicators.map((id) => indicators[id])
+    (section, indicators) => {
+        if (!section) {
+            return []
+        }
+
+        return section.indicators.map((id) => indicators[id])
+    }
 )((_, dataSetId, sectionId) => `${dataSetId}:${sectionId}`)
 
 /**
@@ -340,10 +347,19 @@ export const getGroupedDataElementsByCatCombo = createSelector(
 
 export const getNrOfColumnsInCategoryCombo = createCachedSelector(
     getCategoriesByCategoryComboId,
-    (categories) =>
-        (categories?.map((cat) => cat.categoryOptions.length) || [1]).reduce(
-            (total, curr) => total * curr
-        )
+    (categories) => {
+        if (!categories) {
+            // It returns the number of columns, not the number of
+            // categoryOptions or categories, and there should always be 1
+            // column to render. In case of missing references, it will just
+            // render a padding-cell
+            return 1
+        }
+
+        return categories
+            .map(({ categoryOptions }) => categoryOptions.length)
+            .reduce((total, curr) => total * curr)
+    }
 )((_, categoryComboId) => categoryComboId)
 
 /**
@@ -383,25 +399,36 @@ export const getCoCByCategoryOptions = createCachedSelector(
  * @param {*} categoryComboId
  * @returns {Array.<Array.<string>>} An array with arrays of categoryOption-ids
  */
-export const getComputedCategoryOptionsByCatComboId = createCachedSelector(
+export const getComputedCategoryOptionIdsByCatComboId = createCachedSelector(
     getCategoriesByCategoryComboId,
     (categories) => {
-        const optionsIdLists = categories.map((cat) => cat.categoryOptions)
+        const optionsIdLists =
+            categories?.map((cat) => cat.categoryOptions) || []
         return cartesian(optionsIdLists)
     }
 )((_, categoryComboId) => categoryComboId)
 
 /**
+ * The `categoryOptionCombos` of a `categoryCombo` is a Set, and therefore
+ * unordered. To be able to render the cocs (eg. an entry field) in the correct
+ * order (same order as the table-header), we need to compute the
+ * categoryOptionCombos client side. This is basically a `cartesian-product` of
+ * all the `categoryOptions` in all `categories` in the `categoryCombo`.
+ *
  * @param {*} metadata
  * @param {*} categoryComboId
  */
 export const getSortedCoCsByCatComboId = createCachedSelector(
     (metadata) => metadata,
     (_, categoryComboId) => categoryComboId,
-    getComputedCategoryOptionsByCatComboId,
-    (metadata, categoryComboId, computedCOCS) =>
-        computedCOCS.map((options) =>
-            getCoCByCategoryOptions(metadata, categoryComboId, options)
+    getComputedCategoryOptionIdsByCatComboId,
+    (metadata, categoryComboId, categoryOptionIdsForCoC) =>
+        categoryOptionIdsForCoC.map((categoryOptionIds) =>
+            getCoCByCategoryOptions(
+                metadata,
+                categoryComboId,
+                categoryOptionIds
+            )
         )
 )((_, categoryComboId) => categoryComboId)
 
@@ -551,13 +578,17 @@ export const getApplicableDataInputPeriod = createCachedSelector(
     (_, __, periodId) => periodId,
     (dataSet, periodId) => {
         if (!dataSet?.id || !periodId) {
-            return []
+            return null
         }
+
         if (!dataSet || !periodId) {
-            return []
+            return null
         }
-        return dataSet.dataInputPeriods.filter(
-            (dip) => dip?.period?.id === periodId
-        )[0]
+
+        return (
+            dataSet.dataInputPeriods.filter(
+                (dip) => dip?.period?.id === periodId
+            )[0] || null
+        )
     }
 )((dataSetId, periodId) => `${dataSetId}:${periodId}`)
