@@ -3,13 +3,14 @@
 # Rica Zamora Duchateau, 2022
 # Cherise Beek <cherise.beek@gmail.com>, 2022
 # Yury Rogachev <yury@dhis2.org>, 2022
+# Charel van den Elsen, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Yury Rogachev <yury@dhis2.org>, 2022\n"
+"Last-Translator: Charel van den Elsen, 2023\n"
 "Language-Team: Dutch (https://app.transifex.com/hisp-uio/teams/100509/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -391,7 +392,7 @@ msgid "Details"
 msgstr "Details"
 
 msgid "History"
-msgstr ""
+msgstr "Geschiedenis"
 
 msgid "Something went wrong loading the history"
 msgstr ""
@@ -502,7 +503,7 @@ msgid "No"
 msgstr "Nee"
 
 msgid "Clear"
-msgstr ""
+msgstr "Duidelijk"
 
 msgid "Delete"
 msgstr "Verwijder"
