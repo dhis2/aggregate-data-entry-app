@@ -170,7 +170,7 @@ msgid ""
 msgstr ""
 
 msgid "Hide menu"
-msgstr ""
+msgstr "Menu verbergen"
 
 msgid "Default attribute combo"
 msgstr ""
@@ -206,7 +206,7 @@ msgid "Locked, not editable"
 msgstr ""
 
 msgid "Help"
-msgstr ""
+msgstr "Hulp"
 
 msgid "or"
 msgstr ""
