@@ -272,13 +272,13 @@ msgid "No organisation units could be found"
 msgstr ""
 
 msgid "No children match filter"
-msgstr ""
+msgstr "Er komen geen kinderen overeen met het filter"
 
 msgid "Could not load children"
-msgstr ""
+msgstr "Kan kinderen niet laden"
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr ""
+msgstr "Fout: {{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
 msgstr ""
@@ -512,7 +512,7 @@ msgid "Upload an image"
 msgstr ""
 
 msgid "Upload a file"
-msgstr ""
+msgstr "Een bestand uploaden"
 
 msgid "Choose option(s)"
 msgstr ""
