@@ -299,7 +299,7 @@ msgid "All sections"
 msgstr ""
 
 msgid "Section"
-msgstr ""
+msgstr "Sectie"
 
 msgid "Fetching data set info"
 msgstr ""
@@ -332,7 +332,7 @@ msgid "Unmark for follow-up"
 msgstr ""
 
 msgid "Mark for follow-up"
-msgstr ""
+msgstr "Markeer voor vervolg"
 
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
@@ -491,7 +491,7 @@ msgid "Clear filter"
 msgstr ""
 
 msgid "Indicators"
-msgstr ""
+msgstr "Indicatoren"
 
 msgid "Values"
 msgstr ""
