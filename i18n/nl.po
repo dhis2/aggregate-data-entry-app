@@ -19,257 +19,280 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Not authorized"
-msgstr ""
+msgstr "Niet geautoriseerd"
 
 msgid ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 msgstr ""
+"U heeft geen toegang tot de Data Approval App. Neem contact op met een "
+"systeembeheerder om toegang aan te vragen."
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "Er is een probleem opgetreden bij het laden van metadata"
 
 msgid "There was a problem loading the user's information"
 msgstr ""
+"Er is een probleem opgetreden bij het laden van de gegevens van de gebruiker"
 
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
+"Sessie verlopen. Gelieve opnieuw te laden om opnieuw in te loggen. U "
+"verliest geen gegevens."
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "Kon het formulier niet onvolledig invullen, probeer het later opnieuw"
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "Markering onvolledig"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "Markering voltooid"
 
 msgid "Hide details"
-msgstr ""
+msgstr "Verberg details"
 
 msgid "View details"
-msgstr ""
+msgstr "Details bekijken"
 
 msgid "1 invalid value not saved"
-msgstr ""
+msgstr "1 ongeldige waarde niet opgeslagen"
 
 msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
+msgstr "{{numberOfErrors}} ongeldige waarden niet opgeslagen"
 
 msgid "1 value failed to save"
-msgstr ""
+msgstr "1 waarde kan niet worden opgeslagen"
 
 msgid "{{numberOfErrors}} values failed to save"
-msgstr ""
+msgstr "{{numberOfErrors}} waarden kunnen niet worden opgeslagen"
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "Validatie is niet offline beschikbaar"
 
 msgid "Validation is not available while changes are pending"
-msgstr ""
+msgstr "Validatie is niet beschikbaar terwijl wijzigingen in behandeling zijn"
 
 msgid "Run validation"
 msgstr "Validatie uitvoeren"
 
 msgid "Last completed by"
-msgstr ""
+msgstr "Laatst voltooid door"
 
 msgid "Last incompleted by"
-msgstr ""
+msgstr "Laatst onvoltooid door"
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "Kan het formulier niet valideren, probeer het later opnieuw"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
 msgstr ""
+"Kan het formulier niet valideren. Dit heeft geen invloed op het invullen van"
+" het formulier!"
 
 msgid "The form can't be completed while invalid"
-msgstr ""
+msgstr "Het formulier kan niet worden ingevuld terwijl het ongeldig is"
 
 msgid "1 comment required"
-msgstr ""
+msgstr "1 opmerking vereist"
 
 msgid "{{commentsCount}} comments required"
-msgstr ""
+msgstr "{{commentsCount}} reacties vereist"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
+"{{displayShortName}} moet een reactie hebben als het geen waarde heeft."
 
 msgid "High"
-msgstr ""
+msgstr "Hoog"
 
 msgid "Medium"
-msgstr ""
+msgstr "Medium"
 
 msgid "Low"
-msgstr ""
+msgstr "Laag"
 
 msgid "{{length}} {{level}} priority alert"
-msgstr ""
+msgstr "{{length}} {{level}} prioriteitswaarschuwing"
 
 msgid "{{length}} {{level}} priority alerts"
-msgstr ""
+msgstr "{{length}} {{level}} prioriteitswaarschuwingen"
 
 msgid "Validation"
-msgstr ""
+msgstr "Validatie"
 
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
 " Run validation again to check the current data."
 msgstr ""
+"De gegevens in het invoerformulier zijn gewijzigd, dus de validatie-uitvoer "
+"kan onjuist zijn. Voer de validatie opnieuw uit om de huidige gegevens te "
+"controleren."
 
 msgid "Run validation again"
-msgstr ""
+msgstr "Voer de validatie opnieuw uit"
 
 msgid "Alert summary"
-msgstr ""
+msgstr "Samenvatting waarschuwing"
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "Geen validatiewaarschuwingen voor deze gegevens."
 
 msgid "Running validation..."
-msgstr ""
+msgstr "Validatie wordt uitgevoerd..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "Er is een probleem opgetreden bij het uitvoeren van de validatie"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"Validatie kan niet worden uitgevoerd voor deze gegevens. Probeer het opnieuw"
+" of neem contact op met uw systeembeheerder."
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
 msgstr ""
+"{{linkerBeschrijving}} kan niet leeg zijn als {{rechterBeschrijving}} een "
+"waarde heeft"
 
 msgid ""
 "{{leftDescription}} cannot have a value when {{rightDescription}} has a "
 "value"
 msgstr ""
+"{{linkerBeschrijving}} kan geen waarde hebben als {{rechterBeschrijving}} "
+"een waarde heeft"
 
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
 msgstr ""
+"Sommige categorieën hebben geen geldige opties voor de geselecteerde periode"
+" of organisatie-eenheid ({{categorieën}})"
 
 msgid ""
 "There was a problem loading the {{objectType}} selection ({{id}}). You might"
 " not have access, or the selection might be invalid."
 msgstr ""
+"Er is een probleem opgetreden bij het laden van de selectie {{objectType}} "
+"({{id}}). Mogelijk hebt u geen toegang of is de selectie ongeldig."
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "Kies een databank"
 
 msgid "No available options"
-msgstr ""
+msgstr "Geen beschikbare opties"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
 "organisation unit."
 msgstr ""
+"Er zijn geen opties voor {{categoryName}} voor de geselecteerde periode of "
+"organisatie-eenheid."
 
 msgid "Hide menu"
 msgstr "Menu verbergen"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "Standaard attribuutcombinatie"
 
 msgid "0 selections"
-msgstr ""
+msgstr "0 selecties"
 
 msgid "1 selection"
-msgstr ""
+msgstr "1 selectie"
 
 msgid "{{amount}} selections"
-msgstr ""
+msgstr "{{hoeveelheid}} selecties"
 
 msgid "Cell reference"
-msgstr ""
+msgstr "Celverwijzing"
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "Opgeslagen en gesynchroniseerd met de server"
 
 msgid "Waiting to sync, saved locally"
-msgstr ""
+msgstr "Wachten op synchronisatie, lokaal opgeslagen"
 
 msgid "Failed to sync, not saved"
-msgstr ""
+msgstr "Kan niet synchroniseren, niet opgeslagen"
 
 msgid "Data item has a comment"
-msgstr ""
+msgstr "Gegevensitem heeft een opmerking"
 
 msgid "Invalid value, not saved"
-msgstr ""
+msgstr "Ongeldige waarde, niet opgeslagen"
 
 msgid "Locked, not editable"
-msgstr ""
+msgstr "Vergrendeld, niet bewerkbaar"
 
 msgid "Help"
 msgstr "Hulp"
 
 msgid "or"
-msgstr ""
+msgstr "of"
 
 msgid "Shortcuts"
-msgstr ""
+msgstr "Snelkoppelingen"
 
 msgid "Show details"
-msgstr ""
+msgstr "Toon details"
 
 msgid "Ctrl + Enter"
-msgstr ""
+msgstr "Ctrl+Enter"
 
 msgid "Cmd + Enter"
-msgstr ""
+msgstr "Cmd+Enter"
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "Ga naar de volgende cel"
 
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "Ga naar de vorige cel"
 
 msgid "Shift + Tab"
-msgstr ""
+msgstr "Shift + Tab"
 
 msgid "Could not find a data set for the selected id"
-msgstr ""
+msgstr "Kan geen gegevensverzameling vinden voor de geselecteerde id"
 
 msgid "There are no data sets available!"
-msgstr ""
+msgstr "Er is geen gegevensverzameling beschikbaar!"
 
 msgid "Data set"
-msgstr "Gegevensreeks"
+msgstr "Gegevensverzameling"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "Print formulier met waarden"
 
 msgid "Print empty form"
-msgstr ""
+msgstr "Leeg formulier afdrukken"
 
 msgid "Options"
 msgstr "Opties"
 
 msgid "Search org units"
-msgstr ""
+msgstr "Organisatie-eenheden zoeken"
 
 msgid "Choose a data set first"
-msgstr ""
+msgstr "Kies eerst de gegevensverzameling"
 
 msgid "Dataset is not assigned to this organisation unit"
-msgstr ""
+msgstr "Dataset is niet toegewezen aan deze organisatie-eenheid"
 
 msgid "Organisation unit"
 msgstr "Organisatieëenheid"
 
 msgid "Choose a organisation unit"
-msgstr ""
+msgstr "Kies een organisatie-eenheid"
 
 msgid "No organisation units could be found"
-msgstr ""
+msgstr "Er zijn geen organisatie-eenheden gevonden"
 
 msgid "No children match filter"
 msgstr "Er komen geen kinderen overeen met het filter"
@@ -281,34 +304,40 @@ msgid "Error: {{ ERRORMESSAGE }}"
 msgstr "Fout: {{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
-msgstr ""
+msgstr "Informatie over organisatie-eenheid ophalen"
 
 msgid "Error occurred while loading organisation unit info"
 msgstr ""
+"Er is een fout opgetreden bij het laden van informatie over de organisatie-"
+"eenheid"
 
 msgid "The Period ({{id}}) is not open or is invalid."
-msgstr ""
+msgstr "De Periode ({{id}}) is niet open of is ongeldig."
 
 msgid "Period"
 msgstr "Periode"
 
 msgid "Choose a period"
-msgstr ""
+msgstr "Kies een periode"
 
 msgid "All sections"
-msgstr ""
+msgstr "Alle secties"
 
 msgid "Section"
 msgstr "Sectie"
 
 msgid "Fetching data set info"
-msgstr ""
+msgstr "Informatie over gegevensverzameling ophalen"
 
 msgid "Error occurred while loading data set info"
 msgstr ""
+"Er is een fout opgetreden tijdens het laden van gegevensverzameling "
+"informatie"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
+"Aangepaste formulieren konden niet offline beschikbaar worden gemaakt. "
+"{{fout}}"
 
 msgid "Value"
 msgstr "Waarde"
@@ -317,76 +346,78 @@ msgid "Totals"
 msgstr "Totalen"
 
 msgid "Audit log"
-msgstr ""
+msgstr "Controle logboek"
 
 msgid "Something went wrong loading the audit log"
-msgstr ""
+msgstr "Er is iets misgegaan bij het laden van het controle logboek"
 
 msgid "Not available offline"
 msgstr "Niet beschikbaar offline"
 
 msgid "No audit log for this data item."
-msgstr ""
+msgstr "Geen controle logboek voor dit gegevensitem."
 
 msgid "Unmark for follow-up"
-msgstr ""
+msgstr "Demarkeer voor vervolg"
 
 msgid "Mark for follow-up"
 msgstr "Markeer voor vervolg"
 
 msgid "Empty values can't be marked for follow -up"
-msgstr ""
+msgstr "Lege waarden kunnen niet worden gemarkeerd voor follow-up"
 
 msgid "You do not have the authority to mark this value for follow -up"
-msgstr ""
+msgstr "U bent niet bevoegd om deze waarde te markeren voor follow-up"
 
 msgid "Description: {{- description}}"
-msgstr ""
+msgstr "Beschrijving: {{- beschrijving}}"
 
 msgid "Code: {{code}}"
-msgstr ""
+msgstr "Code: {{code}}"
 
 msgid "Data element ID: {{id}}"
-msgstr ""
+msgstr "Gegevenselement-ID: {{id}}"
 
 msgid "Category option combo ID: {{id}}"
-msgstr ""
+msgstr "Combinatie-ID categorieoptie: {{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr ""
+msgstr "Laatst bijgewerkt {{- timeAgo}} door {{- naam}}"
 
 msgid "Marked for follow-up"
-msgstr ""
+msgstr "Gemarkeerd voor vervolg"
 
 msgid "Comment"
 msgstr "Opmerking"
 
 msgid "There was a problem updating the comment for this data item"
 msgstr ""
+"Er is een probleem opgetreden bij het bijwerken van de opmerking voor dit "
+"gegevensitem"
 
 msgid "Choose an option"
-msgstr ""
+msgstr "Kies een optie"
 
 msgid "Saving..."
-msgstr ""
+msgstr "Opslaan..."
 
 msgid "Save comment"
-msgstr ""
+msgstr "Opmerking opslaan"
 
 msgid "Cancel"
 msgstr "Annuleren"
 
 msgid "Edit comment"
-msgstr ""
+msgstr "Opmerking bewerken"
 
 msgid "Add comment"
-msgstr ""
+msgstr "Voeg opmerking toe"
 
 msgid "No comment for this data item."
-msgstr ""
+msgstr "Geen opmerking voor dit gegevensitem."
 
 msgid "You do not have the authority to add or edit comments"
-msgstr ""
+msgstr "U bent niet bevoegd om opmerkingen toe te voegen of te bewerken"
 
 msgid "Details"
 msgstr "Details"
@@ -395,25 +426,25 @@ msgid "History"
 msgstr "Geschiedenis"
 
 msgid "Something went wrong loading the history"
-msgstr ""
+msgstr "Er is iets misgegaan bij het laden van de geschiedenis"
 
 msgid "No history for this data item."
-msgstr ""
+msgstr "Er is geen geschiedenis voor dit gegevensitem."
 
 msgid "Average value: {{avg}}"
-msgstr ""
+msgstr "Gemiddelde waarde: {{avg}}"
 
 msgid "Delete limits"
-msgstr ""
+msgstr "Limieten verwijderen"
 
 msgid "You do not have the authority to delete limits"
-msgstr ""
+msgstr "U bent niet bevoegd om limieten te verwijderen"
 
 msgid "Edit limits"
-msgstr ""
+msgstr "Limieten bewerken"
 
 msgid "You do not have the authority to add limits"
-msgstr ""
+msgstr "U bent niet bevoegd om limieten toe te voegen"
 
 msgid "Min"
 msgstr "Min"
@@ -422,79 +453,91 @@ msgid "Max"
 msgstr "Max"
 
 msgid "Min and max limits"
-msgstr ""
+msgstr "Min en max limieten"
 
 msgid "Try again, or contact your system administrator."
-msgstr ""
+msgstr "Probeer het opnieuw of neem contact op met uw systeembeheerder."
 
 msgid "Add limits"
-msgstr ""
+msgstr "Limieten toevoegen"
 
 msgid "No limits set for this data item."
-msgstr ""
+msgstr "Geen limieten ingesteld voor dit gegevensitem."
 
 msgid "Save limits"
-msgstr ""
+msgstr "Bewaar limieten"
 
 msgid "The current selection does not have a form"
-msgstr ""
+msgstr "De huidige selectie heeft geen formulier"
 
 msgid "There was a problem loading data values"
-msgstr ""
+msgstr "Er is een probleem opgetreden bij het laden van gegevenswaarden"
 
 msgid "This data set has no assigned Data Elements"
-msgstr ""
+msgstr "Deze gegevensverzameling heeft geen toegewezen data-elementen"
 
 msgid ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
 msgstr ""
+"Er zijn geen data-elementen in deze gegevensverzameling. Voegt enkele "
+"gegevenselementen toe om deze gegevensverzameling te gebruiken."
 
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
+"Buiten de data-invoerperiode kunnen geen gegevens worden toegevoegd of "
+"gewijzigd."
 
 msgid ""
 "Data cannot be added or changed because organisation unit is closed for the "
 "selected period."
 msgstr ""
+"Gegevens kunnen niet worden toegevoegd of gewijzigd omdat organisatie-"
+"eenheid gesloten is voor de geselecteerde periode."
 
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
+"Gegevens kunnen niet worden toegevoegd of gewijzigd omdat de gegevensinvoer "
+"is voltooid."
 
 msgid "Data cannot be added or changed because data has been approved."
 msgstr ""
+"Gegevens kunnen niet worden toegevoegd of gewijzigd omdat gegevens zijn "
+"goedgekeurd."
 
 msgid "You do not have the authority to edit entry forms"
-msgstr ""
+msgstr "U bent niet bevoegd om invoerformulieren te bewerken"
 
 msgid "Data set locked"
-msgstr ""
+msgstr "Gegevensverzameling vergrendeld"
 
 msgid "Get started with data entry"
-msgstr ""
+msgstr "Aan de slag met gegevensinvoer"
 
 msgid ""
 "Choose a data set, organisation unit, and period from the top bar to start "
 "entering data"
 msgstr ""
+"Kies de gegevensverzameling, organisatie-eenheid en periode uit de bovenste "
+"balk om te beginnen met het invoeren van gegevens"
 
 msgid "Learn more about data entry"
-msgstr ""
+msgstr "Meer informatie over gegevensinvoer"
 
 msgid "Filter fields in all sections"
-msgstr ""
+msgstr "Filter velden in alle secties"
 
 msgid "Filter fields"
-msgstr ""
+msgstr "Velden filteren"
 
 msgid "Clear filter"
-msgstr ""
+msgstr "Filter wissen"
 
 msgid "Indicators"
 msgstr "Indicatoren"
 
 msgid "Values"
-msgstr ""
+msgstr "Waarden"
 
 msgid "Yes"
 msgstr "Ja"
@@ -509,58 +552,66 @@ msgid "Delete"
 msgstr "Verwijder"
 
 msgid "Upload an image"
-msgstr ""
+msgstr "Upload een afbeelding"
 
 msgid "Upload a file"
 msgstr "Een bestand uploaden"
 
 msgid "Choose option(s)"
-msgstr ""
+msgstr "Kies optie(s)"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
-msgstr ""
+msgstr "Geef een geldige datum en tijd op in het format JJJJ-MM-DD UU{{c}}MM"
 
 msgid "Please provide a valid time in the format HH{{c}}MM"
-msgstr ""
+msgstr "Geef een geldige tijd op in het formaat HH{{c}}MM"
 
 msgid ""
 "Please make sure the value of this input is less than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Zorg ervoor dat de waarde van deze invoer kleiner is dan de waarde in "
+"\"{{andereVeld}}\"."
 
 msgid ""
 "Please make sure the value of this input is more than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Zorg ervoor dat de waarde van deze invoer groter is dan de waarde in "
+"\"{{andereVeld}}\"."
 
 msgid "Type here to filter in this section"
-msgstr ""
+msgstr "Typ hier om in deze sectie te filteren"
 
 msgid "1 item hidden by filter"
-msgstr ""
+msgstr "1 item verborgen door filter"
 
 msgid "{{pendingMutations}} change saved locally"
-msgstr ""
+msgstr "{{inAfwachtingVanMutatie}} wijziging lokaal opgeslagen"
 
 msgid "{{pendingMutations}} changes saved locally"
-msgstr ""
+msgstr "{{inAfwachtingVanMutatie}} wijzigingen lokaal opgeslagen"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
 msgstr ""
+"Hier kunnen we het bericht voor E2017-fout overschrijven met een aangepast "
+"bericht in de FE"
 
 msgid "Selected period is after latest open future period"
-msgstr ""
+msgstr "De geselecteerde periode is na de laatste open toekomstige periode"
 
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr ""
+"Er is iets misgegaan bij het instellen van de voltooiing van het formulier "
+"op \"{{voltooid}}\": {{foutBericht}}"
 
 msgid "{{title}} (disabled)"
-msgstr ""
+msgstr "{{titel}} (uitgeschakeld)"
 
 msgid "Close details sidebar"
-msgstr ""
+msgstr "Sluit de detailzijbalk"
