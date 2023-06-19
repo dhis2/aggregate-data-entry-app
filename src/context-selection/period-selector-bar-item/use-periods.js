@@ -1,5 +1,4 @@
 import { generateFixedPeriods } from '@dhis2/multi-calendar-dates'
-import moment from 'moment'
 import { useMemo } from 'react'
 import {
     formatJsDateToDateString,
@@ -35,7 +34,8 @@ export default function usePeriods({
         const yearForGenerating = isYearlyPeriodType
             ? year + openFuturePeriods
             : year
-        const endsBefore = moment(dateLimit).format('yyyy-MM-DD')
+        // dateLimit is converted to YYYY-MM-DD string named endsBefore before being passed
+        const endsBefore = dateLimit.toLocaleDateString('sv')
 
         const generateFixedPeriodsPayload = {
             calendar,
