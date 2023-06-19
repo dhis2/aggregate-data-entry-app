@@ -1,3 +1,10 @@
+## [100.3.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.1...v100.3.2) (2023-06-19)
+
+
+### Bug Fixes
+
+* prevent moment from using arabic numerals for dates [DHIS2-15277] ([#322](https://github.com/dhis2/aggregate-data-entry-app/issues/322)) ([d822b8c](https://github.com/dhis2/aggregate-data-entry-app/commit/d822b8c5443d8f8fc9810e13ffef749fa1947781))
+
 ## [100.3.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.0...v100.3.1) (2023-06-08)
 
 
