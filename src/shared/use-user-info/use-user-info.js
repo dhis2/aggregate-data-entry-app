@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-const queryKey = [`/me?fields=username,authorities,name,settings`]
+const queryKey = [`/me?fields=authorities,avatar,email,name,settings,username`]
 
 const queryOpts = {
     refetchOnMount: false,
