@@ -49,4 +49,16 @@ describe('useServerTimeOffset', () => {
 
         expect(actual).toBe(expected)
     })
+
+    it('returns no offset when server time zone is invalid', () => {
+        const timeZone = 'Invalid time zone'
+        const systemInfo = { serverTimeZoneId: timeZone }
+        useConfig.mockReturnValue({ systemInfo })
+
+        const expected = 0
+        const { result } = renderHook(() => useServerTimeOffset())
+        const actual = result.current
+
+        expect(actual).toBe(expected)
+    })
 })

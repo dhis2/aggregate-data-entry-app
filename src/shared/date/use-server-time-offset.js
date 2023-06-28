@@ -8,9 +8,17 @@ export default function useServerTimeOffset() {
 
     return useMemo(() => {
         const currentDate = getCurrentDate()
-        const serverLocaleString = currentDate.toLocaleString('sv', {
-            timeZone,
-        })
+        let serverLocaleString
+        try {
+            serverLocaleString = currentDate.toLocaleString('sv', {
+                timeZone,
+            })
+        } catch (e) {
+            console.error(e)
+            console.info('Assuming no server/client time zone difference')
+            serverLocaleString = currentDate.toLocaleString('sv')
+        }
+
         const nowAtServerTimeZone = new Date(serverLocaleString)
         const currentDateTime = currentDate.getTime()
         const nowAtServerTimeZoneTime = nowAtServerTimeZone.getTime()
