@@ -81,5 +81,9 @@
     },
     "engines": {
         "node": ">=14.0.0"
+    },
+    "resolutions": {
+        "@dhis2/multi-calendar-dates": "^1.0.0-alpha.22",
+        "**/@dhis2/multi-calendar-dates": "^1.0.0-alpha.22"
     }
 }
