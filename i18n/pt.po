@@ -4,15 +4,15 @@
 # Ge Joao <gsimango@saudigitus.org>, 2022
 # Gabriela Rodriguez <grodriguezcoronado@gmail.com>, 2022
 # phil_dhis2, 2022
-# David Júnior <davidjr.mondlane@gmail.com>, 2022
 # Viktor Varland <viktor@dhis2.org>, 2022
+# David Júnior <davidjr.mondlane@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
+"Last-Translator: David Júnior <davidjr.mondlane@gmail.com>, 2023\n"
 "Language-Team: Portuguese (https://app.transifex.com/hisp-uio/teams/100509/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +42,7 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "Marca incompleta"
 
 msgid "Mark complete"
 msgstr ""
@@ -382,7 +382,7 @@ msgid "Edit comment"
 msgstr ""
 
 msgid "Add comment"
-msgstr ""
+msgstr "Adicionar comentário"
 
 msgid "No comment for this data item."
 msgstr ""
