@@ -116,6 +116,7 @@ jobs:
                   CYPRESS_dhis2BaseUrl: https://debug.dhis2.org/dev
                   CYPRESS_dhis2ApiVersion: 40
                   CYPRESS_networkMode: stub
+                  CYPRESS_RP_API_KEY: ${{ secrets.CYPRESS_RP_API_KEY }}
 
     release:
         runs-on: ubuntu-latest
