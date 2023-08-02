@@ -29,6 +29,10 @@ module.exports = defineConfig({
         description: '',
         autoMerge: true,
         parallel: true,
+        debug: true,
+        restClientConfig: {
+            timeout: 360000,
+        },
         attributes: [
             {
                 key: 'version',
