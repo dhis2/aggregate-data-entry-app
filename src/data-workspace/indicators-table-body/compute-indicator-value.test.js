@@ -1,4 +1,4 @@
-import { computeIndicatorValue } from './compute-indicator-value.js'
+import { computeIndicatorValue, round } from './compute-indicator-value.js'
 
 describe('computeIndicatorValue', () => {
     const formState = {
@@ -66,5 +66,60 @@ describe('computeIndicatorValue', () => {
             formState,
         })
         expect(value).toBe('')
+    })
+    it('returns an appropriately rounded value', () => {
+        const value = computeIndicatorValue({
+            numerator: '#{a.a1}', // 1
+            denominator: '#{c.c1}', // 3
+            factor: 100,
+            formState,
+            decimals: 3,
+        })
+        expect(value).toBe(33.333)
+    })
+})
+
+describe('round', () => {
+    it('rounds to 2 values if decimals is 2', () => {
+        const decimals = 2
+        const originalValue = 3.1415926
+        const roundedValue = round(originalValue, decimals)
+        expect(roundedValue).toBe(3.14)
+    })
+    it('rounds to whole number if decimals is 0', () => {
+        const decimals = 0
+        const originalValue = 3.1415926
+        const roundedValue = round(originalValue, decimals)
+        expect(roundedValue).toBe(3)
+    })
+    it('rounds down if original value is negative', () => {
+        const decimals = 1
+        const originalValue = -3.1415926
+        const roundedValue = round(originalValue, decimals)
+        expect(roundedValue).toBe(-3.1)
+    })
+    it('returns NaN if original value is NaN', () => {
+        const decimals = 3
+        const originalValue = NaN
+        const roundedValue = round(originalValue, decimals)
+        expect(roundedValue).toBe(originalValue)
+    })
+    it('returns the original value if decimals is not provided', () => {
+        const decimals = undefined
+        const originalValue = 3.1415926
+        const roundedValue = round(originalValue, decimals)
+        expect(roundedValue).toBe(originalValue)
+    })
+    it('returns the original value if decimals is not an integer', () => {
+        const decimals = 2.71828
+        const originalValue = 3.1415926
+        const roundedValue = round(originalValue, decimals)
+        expect(roundedValue).toBe(originalValue)
+    })
+    it('returns the original value if decimals is negative', () => {
+        const decimals = -4
+        const originalValue = 3.1415926
+        const roundedValue = round(originalValue, decimals)
+        expect(roundedValue).toBe(originalValue)
     })
 })

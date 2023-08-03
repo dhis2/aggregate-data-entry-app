@@ -12,6 +12,7 @@ const replaceIndicatorCell = (indicatorId, metadata) => {
         denominator,
         numerator,
         indicatorType: { factor },
+        decimals,
     } = metadata.indicators[indicatorId]
 
     return (
@@ -19,6 +20,7 @@ const replaceIndicatorCell = (indicatorId, metadata) => {
             denominator={denominator}
             numerator={numerator}
             factor={factor}
+            decimals={decimals}
         />
     )
 }
