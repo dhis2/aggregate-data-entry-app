@@ -29,7 +29,7 @@ module.exports = defineConfig({
         description: '',
         autoMerge: true,
         parallel: true,
-        debug: true,
+        debug: false,
         restClientConfig: {
             timeout: 360000,
         },
@@ -39,6 +39,7 @@ module.exports = defineConfig({
                 value: 'master',
             },
             {
+                key: 'app_name',
                 value: 'aggregate_data_entry_app',
             },
         ],
