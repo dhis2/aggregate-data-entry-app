@@ -84,8 +84,8 @@ jobs:
               run: yarn d2-app-scripts test
               env:
                   REPORTPORTAL_API_KEY: ${{ secrets.REPORTPORTAL_API_KEY }}
-                  REPORTPORTAL_ENDPOINT: ${{ secrets.REPORTPORTAL_ENDPOINT }}
-                  REPORTPORTAL_PROJECT: ${{ secrets.REPORTPORTAL_PROJECT }}
+                  REPORTPORTAL_ENDPOINT: ${{ vars.REPORTPORTAL_ENDPOINT }}
+                  REPORTPORTAL_PROJECT: ${{ vars.REPORTPORTAL_PROJECT }}
 
     e2e:
         runs-on: ubuntu-latest
@@ -124,8 +124,8 @@ jobs:
                   CYPRESS_dhis2ApiVersion: 40
                   CYPRESS_networkMode: stub
                   REPORTPORTAL_API_KEY: ${{ secrets.REPORTPORTAL_API_KEY }}
-                  REPORTPORTAL_ENDPOINT: ${{ secrets.REPORTPORTAL_ENDPOINT }}
-                  REPORTPORTAL_PROJECT: ${{ secrets.REPORTPORTAL_PROJECT }}
+                  REPORTPORTAL_ENDPOINT: ${{ vars.REPORTPORTAL_ENDPOINT }}
+                  REPORTPORTAL_PROJECT: ${{ vars.REPORTPORTAL_PROJECT }}
 
     release:
         runs-on: ubuntu-latest
