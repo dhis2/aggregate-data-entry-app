@@ -87,6 +87,9 @@ jobs:
         runs-on: ubuntu-latest
         if: "!github.event.push.repository.fork && github.actor != 'dependabot[bot]'"
 
+        env:
+            CI_BUILD_ID: ${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}
+
         strategy:
             fail-fast: false
             matrix:
@@ -116,6 +119,7 @@ jobs:
                   CYPRESS_dhis2BaseUrl: https://debug.dhis2.org/dev
                   CYPRESS_dhis2ApiVersion: 40
                   CYPRESS_networkMode: stub
+                  REPORTPORTAL_API_KEY: ${{ secrets.REPORTPORTAL_API_KEY }}
 
     release:
         runs-on: ubuntu-latest
