@@ -22,10 +22,10 @@ module.exports = defineConfig({
     defaultCommandTimeout: 30000,
     reporter: '@reportportal/agent-js-cypress',
     reporterOptions: {
-        endpoint: 'https://test.tools.dhis2.org/reportportal/api/v1',
+        endpoint: process.env.REPORTPORTAL_ENDPOINT,
         apiKey: process.env.REPORTPORTAL_API_KEY,
         launch: 'aggregate_data_entry_app_master',
-        project: 'dhis2_auto',
+        project: process.env.REPORTPORTAL_PROJECT,
         description: '',
         autoMerge: true,
         parallel: true,
@@ -41,6 +41,10 @@ module.exports = defineConfig({
             {
                 key: 'app_name',
                 value: 'aggregate_data_entry_app',
+            },
+            {
+                key: 'test_level',
+                value: 'e2e',
             },
         ],
     },

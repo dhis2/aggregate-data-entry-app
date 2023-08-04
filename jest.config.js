@@ -16,8 +16,8 @@ module.exports = {
             '@reportportal/agent-js-jest',
             {
                 apiKey: process.env.REPORTPORTAL_API_KEY,
-                endpoint: 'https://test.tools.dhis2.org/reportportal/api/v1',
-                project: 'dhis2_auto',
+                endpoint: process.env.REPORTPORTAL_ENDPOINT,
+                project: process.env.REPORTPORTAL_PROJECT,
                 launch: 'aggregate_data_entry_app_master',
                 attributes: [
                     {
