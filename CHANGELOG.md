@@ -1,3 +1,10 @@
+## [100.3.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.2...v100.3.3) (2023-08-07)
+
+
+### Bug Fixes
+
+* handle non-standard server time zone ids [DHIS2-15511] ([#344](https://github.com/dhis2/aggregate-data-entry-app/issues/344)) ([c8064db](https://github.com/dhis2/aggregate-data-entry-app/commit/c8064db9601683934ad20e2684a19edfd4a86513))
+
 ## [100.3.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.1...v100.3.2) (2023-06-19)
 
 
