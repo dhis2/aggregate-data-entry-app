@@ -94,6 +94,24 @@ const parseExpressionTemplate = (expression, values) => {
         return substitudedExpression.replace(match, value)
     }, expression)
 }
+
+/*
+ * round(value, decimals)
+ *
+ * @param {number} value unrounded computed indicactorValue
+ * @param {number} decimals number of decimal places to include output
+ * @returns {number} number rounded to number of decimals
+ */
+
+export const round = (value, decimals) => {
+    if (decimals < 0 || !Number.isInteger(decimals)) {
+        return value
+    }
+    // Math.round only rounds to whole digit, so multiply by 10^x, round, then divide by 10^x
+    const factor = Math.pow(10, decimals)
+    return Math.round(value * factor) / factor
+}
+
 /**
  * Parses and evaluates the denominator and numerator expressions
  * and then computes the indicator value
@@ -110,6 +128,7 @@ export const computeIndicatorValue = ({
     numerator,
     factor,
     formState,
+    decimals,
 }) => {
     const numeratorExpression = parseExpressionTemplate(
         numerator,
@@ -123,6 +142,8 @@ export const computeIndicatorValue = ({
     const denominatorValue = evaluate(denominatorExpression)
     const indicatorValue = (numeratorValue / denominatorValue) * factor
     const isReadableNumber = isFinite(indicatorValue) && !isNaN(indicatorValue)
-
-    return isReadableNumber ? indicatorValue : ''
+    if (!isReadableNumber) {
+        return ''
+    }
+    return decimals ? round(indicatorValue, decimals) : indicatorValue
 }
