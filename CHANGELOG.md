@@ -1,3 +1,10 @@
+## [100.3.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.3...v100.3.4) (2023-08-08)
+
+
+### Bug Fixes
+
+* handle indicator decimals [DHIS2-15631] ([#350](https://github.com/dhis2/aggregate-data-entry-app/issues/350)) ([a747150](https://github.com/dhis2/aggregate-data-entry-app/commit/a747150ea14151a9632abbeb9967ab7f25e3d003))
+
 ## [100.3.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.2...v100.3.3) (2023-08-07)
 
 
