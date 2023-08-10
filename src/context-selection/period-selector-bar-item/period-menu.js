@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { Menu, MenuItem } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -7,6 +8,14 @@ import classes from './period-menu.module.css'
 export default function PeriodMenu({ onChange, periods }) {
     const [periodId] = usePeriodId()
     const selectedPeriod = usePeriod(periodId)
+
+    if (periods.length === 0) {
+        return (
+            <div className={classes.noPeriods}>
+                {i18n.t('No periods available in this year')}
+            </div>
+        )
+    }
 
     return (
         <Menu dense className={classes.menu} dataTest="period-selector-menu">

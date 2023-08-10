@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-05-09T13:28:08.215Z\n"
-"PO-Revision-Date: 2023-05-09T13:28:08.215Z\n"
+"POT-Creation-Date: 2023-08-10T08:31:47.096Z\n"
+"PO-Revision-Date: 2023-08-10T08:31:47.096Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -293,6 +293,9 @@ msgstr "Fetching organisation unit info"
 
 msgid "Error occurred while loading organisation unit info"
 msgstr "Error occurred while loading organisation unit info"
+
+msgid "No periods available in this year"
+msgstr "No periods available in this year"
 
 msgid "The Period ({{id}}) is not open or is invalid."
 msgstr "The Period ({{id}}) is not open or is invalid."
