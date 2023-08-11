@@ -1,41 +1,124 @@
 import { useEffect } from 'react'
-import { formatJsDateToDateString, useClientServerDate } from '../date/index.js'
+import { useClientServerDateUtils } from '../date/index.js'
+import { getCurrentDate } from '../fixed-periods/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { usePeriod } from '../period/index.js'
 import {
     usePeriodId,
     useDataSetId,
-    useOrgUnitId,
 } from '../use-context-selection/use-context-selection.js'
 import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
 import { useOrgUnit } from '../use-org-unit/use-organisation-unit.js'
+import { useUserInfo, userInfoSelectors } from '../use-user-info/index.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 
-const isDataInputPeriodLocked = ({
-    dataSetId,
-    periodId,
-    metadata,
-    currentDayString,
-}) => {
-    const dataInputPeriod = selectors.getApplicableDataInputPeriod(
-        metadata,
-        dataSetId,
-        periodId
-    )
+const DAY_MS = 24 * 60 * 60 * 1000
 
-    if (!dataInputPeriod) {
-        return false
+/** Check for status relative to dataInputPeriods and expiryDays */
+const getFrontendLockStatus = ({
+    dataSetId,
+    metadata,
+    selectedPeriod,
+    clientServerDateUtils: { fromServerDate, fromClientDate },
+    userCanEditExpired,
+}) => {
+    if (!selectedPeriod) {
+        return
     }
 
-    const currentDateAtServerTimeZone = new Date(currentDayString)
-    const openingDate = new Date(dataInputPeriod.openingDate)
-    const closingDate = new Date(dataInputPeriod.closingDate)
+    const dataSet = selectors.getDataSetById(metadata, dataSetId)
+    if (!dataSet) {
+        return
+    }
 
-    return (
-        openingDate > currentDateAtServerTimeZone ||
-        closingDate < currentDateAtServerTimeZone
-    )
+    const { expiryDays, dataInputPeriods } = dataSet
+    if (dataInputPeriods.length === 0 && expiryDays === 0) {
+        // Nothing to check here then
+        return
+    }
+
+    let clientLockDate
+    const currentDate = fromClientDate(getCurrentDate())
+
+    if (dataInputPeriods.length > 0) {
+        const applicableDataInputPeriod =
+            selectors.getApplicableDataInputPeriod(
+                metadata,
+                dataSetId,
+                selectedPeriod.id
+            )
+
+        if (!applicableDataInputPeriod) {
+            // If there are defined data input periods, but there is not one
+            // for this selected period, then the form is closed
+            return {
+                state: LockedStates.LOCKED_DATA_INPUT_PERIOD,
+                lockDate: null,
+            }
+        }
+
+        const { openingDate, closingDate } = applicableDataInputPeriod
+        // openingDate and closingDate can be undefined.
+        // They are ISO dates without a timezone, so should be parsed
+        // as "server dates"
+        const parsedOpeningDate =
+            openingDate && fromServerDate(new Date(openingDate))
+        const parsedClosingDate =
+            closingDate && fromServerDate(new Date(closingDate))
+
+        if (
+            (openingDate &&
+                currentDate.serverDate < parsedOpeningDate.serverDate) ||
+            (closingDate &&
+                currentDate.serverDate > parsedClosingDate.serverDate)
+        ) {
+            return {
+                state: LockedStates.LOCKED_DATA_INPUT_PERIOD,
+                lockDate: null,
+            }
+        }
+
+        // If we're here, the form isn't (yet) locked by the data input period.
+        // Set the clientLockDate to the input period's closing date (if this
+        // input period has one) before also checking expiry days.
+        // This might still be undefined, but that's okay
+        clientLockDate = parsedClosingDate?.clientDate
+    }
+
+    if (expiryDays > 0 && !userCanEditExpired) {
+        // selectedPeriod.endDate is a string like '2023-02-20' -- this gets
+        // converted to a UTC time by default, but adding 'T00:00'
+        // to make an ISO string makes Date() parse it in the local zone.
+        // I.e., the UTC time is adjusted to give us the right server clock
+        // time but in the LOCAL time zone. This is the "server date" we need
+        // for the `clientServerDateUtils`.
+        const serverEndDate = new Date(selectedPeriod.endDate + 'T00:00')
+        // Convert that to ms to add expiry days.
+        // Also add one day more because selectedPeriod.endDate is the START
+        // of the period's last day (00:00), and we want the end of that day
+        // (confirmed with backend behavior).
+        const expiryDate = fromServerDate(
+            new Date(serverEndDate.getTime() + (expiryDays + 1) * DAY_MS)
+        )
+
+        if (currentDate.serverDate < expiryDate.serverDate) {
+            // Take the sooner of the two possible lock dates
+            clientLockDate = clientLockDate
+                ? new Date(Math.min(clientLockDate, expiryDate.clientDate))
+                : expiryDate.clientDate
+            // ! NB:
+            // Until lock exception checks are done, this value is still shown,
+            // even if the form won't actually lock due to a lock exception.
+            // This may be misleading
+        }
+
+        // If this form is actually expired, don't lock it here; leave that
+        // to the backend check, which can account for lock exceptions
+        // TODO: implement this full check on the front-end (TECH-1428)
+    }
+
+    return { state: LockedStates.OPEN, lockDate: clientLockDate }
 }
 
 const isOrgUnitLocked = ({
@@ -80,7 +163,6 @@ const isOrgUnitLocked = ({
 
 export const useCheckLockStatus = () => {
     const [dataSetId] = useDataSetId()
-    const [orgUnitId] = useOrgUnitId()
     const orgUnit = useOrgUnit()
     const {
         data: {
@@ -91,26 +173,30 @@ export const useCheckLockStatus = () => {
 
     const [periodId] = usePeriodId()
     const selectedPeriod = usePeriod(periodId)
-    const currentDate = useClientServerDate()
-    const currentDayString = formatJsDateToDateString(currentDate.serverDate)
+    const clientServerDateUtils = useClientServerDateUtils()
+
     const { data: metadata } = useMetadata()
-    const { setLockStatus } = useLockedContext()
     const dataValueSet = useDataValueSet()
+    const { setLockStatus } = useLockedContext()
+
+    const { data: userInfo } = useUserInfo()
+    const userCanEditExpired = userInfoSelectors.getCanEditExpired(userInfo)
 
     useEffect(() => {
-        if (
-            isDataInputPeriodLocked({
-                dataSetId,
-                periodId,
-                metadata,
-                currentDayString,
-            })
-        ) {
-            // mark as invalid for data input period
-            setLockStatus(LockedStates.LOCKED_DATA_INPUT_PERIOD)
+        // prefer lock status from backend, found in dataValueSet
+        const backendLockStatus =
+            BackendLockStatusMap[dataValueSet.data?.lockStatus]
+        if (backendLockStatus) {
+            setLockStatus({ state: backendLockStatus })
             return
         }
 
+        // if either 1. backend status is 'OPEN' or 2. it's not defined yet,
+        // refine the lock status here from properties on the dataSet:
+        // (a lock status of 'OPEN' from the backend could mean either that the
+        // form is open, OR that the form should be locked due to data input
+        // period OR org unit closure.)
+        // Therefore, check org unit openness first:
         if (
             isOrgUnitLocked({
                 orgUnitOpeningDateString,
@@ -118,59 +204,35 @@ export const useCheckLockStatus = () => {
                 selectedPeriod,
             })
         ) {
-            setLockStatus(LockedStates.LOCKED_ORGANISATION_UNIT)
+            setLockStatus({ state: LockedStates.LOCKED_ORGANISATION_UNIT })
             return
         }
 
-        // else default to lockStatus from dataValueSet
-        if (BackendLockStatusMap[dataValueSet.data?.lockStatus]) {
-            setLockStatus(BackendLockStatusMap[dataValueSet.data?.lockStatus])
+        // Then, check the dataInputPeriod boundaries, and if the form IS
+        // open, get the date the form will close, if applicable.
+        const frontendLockStatus = getFrontendLockStatus({
+            dataSetId,
+            selectedPeriod,
+            metadata,
+            clientServerDateUtils,
+            userCanEditExpired,
+        })
+        if (frontendLockStatus) {
+            setLockStatus(frontendLockStatus)
             return
         }
 
         // otherwise denote as open
-        setLockStatus(LockedStates.OPEN)
+        setLockStatus({ state: LockedStates.OPEN })
     }, [
         metadata,
         dataSetId,
-        orgUnitId,
         orgUnitOpeningDateString,
         orgUnitClosedDateString,
-        periodId,
-        selectedPeriod,
+        clientServerDateUtils,
+        userCanEditExpired,
         dataValueSet.data?.lockStatus,
         setLockStatus,
-        currentDayString,
+        selectedPeriod,
     ])
-}
-
-export const updateLockStatusFromBackend = (
-    frontEndLockStatus,
-    backEndLockStatus,
-    setLockStatus
-) => {
-    // if the lock status is APPROVED, set to approved
-    if (backEndLockStatus === 'APPROVED') {
-        setLockStatus(LockedStates.LOCKED_APPROVED)
-        return
-    }
-
-    // if the lock status is LOCKED, this is locked due to expiry days
-    if (backEndLockStatus === 'LOCKED') {
-        setLockStatus(LockedStates.LOCKED_EXPIRY_DAYS)
-        return
-    }
-
-    // a lock status of 'OPEN' from the backend could mean either that the form is open OR
-    // that the form should be locked due to data input period, OR
-    // that the form should be locked because an organisation unit is out of range, SO
-    // set to OPEN unless frontend check has identified that data input period as out-of-bounds
-    if (
-        ![
-            LockedStates.LOCKED_DATA_INPUT_PERIOD,
-            LockedStates.LOCKED_ORGANISATION_UNIT,
-        ].includes(frontEndLockStatus)
-    ) {
-        setLockStatus(LockedStates.OPEN)
-    }
 }

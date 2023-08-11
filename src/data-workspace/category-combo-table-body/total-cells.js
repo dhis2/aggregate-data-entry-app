@@ -8,7 +8,10 @@ import { calculateColumnTotals, calculateRowTotal } from './calculate-totals.js'
 import { useValueMatrix } from './use-value-matrix.js'
 
 export const TotalCell = ({ children }) => (
-    <TableCell className={cx('total-cell', styles.totalCell)}>
+    <TableCell
+        className={cx('total-cell', styles.totalCell)}
+        dataTest="dhis2-dataentry-totalcell"
+    >
         {children}
     </TableCell>
 )
@@ -53,7 +56,7 @@ export const ColumnTotals = ({
     const columnTotals = useMemo(() => calculateColumnTotals(matrix), [matrix])
 
     return (
-        <TableRow>
+        <TableRow dataTest="dhis2-dataentry-columntotals">
             <TableCellHead className={styles.totalHeader}>
                 {i18n.t('Totals')}
             </TableCellHead>

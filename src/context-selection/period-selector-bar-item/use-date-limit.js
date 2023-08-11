@@ -2,7 +2,6 @@ import {
     getAdjacentFixedPeriods,
     getFixedPeriodByDate,
 } from '@dhis2/multi-calendar-dates'
-import moment from 'moment'
 import { useMemo } from 'react'
 import {
     selectors,
@@ -21,7 +20,8 @@ export const computePeriodDateLimit = ({
     openFuturePeriods = 0,
 }) => {
     const calendar = 'gregory'
-    const date = moment(serverDate).format('yyyy-MM-DD')
+    // serverDate is converted to YYYY-MM-DD string named date before being passed
+    const date = serverDate.toLocaleDateString('sv')
     const currentPeriod = getFixedPeriodByDate({
         periodType,
         date,

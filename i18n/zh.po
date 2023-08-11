@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-12-05T23:56:08.051Z\n"
+"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
 "Last-Translator: easylin <lin_xd@126.com>, 2022\n"
-"Language-Team: Chinese (https://www.transifex.com/hisp-uio/teams/100509/zh/)\n"
+"Language-Team: Chinese (https://app.transifex.com/hisp-uio/teams/100509/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -58,10 +58,10 @@ msgid "{{numberOfErrors}} invalid values not saved"
 msgstr "{{numberOfErrors}} 个无效值未保存"
 
 msgid "1 value failed to save"
-msgstr ""
+msgstr "1 个值未能保存"
 
 msgid "{{numberOfErrors}} values failed to save"
-msgstr ""
+msgstr "{{numberOfErrors}} 个值未能保存"
 
 msgid "Validation is not available offline"
 msgstr "验证不可用离线"
@@ -194,7 +194,7 @@ msgid "Waiting to sync, saved locally"
 msgstr "等待同步，本地保存"
 
 msgid "Failed to sync, not saved"
-msgstr ""
+msgstr "同步失败，未保存"
 
 msgid "Data item has a comment"
 msgstr "数据项有评论"
@@ -259,6 +259,9 @@ msgstr "搜索单位部门"
 msgid "Choose a data set first"
 msgstr "首先选择一个数据集"
 
+msgid "Dataset is not assigned to this organisation unit"
+msgstr "数据集未分配给此组织单位"
+
 msgid "Organisation unit"
 msgstr "机构"
 
@@ -267,9 +270,6 @@ msgstr "选择组织单位"
 
 msgid "No organisation units could be found"
 msgstr "找不到组织单位"
-
-msgid "Dataset is not assigned to this organisation unit"
-msgstr "数据集未分配给此组织单位"
 
 msgid "No children match filter"
 msgstr "没有下属匹配过滤器"
@@ -453,6 +453,11 @@ msgstr "此数据集中没有数据元素。添加一些数据元素以使用此
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr "不能在数据输入期间之外添加或更改数据。"
 
+msgid ""
+"Data cannot be added or changed because organisation unit is closed for the "
+"selected period."
+msgstr ""
+
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr "由于数据录入已结束，无法添加或更改数据。"
 
@@ -509,6 +514,9 @@ msgstr "上传图片"
 msgid "Upload a file"
 msgstr "上传一个文件"
 
+msgid "Choose option(s)"
+msgstr ""
+
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr "请提供格式为 YYYY-MM-DD HH{{c}}MM 的有效日期和时间"
@@ -533,10 +541,10 @@ msgid "1 item hidden by filter"
 msgstr "1 项被过滤器隐藏"
 
 msgid "{{pendingMutations}} change saved locally"
-msgstr ""
+msgstr "{{pendingMutations}} 个更改保存在本地"
 
 msgid "{{pendingMutations}} changes saved locally"
-msgstr ""
+msgstr "{{pendingMutations}} 个更改保存在本地"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
@@ -544,108 +552,12 @@ msgid ""
 msgstr "在这里，我们可以使用 FE 中的自定义消息覆盖 E2017 错误消息"
 
 msgid "Selected period is after latest open future period"
-msgstr ""
+msgstr "所选期间在最近打开的未来期间之后"
 
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr "将表单的完成设置为“{{completed}}”时出现问题：{{errorMessage}}"
-
-msgid "January"
-msgstr "一月"
-
-msgid "February"
-msgstr "二月"
-
-msgid "March"
-msgstr "三月"
-
-msgid "April"
-msgstr "四月"
-
-msgid "May"
-msgstr "五月"
-
-msgid "June"
-msgstr "六月"
-
-msgid "July"
-msgstr "七月"
-
-msgid "August"
-msgstr "八月"
-
-msgid "September"
-msgstr "九月"
-
-msgid "October"
-msgstr "十月"
-
-msgid "November"
-msgstr "十一月"
-
-msgid "December"
-msgstr "十二月"
-
-msgid "Week {{weekNumber}}"
-msgstr "{{weekNumber}}周"
-
-msgid "Bi-Week {{biWeekNumber}}"
-msgstr "  {{biWeekNumber}} 个两周"
-
-msgid "Daily"
-msgstr "每日"
-
-msgid "Weekly"
-msgstr "每周"
-
-msgid "Weekly (Start Wednesday)"
-msgstr "每周（始于周二）"
-
-msgid "Weekly (Start Thursday)"
-msgstr "每周（始于周四）"
-
-msgid "Weekly (Start Saturday)"
-msgstr "每周（始于周六）"
-
-msgid "Weekly (Start Sunday)"
-msgstr "每周（始于周日）"
-
-msgid "Bi-weekly"
-msgstr "两周"
-
-msgid "Monthly"
-msgstr "每月"
-
-msgid "Bi-monthly"
-msgstr "每两月"
-
-msgid "Quarterly"
-msgstr "季度"
-
-msgid "Six-monthly"
-msgstr "六个月"
-
-msgid "Six-monthly April"
-msgstr "半年四月"
-
-msgid "Six-monthly November"
-msgstr "每半年的11月"
-
-msgid "Yearly"
-msgstr "每年"
-
-msgid "Financial year (Start November)"
-msgstr "财政年（11月始）"
-
-msgid "Financial year (Start October)"
-msgstr "财政年度（十月开始）"
-
-msgid "Financial year (Start July)"
-msgstr "财政年度（7月开始）"
-
-msgid "Financial year (Start April)"
-msgstr "财政年度（4月开始）"
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}}（已禁用）"

@@ -9,6 +9,7 @@ export const DataElementCell = ({ dataElement }) => {
     const { deId: activeDeId } = useActiveCell()
     return (
         <TableCell
+            dataTest="dhis2-dataentryapp-dataelementcell"
             className={cx(styles.dataElementName, {
                 [styles.active]: dataElement.id === activeDeId,
             })}

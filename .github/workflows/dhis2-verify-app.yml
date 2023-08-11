@@ -87,6 +87,9 @@ jobs:
         runs-on: ubuntu-latest
         if: "!github.event.push.repository.fork && github.actor != 'dependabot[bot]'"
 
+        env:
+            CI_BUILD_ID: ${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}
+
         strategy:
             fail-fast: false
             matrix:
@@ -101,7 +104,7 @@ jobs:
                   node-version: 14.x
 
             - name: End-to-End tests
-              uses: cypress-io/github-action@v2
+              uses: cypress-io/github-action@v5
               with:
                   # This should be a command that serves the app.
                   start: yarn d2-app-scripts start
@@ -116,6 +119,7 @@ jobs:
                   CYPRESS_dhis2BaseUrl: https://debug.dhis2.org/dev
                   CYPRESS_dhis2ApiVersion: 41
                   CYPRESS_networkMode: stub
+                  REPORTPORTAL_API_KEY: ${{ secrets.REPORTPORTAL_API_KEY }}
 
     release:
         runs-on: ubuntu-latest

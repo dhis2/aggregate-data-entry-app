@@ -1,28 +1,41 @@
 import { renderHook } from '@testing-library/react-hooks'
 import { useClientServerDateUtils, useServerTimeOffset } from '../date/index.js'
 import {
+    getSectionByDataSetIdAndSectionId,
+    getNrOfColumnsInCategoryCombo,
+    getIndicatorsByDataSetIdAndSectionId,
+    getCategoryOptionCombo,
+    getApplicableDataInputPeriod,
+    getSectionsByDataSetId,
+    getIndicatorsByDataSetId,
+    getComputedCategoryOptionIdsByCatComboId,
+    getOptionSetById,
     getCategories,
     getCategoriesByCategoryComboId,
     getCategoriesByDataSetId,
+    getCategoriesWithOptionsWithinPeriodWithOrgUnit,
     getCategoryById,
     getCategoryComboByDataSetId,
     getCategoryComboById,
     getCategoryCombos,
+    getCategoryOptionById,
     getCategoryOptionCombosByCategoryComboId,
     getCategoryOptions,
     getCategoryOptionsByCategoryId,
     getCategoryOptionsByCategoryOptionComboId,
-    getCategoriesWithOptionsWithinPeriodWithOrgUnit,
     getCoCByCategoryOptions,
+    getDataElementById,
     getDataElements,
     getDataElementsByDataSetId,
+    getDataElementsByDataSetIdSorted,
     getDataElementsBySection,
     getDataSetById,
     getDataSets,
     getGroupedDataElementsByCatCombo,
     getGroupedDataElementsByCatComboInOrder,
+    getIndicators,
+    getOptionSets,
     getSections,
-    getDataElementsByDataSetIdSorted,
 } from './selectors.js'
 
 jest.mock('../date/use-server-time-offset.js', () => ({
@@ -30,608 +43,1148 @@ jest.mock('../date/use-server-time-offset.js', () => ({
     default: jest.fn(() => 0),
 }))
 
-describe('simple selectors', () => {
-    describe('getCategories', () => {
-        it('returns the expected data', () => {
-            const expected = 'expected'
-            const data = { categories: expected }
+/*
+ *
+ * simple selectors
+ * ================
+ *
+ */
+test('getOptionSets', () => {
+    const expected = 'expected'
+    const data = { optionSets: expected }
+    expect(getOptionSets(data)).toBe(expected)
+})
 
-            expect(getCategories(data)).toBe(expected)
-        })
+test('getIndicators', () => {
+    const expected = 'expected'
+    const data = { indicators: expected }
+    expect(getIndicators(data)).toBe(expected)
+})
+
+test('getCategories', () => {
+    const expected = 'expected'
+    const data = { categories: expected }
+    expect(getCategories(data)).toBe(expected)
+})
+
+test('getCategoryCombos', () => {
+    const expected = 'expected'
+    const data = { categoryCombos: expected }
+    expect(getCategoryCombos(data)).toBe(expected)
+})
+
+test('getCategoryOptions', () => {
+    const expected = 'expected'
+    const data = { categoryOptions: expected }
+    expect(getCategoryOptions(data)).toBe(expected)
+})
+
+test('getDataElements', () => {
+    const expected = 'expected'
+    const data = { dataElements: expected }
+    expect(getDataElements(data)).toBe(expected)
+})
+
+test('getDataSets', () => {
+    const expected = 'expected'
+    const data = { dataSets: expected }
+    expect(getDataSets(data)).toBe(expected)
+})
+
+test('getSections', () => {
+    const expected = 'expected'
+    const data = { sections: expected }
+    expect(getSections(data)).toBe(expected)
+})
+
+/*
+ *
+ * simple selectors that select by id
+ * ==================================
+ *
+ */
+describe('getOptionSetById', () => {
+    it('should return the expected data', () => {
+        const id = 'id'
+        const expected = 'expected'
+        const data = {
+            optionSets: {
+                [id]: expected,
+            },
+        }
+
+        expect(getOptionSetById(data, id)).toBe(expected)
     })
 
-    describe('getCategoryCombos', () => {
-        it('returns the expected data', () => {
-            const expected = 'expected'
-            const data = { categoryCombos: expected }
+    it('should return undefined if no item could be found', () => {
+        const id = 'id'
+        const data = { optionSets: [] }
 
-            expect(getCategoryCombos(data)).toBe(expected)
-        })
-    })
-
-    describe('getCategoryOptions', () => {
-        it('returns the expected data', () => {
-            const expected = 'expected'
-            const data = { categoryOptions: expected }
-
-            expect(getCategoryOptions(data)).toBe(expected)
-        })
-    })
-
-    describe('getDataElements', () => {
-        it('returns the expected data', () => {
-            const expected = 'expected'
-            const data = { dataElements: expected }
-
-            expect(getDataElements(data)).toBe(expected)
-        })
-    })
-
-    describe('getDataSets', () => {
-        it('returns the expected data', () => {
-            const expected = 'expected'
-            const data = { dataSets: expected }
-
-            expect(getDataSets(data)).toBe(expected)
-        })
-    })
-
-    describe('getSections', () => {
-        it('returns the expected data', () => {
-            const expected = 'expected'
-            const data = { sections: expected }
-
-            expect(getSections(data)).toBe(expected)
-        })
+        expect(getOptionSetById(data, id)).toBe(undefined)
     })
 })
 
-describe('simple selectors that select by id', () => {
-    describe('getCategoryById', () => {
-        it('returns the expected data', () => {
-            const id = 'id'
-            const expected = 'expected'
-            const data = {
-                categories: {
-                    [id]: expected,
-                },
-            }
+describe('getDataElementById', () => {
+    it('should return the expected data', () => {
+        const id = 'id'
+        const expected = 'expected'
+        const data = {
+            dataElements: {
+                [id]: expected,
+            },
+        }
 
-            expect(getCategoryById(data, id)).toBe(expected)
-        })
+        expect(getDataElementById(data, id)).toBe(expected)
     })
 
-    describe('getDataSetById', () => {
-        it('returns the expected data', () => {
-            const id = 'id'
-            const expected = 'expected'
-            const data = {
-                dataSets: {
-                    [id]: expected,
-                },
-            }
+    it('should return undefined if no item could be found', () => {
+        const id = 'id'
+        const data = { dataElements: [] }
 
-            expect(getDataSetById(data, id)).toBe(expected)
-        })
-    })
-
-    describe('getCategoryComboById', () => {
-        it('returns the expected data', () => {
-            const id = 'id'
-            const expected = 'expected'
-            const data = {
-                categoryCombos: {
-                    [id]: expected,
-                },
-            }
-
-            expect(getCategoryComboById(data, id)).toBe(expected)
-        })
+        expect(getDataElementById(data, id)).toBe(undefined)
     })
 })
 
-describe('complex selectors that select by id', () => {
-    describe('getCategoriesByCategoryComboId', () => {
-        it('returns the expected data', () => {
-            const categoryComboId = 'categoryComboId'
-            const categoryId = 'categoryId'
-            const category = { id: categoryId }
-            const expected = [category]
-            const data = {
-                categoryCombos: {
-                    [categoryComboId]: {
-                        categories: [categoryId],
-                    },
-                },
-                categories: {
-                    [categoryId]: category,
-                },
-            }
+describe('getCategoryOptionById', () => {
+    it('should return the expected data', () => {
+        const id = 'id'
+        const expected = 'expected'
+        const data = {
+            categoryOptions: {
+                [id]: expected,
+            },
+        }
 
-            expect(
-                getCategoriesByCategoryComboId(data, categoryComboId)
-            ).toEqual(expected)
-        })
+        expect(getCategoryOptionById(data, id)).toBe(expected)
     })
 
-    describe('getCategoryOptionsByCategoryId', () => {
-        it('returns the expected data', () => {
-            const categoryId = 'categoryId'
-            const categoryOptionId = 'categoryOptionId'
-            const categoryOption = { id: categoryOptionId }
-            const expected = [categoryOption]
-            const data = {
-                categoryOptions: {
-                    [categoryOptionId]: categoryOption,
-                },
-                categories: {
-                    [categoryId]: {
-                        categoryOptions: [categoryOptionId],
-                    },
-                },
-            }
+    it('should return undefined if no item could be found', () => {
+        const id = 'id'
+        const data = { categoryOptions: [] }
 
-            expect(getCategoryOptionsByCategoryId(data, categoryId)).toEqual(
-                expected
+        expect(getCategoryOptionById(data, id)).toBe(undefined)
+    })
+})
+
+describe('getCategoryById', () => {
+    it('should return the expected data', () => {
+        const id = 'id'
+        const expected = 'expected'
+        const data = {
+            categories: {
+                [id]: expected,
+            },
+        }
+
+        expect(getCategoryById(data, id)).toBe(expected)
+    })
+
+    it('should return undefined if no item could be found', () => {
+        const id = 'id'
+        const data = { categories: [] }
+
+        expect(getCategoryById(data, id)).toBe(undefined)
+    })
+})
+
+describe('getCategoryById', () => {
+    it('should return the expected data', () => {
+        const id = 'id'
+        const expected = 'expected'
+        const data = {
+            categories: {
+                [id]: expected,
+            },
+        }
+
+        expect(getCategoryById(data, id)).toBe(expected)
+    })
+
+    it('should return undefined if no item could be found', () => {
+        const id = 'id'
+        const data = { categories: [] }
+
+        expect(getCategoryById(data, id)).toBe(undefined)
+    })
+})
+
+describe('getCategoryById', () => {
+    it('should return the expected data', () => {
+        const id = 'id'
+        const expected = 'expected'
+        const data = {
+            categories: {
+                [id]: expected,
+            },
+        }
+
+        expect(getCategoryById(data, id)).toBe(expected)
+    })
+
+    it('should return undefined if no item could be found', () => {
+        const id = 'id'
+        const data = { categories: [] }
+
+        expect(getCategoryById(data, id)).toBe(undefined)
+    })
+})
+
+describe('getDataSetById', () => {
+    it('should return the expected data', () => {
+        const id = 'id'
+        const expected = 'expected'
+        const data = {
+            dataSets: {
+                [id]: expected,
+            },
+        }
+
+        expect(getDataSetById(data, id)).toBe(expected)
+    })
+
+    it('should return undefined if no item could be found', () => {
+        const id = 'id'
+        const data = { dataSets: [] }
+
+        expect(getDataSetById(data, id)).toBe(undefined)
+    })
+})
+
+describe('getCategoryComboById', () => {
+    it('should return the expected data', () => {
+        const id = 'id'
+        const expected = 'expected'
+        const data = {
+            categoryCombos: {
+                [id]: expected,
+            },
+        }
+
+        expect(getCategoryComboById(data, id)).toBe(expected)
+    })
+
+    it('should return undefined if no item could be found', () => {
+        const id = 'id'
+        const data = { categoryCombos: [] }
+
+        expect(getCategoryComboById(data, id)).toBe(undefined)
+    })
+})
+
+/*
+ *
+ * complex selectors that select by id
+ * ==================================
+ *
+ */
+
+describe('getComputedCategoryOptionIdsByCatComboId', () => {
+    it('should return the cartesian product of all category options within the categories for a particular category option combo', () => {
+        const data = {
+            categoryCombos: {
+                catCombo1: {
+                    categories: ['category1', 'category2'],
+                },
+            },
+            categories: {
+                category1: {
+                    categoryOptions: ['categoryOption1', 'categoryOption2'],
+                },
+                category2: {
+                    categoryOptions: ['categoryOption3', 'categoryOption4'],
+                },
+            },
+        }
+        const expected = [
+            ['categoryOption1', 'categoryOption3'],
+            ['categoryOption1', 'categoryOption4'],
+            ['categoryOption2', 'categoryOption3'],
+            ['categoryOption2', 'categoryOption4'],
+        ]
+        const actual = getComputedCategoryOptionIdsByCatComboId(
+            data,
+            'catCombo1'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+
+    it("should return an empty array when the provided category combo doesn't exist", () => {
+        const data = { categoryCombos: {} }
+        const expected = []
+        const actual = getComputedCategoryOptionIdsByCatComboId(
+            data,
+            'catCombo1'
+        )
+        expect(actual).toEqual(expected)
+    })
+})
+
+describe('getIndicatorsByDataSetId', () => {
+    it('should return all the indicators for a particular data set', () => {
+        const data = {
+            dataSets: {
+                dataSet1: {
+                    indicators: ['indicator1', 'indicator2'],
+                },
+            },
+            indicators: {
+                indicator1: { id: 'indicator1' },
+                indicator2: { id: 'indicator2' },
+            },
+        }
+
+        const expected = [{ id: 'indicator1' }, { id: 'indicator2' }]
+
+        const actual = getIndicatorsByDataSetId(data, 'dataSet1')
+
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return an empty array when the data set does not exist', () => {
+        const data = { dataSets: {} }
+        expect(getIndicatorsByDataSetId(data, 'dataSet1')).toEqual([])
+    })
+})
+
+describe('getSectionsByDataSetId', () => {
+    it('should return all sections of a data set', () => {
+        const data = {
+            dataSets: {
+                dataSet1: {
+                    sections: [{ id: 'section1' }, { id: 'section2' }],
+                },
+            },
+        }
+
+        const expected = [{ id: 'section1' }, { id: 'section2' }]
+        const actual = getSectionsByDataSetId(data, 'dataSet1')
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return an empty array when the data set does not exist', () => {
+        expect(getSectionsByDataSetId({ dataSets: {} }, 'dataSet1')).toEqual([])
+    })
+})
+
+describe('getSortedCoCsByCatComboId', () => {
+    it('returns the expected data', () => {
+        const data = {
+            categoryCombos: {
+                catCombo1: {
+                    categories: ['category1', 'category2'],
+                },
+            },
+            categories: {
+                category1: {
+                    categoryOptions: ['categoryOption1', 'categoryOption2'],
+                },
+                category2: {
+                    categoryOptions: ['categoryOption3', 'categoryOption4'],
+                },
+            },
+        }
+        const expected = [
+            ['categoryOption1', 'categoryOption3'],
+            ['categoryOption1', 'categoryOption4'],
+            ['categoryOption2', 'categoryOption3'],
+            ['categoryOption2', 'categoryOption4'],
+        ]
+        const actual = getComputedCategoryOptionIdsByCatComboId(
+            data,
+            'catCombo1'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return an empty array when the category combo does not exist', () => {
+        expect(
+            getComputedCategoryOptionIdsByCatComboId(
+                { categoryCombos: {} },
+                'catCombo1'
             )
-        })
+        ).toEqual([])
+    })
+})
+
+describe('getCategoriesByCategoryComboId', () => {
+    it('returns the expected data', () => {
+        const categoryComboId = 'categoryComboId'
+        const categoryId = 'categoryId'
+        const category = { id: categoryId }
+        const expected = [category]
+        const data = {
+            categoryCombos: {
+                [categoryComboId]: {
+                    categories: [categoryId],
+                },
+            },
+            categories: {
+                [categoryId]: category,
+            },
+        }
+
+        expect(getCategoriesByCategoryComboId(data, categoryComboId)).toEqual(
+            expected
+        )
     })
 
-    describe('getCategoryOptionCombosByCategoryComboId', () => {
-        it('returns the expected data', () => {
-            const categoryComboId = 'categoryComboId'
-            const categoryOptionCombo = {
-                id: 'id',
-            }
-            const expected = [categoryOptionCombo]
-            const data = {
-                categoryCombos: {
-                    [categoryComboId]: {
-                        categoryOptionCombos: [categoryOptionCombo],
-                    },
+    it('should return undefined when the category combo does not exist', () => {
+        const data = { categoryCombos: {} }
+        expect(getCategoriesByCategoryComboId(data, 'foo')).toBe(undefined)
+    })
+})
+
+describe('getCategoryOptionsByCategoryId', () => {
+    it('returns the expected data', () => {
+        const categoryId = 'categoryId'
+        const categoryOptionId = 'categoryOptionId'
+        const categoryOption = { id: categoryOptionId }
+        const expected = [categoryOption]
+        const data = {
+            categoryOptions: {
+                [categoryOptionId]: categoryOption,
+            },
+            categories: {
+                [categoryId]: {
+                    categoryOptions: [categoryOptionId],
                 },
-            }
+            },
+        }
 
-            expect(
-                getCategoryOptionCombosByCategoryComboId(data, categoryComboId)
-            ).toEqual(expected)
-        })
+        expect(getCategoryOptionsByCategoryId(data, categoryId)).toEqual(
+            expected
+        )
+    })
+})
 
-        it('returns undefined if there is no categoryCombo', () => {
-            const categoryComboId = 'categoryComboId'
-            const data = {
-                categoryCombos: {},
-            }
+describe('getCategoryOptionCombosByCategoryComboId', () => {
+    it('returns the expected data', () => {
+        const categoryComboId = 'categoryComboId'
+        const categoryOptionCombo = {
+            id: 'id',
+        }
+        const expected = [categoryOptionCombo]
+        const data = {
+            categoryCombos: {
+                [categoryComboId]: {
+                    categoryOptionCombos: [categoryOptionCombo],
+                },
+            },
+        }
 
-            expect(
-                getCategoryOptionCombosByCategoryComboId(data, categoryComboId)
-            ).toBeNull()
-        })
+        expect(
+            getCategoryOptionCombosByCategoryComboId(data, categoryComboId)
+        ).toEqual(expected)
     })
 
-    describe('getDataElementsByDataSetId', () => {
-        it('returns undefined when there is no matching dataSet', () => {
-            const dataSetId = 'dataSetId'
-            const data = {
-                dataSets: {},
-            }
+    it('returns undefined if there is no categoryCombo', () => {
+        const categoryComboId = 'categoryComboId'
+        const data = {
+            categoryCombos: {},
+        }
 
-            expect(getDataElementsByDataSetId(data, dataSetId)).toBeUndefined()
-        })
+        expect(
+            getCategoryOptionCombosByCategoryComboId(data, categoryComboId)
+        ).toBeNull()
+    })
+})
 
-        it('returns undefined when there are no dataSetElements', () => {
-            const dataSetId = 'dataSetId'
-            const data = {
-                dataSets: {
-                    [dataSetId]: {},
-                },
-            }
+describe('getDataElementsByDataSetId', () => {
+    it('returns undefined when there is no matching dataSet', () => {
+        const dataSetId = 'dataSetId'
+        const data = {
+            dataSets: {},
+        }
 
-            expect(getDataElementsByDataSetId(data, dataSetId)).toBeUndefined()
-        })
+        expect(getDataElementsByDataSetId(data, dataSetId)).toBeUndefined()
+    })
 
-        it('returns the expected data elements when there is no dataset categorycombo override', () => {
-            const dataSetId = 'dataSetId'
-            const dataElementId = 'dataElementId'
-            const dataSetElement = {
-                dataElement: {
-                    id: dataElementId,
-                },
-            }
-            const dataElement = {
+    it('returns undefined when there are no dataSetElements', () => {
+        const dataSetId = 'dataSetId'
+        const data = {
+            dataSets: {
+                [dataSetId]: {},
+            },
+        }
+
+        expect(getDataElementsByDataSetId(data, dataSetId)).toBeUndefined()
+    })
+
+    it('returns the expected data elements when there is no dataset categorycombo override', () => {
+        const dataSetId = 'dataSetId'
+        const dataElementId = 'dataElementId'
+        const dataSetElement = {
+            dataElement: {
                 id: dataElementId,
-                categoryCombo: 'dataElementCategoryCombo',
-            }
-            const expected = [dataElement]
-            const data = {
-                dataSets: {
-                    [dataSetId]: {
-                        dataSetElements: [dataSetElement],
-                    },
+            },
+        }
+        const dataElement = {
+            id: dataElementId,
+            categoryCombo: 'dataElementCategoryCombo',
+        }
+        const expected = [dataElement]
+        const data = {
+            dataSets: {
+                [dataSetId]: {
+                    dataSetElements: [dataSetElement],
                 },
-                dataElements: {
-                    [dataElementId]: dataElement,
-                },
-            }
+            },
+            dataElements: {
+                [dataElementId]: dataElement,
+            },
+        }
 
-            expect(getDataElementsByDataSetId(data, dataSetId)).toEqual(
-                expected
-            )
-        })
-
-        it('returns the expected data elements when there is a dataset categorycombo override', () => {
-            const dataSetId = 'dataSetId'
-            const dataElementId = 'dataElementId'
-            const dataSetElement = {
-                categoryCombo: 'dataSetElementCategoryCombo',
-                dataElement: {
-                    id: dataElementId,
-                },
-            }
-            const dataElement = {
-                id: dataElementId,
-                categoryCombo: 'dataElementCategoryCombo',
-            }
-            const expected = [
-                {
-                    ...dataElement,
-                    categoryCombo: dataSetElement.categoryCombo,
-                },
-            ]
-            const data = {
-                dataSets: {
-                    [dataSetId]: {
-                        dataSetElements: [dataSetElement],
-                    },
-                },
-                dataElements: {
-                    [dataElementId]: dataElement,
-                },
-            }
-
-            expect(getDataElementsByDataSetId(data, dataSetId)).toEqual(
-                expected
-            )
-        })
+        expect(getDataElementsByDataSetId(data, dataSetId)).toEqual(expected)
     })
 
-    describe('getDataElementsByDataSetIdSorted', () => {
-        it('returns data elements sorted in order of displayFormName', () => {
-            const dataSetId = 'dataSetId'
-
-            const createDataSetElement = (id) => ({
-                categoryCombo: 'categoryCombo',
-                dataElement: {
-                    id,
+    it('returns the expected data elements when there is a dataset categorycombo override', () => {
+        const dataSetId = 'dataSetId'
+        const dataElementId = 'dataElementId'
+        const dataSetElement = {
+            categoryCombo: 'dataSetElementCategoryCombo',
+            dataElement: {
+                id: dataElementId,
+            },
+        }
+        const dataElement = {
+            id: dataElementId,
+            categoryCombo: 'dataElementCategoryCombo',
+        }
+        const expected = [
+            {
+                ...dataElement,
+                categoryCombo: dataSetElement.categoryCombo,
+            },
+        ]
+        const data = {
+            dataSets: {
+                [dataSetId]: {
+                    dataSetElements: [dataSetElement],
                 },
-            })
+            },
+            dataElements: {
+                [dataElementId]: dataElement,
+            },
+        }
 
-            const createDataElement = (
+        expect(getDataElementsByDataSetId(data, dataSetId)).toEqual(expected)
+    })
+})
+
+describe('getDataElementsByDataSetIdSorted', () => {
+    it('returns data elements sorted in order of displayFormName', () => {
+        const dataSetId = 'dataSetId'
+
+        const createDataSetElement = (id) => ({
+            categoryCombo: 'categoryCombo',
+            dataElement: {
                 id,
-                displayFormName,
-                categoryCombo = 'dataElementCategoryCombo'
-            ) => ({
-                id,
-                displayFormName,
-                categoryCombo,
-            })
-
-            const data = {
-                dataSets: {
-                    [dataSetId]: {
-                        dataSetElements: [
-                            createDataSetElement('id1'),
-                            createDataSetElement('id2'),
-                            createDataSetElement('id3'),
-                            createDataSetElement('id4'),
-                        ],
-                    },
-                },
-                dataElements: {
-                    id1: createDataElement('id1', 'Beta'),
-                    id2: createDataElement('id2', 'Alpha'),
-                    id3: createDataElement('id3', 'Gamma'),
-                    id4: createDataElement('id4', 'Delta'),
-                },
-            }
-
-            const expected = [
-                createDataElement('id2', 'Alpha', 'categoryCombo'),
-                createDataElement('id1', 'Beta', 'categoryCombo'),
-                createDataElement('id4', 'Delta', 'categoryCombo'),
-                createDataElement('id3', 'Gamma', 'categoryCombo'),
-            ]
-
-            expect(getDataElementsByDataSetIdSorted(data, dataSetId)).toEqual(
-                expected
-            )
-        })
-    })
-
-    describe('getDataElementsBySection', () => {
-        it('returns the expected data', () => {
-            const dataSetId = 'dataSetId'
-            const sectionId = 'sectionId'
-            const dataElementId = 'dataElementId'
-            const dataSetElement = {
-                categoryCombo: 'dataSetElementCategoryCombo',
-                dataElement: {
-                    id: dataElementId,
-                },
-            }
-            const dataElement = {
-                id: dataElementId,
-                categoryCombo: 'dataElementCategoryCombo',
-            }
-            const section = {
-                id: sectionId,
-                dataElements: [dataElementId],
-            }
-            const expected = [
-                {
-                    ...dataElement,
-                    categoryCombo: dataSetElement.categoryCombo,
-                },
-            ]
-            const data = {
-                dataElements: {
-                    [dataElementId]: dataElement,
-                },
-                dataSets: {
-                    [dataSetId]: {
-                        dataSetElements: [dataSetElement],
-                        sections: [section],
-                    },
-                },
-            }
-
-            expect(
-                getDataElementsBySection(data, dataSetId, sectionId)
-            ).toEqual(expected)
-        })
-    })
-
-    describe('getCategoryComboByDataSetId', () => {
-        let consoleWarnSpy
-
-        beforeAll(() => {
-            consoleWarnSpy = jest
-                .spyOn(console, 'warn')
-                .mockImplementation(() => {})
+            },
         })
 
-        beforeEach(() => {
-            consoleWarnSpy.mockClear()
+        const createDataElement = (
+            id,
+            displayFormName,
+            categoryCombo = 'dataElementCategoryCombo'
+        ) => ({
+            id,
+            displayFormName,
+            categoryCombo,
         })
 
-        afterAll(() => {
-            consoleWarnSpy.mockRestore()
-        })
-
-        it('returns the expected data', () => {
-            const dataSetId = 'data-set-foo'
-            const categoryComboId = 'category-combo-foo'
-
-            const data = {
-                dataSets: {
-                    [dataSetId]: {
-                        categoryCombo: { id: categoryComboId },
-                    },
+        const data = {
+            dataSets: {
+                [dataSetId]: {
+                    dataSetElements: [
+                        createDataSetElement('id1'),
+                        createDataSetElement('id2'),
+                        createDataSetElement('id3'),
+                        createDataSetElement('id4'),
+                    ],
                 },
-                categoryCombos: {
-                    [categoryComboId]: {
-                        id: categoryComboId,
-                        categories: [],
-                    },
-                },
-            }
+            },
+            dataElements: {
+                id1: createDataElement('id1', 'Beta'),
+                id2: createDataElement('id2', 'Alpha'),
+                id3: createDataElement('id3', 'Gamma'),
+                id4: createDataElement('id4', 'Delta'),
+            },
+        }
 
-            const actual = getCategoryComboByDataSetId(data, dataSetId)
-            const expected = { id: categoryComboId, categories: [] }
-            expect(actual).toEqual(expected)
-        })
+        const expected = [
+            createDataElement('id2', 'Alpha', 'categoryCombo'),
+            createDataElement('id1', 'Beta', 'categoryCombo'),
+            createDataElement('id4', 'Delta', 'categoryCombo'),
+            createDataElement('id3', 'Gamma', 'categoryCombo'),
+        ]
 
-        it('returns undefined when the data set does not have a category combo', () => {
-            const dataSetId = 'data-set-foo'
-            const categoryComboId = 'category-combo-foo'
-
-            const data = {
-                dataSets: {
-                    [dataSetId]: {
-                        id: dataSetId,
-                    },
-                },
-                categoryCombos: {
-                    [categoryComboId]: {
-                        id: categoryComboId,
-                        categories: [],
-                    },
-                },
-            }
-
-            const actual = getCategoryComboByDataSetId(data, dataSetId)
-            const expected = undefined
-            expect(actual).toEqual(expected)
-            expect(consoleWarnSpy).toHaveBeenCalledWith(
-                `Data set with id ${dataSetId} does not have a category combo`
-            )
-        })
-
-        it("returns undefined when the data set's category combo does not exist", () => {
-            const dataSetId = 'data-set-foo'
-            const categoryComboId = 'category-combo-foo'
-
-            const data = {
-                dataSets: {
-                    [dataSetId]: {
-                        id: dataSetId,
-                        categoryCombo: { id: 'category-combo-bar' },
-                    },
-                },
-                categoryCombos: {
-                    [categoryComboId]: {
-                        id: categoryComboId,
-                        categories: [],
-                    },
-                },
-            }
-
-            const actual = getCategoryComboByDataSetId(data, dataSetId)
-            const expected = undefined
-            expect(actual).toEqual(expected)
-            expect(consoleWarnSpy).toHaveBeenCalledWith(
-                `Could not find a category combo for data set with id ${dataSetId}`
-            )
-        })
-    })
-
-    describe('getCategoriesByDataSetId', () => {
-        let consoleWarnSpy
-
-        beforeAll(() => {
-            consoleWarnSpy = jest
-                .spyOn(console, 'warn')
-                .mockImplementation(() => {})
-        })
-
-        beforeEach(() => {
-            consoleWarnSpy.mockClear()
-        })
-
-        afterAll(() => {
-            consoleWarnSpy.mockRestore()
-        })
-
-        it('returns the expected data', () => {
-            const dataSetId = 'data-set-foo'
-            const categoryComboId = 'category-combo-foo'
-            const categoryOneId = 'category-foo'
-            const categoryTwoId = 'category-bar'
-
-            const data = {
-                dataSets: {
-                    [dataSetId]: {
-                        categoryCombo: { id: categoryComboId },
-                    },
-                },
-                categoryCombos: {
-                    [categoryComboId]: {
-                        id: categoryComboId,
-                        categories: [categoryOneId, categoryTwoId],
-                    },
-                },
-                categories: {
-                    [categoryOneId]: { id: categoryOneId },
-                    [categoryTwoId]: { id: categoryTwoId },
-                },
-            }
-
-            const actual = getCategoriesByDataSetId(data, dataSetId)
-            const expected = [{ id: categoryOneId }, { id: categoryTwoId }]
-            expect(actual).toEqual(expected)
-        })
-
-        it('returns an empty array when the category combo does not exist', () => {
-            const dataSetId = 'data-set-foo'
-            const categoryComboId = 'category-combo-foo'
-            const categoryOneId = 'category-foo'
-            const categoryTwoId = 'category-bar'
-
-            const data = {
-                dataSets: {
-                    [dataSetId]: {
-                        categoryCombo: { id: 'category-combo-bar' },
-                    },
-                },
-                categoryCombos: {
-                    [categoryComboId]: {
-                        id: categoryComboId,
-                        categories: [categoryOneId, categoryTwoId],
-                    },
-                },
-                categories: {
-                    [categoryOneId]: { id: categoryOneId },
-                    [categoryTwoId]: { id: categoryTwoId },
-                },
-            }
-
-            const actual = getCategoriesByDataSetId(data, dataSetId)
-            const expected = []
-            expect(actual).toEqual(expected)
-            expect(consoleWarnSpy).toHaveBeenCalledWith(
-                `Could not find categories for data set with id ${dataSetId}`
-            )
-        })
+        expect(getDataElementsByDataSetIdSorted(data, dataSetId)).toEqual(
+            expected
+        )
     })
 })
 
-describe('selectors that group dataElements', () => {
-    describe('getGroupedDataElementsByCatComboInOrder', () => {
-        it('returns the expected data', () => {
-            const categoryComboOne = { id: 'one' }
-            const categoryComboTwo = { id: 'two' }
-            const dataElements = [
-                { categoryCombo: categoryComboOne },
-                { categoryCombo: categoryComboTwo },
-                { categoryCombo: categoryComboOne },
-            ]
-            const data = {
-                categoryCombos: {
-                    one: categoryComboOne,
-                    two: categoryComboTwo,
+describe('getDataElementsBySection', () => {
+    it('returns the expected data', () => {
+        const dataSetId = 'dataSetId'
+        const sectionId = 'sectionId'
+        const dataElementId = 'dataElementId'
+        const dataSetElement = {
+            categoryCombo: 'dataSetElementCategoryCombo',
+            dataElement: {
+                id: dataElementId,
+            },
+        }
+        const dataElement = {
+            id: dataElementId,
+            categoryCombo: 'dataElementCategoryCombo',
+        }
+        const section = {
+            id: sectionId,
+            dataElements: [dataElementId],
+        }
+        const expected = [
+            {
+                ...dataElement,
+                categoryCombo: dataSetElement.categoryCombo,
+            },
+        ]
+        const data = {
+            dataElements: {
+                [dataElementId]: dataElement,
+            },
+            dataSets: {
+                [dataSetId]: {
+                    dataSetElements: [dataSetElement],
+                    sections: [section],
                 },
-            }
-            const expected = [
-                {
-                    categoryCombo: categoryComboOne,
-                    dataElements: [dataElements[0]],
-                },
-                {
-                    categoryCombo: categoryComboTwo,
-                    dataElements: [dataElements[1]],
-                },
-                {
-                    categoryCombo: categoryComboOne,
-                    dataElements: [dataElements[2]],
-                },
-            ]
+            },
+        }
 
-            expect(
-                getGroupedDataElementsByCatComboInOrder(data, dataElements)
-            ).toEqual(expected)
-        })
+        expect(getDataElementsBySection(data, dataSetId, sectionId)).toEqual(
+            expected
+        )
+    })
+})
+
+describe('getCategoryComboByDataSetId', () => {
+    let consoleWarnSpy
+
+    beforeAll(() => {
+        consoleWarnSpy = jest
+            .spyOn(console, 'warn')
+            .mockImplementation(() => {})
     })
 
-    describe('getGroupedDataElementsByCatCombo', () => {
-        it('returns the expected data', () => {
-            const categoryComboOne = { id: 'one' }
-            const categoryComboTwo = { id: 'two' }
-            const dataElements = [
-                { categoryCombo: categoryComboOne },
-                { categoryCombo: categoryComboTwo },
-                { categoryCombo: categoryComboOne },
-            ]
-            const data = {
-                categoryCombos: {
-                    one: categoryComboOne,
-                    two: categoryComboTwo,
-                },
-            }
-            const expected = [
-                {
-                    categoryCombo: categoryComboOne,
-                    dataElements: [dataElements[0], dataElements[2]],
-                },
-                {
-                    categoryCombo: categoryComboTwo,
-                    dataElements: [dataElements[1]],
-                },
-            ]
+    beforeEach(() => {
+        consoleWarnSpy.mockClear()
+    })
 
-            expect(
-                getGroupedDataElementsByCatCombo(data, dataElements)
-            ).toEqual(expected)
-        })
+    afterAll(() => {
+        consoleWarnSpy.mockRestore()
+    })
+
+    it('returns the expected data', () => {
+        const dataSetId = 'data-set-foo'
+        const categoryComboId = 'category-combo-foo'
+
+        const data = {
+            dataSets: {
+                [dataSetId]: {
+                    categoryCombo: { id: categoryComboId },
+                },
+            },
+            categoryCombos: {
+                [categoryComboId]: {
+                    id: categoryComboId,
+                    categories: [],
+                },
+            },
+        }
+
+        const actual = getCategoryComboByDataSetId(data, dataSetId)
+        const expected = { id: categoryComboId, categories: [] }
+        expect(actual).toEqual(expected)
+    })
+
+    it('returns undefined when the data set does not have a category combo', () => {
+        const dataSetId = 'data-set-foo'
+        const categoryComboId = 'category-combo-foo'
+
+        const data = {
+            dataSets: {
+                [dataSetId]: {
+                    id: dataSetId,
+                },
+            },
+            categoryCombos: {
+                [categoryComboId]: {
+                    id: categoryComboId,
+                    categories: [],
+                },
+            },
+        }
+
+        const actual = getCategoryComboByDataSetId(data, dataSetId)
+        const expected = undefined
+        expect(actual).toEqual(expected)
+        expect(consoleWarnSpy).toHaveBeenCalledWith(
+            `Data set with id ${dataSetId} does not have a category combo`
+        )
+    })
+
+    it("returns undefined when the data set's category combo does not exist", () => {
+        const dataSetId = 'data-set-foo'
+        const categoryComboId = 'category-combo-foo'
+
+        const data = {
+            dataSets: {
+                [dataSetId]: {
+                    id: dataSetId,
+                    categoryCombo: { id: 'category-combo-bar' },
+                },
+            },
+            categoryCombos: {
+                [categoryComboId]: {
+                    id: categoryComboId,
+                    categories: [],
+                },
+            },
+        }
+
+        const actual = getCategoryComboByDataSetId(data, dataSetId)
+        const expected = undefined
+        expect(actual).toEqual(expected)
+        expect(consoleWarnSpy).toHaveBeenCalledWith(
+            `Could not find a category combo for data set with id ${dataSetId}`
+        )
+    })
+})
+
+describe('getCategoriesByDataSetId', () => {
+    let consoleWarnSpy
+
+    beforeAll(() => {
+        consoleWarnSpy = jest
+            .spyOn(console, 'warn')
+            .mockImplementation(() => {})
+    })
+
+    beforeEach(() => {
+        consoleWarnSpy.mockClear()
+    })
+
+    afterAll(() => {
+        consoleWarnSpy.mockRestore()
+    })
+
+    it('returns the expected data', () => {
+        const dataSetId = 'data-set-foo'
+        const categoryComboId = 'category-combo-foo'
+        const categoryOneId = 'category-foo'
+        const categoryTwoId = 'category-bar'
+
+        const data = {
+            dataSets: {
+                [dataSetId]: {
+                    categoryCombo: { id: categoryComboId },
+                },
+            },
+            categoryCombos: {
+                [categoryComboId]: {
+                    id: categoryComboId,
+                    categories: [categoryOneId, categoryTwoId],
+                },
+            },
+            categories: {
+                [categoryOneId]: { id: categoryOneId },
+                [categoryTwoId]: { id: categoryTwoId },
+            },
+        }
+
+        const actual = getCategoriesByDataSetId(data, dataSetId)
+        const expected = [{ id: categoryOneId }, { id: categoryTwoId }]
+        expect(actual).toEqual(expected)
+    })
+
+    it('returns an empty array when the category combo does not exist', () => {
+        const dataSetId = 'data-set-foo'
+        const categoryComboId = 'category-combo-foo'
+        const categoryOneId = 'category-foo'
+        const categoryTwoId = 'category-bar'
+
+        const data = {
+            dataSets: {
+                [dataSetId]: {
+                    categoryCombo: { id: 'category-combo-bar' },
+                },
+            },
+            categoryCombos: {
+                [categoryComboId]: {
+                    id: categoryComboId,
+                    categories: [categoryOneId, categoryTwoId],
+                },
+            },
+            categories: {
+                [categoryOneId]: { id: categoryOneId },
+                [categoryTwoId]: { id: categoryTwoId },
+            },
+        }
+
+        const actual = getCategoriesByDataSetId(data, dataSetId)
+        const expected = []
+        expect(actual).toEqual(expected)
+        expect(consoleWarnSpy).toHaveBeenCalledWith(
+            `Could not find categories for data set with id ${dataSetId}`
+        )
+    })
+})
+
+/*
+ *
+ * selectors that group dataElements
+ * =================================
+ *
+ */
+
+describe('getGroupedDataElementsByCatComboInOrder', () => {
+    it('returns the expected data', () => {
+        const categoryComboOne = { id: 'one' }
+        const categoryComboTwo = { id: 'two' }
+        const dataElements = [
+            { categoryCombo: categoryComboOne },
+            { categoryCombo: categoryComboTwo },
+            { categoryCombo: categoryComboOne },
+        ]
+        const data = {
+            categoryCombos: {
+                one: categoryComboOne,
+                two: categoryComboTwo,
+            },
+        }
+        const expected = [
+            {
+                categoryCombo: categoryComboOne,
+                dataElements: [dataElements[0]],
+            },
+            {
+                categoryCombo: categoryComboTwo,
+                dataElements: [dataElements[1]],
+            },
+            {
+                categoryCombo: categoryComboOne,
+                dataElements: [dataElements[2]],
+            },
+        ]
+
+        expect(
+            getGroupedDataElementsByCatComboInOrder(data, dataElements)
+        ).toEqual(expected)
+    })
+})
+
+describe('getGroupedDataElementsByCatCombo', () => {
+    it('returns the expected data', () => {
+        const categoryComboOne = { id: 'one' }
+        const categoryComboTwo = { id: 'two' }
+        const dataElements = [
+            { categoryCombo: categoryComboOne },
+            { categoryCombo: categoryComboTwo },
+            { categoryCombo: categoryComboOne },
+        ]
+        const data = {
+            categoryCombos: {
+                one: categoryComboOne,
+                two: categoryComboTwo,
+            },
+        }
+        const expected = [
+            {
+                categoryCombo: categoryComboOne,
+                dataElements: [dataElements[0], dataElements[2]],
+            },
+            {
+                categoryCombo: categoryComboTwo,
+                dataElements: [dataElements[1]],
+            },
+        ]
+
+        expect(getGroupedDataElementsByCatCombo(data, dataElements)).toEqual(
+            expected
+        )
+    })
+})
+
+/**
+ * Remaining selectors
+ * ===================
+ */
+
+describe('getSectionByDataSetIdAndSectionId', () => {
+    it('should return the section for a data set id and section id', () => {
+        const data = {
+            dataSets: {
+                dataSet1: {
+                    sections: [{ id: 'section1' }, { id: 'section2' }],
+                },
+            },
+        }
+
+        const expected = { id: 'section1' }
+        const actual = getSectionByDataSetIdAndSectionId(
+            data,
+            'dataSet1',
+            'section1'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return undefined when the data set does not exist', () => {
+        const data = { dataSets: {} }
+        const expected = undefined
+        const actual = getSectionByDataSetIdAndSectionId(
+            data,
+            'dataSet1',
+            'section1'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return undefined when the section does not exist', () => {
+        const data = {
+            dataSets: {
+                dataSet1: {
+                    sections: [{ id: 'section1' }],
+                },
+            },
+        }
+        const expected = undefined
+        const actual = getSectionByDataSetIdAndSectionId(
+            data,
+            'dataSet1',
+            'section2'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+})
+
+describe('getNrOfColumnsInCategoryCombo', () => {
+    it('should return the numbers of columns for a category combo', () => {
+        const data = {
+            categoryCombos: {
+                categoryCombo1: {
+                    categories: ['category1', 'category2', 'category3'],
+                },
+            },
+            categories: {
+                category1: {
+                    categoryOptions: ['categoryOption1', 'categoryOption2'],
+                },
+                category2: {
+                    categoryOptions: ['categoryOption3', 'categoryOption4'],
+                },
+                category3: {
+                    categoryOptions: ['categoryOption5', 'categoryOption6'],
+                },
+            },
+        }
+
+        expect(getNrOfColumnsInCategoryCombo(data, 'categoryCombo1')).toBe(8)
+    })
+
+    it('should return 1 when the category combo does not exist', () => {
+        const data = { categoryCombos: {} }
+        expect(getNrOfColumnsInCategoryCombo(data, 'categoryCombo1')).toBe(1)
+    })
+})
+
+describe('getIndicatorsByDataSetIdAndSectionId', () => {
+    it("should return the indicators of a data set's section", () => {
+        const data = {
+            dataSets: {
+                dataSet1: {
+                    sections: [
+                        {
+                            id: 'section1',
+                            indicators: ['indicator1', 'indicator2'],
+                        },
+                        {
+                            id: 'section2',
+                            indicators: ['indicator3', 'indicator4'],
+                        },
+                    ],
+                },
+            },
+            indicators: {
+                indicator1: { id: 'indicator1' },
+                indicator2: { id: 'indicator2' },
+                indicator3: { id: 'indicator3' },
+                indicator4: { id: 'indicator4' },
+            },
+        }
+
+        const expected = [{ id: 'indicator1' }, { id: 'indicator2' }]
+
+        const actual = getIndicatorsByDataSetIdAndSectionId(
+            data,
+            'dataSet1',
+            'section1'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return an empty array when the data set does not exist', () => {
+        expect(
+            getIndicatorsByDataSetIdAndSectionId({ dataSets: {} }, 'foo', 'bar')
+        ).toEqual([])
+    })
+})
+
+describe('getCategoryOptionCombo', () => {
+    it('should return the category option combo for the provided category combo id and category option combo id', () => {
+        const data = {
+            categoryCombos: {
+                categoryCombo1: {
+                    categoryOptionCombos: [
+                        { id: 'categoryOptionCombo1' },
+                        { id: 'categoryOptionCombo2' },
+                    ],
+                },
+            },
+        }
+
+        const expected = { id: 'categoryOptionCombo1' }
+        const actual = getCategoryOptionCombo(
+            data,
+            'categoryCombo1',
+            'categoryOptionCombo1'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return undefined when the category combo does not exist', () => {
+        expect(
+            getCategoryOptionCombo(
+                { categoryCombos: {} },
+                'categoryCombo1',
+                'categoryOptionCombo1'
+            )
+        ).toEqual(undefined)
+    })
+
+    it('should return undefined when there is no category option combo for the provided id', () => {
+        const data = {
+            categoryCombos: {
+                categoryCombo1: {
+                    categoryOptionCombos: [
+                        { id: 'categoryOptionCombo1' },
+                        { id: 'categoryOptionCombo2' },
+                    ],
+                },
+            },
+        }
+
+        const expected = undefined
+        const actual = getCategoryOptionCombo(
+            data,
+            'categoryCombo1',
+            'categoryOptionCombo3'
+        )
+
+        expect(actual).toEqual(expected)
+    })
+})
+
+describe('getApplicableDataInputPeriod', () => {
+    it('should return the period for a given data set id and period id', () => {
+        const data = {
+            dataSets: {
+                dataSet1: {
+                    id: 'dataSet1',
+                    dataInputPeriods: [
+                        {
+                            period: { id: '202304', name: '202304' },
+                        },
+                        {
+                            period: { id: '202301', name: '202301' },
+                            openingDate: '2023-01-01T00:00:00.000',
+                            closingDate: '2023-05-17T00:00:00.000',
+                        },
+                    ],
+                },
+            },
+        }
+
+        const expected = {
+            period: { id: '202301', name: '202301' },
+            openingDate: '2023-01-01T00:00:00.000',
+            closingDate: '2023-05-17T00:00:00.000',
+        }
+
+        const periodId = '202301'
+        const dataSetId = 'dataSet1'
+        const actual = getApplicableDataInputPeriod(data, dataSetId, periodId)
+
+        expect(actual).toEqual(expected)
+    })
+
+    it('should return null when the data set does not exist', () => {
+        expect(
+            getApplicableDataInputPeriod({ dataSets: {} }, 'dataSetId', '2023')
+        ).toBe(null)
+    })
+
+    it('should return null when no period id has been provided', () => {
+        const data = {
+            dataSets: {
+                dataSet1: {
+                    id: 'dataSet1',
+                    dataInputPeriods: [
+                        {
+                            period: { id: '202304', name: '202304' },
+                        },
+                        {
+                            period: { id: '202301', name: '202301' },
+                            openingDate: '2023-01-01T00:00:00.000',
+                            closingDate: '2023-05-17T00:00:00.000',
+                        },
+                    ],
+                },
+            },
+        }
+
+        expect(getApplicableDataInputPeriod(data, 'dataSetId')).toBe(null)
+    })
+
+    it("should return null when the dataset's dataInputPeriods does not contain the a period with the provided id", () => {
+        const data = {
+            dataSets: {
+                dataSet1: {
+                    id: 'dataSet1',
+                    dataInputPeriods: [
+                        {
+                            period: { id: '202304', name: '202304' },
+                        },
+                        {
+                            period: { id: '202301', name: '202301' },
+                            openingDate: '2023-01-01T00:00:00.000',
+                            closingDate: '2023-05-17T00:00:00.000',
+                        },
+                    ],
+                },
+            },
+        }
+
+        expect(getApplicableDataInputPeriod(data, 'dataSet1', '202303')).toBe(
+            null
+        )
     })
 })
 

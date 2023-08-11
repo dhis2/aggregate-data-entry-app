@@ -23,6 +23,7 @@ export const useIndicatorValue = ({
     factor,
     form,
     numerator,
+    decimals,
 }) => {
     const indicatorValueRef = useRef(null)
     const affectedDataElementsLookup = useMemo(
@@ -57,6 +58,7 @@ export const useIndicatorValue = ({
                 numerator,
                 factor,
                 formState: form.getState(),
+                decimals,
             })
         }
 
@@ -68,5 +70,6 @@ export const useIndicatorValue = ({
         factor,
         form,
         numerator,
+        decimals,
     ])
 }

@@ -1,10 +1,8 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import {
-    useContextSelection,
-    useApiAttributeParams,
-    dataValueSetQueryKey as dataValueSetQueryKeys,
     defaultOnSuccess,
+    useDataValueSetQueryKey,
 } from '../../shared/index.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
@@ -33,40 +31,15 @@ const MUTATION_DELETE_MIN_MAX_LIMITS = {
 export default function useDeleteLimits(onDone) {
     // These are needed for the optimistic delete
     const queryClient = useQueryClient()
-    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
-    const {
-        attributeCombo: categoryComboId,
-        attributeOptions: categoryOptionIds,
-    } = useApiAttributeParams()
-
-    const dataValueSetQueryKey = dataValueSetQueryKeys.byIds({
-        dataSetId,
-        periodId,
-        orgUnitId,
-        categoryComboId,
-        categoryOptionIds,
-    })
-
+    const dataValueSetQueryKey = useDataValueSetQueryKey()
     const engine = useDataEngine()
+
     const { show: showErrorAlert } = useAlert((message) => message, {
         critical: true,
     })
 
-    const mutationFn = ({
-        dataElement,
-        orgUnit,
-        categoryOptionCombo,
-        minValue,
-        maxValue,
-    }) => {
-        const variables = {
-            dataElement,
-            orgUnit,
-            categoryOptionCombo,
-            minValue,
-            maxValue,
-        }
-
+    const mutationFn = ({ dataElement, orgUnit, categoryOptionCombo }) => {
+        const variables = { dataElement, orgUnit, categoryOptionCombo }
         return engine.mutate(MUTATION_DELETE_MIN_MAX_LIMITS, { variables })
     }
 
@@ -83,13 +56,13 @@ export default function useDeleteLimits(onDone) {
 
             // Snapshot the previous value
             const previousDataValueSet =
-                queryClient.getQueryData(dataValueSetQueryKey)
+                queryClient.getQueryData(dataValueSetQueryKey) || {}
 
             // Optimistically delete to the new value
             queryClient.setQueryData(dataValueSetQueryKey, () => {
-                // dataValueSet.minMaxValues can be undefined
                 const previousMinMaxValues =
                     previousDataValueSet.minMaxValues || []
+
                 const matchIndex = getMinMaxValueIndex(
                     previousMinMaxValues,
                     variables
@@ -98,9 +71,9 @@ export default function useDeleteLimits(onDone) {
                 return deleteLimit(previousDataValueSet, variables, matchIndex)
             })
 
-            const context = { previousDataValueSet, dataValueSetQueryKey }
-            return context
+            return { previousDataValueSet, dataValueSetQueryKey }
         },
+
         onError: (event, _, context) => {
             showErrorAlert(
                 `Something went wrong while deleting the min-max limits: ${event.message}`
