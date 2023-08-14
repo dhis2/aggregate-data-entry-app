@@ -9,4 +9,33 @@ module.exports = {
     moduleNameMapper: {
         '\\.css$': 'identity-obj-proxy',
     },
+    testRunner: 'jest-circus/runner',
+    reporters: [
+        'default',
+        [
+            '@reportportal/agent-js-jest',
+            {
+                apiKey: process.env.REPORTPORTAL_API_KEY,
+                endpoint: process.env.REPORTPORTAL_ENDPOINT,
+                project: process.env.REPORTPORTAL_PROJECT,
+                launch: 'aggregate_data_entry_app_master',
+                attributes: [
+                    {
+                        key: 'version',
+                        value: 'master',
+                    },
+                    {
+                        key: 'app_name',
+                        value: 'aggregate_data_entry_app',
+                    },
+                    {
+                        key: 'test_level',
+                        value: 'unit/integration',
+                    },
+                ],
+                description: '',
+                debug: true,
+            },
+        ],
+    ],
 }
