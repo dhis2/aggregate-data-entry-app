@@ -5,6 +5,19 @@ import { Wrapper } from '../../test-utils/index.js'
 import { useDataValueSet } from '../use-data-value-set/index.js'
 import { useSetFormCompletionMutation } from './use-set-form-completion-mutation.js'
 
+jest.mock('../use-user-info/use-user-info.js', () => ({
+    useUsername: jest.fn(() => ({
+        data: {
+            username: 'some new user',
+        },
+    })),
+    useUserInfo: jest.fn(() => ({
+        data: {
+            authorities: ['ALL'],
+        },
+    })),
+}))
+
 jest.mock('../use-data-value-set/use-data-value-set-query-key.js', () => ({
     __esModule: true,
     default: jest.fn(() => ['dataValues']),
@@ -93,7 +106,7 @@ describe('useSetFormCompletionMutation', () => {
         })
     })
 
-    it('should optimistically update the completion state', async () => {
+    it('should optimistically update the completion state and lastUpdatedBy', async () => {
         const queryCache = new QueryCache()
 
         const { result: setFormCompletion, waitFor: waitForSetFormCompletion } =
@@ -125,6 +138,9 @@ describe('useSetFormCompletionMutation', () => {
         const cachedDataValues = cachedDataValuesQuery.state.data
 
         expect(cachedDataValues.completeStatus.complete).toBe(true)
+        expect(cachedDataValues.completeStatus.lastUpdatedBy).toBe(
+            'some new user'
+        )
     })
 
     it('should revert to the old cache state when an error occurs', async () => {

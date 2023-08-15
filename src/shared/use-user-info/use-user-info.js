@@ -12,3 +12,15 @@ export const useUserInfo = () => {
     const userInfoQuery = useQuery(queryKey, queryOpts)
     return userInfoQuery
 }
+
+const queryKeyUsername = [`/me?fields=username`]
+
+const queryOptsUsername = {
+    refetchOnMount: false,
+    staleTime: 24 * 60 * 60 * 1000,
+}
+
+export const useUsername = () => {
+    const usernameQuery = useQuery(queryKeyUsername, queryOptsUsername)
+    return usernameQuery
+}
