@@ -1,3 +1,10 @@
+## [100.3.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.5...v100.3.6) (2023-08-15)
+
+
+### Bug Fixes
+
+* add message when year has no periods [DHIS2-14444] ([#353](https://github.com/dhis2/aggregate-data-entry-app/issues/353)) ([fcdc3b8](https://github.com/dhis2/aggregate-data-entry-app/commit/fcdc3b813a68105257e6e07b8ca0a3f36e8580a2))
+
 ## [100.3.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.4...v100.3.5) (2023-08-15)
 
 
