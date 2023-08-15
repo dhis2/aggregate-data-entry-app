@@ -69,7 +69,7 @@ export function useSetFormCompletionMutation() {
                 completeStatus: {
                     ...previousDataValueSet?.completeStatus,
                     complete,
-                    lastUpdatedBy: userInfo.username,
+                    lastUpdatedBy: userInfo?.username,
                 },
             }))
 
