@@ -1,3 +1,10 @@
+## [100.3.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.4...v100.3.5) (2023-08-15)
+
+
+### Bug Fixes
+
+* optimistically update lastUpdatedBy on complete [TECH-1440] ([#320](https://github.com/dhis2/aggregate-data-entry-app/issues/320)) ([7df7ef5](https://github.com/dhis2/aggregate-data-entry-app/commit/7df7ef57cf8754018231e394fc622aca77680f5a))
+
 ## [100.3.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.3...v100.3.4) (2023-08-08)
 
 
