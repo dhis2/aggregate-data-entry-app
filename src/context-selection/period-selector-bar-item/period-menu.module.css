@@ -3,3 +3,11 @@
     min-width: 240px;
     overflow: auto;
 }
+
+.noPeriods {
+    color: var(--colors-grey600);
+    text-align: center;
+    padding: 8px;
+    font-size: 14px;
+    width: 240px;
+}
