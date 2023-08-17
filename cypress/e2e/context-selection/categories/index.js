@@ -6,6 +6,11 @@ Given('no data set has been selected yet', () => {
 })
 
 Given('a data set and period but no org unit have been selected yet', () => {
+    this.addAttributes([
+        { key: 'key_1', value: 'value_1' },
+        { value: 'value_2' },
+    ])
+    this.addDescription('This step contain **attributes**')
     cy.visit('/#/?dataSetId=V8MHeZHIrcP&periodId=2021')
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
