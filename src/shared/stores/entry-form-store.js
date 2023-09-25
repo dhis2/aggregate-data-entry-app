@@ -1,15 +1,26 @@
+import { setIn, getIn } from 'final-form'
 import create from 'zustand'
-
+import { devtools } from 'zustand/middleware'
 const inititalState = {
     errors: {},
+    warnings: {},
 }
 
-export const useEntryFormStore = create((set, get) => ({
-    ...inititalState,
-    setErrors: (errors) => set({ errors: errors ?? {} }),
-    getErrors: () => get().errors,
-    getNumberOfErrors: () => countLeaves(get().getErrors()),
-}))
+export const useEntryFormStore = create(
+    devtools((set, get) => ({
+        ...inititalState,
+        setErrors: (errors) => set({ errors: errors ?? {} }),
+        getErrors: () => get().errors,
+        getNumberOfErrors: () => countLeaves(get().getErrors()),
+        getWarnings: () => get().warnings,
+        getWarning: (fieldname) => getIn(get().getWarnings(), fieldname),
+        setWarning: (fieldname, warning) => {
+            const warnings = get().getWarnings() || {}
+            const newWarnings = setIn(warnings, fieldname, warning)
+            set({ warnings: newWarnings })
+        },
+    }))
+)
 
 // errors object is the same shape as form-Values
 // eg. { [dataElementId] : {

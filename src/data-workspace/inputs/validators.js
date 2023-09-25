@@ -87,12 +87,18 @@ export const validatorsByValueType = {
     [VALUE_TYPES.URL]: url,
 }
 
-export const validateByValueTypeWithLimits = (valueType, limits) => {
+export const validateByValueType = (valueType) => {
     const validators = []
 
     if (validatorsByValueType[valueType]) {
         validators.push(validatorsByValueType[valueType])
     }
+
+    return composeValidators(...validators)
+}
+
+export const warningValidateByValueType = (valueType, limits) => {
+    const validators = []
 
     if (
         CAN_HAVE_LIMITS_TYPES.includes(valueType) &&
