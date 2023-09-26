@@ -45,16 +45,6 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
         lockStatus: { state: lockState },
     } = useLockedContext()
     const formType = dataSet.formType
-    const setFormErrors = useEntryFormStore((state) => state.setErrors)
-
-    useFormState({
-        onChange: (formState) => {
-            setFormErrors(formState.errors)
-        },
-        subscription: {
-            errors: true,
-        },
-    })
 
     const Component = formTypeToComponent[formType]
 
@@ -72,11 +62,27 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
                     formType={formType}
                 />
             )}
-
+            <EntryFormErrorSpy />
             <Component dataSet={dataSet} globalFilterText={globalFilterText} />
         </>
     )
 })
+
+/*  Used to sync store with errors from form
+    In its own component to prevent unecessarily re-renders in the tree */
+const EntryFormErrorSpy = () => {
+    const setFormErrors = useEntryFormStore((state) => state.setErrors)
+
+    useFormState({
+        onChange: (formState) => {
+            setFormErrors(formState.errors)
+        },
+        subscription: {
+            errors: true,
+        },
+    })
+    return null
+}
 
 EntryForm.propTypes = {
     dataSet: PropTypes.shape({
