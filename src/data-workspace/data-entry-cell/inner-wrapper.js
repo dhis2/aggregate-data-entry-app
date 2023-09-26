@@ -143,7 +143,7 @@ export function InnerWrapper({
         <ValidationTooltip
             fieldname={fieldname}
             active={active}
-            invalid={warning || invalid || !!syncError}
+            enabled={!!warning || invalid || !!syncError}
             content={errorMessage}
         >
             <div
