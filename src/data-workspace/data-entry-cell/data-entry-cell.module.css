@@ -57,7 +57,7 @@
 
 .warning:not(.active) {
     background: var(--colors-yellow100);
-    outline: 1px solid var(--colors-red600);
+    outline: 1px solid var(--colors-yellow300);
 }
 
 .warning:hover {
