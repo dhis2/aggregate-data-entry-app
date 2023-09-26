@@ -16,7 +16,7 @@ export const useEntryFormStore = create((set, get) => ({
     setWarning: (fieldname, warning) => {
         const warnings = get().getWarnings()
         // setIn from final-form is used to create the same structure as errors
-        const newWarnings = setIn(warnings, fieldname, warning)
+        const newWarnings = setIn(warnings, fieldname, warning) ?? {}
         set({ warnings: newWarnings })
     },
     // could add getNumberOfWarnings if needed
