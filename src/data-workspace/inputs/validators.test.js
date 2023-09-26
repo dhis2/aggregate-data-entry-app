@@ -1,5 +1,5 @@
 import { VALUE_TYPES, CAN_HAVE_LIMITS_TYPES } from '../../shared/index.js'
-import { validateByValueTypeWithLimits } from './validators.js'
+import { validateByValueType } from './validators.js'
 
 describe(`validateByValueTypeWithLimits`, () => {
     describe(`when limits are defined`, () => {
@@ -29,7 +29,7 @@ describe(`validateByValueTypeWithLimits`, () => {
         ])(
             'should return error for %s type that supports limits where value is outside of bounds',
             ({ valueType, value, min, max, expectedErrorMessage }) => {
-                const errorMessage = validateByValueTypeWithLimits(valueType, {
+                const errorMessage = validateByValueType(valueType, {
                     min,
                     max,
                 })(value)
@@ -39,7 +39,7 @@ describe(`validateByValueTypeWithLimits`, () => {
 
         it('should not return error for type that support limits and is in bounds', () => {
             expect(
-                validateByValueTypeWithLimits(VALUE_TYPES.NUMBER, {
+                validateByValueType(VALUE_TYPES.NUMBER, {
                     min: 5,
                     max: 10,
                 })(7)
@@ -48,7 +48,7 @@ describe(`validateByValueTypeWithLimits`, () => {
 
         it('should not return error for type that does not support limits', () => {
             expect(
-                validateByValueTypeWithLimits(VALUE_TYPES.TEXT, {
+                validateByValueType(VALUE_TYPES.TEXT, {
                     min: 5,
                     max: 10,
                 })(`asdf`)
@@ -59,13 +59,13 @@ describe(`validateByValueTypeWithLimits`, () => {
     describe(`when limits are undefined`, () => {
         it('should not return error', () => {
             expect(
-                validateByValueTypeWithLimits(VALUE_TYPES.INTEGER, undefined)(4)
+                validateByValueType(VALUE_TYPES.INTEGER, undefined)(4)
             ).toBeUndefined()
         })
 
         it('should not return error for type that support limits and only has min defined', () => {
             expect(
-                validateByValueTypeWithLimits(VALUE_TYPES.NUMBER, {
+                validateByValueType(VALUE_TYPES.NUMBER, {
                     min: 5,
                 })(7)
             ).toBeUndefined()
@@ -73,7 +73,7 @@ describe(`validateByValueTypeWithLimits`, () => {
 
         it('should not return error for type that support limits and only has min defined', () => {
             expect(
-                validateByValueTypeWithLimits(VALUE_TYPES.NUMBER, {
+                validateByValueType(VALUE_TYPES.NUMBER, {
                     max: 10,
                 })(7)
             ).toBeUndefined()
