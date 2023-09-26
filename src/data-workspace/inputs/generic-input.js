@@ -13,7 +13,6 @@ import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 import {
     validateByValueType,
-    limitValidator,
     warningValidateByValueType,
 } from './validators.js'
 
@@ -53,14 +52,15 @@ export const GenericInput = ({
     }
     const setWarning = useEntryFormStore((state) => state.setWarning)
 
+    const warningValidate = (value) => {
+        const warningValidator = warningValidateByValueType(valueType, limits)
+        const warningValidationResult = warningValidator(value)
+        setWarning(fieldname, warningValidationResult)
+    }
+
     const { input, meta } = useField(fieldname, {
         validate: (value) => {
-            const warningValidator = warningValidateByValueType(
-                valueType,
-                limits
-            )
-            const warningValidationResult = warningValidator(value)
-            setWarning(fieldname, warningValidationResult)
+            warningValidate(value)
             return validateByValueType(valueType, limits)(value)
         },
         subscription: {
