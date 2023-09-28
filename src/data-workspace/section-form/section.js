@@ -37,6 +37,9 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
         : selectors.getGroupedDataElementsByCatCombo(data, dataElements)
 
     const maxColumnsInSection = useMemo(() => {
+        if (groupedDataElements.length === 0) {
+            return 0
+        }
         const groupedTotalColumns = groupedDataElements.map((grp) =>
             selectors.getNrOfColumnsInCategoryCombo(data, grp.categoryCombo.id)
         )
@@ -117,7 +120,7 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
             {indicators.length > 0 && (
                 <IndicatorsTableBody
                     indicators={indicators}
-                    renderColumnTotals={section.showColumnTotals}
+                    renderRowTotals={section.showRowTotals}
                     maxColumnsInSection={maxColumnsInSection}
                     filterText={filterText}
                     globalFilterText={globalFilterText}
