@@ -1,14 +1,14 @@
 # 
 # Translators:
 # Caroline Hesthagen Holen <caroline@devotta.no>, 2022
-# Karoline Tufte Lien <karoline@dhis2.org>, 2022
+# Karoline Tufte Lien <karoline@dhis2.org>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Karoline Tufte Lien <karoline@dhis2.org>, 2022\n"
+"Last-Translator: Karoline Tufte Lien <karoline@dhis2.org>, 2023\n"
 "Language-Team: Norwegian Bokmål (https://app.transifex.com/hisp-uio/teams/100509/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -321,7 +321,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr ""
+msgstr "Ikke tilgjengelig i frakoblet modus"
 
 msgid "No audit log for this data item."
 msgstr ""
