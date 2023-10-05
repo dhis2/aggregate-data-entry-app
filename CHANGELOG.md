@@ -1,3 +1,10 @@
+## [100.3.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.6...v100.3.7) (2023-10-05)
+
+
+### Bug Fixes
+
+* handle sections without data elements [DHIS2-15883] ([#359](https://github.com/dhis2/aggregate-data-entry-app/issues/359)) ([83c062e](https://github.com/dhis2/aggregate-data-entry-app/commit/83c062e5cb6386b92e32429b1f1b7a2e3ba96893))
+
 ## [100.3.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.5...v100.3.6) (2023-08-15)
 
 
