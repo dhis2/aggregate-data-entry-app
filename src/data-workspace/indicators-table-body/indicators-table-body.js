@@ -16,7 +16,7 @@ import { IndicatorTableCell } from './indicator-table-cell.js'
 export const IndicatorsTableBody = ({
     indicators,
     maxColumnsInSection,
-    renderColumnTotals,
+    renderRowTotals,
     filterText,
     globalFilterText,
 }) => {
@@ -28,8 +28,8 @@ export const IndicatorsTableBody = ({
         )
     })
     const hiddenItemsCount = indicators.length - filteredIndicators.length
-    const nrOfPadColumns = maxColumnsInSection - (renderColumnTotals ? 0 : 1)
-    const padColumns = Array(nrOfPadColumns).fill(0)
+    const nrOfPadColumns = maxColumnsInSection - (renderRowTotals ? 0 : 1)
+    const padColumns = nrOfPadColumns > 0 ? Array(nrOfPadColumns).fill(0) : []
 
     return (
         <TableBody>
@@ -50,7 +50,10 @@ export const IndicatorsTableBody = ({
 
             {filteredIndicators.map((indicator) => {
                 return (
-                    <TableRow key={indicator.id}>
+                    <TableRow
+                        key={indicator.id}
+                        dataTest="dhis2-dataentry-indicatorstablerow"
+                    >
                         <TableCell className={cx(styles.dataElementName)}>
                             {indicator.displayFormName}
                         </TableCell>
@@ -64,6 +67,7 @@ export const IndicatorsTableBody = ({
                             <TableCell
                                 key={i}
                                 className={styles.paddingCell}
+                                dataTest="dhis2-dataentry-indicatorspaddingcell"
                             ></TableCell>
                         ))}
                     </TableRow>
@@ -88,5 +92,5 @@ IndicatorsTableBody.propTypes = {
     filterText: PropTypes.string,
     globalFilterText: PropTypes.string,
     maxColumnsInSection: PropTypes.number,
-    renderColumnTotals: PropTypes.bool,
+    renderRowTotals: PropTypes.bool,
 }
