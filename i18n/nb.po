@@ -270,7 +270,7 @@ msgid "No organisation units could be found"
 msgstr ""
 
 msgid "No children match filter"
-msgstr ""
+msgstr "Ingen underenheter matcher filter"
 
 msgid "Could not load children"
 msgstr "Kunne ikke laste underordnede enheter"
