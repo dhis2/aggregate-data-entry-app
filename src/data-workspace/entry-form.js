@@ -68,8 +68,12 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     )
 })
 
-/*  Used to sync store with errors from form
-    In its own component to prevent unecessarily re-renders in the tree */
+/**
+ * Used to sync global store with errors from final-form.
+ * Because of the `errors` subscription in `useFormState`, this re-renders
+ * on every form input change if there is an error in the form. Therefore, this
+ * has its own component to prevent unnecessary re-renders below it in the tree
+ */
 const EntryFormErrorSpy = () => {
     const setFormErrors = useEntryFormStore((state) => state.setErrors)
 
