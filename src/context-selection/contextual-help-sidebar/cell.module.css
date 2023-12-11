@@ -26,6 +26,10 @@
     cursor: not-allowed;
 }
 
+.inputWarning {
+    composes: warning from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
 .topRightIndicator {
     composes: topRightIndicator from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }

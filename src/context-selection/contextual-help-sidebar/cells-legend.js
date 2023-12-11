@@ -58,6 +58,12 @@ export default function CellsLegend() {
             <Divider />
 
             <CellsLegendSymbol
+                name={i18n.t('Warning, saved')}
+                state="WARNING"
+            />
+            <Divider />
+
+            <CellsLegendSymbol
                 name={i18n.t('Locked, not editable')}
                 state="LOCKED"
             />

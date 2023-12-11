@@ -12,6 +12,7 @@ const Cell = ({ value, state }) => (
                     [styles.inputInvalid]: state === 'INVALID',
                     [styles.inputSynced]: state === 'SYNCED',
                     [styles.inputLocked]: state === 'LOCKED',
+                    [styles.inputWarning]: state === 'WARNING',
                 })}
             >
                 {value}
