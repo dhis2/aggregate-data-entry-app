@@ -1,3 +1,11 @@
+## [100.3.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.7...v100.3.8) (2023-12-13)
+
+
+### Bug Fixes
+
+* prevent unnecessary renders when form has errors ([#358](https://github.com/dhis2/aggregate-data-entry-app/issues/358)) ([25e8d74](https://github.com/dhis2/aggregate-data-entry-app/commit/25e8d743138f4b5cdba5211baa8622ec3ed3f78f))
+* **validator:** limits as warning instead of error ([#357](https://github.com/dhis2/aggregate-data-entry-app/issues/357)) ([8e61906](https://github.com/dhis2/aggregate-data-entry-app/commit/8e619067a560f11982781691408aa3b63d1d10ad))
+
 ## [100.3.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.6...v100.3.7) (2023-10-05)
 
 
