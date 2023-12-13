@@ -39,7 +39,6 @@
     z-index: 1;
 }
 
-
 .highlighted.active {
     outline-color: var(--theme-focus) !important;
 }
@@ -54,6 +53,15 @@
         var(--colors-grey200) 0,
         var(--colors-grey200) 50%
     );
+}
+
+.warning:not(.active) {
+    background: var(--colors-yellow100);
+    outline: 1px solid var(--colors-yellow300);
+}
+
+.warning:hover {
+    background: var(--colors-yellow200);
 }
 
 .invalid:not(.active) {
@@ -71,7 +79,6 @@
 .synced:hover {
     background: #d8eeda;
 }
-
 
 .topRightIndicator {
     position: absolute;
@@ -111,6 +118,6 @@
 
 @media print {
     .hideForPrint {
-        composes: hideForPrint from '../../app/app.css'
+        composes: hideForPrint from '../../app/app.css';
     }
 }

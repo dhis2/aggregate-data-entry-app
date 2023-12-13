@@ -5,12 +5,16 @@ import { useField } from 'react-final-form'
 import {
     NUMBER_TYPES,
     VALUE_TYPES,
+    useEntryFormStore,
     useSetDataValueMutation,
 } from '../../shared/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
-import { validateByValueTypeWithLimits } from './validators.js'
+import {
+    validateByValueType,
+    warningValidateByValueType,
+} from './validators.js'
 
 const htmlTypeAttrsByValueType = {
     [VALUE_TYPES.DATE]: 'date',
@@ -46,9 +50,25 @@ export const GenericInput = ({
             return value.trim()
         }
     }
+    const setWarning = useEntryFormStore((state) => state.setWarning)
+
+    const warningValidate = (value) => {
+        const warningValidator = warningValidateByValueType(valueType, limits)
+        const warningValidationResult = warningValidator(value)
+        setWarning(fieldname, warningValidationResult)
+    }
+
     const { input, meta } = useField(fieldname, {
-        validate: validateByValueTypeWithLimits(valueType, limits),
-        subscription: { value: true, dirty: true, valid: true, data: true },
+        validate: (value) => {
+            warningValidate(value)
+            return validateByValueType(valueType, limits)(value)
+        },
+        subscription: {
+            value: true,
+            dirty: true,
+            valid: true,
+            data: true,
+        },
         format: formatValue,
         formatOnBlur: true,
         // This is required to ensure form is validated on first page load

@@ -9,6 +9,7 @@ import {
     useDataValueParams,
     useValueStore,
     useSyncErrorsStore,
+    useEntryFormStore,
 } from '../../shared/index.js'
 import styles from './data-entry-cell.module.css'
 import { ValidationTooltip } from './validation-tooltip.js'
@@ -94,22 +95,27 @@ export function InnerWrapper({
     const clearSyncError = useSyncErrorsStore(
         (state) => state.clearErrorByDataValueParams
     )
+    const warning = useEntryFormStore((state) => state.getWarning(fieldname))
+    const fieldErrorMessage = error ?? warning
 
     const errorMessage =
         error && syncError ? (
             <div className={styles.validationTooltipMessage}>
-                <div>{error}</div>
+                <div>{fieldErrorMessage}</div>
                 <div>{syncError.displayMessage}</div>
             </div>
         ) : (
-            error ?? syncError?.displayMessage
+            fieldErrorMessage ?? syncError?.displayMessage
         )
+
     const valueSynced = data.lastSyncedValue === value
     const showSynced = dirty && valueSynced
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
     const cellStateClassName = invalid
         ? styles.invalid
+        : warning
+        ? styles.warning
         : activeMutations === 0 && showSynced
         ? styles.synced
         : null
@@ -137,7 +143,7 @@ export function InnerWrapper({
         <ValidationTooltip
             fieldname={fieldname}
             active={active}
-            invalid={invalid || !!syncError}
+            enabled={!!warning || invalid || !!syncError}
             content={errorMessage}
         >
             <div

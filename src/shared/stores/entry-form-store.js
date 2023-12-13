@@ -1,7 +1,9 @@
+import { setIn, getIn } from 'final-form'
 import create from 'zustand'
 
 const inititalState = {
     errors: {},
+    warnings: {},
 }
 
 export const useEntryFormStore = create((set, get) => ({
@@ -9,6 +11,15 @@ export const useEntryFormStore = create((set, get) => ({
     setErrors: (errors) => set({ errors: errors ?? {} }),
     getErrors: () => get().errors,
     getNumberOfErrors: () => countLeaves(get().getErrors()),
+    getWarnings: () => get().warnings,
+    getWarning: (fieldname) => getIn(get().getWarnings(), fieldname),
+    setWarning: (fieldname, warning) => {
+        const warnings = get().getWarnings()
+        // setIn from final-form is used to create the same structure as errors
+        const newWarnings = setIn(warnings, fieldname, warning) ?? {}
+        set({ warnings: newWarnings })
+    },
+    // could add getNumberOfWarnings if needed
 }))
 
 // errors object is the same shape as form-Values
