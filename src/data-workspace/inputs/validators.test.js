@@ -163,7 +163,7 @@ describe('warningValidateByValueType', () => {
             ).toBeUndefined()
         })
 
-        it('should not return error for type that support limits and only has min defined', () => {
+        it('should not return error for type that support limits and only has max defined', () => {
             expect(
                 warningValidateByValueType(VALUE_TYPES.NUMBER, {
                     max: 10,
