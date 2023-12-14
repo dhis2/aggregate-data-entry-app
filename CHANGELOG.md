@@ -1,3 +1,10 @@
+## [100.3.9](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.8...v100.3.9) (2023-12-14)
+
+
+### Bug Fixes
+
+* **integer validation:** limit range to the accepted range of the dhis2-core ([#364](https://github.com/dhis2/aggregate-data-entry-app/issues/364)) ([0d3d41c](https://github.com/dhis2/aggregate-data-entry-app/commit/0d3d41c850214a5f34d6b8f7aee19c8c9a1a79c9))
+
 ## [100.3.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.7...v100.3.8) (2023-12-13)
 
 
