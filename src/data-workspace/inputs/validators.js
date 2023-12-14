@@ -6,12 +6,15 @@ import {
     createMinNumber,
     createNumberRange,
     email,
-    integer,
     internationalPhoneNumber,
     number,
     url,
 } from '@dhis2/ui-forms'
-import { CAN_HAVE_LIMITS_TYPES, VALUE_TYPES } from '../../shared/index.js'
+import {
+    CAN_HAVE_LIMITS_TYPES,
+    VALUE_TYPES,
+    isInteger,
+} from '../../shared/index.js'
 
 export const text = createMaxCharacterLength(50000)
 export const letter = createMaxCharacterLength(1)
@@ -53,16 +56,16 @@ export const time = (value) =>
               c: ':',
           })
 
-export const integerPositive = composeValidators(integer, createMinNumber(1))
+export const integerPositive = composeValidators(isInteger, createMinNumber(1))
 export const integerZeroOrPositive = composeValidators(
-    integer,
+    isInteger,
     createMinNumber(0)
 )
-export const integerNegative = composeValidators(integer, createMaxNumber(-1))
+export const integerNegative = composeValidators(isInteger, createMaxNumber(-1))
 
 export const percentage = createNumberRange(0, 100)
 const percentageInteger = composeValidators(
-    integer,
+    isInteger,
     createMinNumber(0),
     createMaxNumber(100)
 )
@@ -73,7 +76,7 @@ export const validatorsByValueType = {
     [VALUE_TYPES.DATE]: null, // todo (in case browser doesn't support special input)
     [VALUE_TYPES.DATETIME]: null, // todo " "
     [VALUE_TYPES.EMAIL]: email,
-    [VALUE_TYPES.INTEGER]: integer,
+    [VALUE_TYPES.INTEGER]: isInteger,
     [VALUE_TYPES.INTEGER_POSITIVE]: integerPositive,
     [VALUE_TYPES.INTEGER_NEGATIVE]: integerNegative,
     [VALUE_TYPES.INTEGER_ZERO_OR_POSITIVE]: integerZeroOrPositive,
@@ -104,12 +107,12 @@ export const warningValidateByValueType = (valueType, limits) => {
 }
 
 export const minMaxValidatorsByValueType = {
-    [VALUE_TYPES.INTEGER]: integer,
+    [VALUE_TYPES.INTEGER]: isInteger,
     [VALUE_TYPES.INTEGER_POSITIVE]: integerPositive,
     [VALUE_TYPES.INTEGER_NEGATIVE]: integerNegative,
     [VALUE_TYPES.INTEGER_ZERO_OR_POSITIVE]: integerZeroOrPositive,
     // backend restricts minimum and maximum to integers
-    [VALUE_TYPES.NUMBER]: integer,
+    [VALUE_TYPES.NUMBER]: isInteger,
     [VALUE_TYPES.PERCENTAGE]: percentageInteger,
 }
 
