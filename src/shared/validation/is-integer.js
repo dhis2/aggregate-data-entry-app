@@ -14,6 +14,8 @@ import { integer } from '@dhis2/ui-forms'
  *
  * This validator re-uses `@dhis2/ui`'s validator but restricts the integer to
  * the range allowed by the Java core.
+ *
+ * @param {string} value
  */
 export function isInteger(value) {
     const error = integer(value)
@@ -21,8 +23,9 @@ export function isInteger(value) {
         return error
     }
 
-    const exceedsLowerBound = value < -2147483648
-    const exceedsUpperBound = value > 2147483648
+    const valueAsNumber = parseInt(value, 10)
+    const exceedsLowerBound = valueAsNumber < -2147483648
+    const exceedsUpperBound = valueAsNumber > 2147483647
     if (exceedsLowerBound || exceedsUpperBound) {
         return i18n.t(
             'Integer numbers have to be in the range from -2147483648 to 2147483647'
