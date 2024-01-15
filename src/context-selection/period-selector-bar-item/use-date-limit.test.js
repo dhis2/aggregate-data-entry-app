@@ -5,7 +5,11 @@ import {
     useMetadata,
     periodTypesMapping,
 } from '../../shared/index.js'
-import { useDateLimit, computePeriodDateLimit } from './use-date-limit.js'
+import {
+    useDateLimit,
+    computePeriodDateLimit,
+    getDateInTimeZone,
+} from './use-date-limit.js'
 
 export const reversedPeriodTypesMapping = Object.fromEntries(
     Object.entries(periodTypesMapping).map(([key, value]) => [value, key])
@@ -42,6 +46,23 @@ jest.mock('../../shared/date/use-server-time-offset.js', () => ({
     default: jest.fn(() => 0),
 }))
 
+describe('getDateInTimeZone', () => {
+    it('should return a date corrected that corresponds to the browser time zone', () => {
+        // note that we are setting the time zone for tests to UTC, so new Date() and getDateInTimeZone() are equivalent
+        const dateString = '2024-01-01'
+        const actual = getDateInTimeZone(dateString)
+        const expected = new Date(dateString)
+        expect(actual).toEqual(expected)
+    })
+
+    it('should use Date constructor if date is not in format yyyy-mm-dd', () => {
+        const dateString = '2024-01-01T12:00:00'
+        const actual = getDateInTimeZone(dateString)
+        const expected = new Date(dateString)
+        expect(actual).toEqual(expected)
+    })
+})
+
 describe('computePeriodDateLimit', () => {
     const actualSystemTime = new Date()
     jest.useFakeTimers()
@@ -51,7 +72,7 @@ describe('computePeriodDateLimit', () => {
     })
 
     it('it should return the "2022-04-01" date', () => {
-        const currentDate = new Date('2023-03-01')
+        const currentDate = getDateInTimeZone('2023-03-01')
         jest.setSystemTime(currentDate)
 
         const actual = computePeriodDateLimit({
@@ -59,13 +80,13 @@ describe('computePeriodDateLimit', () => {
             serverDate: currentDate,
             openFuturePeriods: 0,
         })
-        const expected = new Date('2022-04-01')
+        const expected = getDateInTimeZone('2022-04-01')
 
         expect(actual).toEqual(expected)
     })
 
     it('it should return the "2023-04-01" period', () => {
-        const currentDate = new Date('2023-05-01')
+        const currentDate = getDateInTimeZone('2023-05-01')
         jest.setSystemTime(currentDate)
 
         const actual = computePeriodDateLimit({
@@ -73,7 +94,7 @@ describe('computePeriodDateLimit', () => {
             serverDate: currentDate,
             openFuturePeriods: 0,
         })
-        const expected = new Date('2023-04-01')
+        const expected = getDateInTimeZone('2023-04-01')
 
         expect(actual).toEqual(expected)
     })
