@@ -1,3 +1,10 @@
+## [100.3.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.9...v100.3.10) (2024-01-16)
+
+
+### Bug Fixes
+
+* adjust time zone for dateLimit [DHIS2-16470] ([#366](https://github.com/dhis2/aggregate-data-entry-app/issues/366)) ([789a818](https://github.com/dhis2/aggregate-data-entry-app/commit/789a8181eed54e54cfca69043039b68fe9156c57))
+
 ## [100.3.9](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.8...v100.3.9) (2023-12-14)
 
 
