@@ -14,6 +14,14 @@ import {
     useClientServerDate,
 } from '../../shared/index.js'
 
+export const getDateInTimeZone = (dateString) => {
+    const [yyyy, mm, dd] = dateString.split('-')
+    if (isNaN(Number(yyyy)) || isNaN(Number(dd)) || isNaN(Number(mm))) {
+        return new Date(dateString)
+    }
+    return new Date(yyyy, Number(mm) - 1, dd)
+}
+
 export const computePeriodDateLimit = ({
     periodType,
     serverDate,
@@ -29,7 +37,7 @@ export const computePeriodDateLimit = ({
     })
 
     if (openFuturePeriods <= 0) {
-        return new Date(currentPeriod.startDate)
+        return getDateInTimeZone(currentPeriod.startDate)
     }
 
     const followingPeriods = getAdjacentFixedPeriods({
@@ -40,7 +48,7 @@ export const computePeriodDateLimit = ({
 
     const [lastFollowingPeriod] = followingPeriods.slice(-1)
 
-    return new Date(lastFollowingPeriod.startDate)
+    return getDateInTimeZone(lastFollowingPeriod.startDate)
 }
 
 /**
