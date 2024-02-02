@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-08-10T08:31:47.096Z\n"
-"PO-Revision-Date: 2023-08-10T08:31:47.096Z\n"
+"POT-Creation-Date: 2024-01-19T13:07:38.302Z\n"
+"PO-Revision-Date: 2024-01-19T13:07:38.302Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -209,6 +209,9 @@ msgstr "Data item has a comment"
 
 msgid "Invalid value, not saved"
 msgstr "Invalid value, not saved"
+
+msgid "Warning, saved"
+msgstr "Warning, saved"
 
 msgid "Locked, not editable"
 msgstr "Locked, not editable"
@@ -588,3 +591,6 @@ msgstr "{{title}} (disabled)"
 
 msgid "Close details sidebar"
 msgstr "Close details sidebar"
+
+msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
+msgstr "Integer numbers have to be in the range from -2147483648 to 2147483647"

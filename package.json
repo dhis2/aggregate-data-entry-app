@@ -30,7 +30,7 @@
     "devDependencies": {
         "@badeball/cypress-cucumber-preprocessor": "^16.0.0",
         "@cypress/webpack-preprocessor": "^5.17.0",
-        "@dhis2/cli-app-scripts": "^10.2.3",
+        "@dhis2/cli-app-scripts": "^10.4.1",
         "@dhis2/cli-style": "10.5.1",
         "@dhis2/cypress-commands": "^10.0.1",
         "@dhis2/cypress-plugins": "^10.0.1",
@@ -48,9 +48,9 @@
         "start-server-and-test": "1.15.4"
     },
     "dependencies": {
-        "@dhis2/app-runtime": "^3.8.0",
-        "@dhis2/multi-calendar-dates": "^1.0.0-alpha.22",
-        "@dhis2/ui": "^8.12.0",
+        "@dhis2/app-runtime": "^3.10.2",
+        "@dhis2/multi-calendar-dates": "^1.1.0",
+        "@dhis2/ui": "8.16.0",
         "@dhis2/ui-forms": "7.16.3",
         "@tanstack/react-query": "4.24.10",
         "@tanstack/react-query-devtools": "4.24.14",
@@ -74,6 +74,9 @@
         "tabbable": "5.3.3",
         "use-query-params": "1.2.3",
         "zustand": "4.1.5"
+    },
+    "resolutions": {
+        "@dhis2/multi-calendar-dates": "^1.1.0"
     },
     "engines": {
         "node": ">=14.0.0"
