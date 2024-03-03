@@ -1,14 +1,15 @@
 # 
 # Translators:
-# phil_dhis2, 2022
+# Philip Larsen Donnelly, 2022
 # Viktor Varland <viktor@dhis2.org>, 2022
+# Thiago Rocha, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
+"Last-Translator: Thiago Rocha, 2024\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/hisp-uio/teams/100509/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -297,7 +298,7 @@ msgid "All sections"
 msgstr ""
 
 msgid "Section"
-msgstr ""
+msgstr "Seção"
 
 msgid "Fetching data set info"
 msgstr ""
@@ -330,7 +331,7 @@ msgid "Unmark for follow-up"
 msgstr ""
 
 msgid "Mark for follow-up"
-msgstr ""
+msgstr "Marcar para acompanhamento"
 
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
@@ -390,7 +391,7 @@ msgid "Details"
 msgstr "Detalhes"
 
 msgid "History"
-msgstr ""
+msgstr "Histórico"
 
 msgid "Something went wrong loading the history"
 msgstr ""

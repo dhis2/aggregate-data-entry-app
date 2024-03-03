@@ -1,16 +1,16 @@
 # 
 # Translators:
 # 晓东 林 <13981924470@126.com>, 2022
-# phil_dhis2, 2022
 # Viktor Varland <viktor@dhis2.org>, 2022
 # easylin <lin_xd@126.com>, 2023
+# Philip Larsen Donnelly, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: easylin <lin_xd@126.com>, 2023\n"
+"Last-Translator: Philip Larsen Donnelly, 2024\n"
 "Language-Team: Chinese (https://app.transifex.com/hisp-uio/teams/100509/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,7 +182,7 @@ msgid "1 selection"
 msgstr "1 个选择"
 
 msgid "{{amount}} selections"
-msgstr "{{数量}}个选择"
+msgstr "{{amount}}个选择"
 
 msgid "Cell reference"
 msgstr "单元格参考"
@@ -308,7 +308,7 @@ msgid "Error occurred while loading data set info"
 msgstr "加载数据集信息时出错"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
-msgstr "自定义表单无法离线使用。 {{错误}}"
+msgstr "自定义表单无法离线使用。 {{error}}"
 
 msgid "Value"
 msgstr "值"
@@ -341,7 +341,7 @@ msgid "You do not have the authority to mark this value for follow -up"
 msgstr "您无权将此值标记为后续跟进"
 
 msgid "Description: {{- description}}"
-msgstr "说明：{{-说明}}"
+msgstr "说明：{{- description}}"
 
 msgid "Code: {{code}}"
 msgstr "代码：{{code}}"
