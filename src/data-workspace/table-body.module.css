@@ -71,3 +71,32 @@
 .hidden {
     display: none;
 }
+
+/* styles for pivoted table */
+.noWrap {
+    white-space: nowrap;
+}
+
+.pivotedHeader {
+    composes: tableHeader;
+    font-weight: 300;
+}
+
+.dataElementRowHeader {
+    composes: cellBase;
+    /* background-color: transparent !important; */
+    /* font-weight: 400; */
+    text-align: left;
+}
+
+.categoryOption {
+    font-weight: 500;
+}
+.dataElement {
+    font-weight: 400;
+    background-color: transparent;
+    text-align: left;
+}
+.category {
+    font-weight: 300;
+}

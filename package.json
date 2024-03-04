@@ -30,7 +30,7 @@
     "devDependencies": {
         "@badeball/cypress-cucumber-preprocessor": "^16.0.0",
         "@cypress/webpack-preprocessor": "^5.17.0",
-        "@dhis2/cli-app-scripts": "^10.2.3",
+        "@dhis2/cli-app-scripts": "^10.4.0",
         "@dhis2/cli-style": "10.5.1",
         "@dhis2/cypress-commands": "^10.0.1",
         "@dhis2/cypress-plugins": "^10.0.1",
@@ -45,12 +45,13 @@
         "enzyme-adapter-react-16": "1.15.7",
         "eslint-plugin-cypress": "2.12.1",
         "fake-indexeddb": "4.0.1",
+        "jest-extended": "^4.0.2",
         "start-server-and-test": "1.15.4"
     },
     "dependencies": {
-        "@dhis2/app-runtime": "^3.8.0",
-        "@dhis2/multi-calendar-dates": "^1.0.0-alpha.22",
-        "@dhis2/ui": "^8.12.0",
+        "@dhis2/app-runtime": "^3.10.2",
+        "@dhis2/multi-calendar-dates": "^1.1.0",
+        "@dhis2/ui": "^9.2.0",
         "@dhis2/ui-forms": "7.16.3",
         "@tanstack/react-query": "4.24.10",
         "@tanstack/react-query-devtools": "4.24.14",
@@ -77,5 +78,10 @@
     },
     "engines": {
         "node": ">=14.0.0"
+    },
+    "resolutions": {
+        "@dhis2/multi-calendar-dates": "^1.1.0",
+        "@dhis2/ui": "^9.2.0",
+        "@dhis2/app-runtime": "^3.10.2"
     }
 }
