@@ -1,3 +1,10 @@
+# [100.4.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.10...v100.4.0) (2024-03-05)
+
+
+### Features
+
+* **DHIS2-16132:** add ability to transpose/pivot a section form ([#367](https://github.com/dhis2/aggregate-data-entry-app/issues/367)) ([1d841ab](https://github.com/dhis2/aggregate-data-entry-app/commit/1d841abca6c6f42176c4873c1db46972353a4177))
+
 ## [100.3.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.9...v100.3.10) (2024-01-16)
 
 
