@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { selectors } from '../../../shared/index.js'
 
 export const generateMatrixTransposed = (options) => {
@@ -16,6 +17,7 @@ export const generateMatrixTransposed = (options) => {
             ...columnHeaderFields.map((header) => {
                 return {
                     id: header?.id,
+                    name: header.name,
                     displayFormName: header?.displayFormName,
                     type: 'columnHeader',
                     metadataType: header.valueType ? 'dataElement' : 'category',
@@ -43,11 +45,16 @@ export const generateMatrixTransposed = (options) => {
             if (!alreadyAdded[categoryOption.id] || lastCateogry) {
                 dataEntryRow.push({
                     id: categoryOption?.id,
-                    displayFormName: categoryOption?.displayName,
+                    displayFormName:
+                        categoryOption?.name === 'default'
+                            ? i18n.t('Value')
+                            : categoryOption?.displayName,
                     rowSpan:
-                        sortedCOCs.length /
-                        categories.length /
-                        (categoryIndex + 1),
+                        categories.length === 1
+                            ? 1
+                            : sortedCOCs.length /
+                              categories.length /
+                              (categoryIndex + 1),
                     type: 'rowHeader',
                 })
                 alreadyAdded[categoryOption.id] = true

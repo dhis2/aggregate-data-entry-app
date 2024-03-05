@@ -10,7 +10,7 @@ import {
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useMemo, useState } from 'react'
-import { useMetadata, selectors, useFeature } from '../../shared/index.js'
+import { useMetadata, selectors } from '../../shared/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import {
     PivotedCategoryComboTableBody,
@@ -68,26 +68,6 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
 
     const { displayOptions: displayOptionString } = section
     const displayOptions = JSON.parse(displayOptionString)
-
-    // feature toggle to enable testing this feature without maintenance app
-    // format of toggle is: &features=pivot_fMZEcRHuamy
-    // (to add to the query parameter)
-    const featureTogglePivotOptions = useFeature('pivot')
-
-    console.debug('[feature toggle: pivotOptions]', featureTogglePivotOptions)
-    if (featureTogglePivotOptions) {
-        displayOptions.pivotMode = 'pivot'
-
-        if (featureTogglePivotOptions.length) {
-            const [pivotedCategory] = featureTogglePivotOptions
-
-            if (pivotedCategory) {
-                displayOptions.pivotMode = 'move_categories'
-                displayOptions.pivotedCategory = pivotedCategory
-            }
-            console.debug('[feature: final displayOptions]', displayOptions)
-        }
-    }
 
     const isPivotMode =
         displayOptions.pivotMode === 'move_categories' ||

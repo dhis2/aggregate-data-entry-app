@@ -94,8 +94,7 @@ export const PivotedCategoryComboTableBody = React.memo(
                                             colSpan={fieldInRow.colSpan}
                                             rowSpan={fieldInRow.rowSpan}
                                         >
-                                            {fieldInRow.displayFormName !==
-                                                'default' &&
+                                            {fieldInRow.name !== 'default' &&
                                                 fieldInRow.displayFormName}
                                         </TableCellHead>
                                     )

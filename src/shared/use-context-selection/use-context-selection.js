@@ -27,20 +27,6 @@ export function usePeriodId() {
     return useQueryParam('periodId', PARAMS_SCHEMA.periodId)
 }
 
-export function useFeature(feature) {
-    const [allFeatures] = useQueryParam('features', StringParam)
-    const features = allFeatures?.split(',')
-
-    const featureWithOptions = features?.find((feat) =>
-        feat.includes(`${feature}_`)
-    )
-
-    if (featureWithOptions) {
-        return featureWithOptions.replace(`${feature}_`, '')?.split(',')
-    }
-    return features?.includes(feature)
-}
-
 /**
  *
  * @returns the selected attribute-options in the shape of
