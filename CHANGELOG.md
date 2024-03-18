@@ -1,3 +1,10 @@
+# [100.5.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.4.0...v100.5.0) (2024-03-18)
+
+
+### Features
+
+* **DHIS2-17002:** display custom text before and after a section ([#373](https://github.com/dhis2/aggregate-data-entry-app/issues/373)) ([0fdd239](https://github.com/dhis2/aggregate-data-entry-app/commit/0fdd239979050029bee808fa6955f76f9a88e7fe))
+
 # [100.4.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.3.10...v100.4.0) (2024-03-05)
 
 
