@@ -12,10 +12,7 @@ import PropTypes from 'prop-types'
 import React, { useMemo, useState } from 'react'
 import { useMetadata, selectors } from '../../shared/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
-import {
-    PivotedCategoryComboTableBody,
-    DisplayOptionsProps,
-} from '../category-combo-table-body-pivoted/index.js'
+import { PivotedCategoryComboTableBody } from '../category-combo-table-body-pivoted/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'
 import { SectionDescription } from './section-description.js'
@@ -171,7 +168,7 @@ SectionFormSection.propTypes = {
         description: PropTypes.string,
         disableDataElementAutoGroup: PropTypes.bool,
         displayName: PropTypes.string,
-        displayOptions: DisplayOptionsProps,
+        displayOptions: PropTypes.string,
         greyedFields: PropTypes.array,
         id: PropTypes.string,
         showColumnTotals: PropTypes.bool,

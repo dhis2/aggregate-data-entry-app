@@ -146,13 +146,6 @@ export const PivotedCategoryComboTableBody = React.memo(
     }
 )
 
-export const DisplayOptionsProps = PropTypes.shape({
-    pivotMode: PropTypes.oneOf(['move_categories', 'pivot']),
-    pivotedCategory: PropTypes.string,
-    textAfterSection: PropTypes.string,
-    textBeforeSection: PropTypes.string,
-})
-
 PivotedCategoryComboTableBody.propTypes = {
     categoryCombo: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -167,7 +160,12 @@ PivotedCategoryComboTableBody.propTypes = {
             valueType: PropTypes.string,
         })
     ),
-    displayOptions: DisplayOptionsProps,
+    displayOptions: PropTypes.shape({
+        afterSectionText: PropTypes.string,
+        beforeSectionText: PropTypes.string,
+        pivotMode: PropTypes.oneOf(['move_categories', 'pivot']),
+        pivotedCategory: PropTypes.string,
+    }),
     /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
     greyedFields: PropTypes.instanceOf(Set),
 }
