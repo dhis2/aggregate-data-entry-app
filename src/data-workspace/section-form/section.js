@@ -12,12 +12,10 @@ import PropTypes from 'prop-types'
 import React, { useMemo, useState } from 'react'
 import { useMetadata, selectors } from '../../shared/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
-import {
-    PivotedCategoryComboTableBody,
-    DisplayOptionsProps,
-} from '../category-combo-table-body-pivoted/index.js'
+import { PivotedCategoryComboTableBody } from '../category-combo-table-body-pivoted/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'
+import { SectionDescription } from './section-description.js'
 import styles from './section.module.css'
 
 export function SectionFormSection({ section, dataSetId, globalFilterText }) {
@@ -77,72 +75,86 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
         ? PivotedCategoryComboTableBody
         : CategoryComboTableBody
 
+    const { beforeSectionText, afterSectionText } = displayOptions
+
     return (
-        <Table className={styles.table} suppressZebraStriping>
-            <TableHead>
-                <TableRowHead>
-                    <TableCellHead colSpan="100%" className={styles.headerCell}>
-                        <div className={styles.labelWrapper}>
-                            <div className={styles.title}>
-                                {section.displayName}
-                            </div>
-                            {section.description && (
-                                <div className={styles.description}>
-                                    {section.description ||
-                                        'Placeholder section description'}
-                                </div>
-                            )}
-                        </div>
-                    </TableCellHead>
-                </TableRowHead>
-                <TableRowHead>
-                    <TableCellHead colSpan="100%" className={headerCellStyles}>
-                        <label
-                            htmlFor={filterInputId}
-                            className={styles.filterWrapper}
+        <div>
+            <SectionDescription>{beforeSectionText}</SectionDescription>
+            <Table className={styles.table} suppressZebraStriping>
+                <TableHead>
+                    <TableRowHead>
+                        <TableCellHead
+                            colSpan="100%"
+                            className={styles.headerCell}
                         >
-                            <IconFilter16 color={colors.grey600} />
-                            <input
-                                name={filterInputId}
-                                id={filterInputId}
-                                type="text"
-                                placeholder={i18n.t(
-                                    'Type here to filter in this section'
+                            <div className={styles.labelWrapper}>
+                                <div className={styles.title}>
+                                    {section.displayName}
+                                </div>
+                                {section.description && (
+                                    <div className={styles.description}>
+                                        {section.description ||
+                                            'Placeholder section description'}
+                                    </div>
                                 )}
-                                value={filterText}
-                                onChange={({ target }) =>
-                                    setFilterText(target.value)
-                                }
-                                className={styles.filterInput}
-                            />
-                        </label>
-                    </TableCellHead>
-                </TableRowHead>
-            </TableHead>
-            {groupedDataElements.map(({ categoryCombo, dataElements }, i) => (
-                <TableComponet
-                    key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
-                    categoryCombo={categoryCombo}
-                    dataElements={dataElements}
-                    filterText={filterText}
-                    globalFilterText={globalFilterText}
-                    maxColumnsInSection={maxColumnsInSection}
-                    renderRowTotals={section.showRowTotals}
-                    renderColumnTotals={section.showColumnTotals}
-                    greyedFields={greyedFields}
-                    displayOptions={displayOptions}
-                />
-            ))}
-            {indicators.length > 0 && (
-                <IndicatorsTableBody
-                    indicators={indicators}
-                    renderRowTotals={section.showRowTotals}
-                    maxColumnsInSection={maxColumnsInSection}
-                    filterText={filterText}
-                    globalFilterText={globalFilterText}
-                />
-            )}
-        </Table>
+                            </div>
+                        </TableCellHead>
+                    </TableRowHead>
+                    <TableRowHead>
+                        <TableCellHead
+                            colSpan="100%"
+                            className={headerCellStyles}
+                        >
+                            <label
+                                htmlFor={filterInputId}
+                                className={styles.filterWrapper}
+                            >
+                                <IconFilter16 color={colors.grey600} />
+                                <input
+                                    name={filterInputId}
+                                    id={filterInputId}
+                                    type="text"
+                                    placeholder={i18n.t(
+                                        'Type here to filter in this section'
+                                    )}
+                                    value={filterText}
+                                    onChange={({ target }) =>
+                                        setFilterText(target.value)
+                                    }
+                                    className={styles.filterInput}
+                                />
+                            </label>
+                        </TableCellHead>
+                    </TableRowHead>
+                </TableHead>
+                {groupedDataElements.map(
+                    ({ categoryCombo, dataElements }, i) => (
+                        <TableComponet
+                            key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
+                            categoryCombo={categoryCombo}
+                            dataElements={dataElements}
+                            filterText={filterText}
+                            globalFilterText={globalFilterText}
+                            maxColumnsInSection={maxColumnsInSection}
+                            renderRowTotals={section.showRowTotals}
+                            renderColumnTotals={section.showColumnTotals}
+                            greyedFields={greyedFields}
+                            displayOptions={displayOptions}
+                        />
+                    )
+                )}
+                {indicators.length > 0 && (
+                    <IndicatorsTableBody
+                        indicators={indicators}
+                        renderRowTotals={section.showRowTotals}
+                        maxColumnsInSection={maxColumnsInSection}
+                        filterText={filterText}
+                        globalFilterText={globalFilterText}
+                    />
+                )}
+            </Table>
+            <SectionDescription>{afterSectionText}</SectionDescription>
+        </div>
     )
 }
 
@@ -156,7 +168,7 @@ SectionFormSection.propTypes = {
         description: PropTypes.string,
         disableDataElementAutoGroup: PropTypes.bool,
         displayName: PropTypes.string,
-        displayOptions: DisplayOptionsProps,
+        displayOptions: PropTypes.string,
         greyedFields: PropTypes.array,
         id: PropTypes.string,
         showColumnTotals: PropTypes.bool,

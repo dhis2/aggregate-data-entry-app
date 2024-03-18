@@ -72,3 +72,17 @@
         composes: hideForPrint from '../../app/app.css'
     }
 }
+
+/* section description area */
+.sectionDescription {
+    margin: 12px 4px 8px;
+    font-size: 13px;
+    color: var(--colors-grey800)
+}
+
+.sectionDescription :global(a):link,
+.sectionDescription :global(a):visited,
+.sectionDescription :global(a):hover,
+.sectionDescription :global(a):active {
+    color: var(--colors-blue700)
+}
