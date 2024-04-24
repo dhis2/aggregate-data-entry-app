@@ -8,7 +8,7 @@ export const SectionDescription = ({ children }) => {
         return null
     }
     const html = DOMPurify.sanitize(children, {
-        ALLOWED_TAGS: ['a', 'b', 'strong', 'underline'],
+        ALLOWED_TAGS: ['a', 'b', 'strong', 'u', 'em'],
     })
 
     return (
