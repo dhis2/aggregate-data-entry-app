@@ -1,3 +1,10 @@
+## [100.5.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.5.0...v100.5.1) (2024-04-25)
+
+
+### Bug Fixes
+
+* **DHIS2-17002:** accept 'u' html tag instead of 'underline' ([8109a75](https://github.com/dhis2/aggregate-data-entry-app/commit/8109a75141afc6ae2a3a1d39f7111b0daf9fb99a))
+
 # [100.5.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.4.0...v100.5.0) (2024-03-18)
 
 
