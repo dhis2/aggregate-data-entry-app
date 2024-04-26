@@ -15,6 +15,7 @@ import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import { PivotedCategoryComboTableBody } from '../category-combo-table-body-pivoted/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'
+import { getDisplayOptions } from './displayOptions.js'
 import { SectionDescription } from './section-description.js'
 import styles from './section.module.css'
 
@@ -64,14 +65,13 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
     const filterInputId = `filter-input-${section.id}`
     const headerCellStyles = classNames(styles.headerCell, styles.hideForPrint)
 
-    const { displayOptions: displayOptionString } = section
-    const displayOptions = JSON.parse(displayOptionString)
+    const displayOptions = getDisplayOptions(section)
 
     const isPivotMode =
-        displayOptions.pivotMode === 'move_categories' ||
-        displayOptions.pivotMode === 'pivot'
+        displayOptions?.pivotMode === 'move_categories' ||
+        displayOptions?.pivotMode === 'pivot'
 
-    const TableComponet = isPivotMode
+    const TableComponent = isPivotMode
         ? PivotedCategoryComboTableBody
         : CategoryComboTableBody
 
@@ -129,7 +129,7 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
                 </TableHead>
                 {groupedDataElements.map(
                     ({ categoryCombo, dataElements }, i) => (
-                        <TableComponet
+                        <TableComponent
                             key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
                             categoryCombo={categoryCombo}
                             dataElements={dataElements}
