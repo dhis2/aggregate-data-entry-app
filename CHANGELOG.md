@@ -1,3 +1,10 @@
+## [100.5.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.5.1...v100.5.2) (2024-05-07)
+
+
+### Bug Fixes
+
+* **section-form:** prevent crash when displayOptions are not present ([#375](https://github.com/dhis2/aggregate-data-entry-app/issues/375)) ([ef3cce1](https://github.com/dhis2/aggregate-data-entry-app/commit/ef3cce1a0748fbf197d8a4f36d8de47fa20a9ec6))
+
 ## [100.5.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.5.0...v100.5.1) (2024-04-25)
 
 
