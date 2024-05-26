@@ -1,37 +1,27 @@
 # 
 # Translators:
-# Gabriela Rodriguez <grodriguezcoronado@gmail.com>, 2022
-# Karoline Tufte Lien <karoline@dhis2.org>, 2022
-# Yayra Gomado <ygomado@hispwca.org>, 2022
-# Bram Piot <bram.piot@gmail.com>, 2022
-# Edem Kossi <ekossi@hispwca.org>, 2022
-# Philip Larsen Donnelly, 2022
-# Viktor Varland <viktor@dhis2.org>, 2022
-# Yao Selom SAKA (HISP WCA) <ysaka@hispwca.org>, 2022
-# Thomas Zemp, 2024
+# Saroj Dhakal <lotusnagarkot@gmail.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Thomas Zemp, 2024\n"
-"Language-Team: French (https://app.transifex.com/hisp-uio/teams/100509/fr/)\n"
+"Last-Translator: Saroj Dhakal <lotusnagarkot@gmail.com>, 2024\n"
+"Language-Team: Nepali (https://app.transifex.com/hisp-uio/teams/100509/ne/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"Language: ne\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Not authorized"
-msgstr "Non autorisé"
+msgstr ""
 
 msgid ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 msgstr ""
-"Vous n'avez pas accès à la Data Approval App (App. \"Approbation des "
-"données\"). Contactez un administrateur système pour demander un accès."
 
 msgid "There was a problem loading metadata"
 msgstr ""
@@ -47,13 +37,13 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr "Mark comme inachevé"
+msgstr ""
 
 msgid "Mark complete"
 msgstr ""
 
 msgid "Hide details"
-msgstr "Masquer les détails"
+msgstr ""
 
 msgid "View details"
 msgstr ""
@@ -77,7 +67,7 @@ msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
-msgstr "Exécuter validation"
+msgstr ""
 
 msgid "Last completed by"
 msgstr ""
@@ -104,13 +94,13 @@ msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
 
 msgid "High"
-msgstr "Elevé"
+msgstr "उच्च"
 
 msgid "Medium"
-msgstr "Moyen"
+msgstr "मध्यम"
 
 msgid "Low"
-msgstr "Faible"
+msgstr "न्यून"
 
 msgid "{{length}} {{level}} priority alert"
 msgstr ""
@@ -119,7 +109,7 @@ msgid "{{length}} {{level}} priority alerts"
 msgstr ""
 
 msgid "Validation"
-msgstr "Validation"
+msgstr "प्रमाणीकरण"
 
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
@@ -177,7 +167,7 @@ msgid ""
 msgstr ""
 
 msgid "Hide menu"
-msgstr "Masquer le menu"
+msgstr ""
 
 msgid "Default attribute combo"
 msgstr ""
@@ -213,16 +203,16 @@ msgid "Locked, not editable"
 msgstr ""
 
 msgid "Help"
-msgstr "Aide"
+msgstr ""
 
 msgid "or"
-msgstr "ou"
+msgstr ""
 
 msgid "Shortcuts"
 msgstr ""
 
 msgid "Show details"
-msgstr "Afficher les détails"
+msgstr ""
 
 msgid "Ctrl + Enter"
 msgstr ""
@@ -249,7 +239,7 @@ msgid "There are no data sets available!"
 msgstr ""
 
 msgid "Data set"
-msgstr "Ensemble de données"
+msgstr ""
 
 msgid "Print form with values"
 msgstr ""
@@ -258,7 +248,7 @@ msgid "Print empty form"
 msgstr ""
 
 msgid "Options"
-msgstr "Options"
+msgstr ""
 
 msgid "Search org units"
 msgstr ""
@@ -270,7 +260,7 @@ msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "Organisation unit"
-msgstr "Unité d'organisation"
+msgstr ""
 
 msgid "Choose a organisation unit"
 msgstr ""
@@ -297,16 +287,16 @@ msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
-msgstr "Période"
+msgstr ""
 
 msgid "Choose a period"
-msgstr "Choisissez une période"
+msgstr ""
 
 msgid "All sections"
 msgstr ""
 
 msgid "Section"
-msgstr "Section"
+msgstr ""
 
 msgid "Fetching data set info"
 msgstr ""
@@ -318,10 +308,10 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr "Valeur"
+msgstr ""
 
 msgid "Totals"
-msgstr "Totaux"
+msgstr ""
 
 msgid "Audit log"
 msgstr ""
@@ -330,7 +320,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr "Non disponible hors ligne"
+msgstr ""
 
 msgid "No audit log for this data item."
 msgstr ""
@@ -339,7 +329,7 @@ msgid "Unmark for follow-up"
 msgstr ""
 
 msgid "Mark for follow-up"
-msgstr "Marquer pour suivi"
+msgstr ""
 
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
@@ -363,10 +353,10 @@ msgid "Last updated {{- timeAgo}} by {{- name}}"
 msgstr ""
 
 msgid "Marked for follow-up"
-msgstr "Marqué pour suivi"
+msgstr ""
 
 msgid "Comment"
-msgstr "Commentaire"
+msgstr ""
 
 msgid "There was a problem updating the comment for this data item"
 msgstr ""
@@ -375,19 +365,19 @@ msgid "Choose an option"
 msgstr ""
 
 msgid "Saving..."
-msgstr "En cours d'enregistrer..."
+msgstr ""
 
 msgid "Save comment"
-msgstr "Enregistrer commentaires "
+msgstr ""
 
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "रद्द गर्नुहोस्"
 
 msgid "Edit comment"
 msgstr ""
 
 msgid "Add comment"
-msgstr "Ajouter commentaire"
+msgstr ""
 
 msgid "No comment for this data item."
 msgstr ""
@@ -396,10 +386,10 @@ msgid "You do not have the authority to add or edit comments"
 msgstr ""
 
 msgid "Details"
-msgstr "Détails"
+msgstr ""
 
 msgid "History"
-msgstr "Historique"
+msgstr ""
 
 msgid "Something went wrong loading the history"
 msgstr ""
@@ -423,10 +413,10 @@ msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
-msgstr "Min"
+msgstr ""
 
 msgid "Max"
-msgstr "Max"
+msgstr ""
 
 msgid "Min and max limits"
 msgstr ""
@@ -498,22 +488,22 @@ msgid "Clear filter"
 msgstr ""
 
 msgid "Indicators"
-msgstr "Indicateurs"
+msgstr ""
 
 msgid "Values"
-msgstr "Valeurs"
+msgstr ""
 
 msgid "Yes"
-msgstr "Oui"
+msgstr ""
 
 msgid "No"
-msgstr "Non"
+msgstr ""
 
 msgid "Clear"
-msgstr "Effacer"
+msgstr ""
 
 msgid "Delete"
-msgstr "Supprimer"
+msgstr ""
 
 msgid "Upload an image"
 msgstr ""

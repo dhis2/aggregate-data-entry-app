@@ -381,7 +381,7 @@ msgid "Edit comment"
 msgstr ""
 
 msgid "Add comment"
-msgstr ""
+msgstr "ເພີ່ມຄວາມເຫັນ"
 
 msgid "No comment for this data item."
 msgstr ""
