@@ -41,7 +41,7 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "ໝາຍວ່າບໍ່ຄົບຖ້ວນ"
 
 msgid "Mark complete"
 msgstr ""
