@@ -75,7 +75,7 @@
         "reselect": "4.1.7",
         "tabbable": "5.3.3",
         "use-query-params": "1.2.3",
-        "zustand": "4.1.5"
+        "zustand": "4.5.2"
     },
     "engines": {
         "node": ">=14.0.0"
