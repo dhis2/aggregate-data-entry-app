@@ -3618,10 +3618,10 @@
   dependencies:
     "@tanstack/query-core" "4.24.10"
 
-"@tanstack/react-query-devtools@4.24.14":
-  version "4.24.14"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-4.24.14.tgz#2625d80e956f2a0ab1f3fa03c87639e1b8552c1f"
-  integrity sha512-FS23V5tLBAt3mY1oAkhxTNuLa9ktvHSNHKF3IBT81G6JR9pqilq7AANIkxaMYgNenrB/LllKWdViAsbQHFrR4w==
+"@tanstack/react-query-devtools@4.36.1":
+  version "4.36.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-4.36.1.tgz#7e63601135902a993ca9af73507b125233b1554e"
+  integrity sha512-WYku83CKP3OevnYSG8Y/QO9g0rT75v1om5IvcWUwiUZJ4LanYGLVCZ8TdFG5jfsq4Ej/lu2wwDAULEUnRIMBSw==
   dependencies:
     "@tanstack/match-sorter-utils" "^8.7.0"
     superjson "^1.10.0"
