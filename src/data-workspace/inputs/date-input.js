@@ -1,5 +1,5 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { CalendarInput } from '@dhis2/ui'
-import cx from 'classnames'
 import React from 'react'
 import { useField } from 'react-final-form'
 import { useSetDataValueMutation, useUserInfo } from '../../shared/index.js'
@@ -21,6 +21,10 @@ export const DateInput = ({
             settings: { keyUiLocale },
         },
     } = useUserInfo()
+
+    const {
+        systemInfo: { calendar },
+    } = useConfig()
 
     const { input, meta } = useField(fieldname, {
         subscription: {
@@ -57,7 +61,7 @@ export const DateInput = ({
     return (
         <CalendarInput
             {...input}
-            className={cx(styles.dateInput)}
+            className={styles.dateInput}
             onFocus={(...args) => {
                 input.onFocus(...args)
                 onFocus?.(...args)
@@ -71,7 +75,7 @@ export const DateInput = ({
             disabled={disabled}
             readOnly={locked}
             date={input.value}
-            calendar={'gregory'}
+            calendar={calendar}
             onDateSelect={(date) => {
                 input.onChange(date?.calendarDateString)
             }}
