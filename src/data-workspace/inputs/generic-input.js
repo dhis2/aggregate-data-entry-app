@@ -17,7 +17,6 @@ import {
 } from './validators.js'
 
 const htmlTypeAttrsByValueType = {
-    [VALUE_TYPES.DATE]: 'date',
     [VALUE_TYPES.DATETIME]: 'datetime-local',
     [VALUE_TYPES.EMAIL]: 'email',
     [VALUE_TYPES.PHONE_NUMBER]: 'tel',
