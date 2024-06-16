@@ -272,13 +272,13 @@ msgid "No organisation units could be found"
 msgstr ""
 
 msgid "No children match filter"
-msgstr ""
+msgstr "Нет дочерних единиц, соответствующих фильтру"
 
 msgid "Could not load children"
-msgstr ""
+msgstr "¨Не удалось загрузить  дочерних единицы"
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr ""
+msgstr "Ошибка: {{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
 msgstr ""
@@ -323,7 +323,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr ""
+msgstr "Недоступно в автономном режиме"
 
 msgid "No audit log for this data item."
 msgstr ""
@@ -512,7 +512,7 @@ msgid "Upload an image"
 msgstr ""
 
 msgid "Upload a file"
-msgstr ""
+msgstr "Загрузить файл"
 
 msgid "Choose option(s)"
 msgstr ""
