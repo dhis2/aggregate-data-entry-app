@@ -35,10 +35,11 @@ msgstr ""
 "données\"). Contactez un administrateur système pour demander un accès."
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "Un problème est survenu lors du chargement des métadonnées"
 
 msgid "There was a problem loading the user's information"
 msgstr ""
+"Un problème est survenu lors du chargement des informations de l'utilisateur"
 
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
@@ -48,18 +49,20 @@ msgstr ""
 
 msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
+"Le formulaire n'a pas pu être marqué comme inachevé, veuillez réessayer plus"
+" tard."
 
 msgid "Mark incomplete"
 msgstr "Mark comme inachevé"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "Marquer comme terminé"
 
 msgid "Hide details"
 msgstr "Masquer les détails"
 
 msgid "View details"
-msgstr ""
+msgstr "Afficher les détails"
 
 msgid "1 invalid value not saved"
 msgstr ""
@@ -74,7 +77,7 @@ msgid "{{numberOfErrors}} values failed to save"
 msgstr ""
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "La validation n'est pas disponible hors-ligne"
 
 msgid "Validation is not available while changes are pending"
 msgstr ""
@@ -142,7 +145,7 @@ msgid "Running validation..."
 msgstr "Validation en cours d'exécution..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "Un problème est survenu lors de l'exécution de la validation"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
@@ -259,7 +262,7 @@ msgid "Data set"
 msgstr "Ensemble de données"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "Imprimer le formulaire avec les valeurs"
 
 msgid "Print empty form"
 msgstr "Imprimer le formulaire vide"
@@ -268,7 +271,7 @@ msgid "Options"
 msgstr "Options"
 
 msgid "Search org units"
-msgstr ""
+msgstr "Rechercher des unités d'organisation"
 
 msgid "Choose a data set first"
 msgstr "Choisir d'abord un ensemble de données"
@@ -426,12 +429,14 @@ msgstr "Supprimer les limites"
 
 msgid "You do not have the authority to delete limits"
 msgstr ""
+"Vous ne disposez pas de l'autorité nécessaire pour supprimer des limites."
 
 msgid "Edit limits"
-msgstr ""
+msgstr "Modifier les limites"
 
 msgid "You do not have the authority to add limits"
 msgstr ""
+"Vous ne disposez pas de l'autorité nécessaire pour ajouter des limites."
 
 msgid "Min"
 msgstr "Min"
@@ -440,7 +445,7 @@ msgid "Max"
 msgstr "Max"
 
 msgid "Min and max limits"
-msgstr ""
+msgstr "Limites minimum and maximum"
 
 msgid "Try again, or contact your system administrator."
 msgstr "Veuillez réessayer ou contacter votre administrateur système."
@@ -449,10 +454,10 @@ msgid "Add limits"
 msgstr "Ajouter des limites"
 
 msgid "No limits set for this data item."
-msgstr ""
+msgstr "Aucune limite n'a été fixée pour cet élément de données."
 
 msgid "Save limits"
-msgstr ""
+msgstr "Sauvegarder les limites"
 
 msgid "The current selection does not have a form"
 msgstr "La sélection actuelle n'a pas de formulaire"
@@ -467,29 +472,39 @@ msgid ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
 msgstr ""
+"Il n'y a pas d'éléments de données dans cet ensemble de données. Veuillez "
+"ajouter des éléments de données pour utiliser cet ensemble de données."
 
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
+"Les données ne peuvent être ajoutées ou modifiées en dehors de la période de"
+" saisie de données."
 
 msgid ""
 "Data cannot be added or changed because organisation unit is closed for the "
 "selected period."
 msgstr ""
+"Les données ne peuvent être ajoutées ou modifiées car l'unité d'organisation"
+" est fermée pour la période sélectionnée."
 
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
 
 msgid "Data cannot be added or changed because data has been approved."
 msgstr ""
+"Les données ne peuvent être ajoutées ou modifiées car les données ont été "
+"approuvées."
 
 msgid "You do not have the authority to edit entry forms"
 msgstr ""
+"Vous ne disposez pas de l'autorité nécessaire pour modifier les formulaires "
+"de saisie."
 
 msgid "Data set locked"
 msgstr "Ensemble de données verrouillé"
 
 msgid "Get started with data entry"
-msgstr ""
+msgstr "Commencer la saisie des données"
 
 msgid ""
 "Choose a data set, organisation unit, and period from the top bar to start "
@@ -535,7 +550,7 @@ msgid "Upload a file"
 msgstr "Télécharger un fichier"
 
 msgid "Choose option(s)"
-msgstr ""
+msgstr "Choisir une ou plusieurs option(s)"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
@@ -550,11 +565,15 @@ msgid ""
 "Please make sure the value of this input is less than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Veuillez vous assurer que la valeur de cette entrée est plus petite que la "
+"valeur dans \"{{otherField}}\"."
 
 msgid ""
 "Please make sure the value of this input is more than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Veuillez vous assurer que la valeur de cette entrée est plus grande que la "
+"valeur dans \"{{otherField}}\"."
 
 msgid "Type here to filter in this section"
 msgstr ""
