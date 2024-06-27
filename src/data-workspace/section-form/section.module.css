@@ -65,6 +65,25 @@
 
 .sectionTab {
     margin-bottom: 8px;
+
+}
+
+.verticalSectionTabWrapper .sectionTab div{
+    flex-direction: column;
+}
+
+.sectionTab button{
+    align-self: stretch;
+}
+
+.sectionTabWrapper{
+    display: flex;
+    gap: 6px;
+    flex-direction: column;
+}
+
+.verticalSectionTabWrapper{
+    flex-direction: row;
 }
 
 @media print {
