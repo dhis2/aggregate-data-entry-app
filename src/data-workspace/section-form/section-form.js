@@ -6,6 +6,15 @@ import { useSectionFilter } from '../../shared/index.js'
 import { SectionFormSection } from './section.js'
 import styles from './section.module.css'
 
+const parseDisplayOptions = (displayOptionString) => {
+    try {
+        return displayOptionString && JSON.parse(displayOptionString)
+    } catch (e) {
+        console.error(e)
+        return undefined
+    }
+}
+
 export const SectionForm = ({ dataSet, globalFilterText }) => {
     const [sectionId] = useSectionFilter()
     const filteredSections = sectionId
@@ -13,8 +22,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
         : dataSet.sections
 
     const { displayOptions: displayOptionString } = dataSet
-    const displayOptions =
-        displayOptionString && JSON.parse(displayOptionString)
+    const displayOptions = parseDisplayOptions(displayOptionString)
 
     if (dataSet.renderAsTabs) {
         return (
