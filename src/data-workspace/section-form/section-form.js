@@ -43,6 +43,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
                     dataSetId={dataSet.id}
                     key={s.id}
                     globalFilterText={globalFilterText}
+                    collapsible
                 />
             ))}
         </>

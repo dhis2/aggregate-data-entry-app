@@ -24,6 +24,11 @@
     line-height: 20px;
     padding: 4px 8px;
 }
+
+.labelWrapperCollapsible {
+    cursor: pointer;
+}
+
 .title {
     color: var(--colors-grey050);
     font-weight: 400;
