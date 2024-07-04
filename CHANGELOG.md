@@ -1,3 +1,15 @@
+# [100.6.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.5.2...v100.6.0) (2024-07-04)
+
+
+### Bug Fixes
+
+* make sure rendering tabs does not crash if display options are in the wrong format ([09e253b](https://github.com/dhis2/aggregate-data-entry-app/commit/09e253b1c67769d3543f390d3a5d7713ee7268bf))
+
+
+### Features
+
+* add vertical tab rendering of sections in a data set ([a3f389b](https://github.com/dhis2/aggregate-data-entry-app/commit/a3f389b2e6ee9d2931f4359b52f1eb527eac84a2))
+
 ## [100.5.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.5.1...v100.5.2) (2024-05-07)
 
 
