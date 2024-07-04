@@ -1,9 +1,19 @@
 import { Tab, TabBar } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useSectionFilter } from '../../shared/index.js'
 import { SectionFormSection } from './section.js'
 import styles from './section.module.css'
+
+const parseDisplayOptions = (displayOptionString) => {
+    try {
+        return displayOptionString && JSON.parse(displayOptionString)
+    } catch (e) {
+        console.error(e)
+        return undefined
+    }
+}
 
 export const SectionForm = ({ dataSet, globalFilterText }) => {
     const [sectionId] = useSectionFilter()
@@ -11,12 +21,16 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
         ? dataSet.sections.filter((s) => s.id === sectionId)
         : dataSet.sections
 
+    const { displayOptions: displayOptionString } = dataSet
+    const displayOptions = parseDisplayOptions(displayOptionString)
+
     if (dataSet.renderAsTabs) {
         return (
             <TabbedSectionForm
                 globalFilterText={globalFilterText}
                 sections={dataSet.sections}
                 dataSetId={dataSet.id}
+                direction={displayOptions?.tabsDirection}
             />
         )
     }
@@ -37,6 +51,9 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
 
 SectionForm.propTypes = {
     dataSet: PropTypes.shape({
+        displayOptions: PropTypes.shape({
+            tabsDirection: PropTypes.oneOf(['vertical', 'horizontal']),
+        }),
         id: PropTypes.string,
         renderAsTabs: PropTypes.bool,
         sections: PropTypes.arrayOf(
@@ -54,7 +71,12 @@ SectionForm.propTypes = {
     globalFilterText: PropTypes.string,
 }
 
-const TabbedSectionForm = ({ dataSetId, sections, globalFilterText }) => {
+const TabbedSectionForm = ({
+    dataSetId,
+    sections,
+    globalFilterText,
+    direction,
+}) => {
     const [sectionId, setSelectedId] = useSectionFilter()
 
     const section = sectionId
@@ -62,7 +84,11 @@ const TabbedSectionForm = ({ dataSetId, sections, globalFilterText }) => {
         : sections[0]
 
     return (
-        <div>
+        <div
+            className={cx(styles.sectionTabWrapper, {
+                [styles.verticalSectionTabWrapper]: direction === 'vertical',
+            })}
+        >
             <TabBar className={styles.sectionTab}>
                 {sections.map((s) => (
                     <Tab
@@ -87,6 +113,7 @@ const TabbedSectionForm = ({ dataSetId, sections, globalFilterText }) => {
 
 TabbedSectionForm.propTypes = {
     dataSetId: PropTypes.string,
+    direction: PropTypes.oneOf(['vertical', 'horizontal']),
     globalFilterText: PropTypes.string,
     sections: PropTypes.arrayOf(
         PropTypes.shape({
