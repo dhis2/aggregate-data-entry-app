@@ -23,9 +23,12 @@
     background-color: var(--colors-grey800);
     line-height: 20px;
     padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.labelWrapperCollapsible {
+.collapseIcon {
     cursor: pointer;
 }
 

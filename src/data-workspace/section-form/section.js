@@ -1,6 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
 import {
     colors,
+    IconChevronDown24,
+    IconChevronUp24,
     IconFilter16,
     Table,
     TableCellHead,
@@ -8,10 +10,8 @@ import {
     TableRowHead,
 } from '@dhis2/ui'
 import classNames from 'classnames'
-import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useMemo, useState } from 'react'
-import MenuSelect from '../../context-selection/menu-select/menu-select'
 import { useMetadata, selectors } from '../../shared/index.js'
 import { CategoryComboTableBody } from '../category-combo-table-body/index.js'
 import { PivotedCategoryComboTableBody } from '../category-combo-table-body-pivoted/index.js'
@@ -105,24 +105,31 @@ export function SectionFormSection({
                             colSpan="100%"
                             className={styles.headerCell}
                         >
-                            <div
-                                className={cx(styles.labelWrapper, {
-                                    [styles.labelWrapperCollapsible]:
-                                        collapsible,
-                                })}
-                                tabIndex={collapsible ? 0 : -1}
-                                onClick={onSectionHeadClicked}
-                                onKeyDown={onSectionHeadEntered}
-                            >
-                                <div className={styles.title}>
-                                    {section.displayName}
-                                </div>
-                                {section.description && (
-                                    <div className={styles.description}>
-                                        {section.description ||
-                                            'Placeholder section description'}
+                            <div className={styles.labelWrapper}>
+                                <div>
+                                    <div className={styles.title}>
+                                        {section.displayName}
                                     </div>
-                                )}
+                                    {section.description && (
+                                        <div className={styles.description}>
+                                            {section.description ||
+                                                'Placeholder section description'}
+                                        </div>
+                                    )}
+                                </div>
+                                <div
+                                    className={styles.collapseIcon}
+                                    tabIndex={collapsible ? 0 : -1}
+                                    onClick={onSectionHeadClicked}
+                                    onKeyDown={onSectionHeadEntered}
+                                >
+                                    {collapsible &&
+                                        (showSectionContent ? (
+                                            <IconChevronUp24 color="white" />
+                                        ) : (
+                                            <IconChevronDown24 color="white" />
+                                        ))}
+                                </div>
                             </div>
                         </TableCellHead>
                     </TableRowHead>
