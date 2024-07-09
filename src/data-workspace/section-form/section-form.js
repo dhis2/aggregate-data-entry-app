@@ -3,6 +3,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useSectionFilter } from '../../shared/index.js'
+import { useFeature } from '../use-feature.js'
 import { SectionFormSection } from './section.js'
 import styles from './section.module.css'
 
@@ -23,6 +24,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
 
     const { displayOptions: displayOptionString } = dataSet
     const displayOptions = parseDisplayOptions(displayOptionString)
+    const featureToggleCollapsible = useFeature('collapsible')
 
     if (dataSet.renderAsTabs) {
         return (
@@ -31,7 +33,6 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
                 sections={dataSet.sections}
                 dataSetId={dataSet.id}
                 direction={displayOptions?.tabsDirection}
-                collapsible={displayOptions?.collapsibleSections}
             />
         )
     }
@@ -44,7 +45,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
                     dataSetId={dataSet.id}
                     key={s.id}
                     globalFilterText={globalFilterText}
-                    collapsible={displayOptions?.collapsibleSections}
+                    collapsible={featureToggleCollapsible}
                 />
             ))}
         </>
@@ -53,10 +54,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
 
 SectionForm.propTypes = {
     dataSet: PropTypes.shape({
-        displayOptions: PropTypes.shape({
-            collapsibleSections: PropTypes.bool,
-            tabsDirection: PropTypes.oneOf(['vertical', 'horizontal']),
-        }),
+        displayOptions: PropTypes.string,
         id: PropTypes.string,
         renderAsTabs: PropTypes.bool,
         sections: PropTypes.arrayOf(
