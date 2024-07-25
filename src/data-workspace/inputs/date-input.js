@@ -66,8 +66,8 @@ export const DateInput = ({
                 date={input.value}
                 calendar={calendar}
                 onDateSelect={(date) => {
-                    input.onChange(date?.calendarDateString)
-                    handleChange(date?.calendarDateString)
+                    input.onChange(date ? date?.calendarDateString : '')
+                    handleChange(date ? date?.calendarDateString : '')
                 }}
                 locale={keyUiLocale}
                 clearable
