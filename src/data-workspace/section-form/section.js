@@ -1,6 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
 import {
     colors,
+    IconChevronDown24,
+    IconChevronUp24,
     IconFilter16,
     Table,
     TableCellHead,
@@ -19,9 +21,16 @@ import { getDisplayOptions } from './displayOptions.js'
 import { SectionDescription } from './section-description.js'
 import styles from './section.module.css'
 
-export function SectionFormSection({ section, dataSetId, globalFilterText }) {
+export function SectionFormSection({
+    section,
+    dataSetId,
+    globalFilterText,
+    collapsible,
+}) {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
+    const [showSectionContent, setShowSectionContent] = useState(true)
+
     const { data } = useMetadata()
 
     const dataElements = selectors.getDataElementsBySection(
@@ -77,6 +86,15 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
 
     const { beforeSectionText, afterSectionText } = displayOptions
 
+    const onSectionHeadClicked = () => {
+        collapsible &&
+            setShowSectionContent((displayingContent) => !displayingContent)
+    }
+
+    const onSectionHeadEntered = (e) => {
+        e.key === 'Enter' && onSectionHeadClicked()
+    }
+
     return (
         <div>
             <SectionDescription>{beforeSectionText}</SectionDescription>
@@ -88,62 +106,80 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
                             className={styles.headerCell}
                         >
                             <div className={styles.labelWrapper}>
-                                <div className={styles.title}>
-                                    {section.displayName}
-                                </div>
-                                {section.description && (
-                                    <div className={styles.description}>
-                                        {section.description ||
-                                            'Placeholder section description'}
+                                <div>
+                                    <div className={styles.title}>
+                                        {section.displayName}
                                     </div>
-                                )}
+                                    {section.description && (
+                                        <div className={styles.description}>
+                                            {section.description ||
+                                                'Placeholder section description'}
+                                        </div>
+                                    )}
+                                </div>
+                                <div
+                                    className={styles.collapseIcon}
+                                    tabIndex={collapsible ? 0 : -1}
+                                    onClick={onSectionHeadClicked}
+                                    onKeyDown={onSectionHeadEntered}
+                                >
+                                    {collapsible &&
+                                        (showSectionContent ? (
+                                            <IconChevronUp24 color="white" />
+                                        ) : (
+                                            <IconChevronDown24 color="white" />
+                                        ))}
+                                </div>
                             </div>
                         </TableCellHead>
                     </TableRowHead>
-                    <TableRowHead>
-                        <TableCellHead
-                            colSpan="100%"
-                            className={headerCellStyles}
-                        >
-                            <label
-                                htmlFor={filterInputId}
-                                className={styles.filterWrapper}
+                    {showSectionContent && (
+                        <TableRowHead>
+                            <TableCellHead
+                                colSpan="100%"
+                                className={headerCellStyles}
                             >
-                                <IconFilter16 color={colors.grey600} />
-                                <input
-                                    name={filterInputId}
-                                    id={filterInputId}
-                                    type="text"
-                                    placeholder={i18n.t(
-                                        'Type here to filter in this section'
-                                    )}
-                                    value={filterText}
-                                    onChange={({ target }) =>
-                                        setFilterText(target.value)
-                                    }
-                                    className={styles.filterInput}
-                                />
-                            </label>
-                        </TableCellHead>
-                    </TableRowHead>
+                                <label
+                                    htmlFor={filterInputId}
+                                    className={styles.filterWrapper}
+                                >
+                                    <IconFilter16 color={colors.grey600} />
+                                    <input
+                                        name={filterInputId}
+                                        id={filterInputId}
+                                        type="text"
+                                        placeholder={i18n.t(
+                                            'Type here to filter in this section'
+                                        )}
+                                        value={filterText}
+                                        onChange={({ target }) =>
+                                            setFilterText(target.value)
+                                        }
+                                        className={styles.filterInput}
+                                    />
+                                </label>
+                            </TableCellHead>
+                        </TableRowHead>
+                    )}
                 </TableHead>
-                {groupedDataElements.map(
-                    ({ categoryCombo, dataElements }, i) => (
-                        <TableComponent
-                            key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
-                            categoryCombo={categoryCombo}
-                            dataElements={dataElements}
-                            filterText={filterText}
-                            globalFilterText={globalFilterText}
-                            maxColumnsInSection={maxColumnsInSection}
-                            renderRowTotals={section.showRowTotals}
-                            renderColumnTotals={section.showColumnTotals}
-                            greyedFields={greyedFields}
-                            displayOptions={displayOptions}
-                        />
-                    )
-                )}
-                {indicators.length > 0 && (
+                {showSectionContent &&
+                    groupedDataElements.map(
+                        ({ categoryCombo, dataElements }, i) => (
+                            <TableComponent
+                                key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
+                                categoryCombo={categoryCombo}
+                                dataElements={dataElements}
+                                filterText={filterText}
+                                globalFilterText={globalFilterText}
+                                maxColumnsInSection={maxColumnsInSection}
+                                renderRowTotals={section.showRowTotals}
+                                renderColumnTotals={section.showColumnTotals}
+                                greyedFields={greyedFields}
+                                displayOptions={displayOptions}
+                            />
+                        )
+                    )}
+                {indicators.length > 0 && showSectionContent && (
                     <IndicatorsTableBody
                         indicators={indicators}
                         renderRowTotals={section.showRowTotals}
@@ -159,6 +195,7 @@ export function SectionFormSection({ section, dataSetId, globalFilterText }) {
 }
 
 SectionFormSection.propTypes = {
+    collapsible: PropTypes.bool,
     dataSetId: PropTypes.string,
     globalFilterText: PropTypes.string,
     section: PropTypes.shape({
@@ -174,4 +211,8 @@ SectionFormSection.propTypes = {
         showColumnTotals: PropTypes.bool,
         showRowTotals: PropTypes.bool,
     }),
+}
+
+SectionFormSection.defaultProps = {
+    collapsible: false,
 }
