@@ -1,3 +1,10 @@
+# [100.7.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.6.0...v100.7.0) (2024-07-29)
+
+
+### Features
+
+* add support for multi-calendar dates ([a9a65e9](https://github.com/dhis2/aggregate-data-entry-app/commit/a9a65e9efc2c1592345de19306260406403817a6))
+
 # [100.6.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.5.2...v100.6.0) (2024-07-04)
 
 
