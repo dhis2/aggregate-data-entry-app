@@ -1,9 +1,12 @@
+@attributeKeyFeature:attributeValuFeature
 Feature: Category options for each category in the category combination connected to the data set can be selected
 
+    @attributeKeyScenario1:attributeValuScenario1
     Scenario: No data set has been selected
         Given no data set has been selected yet
         Then the selector should not be displayed
 
+    @attributeKeyScenario2:attributeValuScenario2
     Scenario: No org unit has been selected
         Given a data set and period but no org unit have been selected yet
         Then the selector should not be displayed
