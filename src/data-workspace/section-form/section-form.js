@@ -3,7 +3,6 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useSectionFilter } from '../../shared/index.js'
-import { useFeature } from '../use-feature.js'
 import { SectionFormSection } from './section.js'
 import styles from './section.module.css'
 
@@ -24,7 +23,6 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
 
     const { displayOptions: displayOptionString } = dataSet
     const displayOptions = parseDisplayOptions(displayOptionString)
-    const featureToggleCollapsible = useFeature('collapsible')
 
     if (dataSet.renderAsTabs) {
         return (
@@ -45,7 +43,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
                     dataSetId={dataSet.id}
                     key={s.id}
                     globalFilterText={globalFilterText}
-                    collapsible={featureToggleCollapsible}
+                    collapsible
                 />
             ))}
         </>
