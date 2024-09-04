@@ -1,8 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
 import {
     colors,
-    IconChevronDown24,
-    IconChevronUp24,
+    IconChevronDown16,
+    IconChevronUp16,
     IconFilter16,
     Table,
     TableCellHead,
@@ -106,6 +106,19 @@ export function SectionFormSection({
                             className={styles.headerCell}
                         >
                             <div className={styles.labelWrapper}>
+                                <div
+                                    className={styles.collapseIcon}
+                                    tabIndex={collapsible ? 0 : -1}
+                                    onClick={onSectionHeadClicked}
+                                    onKeyDown={onSectionHeadEntered}
+                                >
+                                    {collapsible &&
+                                        (showSectionContent ? (
+                                            <IconChevronUp16 color="white" />
+                                        ) : (
+                                            <IconChevronDown16 color="white" />
+                                        ))}
+                                </div>
                                 <div>
                                     <div className={styles.title}>
                                         {section.displayName}
@@ -116,19 +129,6 @@ export function SectionFormSection({
                                                 'Placeholder section description'}
                                         </div>
                                     )}
-                                </div>
-                                <div
-                                    className={styles.collapseIcon}
-                                    tabIndex={collapsible ? 0 : -1}
-                                    onClick={onSectionHeadClicked}
-                                    onKeyDown={onSectionHeadEntered}
-                                >
-                                    {collapsible &&
-                                        (showSectionContent ? (
-                                            <IconChevronUp24 color="white" />
-                                        ) : (
-                                            <IconChevronDown24 color="white" />
-                                        ))}
                                 </div>
                             </div>
                         </TableCellHead>
