@@ -114,9 +114,9 @@ export function SectionFormSection({
                                 >
                                     {collapsible &&
                                         (showSectionContent ? (
-                                            <IconChevronUp16 color="white" />
+                                            <IconChevronUp16 color="var(--colors-white)" />
                                         ) : (
-                                            <IconChevronDown16 color="white" />
+                                            <IconChevronDown16 color="var(--colors-white)" />
                                         ))}
                                 </div>
                                 <div>
@@ -162,23 +162,23 @@ export function SectionFormSection({
                         </TableRowHead>
                     )}
                 </TableHead>
-                {showSectionContent &&
-                    groupedDataElements.map(
-                        ({ categoryCombo, dataElements }, i) => (
-                            <TableComponent
-                                key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
-                                categoryCombo={categoryCombo}
-                                dataElements={dataElements}
-                                filterText={filterText}
-                                globalFilterText={globalFilterText}
-                                maxColumnsInSection={maxColumnsInSection}
-                                renderRowTotals={section.showRowTotals}
-                                renderColumnTotals={section.showColumnTotals}
-                                greyedFields={greyedFields}
-                                displayOptions={displayOptions}
-                            />
-                        )
-                    )}
+                {groupedDataElements.map(
+                    ({ categoryCombo, dataElements }, i) => (
+                        <TableComponent
+                            key={i} //if disableDataElementAutoGroup then duplicate catCombo-ids, so have to use index
+                            categoryCombo={categoryCombo}
+                            dataElements={dataElements}
+                            filterText={filterText}
+                            globalFilterText={globalFilterText}
+                            maxColumnsInSection={maxColumnsInSection}
+                            renderRowTotals={section.showRowTotals}
+                            renderColumnTotals={section.showColumnTotals}
+                            greyedFields={greyedFields}
+                            displayOptions={displayOptions}
+                            collapsed={!showSectionContent}
+                        />
+                    )
+                )}
                 {indicators.length > 0 && showSectionContent && (
                     <IndicatorsTableBody
                         indicators={indicators}

@@ -1,8 +1,8 @@
-import { TableBody, TableRow, TableCell } from '@dhis2/ui'
+import { TableBody, TableCell, TableRow } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
-import { useMetadata, selectors } from '../../shared/index.js'
+import { selectors, useMetadata } from '../../shared/index.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
@@ -21,6 +21,7 @@ export const CategoryComboTableBody = React.memo(
         maxColumnsInSection,
         renderRowTotals,
         renderColumnTotals,
+        collapsed,
     }) {
         const { data: metadata } = useMetadata()
 
@@ -59,7 +60,11 @@ export const CategoryComboTableBody = React.memo(
         const hiddenItemsCount = filteredDeIds.size
 
         return (
-            <TableBody>
+            <TableBody
+                className={cx({
+                    [styles.sectionRowCollapsed]: collapsed,
+                })}
+            >
                 <CategoryComboTableBodyHeader
                     categoryOptionCombos={sortedCOCs}
                     categories={categories}
@@ -128,6 +133,7 @@ CategoryComboTableBody.propTypes = {
     categoryCombo: PropTypes.shape({
         id: PropTypes.string.isRequired,
     }),
+    collapsed: PropTypes.bool,
     dataElements: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,

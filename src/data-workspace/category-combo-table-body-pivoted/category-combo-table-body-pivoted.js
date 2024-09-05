@@ -24,13 +24,14 @@ export const PivotedCategoryComboTableBody = React.memo(
         categoryCombo,
         dataElements,
         greyedFields,
-        /* 
+        /*
         filterText,
         globalFilterText,
         maxColumnsInSection,
         renderRowTotals,
         renderColumnTotals,*/
         displayOptions,
+        collapsed,
     }) {
         const { data: metadata } = useMetadata()
 
@@ -68,7 +69,12 @@ export const PivotedCategoryComboTableBody = React.memo(
             <>
                 {rowsMatrix.map((row, id /** todo: find suitable id */) => {
                     return (
-                        <TableRow key={id}>
+                        <TableRow
+                            key={id}
+                            className={classNames({
+                                [styles.sectionRowCollapsed]: collapsed,
+                            })}
+                        >
                             {row.map((fieldInRow) => {
                                 if (
                                     fieldInRow.type === 'columnHeader' ||
@@ -150,6 +156,7 @@ PivotedCategoryComboTableBody.propTypes = {
     categoryCombo: PropTypes.shape({
         id: PropTypes.string.isRequired,
     }),
+    collapsed: PropTypes.bool,
     dataElements: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,
