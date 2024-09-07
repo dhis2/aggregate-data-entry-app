@@ -101,7 +101,7 @@ msgid "The form can't be completed while invalid"
 msgstr ""
 
 msgid "1 comment required"
-msgstr ""
+msgstr "1 commentaire requis"
 
 msgid "{{commentsCount}} comments required"
 msgstr ""
@@ -136,10 +136,10 @@ msgid "Run validation again"
 msgstr "Exécuter la validation à nouveau"
 
 msgid "Alert summary"
-msgstr ""
+msgstr "Résumé de l'alerte"
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "Aucune alerte de validation pour cette donnée."
 
 msgid "Running validation..."
 msgstr "Validation en cours d'exécution..."
@@ -214,7 +214,7 @@ msgid "Failed to sync, not saved"
 msgstr "Échec de la synchronisation, non sauvegardé"
 
 msgid "Data item has a comment"
-msgstr ""
+msgstr "L'élément de données a un commentaire"
 
 msgid "Invalid value, not saved"
 msgstr ""
@@ -241,13 +241,13 @@ msgid "Cmd + Enter"
 msgstr ""
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "Aller à la cellule suivante"
 
 msgid "Tab"
 msgstr "Onglet"
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "Aller à la cellule précédente"
 
 msgid "Shift + Tab"
 msgstr ""
@@ -325,9 +325,13 @@ msgstr ""
 
 msgid "Error occurred while loading data set info"
 msgstr ""
+"Une erreur s'est produite lors du chargement des informations de l'ensemble "
+"de données"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
+"Impossible de rendre les formulaires personnalisés disponibles en mode hors "
+"ligne. {{error}}"
 
 msgid "Value"
 msgstr "Valeur"
