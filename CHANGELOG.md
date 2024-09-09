@@ -1,3 +1,19 @@
+# [100.8.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.7.0...v100.8.0) (2024-09-09)
+
+
+### Bug Fixes
+
+* adjust collapsible control style and placement ([4af627b](https://github.com/dhis2/aggregate-data-entry-app/commit/4af627be60c27cd18723ed1b2a7ac09204bcb72d))
+
+
+### Features
+
+* add an arrow button to collapse or expand each section ([510fd45](https://github.com/dhis2/aggregate-data-entry-app/commit/510fd4522a22cbb4b4c7d274e85c28290fb5d4db))
+* make collapsed section same width of when they are expanded ([98217d2](https://github.com/dhis2/aggregate-data-entry-app/commit/98217d2606dc8af8a92a1155dd31e8a5c86457ed))
+* make collapsible a feature toggle ([1711617](https://github.com/dhis2/aggregate-data-entry-app/commit/171161762782167b8fee424307228921f3eea538))
+* make section collapsable if they are not rendered as tabs ([495740d](https://github.com/dhis2/aggregate-data-entry-app/commit/495740d3e63be8fb8f7076e9340463e430576a5e))
+* revert setting collapsible with feature toggle ([0008e6e](https://github.com/dhis2/aggregate-data-entry-app/commit/0008e6e9243d0ba4de1524c7cd024e783cb7aab7))
+
 # [100.7.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.6.0...v100.7.0) (2024-07-29)
 
 
