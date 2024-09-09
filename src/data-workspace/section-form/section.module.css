@@ -9,7 +9,8 @@
     .labelWrapper {
         background-color: transparent !important;
     }
-    .title, .description {
+    .title,
+    .description {
         color: black !important;
     }
 }
@@ -23,7 +24,34 @@
     background-color: var(--colors-grey800);
     line-height: 20px;
     padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
+
+.collapseIcon {
+    margin-inline-start: -4px;
+    padding: var(--spacers-dp4);
+    height: 24px;
+    width: 24px;
+    align-self: flex-start;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.collapseIcon:hover {
+    background-color: var(--colors-grey900);
+}
+
+.collapseIcon:focus {
+    outline: 3px solid var(--theme-focus);
+}
+
+/* Prevent focus styles when mouse clicking */
+.collapseIcon:focus:not(:focus-visible) {
+    outline: none;
+}
+
 .title {
     color: var(--colors-grey050);
     font-weight: 400;
@@ -65,30 +93,29 @@
 
 .sectionTab {
     margin-bottom: 8px;
-
 }
 
-.verticalSectionTabWrapper .sectionTab div{
+.verticalSectionTabWrapper .sectionTab div {
     flex-direction: column;
 }
 
-.sectionTab button{
+.sectionTab button {
     align-self: stretch;
 }
 
-.sectionTabWrapper{
+.sectionTabWrapper {
     display: flex;
     gap: 6px;
     flex-direction: column;
 }
 
-.verticalSectionTabWrapper{
+.verticalSectionTabWrapper {
     flex-direction: row;
 }
 
 @media print {
     .hideForPrint {
-        composes: hideForPrint from '../../app/app.css'
+        composes: hideForPrint from '../../app/app.css';
     }
 }
 
@@ -96,12 +123,12 @@
 .sectionDescription {
     margin: 12px 4px 8px;
     font-size: 13px;
-    color: var(--colors-grey800)
+    color: var(--colors-grey800);
 }
 
 .sectionDescription :global(a):link,
 .sectionDescription :global(a):visited,
 .sectionDescription :global(a):hover,
 .sectionDescription :global(a):active {
-    color: var(--colors-blue700)
+    color: var(--colors-blue700);
 }

@@ -43,6 +43,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
                     dataSetId={dataSet.id}
                     key={s.id}
                     globalFilterText={globalFilterText}
+                    collapsible
                 />
             ))}
         </>
@@ -51,9 +52,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
 
 SectionForm.propTypes = {
     dataSet: PropTypes.shape({
-        displayOptions: PropTypes.shape({
-            tabsDirection: PropTypes.oneOf(['vertical', 'horizontal']),
-        }),
+        displayOptions: PropTypes.string,
         id: PropTypes.string,
         renderAsTabs: PropTypes.bool,
         sections: PropTypes.arrayOf(

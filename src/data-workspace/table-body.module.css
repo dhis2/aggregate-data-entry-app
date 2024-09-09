@@ -3,13 +3,17 @@
     padding: 8px !important;
     height: auto !important;
     font-size: 13px !important;
-    line-height: 15px !important; 
+    line-height: 15px !important;
 }
 
 .tableHeader {
     composes: cellBase;
     background-color: var(--colors-grey200);
     font-weight: 500;
+}
+
+.sectionRowCollapsed{
+    visibility: collapse;
 }
 
 .categoryNameHeader {

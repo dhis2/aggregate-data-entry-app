@@ -11,7 +11,6 @@ export const getDisplayOptions = (section) => {
 
     try {
         const { displayOptions: displayOptionString } = section
-
         return JSON.parse(displayOptionString)
     } catch (e) {
         console.error(
