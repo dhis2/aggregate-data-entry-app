@@ -14,7 +14,7 @@ const parseLocale = (unparsedLocale) => {
     }
 
     // while script is possible in DHIS2 locales, it is not supported in underlying multi-calendar-dates logic
-    const [lng, region] = unparsedLocale?.replaceAll('_', '-').split('-')
+    const [lng, region] = unparsedLocale?.replace(/_/g, '-').split('-')
 
     return region ? `${lng}-${region}` : lng
 }
