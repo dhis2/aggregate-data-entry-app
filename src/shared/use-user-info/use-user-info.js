@@ -8,8 +8,25 @@ const queryOpts = {
     staleTime: 24 * 60 * 60 * 1000,
 }
 
+const parseLocale = (unparsedLocale) => {
+    if (typeof unparsedLocale !== 'string') {
+        return 'en'
+    }
+
+    // while script is possible in DHIS2 locales, it is not supported in underlying multi-calendar-dates logic
+    const [lng, region] = unparsedLocale?.replaceAll('_', '-').split('-')
+
+    return region ? `${lng}-${region}` : lng
+}
+
 export const useUserInfo = () => {
     const userInfoQuery = useQuery(queryKey, queryOpts)
+    // this maps java format locales like `pt_BR` to JS style `pt-BR`
+    if (userInfoQuery?.data?.settings?.keyUiLocale) {
+        userInfoQuery.data.settings.keyUiLocale = parseLocale(
+            userInfoQuery.data.settings.keyUiLocale
+        )
+    }
     return userInfoQuery
 }
 
