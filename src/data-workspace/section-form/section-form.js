@@ -3,17 +3,9 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useSectionFilter } from '../../shared/index.js'
+import { getDisplayOptions } from './displayOptions.js'
 import { SectionFormSection } from './section.js'
 import styles from './section.module.css'
-
-const parseDisplayOptions = (displayOptionString) => {
-    try {
-        return displayOptionString && JSON.parse(displayOptionString)
-    } catch (e) {
-        console.error(e)
-        return undefined
-    }
-}
 
 export const SectionForm = ({ dataSet, globalFilterText }) => {
     const [sectionId] = useSectionFilter()
@@ -21,8 +13,7 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
         ? dataSet.sections.filter((s) => s.id === sectionId)
         : dataSet.sections
 
-    const { displayOptions: displayOptionString } = dataSet
-    const displayOptions = parseDisplayOptions(displayOptionString)
+    const displayOptions = getDisplayOptions(dataSet)
 
     if (dataSet.renderAsTabs) {
         return (
