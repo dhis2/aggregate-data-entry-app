@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import React from 'react'
 import { Wrapper } from '../../test-utils/index.js'
 import useImperativeValidate from './use-imperative-validate.js'

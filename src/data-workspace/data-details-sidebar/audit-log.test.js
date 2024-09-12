@@ -39,7 +39,7 @@ describe('<AuditLog />', () => {
         const { getByRole, container } = render(<AuditLog item={item} />)
 
         // Expand
-        userEvent.click(container.querySelector('summary'))
+        await userEvent.click(container.querySelector('summary'))
         await waitFor(() => {
             expect(getByRole('group')).toHaveAttribute('open')
         })
@@ -58,7 +58,7 @@ describe('<AuditLog />', () => {
         )
 
         // Expand and wait for data to load
-        userEvent.click(container.querySelector('summary'))
+        await userEvent.click(container.querySelector('summary'))
         await waitFor(() => {
             expect(getByRole('group')).toHaveAttribute('open')
             expect(queryByRole('progressbar')).not.toBeInTheDocument()

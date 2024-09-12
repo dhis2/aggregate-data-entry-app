@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import usePeriods from './use-periods.js'
 
 jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
