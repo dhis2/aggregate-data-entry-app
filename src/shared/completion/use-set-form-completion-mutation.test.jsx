@@ -1,5 +1,5 @@
 import { QueryCache } from '@tanstack/react-query'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import React from 'react'
 import { Wrapper } from '../../test-utils/index.js'
 import { useDataValueSet } from '../use-data-value-set/index.js'
@@ -42,32 +42,31 @@ describe('useSetFormCompletionMutation', () => {
         const dataValuesResolver = jest.fn(() => new Promise(() => null))
 
         // first we need to load the data value set so we have a loading state
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(
-                () => useDataValueSet({ onSuccess: onDataValueSuccess }),
-                {
-                    wrapper: ({ children }) => (
-                        <Wrapper
-                            queryClientOptions={{ queryCache }}
-                            dataForCustomProvider={{
-                                dataValues: dataValuesResolver,
-                            }}
-                        >
-                            {children}
-                        </Wrapper>
-                    ),
-                }
-            )
+        const { result: dataValueSet } = renderHook(
+            () => useDataValueSet({ onSuccess: onDataValueSuccess }),
+            {
+                wrapper: ({ children }) => (
+                    <Wrapper
+                        queryClientOptions={{ queryCache }}
+                        dataForCustomProvider={{
+                            dataValues: dataValuesResolver,
+                        }}
+                    >
+                        {children}
+                    </Wrapper>
+                ),
+            }
+        )
 
-        // Make sure the request is on-going
-        await waitForDataValueSet(() => {
+        await waitFor(() => {
             expect(dataValuesResolver).toHaveBeenCalledTimes(1)
             expect(onDataValueSuccess).toHaveBeenCalledTimes(0)
-            return dataValueSet.current.isLoading
         })
+        // Make sure the request is on-going
 
-        const { result: setFormCompletion, waitFor: waitForSetFormCompletion } =
-            renderHook(() => useSetFormCompletionMutation(), {
+        const { result: setFormCompletion } = renderHook(
+            () => useSetFormCompletionMutation(),
+            {
                 wrapper: ({ children }) => (
                     <Wrapper
                         queryClientOptions={{ queryCache }}
@@ -80,37 +79,37 @@ describe('useSetFormCompletionMutation', () => {
                         {children}
                     </Wrapper>
                 ),
-            })
+            }
+        )
 
         expect(dataValueSet.current.isLoading).toBe(true)
 
         // Complete a form
         act(() => setFormCompletion.current.mutate({ completed: true }))
 
-        await waitForSetFormCompletion(() => {
+        await waitFor(() => {
             expect(setFormCompletion.current.isLoading).toBe(true)
         })
 
         // Ensure that the on-going data value set request is cancelled
-        await waitForDataValueSet(() => {
-            // We're still waiting for the form completion response, so it's
-            // guaranteed that the data value set query hasn't been retriggered
-            // yet
-            expect(setFormCompletion.current.isLoading).toBe(true)
-            expect(dataValuesResolver).toHaveBeenCalledTimes(1)
+        // We're still waiting for the form completion response, so it's
+        // guaranteed that the data value set query hasn't been retriggered
+        // yet
+        expect(setFormCompletion.current.isLoading).toBe(true)
+        expect(dataValuesResolver).toHaveBeenCalledTimes(1)
 
-            // useDataValueSet is not loading but never has finished, which
-            // verifies that the active query has been cancelled
-            expect(dataValueSet.current.isLoading).toBe(false)
-            expect(onDataValueSuccess).toHaveBeenCalledTimes(0)
-        })
+        // useDataValueSet is not loading but never has finished, which
+        // verifies that the active query has been cancelled
+        expect(dataValueSet.current.isLoading).toBe(false)
+        expect(onDataValueSuccess).toHaveBeenCalledTimes(0)
     })
 
     it('should optimistically update the completion state and lastUpdatedBy', async () => {
         const queryCache = new QueryCache()
 
-        const { result: setFormCompletion, waitFor: waitForSetFormCompletion } =
-            renderHook(() => useSetFormCompletionMutation(), {
+        const { result: setFormCompletion } = renderHook(
+            () => useSetFormCompletionMutation(),
+            {
                 wrapper: ({ children }) => (
                     <Wrapper
                         queryClientOptions={{ queryCache }}
@@ -123,12 +122,13 @@ describe('useSetFormCompletionMutation', () => {
                         {children}
                     </Wrapper>
                 ),
-            })
+            }
+        )
 
         // Mutate a current data value
         act(() => setFormCompletion.current.mutate({ completed: true }))
 
-        await waitForSetFormCompletion(() => {
+        await waitFor(() => {
             expect(setFormCompletion.current.isLoading).toBe(true)
         })
 
@@ -148,33 +148,34 @@ describe('useSetFormCompletionMutation', () => {
         const onDataValueSuccess = jest.fn()
         const dataValuesResolver = jest.fn(() => new Promise(() => null))
 
+        jest.useFakeTimers()
+
         // first we need to load the data value set so we have a loading state
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(
-                () => useDataValueSet({ onSuccess: onDataValueSuccess }),
-                {
-                    wrapper: ({ children }) => (
-                        <Wrapper
-                            queryClientOptions={{ queryCache }}
-                            dataForCustomProvider={{
-                                dataValues: dataValuesResolver,
-                            }}
-                        >
-                            {children}
-                        </Wrapper>
-                    ),
-                }
-            )
+        const { result: dataValueSet } = renderHook(
+            () => useDataValueSet({ onSuccess: onDataValueSuccess }),
+            {
+                wrapper: ({ children }) => (
+                    <Wrapper
+                        queryClientOptions={{ queryCache }}
+                        dataForCustomProvider={{
+                            dataValues: dataValuesResolver,
+                        }}
+                    >
+                        {children}
+                    </Wrapper>
+                ),
+            }
+        )
 
         // Make sure the request is on-going
-        await waitForDataValueSet(() => {
+        await waitFor(() => {
             expect(dataValuesResolver).toHaveBeenCalledTimes(1)
             expect(onDataValueSuccess).toHaveBeenCalledTimes(0)
-            return dataValueSet.current.isLoading
         })
 
-        const { result: setFormCompletion, waitFor: waitForSetFormCompletion } =
-            renderHook(() => useSetFormCompletionMutation(), {
+        const { result: setFormCompletion } = renderHook(
+            () => useSetFormCompletionMutation(),
+            {
                 wrapper: ({ children }) => (
                     <Wrapper
                         queryClientOptions={{ queryCache }}
@@ -191,39 +192,36 @@ describe('useSetFormCompletionMutation', () => {
                         {children}
                     </Wrapper>
                 ),
-            })
+            }
+        )
 
         expect(dataValueSet.current.isLoading).toBe(true)
-
-        jest.useFakeTimers()
 
         // Mutate a current data value
         act(() => setFormCompletion.current.mutate({ completed: true }))
 
         jest.advanceTimersByTime(500)
 
-        await waitForSetFormCompletion(() => {
+        await waitFor(() => {
             expect(setFormCompletion.current.isLoading).toBe(true)
         })
 
-        await waitForDataValueSet(() => {
-            const queryKey = ['dataValues']
-            const cachedDataValuesQuery = queryCache.find({ queryKey })
-            const cachedDataValues = cachedDataValuesQuery.state.data
-            expect(cachedDataValues.completeStatus.complete).toBe(true)
-        })
+        const queryKey = ['dataValues']
+        const cachedDataValuesQuery = queryCache.find({ queryKey })
+        const cachedDataValues = cachedDataValuesQuery.state.data
+        expect(cachedDataValues.completeStatus.complete).toBe(true)
 
         jest.advanceTimersByTime(1000)
 
         // For some reason tests will fail if we don't do this here
         jest.useRealTimers()
 
-        await waitForSetFormCompletion(() => {
+        await waitFor(() => {
             expect(setFormCompletion.current.isError).toBe(true)
         })
 
         // Ensure that the on-going data value set request is cancelled
-        await waitForDataValueSet(() => {
+        await waitFor(() => {
             const queryKey = ['dataValues']
             const cachedDataValuesQuery = queryCache.find({ queryKey })
             const cachedDataValues = cachedDataValuesQuery.state.data

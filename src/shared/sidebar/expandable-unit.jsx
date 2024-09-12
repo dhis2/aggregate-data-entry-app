@@ -48,8 +48,4 @@ ExpandableUnit.propTypes = {
     disabled: PropTypes.bool,
 }
 
-ExpandableUnit.defaultProps = {
-    initiallyOpen: false,
-}
-
 export default ExpandableUnit

@@ -1,5 +1,5 @@
 import { CustomDataProvider } from '@dhis2/app-runtime'
-import { renderHook } from '@testing-library/react'
+import { renderHook, waitFor } from '@testing-library/react'
 import React from 'react'
 import { useRootOrgData } from './use-root-org-data.js'
 
@@ -66,12 +66,11 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
     })
 
     it('should provide the org unit data', async () => {
-        const { result, waitForNextUpdate } = renderHook(
-            () => useRootOrgData(['A0000000000']),
-            { wrapper }
-        )
+        const { result } = renderHook(() => useRootOrgData(['A0000000000']), {
+            wrapper,
+        })
 
-        await waitForNextUpdate()
+        await waitFor(() => {})
 
         expect(result.current).toEqual(
             expect.objectContaining({
@@ -102,12 +101,11 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
             </CustomDataProvider>
         )
 
-        const { result, waitForNextUpdate } = renderHook(
-            () => useRootOrgData(['A0000000000']),
-            { wrapper: errorWrapper }
-        )
+        const { result } = renderHook(() => useRootOrgData(['A0000000000']), {
+            wrapper: errorWrapper,
+        })
 
-        await waitForNextUpdate()
+        await waitFor(() => {})
 
         expect(result.current).toEqual(
             expect.objectContaining({
@@ -120,12 +118,9 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
     })
 
     it('should send the "isUserDataViewFallback" parameter with value "undefined"', async () => {
-        const { waitForNextUpdate } = renderHook(
-            () => useRootOrgData(['A0000000000']),
-            { wrapper }
-        )
+        renderHook(() => useRootOrgData(['A0000000000']), { wrapper })
 
-        await waitForNextUpdate()
+        await waitFor(() => {})
 
         expect(dataProviderData.organisationUnits).toHaveBeenCalledWith(
             'read',
@@ -140,12 +135,9 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
 
     it('should send the "isUserDataViewFallback" parameter with value "true"', async () => {
         const options = { isUserDataViewFallback: true }
-        const { waitForNextUpdate } = renderHook(
-            () => useRootOrgData(['A0000000000'], options),
-            { wrapper }
-        )
+        renderHook(() => useRootOrgData(['A0000000000'], options), { wrapper })
 
-        await waitForNextUpdate()
+        await waitFor(() => {})
 
         expect(dataProviderData.organisationUnits).toHaveBeenCalledWith(
             'read',
@@ -176,12 +168,11 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
             </CustomDataProvider>
         )
 
-        const { result, waitForNextUpdate } = renderHook(
-            () => useRootOrgData(['A0000000000']),
-            { wrapper: wrapperWithoutDisplayName }
-        )
+        const { result } = renderHook(() => useRootOrgData(['A0000000000']), {
+            wrapper: wrapperWithoutDisplayName,
+        })
 
-        await waitForNextUpdate()
+        await waitFor(() => {})
 
         expect(result.current).toEqual(
             expect.objectContaining({

@@ -23,6 +23,8 @@ jest.mock('../../shared/use-user-info/use-can-user-edit-fields.js', () => ({
 }))
 
 describe('<Comment />', () => {
+    beforeEach(jest.useFakeTimers)
+
     afterEach(() => {
         useSetDataValueMutation.mockClear()
     })
@@ -111,9 +113,16 @@ describe('<Comment />', () => {
             comment: 'This is a comment',
         }
 
-        const { getByRole, queryByRole } = render(<Comment item={item} />)
+        const { getByRole, queryByRole, findByRole } = render(
+            <Comment item={item} />
+        )
 
-        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        const editButton = await findByRole('button', { name: 'Edit comment' })
+
+        const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+        })
+        await user.click(editButton)
 
         await waitFor(() => {
             expect(queryByRole('textbox')).toBeInTheDocument()
@@ -126,8 +135,11 @@ describe('<Comment />', () => {
         expect(input.value).toBe('Changed')
 
         expect(queryByRole('progressbar')).not.toBeInTheDocument()
-        userEvent.click(getByRole('button', { name: 'Save comment' }))
-        expect(getByRole('progressbar')).toBeInTheDocument()
+        const btnSaveComment = await findByRole('button', {
+            name: 'Save comment',
+        })
+        await user.click(btnSaveComment)
+        await findByRole('progressbar')
     })
 
     it('shows a drop down with relevant options when data element has a commentOptionSet', async () => {
@@ -155,13 +167,16 @@ describe('<Comment />', () => {
             <Comment item={item} />
         )
 
-        userEvent.click(getByRole('button', { name: 'Add comment' }))
+        const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+        })
+        await user.click(getByRole('button', { name: 'Add comment' }))
 
         await waitFor(() => {
             expect(queryByRole('textbox')).toBeInTheDocument()
         })
 
-        userEvent.click(getByText('Choose an option'))
+        await user.click(getByText('Choose an option'))
 
         await waitFor(() => {
             expect(getByText('Doffen')).toBeInTheDocument()
@@ -194,14 +209,18 @@ describe('<Comment />', () => {
             <Comment item={item} />
         )
 
-        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+        })
+
+        await user.click(getByRole('button', { name: 'Edit comment' }))
 
         await waitFor(() => {
             expect(queryByRole('textbox')).toBeInTheDocument()
         })
 
-        userEvent.click(getByText('Choose an option'))
-        userEvent.click(getByText('Doffen'))
+        await user.click(getByText('Choose an option'))
+        await user.click(getByText('Doffen'))
 
         expect(getByRole('textbox').value).toBe('Doffen')
     })
@@ -217,7 +236,11 @@ describe('<Comment />', () => {
 
         const { getByRole, queryByRole } = render(<Comment item={item} />)
 
-        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+        })
+
+        await user.click(getByRole('button', { name: 'Edit comment' }))
         await waitFor(() => {
             expect(getByRole('textbox')).toBeInTheDocument()
         })
@@ -234,7 +257,7 @@ describe('<Comment />', () => {
             })
         ).not.toBeInTheDocument()
 
-        userEvent.click(getByRole('button', { name: 'Save comment' }))
+        await user.click(getByRole('button', { name: 'Save comment' }))
         expect(
             getByRole('heading', {
                 name: 'There was a problem updating the comment for this data item',
@@ -252,7 +275,10 @@ describe('<Comment />', () => {
 
         const { getByRole, queryByRole } = render(<Comment item={item} />)
 
-        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+        })
+        await user.click(getByRole('button', { name: 'Edit comment' }))
         await waitFor(() => {
             expect(getByRole('textbox')).toBeInTheDocument()
         })
@@ -269,7 +295,7 @@ describe('<Comment />', () => {
             })
         ).not.toBeInTheDocument()
 
-        userEvent.click(getByRole('button', { name: 'Save comment' }))
+        await user.click(getByRole('button', { name: 'Save comment' }))
         await waitFor(() => {
             const saveButton = queryByRole('button', { name: 'Save comment' })
             const editButton = queryByRole('button', { name: 'Edit comment' })
@@ -298,8 +324,11 @@ describe('<Comment />', () => {
             <Comment item={firstItem} />
         )
 
+        const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+        })
         // change the comment
-        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        await user.click(getByRole('button', { name: 'Edit comment' }))
         const input = getByRole('textbox')
         fireEvent.change(input, {
             target: { value: changedComment },
@@ -318,7 +347,7 @@ describe('<Comment />', () => {
         await findByText(changedComment)
 
         // when canceling, it should revert to original text
-        userEvent.click(getByText('Cancel'))
+        await user.click(getByText('Cancel'))
         await findByText('original comment')
     })
 
@@ -344,7 +373,11 @@ describe('<Comment />', () => {
             render(<Comment item={firstItem} />)
 
         // change the comment
-        userEvent.click(getByRole('button', { name: 'Edit comment' }))
+        const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+        })
+
+        await user.click(getByRole('button', { name: 'Edit comment' }))
         const input = getByRole('textbox')
         fireEvent.change(input, {
             target: { value: changedComment },
@@ -352,7 +385,7 @@ describe('<Comment />', () => {
 
         fireEvent.blur(input)
 
-        userEvent.click(getByRole('button', { name: 'Save comment' }))
+        await user.click(getByRole('button', { name: 'Save comment' }))
 
         expect(
             await findByRole('heading', {
@@ -371,7 +404,7 @@ describe('<Comment />', () => {
         await findByText(changedComment)
 
         // when canceling, it should revert to original text
-        userEvent.click(getByText('Cancel'))
+        await user.click(getByText('Cancel'))
         await findByText('original comment')
     })
 

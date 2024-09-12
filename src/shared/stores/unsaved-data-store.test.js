@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import { useUnsavedDataStore, inititalState } from './unsaved-data-store.js'
 
 jest.mock('zustand/middleware', () => ({
@@ -29,7 +29,7 @@ describe('useUnsavedDataStore', () => {
     })
 
     it('should set an unsaved comment', async () => {
-        const { result, waitFor } = renderHook(useUnsavedDataStore)
+        const { result } = renderHook(useUnsavedDataStore)
 
         expect(
             result.current.getUnsavedComment(
@@ -62,7 +62,7 @@ describe('useUnsavedDataStore', () => {
             },
         })
 
-        const { result, waitFor } = renderHook(useUnsavedDataStore)
+        const { result } = renderHook(useUnsavedDataStore)
 
         expect(
             result.current.getUnsavedComment(
@@ -106,7 +106,7 @@ describe('useUnsavedDataStore', () => {
     })
 
     it('should set an unsaved limit', async () => {
-        const { result, waitFor } = renderHook(useUnsavedDataStore)
+        const { result } = renderHook(useUnsavedDataStore)
 
         expect(
             result.current.getUnsavedLimits(
@@ -141,7 +141,7 @@ describe('useUnsavedDataStore', () => {
             },
         })
 
-        const { result, waitFor } = renderHook(useUnsavedDataStore)
+        const { result } = renderHook(useUnsavedDataStore)
 
         expect(
             result.current.getUnsavedLimits(
