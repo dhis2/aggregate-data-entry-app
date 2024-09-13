@@ -1,3 +1,4 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { createFixedPeriodFromPeriodId } from '@dhis2/multi-calendar-dates'
 import {
     Chart as ChartJS,
@@ -30,11 +31,9 @@ const options = {
     },
 }
 
-function sortHistoryByStartDate(history) {
+function sortHistoryByStartDate(history, calendar = 'gregory') {
     // [...history] ->  prevent mutating the original array
     return [...history].sort((left, right) => {
-        // @TODO(calendar)
-        const calendar = 'gregory'
         const leftStartDate = new Date(
             createFixedPeriodFromPeriodId({
                 periodId: left.period,
@@ -60,9 +59,7 @@ function sortHistoryByStartDate(history) {
     })
 }
 
-function createLabelsFromHistory(history) {
-    // @TODO(calendar)
-    const calendar = 'gregory'
+function createLabelsFromHistory(history, calendar) {
     return history.map(({ period }) => {
         try {
             return createFixedPeriodFromPeriodId({ periodId: period, calendar })
@@ -76,8 +73,10 @@ function createLabelsFromHistory(history) {
 }
 
 export default function HistoryLineChart({ history }) {
-    const oldToNewHistory = sortHistoryByStartDate(history)
-    const labels = createLabelsFromHistory(oldToNewHistory)
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory' } = systemInfo
+    const oldToNewHistory = sortHistoryByStartDate(history, calendar)
+    const labels = createLabelsFromHistory(oldToNewHistory, calendar)
     const data = {
         labels,
         datasets: [

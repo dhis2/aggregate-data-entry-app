@@ -1,19 +1,19 @@
 import { renderHook } from '@testing-library/react-hooks'
 import {
-    getCurrentDate,
     periodTypes,
     useMetadata,
     periodTypesMapping,
 } from '../../shared/index.js'
-import {
-    useDateLimit,
-    computePeriodDateLimit,
-    getDateInTimeZone,
-} from './use-date-limit.js'
+import { getNowInCalendar } from './get-now-in-calendar.js'
+import { useDateLimit, computePeriodDateLimit } from './use-date-limit.js'
 
 export const reversedPeriodTypesMapping = Object.fromEntries(
     Object.entries(periodTypesMapping).map(([key, value]) => [value, key])
 )
+
+jest.mock('./get-now-in-calendar.js', () => ({
+    getNowInCalendar: jest.fn(() => '2020-07-01'),
+}))
 
 jest.mock(
     '../../shared/use-context-selection/use-context-selection.js',
@@ -46,55 +46,29 @@ jest.mock('../../shared/date/use-server-time-offset.js', () => ({
     default: jest.fn(() => 0),
 }))
 
-describe('getDateInTimeZone', () => {
-    it('should return a date corrected that corresponds to the browser time zone', () => {
-        // note that we are setting the time zone for tests to UTC, so new Date() and getDateInTimeZone() are equivalent
-        const dateString = '2024-01-01'
-        const actual = getDateInTimeZone(dateString)
-        const expected = new Date(dateString)
-        expect(actual).toEqual(expected)
-    })
-
-    it('should use Date constructor if date is not in format yyyy-mm-dd', () => {
-        const dateString = '2024-01-01T12:00:00'
-        const actual = getDateInTimeZone(dateString)
-        const expected = new Date(dateString)
-        expect(actual).toEqual(expected)
-    })
-})
-
 describe('computePeriodDateLimit', () => {
-    const actualSystemTime = new Date()
-    jest.useFakeTimers()
-
-    afterEach(() => {
-        jest.setSystemTime(actualSystemTime)
-    })
-
     it('it should return the "2022-04-01" date', () => {
-        const currentDate = getDateInTimeZone('2023-03-01')
-        jest.setSystemTime(currentDate)
+        const currentDate = '2023-03-01'
 
         const actual = computePeriodDateLimit({
             periodType: periodTypes.FYAPR,
-            serverDate: currentDate,
+            dateServerInCalendarString: currentDate,
             openFuturePeriods: 0,
         })
-        const expected = getDateInTimeZone('2022-04-01')
+        const expected = '2022-04-01'
 
         expect(actual).toEqual(expected)
     })
 
     it('it should return the "2023-04-01" period', () => {
-        const currentDate = getDateInTimeZone('2023-05-01')
-        jest.setSystemTime(currentDate)
+        const currentDate = '2023-05-01'
 
         const actual = computePeriodDateLimit({
             periodType: periodTypes.FYAPR,
-            serverDate: currentDate,
+            dateServerInCalendarString: currentDate,
             openFuturePeriods: 0,
         })
-        const expected = getDateInTimeZone('2023-04-01')
+        const expected = '2023-04-01'
 
         expect(actual).toEqual(expected)
     })
@@ -332,7 +306,14 @@ describe.each([
     // eslint-disable-next-line max-params
     (currentDate, periodType, openFuturePeriods, expectedDate) => {
         test(`should be ${expectedDate} if current date: ${currentDate}, periodType: ${periodType}, openFuturePeriods: ${openFuturePeriods}`, () => {
-            getCurrentDate.mockImplementation(() => new Date(currentDate))
+            getNowInCalendar.mockImplementation(() => {
+                const [eraYear, month, day] = currentDate.split('-')
+                return {
+                    eraYear: Number(eraYear),
+                    month: Number(month),
+                    day: Number(day),
+                }
+            })
             useMetadata.mockImplementationOnce(() => ({
                 data: {
                     dataSets: {
@@ -346,7 +327,7 @@ describe.each([
             }))
 
             const { result } = renderHook(() => useDateLimit())
-            expect(result.current).toEqual(new Date(expectedDate))
+            expect(result.current).toEqual(expectedDate)
         })
     }
 )

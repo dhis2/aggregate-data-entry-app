@@ -1,3 +1,4 @@
+import { useConfig } from '@dhis2/app-runtime'
 import {
     getAdjacentFixedPeriods,
     getFixedPeriodByDate,
@@ -7,29 +8,35 @@ import {
     selectors,
     useDataSetId,
     useMetadata,
-    formatJsDateToDateString,
-    getCurrentDate,
     periodTypesMapping,
-    useClientServerDateUtils,
-    useClientServerDate,
 } from '../../shared/index.js'
+import { getNowInCalendar } from './get-now-in-calendar.js'
 
-export const getDateInTimeZone = (dateString) => {
-    const [yyyy, mm, dd] = dateString.split('-')
-    if (isNaN(Number(yyyy)) || isNaN(Number(dd)) || isNaN(Number(mm))) {
-        return new Date(dateString)
+const pad = (startValue, minLength, padString) => {
+    try {
+        const startString = String(startValue)
+        return startString.padStart(minLength, padString)
+    } catch (e) {
+        console.error(e)
+        return startValue
     }
-    return new Date(yyyy, Number(mm) - 1, dd)
+}
+
+const stringifyDate = (temporalDate) => {
+    return `${pad(temporalDate.eraYear, 4, '0')}-${pad(
+        temporalDate.month,
+        2,
+        '0'
+    )}-${pad(temporalDate.day, 2, '0')}`
 }
 
 export const computePeriodDateLimit = ({
     periodType,
-    serverDate,
+    dateServerInCalendarString,
     openFuturePeriods = 0,
+    calendar = 'gregory',
 }) => {
-    const calendar = 'gregory'
-    // serverDate is converted to YYYY-MM-DD string named date before being passed
-    const date = serverDate.toLocaleDateString('sv')
+    const date = dateServerInCalendarString
     const currentPeriod = getFixedPeriodByDate({
         periodType,
         date,
@@ -37,7 +44,7 @@ export const computePeriodDateLimit = ({
     })
 
     if (openFuturePeriods <= 0) {
-        return getDateInTimeZone(currentPeriod.startDate)
+        return currentPeriod.startDate
     }
 
     const followingPeriods = getAdjacentFixedPeriods({
@@ -48,7 +55,7 @@ export const computePeriodDateLimit = ({
 
     const [lastFollowingPeriod] = followingPeriods.slice(-1)
 
-    return getDateInTimeZone(lastFollowingPeriod.startDate)
+    return lastFollowingPeriod.startDate
 }
 
 /**
@@ -58,19 +65,21 @@ export const computePeriodDateLimit = ({
  * period is a considered afuture period)
  */
 export const useDateLimit = () => {
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
+        systemInfo
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
-    const { fromClientDate } = useClientServerDateUtils()
-    const currentDate = useClientServerDate()
-    const currentDay = formatJsDateToDateString(currentDate.serverDate)
+
+    const nowServerInCalendar = getNowInCalendar(calendar, timezone)
+    const dateServerInCalendarString = stringifyDate(nowServerInCalendar)
 
     return useMemo(
         () => {
-            const currentDate = fromClientDate(getCurrentDate())
             const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
             if (!dataSet) {
-                return currentDate.serverDate
+                return dateServerInCalendarString
             }
 
             const periodType = periodTypesMapping[dataSet.periodType]
@@ -79,13 +88,13 @@ export const useDateLimit = () => {
             return computePeriodDateLimit({
                 periodType,
                 openFuturePeriods,
-                serverDate: currentDate.serverDate,
+                dateServerInCalendarString,
+                calendar,
             })
         },
 
         // Adding `dateWithoutTime` to the dependency array so this hook will
         // recompute the date limit when the actual date changes
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [dataSetId, metadata, currentDay, fromClientDate]
+        [dataSetId, metadata, dateServerInCalendarString, calendar]
     )
 }

@@ -50,7 +50,7 @@
     },
     "dependencies": {
         "@dhis2/app-runtime": "^3.10.2",
-        "@dhis2/multi-calendar-dates": "^1.1.0",
+        "@dhis2/multi-calendar-dates": "^1.2.4",
         "@dhis2/ui": "^9.2.0",
         "@dhis2/ui-forms": "7.16.3",
         "@tanstack/react-query": "4.24.10",

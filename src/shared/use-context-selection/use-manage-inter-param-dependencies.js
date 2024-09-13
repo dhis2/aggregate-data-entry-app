@@ -1,4 +1,4 @@
-import { useAlert } from '@dhis2/app-runtime'
+import { useAlert, useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { createFixedPeriodFromPeriodId } from '@dhis2/multi-calendar-dates'
 import { useEffect, useState } from 'react'
@@ -22,10 +22,7 @@ export default function useManageInterParamDependencies() {
     useHandleSectionFilterChange()
 }
 
-function convertPeriodIdToPeriodType(periodId) {
-    // @TODO(calendar)
-    const calendar = 'gregory'
-
+function convertPeriodIdToPeriodType(periodId, calendar) {
     if (!periodId) {
         return ''
     }
@@ -45,9 +42,11 @@ function convertPeriodIdToPeriodType(periodId) {
 }
 
 function useHandleDataSetIdChange() {
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory' } = systemInfo
     const [periodId, setPeriodId] = usePeriodId()
     const [previousPeriodType, setPreviousPeriodType] = useState(() =>
-        convertPeriodIdToPeriodType(periodId)
+        convertPeriodIdToPeriodType(periodId, calendar)
     )
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
@@ -129,6 +128,8 @@ function useHandleOrgUnitIdChange() {
     const [prevOrgUnitId, setPrevOrgUnitId] = useState(orgUnitId)
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory' } = systemInfo
 
     const clientServerDateUtils = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
@@ -137,7 +138,8 @@ function useHandleOrgUnitIdChange() {
             dataSetId,
             periodId,
             orgUnitId,
-            clientServerDateUtils.fromClientDate
+            clientServerDateUtils.fromClientDate,
+            calendar
         )
 
     useEffect(() => {
@@ -211,6 +213,8 @@ function useHandlePeriodIdChange() {
     const [orgUnitId] = useOrgUnitId()
     const [periodId] = usePeriodId()
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory' } = systemInfo
     const clientServerDateUtils = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
@@ -218,7 +222,8 @@ function useHandlePeriodIdChange() {
             dataSetId,
             periodId,
             orgUnitId,
-            clientServerDateUtils.fromClientDate
+            clientServerDateUtils.fromClientDate,
+            calendar
         )
 
     useEffect(() => {

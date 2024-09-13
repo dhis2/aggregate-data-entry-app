@@ -1,3 +1,4 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { generateFixedPeriods } from '@dhis2/multi-calendar-dates'
 import { useMemo } from 'react'
 import {
@@ -5,6 +6,7 @@ import {
     useClientServerDate,
     useUserInfo,
     yearlyFixedPeriodTypes,
+    startingYears,
 } from '../../shared/index.js'
 
 export default function usePeriods({
@@ -15,7 +17,9 @@ export default function usePeriods({
     openFuturePeriods,
 }) {
     // @TODO(calendar)
-    const calendar = 'gregory'
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory' } = systemInfo
+
     const { data: userInfo } = useUserInfo()
     const { keyUiLocale: locale } = userInfo.settings
     const currentDate = useClientServerDate()
@@ -24,9 +28,8 @@ export default function usePeriods({
     return useMemo(() => {
         // Adding `currentDay` to the dependency array so this hook will
         // recompute the date limit when the actual date changes
-        currentDay
 
-        if (!periodType) {
+        if (!periodType || !calendar) {
             return []
         }
 
@@ -34,20 +37,21 @@ export default function usePeriods({
         const yearForGenerating = isYearlyPeriodType
             ? year + openFuturePeriods
             : year
-        // dateLimit is converted to YYYY-MM-DD string named endsBefore before being passed
-        const endsBefore = dateLimit.toLocaleDateString('sv')
 
         const generateFixedPeriodsPayload = {
             calendar,
             periodType,
             year: yearForGenerating,
-            endsBefore,
+            endsBefore: dateLimit,
             locale,
 
             // only used when generating yearly periods, so save to use
             // here, regardless of the period type.
-            // + 1 so we include 1970 as well
-            yearsCount: yearForGenerating - 1970 + 1,
+            // + 1 so we include the starting year as well
+            yearsCount:
+                yearForGenerating -
+                (startingYears[calendar] ?? startingYears.default) +
+                1,
         }
         const periods = generateFixedPeriods(generateFixedPeriodsPayload)
 
@@ -89,5 +93,13 @@ export default function usePeriods({
         }
 
         return periods.reverse()
-    }, [periodType, currentDay, year, dateLimit, locale, openFuturePeriods])
+    }, [
+        periodType,
+        currentDay,
+        year,
+        dateLimit,
+        locale,
+        openFuturePeriods,
+        calendar,
+    ])
 }

@@ -26,7 +26,7 @@ describe('usePeriods', () => {
         const periodType = 'DAILY'
         const openFuturePeriods = 0
         const year = 2023
-        const dateLimit = new Date('2023-03-01')
+        const dateLimit = '2023-03-01'
 
         const { result } = renderHook(() =>
             usePeriods({
@@ -58,7 +58,7 @@ describe('usePeriods', () => {
         const periodType = 'WEEKLY'
         const openFuturePeriods = 0
         const year = 2023
-        const dateLimit = new Date('2023-03-01')
+        const dateLimit = '2023-03-01'
 
         const { result } = renderHook(() =>
             usePeriods({
@@ -90,7 +90,7 @@ describe('usePeriods', () => {
         const periodType = 'WEEKLY'
         const openFuturePeriods = 0
         const year = 2019
-        const dateLimit = new Date('2023-03-01')
+        const dateLimit = '2023-03-01'
 
         const { result } = renderHook(() =>
             usePeriods({
@@ -122,7 +122,7 @@ describe('usePeriods', () => {
         const periodType = 'MONTHLY'
         const openFuturePeriods = 0
         const year = 2023
-        const dateLimit = new Date('2023-07-16')
+        const dateLimit = '2023-07-16'
 
         const { result } = renderHook(() =>
             usePeriods({
@@ -154,7 +154,7 @@ describe('usePeriods', () => {
         const periodType = 'QUARTERLY'
         const openFuturePeriods = 0
         const year = 2023
-        const dateLimit = new Date('2023-08-16')
+        const dateLimit = '2023-08-16'
 
         const { result } = renderHook(() =>
             usePeriods({
@@ -184,7 +184,7 @@ describe('usePeriods', () => {
         const periodType = 'SIXMONTHLYNOV'
         const openFuturePeriods = 0
         const year = 2023
-        const dateLimit = new Date('2023-08-16')
+        const dateLimit = '2023-08-16'
 
         const { result } = renderHook(() =>
             usePeriods({
@@ -209,7 +209,7 @@ describe('usePeriods', () => {
         const periodType = 'YEARLY'
         const openFuturePeriods = 0
         const year = 2023
-        const dateLimit = new Date('2023-08-16')
+        const dateLimit = '2023-08-16'
 
         const { result } = renderHook(() =>
             usePeriods({
@@ -241,7 +241,7 @@ describe('usePeriods', () => {
         const periodType = 'FYNOV'
         const openFuturePeriods = 0
         const year = 2023
-        const dateLimit = new Date('2023-08-16')
+        const dateLimit = '2023-08-16'
 
         const { result } = renderHook(() =>
             usePeriods({
@@ -277,7 +277,7 @@ describe('usePeriods', () => {
                 periodType: 'FYAPR',
                 openFuturePeriods: 2,
                 year: 2023,
-                dateLimit: new Date('2024-04-01'),
+                dateLimit: '2024-04-01',
             })
         )
 
