@@ -18,7 +18,7 @@ jobs:
         steps:
             - uses: actions/checkout@v3
 
-            - name: Generate Test matrix
+            - name: Generate Test Matrix
               id: set-matrix
               run: |
                   echo "Generating Test Matrix"
@@ -28,18 +28,64 @@ jobs:
               run: |
                   echo "Matrix output: ${{ steps.set-matrix.outputs.specs }}"
 
-    call-workflow-e2e-prod:
+    e2e-tests:
+        runs-on: ubuntu-latest
+        if: "!github.event.push.repository.fork && github.actor != 'dependabot[bot]'"
         needs: setup-matrix
-        uses: dhis2/workflows/.github/workflows/analytics-e2e-tests-triggered-by-core.yml@workflow-dispatch-cypress
-        with:
-            should_record: ${{ contains(github.event.head_commit.message, '[e2e record]') || contains(join(github.event.pull_request.labels.*.name), 'e2e record')}}
-            spec-group: ${{ needs.setup-matrix.outputs.matrix }}
-            instance_url: ${{ github.event.inputs.instance_url }}
-            dhis2_version: ${{ github.event.inputs.dhis2_version }}
-        secrets:
-            username: ${{ secrets.CYPRESS_DHIS2_USERNAME }}
-            password: ${{ secrets.CYPRESS_DHIS2_PASSWORD }}
-            recordkey: ${{ secrets.CYPRESS_RECORD_KEY }}
-            reportportal_api_key: ${{ secrets.REPORTPORTAL_API_KEY }}
-            reportportal_endpoint: ${{ vars.REPORTPORTAL_ENDPOINT }}
-            reportportal_project: ${{ vars.REPORTPORTAL_PROJECT }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                spec-group: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
+
+        env:
+            SHOULD_RECORD: ${{ contains(github.event.head_commit.message, '[e2e record]') || contains(join(github.event.pull_request.labels.*.name), 'e2e record') }}
+            CI_BUILD_ID: ${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 14.x
+                  cache: 'yarn'
+
+            - name: Set Cypress Record Environment Variables
+              if: env.SHOULD_RECORD == 'true'
+              run: |
+                  echo "CYPRESS_GROUP=e2e-${{ matrix.spec-group.id }}" >> $GITHUB_ENV
+                  echo "CYPRESS_TAG=${{ github.event_name }}" >> $GITHUB_ENV
+                  echo "CYPRESS_CI_BUILD_ID=${{ github.run_id }}" >> $GITHUB_ENV
+
+            - name: Debug Environment Variables
+              run: |
+                  echo "SHOULD_RECORD=${{ env.SHOULD_RECORD }}"
+                  echo "CI Build ID=${{ env.CI_BUILD_ID }}"
+                  echo "Computed Group=${{ env.SHOULD_RECORD == 'true' && env.CYPRESS_GROUP || '' }}"
+                  echo "Computed Tag=${{ env.SHOULD_RECORD == 'true' && env.CYPRESS_TAG || '' }}"
+                  echo "Computed CI Build ID=${{ env.SHOULD_RECORD == 'true' && env.CYPRESS_CI_BUILD_ID || '' }}"
+                  echo "Spec=${{ join(matrix.spec-group.tests, ',') }}"
+
+            - name: End-to-End tests
+              uses: cypress-io/github-action@v5
+              with:
+                  start: yarn d2-app-scripts start
+                  wait-on: ${{ github.event.inputs.instance_url }}
+                  wait-on-timeout: 300
+                  record: ${{ env.SHOULD_RECORD }}
+                  parallel: ${{ env.SHOULD_RECORD }}
+                  group: ${{ env.SHOULD_RECORD == 'true' && env.CYPRESS_GROUP || '' }}
+                  tag: ${{ env.SHOULD_RECORD == 'true' && env.CYPRESS_TAG || '' }}
+                  ci-build-id: ${{ env.SHOULD_RECORD == 'true' && env.CYPRESS_CI_BUILD_ID || '' }}
+                  spec: ${{ join(matrix.spec-group.tests, ',') }}
+              env:
+                  BROWSER: none
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+                  CYPRESS_dhis2BaseUrl: ${{ github.event.inputs.instance_url }}
+                  CYPRESS_dhis2ApiVersion: ${{ github.event.inputs.dhis2_version }}
+                  REPORTPORTAL_API_KEY: ${{ secrets.REPORTPORTAL_API_KEY }}
+                  REPORTPORTAL_ENDPOINT: ${{ vars.REPORTPORTAL_ENDPOINT }}
+                  REPORTPORTAL_PROJECT: ${{ vars.REPORTPORTAL_PROJECT }}
