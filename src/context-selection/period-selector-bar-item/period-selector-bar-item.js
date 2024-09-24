@@ -112,9 +112,11 @@ export const PeriodSelectorBarItem = () => {
         }
 
         if (selectedPeriod) {
-            const endDate = new Date(selectedPeriod?.endDate)
-            const dateLimitObject = new Date(dateLimit)
-            if (endDate >= dateLimitObject) {
+            const endDate = selectedPeriod?.endDate
+
+            // date comparison
+            // use string comparison to avoid problems with non-gregory dates
+            if (endDate >= dateLimit) {
                 resetPeriod(periodId)
             }
 

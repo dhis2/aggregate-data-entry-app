@@ -4,7 +4,7 @@ import {
     useMetadata,
     periodTypesMapping,
 } from '../../shared/index.js'
-import { getNowInCalendar } from './get-now-in-calendar.js'
+import { getNowInCalendarString } from './get-now-in-calendar.js'
 import { useDateLimit, computePeriodDateLimit } from './use-date-limit.js'
 
 export const reversedPeriodTypesMapping = Object.fromEntries(
@@ -12,7 +12,7 @@ export const reversedPeriodTypesMapping = Object.fromEntries(
 )
 
 jest.mock('./get-now-in-calendar.js', () => ({
-    getNowInCalendar: jest.fn(() => '2020-07-01'),
+    getNowInCalendarString: jest.fn(() => '2020-07-01'),
 }))
 
 jest.mock(
@@ -306,14 +306,7 @@ describe.each([
     // eslint-disable-next-line max-params
     (currentDate, periodType, openFuturePeriods, expectedDate) => {
         test(`should be ${expectedDate} if current date: ${currentDate}, periodType: ${periodType}, openFuturePeriods: ${openFuturePeriods}`, () => {
-            getNowInCalendar.mockImplementation(() => {
-                const [eraYear, month, day] = currentDate.split('-')
-                return {
-                    eraYear: Number(eraYear),
-                    month: Number(month),
-                    day: Number(day),
-                }
-            })
+            getNowInCalendarString.mockImplementation(() => currentDate)
             useMetadata.mockImplementationOnce(() => ({
                 data: {
                     dataSets: {

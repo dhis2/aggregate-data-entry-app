@@ -2,12 +2,11 @@ import { useConfig } from '@dhis2/app-runtime'
 import { generateFixedPeriods } from '@dhis2/multi-calendar-dates'
 import { useMemo } from 'react'
 import {
-    formatJsDateToDateString,
-    useClientServerDate,
     useUserInfo,
     yearlyFixedPeriodTypes,
     startingYears,
 } from '../../shared/index.js'
+import { getNowInCalendarString } from './get-now-in-calendar.js'
 
 export default function usePeriods({
     periodType,
@@ -18,15 +17,15 @@ export default function usePeriods({
 }) {
     // @TODO(calendar)
     const { systemInfo = {} } = useConfig()
-    const { calendar = 'gregory' } = systemInfo
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
+        systemInfo
 
     const { data: userInfo } = useUserInfo()
     const { keyUiLocale: locale } = userInfo.settings
-    const currentDate = useClientServerDate()
-    const currentDay = formatJsDateToDateString(currentDate.serverDate)
+    const currentDayString = getNowInCalendarString(calendar, timezone)
 
     return useMemo(() => {
-        // Adding `currentDay` to the dependency array so this hook will
+        // Adding `currentDayString` to the dependency array so this hook will
         // recompute the date limit when the actual date changes
 
         if (!periodType || !calendar) {
@@ -70,6 +69,7 @@ export default function usePeriods({
 
         // we want to display the last period of the previous year if it
         // stretches into the current year
+        // date comparison
         if (
             lastPeriodOfPrevYear &&
             `${year}-01-01` <= lastPeriodOfPrevYear.endDate
@@ -85,6 +85,7 @@ export default function usePeriods({
         // if we're allowed to display the first period of the next year, we
         // want to display the first period of the next year if it starts in
         // the current year
+        // date comparison
         if (
             firstPeriodNextYear &&
             `${year + 1}-01-01` > firstPeriodNextYear.startDate
@@ -95,7 +96,7 @@ export default function usePeriods({
         return periods.reverse()
     }, [
         periodType,
-        currentDay,
+        currentDayString,
         year,
         dateLimit,
         locale,

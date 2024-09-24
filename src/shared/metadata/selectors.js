@@ -444,6 +444,7 @@ const isOptionWithinPeriod = ({
 
     // dates are all server dates so we can ignore time zone adjustment
     // use string comparison for time being to better handle non-gregory dates
+    // date comparison
 
     if (categoryOption.startDate) {
         const categoryOptionStartDate = categoryOption.startDate

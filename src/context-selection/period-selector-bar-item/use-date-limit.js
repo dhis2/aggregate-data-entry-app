@@ -10,25 +10,7 @@ import {
     useMetadata,
     periodTypesMapping,
 } from '../../shared/index.js'
-import { getNowInCalendar } from './get-now-in-calendar.js'
-
-const pad = (startValue, minLength, padString) => {
-    try {
-        const startString = String(startValue)
-        return startString.padStart(minLength, padString)
-    } catch (e) {
-        console.error(e)
-        return startValue
-    }
-}
-
-const stringifyDate = (temporalDate) => {
-    return `${pad(temporalDate.eraYear, 4, '0')}-${pad(
-        temporalDate.month,
-        2,
-        '0'
-    )}-${pad(temporalDate.day, 2, '0')}`
-}
+import { getNowInCalendarString } from './get-now-in-calendar.js'
 
 export const computePeriodDateLimit = ({
     periodType,
@@ -71,8 +53,10 @@ export const useDateLimit = () => {
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
 
-    const nowServerInCalendar = getNowInCalendar(calendar, timezone)
-    const dateServerInCalendarString = stringifyDate(nowServerInCalendar)
+    const dateServerInCalendarString = getNowInCalendarString(
+        calendar,
+        timezone
+    )
 
     return useMemo(
         () => {

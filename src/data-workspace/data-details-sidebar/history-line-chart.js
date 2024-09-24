@@ -34,19 +34,17 @@ const options = {
 function sortHistoryByStartDate(history, calendar = 'gregory') {
     // [...history] ->  prevent mutating the original array
     return [...history].sort((left, right) => {
-        const leftStartDate = new Date(
-            createFixedPeriodFromPeriodId({
-                periodId: left.period,
-                calendar,
-            }).startDate
-        )
-        const rightStartDate = new Date(
-            createFixedPeriodFromPeriodId({
-                periodId: right.period,
-                calendar,
-            }).startDate
-        )
+        const leftStartDate = createFixedPeriodFromPeriodId({
+            periodId: left.period,
+            calendar,
+        }).startDate
 
+        const rightStartDate = createFixedPeriodFromPeriodId({
+            periodId: right.period,
+            calendar,
+        }).startDate
+
+        // date comparison
         if (leftStartDate > rightStartDate) {
             return 1
         }
