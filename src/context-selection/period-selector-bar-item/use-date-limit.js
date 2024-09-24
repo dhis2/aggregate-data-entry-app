@@ -9,8 +9,8 @@ import {
     useDataSetId,
     useMetadata,
     periodTypesMapping,
+    getNowInCalendarString,
 } from '../../shared/index.js'
-import { getNowInCalendarString } from './get-now-in-calendar.js'
 
 export const computePeriodDateLimit = ({
     periodType,

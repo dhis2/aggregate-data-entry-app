@@ -1,12 +1,12 @@
 import { useConfig } from '@dhis2/app-runtime'
 import { generateFixedPeriods } from '@dhis2/multi-calendar-dates'
 import { useMemo } from 'react'
+import { getNowInCalendarString } from '../../shared/fixed-periods/get-now-in-calendar.js'
 import {
     useUserInfo,
     yearlyFixedPeriodTypes,
     startingYears,
 } from '../../shared/index.js'
-import { getNowInCalendarString } from './get-now-in-calendar.js'
 
 export default function usePeriods({
     periodType,
@@ -15,7 +15,6 @@ export default function usePeriods({
     // only required when periodType is a yearly period type
     openFuturePeriods,
 }) {
-    // @TODO(calendar)
     const { systemInfo = {} } = useConfig()
     const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
         systemInfo

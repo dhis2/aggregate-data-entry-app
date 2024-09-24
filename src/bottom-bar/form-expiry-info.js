@@ -1,9 +1,9 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { IconInfo16, colors, Tooltip } from '@dhis2/ui'
 import cx from 'classnames'
-import moment from 'moment'
 import React from 'react'
 import i18n from '../locales/index.js'
-import { useLockedContext } from '../shared/index.js'
+import { useLockedContext, getRelativeTime } from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
 export default function FormExpiryInfo() {
@@ -12,13 +12,23 @@ export default function FormExpiryInfo() {
         lockStatus: { lockDate },
     } = useLockedContext()
 
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
+        systemInfo
+    const relativeTime = getRelativeTime({
+        startDate: lockDate,
+        calendar,
+        timezone,
+    })
+    const dateTime = `lockDate (${timezone})`
+
     return (
         <>
             {!locked && lockDate && (
                 <Tooltip
                     content={i18n.t(
                         'This form closes and will be locked at {{-dateTime}}',
-                        { dateTime: lockDate.toLocaleString() }
+                        { dateTime }
                     )}
                 >
                     <span
@@ -33,7 +43,7 @@ export default function FormExpiryInfo() {
 
                         <span>
                             {i18n.t('Closes {{-relativeTime}}', {
-                                relativeTime: moment(lockDate).fromNow(),
+                                relativeTime: relativeTime ?? dateTime,
                             })}
                         </span>
                     </span>
