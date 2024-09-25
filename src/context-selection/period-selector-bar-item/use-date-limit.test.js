@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { getNowInCalendarString } from '../../shared/fixed-periods/get-now-in-calendar.js'
+import { getNowInCalendarString } from '../../shared/date/get-now-in-calendar.js'
 import {
     periodTypes,
     useMetadata,
@@ -11,7 +11,7 @@ export const reversedPeriodTypesMapping = Object.fromEntries(
     Object.entries(periodTypesMapping).map(([key, value]) => [value, key])
 )
 
-jest.mock('../../shared/fixed-periods/get-now-in-calendar.js', () => ({
+jest.mock('../../shared/date/get-now-in-calendar.js', () => ({
     getNowInCalendarString: jest.fn(() => '2020-07-01'),
 }))
 
@@ -34,16 +34,6 @@ jest.mock('../../shared/metadata/use-metadata.js', () => ({
             },
         },
     })),
-}))
-
-jest.mock('../../shared/fixed-periods/get-current-date.js', () => ({
-    __esModule: true,
-    default: jest.fn(() => new Date()),
-}))
-
-jest.mock('../../shared/date/use-server-time-offset.js', () => ({
-    __esModule: true,
-    default: jest.fn(() => 0),
 }))
 
 describe('computePeriodDateLimit', () => {

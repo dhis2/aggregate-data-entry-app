@@ -1,11 +1,13 @@
 import { useConfig } from '@dhis2/app-runtime'
 import { generateFixedPeriods } from '@dhis2/multi-calendar-dates'
 import { useMemo } from 'react'
-import { getNowInCalendarString } from '../../shared/fixed-periods/get-now-in-calendar.js'
+import { getNowInCalendarString } from '../../shared/date/get-now-in-calendar.js'
 import {
     useUserInfo,
     yearlyFixedPeriodTypes,
     startingYears,
+    isDateALessThanDateB,
+    isDateAGreaterThanDateB,
 } from '../../shared/index.js'
 
 export default function usePeriods({
@@ -16,12 +18,12 @@ export default function usePeriods({
     openFuturePeriods,
 }) {
     const { systemInfo = {} } = useConfig()
-    const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'Etc/UTC' } =
         systemInfo
 
     const { data: userInfo } = useUserInfo()
     const { keyUiLocale: locale } = userInfo.settings
-    const currentDayString = getNowInCalendarString(calendar, timezone)
+    const currentDayString = getNowInCalendarString({ calendar, timezone })
 
     return useMemo(() => {
         // Adding `currentDayString` to the dependency array so this hook will
@@ -71,7 +73,11 @@ export default function usePeriods({
         // date comparison
         if (
             lastPeriodOfPrevYear &&
-            `${year}-01-01` <= lastPeriodOfPrevYear.endDate
+            // `${year}-01-01` <= lastPeriodOfPrevYear.endDate
+            isDateALessThanDateB(`${year}`, lastPeriodOfPrevYear.endDate, {
+                inclusive: true,
+                calendar,
+            })
         ) {
             const [lastPeriodOfPrevYear] = generateFixedPeriods({
                 ...generateFixedPeriodsPayload,
@@ -87,7 +93,12 @@ export default function usePeriods({
         // date comparison
         if (
             firstPeriodNextYear &&
-            `${year + 1}-01-01` > firstPeriodNextYear.startDate
+            // `${year + 1}-01-01` > firstPeriodNextYear.startDate
+            isDateAGreaterThanDateB(
+                `${year + 1}`,
+                firstPeriodNextYear.startDate,
+                { inclusive: false, calendar }
+            )
         ) {
             periods.push(firstPeriodNextYear)
         }

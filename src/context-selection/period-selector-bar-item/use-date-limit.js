@@ -48,15 +48,15 @@ export const computePeriodDateLimit = ({
  */
 export const useDateLimit = () => {
     const { systemInfo = {} } = useConfig()
-    const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'Etc/UTC' } =
         systemInfo
     const [dataSetId] = useDataSetId()
     const { data: metadata } = useMetadata()
 
-    const dateServerInCalendarString = getNowInCalendarString(
+    const dateServerInCalendarString = getNowInCalendarString({
         calendar,
-        timezone
-    )
+        timezone,
+    })
 
     return useMemo(
         () => {

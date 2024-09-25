@@ -10,18 +10,27 @@ const pad = (startValue, minLength, padString) => {
     }
 }
 
-const stringifyDate = (temporalDate) => {
-    return `${pad(temporalDate.eraYear, 4, '0')}-${pad(
+const stringifyDate = (temporalDate, long) => {
+    const shortDate = `${pad(temporalDate.eraYear, 4, '0')}-${pad(
         temporalDate.month,
         2,
         '0'
     )}-${pad(temporalDate.day, 2, '0')}`
+    if (!long) {
+        return shortDate
+    }
+    return `${shortDate}T${pad(temporalDate.hour, 2, '0')}:${pad(
+        temporalDate.minute,
+        2,
+        '0'
+    )}:${pad(temporalDate.second, 2, '0')}`
 }
 
-export const getNowInCalendarString = (
+export const getNowInCalendarString = ({
     calendar = 'gregory',
-    timezone = 'Etc/UTC'
-) => {
+    timezone = 'Etc/UTC',
+    long = false,
+}) => {
     const nowTemporal = getNowInCalendar(calendar, timezone)
-    return stringifyDate(nowTemporal)
+    return stringifyDate(nowTemporal, long)
 }

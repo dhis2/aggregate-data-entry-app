@@ -3,7 +3,9 @@ import { useEffect } from 'react'
 import {
     getNowInCalendarString,
     addDaysToDateString,
-} from '../fixed-periods/index.js'
+    isDateAGreaterThanDateB,
+    isDateALessThanDateB,
+} from '../date/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { usePeriod } from '../period/index.js'
 import {
@@ -70,8 +72,16 @@ const getFrontendLockStatus = ({
         // date comparison
 
         if (
-            (openingDate && currentDateString < openingDate) ||
-            (closingDate && currentDateString > closingDate)
+            (openingDate &&
+                isDateALessThanDateB(currentDateString, openingDate, {
+                    calendar,
+                    inclusive: false,
+                })) ||
+            (closingDate &&
+                isDateAGreaterThanDateB(currentDateString, closingDate, {
+                    calendar,
+                    inclusive: false,
+                }))
         ) {
             return {
                 state: LockedStates.LOCKED_DATA_INPUT_PERIOD,
@@ -101,13 +111,19 @@ const getFrontendLockStatus = ({
         if (
             currentDateString &&
             expiryDateString &&
-            currentDateString < expiryDateString
+            isDateALessThanDateB(currentDateString, expiryDateString, {
+                calendar,
+                inclusive: false,
+            })
         ) {
             // Take the sooner of the two possible lock dates
-            serverLockDateString =
-                serverLockDateString < expiryDateString
-                    ? serverLockDateString
-                    : expiryDateString
+            serverLockDateString = isDateALessThanDateB(
+                serverLockDateString,
+                expiryDateString,
+                { calendar, inclusive: false }
+            )
+                ? serverLockDateString
+                : expiryDateString
             // ! NB:
             // Until lock exception checks are done, this value is still shown,
             // even if the form won't actually lock due to a lock exception.
@@ -126,6 +142,7 @@ const isOrgUnitLocked = ({
     orgUnitOpeningDateString,
     orgUnitClosedDateString,
     selectedPeriod,
+    calendar = 'gregory',
 }) => {
     // if period start or end is undefined or if both opening and closed date are undefined for org unit, skip check
     if (
@@ -137,24 +154,32 @@ const isOrgUnitLocked = ({
     }
     // since all the dates are the same (server) time zone, we do not need to do server/client time zone adjustments
 
-    // for the purpose of these calculations, dates are effecitvely treated as days without hours
-    // const periodStartDate = new Date(selectedPeriod.startDate + 'T00:00')
-    // const periodEndDate = new Date(selectedPeriod.endDate + 'T00:00')
+    // note: period dates are without times (assumed to be T00:00), but org units can have time information
+
     const periodStartDate = selectedPeriod.startDate
     const periodEndDate = selectedPeriod.endDate
 
-    // date comparison (need to account for the fact that period date does not have time zone, whereas org unit dates could)
+    // date comparison
     // if orgUnitOpeningDate exists, it must be earlier than the periodStartDate
     if (orgUnitOpeningDateString) {
-        if (!(orgUnitOpeningDateString <= periodStartDate)) {
+        if (
+            !isDateALessThanDateB(orgUnitOpeningDateString, periodStartDate, {
+                calendar,
+                inclusive: true,
+            })
+        ) {
             return true
         }
     }
 
-    // date comparison (need to account for the fact that period date does not have time zone, whereas org unit dates could)
     // if orgUnitClosedDate exists, it must be after the periodEndDate
     if (orgUnitClosedDateString) {
-        if (!(orgUnitClosedDateString >= periodEndDate)) {
+        if (
+            !isDateAGreaterThanDateB(orgUnitClosedDateString, periodEndDate, {
+                calendar,
+                inclusive: true,
+            })
+        ) {
             return true
         }
     }
@@ -184,7 +209,7 @@ export const useCheckLockStatus = () => {
     const userCanEditExpired = userInfoSelectors.getCanEditExpired(userInfo)
 
     const { systemInfo = {} } = useConfig()
-    const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'Etc/UTC' } =
         systemInfo
 
     useEffect(() => {
@@ -207,6 +232,7 @@ export const useCheckLockStatus = () => {
                 orgUnitOpeningDateString,
                 orgUnitClosedDateString,
                 selectedPeriod,
+                calendar,
             })
         ) {
             setLockStatus({ state: LockedStates.LOCKED_ORGANISATION_UNIT })

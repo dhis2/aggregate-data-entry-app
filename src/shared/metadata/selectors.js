@@ -4,6 +4,7 @@ import {
 } from '@dhis2/multi-calendar-dates'
 import { createCachedSelector } from 're-reselect'
 import { createSelector } from 'reselect'
+import { isDateAGreaterThanDateB, isDateALessThanDateB } from '../date/index.js'
 import { cartesian } from '../utils.js'
 // Helper to group array items by an identifier
 
@@ -436,6 +437,7 @@ const isOptionWithinPeriod = ({
     periodStartDate,
     periodEndDate,
     categoryOption,
+    calendar = 'gregory',
 }) => {
     // option has not start and end dates
     if (!categoryOption.startDate && !categoryOption.endDate) {
@@ -448,7 +450,12 @@ const isOptionWithinPeriod = ({
 
     if (categoryOption.startDate) {
         const categoryOptionStartDate = categoryOption.startDate
-        if (periodStartDate < categoryOptionStartDate) {
+        if (
+            isDateALessThanDateB(periodStartDate, categoryOptionStartDate, {
+                calendar,
+                inclusive: false,
+            })
+        ) {
             // option start date is after period start date
             return false
         }
@@ -456,7 +463,12 @@ const isOptionWithinPeriod = ({
 
     if (categoryOption.endDate) {
         const categoryOptionEndDate = categoryOption.endDate
-        if (periodEndDate > categoryOptionEndDate) {
+        if (
+            isDateAGreaterThanDateB(periodEndDate, categoryOptionEndDate, {
+                calendar,
+                inclusive: false,
+            })
+        ) {
             // option end date is before period end date
             return false
         }
@@ -490,16 +502,8 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
         getDataSetById,
         (_, __, periodId) => periodId,
         (_, __, ___, orgUnitId) => orgUnitId,
-        (_, __, ___, ____, fromClientDate) => fromClientDate,
-        (_, __, ___, ____, _____, calendar) => calendar,
-        (
-            metadata,
-            dataSet,
-            periodId,
-            orgUnitId,
-            fromClientDate,
-            calendar = 'gregory'
-        ) => {
+        (_, __, ___, ____, calendar) => calendar,
+        (metadata, dataSet, periodId, orgUnitId, calendar = 'gregory') => {
             if (!dataSet?.id || !periodId) {
                 return []
             }
@@ -563,6 +567,7 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                             periodStartDate,
                             periodEndDate,
                             categoryOption,
+                            calendar,
                         }) &&
                         isOptionAssignedToOrgUnit({
                             categoryOption,

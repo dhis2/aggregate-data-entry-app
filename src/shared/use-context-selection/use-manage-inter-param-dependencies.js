@@ -2,7 +2,6 @@ import { useAlert, useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { createFixedPeriodFromPeriodId } from '@dhis2/multi-calendar-dates'
 import { useEffect, useState } from 'react'
-import { useClientServerDateUtils } from '../date/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { periodTypesMapping } from '../period/index.js'
 import { filterObject } from '../utils.js'
@@ -131,14 +130,12 @@ function useHandleOrgUnitIdChange() {
     const { systemInfo = {} } = useConfig()
     const { calendar = 'gregory' } = systemInfo
 
-    const clientServerDateUtils = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
             orgUnitId,
-            clientServerDateUtils.fromClientDate,
             calendar
         )
 
@@ -215,14 +212,12 @@ function useHandlePeriodIdChange() {
     const [prevPeriodId, setPrevPeriodId] = useState(periodId)
     const { systemInfo = {} } = useConfig()
     const { calendar = 'gregory' } = systemInfo
-    const clientServerDateUtils = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
             orgUnitId,
-            clientServerDateUtils.fromClientDate,
             calendar
         )
 

@@ -13,6 +13,10 @@ import {
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Line } from 'react-chartjs-2'
+import {
+    isDateAGreaterThanDateB,
+    isDateALessThanDateB,
+} from '../../shared/index.js'
 
 ChartJS.register(
     CategoryScale,
@@ -45,11 +49,22 @@ function sortHistoryByStartDate(history, calendar = 'gregory') {
         }).startDate
 
         // date comparison
-        if (leftStartDate > rightStartDate) {
+        // if (leftStartDate > rightStartDate) {
+        if (
+            isDateAGreaterThanDateB(leftStartDate, rightStartDate, {
+                calendar,
+                inclusive: false,
+            })
+        ) {
             return 1
         }
 
-        if (leftStartDate < rightStartDate) {
+        if (
+            isDateALessThanDateB(leftStartDate, rightStartDate, {
+                calendar,
+                inclusive: false,
+            })
+        ) {
             return -1
         }
 

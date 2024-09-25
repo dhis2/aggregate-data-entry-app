@@ -11,6 +11,7 @@ import {
     usePeriodId,
     periodTypesMapping,
     yearlyFixedPeriodTypes,
+    isDateALessThanDateB,
 } from '../../shared/index.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
@@ -115,8 +116,12 @@ export const PeriodSelectorBarItem = () => {
             const endDate = selectedPeriod?.endDate
 
             // date comparison
-            // use string comparison to avoid problems with non-gregory dates
-            if (endDate >= dateLimit) {
+            if (
+                isDateALessThanDateB(endDate, dateLimit, {
+                    inclusive: true,
+                    calendar,
+                })
+            ) {
                 resetPeriod(periodId)
             }
 
@@ -134,6 +139,7 @@ export const PeriodSelectorBarItem = () => {
         setPeriodId,
         showWarningAlert,
         dataSetPeriodType,
+        calendar,
     ])
 
     const selectorBarItemValue = useSelectorBarItemValue()

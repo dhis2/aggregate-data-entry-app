@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import {
     selectors,
-    useClientServerDateUtils,
     useDataSetId,
     useMetadata,
     useOrgUnitId,
@@ -60,14 +59,12 @@ export default function AttributeOptionComboSelectorBarItem({
     const { systemInfo = {} } = useConfig()
     const { calendar = 'gregory' } = systemInfo
 
-    const { fromClientDate } = useClientServerDateUtils()
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
             orgUnitId,
-            fromClientDate,
             calendar
         )
 

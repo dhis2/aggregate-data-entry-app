@@ -5,8 +5,11 @@ import { render } from '../../test-utils/index.js'
 import AuditLog from './audit-log.js'
 import useDataValueContext from './use-data-value-context.js'
 
-jest.mock('../../shared/date/use-client-server-date-utils.js', () => () => ({
-    fromServerDate: jest.fn(),
+jest.mock('@dhis2/app-runtime', () => ({
+    ...jest.requireActual('@dhis2/app-runtime'),
+    useConfig: jest.fn(() => ({
+        systemInfo: { serverTimeZoneId: 'Etc/UTC' },
+    })),
 }))
 
 jest.mock('./use-data-value-context.js', () => ({

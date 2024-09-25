@@ -9,11 +9,6 @@ jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
     })),
 }))
 
-jest.mock('../../shared/date/use-server-time-offset.js', () => ({
-    __esModule: true,
-    default: jest.fn(() => 0),
-}))
-
 describe('usePeriods', () => {
     const actualSystemTime = new Date()
     jest.useFakeTimers()

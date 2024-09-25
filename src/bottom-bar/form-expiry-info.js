@@ -13,7 +13,7 @@ export default function FormExpiryInfo() {
     } = useLockedContext()
 
     const { systemInfo = {} } = useConfig()
-    const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'Etc/UTC' } =
         systemInfo
     const relativeTime = getRelativeTime({
         startDate: lockDate,
@@ -43,7 +43,9 @@ export default function FormExpiryInfo() {
 
                         <span>
                             {i18n.t('Closes {{-relativeTime}}', {
-                                relativeTime: relativeTime ?? dateTime,
+                                relativeTime: relativeTime
+                                    ? relativeTime
+                                    : dateTime,
                             })}
                         </span>
                     </span>

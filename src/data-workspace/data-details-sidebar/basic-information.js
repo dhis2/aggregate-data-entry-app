@@ -9,7 +9,7 @@ import ItemPropType from './item-prop-type.js'
 
 const BasicInformation = ({ item }) => {
     const { systemInfo = {} } = useConfig()
-    const { calendar = 'gregory', serverTimeZoneId: timezone = 'UTC' } =
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'Etc/UTC' } =
         systemInfo
 
     const lastUpdatedString = item.lastUpdated
@@ -69,7 +69,9 @@ const BasicInformation = ({ item }) => {
                             {i18n.t(
                                 'Last updated {{- timeAgo}} by {{- name}}',
                                 {
-                                    timeAgo: timeAgo ?? lastUpdatedString,
+                                    timeAgo: timeAgo
+                                        ? timeAgo
+                                        : lastUpdatedString,
                                     name: item.storedBy,
                                 }
                             )}
