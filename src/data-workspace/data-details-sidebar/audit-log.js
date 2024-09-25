@@ -80,10 +80,14 @@ export default function AuditLog({ item }) {
                 <DataTable>
                     <TableHead>
                         <DataTableRow>
-                            <DataTableColumnHeader>Date</DataTableColumnHeader>
-                            <DataTableColumnHeader>User</DataTableColumnHeader>
                             <DataTableColumnHeader>
-                                Change
+                                {i18n.t('Date')}
+                            </DataTableColumnHeader>
+                            <DataTableColumnHeader>
+                                {i18n.t('User')}
+                            </DataTableColumnHeader>
+                            <DataTableColumnHeader>
+                                {i18n.t('Change')}
                             </DataTableColumnHeader>
                         </DataTableRow>
                     </TableHead>
@@ -109,10 +113,7 @@ export default function AuditLog({ item }) {
                                         {created
                                             ? `${created
                                                   .substring(0, 16)
-                                                  .replace(
-                                                      'T',
-                                                      ' '
-                                                  )} (${timezone})`
+                                                  .replace('T', ' ')}`
                                             : null}
                                     </DataTableCell>
                                     <DataTableCell>{user}</DataTableCell>
@@ -138,6 +139,14 @@ export default function AuditLog({ item }) {
                         })}
                     </TableBody>
                 </DataTable>
+                {audits.length > 0 && (
+                    <div className={styles.timeZoneNote}>
+                        {i18n.t(
+                            'audit dates are given in {{- timezone}} time',
+                            { timezone }
+                        )}
+                    </div>
+                )}
             </div>
         </ExpandableUnit>
     )

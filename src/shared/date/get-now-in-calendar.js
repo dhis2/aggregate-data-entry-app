@@ -10,8 +10,11 @@ const pad = (startValue, minLength, padString) => {
     }
 }
 
-const stringifyDate = (temporalDate, long) => {
-    const shortDate = `${pad(temporalDate.eraYear, 4, '0')}-${pad(
+const stringifyDate = (temporalDate, long, calendar) => {
+    const year = ['ethiopian', 'ethiopic'].includes(calendar)
+        ? temporalDate.eraYear
+        : temporalDate.year
+    const shortDate = `${pad(year, 4, '0')}-${pad(
         temporalDate.month,
         2,
         '0'
@@ -32,5 +35,5 @@ export const getNowInCalendarString = ({
     long = false,
 }) => {
     const nowTemporal = getNowInCalendar(calendar, timezone)
-    return stringifyDate(nowTemporal, long)
+    return stringifyDate(nowTemporal, long, calendar)
 }

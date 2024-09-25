@@ -10,6 +10,7 @@ export default function YearNavigator({
     onYearChange,
     calendar,
 }) {
+    // console.log('maxYear', maxYear)
     const startYear = startingYears[calendar] ?? startingYears.default
     return (
         <div className={classes.container}>

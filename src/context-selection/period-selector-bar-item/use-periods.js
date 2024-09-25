@@ -73,11 +73,14 @@ export default function usePeriods({
         // date comparison
         if (
             lastPeriodOfPrevYear &&
-            // `${year}-01-01` <= lastPeriodOfPrevYear.endDate
-            isDateALessThanDateB(`${year}`, lastPeriodOfPrevYear.endDate, {
-                inclusive: true,
-                calendar,
-            })
+            isDateALessThanDateB(
+                `${year}-01-01`,
+                lastPeriodOfPrevYear.endDate,
+                {
+                    inclusive: true,
+                    calendar,
+                }
+            )
         ) {
             const [lastPeriodOfPrevYear] = generateFixedPeriods({
                 ...generateFixedPeriodsPayload,
@@ -95,7 +98,7 @@ export default function usePeriods({
             firstPeriodNextYear &&
             // `${year + 1}-01-01` > firstPeriodNextYear.startDate
             isDateAGreaterThanDateB(
-                `${year + 1}`,
+                `${year + 1}-01-01`,
                 firstPeriodNextYear.startDate,
                 { inclusive: false, calendar }
             )

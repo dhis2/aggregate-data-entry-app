@@ -11,7 +11,7 @@ import {
     usePeriodId,
     periodTypesMapping,
     yearlyFixedPeriodTypes,
-    isDateALessThanDateB,
+    isDateAGreaterThanDateB,
 } from '../../shared/index.js'
 import DisabledTooltip from './disabled-tooltip.js'
 import PeriodMenu from './period-menu.js'
@@ -36,11 +36,13 @@ const getMaxYear = (dateLimit) => {
     // periods run up to, but not including dateLimit, so if limit is 1 January, max year is previous year
     // otherwise, max year is the year from the date limit
     const dateLimitYear = getYear(dateLimit)
+
     try {
         const [year, month, day] = dateLimit.split('-')
         if (Number(month) === 1 && Number(day) === 1) {
             return Number(year) - 1
         }
+        return dateLimitYear
     } catch (e) {
         console.error(e)
         return dateLimitYear
@@ -50,7 +52,10 @@ const getMaxYear = (dateLimit) => {
 export const PeriodSelectorBarItem = () => {
     const { systemInfo = {} } = useConfig()
     const { calendar = 'gregory' } = systemInfo
-    const { eraYear: currentFullYear } = getNowInCalendar(calendar)
+    const { eraYear: nowEraYear, year: nowYear } = getNowInCalendar(calendar)
+    const currentFullYear = ['ethiopian', 'ethiopic'].includes(calendar)
+        ? nowEraYear
+        : nowYear
 
     const [periodOpen, setPeriodOpen] = useState(false)
     const [periodId, setPeriodId] = usePeriodId()
@@ -117,7 +122,7 @@ export const PeriodSelectorBarItem = () => {
 
             // date comparison
             if (
-                isDateALessThanDateB(endDate, dateLimit, {
+                isDateAGreaterThanDateB(endDate, dateLimit, {
                     inclusive: true,
                     calendar,
                 })
