@@ -1,11 +1,13 @@
 import { useConfig } from '@dhis2/app-runtime'
 import { createFixedPeriodFromPeriodId } from '@dhis2/multi-calendar-dates'
 import { useMemo } from 'react'
+import { useUserInfo } from '../use-user-info/index.js'
 
 export default function usePeriod(periodId) {
-    // @TODO(calendar)
     const { systemInfo = {} } = useConfig()
-    const { keyUiLocale = 'en', calendar = 'gregory' } = systemInfo
+    const { calendar = 'gregory' } = systemInfo
+    const { data: userInfo } = useUserInfo()
+    const { keyUiLocale: locale } = userInfo.settings ?? {}
 
     return useMemo(() => {
         if (!periodId) {
@@ -16,11 +18,11 @@ export default function usePeriod(periodId) {
             return createFixedPeriodFromPeriodId({
                 periodId,
                 calendar,
-                locale: keyUiLocale,
+                locale,
             })
         } catch (e) {
             console.error(e)
             return null
         }
-    }, [periodId, calendar, keyUiLocale])
+    }, [periodId, calendar, locale])
 }

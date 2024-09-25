@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
-"PO-Revision-Date: 2024-01-15T14:35:08.966Z\n"
+"POT-Creation-Date: 2024-09-25T13:24:25.324Z\n"
+"PO-Revision-Date: 2024-09-25T13:24:25.324Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -341,6 +341,18 @@ msgstr "Not available offline"
 
 msgid "No audit log for this data item."
 msgstr "No audit log for this data item."
+
+msgid "Date"
+msgstr "Date"
+
+msgid "User"
+msgstr "User"
+
+msgid "Change"
+msgstr "Change"
+
+msgid "audit dates are given in {{- timezone}} time"
+msgstr "audit dates are given in {{- timezone}} time"
 
 msgid "Unmark for follow-up"
 msgstr "Unmark for follow-up"
