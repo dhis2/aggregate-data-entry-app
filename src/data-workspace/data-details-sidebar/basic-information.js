@@ -18,7 +18,6 @@ const BasicInformation = ({ item }) => {
 
     // if item.lastUpdated is "undefined", getRelativeTime returns null
     // and this will not be displayed
-    // may not be translated: https://dhis2.atlassian.net/browse/TECH-1461
     const timeAgo = getRelativeTime({
         startDate: item.lastUpdated,
         calendar,

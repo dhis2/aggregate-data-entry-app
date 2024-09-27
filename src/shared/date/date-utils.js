@@ -5,18 +5,27 @@ const GREGORY_CALENDARS = ['gregory', 'gregorian', 'iso8601', 'julian'] // calen
 const DAY_MS = 24 * 60 * 60 * 1000
 const DATE_ONLY_REGEX = new RegExp(/^\d{4}-\d{2}-\d{2}$/)
 
+export const padWithZeros = (startValue, minLength) => {
+    try {
+        const startString = String(startValue)
+        return startString.padStart(minLength, '0')
+    } catch (e) {
+        console.error(e)
+        return startValue
+    }
+}
 const formatDate = (date, withoutTimeStamp) => {
-    const yearString = String(date.getFullYear())?.padStart(4, '0')
-    const monthString = String(date.getMonth() + 1)?.padStart(2, '0') // Jan = 0
-    const dayString = String(date.getDay())?.padStart(2, '0')
-    const hoursString = String(date.getHours())?.padStart(2, '0')
-    const minuteString = String(date.getMinutes())?.padStart(2, '0')
-    const secondsString = String(date.getSeconds())?.padStart(3, '0')
+    const yearString = padWithZeros(date.getFullYear(), 4)
+    const monthString = padWithZeros(date.getMonth() + 1, 2) // Jan = 0
+    const dateString = padWithZeros(date.getDate(), 2)
+    const hoursString = padWithZeros(date.getHours(), 2)
+    const minuteString = padWithZeros(date.getMinutes(), 2)
+    const secondsString = padWithZeros(date.getSeconds(), 2)
 
     if (withoutTimeStamp) {
-        return `${yearString}-${monthString}-${dayString}`
+        return `${yearString}-${monthString}-${dateString}`
     }
-    return `${yearString}-${monthString}-${dayString}T${hoursString}:${minuteString}:${secondsString}`
+    return `${yearString}-${monthString}-${dateString}T${hoursString}:${minuteString}:${secondsString}`
 }
 
 // returns string in either 'YYYY-MM-DD' or 'YYYY-MM-DDTHH:MM.SSS' format (depending on input)
@@ -88,6 +97,17 @@ export const isDateALessThanDateB = (
 
         const dateADate = new Date(dateAString)
         const dateBDate = new Date(dateBString)
+
+        // if dates are invalid, return null
+        if (isNaN(dateADate)) {
+            console.error(`Invalid date: ${dateA}`)
+            return null
+        }
+
+        if (isNaN(dateBDate)) {
+            console.error(`Invalid date: ${dateB}`)
+            return null
+        }
 
         if (inclusive) {
             return dateADate <= dateBDate
