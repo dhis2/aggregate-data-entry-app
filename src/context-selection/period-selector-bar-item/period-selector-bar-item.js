@@ -109,16 +109,18 @@ export const PeriodSelectorBarItem = () => {
     ])
 
     useEffect(() => {
-        const resetPeriod = (id) => {
-            showWarningAlert(`The Period (${id}) is not open or is invalid.`)
-            i18n.t('The Period ({{id}}) is not open or is invalid.', {
-                id,
-            })
+        const resetPeriod = (id, displayName) => {
+            showWarningAlert(
+                i18n.t('The Period ({{id}}) is not open or is invalid.', {
+                    id: displayName ? displayName : id,
+                })
+            )
             setPeriodId(undefined)
         }
 
         if (selectedPeriod) {
             const endDate = selectedPeriod?.endDate
+            const displayName = selectedPeriod?.displayName
 
             // date comparison
             if (
@@ -127,11 +129,11 @@ export const PeriodSelectorBarItem = () => {
                     calendar,
                 })
             ) {
-                resetPeriod(periodId)
+                resetPeriod(periodId, displayName)
             }
 
             if (selectedPeriod?.periodType !== dataSetPeriodType) {
-                resetPeriod(periodId)
+                resetPeriod(periodId, selectedPeriod?.displayName)
             }
         } else if (periodId) {
             setPeriodId(undefined)
