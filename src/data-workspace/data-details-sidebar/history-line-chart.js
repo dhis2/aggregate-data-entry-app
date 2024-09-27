@@ -49,7 +49,6 @@ function sortHistoryByStartDate(history, calendar = 'gregory') {
         }).startDate
 
         // date comparison
-        // if (leftStartDate > rightStartDate) {
         if (
             isDateAGreaterThanDateB(leftStartDate, rightStartDate, {
                 calendar,
