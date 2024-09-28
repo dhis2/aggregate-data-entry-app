@@ -1,18 +1,19 @@
 # 
 # Translators:
-# SubhamJena <subhamjena8465@gmail.com>, 2024
+# Prabesh Guragain, 2024
+# Saroj Dhakal <lotusnagarkot@gmail.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: SubhamJena <subhamjena8465@gmail.com>, 2024\n"
-"Language-Team: Odia (https://app.transifex.com/hisp-uio/teams/100509/or/)\n"
+"Last-Translator: Saroj Dhakal <lotusnagarkot@gmail.com>, 2024\n"
+"Language-Team: Nepali (https://app.transifex.com/hisp-uio/teams/100509/ne/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: or\n"
+"Language: ne\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Not authorized"
@@ -100,13 +101,13 @@ msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
 
 msgid "High"
-msgstr ""
+msgstr "उच्च"
 
 msgid "Medium"
-msgstr ""
+msgstr "मध्यम"
 
 msgid "Low"
-msgstr ""
+msgstr "न्यून"
 
 msgid "{{length}} {{level}} priority alert"
 msgstr ""
@@ -115,7 +116,7 @@ msgid "{{length}} {{level}} priority alerts"
 msgstr ""
 
 msgid "Validation"
-msgstr ""
+msgstr "प्रमाणीकरण"
 
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
@@ -212,7 +213,7 @@ msgid "Locked, not editable"
 msgstr ""
 
 msgid "Help"
-msgstr "ସହାୟତା"
+msgstr ""
 
 msgid "or"
 msgstr ""
@@ -299,7 +300,7 @@ msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
-msgstr ""
+msgstr "अबधि"
 
 msgid "Choose a period"
 msgstr ""
@@ -383,7 +384,7 @@ msgid "Save comment"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "रद्द गर्नुहोस्"
 
 msgid "Edit comment"
 msgstr ""
@@ -398,7 +399,7 @@ msgid "You do not have the authority to add or edit comments"
 msgstr ""
 
 msgid "Details"
-msgstr "ବିବରଣୀ"
+msgstr ""
 
 msgid "History"
 msgstr ""
@@ -506,10 +507,10 @@ msgid "Values"
 msgstr ""
 
 msgid "Yes"
-msgstr "ହଁ"
+msgstr ""
 
 msgid "No"
-msgstr "ନାହିଁ"
+msgstr ""
 
 msgid "Clear"
 msgstr ""
