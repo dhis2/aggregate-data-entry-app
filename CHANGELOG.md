@@ -1,3 +1,11 @@
+## [100.8.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.0...v100.8.1) (2024-09-30)
+
+
+### Bug Fixes
+
+* remove duplicate parsing function ([f145ae8](https://github.com/dhis2/aggregate-data-entry-app/commit/f145ae864e1d1039803a0d3eee1ca603cb7e2d10))
+* upload download artifact versions ([#400](https://github.com/dhis2/aggregate-data-entry-app/issues/400)) ([37bc594](https://github.com/dhis2/aggregate-data-entry-app/commit/37bc594a0b5f0a0e50f2bece0c88733c7465e42f))
+
 # [100.8.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.7.0...v100.8.0) (2024-09-09)
 
 
