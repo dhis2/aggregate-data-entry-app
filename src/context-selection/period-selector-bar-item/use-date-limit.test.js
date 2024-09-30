@@ -1,3 +1,4 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { renderHook } from '@testing-library/react-hooks'
 import { getNowInCalendarString } from '../../shared/date/get-now-in-calendar.js'
 import {
@@ -10,6 +11,13 @@ import { useDateLimit, computePeriodDateLimit } from './use-date-limit.js'
 export const reversedPeriodTypesMapping = Object.fromEntries(
     Object.entries(periodTypesMapping).map(([key, value]) => [value, key])
 )
+
+jest.mock('@dhis2/app-runtime', () => ({
+    ...jest.requireActual('@dhis2/app-runtime'),
+    useConfig: jest.fn(() => ({
+        systemInfo: { serverTimeZoneId: 'Etc/UTC', calendar: 'gregory' },
+    })),
+}))
 
 jest.mock('../../shared/date/get-now-in-calendar.js', () => ({
     getNowInCalendarString: jest.fn(() => '2020-07-01'),
@@ -296,6 +304,43 @@ describe.each([
     // eslint-disable-next-line max-params
     (currentDate, periodType, openFuturePeriods, expectedDate) => {
         test(`should be ${expectedDate} if current date: ${currentDate}, periodType: ${periodType}, openFuturePeriods: ${openFuturePeriods}`, () => {
+            getNowInCalendarString.mockImplementation(() => currentDate)
+            useMetadata.mockImplementationOnce(() => ({
+                data: {
+                    dataSets: {
+                        dataSetId: {
+                            id: 'dataSetId',
+                            periodType,
+                            openFuturePeriods,
+                        },
+                    },
+                },
+            }))
+
+            const { result } = renderHook(() => useDateLimit())
+            expect(result.current).toEqual(expectedDate)
+        })
+    }
+)
+
+describe.each([
+    ['2023-01-01', reversedPeriodTypesMapping.MONTHLY, 0, '2023-01-01'],
+    ['2017-12-04', reversedPeriodTypesMapping.MONTHLY, 0, '2017-12-01'],
+])(
+    'useDateLimit',
+    // eslint-disable-next-line max-params
+    (currentDate, periodType, openFuturePeriods, expectedDate) => {
+        beforeEach(() => {
+            useConfig.mockImplementation(() => ({
+                systemInfo: { calendar: 'ethiopian', timeZone: 'Etc/UTC' },
+            }))
+        })
+
+        afterEach(() => {
+            jest.clearAllMocks()
+        })
+
+        it(`should be ${expectedDate} if current date: ${currentDate}, periodType: ${periodType}, openFuturePeriods: ${openFuturePeriods}`, () => {
             getNowInCalendarString.mockImplementation(() => currentDate)
             useMetadata.mockImplementationOnce(() => ({
                 data: {
