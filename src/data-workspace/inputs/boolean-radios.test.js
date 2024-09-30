@@ -79,7 +79,7 @@ describe('boolean-radios', () => {
         mockUseField('false')
         const { getByText } = render(<BooleanRadios {...props} />)
         const clearButton = getByText('Clear')
-        userEvent.click(clearButton)
+        await userEvent.click(clearButton)
         clearButton.blur() // to simulate the bug where Clear is triggered twice (once on Click, and the other on blur)
 
         expect(mutate).toHaveBeenCalledTimes(1)

@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import useClientServerDate from './use-client-server-date.js'
 import useServerTimeOffset from './use-server-time-offset.js'
 
@@ -13,16 +13,25 @@ jest.mock('./use-server-time-offset.js', () => ({
  * "test": "TZ=Etc/UTC d2-app-scripts test",
  */
 describe('useClientServerDate', () => {
-    it('throws an error when passing both a client- and a serverDate', () => {
+    beforeEach(() => {
+        jest.spyOn(console, 'error').mockImplementation((...args) => {
+            const [err] = args
+
+            if (!err.toString().match(/useClientServerDate/)) {
+                origError(...args)
+            }
+        })
+    })
+    afterEach(jest.clearAllMocks)
+
+    it('throws an error when passing both a client- and a serverDate', async () => {
         const clientDate = new Date('2022-10-13 10:00:00')
         const serverDate = new Date('2022-10-13 08:00:00')
-        const { result } = renderHook(() =>
-            useClientServerDate({ clientDate, serverDate })
-        )
-        expect(result.error).toEqual(
-            new Error(
-                '`useClientServerDate` does not accept both a client and a server date'
-            )
+
+        expect(() => {
+            renderHook(() => useClientServerDate({ clientDate, serverDate }))
+        }).toThrow(
+            '`useClientServerDate` does not accept both a client and a server date'
         )
     })
 

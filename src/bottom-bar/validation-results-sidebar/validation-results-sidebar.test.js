@@ -7,6 +7,7 @@ import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { render } from '../../test-utils/render.js'
 import ValidationResultsSidebar from './validation-results-sidebar.js'
+import userEvent from '@testing-library/user-event'
 
 describe('ValidationResultsSidebar', () => {
     const hide = jest.fn()
@@ -218,11 +219,10 @@ describe('ValidationResultsSidebar', () => {
             getByText('There was a problem running validation')
         ).toBeDefined()
 
-        fireEvent.click(getByText('Run validation again'))
+        await userEvent.click(getByText('Run validation again'))
 
-        await findByText('Running validation...')
+        await findByText('2 medium priority alerts')
         expect(queryByText('There was a problem running validation')).toBeNull()
-        expect(getByText('2 medium priority alerts')).toBeDefined()
     })
     it('should show empty data', async () => {
         const overrideOptions = {

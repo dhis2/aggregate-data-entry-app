@@ -1,5 +1,5 @@
 import { QueryCache } from '@tanstack/react-query'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import React from 'react'
 import { Wrapper } from '../../test-utils/index.js'
 import {
@@ -31,60 +31,58 @@ describe('useSetDataValueMutation', () => {
         const dataValuesResolver = jest.fn(() => new Promise(() => null))
 
         // first we need to load the data value set so we have a loading state
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        dataValues: dataValuesResolver,
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
+
+        // Make sure the request is on-going
+        await waitFor(() => {
+            expect(dataValuesResolver).toHaveBeenCalledTimes(1)
+            return dataValueSet.current.isLoading
+        })
+
+        const { result: setDataValue } = renderHook(
+            () =>
+                useSetDataValueMutation({
+                    deId: 'de-id',
+                    cocId: 'coc-id',
+                }),
+            {
                 wrapper: ({ children }) => (
                     <Wrapper
                         queryClientOptions={{ queryCache }}
                         dataForCustomProvider={{
-                            dataValues: dataValuesResolver,
+                            // never resolving
+                            dataValues: () => new Promise(() => null),
                         }}
                     >
                         {children}
                     </Wrapper>
                 ),
-            })
-
-        // Make sure the request is on-going
-        await waitForDataValueSet(() => {
-            expect(dataValuesResolver).toHaveBeenCalledTimes(1)
-            return dataValueSet.current.isLoading
-        })
-
-        const { result: setDataValue, waitFor: waitForSetDataValue } =
-            renderHook(
-                () =>
-                    useSetDataValueMutation({
-                        deId: 'de-id',
-                        cocId: 'coc-id',
-                    }),
-                {
-                    wrapper: ({ children }) => (
-                        <Wrapper
-                            queryClientOptions={{ queryCache }}
-                            dataForCustomProvider={{
-                                // never resolving
-                                dataValues: () => new Promise(() => null),
-                            }}
-                        >
-                            {children}
-                        </Wrapper>
-                    ),
-                }
-            )
+            }
+        )
 
         expect(dataValueSet.current.isLoading).toBe(true)
 
         // Mutate a current data value
         act(() => setDataValue.current.mutate())
-        await waitForSetDataValue(() => {
+        await waitFor(() => {
             // Can happen instantly -> isLoading is never true
             const { isLoading, isSuccess } = setDataValue.current
-            return isLoading || isSuccess
+            expect(isLoading || isSuccess).toBeTrue()
         })
 
         // Ensure that the on-going data value set request is cancelled
-        await waitForDataValueSet(() => !dataValueSet.current.isLoading)
+        // await waitFor(() => !dataValueSet.current.isLoading)
         expect(dataValueSet.current.isLoading).toBe(false)
     })
 
@@ -92,26 +90,25 @@ describe('useSetDataValueMutation', () => {
         useDataValueSetQueryKey.mockImplementation(() => ['dataValues'])
         const queryCache = new QueryCache()
 
-        const { result: setDataValue, waitFor: waitForSetDataValue } =
-            renderHook(
-                () =>
-                    useSetDataValueMutation({
-                        deId: 'de-id',
-                        cocId: 'coc-id',
-                    }),
-                {
-                    wrapper: ({ children }) => (
-                        <Wrapper
-                            queryClientOptions={{ queryCache }}
-                            dataForCustomProvider={{
-                                dataValues: () => Promise.resolve({}),
-                            }}
-                        >
-                            {children}
-                        </Wrapper>
-                    ),
-                }
-            )
+        const { result: setDataValue } = renderHook(
+            () =>
+                useSetDataValueMutation({
+                    deId: 'de-id',
+                    cocId: 'coc-id',
+                }),
+            {
+                wrapper: ({ children }) => (
+                    <Wrapper
+                        queryClientOptions={{ queryCache }}
+                        dataForCustomProvider={{
+                            dataValues: () => Promise.resolve({}),
+                        }}
+                    >
+                        {children}
+                    </Wrapper>
+                ),
+            }
+        )
 
         const initiallyCachedDataValuesQuery = queryCache.find({
             queryKey: ['dataValues'],
@@ -120,7 +117,7 @@ describe('useSetDataValueMutation', () => {
 
         // Mutate a current data value
         act(() => setDataValue.current.mutate({ value: '42' }))
-        await waitForSetDataValue(() => setDataValue.current.isSuccess)
+        await waitFor(() => setDataValue.current.isSuccess)
 
         const cachedDataValuesQuery = queryCache.find({
             queryKey: ['dataValues'],
@@ -138,30 +135,29 @@ describe('useSetDataValueMutation', () => {
         const queryCache = new QueryCache()
 
         // first we need to load the data value set so we have an entry
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
-                wrapper: ({ children }) => (
-                    <Wrapper
-                        queryClientOptions={{ queryCache }}
-                        dataForCustomProvider={{
-                            dataValues: {
-                                dataValues: [
-                                    {
-                                        dataElement: 'de-id',
-                                        categoryOptionCombo: 'coc-id',
-                                        value: '27',
-                                    },
-                                ],
-                            },
-                        }}
-                    >
-                        {children}
-                    </Wrapper>
-                ),
-            })
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        dataValues: {
+                            dataValues: [
+                                {
+                                    dataElement: 'de-id',
+                                    categoryOptionCombo: 'coc-id',
+                                    value: '27',
+                                },
+                            ],
+                        },
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
 
         // Make sure the request is on-going
-        await waitForDataValueSet(() => dataValueSet.current.isSuccess)
+        await waitFor(() => expect(dataValueSet.current.isSuccess).toBeTrue())
 
         const initiallyCachedDataValuesQuery = queryCache.find({
             queryKey: ['dataValues'],
@@ -172,30 +168,29 @@ describe('useSetDataValueMutation', () => {
         const [initialDataValue] = initiallyCachedDataValues.dataValues
         expect(initialDataValue.value).toBe('27')
 
-        const { result: setDataValue, waitFor: waitForSetDataValue } =
-            renderHook(
-                () =>
-                    useSetDataValueMutation({
-                        deId: 'de-id',
-                        cocId: 'coc-id',
-                    }),
-                {
-                    wrapper: ({ children }) => (
-                        <Wrapper
-                            queryClientOptions={{ queryCache }}
-                            dataForCustomProvider={{
-                                dataValues: () => Promise.resolve({}),
-                            }}
-                        >
-                            {children}
-                        </Wrapper>
-                    ),
-                }
-            )
+        const { result: setDataValue } = renderHook(
+            () =>
+                useSetDataValueMutation({
+                    deId: 'de-id',
+                    cocId: 'coc-id',
+                }),
+            {
+                wrapper: ({ children }) => (
+                    <Wrapper
+                        queryClientOptions={{ queryCache }}
+                        dataForCustomProvider={{
+                            dataValues: () => Promise.resolve({}),
+                        }}
+                    >
+                        {children}
+                    </Wrapper>
+                ),
+            }
+        )
 
         // Mutate a current data value
         act(() => setDataValue.current.mutate({ value: '42' }))
-        await waitForSetDataValue(() => setDataValue.current.isSuccess)
+        await waitFor(() => setDataValue.current.isSuccess)
 
         const cachedDataValuesQuery = queryCache.find({
             queryKey: ['dataValues'],
@@ -218,30 +213,26 @@ describe('useUploadFileDataValueMutation', () => {
         const dataValuesResolver = jest.fn(() => new Promise(() => null))
 
         // first we need to load the data value set so we have a loading state
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
-                wrapper: ({ children }) => (
-                    <Wrapper
-                        queryClientOptions={{ queryCache }}
-                        dataForCustomProvider={{
-                            dataValues: dataValuesResolver,
-                        }}
-                    >
-                        {children}
-                    </Wrapper>
-                ),
-            })
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        dataValues: dataValuesResolver,
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
 
         // Make sure the request is on-going
-        await waitForDataValueSet(() => {
+        await waitFor(() => {
             expect(dataValuesResolver).toHaveBeenCalledTimes(1)
             return dataValueSet.current.isLoading
         })
 
-        const {
-            result: uploadFileDataValue,
-            waitFor: waitForUploadFileDataValue,
-        } = renderHook(
+        const { result: uploadFileDataValue } = renderHook(
             () =>
                 useUploadFileDataValueMutation({
                     deId: 'de-id',
@@ -267,14 +258,14 @@ describe('useUploadFileDataValueMutation', () => {
         // Mutate a current data value
         act(() => uploadFileDataValue.current.mutate({ file }))
 
-        await waitForUploadFileDataValue(() => {
+        await waitFor(() => {
             // Can happen instantly -> isLoading is never true
             const { isLoading, isSuccess } = uploadFileDataValue.current
             return isLoading || isSuccess
         })
 
         // Ensure that the on-going data value set request is cancelled
-        await waitForDataValueSet(() => !dataValueSet.current.isLoading)
+        await waitFor(() => !dataValueSet.current.isLoading)
         expect(dataValueSet.current.isLoading).toBe(false)
     })
 
@@ -282,10 +273,7 @@ describe('useUploadFileDataValueMutation', () => {
         useDataValueSetQueryKey.mockImplementation(() => ['dataValues'])
         const queryCache = new QueryCache()
 
-        const {
-            result: uploadFileDataValue,
-            waitFor: waitForUploadFileDataValue,
-        } = renderHook(
+        const { result: uploadFileDataValue } = renderHook(
             () =>
                 useUploadFileDataValueMutation({
                     deId: 'de-id',
@@ -312,9 +300,7 @@ describe('useUploadFileDataValueMutation', () => {
 
         // Mutate a current data value
         act(() => uploadFileDataValue.current.mutate({ file }))
-        await waitForUploadFileDataValue(
-            () => uploadFileDataValue.current.isSuccess
-        )
+        await waitFor(() => uploadFileDataValue.current.isSuccess)
 
         const cachedDataValuesQuery = queryCache.find({
             queryKey: ['dataValues'],
@@ -332,34 +318,33 @@ describe('useUploadFileDataValueMutation', () => {
         const queryCache = new QueryCache()
 
         // first we need to load the data value set so we have an entry
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
-                wrapper: ({ children }) => (
-                    <Wrapper
-                        queryClientOptions={{ queryCache }}
-                        dataForCustomProvider={{
-                            dataValues: () =>
-                                Promise.resolve({
-                                    dataValues: [
-                                        {
-                                            dataElement: 'de-id',
-                                            categoryOptionCombo: 'coc-id',
-                                            value: {
-                                                name: 'foobar.json',
-                                                size: 6,
-                                            },
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        dataValues: () =>
+                            Promise.resolve({
+                                dataValues: [
+                                    {
+                                        dataElement: 'de-id',
+                                        categoryOptionCombo: 'coc-id',
+                                        value: {
+                                            name: 'foobar.json',
+                                            size: 6,
                                         },
-                                    ],
-                                }),
-                        }}
-                    >
-                        {children}
-                    </Wrapper>
-                ),
-            })
+                                    },
+                                ],
+                            }),
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
 
         // Make sure the request is on-going
-        await waitForDataValueSet(() => dataValueSet.current.isSuccess)
+        await waitFor(() => expect(dataValueSet.current.isSuccess).toBeTrue())
 
         const initiallyCachedDataValuesQuery = queryCache.find({
             queryKey: ['dataValues'],
@@ -370,10 +355,7 @@ describe('useUploadFileDataValueMutation', () => {
         const [initialDataValue] = initiallyCachedDataValues.dataValues
         expect(initialDataValue.value).toEqual({ name: 'foobar.json', size: 6 })
 
-        const {
-            result: uploadFileDataValue,
-            waitFor: waitForUploadFileDataValue,
-        } = renderHook(
+        const { result: uploadFileDataValue } = renderHook(
             () =>
                 useUploadFileDataValueMutation({
                     deId: 'de-id',
@@ -395,8 +377,8 @@ describe('useUploadFileDataValueMutation', () => {
 
         // Mutate a current data value
         act(() => uploadFileDataValue.current.mutate({ file }))
-        await waitForUploadFileDataValue(
-            () => uploadFileDataValue.current.isSuccess
+        await waitFor(() =>
+            expect(uploadFileDataValue.current.isSuccess).toBeTrue()
         )
 
         const cachedDataValuesQuery = queryCache.find({
@@ -418,61 +400,57 @@ describe('useDeleteDataValueMutation', () => {
         const dataValuesResolver = jest.fn(() => new Promise(() => null))
 
         // first we need to load the data value set so we have a loading state
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        dataValues: dataValuesResolver,
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
+
+        await waitFor(() => {
+            expect(dataValuesResolver).toHaveBeenCalledTimes(1)
+        })
+
+        const { result: deleteDataValue } = renderHook(
+            () =>
+                useDeleteDataValueMutation({
+                    deId: 'de-id',
+                    cocId: 'coc-id',
+                }),
+            {
                 wrapper: ({ children }) => (
                     <Wrapper
                         queryClientOptions={{ queryCache }}
                         dataForCustomProvider={{
-                            dataValues: dataValuesResolver,
+                            // never resolving
+                            dataValues: () => new Promise(() => null),
                         }}
                     >
                         {children}
                     </Wrapper>
                 ),
-            })
-
-        // Make sure the request is on-going
-        await waitForDataValueSet(() => {
-            expect(dataValuesResolver).toHaveBeenCalledTimes(1)
-            return dataValueSet.current.isLoading
-        })
-
-        const { result: deleteDataValue, waitFor: waitForDeleteDataValue } =
-            renderHook(
-                () =>
-                    useDeleteDataValueMutation({
-                        deId: 'de-id',
-                        cocId: 'coc-id',
-                    }),
-                {
-                    wrapper: ({ children }) => (
-                        <Wrapper
-                            queryClientOptions={{ queryCache }}
-                            dataForCustomProvider={{
-                                // never resolving
-                                dataValues: () => new Promise(() => null),
-                            }}
-                        >
-                            {children}
-                        </Wrapper>
-                    ),
-                }
-            )
+            }
+        )
 
         expect(dataValueSet.current.isLoading).toBe(true)
 
         // Mutate a current data value
         act(() => deleteDataValue.current.mutate())
 
-        await waitForDeleteDataValue(() => {
+        await waitFor(() => {
             // Can happen instantly -> isLoading is never true
             const { isLoading, isSuccess } = deleteDataValue.current
             return isLoading || isSuccess
         })
 
         // Ensure that the on-going data value set request is cancelled
-        await waitForDataValueSet(() => !dataValueSet.current.isLoading)
+        await waitFor(() => !dataValueSet.current.isLoading)
         expect(dataValueSet.current.isLoading).toBe(false)
     })
 
@@ -481,34 +459,33 @@ describe('useDeleteDataValueMutation', () => {
         const queryCache = new QueryCache()
 
         // first we need to load the data value set so we have an entry
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
-                wrapper: ({ children }) => (
-                    <Wrapper
-                        queryClientOptions={{ queryCache }}
-                        dataForCustomProvider={{
-                            dataValues: () =>
-                                Promise.resolve({
-                                    dataValues: [
-                                        {
-                                            dataElement: 'de-id',
-                                            categoryOptionCombo: 'coc-id',
-                                            value: {
-                                                name: 'foobar.json',
-                                                size: 6,
-                                            },
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        dataValues: () =>
+                            Promise.resolve({
+                                dataValues: [
+                                    {
+                                        dataElement: 'de-id',
+                                        categoryOptionCombo: 'coc-id',
+                                        value: {
+                                            name: 'foobar.json',
+                                            size: 6,
                                         },
-                                    ],
-                                }),
-                        }}
-                    >
-                        {children}
-                    </Wrapper>
-                ),
-            })
+                                    },
+                                ],
+                            }),
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
 
         // Make sure the request is on-going
-        await waitForDataValueSet(() => dataValueSet.current.isSuccess)
+        await waitFor(() => expect(dataValueSet.current.isSuccess).toBeTrue())
 
         const initiallyCachedDataValuesQuery = queryCache.find({
             queryKey: ['dataValues'],
@@ -519,30 +496,29 @@ describe('useDeleteDataValueMutation', () => {
         const [initialDataValue] = initiallyCachedDataValues.dataValues
         expect(initialDataValue.value).toEqual({ name: 'foobar.json', size: 6 })
 
-        const { result: deleteDataValue, waitFor: waitForDeleteDataValue } =
-            renderHook(
-                () =>
-                    useDeleteDataValueMutation({
-                        deId: 'de-id',
-                        cocId: 'coc-id',
-                    }),
-                {
-                    wrapper: ({ children }) => (
-                        <Wrapper
-                            queryClientOptions={{ queryCache }}
-                            dataForCustomProvider={{
-                                dataValues: () => Promise.resolve({}),
-                            }}
-                        >
-                            {children}
-                        </Wrapper>
-                    ),
-                }
-            )
+        const { result: deleteDataValue } = renderHook(
+            () =>
+                useDeleteDataValueMutation({
+                    deId: 'de-id',
+                    cocId: 'coc-id',
+                }),
+            {
+                wrapper: ({ children }) => (
+                    <Wrapper
+                        queryClientOptions={{ queryCache }}
+                        dataForCustomProvider={{
+                            dataValues: () => Promise.resolve({}),
+                        }}
+                    >
+                        {children}
+                    </Wrapper>
+                ),
+            }
+        )
 
         // Mutate a current data value
         act(() => deleteDataValue.current.mutate())
-        await waitForDeleteDataValue(() => deleteDataValue.current.isSuccess)
+        await waitFor(() => deleteDataValue.current.isSuccess)
 
         const cachedDataValuesQuery = queryCache.find({
             queryKey: ['dataValues'],

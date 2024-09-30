@@ -11,20 +11,24 @@ import { useExpanded } from './use-expanded/index.js'
 import { useForceReload } from './use-force-reload.js'
 import { useRootOrgData } from './use-root-org-data/index.js'
 
+// OrganisationUnitTree.defaultProps = {
+
+// }
 const OrganisationUnitTree = ({
     onChange,
     roots,
 
     autoExpandLoadingError,
-    dataTest,
+    dataTest = 'dhis2-uiwidgets-orgunittree',
+    filter = [],
+    highlighted = [],
+    initiallyExpanded = [],
+    selected = [],
+    renderNodeLabel = defaultRenderNodeLabel,
+
     disableSelection,
     forceReload,
-    highlighted,
     isUserDataViewFallback,
-    initiallyExpanded,
-    filter,
-    renderNodeLabel,
-    selected,
     singleSelection,
     suppressAlphabeticalSorting,
     offlineLevels,
@@ -264,15 +268,6 @@ OrganisationUnitTree.propTypes = {
      * we'd have to reload the sibling nodes currently as well)
      */
     //idsThatShouldBeReloaded: propTypes.arrayOf(orgUnitIdPropType),
-}
-
-OrganisationUnitTree.defaultProps = {
-    dataTest: 'dhis2-uiwidgets-orgunittree',
-    filter: [],
-    highlighted: [],
-    initiallyExpanded: [],
-    selected: [],
-    renderNodeLabel: defaultRenderNodeLabel,
 }
 
 export { OrganisationUnitTree }

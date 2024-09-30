@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import useClientServerDateUtils from './use-client-server-date-utils.js'
 import useServerTimeOffset from './use-server-time-offset.js'
 
