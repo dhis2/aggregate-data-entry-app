@@ -1,16 +1,17 @@
 # 
 # Translators:
-# Thuy Nguyen <thuynguyen@hispvietnam.org>, 2022
-# phil_dhis2, 2022
-# Viktor Varland <viktor@dhis2.org>, 2022
-# Saysamone Sibounma, 2022
+# Thuy Nguyen <thuynguyen@hispvietnam.org>, 2024
+# Viktor Varland <viktor@dhis2.org>, 2024
+# Philip Larsen Donnelly, 2024
+# Namwan Chanthavisouk, 2024
+# Saysamone Sibounma, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
-"PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Saysamone Sibounma, 2022\n"
+"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"PO-Revision-Date: 2024-09-24 13:03+0000\n"
+"Last-Translator: Saysamone Sibounma, 2024\n"
 "Language-Team: Lao (https://app.transifex.com/hisp-uio/teams/100509/lo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,82 +20,92 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "Not authorized"
-msgstr ""
+msgstr "ບໍ່ໄດ້ຮັບອະນຸຍາດ"
 
 msgid ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 msgstr ""
+"ທ່ານບໍ່ໄດ້ຮັບອານຸຍາດໃຫ້ເຂົ້າເຖິງແອັບການອະນຸມັດຂໍ້ມູນ. "
+"ກະລຸນາຕິດຕໍ່ຜູ້ຮັບຜິດຊອບລະບົບເພື່ອຮ້ອງຂໍການເຂົ້າເຖິງ."
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "ມີບັນຫາໃນການໂຫຼດຂໍ້ມູນເມຕາ"
 
 msgid "There was a problem loading the user's information"
-msgstr ""
+msgstr "ມີບັນຫາໃນການໂຫຼດຂໍ້ມູນຂອງຜູ້ໃຊ້"
 
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
+"ເຊເຊີນໝົດອາຍຸ. ກະລຸນາໂຫຼດໃໝ່ເພື່ອເຂົ້າສູ່ລະບົບອີກຄັ້ງ "
+"ທ່ານຈະບໍ່ສູນເສຍຂໍ້ມູນໃດໆ"
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "ບໍ່ສາມາດປ້ອນແບບຟອມໄດ້, ກະລຸນາລອງໃໝ່ພາຍຫຼັງ"
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "ໝາຍວ່າບໍ່ຄົບຖ້ວນ"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "ໝາຍວ່າຄົບຖ້ວນ"
 
 msgid "Hide details"
 msgstr "ເຊື່ອງລາຍລະອຽດ"
 
 msgid "View details"
-msgstr ""
+msgstr "ເບີ່ງລາຍລະອຽດ"
 
 msgid "1 invalid value not saved"
-msgstr ""
+msgstr "1 ຄ່າທີ່ບໍ່ຖືກຕ້ອງທີ່ບໍ່ໄດ້ບັນທຶກ"
 
 msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
+msgstr "{{numberOfErrors}}ຄ່າທີ່ບໍ່ຖືກຕ້ອງ ບໍ່ໄດ້ບັນທຶກ"
 
 msgid "1 value failed to save"
-msgstr ""
+msgstr "ບໍ່ສາມາດບັນທຶກຄ່າ 1 ຄ່າໄດ້"
 
 msgid "{{numberOfErrors}} values failed to save"
+msgstr "{{numberOfErrors}}ບໍ່ສາມາດບັນທຶກໄດ້"
+
+msgid "This form closes and will be locked at {{-dateTime}}"
+msgstr ""
+
+msgid "Closes {{-relativeTime}}"
 msgstr ""
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "ການກວດສອບບໍ່ສາມາດເຮັດໄດ້ໃນແບບ ອັອບລາຍ"
 
 msgid "Validation is not available while changes are pending"
-msgstr ""
+msgstr "ໃນຂະນະທີ່ມີການປ່ຽນແປງຄ້າງຢູ່ ບໍ່ສາມາດເຮັດການກວດສອບໄດ້"
 
 msgid "Run validation"
 msgstr "ກວດສອບຄວາມຖືກຕ້ອງ"
 
-msgid "Last completed by"
+msgid "Last completed by {{-username}}"
 msgstr ""
 
-msgid "Last incompleted by"
+msgid "Last incompleted by {{-username}}"
 msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "ບໍ່ສາມາດກວດສອບແບບຟອມໄດ້, ກະລຸນາລອງອີກຄັ້ງໃນພາຍຫຼັງ"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
-msgstr ""
+msgstr "ບໍ່ສາມາດກວດສອບແບບຟອມໄດ້. ການດຳເນີນການນີ້ຈະບໍ່ສົ່ງຜົນຕໍ່ການປ້ອນແບບຟອມ"
 
 msgid "The form can't be completed while invalid"
-msgstr ""
+msgstr "ບໍ່ສາມາດສຳເລັດໄດ້ຫາກຂໍ້ມູນບໍ່ຖືກຕ້ອງ"
 
 msgid "1 comment required"
-msgstr ""
+msgstr "ຕ້ອງການ 1 ຄຳຄິດເຫັນ"
 
 msgid "{{commentsCount}} comments required"
-msgstr ""
+msgstr "{{commentsCount}}ຕ້ອງການຄຳຄິດເຫັນ"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
-msgstr ""
+msgstr "{{displayShortName}}ຕ້ອງມີຄວາມຄິດເຫັນເມື່ອບໍ່ມີຄ່າ"
 
 msgid "High"
 msgstr "ສູງ"
@@ -106,10 +117,10 @@ msgid "Low"
 msgstr "ຕ່ຳ"
 
 msgid "{{length}} {{level}} priority alert"
-msgstr ""
+msgstr "{{length}}{{level}} ການແຈ້ງເຕືອນລຳດັບຄວາມສຳຄັນ"
 
 msgid "{{length}} {{level}} priority alerts"
-msgstr ""
+msgstr "{{length}}{{level}}ການແຈ້ງເຕືອນລຳດັບຄວາມສຳຄັນ"
 
 msgid "Validation"
 msgstr "​ການຢັ້ງ​ຢືນ"
@@ -118,92 +129,105 @@ msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
 " Run validation again to check the current data."
 msgstr ""
+"ຂໍ້ມູນໃນແບບຟອມປ້ອນຂໍ້ມູນມີການປ່ຽນແປງ, ດັ່ງນັ້ນຜົນລັບການກວດສອບອາດບໍ່ຖືກຕ້ອງ "
+"ໃຊ້ການກວດສອບອີກຄັ້ງເພື່ອກວດສອບຂໍ້ມູນປັດຈຸບັນ"
 
 msgid "Run validation again"
-msgstr ""
+msgstr "ກວດສອບຄວາມຖືກຕ້ອງອີກຄັ້ງ"
 
 msgid "Alert summary"
-msgstr ""
+msgstr "ສະຫຼຸບການແຈ້ງເຕືອນ"
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "ບໍ່ມີການແຈ້ງເຕືອນການກວດສອບສຳລັບຂໍ້ມູນນີ້"
 
 msgid "Running validation..."
-msgstr ""
+msgstr "ກຳລັງກວດສອບຄວາມຖືກຕ້ອງ"
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "ມີບັນຫາໃນການໃຊ້ການກວດສອບ"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"ບໍ່ສາມາດດຳເນີນການກວດສອບຂໍ້ມູນນີ້ໄດ້. ກະລຸນາລອງອີກຄັ້ງ ຫຼື "
+"ຕິດຕໍ່ຜູ້ດູແລລະບົບຂອງທ່ານ"
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
-msgstr ""
+msgstr "{{leftDescription}} ບໍ່ສາມາດວ່າງໄດ້ເມື່ອ{{rightDescription}} ມີຄ່າ"
 
 msgid ""
 "{{leftDescription}} cannot have a value when {{rightDescription}} has a "
 "value"
-msgstr ""
+msgstr "{{leftDescription}} ບໍ່ສາມາດມີຄ່າໄດ້ເມື່ອ{{rightDescription}}ມີຄ່າ"
 
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
 msgstr ""
+"ໝວດໝູ່ບາງໝວດບໍ່ມີຕົວເລືອກທີ່ຖືກຕ້ອງສຳລັບຊ່ວງເວລາ ຫຼື "
+"ຫົວໜ່ວຍການຈັດຕັ້ງທີ່ໄດ້ເລືອກ({{categories}})"
 
 msgid ""
 "There was a problem loading the {{objectType}} selection ({{id}}). You might"
 " not have access, or the selection might be invalid."
 msgstr ""
+"ມີບັນຫາໃນການໂຫຼດ{{objectType}}ການເລືອກ({{id}})ທ່ານອາດບໍ່ໄດ້ຮັບອານຸຍາດໃນການເຂົ້າເຖີງ,"
+" ຫຼື ການເລືອກອາດບໍ່ຖຶກຕ້ອງ"
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "ເລືອກຊຸດຂໍ້ມູນ"
 
 msgid "No available options"
-msgstr ""
+msgstr "ບໍ່ມີຕົວເລືອກ"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
 "organisation unit."
 msgstr ""
+"ບໍ່ມີຕົວເລືອກສຳລັບ {{categoryName}}ສຳລັບຊ່ວງເວລາ ຫຼື "
+"ຫົວໜ່ວຍການຈັດຕັ້ງທີ່ເລືອກ"
 
 msgid "Hide menu"
 msgstr "ເຊື່ອງ ເມນຍູ"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "ຄ່າເລີ່ມຕົ້ນແອັດທີບິວຄອມໂບ"
 
 msgid "0 selections"
-msgstr ""
+msgstr "0 ການເລືອກ"
 
 msgid "1 selection"
-msgstr ""
+msgstr "1 ການເລືອກ"
 
 msgid "{{amount}} selections"
-msgstr ""
+msgstr "{{amount}}ການເລືອກ"
 
 msgid "Cell reference"
-msgstr ""
+msgstr "ຫ້ອງການອ້າງອີງ"
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "ບັນທຶກ ແລະ ສົ່ງຂໍ້ມູນໄປຫາເຄື່ອງຄອມພິວເຕີໜ່ວຍແມ່ແລ້ວ"
 
 msgid "Waiting to sync, saved locally"
-msgstr ""
+msgstr "ກຳລັງລໍຖ້າສົ່ງຂໍ້ມູນ, ບັນທຶກໃວ້ໃນເຄື່ອງ"
 
 msgid "Failed to sync, not saved"
-msgstr ""
+msgstr "ບໍ່ສາມາດສົ່ງຂໍ້ມູນໄດ້, ບໍ່ສາມາດບັນທຶກໄດ້"
 
 msgid "Data item has a comment"
-msgstr ""
+msgstr "ລາຍການຂໍ້ມູນມີຄວາມຄິດເຫັນ"
 
 msgid "Invalid value, not saved"
+msgstr "ຄ່າທີ່ບໍ່ຖຶກຕ້ອງ, ບໍ່ໄດ້ບັນທຶກ"
+
+msgid "Warning, saved"
 msgstr ""
 
 msgid "Locked, not editable"
-msgstr ""
+msgstr "ລັອກແລ້ວ, ບໍ່ສາມາດແກ້ໄຂໄດ້"
 
 msgid "Help"
 msgstr "ຊ່ວຍ"
@@ -212,103 +236,106 @@ msgid "or"
 msgstr "or"
 
 msgid "Shortcuts"
-msgstr ""
+msgstr "ທາງລັດ"
 
 msgid "Show details"
 msgstr "ເບີ່ງລາຍລະອຽດ"
 
 msgid "Ctrl + Enter"
-msgstr ""
+msgstr "Ctrl + Enter"
 
 msgid "Cmd + Enter"
-msgstr ""
+msgstr "Cmd + Enter"
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "ໄປທີຫ້ອງຕໍ່ໄປ"
 
 msgid "Tab"
-msgstr ""
+msgstr "ແຖບ"
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "ໄປທີ່ຫ້ອງກ່ອນໜ້າ"
 
 msgid "Shift + Tab"
-msgstr ""
+msgstr "Shift + Tab"
 
 msgid "Could not find a data set for the selected id"
-msgstr ""
+msgstr "ບໍ່ພົບຊຸດຂໍ້ມູນສຳລັບ ID ທີ່ເລືອກ"
 
 msgid "There are no data sets available!"
-msgstr ""
+msgstr "ບໍ່ມີຊຸດຂໍ້ມູນທີ່ພ້ອມໃຊ້ງານ"
 
 msgid "Data set"
-msgstr "Data set\\:"
+msgstr "ຊຸດຂໍ້ມູນ"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "ປຣິ້ນແບບຟອມພ້ອມຄ່າ"
 
 msgid "Print empty form"
-msgstr ""
+msgstr "ປຣິ້ນແບບຟອມເກົ່າ"
 
 msgid "Options"
-msgstr "ຈັດການ"
+msgstr "ຕົວເລືອກ"
 
 msgid "Search org units"
-msgstr ""
+msgstr "ເລືອກຫົວໜ່ວຍການຈັດຕັ້ງ"
 
 msgid "Choose a data set first"
-msgstr ""
+msgstr "ເລືອກຊຸດຂໍ້ມູນກ່ອນ"
 
 msgid "Dataset is not assigned to this organisation unit"
-msgstr ""
+msgstr "ຊຸດຂໍ້ມູນບໍ່ໄດ້ຖືກກຳນົດໃຫ້ກັບຫົວໜ່ວຍການຈັດຕັ້ງນີ້"
 
 msgid "Organisation unit"
 msgstr "​ຫົວ​ໜ່ວຍ​ການ​ຈັດ​ຕັ້ງ"
 
 msgid "Choose a organisation unit"
-msgstr ""
+msgstr "ເລືອກຫົວໜ່ວຍການຈັດຕັ້ງ"
 
 msgid "No organisation units could be found"
-msgstr ""
+msgstr "ບໍ່ພົບຫົວໜ່ວຍການຈັດຕັ້ງ"
 
 msgid "No children match filter"
-msgstr ""
+msgstr "ບໍ່ພົບເດັກນ້ອຍທີ່ກົງກັບຕົວກອງ"
 
 msgid "Could not load children"
-msgstr ""
+msgstr "ບໍ່ສາມາດໂຫຼດເດັກນ້ອຍໄດ້"
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr ""
+msgstr "ຂໍ້ຜິດພາດ {{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
-msgstr ""
+msgstr "ກຳລັງດຶງຂໍ້ມູນຫົວໜ່ວຍການຈັດຕັ້ງ"
 
 msgid "Error occurred while loading organisation unit info"
+msgstr "ເກີດຂໍ້ຜິດພາດຂະນະທີ່ໂຫຼດຂໍ້ມູນຫົວໜ່ວຍການຈັດຕັ້ງ"
+
+msgid "No periods available in this year"
 msgstr ""
 
 msgid "The Period ({{id}}) is not open or is invalid."
-msgstr ""
+msgstr "ຊ່ວງເວລາ({{id}})ບໍ່ໄດ້ເປິດ ຫຼື ບໍ່ຖືກຕ້ອງ"
 
 msgid "Period"
 msgstr "ຊ່ວງເວລາ"
 
 msgid "Choose a period"
-msgstr ""
+msgstr "ເລືອກໄລຍະເວລາ"
 
 msgid "All sections"
-msgstr ""
+msgstr "ພາກສ່ວນທັງໝົດ"
 
 msgid "Section"
 msgstr "ພາກສວ່ນ"
 
 msgid "Fetching data set info"
-msgstr ""
+msgstr "ກຳລັງດືງຂໍ້ມູນໃນຊຸດຂໍ້ມູນ"
 
 msgid "Error occurred while loading data set info"
-msgstr ""
+msgstr "ເກີດຂໍ້ຜິດພາດຂະນະທີ່ໂຫຼດຂໍ້ມູນໃນຊຸດຂໍ້ມູນ"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
-msgstr ""
+msgstr "ແບບຟອມທີ່ກຳນົດເອງບໍ່ສາມາດໃຊ້ງານແບບອອນລາຍໄດ້{{error}}"
 
 msgid "Value"
 msgstr "Value"
@@ -317,76 +344,76 @@ msgid "Totals"
 msgstr "ລວມທັງໝົດ"
 
 msgid "Audit log"
-msgstr ""
+msgstr "ບັນທຶກການກວດສອບ"
 
 msgid "Something went wrong loading the audit log"
-msgstr ""
+msgstr "ມີບາງຢ່າງຜິດພາດໃນການໂຫຼດບັນທຶກການກວດສອບ"
 
 msgid "Not available offline"
-msgstr ""
+msgstr "ບໍ່ສາມາດໃຊ້ໄດ້ອອບລາຍ"
 
 msgid "No audit log for this data item."
-msgstr ""
+msgstr "ບໍ່ມີບັນທຶກການກວດສອບສຳລັບລາຍການຂໍ້ມູນນີ້"
 
 msgid "Unmark for follow-up"
-msgstr ""
+msgstr "ຍົກເລິກການໝາຍເພື່ອຕິດຕາມ"
 
 msgid "Mark for follow-up"
 msgstr "ໝາຍໄວ້ເພື່ອຕິດຕາມ"
 
 msgid "Empty values can't be marked for follow -up"
-msgstr ""
+msgstr "ຄ່າວ່າງເປົ່າ ບໍ່ສາມາດໝາຍວ່າຕິດຕາມໄດ້"
 
 msgid "You do not have the authority to mark this value for follow -up"
-msgstr ""
+msgstr "ທ່ານບໍ່ໄດ້ຮັບອານຸຍາດໃນການໝາຍຄ່ານີ້ເພື່ອຕິດຕາມຜົນ"
 
 msgid "Description: {{- description}}"
-msgstr ""
+msgstr "ຄຳອະທິບາຍ:{{- description}}"
 
 msgid "Code: {{code}}"
-msgstr ""
+msgstr "ລະຫັດ:{{code}}"
 
 msgid "Data element ID: {{id}}"
-msgstr ""
+msgstr "ອົງປະກອບຂໍ້ມູນ ID:{{id}}"
 
 msgid "Category option combo ID: {{id}}"
-msgstr ""
+msgstr "ລະຫັດຕົວເລືອກໝວດໝູ່ຄອມໂບ:{{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr ""
+msgstr "ອັບເດດຄັ້ງຫຼ້າສຸດ{{- timeAgo}}ໂດຍ{{- name}}"
 
 msgid "Marked for follow-up"
-msgstr ""
+msgstr "ໝາຍໄວ້ເພື່ອຕິດຕາມ"
 
 msgid "Comment"
 msgstr "​ຄຳ​ເຫັນ​ຕ່າງໆ"
 
 msgid "There was a problem updating the comment for this data item"
-msgstr ""
+msgstr "ມີບັນຫາໃນການອັບເດດຄວາມເຫັນສຳລັບລາຍການຂໍ້ມູນນີ້"
 
 msgid "Choose an option"
-msgstr ""
+msgstr "ເລືອກຕົວເລືອກ"
 
 msgid "Saving..."
-msgstr ""
+msgstr "ກຳລັງບັນທຶກ"
 
 msgid "Save comment"
-msgstr "ບັນທຶກ"
+msgstr "ບັນທຶກຄວາມເຫັນ"
 
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "ຍົກເລີກ"
 
 msgid "Edit comment"
-msgstr ""
+msgstr "ແກ້ໄຂຄວາມເຫັນ"
 
 msgid "Add comment"
-msgstr ""
+msgstr "ເພີ່ມຄວາມເຫັນ"
 
 msgid "No comment for this data item."
-msgstr ""
+msgstr "ບໍ່ມີຄວາມເຫັນສຳຫຼັບລາຍການຂໍ້ມູນນີ້"
 
 msgid "You do not have the authority to add or edit comments"
-msgstr ""
+msgstr "ທ່ານບໍ່ໄດ້ຮັບອານຸຍາດໃຫ້ເພີ່ມ ຫຼື ແກ້ໄຂຄວາມເຫັນ"
 
 msgid "Details"
 msgstr "ລາຍລະອຽດ"
@@ -395,25 +422,25 @@ msgid "History"
 msgstr "ປະຫວັດ"
 
 msgid "Something went wrong loading the history"
-msgstr ""
+msgstr "ມີບາງຢ່າງຜິດພາດໃນຂະນະທີ່ກຳລັງໂຫຼດປະຫວັດ"
 
 msgid "No history for this data item."
-msgstr ""
+msgstr "ບໍ່ມີປະຫວັດສຳລັບລາຍການຂໍ້ມູນນີ້"
 
 msgid "Average value: {{avg}}"
-msgstr ""
+msgstr "ຄ່າສະເລ່ຍ:{{avg}}"
 
 msgid "Delete limits"
-msgstr ""
+msgstr "ຈຳກັດການລົບ"
 
 msgid "You do not have the authority to delete limits"
-msgstr ""
+msgstr "ທ່ານບໍ່ໄດ້ຮັບອານຸຍາດໃນການຈຳກັດການລົບ"
 
 msgid "Edit limits"
-msgstr ""
+msgstr "ຈຳກັດການແກ້ໄຂ"
 
 msgid "You do not have the authority to add limits"
-msgstr ""
+msgstr "ທ່ານບໍ່ໄດ້ຮັບອານຸຍາດໃນການເພີ່ມ"
 
 msgid "Min"
 msgstr "ຄ່ານ້ອຍສຸດ"
@@ -422,73 +449,79 @@ msgid "Max"
 msgstr "ຄ່າສູງສຸດ"
 
 msgid "Min and max limits"
-msgstr ""
+msgstr "ຂອບເຂດຄ່ານ້ອຍສຸດ ແລະ ໃຫຍ່ສຸດ"
 
 msgid "Try again, or contact your system administrator."
-msgstr ""
+msgstr "ລອງອີກຄັ້ງ, ຫຼື ຕິດຕໍ່ຜູ້ເບີ່ງແຍງລະບົບຂອງທ່ານ"
 
 msgid "Add limits"
-msgstr ""
+msgstr "ຈຳກັດການເພີ່ມ"
 
 msgid "No limits set for this data item."
-msgstr ""
+msgstr "ບໍ່ມີການຕັ້ງຄ່າຂີດຈຳກັດສຳລັບລາຍການຂໍ້ມູນນີ້"
 
 msgid "Save limits"
-msgstr ""
+msgstr "ຈຳກັດການບັນທືກ"
 
 msgid "The current selection does not have a form"
-msgstr ""
+msgstr "ການເລືອກປັດຈຸບັນບໍ່ມີແບບຟອມ"
 
 msgid "There was a problem loading data values"
-msgstr ""
+msgstr "ມີບັນຫາໃນການໂຫຼດຄ່າຂໍ້ມູນ"
 
 msgid "This data set has no assigned Data Elements"
-msgstr ""
+msgstr "ຊຸດຂໍ້ມູນນີ້ບໍ່ໄດ້ກຳນົດໃສ່ອົງປະກອບຂໍ້ມູນ"
 
 msgid ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
 msgstr ""
+"ບໍ່ມີອົງປະກອບຂໍ້ມູນໃນຊຸດຂໍ້ມູນນີ້. "
+"ເພີ່ມອົງປະກອບຂໍ້ມູນບາງສ່ວນເພື່ອໃຊ້ຊຸດຂໍ້ມູນນີ້"
 
 msgid "Data cannot be added or changed outside of the data input period."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມ ຫຼື ປ່ຽນແປງຂໍ້ມູນນອກເໜືອຈາກຊ່ວງເວລາການປ້ອນຂໍ້ມູນໄດ້"
 
 msgid ""
 "Data cannot be added or changed because organisation unit is closed for the "
 "selected period."
 msgstr ""
+"ບໍ່ສາມາດເພີ່ມ ຫຼື "
+"ປ່ຽນແປງຂໍ້ມູນໄດ້ເພາະວ່າຫົວໜ່ວຍການຈັດຕັ້ງປິດໃຊ້ງານໃນຊ່ວງເວລາທີ່ເລືອກ"
 
 msgid "Data cannot be added or changed because data entry has concluded."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມ ຫຼື ປ່ຽນແປງຂໍ້ມູນໄດ້ ເພາະວ່າໄດ້ສຳເລັດການປ້ອນຂໍ້ມູນແລ້ວ"
 
 msgid "Data cannot be added or changed because data has been approved."
-msgstr ""
+msgstr "ບໍ່ສາມາດເພີ່ມ ຫຼື ປ່ຽນແປງຂໍ້ມູນໄດ້ ເພາະວ່າຂໍ້ມູນໄດ້ຮັບການອານຸມັດແລ້ວ"
 
 msgid "You do not have the authority to edit entry forms"
-msgstr ""
+msgstr "ທ່ານບໍ່ໄດ້ຮັບອານຸຍາດໃນການແກ້ໄຂແບບຟອມປ້ອນຂ້ໍມູນ"
 
 msgid "Data set locked"
-msgstr ""
+msgstr "ຊຸດຂໍ້ມູນລັອກແລ້ວ"
 
 msgid "Get started with data entry"
-msgstr ""
+msgstr "ເລີ່ມຕົ້ນການປ້ອນຂໍ້ມູນ"
 
 msgid ""
 "Choose a data set, organisation unit, and period from the top bar to start "
 "entering data"
 msgstr ""
+"ເລືອກຊຸດຂໍ້ມູນ, ຫົວໜ່ວຍການຈັດຕັ້ງ ແລະ ຊ່ວງເວລາ "
+"ຈາກແຖບທາງດ້ານເທີງເພື່ອເລີ່ມການປ້ອນຂໍ້ມູນ"
 
 msgid "Learn more about data entry"
-msgstr ""
+msgstr "ຮຽນຮູ້ເພີ່ມເຕີມກ່ຽວກັບການປ້ອນຂໍ້ມູນ"
 
 msgid "Filter fields in all sections"
-msgstr ""
+msgstr "ກັ່ນຕອງຂໍ້ມູນໃນທຸກພາກສ່ວນ"
 
 msgid "Filter fields"
-msgstr ""
+msgstr "ຊ່ອງກັ່ນຕອງ"
 
 msgid "Clear filter"
-msgstr ""
+msgstr "ລ້າງການກັ່ນຕອງ"
 
 msgid "Indicators"
 msgstr "ຕົວຊີ້ວັດ"
@@ -509,58 +542,63 @@ msgid "Delete"
 msgstr "ລົບ"
 
 msgid "Upload an image"
-msgstr ""
+msgstr "ອັບໂຫຼດຮູບພາບ"
 
 msgid "Upload a file"
-msgstr ""
+msgstr "ອັບໂຫຼດເອກະສານ"
 
 msgid "Choose option(s)"
-msgstr ""
+msgstr "ເລືອກຕົວເລືອກ(s)"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
-msgstr ""
+msgstr "ກະລຸນາປ້ອນວັນທີ ແລະ ເວລາທີ່ຖືກຕ້ອງໃນຮູບບແບບ YYYY-MM-DD HH{{c}}MM"
 
 msgid "Please provide a valid time in the format HH{{c}}MM"
-msgstr ""
+msgstr "ກະລຸນາປ້ອນເວລາທີ່ຖືກຕ້ອງໃນຮູບແບບ{{c}}MM"
 
 msgid ""
 "Please make sure the value of this input is less than the value in "
 "\"{{otherField}}\"."
-msgstr ""
+msgstr "ກະລຸນາກວດສອບໃຫ້ແນ່ໃຈວ່າຄ່າຂອງຂໍ້ມູນມີຄ່ານ້ອຍກ່ວາຄ່າໃນ\"{{otherField}}\""
 
 msgid ""
 "Please make sure the value of this input is more than the value in "
 "\"{{otherField}}\"."
-msgstr ""
+msgstr "ກະລຸນາກວດສອບໃຫ້ແນ່ໃຈວ່າຄ່າຂອງຂໍ້ມູນມີຄ່າຫຼາຍກ່ວາຄ່າໃນ \"{{otherField}}\""
 
 msgid "Type here to filter in this section"
-msgstr ""
+msgstr "ປ້ອນໃສ່ບ່ອນນີ້ເພື່ອກັ່ນຕອງໃນພາກສ່ວນນີ້"
 
 msgid "1 item hidden by filter"
-msgstr ""
+msgstr "1 ລາຍການຖືກເຊື່ອງໂດຍຕົວກັ່ນຕອງ"
 
 msgid "{{pendingMutations}} change saved locally"
-msgstr ""
+msgstr "{{pendingMutations}}ການປ່ຽນແປງທີ່ບັນທຶກໃວ້ໃນເຄື່ອງ"
 
 msgid "{{pendingMutations}} changes saved locally"
-msgstr ""
+msgstr "{{pendingMutations}}ການປ່ຽນແປງທີ່ບັນທຶກໃວ້ໃນເຄື່ອງ"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
 msgstr ""
+"ບ່ອນນີ້ເຮົາສາມາດຂຽນທັບຂໍ້ຄວາມສຳລັບຂໍ້ຜິດພາດE2017  ດ້ວຍຂໍ້ຄວາມທີ່ກຳນົດເອງໃນFE"
 
 msgid "Selected period is after latest open future period"
-msgstr ""
+msgstr "ຊ່ວງເວລາທີ່ເລືອກແມ່ນຫຼັງຈາກເປີດຊ່ວງເວລາໃນອານາຄົດຄັ້ງລ່າສຸດ"
 
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr ""
+"ມີບາງຢ່າງຜິດພາດຂະນະທີ່ຕັ້ງຄ່າການປ້ອນແບບຟອມເປັນ\"{{completed}}\":{{errorMessage}}"
 
 msgid "{{title}} (disabled)"
-msgstr ""
+msgstr "{{title}}(ປິດໃຊ້ງານ)"
 
 msgid "Close details sidebar"
+msgstr "ປິດແຖບລາຍລະອຽດດ້ານຂ້າງ"
+
+msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
 msgstr ""

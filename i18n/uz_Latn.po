@@ -1,13 +1,14 @@
 # 
 # Translators:
-# Yury Rogachev <yury@dhis2.org>, 2022
+# Khurshid Ibatov <Khurshid.Ibatov@tibbiysugurta.uz>, 2024
+# Yury Rogachev <yury@dhis2.org>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
-"PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Yury Rogachev <yury@dhis2.org>, 2022\n"
+"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"PO-Revision-Date: 2024-09-24 13:03+0000\n"
+"Last-Translator: Yury Rogachev <yury@dhis2.org>, 2024\n"
 "Language-Team: Uzbek (Latin) (https://app.transifex.com/hisp-uio/teams/100509/uz@Latn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,6 +61,12 @@ msgstr ""
 msgid "{{numberOfErrors}} values failed to save"
 msgstr ""
 
+msgid "This form closes and will be locked at {{-dateTime}}"
+msgstr ""
+
+msgid "Closes {{-relativeTime}}"
+msgstr ""
+
 msgid "Validation is not available offline"
 msgstr ""
 
@@ -67,12 +74,12 @@ msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
-msgstr "Tekshirish oʼtkazing"
+msgstr "Текшириш ўтказилсин"
 
-msgid "Last completed by"
+msgid "Last completed by {{-username}}"
 msgstr ""
 
-msgid "Last incompleted by"
+msgid "Last incompleted by {{-username}}"
 msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
@@ -199,6 +206,9 @@ msgstr ""
 msgid "Invalid value, not saved"
 msgstr ""
 
+msgid "Warning, saved"
+msgstr ""
+
 msgid "Locked, not editable"
 msgstr ""
 
@@ -281,6 +291,9 @@ msgid "Fetching organisation unit info"
 msgstr ""
 
 msgid "Error occurred while loading organisation unit info"
+msgstr ""
+
+msgid "No periods available in this year"
 msgstr ""
 
 msgid "The Period ({{id}}) is not open or is invalid."
@@ -560,4 +573,7 @@ msgid "{{title}} (disabled)"
 msgstr ""
 
 msgid "Close details sidebar"
+msgstr ""
+
+msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
 msgstr ""
