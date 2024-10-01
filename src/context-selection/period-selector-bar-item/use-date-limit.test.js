@@ -1,6 +1,6 @@
 import { useConfig } from '@dhis2/app-runtime'
 import { renderHook } from '@testing-library/react-hooks'
-import { getNowInCalendarString } from '../../shared/date/get-now-in-calendar.js'
+import * as getNowInCalendarFunctions from '../../shared/date/get-now-in-calendar.js'
 import {
     periodTypes,
     useMetadata,
@@ -19,9 +19,9 @@ jest.mock('@dhis2/app-runtime', () => ({
     })),
 }))
 
-jest.mock('../../shared/date/get-now-in-calendar.js', () => ({
-    getNowInCalendarString: jest.fn(() => '2020-07-01'),
-}))
+// jest.mock('../../shared/date/get-now-in-calendar.js', () => ({
+//     getNowInCalendarString: jest.fn(() => '2020-07-01'),
+// }))
 
 jest.mock(
     '../../shared/use-context-selection/use-context-selection.js',
@@ -303,8 +303,125 @@ describe.each([
     'useDateLimit',
     // eslint-disable-next-line max-params
     (currentDate, periodType, openFuturePeriods, expectedDate) => {
+        afterEach(() => {
+            jest.useRealTimers()
+        })
         test(`should be ${expectedDate} if current date: ${currentDate}, periodType: ${periodType}, openFuturePeriods: ${openFuturePeriods}`, () => {
-            getNowInCalendarString.mockImplementation(() => currentDate)
+            jest.useFakeTimers('modern')
+            // we can set the system time this way because our "browser" time zone is set to UTC
+            jest.setSystemTime(new Date(currentDate))
+            useMetadata.mockImplementationOnce(() => ({
+                data: {
+                    dataSets: {
+                        dataSetId: {
+                            id: 'dataSetId',
+                            periodType,
+                            openFuturePeriods,
+                        },
+                    },
+                },
+            }))
+
+            const { result } = renderHook(() => useDateLimit())
+            expect(result.current).toEqual(expectedDate)
+        })
+    }
+)
+
+describe('useDateLimit (time zones)', () => {
+    beforeEach(() => {
+        jest.clearAllMocks()
+    })
+    afterEach(() => {
+        jest.useRealTimers()
+        jest.clearAllMocks()
+    })
+
+    it('corrects for timezone discrepancy (earlier time zone)', () => {
+        jest.useFakeTimers('modern')
+        jest.setSystemTime(new Date('2024-06-01'))
+        useConfig.mockImplementation(() => ({
+            systemInfo: {
+                serverTimeZoneId: 'America/Santiago',
+                calendar: 'gregory',
+            },
+        }))
+        // browser time is UTC, but time zone is earlier, so we should get 1 day earlier as the boundary
+        useMetadata.mockImplementationOnce(() => ({
+            data: {
+                dataSets: {
+                    dataSetId: {
+                        id: 'dataSetId',
+                        periodType: reversedPeriodTypesMapping.DAILY,
+                        openFuturePeriods: 0,
+                    },
+                },
+            },
+        }))
+
+        const { result } = renderHook(() => useDateLimit())
+        expect(result.current).toEqual('2024-05-31')
+    })
+
+    it('corrects for timezone discrepancy (later time zone)', () => {
+        jest.useFakeTimers('modern')
+        jest.setSystemTime(new Date('2024-06-01T22:00:00'))
+        useConfig.mockImplementation(() => ({
+            systemInfo: {
+                serverTimeZoneId: 'Asia/Vientiane',
+                calendar: 'gregory',
+            },
+        }))
+        // browser time is UTC, but time zone is later, so we get 1 day later as the boundary (since we are at 23:00 UTC)
+        useMetadata.mockImplementationOnce(() => ({
+            data: {
+                dataSets: {
+                    dataSetId: {
+                        id: 'dataSetId',
+                        periodType: reversedPeriodTypesMapping.DAILY,
+                        openFuturePeriods: 0,
+                    },
+                },
+            },
+        }))
+
+        const { result } = renderHook(() => useDateLimit())
+        expect(result.current).toEqual('2024-06-02')
+    })
+})
+
+describe.each([
+    ['2017-13-03', reversedPeriodTypesMapping.DAILY, 0, '2017-13-03'],
+    ['2017-02-30', reversedPeriodTypesMapping.DAILY, 0, '2017-02-30'],
+    ['2017-02-30', reversedPeriodTypesMapping.WEEKLY, 0, '2017-02-26'],
+    ['2017-13-02', reversedPeriodTypesMapping.WEEKLY, 0, '2017-12-27'],
+    ['2017-01-01', reversedPeriodTypesMapping.MONTHLY, 0, '2017-01-01'],
+    ['2017-02-30', reversedPeriodTypesMapping.MONTHLY, 0, '2017-02-01'],
+    ['2017-13-03', reversedPeriodTypesMapping.DAILY, 4, '2018-01-02'],
+    ['2017-02-30', reversedPeriodTypesMapping.DAILY, 10, '2017-03-10'],
+    ['2017-02-30', reversedPeriodTypesMapping.WEEKLY, 3, '2017-03-17'],
+    ['2017-13-02', reversedPeriodTypesMapping.WEEKLY, 13, '2018-03-23'],
+    ['2017-01-01', reversedPeriodTypesMapping.MONTHLY, 5, '2017-06-01'],
+    ['2017-02-30', reversedPeriodTypesMapping.MONTHLY, 15, '2018-05-01'],
+])(
+    'useDateLimit (ethiopian calendar)',
+    // eslint-disable-next-line max-params
+    (currentDate, periodType, openFuturePeriods, expectedDate) => {
+        beforeEach(() => {
+            useConfig.mockImplementation(() => ({
+                systemInfo: { calendar: 'ethiopian', timeZone: 'Etc/UTC' },
+            }))
+        })
+
+        afterEach(() => {
+            jest.clearAllMocks()
+        })
+
+        it(`should be ${expectedDate} if current date: ${currentDate}, periodType: ${periodType}, openFuturePeriods: ${openFuturePeriods}`, () => {
+            jest.spyOn(
+                getNowInCalendarFunctions,
+                'getNowInCalendarString'
+            ).mockImplementation(() => currentDate)
             useMetadata.mockImplementationOnce(() => ({
                 data: {
                     dataSets: {
@@ -324,15 +441,25 @@ describe.each([
 )
 
 describe.each([
-    ['2023-01-01', reversedPeriodTypesMapping.MONTHLY, 0, '2023-01-01'],
-    ['2017-12-04', reversedPeriodTypesMapping.MONTHLY, 0, '2017-12-01'],
+    ['2076-04-32', reversedPeriodTypesMapping.DAILY, 0, '2076-04-32'],
+    ['2076-02-30', reversedPeriodTypesMapping.DAILY, 0, '2076-02-30'],
+    ['2076-02-30', reversedPeriodTypesMapping.WEEKLY, 0, '2076-02-27'],
+    ['2076-12-02', reversedPeriodTypesMapping.WEEKLY, 0, '2076-11-26'],
+    ['2076-01-01', reversedPeriodTypesMapping.MONTHLY, 0, '2076-01-01'],
+    ['2076-02-30', reversedPeriodTypesMapping.MONTHLY, 0, '2076-02-01'],
+    ['2076-04-32', reversedPeriodTypesMapping.DAILY, 4, '2076-05-04'],
+    ['2076-02-30', reversedPeriodTypesMapping.DAILY, 10, '2076-03-08'],
+    ['2076-02-30', reversedPeriodTypesMapping.WEEKLY, 3, '2076-03-16'],
+    ['2076-12-02', reversedPeriodTypesMapping.WEEKLY, 13, '2077-02-26'],
+    ['2076-01-01', reversedPeriodTypesMapping.MONTHLY, 5, '2076-06-01'],
+    ['2076-02-30', reversedPeriodTypesMapping.MONTHLY, 15, '2077-05-01'],
 ])(
-    'useDateLimit',
+    'useDateLimit (nepali calendar)',
     // eslint-disable-next-line max-params
     (currentDate, periodType, openFuturePeriods, expectedDate) => {
         beforeEach(() => {
             useConfig.mockImplementation(() => ({
-                systemInfo: { calendar: 'ethiopian', timeZone: 'Etc/UTC' },
+                systemInfo: { calendar: 'nepali', timeZone: 'Etc/UTC' },
             }))
         })
 
@@ -341,7 +468,10 @@ describe.each([
         })
 
         it(`should be ${expectedDate} if current date: ${currentDate}, periodType: ${periodType}, openFuturePeriods: ${openFuturePeriods}`, () => {
-            getNowInCalendarString.mockImplementation(() => currentDate)
+            jest.spyOn(
+                getNowInCalendarFunctions,
+                'getNowInCalendarString'
+            ).mockImplementation(() => currentDate)
             useMetadata.mockImplementationOnce(() => ({
                 data: {
                     dataSets: {
