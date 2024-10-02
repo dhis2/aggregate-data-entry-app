@@ -1,18 +1,20 @@
 # 
 # Translators:
-# Fernando Jorge Bade, 2022
-# Ge Joao <gsimango@saudigitus.org>, 2022
-# Gabriela Rodriguez <grodriguezcoronado@gmail.com>, 2022
-# phil_dhis2, 2022
-# David Júnior <davidjr.mondlane@gmail.com>, 2022
-# Viktor Varland <viktor@dhis2.org>, 2022
+# Jason Pickering <jason@dhis2.org>, 2024
+# Ge Joao <gsimango@saudigitus.org>, 2024
+# Sheila André <sandre@saudigitus.org>, 2024
+# David Júnior <davidjr.mondlane@gmail.com>, 2024
+# Fernando Jorge Bade, 2024
+# Viktor Varland <viktor@dhis2.org>, 2024
+# Gabriela Rodriguez <grodriguezcoronado@gmail.com>, 2024
+# Philip Larsen Donnelly, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
-"PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
+"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"PO-Revision-Date: 2024-09-24 13:03+0000\n"
+"Last-Translator: Philip Larsen Donnelly, 2024\n"
 "Language-Team: Portuguese (https://app.transifex.com/hisp-uio/teams/100509/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +44,7 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "Marca incompleta"
 
 msgid "Mark complete"
 msgstr ""
@@ -65,6 +67,12 @@ msgstr ""
 msgid "{{numberOfErrors}} values failed to save"
 msgstr ""
 
+msgid "This form closes and will be locked at {{-dateTime}}"
+msgstr ""
+
+msgid "Closes {{-relativeTime}}"
+msgstr ""
+
 msgid "Validation is not available offline"
 msgstr ""
 
@@ -74,10 +82,10 @@ msgstr ""
 msgid "Run validation"
 msgstr "Executar a validação"
 
-msgid "Last completed by"
+msgid "Last completed by {{-username}}"
 msgstr ""
 
-msgid "Last incompleted by"
+msgid "Last incompleted by {{-username}}"
 msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
@@ -204,6 +212,9 @@ msgstr ""
 msgid "Invalid value, not saved"
 msgstr ""
 
+msgid "Warning, saved"
+msgstr ""
+
 msgid "Locked, not editable"
 msgstr ""
 
@@ -286,6 +297,9 @@ msgid "Fetching organisation unit info"
 msgstr ""
 
 msgid "Error occurred while loading organisation unit info"
+msgstr ""
+
+msgid "No periods available in this year"
 msgstr ""
 
 msgid "The Period ({{id}}) is not open or is invalid."
@@ -373,7 +387,7 @@ msgid "Saving..."
 msgstr ""
 
 msgid "Save comment"
-msgstr "Salvar comentário"
+msgstr "Gravar comentário"
 
 msgid "Cancel"
 msgstr "Cancelar"
@@ -382,7 +396,7 @@ msgid "Edit comment"
 msgstr ""
 
 msgid "Add comment"
-msgstr ""
+msgstr "Adicionar comentário"
 
 msgid "No comment for this data item."
 msgstr ""
@@ -565,4 +579,7 @@ msgid "{{title}} (disabled)"
 msgstr ""
 
 msgid "Close details sidebar"
+msgstr ""
+
+msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
 msgstr ""

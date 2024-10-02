@@ -1,13 +1,14 @@
 # 
 # Translators:
-# Jiří Podhorecký, 2022
+# Philip Larsen Donnelly, 2024
+# Jiří Podhorecký <jirka.p@volny.cz>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
-"PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Jiří Podhorecký, 2022\n"
+"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"PO-Revision-Date: 2024-09-24 13:03+0000\n"
+"Last-Translator: Jiří Podhorecký <jirka.p@volny.cz>, 2024\n"
 "Language-Team: Czech (https://app.transifex.com/hisp-uio/teams/100509/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,6 +65,12 @@ msgstr "1 hodnotu se nepodařilo uložit"
 msgid "{{numberOfErrors}} values failed to save"
 msgstr "Hodnoty {{numberOfErrors}} se nepodařilo uložit"
 
+msgid "This form closes and will be locked at {{-dateTime}}"
+msgstr ""
+
+msgid "Closes {{-relativeTime}}"
+msgstr ""
+
 msgid "Validation is not available offline"
 msgstr "Ověření není dostupné offline"
 
@@ -73,11 +80,11 @@ msgstr "Ověření není k dispozici, dokud změny čekají"
 msgid "Run validation"
 msgstr "Spustit ověření"
 
-msgid "Last completed by"
-msgstr "Naposledy dokončeno"
+msgid "Last completed by {{-username}}"
+msgstr ""
 
-msgid "Last incompleted by"
-msgstr "Naposledy nedokončeno od"
+msgid "Last incompleted by {{-username}}"
+msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
 msgstr "Formulář se nepodařilo ověřit, zkuste to prosím znovu později"
@@ -215,6 +222,9 @@ msgstr "Datová položka má komentář"
 msgid "Invalid value, not saved"
 msgstr "Neplatná hodnota, neuloženo"
 
+msgid "Warning, saved"
+msgstr ""
+
 msgid "Locked, not editable"
 msgstr "Uzamčeno, nelze upravovat"
 
@@ -291,13 +301,16 @@ msgid "Could not load children"
 msgstr "Nelze načíst podřazené"
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr "Chyba: {{ERRORMESSAGE}}"
+msgstr "Chyba: {{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
 msgstr "Načítání informací o organizační jednotce"
 
 msgid "Error occurred while loading organisation unit info"
 msgstr "Při načítání informací o organizační jednotce došlo k chybě"
+
+msgid "No periods available in this year"
+msgstr ""
 
 msgid "The Period ({{id}}) is not open or is invalid."
 msgstr "Období ({{id}}) není otevřené nebo je neplatné."
@@ -523,7 +536,7 @@ msgid "Clear"
 msgstr "Vyčistit"
 
 msgid "Delete"
-msgstr "Smazat"
+msgstr "Vymazat"
 
 msgid "Upload an image"
 msgstr "Nahrajte obrázek"
@@ -587,3 +600,6 @@ msgstr "{{title}} (zakázáno)"
 
 msgid "Close details sidebar"
 msgstr "Zavřít postranní panel podrobností"
+
+msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
+msgstr ""

@@ -1,13 +1,13 @@
 # 
 # Translators:
-# Ibatov <ibatovk@who.int>, 2022
+# Khurshid Ibatov <Khurshid.Ibatov@tibbiysugurta.uz>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
-"PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Ibatov <ibatovk@who.int>, 2022\n"
+"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"PO-Revision-Date: 2024-09-24 13:03+0000\n"
+"Last-Translator: Khurshid Ibatov <Khurshid.Ibatov@tibbiysugurta.uz>, 2024\n"
 "Language-Team: Uzbek (Cyrillic) (https://app.transifex.com/hisp-uio/teams/100509/uz@Cyrl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,82 +16,94 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "Not authorized"
-msgstr ""
+msgstr "Авторизациядан ўтилмаган"
 
 msgid ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 msgstr ""
+"Сизга маълумотлар базаси иловасига киришга рухсат берилмаган. Тизим "
+"администраторига алоқага чиқинг ва тизимга кириш рухсатномасига сўров "
+"юборинг."
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "Метабазани юклашда муаммо юз берди"
 
 msgid "There was a problem loading the user's information"
-msgstr ""
+msgstr "Фойдаланувчи маълумотларини юклашда муаммо юз берди"
 
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
+"Сессия вақти эскирди. Марҳамат, тизимга қайта киринг. Сизнинг ҳеч қандай "
+"маълумотингиз йўқотилмайди"
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "Шаклни тўлдириш иложи бўлмади. марҳамат кейинроқ қайта уриниб кўринг"
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "Тугалланмаган деб белгилансин"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "Тугалланган деб белгилансин"
 
 msgid "Hide details"
 msgstr "Деталларни беркитиш"
 
 msgid "View details"
-msgstr ""
+msgstr "Деталларни кўрсатиш"
 
 msgid "1 invalid value not saved"
-msgstr ""
+msgstr "1 та чала кўрсатгич сақланмади"
 
 msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
+msgstr "{{numberOfErrors}} чала кўрсатгич сақланмади"
 
 msgid "1 value failed to save"
-msgstr ""
+msgstr "1 та кўрсатгични сақлашда хатолик юз берди"
 
 msgid "{{numberOfErrors}} values failed to save"
+msgstr "{{numberOfErrors}} 1 та кўрсатгични сақлашда хатолик юз берди"
+
+msgid "This form closes and will be locked at {{-dateTime}}"
+msgstr ""
+
+msgid "Closes {{-relativeTime}}"
 msgstr ""
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "Автоном режимда текшириш имконияти мавжуд эмас"
 
 msgid "Validation is not available while changes are pending"
 msgstr ""
+"Ўзгартиришлар киритилиши кутилаётган даврда текшириш имконияти мавжуд эмас"
 
 msgid "Run validation"
-msgstr "Текшириш ўтказинг"
+msgstr "Текшириш ўтказилсин"
 
-msgid "Last completed by"
+msgid "Last completed by {{-username}}"
 msgstr ""
 
-msgid "Last incompleted by"
+msgid "Last incompleted by {{-username}}"
 msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "Шаклни текшириш имкони бўлмади, марҳамат кейинроқ қайта уриниб кўринг"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
-msgstr ""
+msgstr "Шаклни текшириш имкони бўлмади, бу шаклни якунига етказиш имконсиз!"
 
 msgid "The form can't be completed while invalid"
-msgstr ""
+msgstr "Шакл нотўғри бўлганлиги сабабли якунлаш имкони йўқ"
 
 msgid "1 comment required"
-msgstr ""
+msgstr "1 та изоҳ талаб этилади"
 
 msgid "{{commentsCount}} comments required"
-msgstr ""
+msgstr "{{commentsCount}} изоҳлар талаб этилди"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
-msgstr ""
+msgstr "{{displayShortName}} қийматга эга бўлмаса, изоҳ бўлиши шарт"
 
 msgid "High"
 msgstr "Юқори"
@@ -103,10 +115,10 @@ msgid "Low"
 msgstr "Кам"
 
 msgid "{{length}} {{level}} priority alert"
-msgstr ""
+msgstr "{{length}} {{level}} устуворликдаги огоҳлантириш"
 
 msgid "{{length}} {{level}} priority alerts"
-msgstr ""
+msgstr "{{length}} {{level}} устуворликдаги огоҳлантиришлар"
 
 msgid "Validation"
 msgstr "Тасдиқлаш"
@@ -115,92 +127,110 @@ msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
 " Run validation again to check the current data."
 msgstr ""
+"Киритиш шаклида маълумотлар ўзгартирилган, шунин учун тасдиқлаш натижаси "
+"нотўғри бўлиши мумкин. Жорий маълумотларни текшириш учун қайта текширишни "
+"ишга туширинг."
 
 msgid "Run validation again"
-msgstr ""
+msgstr "Текшириш қайта ишга туширилсин"
 
 msgid "Alert summary"
-msgstr ""
+msgstr "Огоҳлантириш хулосаси"
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "Ушбу маълумот учун текшириш огоҳлантиришлари йўқ."
 
 msgid "Running validation..."
-msgstr ""
+msgstr "Текширилмоқда..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "Текшириш жараёнида олиб боришда муаммо мавжуд"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"Ушбу маълумотлар учун текширишни амалга ошириб бўлмади. Қайта уриниб кўринг "
+"ёки тизим администраторига мурожаат қилинг."
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
 msgstr ""
+"Агар  {{rightDescription}} да қиймат бўлса, {{leftDescription}} бўш бўлиши "
+"мумкин эмас"
 
 msgid ""
 "{{leftDescription}} cannot have a value when {{rightDescription}} has a "
 "value"
 msgstr ""
+"Агар {{rightDescription}} қийматга эга бўлса, {{leftDescription}} қийматга "
+"эга бўла олмайди"
 
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
 msgstr ""
+"Айрим тоифаларда танланган давр ёки ташкилотлар билиги ({{categories}}) учун"
+" яроқли вариантлар мавжуд эмас"
 
 msgid ""
 "There was a problem loading the {{objectType}} selection ({{id}}). You might"
 " not have access, or the selection might be invalid."
 msgstr ""
+"{{objectType}} танловини ({{id}}) юклашда хатолик юз бери. Сизда рухсат "
+"йўқлиги ёки танлов нотўғри бўлиши мумкин."
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "Маълумотлар тўпламини танланг"
 
 msgid "No available options"
-msgstr ""
+msgstr "Мавжуд вариантлар йўқ"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
 "organisation unit."
 msgstr ""
+"Танланган давр ёки иташкилот бирлиги {{categoryName}} учун ҳеч қандай "
+"вариантлар мавжуд эмас."
 
 msgid "Hide menu"
 msgstr "Меню беркитилсин"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "Бирламчи атрибут комбинацияси"
 
 msgid "0 selections"
-msgstr ""
+msgstr "Танланганлар 0"
 
 msgid "1 selection"
-msgstr ""
+msgstr "Танланган 1 та"
 
 msgid "{{amount}} selections"
-msgstr ""
+msgstr "{{amount}} та танлов"
 
 msgid "Cell reference"
-msgstr ""
+msgstr "Катак ҳаволаси"
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "Сақланди ва серверда синхронлашрилди"
 
 msgid "Waiting to sync, saved locally"
-msgstr ""
+msgstr "Синхронлаш кутилмоқда, локал сақланди"
 
 msgid "Failed to sync, not saved"
-msgstr ""
+msgstr "Синхронлашда хатолик бўлди, сақланмади"
 
 msgid "Data item has a comment"
-msgstr ""
+msgstr "Маълумот элементида изоҳ мавжуд"
 
 msgid "Invalid value, not saved"
+msgstr "Нотўғри қиймат, сақланмади"
+
+msgid "Warning, saved"
 msgstr ""
 
 msgid "Locked, not editable"
-msgstr ""
+msgstr "Блокланган, таҳрирлаш имкони йўқ"
 
 msgid "Help"
 msgstr "Ёрдам"
@@ -209,103 +239,106 @@ msgid "or"
 msgstr "ёки"
 
 msgid "Shortcuts"
-msgstr ""
+msgstr "Ёрлиқлар"
 
 msgid "Show details"
 msgstr "Тафсилотларни кўрсатинг"
 
 msgid "Ctrl + Enter"
-msgstr ""
+msgstr "Ctrl + Enter"
 
 msgid "Cmd + Enter"
-msgstr ""
+msgstr "Ctrl + Enter"
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "Кейинги катакка ўтинг"
 
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "Олдинги катакка ўтинг"
 
 msgid "Shift + Tab"
-msgstr ""
+msgstr "Shift + Tab"
 
 msgid "Could not find a data set for the selected id"
-msgstr ""
+msgstr "Танланган id учун маълумотлар тўплами топилмади"
 
 msgid "There are no data sets available!"
-msgstr ""
+msgstr "Маълумотлар тўплами мавжуд эмас!"
 
 msgid "Data set"
 msgstr "Маълумотлар тўплами"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "Шаклни қийматлари билан чоп этиш"
 
 msgid "Print empty form"
-msgstr ""
+msgstr "Бўш шаклни чоп этиш"
 
 msgid "Options"
 msgstr "Вариант"
 
 msgid "Search org units"
-msgstr ""
+msgstr "Ташкилий бирликни излаш"
 
 msgid "Choose a data set first"
-msgstr ""
+msgstr "Аввал маълумотлар тўпламини танланг"
 
 msgid "Dataset is not assigned to this organisation unit"
-msgstr ""
+msgstr "Ушбу ташкилот бирлиги учун маълумотлар тўплами тайинланмаган"
 
 msgid "Organisation unit"
 msgstr "Ташкилий бўлим"
 
 msgid "Choose a organisation unit"
-msgstr ""
+msgstr "Ташкилий бирликни танланг"
 
 msgid "No organisation units could be found"
-msgstr ""
+msgstr "Ташкилий бирликлар топилмади"
 
 msgid "No children match filter"
-msgstr ""
+msgstr "Фильтрга мос бўлган авлод мавжуд эмас"
 
 msgid "Could not load children"
 msgstr "Болалар юкланмади"
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr ""
+msgstr "Хатолик: {{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
-msgstr ""
+msgstr "Ташкилий бирлик маълумотлари олинмоқда"
 
 msgid "Error occurred while loading organisation unit info"
+msgstr "Ташкилий бирлик маълумотлари юкланишида хатолик юз берди"
+
+msgid "No periods available in this year"
 msgstr ""
 
 msgid "The Period ({{id}}) is not open or is invalid."
-msgstr ""
+msgstr "Давр ({{id}}) очиқ эмас ёки яроқсиз."
 
 msgid "Period"
 msgstr "Давр"
 
 msgid "Choose a period"
-msgstr ""
+msgstr "Даврни танланг"
 
 msgid "All sections"
-msgstr ""
+msgstr "Барча бўлимлар"
 
 msgid "Section"
 msgstr "Бўлим"
 
 msgid "Fetching data set info"
-msgstr ""
+msgstr "Маълумотлар тўплами маълумоти олинмоқда"
 
 msgid "Error occurred while loading data set info"
-msgstr ""
+msgstr "Маълумотлар тўпламини юклашда хатолик юз берди"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
-msgstr ""
+msgstr "Фойдаланувчи шаклларини оффлайн режимда ишлатиб бўлмади {{error}}"
 
 msgid "Value"
 msgstr "Қиймат"
@@ -314,43 +347,45 @@ msgid "Totals"
 msgstr "Жами"
 
 msgid "Audit log"
-msgstr ""
+msgstr "Аудит журнали"
 
 msgid "Something went wrong loading the audit log"
-msgstr ""
+msgstr "Аудит журналини юклашда нимадир нотўғри бўлди"
 
 msgid "Not available offline"
 msgstr "Оффлайн режимда мавжуд эмас"
 
 msgid "No audit log for this data item."
-msgstr ""
+msgstr "Ушбу маълумот бирлиги учун аудит журнали мавжуд эмас."
 
 msgid "Unmark for follow-up"
-msgstr ""
+msgstr "Кейинги кузатув учун белгини олиб ташланг"
 
 msgid "Mark for follow-up"
 msgstr "Кузатув учун белгиланг"
 
 msgid "Empty values can't be marked for follow -up"
-msgstr ""
+msgstr "Бўш қийматларни кузатув учун белгилаб бўлмайди"
 
 msgid "You do not have the authority to mark this value for follow -up"
 msgstr ""
+"Ҳуқуқингиз чегараланганлиги сабабни ушбу қиймат учун кузатув белгилай "
+"олмайсиз"
 
 msgid "Description: {{- description}}"
-msgstr ""
+msgstr "Тавсиф: {{- description}}"
 
 msgid "Code: {{code}}"
-msgstr ""
+msgstr "Код: {{code}}"
 
 msgid "Data element ID: {{id}}"
-msgstr ""
+msgstr "Маълумот элементи ID: {{id}}"
 
 msgid "Category option combo ID: {{id}}"
-msgstr ""
+msgstr "Категория вариантлари комбинацияси ID: {{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr ""
+msgstr "{{- name}} томонидан {{- timeAgo}} охирги марта янгиланган "
 
 msgid "Marked for follow-up"
 msgstr "Кузатув учун белгиланган"
@@ -362,16 +397,16 @@ msgid "There was a problem updating the comment for this data item"
 msgstr ""
 
 msgid "Choose an option"
-msgstr ""
+msgstr "Вариантини танланг"
 
 msgid "Saving..."
-msgstr ""
+msgstr "Сақланмоқда..."
 
 msgid "Save comment"
 msgstr "Фикр/изоҳни сақланг"
 
 msgid "Cancel"
-msgstr "Бекор қилиш"
+msgstr "Рад этиш"
 
 msgid "Edit comment"
 msgstr ""
@@ -560,4 +595,7 @@ msgid "{{title}} (disabled)"
 msgstr ""
 
 msgid "Close details sidebar"
+msgstr ""
+
+msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
 msgstr ""

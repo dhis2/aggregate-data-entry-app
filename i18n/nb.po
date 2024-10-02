@@ -1,14 +1,15 @@
 # 
 # Translators:
-# Caroline Hesthagen Holen <caroline@devotta.no>, 2022
-# Karoline Tufte Lien <karoline@dhis2.org>, 2022
+# Caroline Hesthagen Holen <caroline@devotta.no>, 2024
+# Karoline Tufte Lien <karoline@dhis2.org>, 2024
+# Thomas Zemp, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
-"PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Karoline Tufte Lien <karoline@dhis2.org>, 2022\n"
+"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"PO-Revision-Date: 2024-09-24 13:03+0000\n"
+"Last-Translator: Thomas Zemp, 2024\n"
 "Language-Team: Norwegian Bokmål (https://app.transifex.com/hisp-uio/teams/100509/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,6 +62,12 @@ msgstr ""
 msgid "{{numberOfErrors}} values failed to save"
 msgstr ""
 
+msgid "This form closes and will be locked at {{-dateTime}}"
+msgstr ""
+
+msgid "Closes {{-relativeTime}}"
+msgstr ""
+
 msgid "Validation is not available offline"
 msgstr ""
 
@@ -70,10 +77,10 @@ msgstr ""
 msgid "Run validation"
 msgstr "Kjør validering"
 
-msgid "Last completed by"
+msgid "Last completed by {{-username}}"
 msgstr ""
 
-msgid "Last incompleted by"
+msgid "Last incompleted by {{-username}}"
 msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
@@ -200,6 +207,9 @@ msgstr ""
 msgid "Invalid value, not saved"
 msgstr ""
 
+msgid "Warning, saved"
+msgstr ""
+
 msgid "Locked, not editable"
 msgstr ""
 
@@ -270,7 +280,7 @@ msgid "No organisation units could be found"
 msgstr ""
 
 msgid "No children match filter"
-msgstr ""
+msgstr "Ingen underenheter matcher filter"
 
 msgid "Could not load children"
 msgstr "Kunne ikke laste underordnede enheter"
@@ -282,6 +292,9 @@ msgid "Fetching organisation unit info"
 msgstr ""
 
 msgid "Error occurred while loading organisation unit info"
+msgstr ""
+
+msgid "No periods available in this year"
 msgstr ""
 
 msgid "The Period ({{id}}) is not open or is invalid."
@@ -321,7 +334,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr ""
+msgstr "Ikke tilgjengelig i frakoblet modus"
 
 msgid "No audit log for this data item."
 msgstr ""
@@ -351,7 +364,7 @@ msgid "Category option combo ID: {{id}}"
 msgstr ""
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr ""
+msgstr "Sist oppdatert for {{- timeAgo}}av {{- name}}"
 
 msgid "Marked for follow-up"
 msgstr ""
@@ -561,4 +574,7 @@ msgid "{{title}} (disabled)"
 msgstr ""
 
 msgid "Close details sidebar"
+msgstr ""
+
+msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
 msgstr ""
