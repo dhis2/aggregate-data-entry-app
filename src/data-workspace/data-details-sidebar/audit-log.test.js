@@ -8,7 +8,7 @@ import useDataValueContext from './use-data-value-context.js'
 jest.mock('@dhis2/app-runtime', () => ({
     ...jest.requireActual('@dhis2/app-runtime'),
     useConfig: jest.fn(() => ({
-        systemInfo: { serverTimeZoneId: 'Etc/UTC' },
+        systemInfo: { serverTimeZoneId: 'Africa/Cairo' },
     })),
 }))
 
@@ -132,5 +132,7 @@ describe('<AuditLog />', () => {
             { selector: '.entry:nth-child(1) .entryMessage' }
         )
         expect(thirdChangeEl).toBeInTheDocument()
+        // check that note about time zone appears
+        expect('audit dates are given in Africa/Cairo time').toBeInTheDocument()
     })
 })

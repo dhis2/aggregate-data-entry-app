@@ -19,10 +19,6 @@ jest.mock('@dhis2/app-runtime', () => ({
     })),
 }))
 
-// jest.mock('../../shared/date/get-now-in-calendar.js', () => ({
-//     getNowInCalendarString: jest.fn(() => '2020-07-01'),
-// }))
-
 jest.mock(
     '../../shared/use-context-selection/use-context-selection.js',
     () => ({

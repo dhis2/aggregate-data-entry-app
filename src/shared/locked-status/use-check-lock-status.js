@@ -42,10 +42,14 @@ const getFrontendLockStatus = ({
         return
     }
 
-    let serverLockDateString
+    let serverLockDateString = null
 
     // this will be a date string corrected for client/server time zone differences
-    const currentDateString = getNowInCalendarString({ calendar, timezone })
+    const currentDateString = getNowInCalendarString({
+        calendar,
+        timezone,
+        long: true,
+    })
 
     if (dataInputPeriods.length > 0) {
         const applicableDataInputPeriod =
@@ -70,7 +74,6 @@ const getFrontendLockStatus = ({
         // as "server dates"
 
         // date comparison
-
         if (
             (openingDate &&
                 isDateALessThanDateB(currentDateString, openingDate, {

@@ -595,9 +595,9 @@ export const getApplicableDataInputPeriod = createCachedSelector(
         }
 
         return (
-            dataSet.dataInputPeriods.filter(
-                (dip) => dip?.period?.id === periodId
-            )[0] || null
+            dataSet.dataInputPeriods.filter((dip) => {
+                return dip?.period?.id === periodId
+            })[0] || null
         )
     }
 )((dataSetId, periodId) => `${dataSetId}:${periodId}`)

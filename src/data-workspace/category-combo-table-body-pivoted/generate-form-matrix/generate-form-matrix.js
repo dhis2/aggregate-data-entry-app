@@ -2,7 +2,6 @@ import { generateMatrixGroupedByCategory } from './generate-matrix-grouped-by-ca
 import { generateMatrixTransposed } from './generate-matrix-transposed.js'
 
 export const generateFormMatrix = (options, displayOptions) => {
-    console.debug('generating pivoted form', displayOptions)
     const groupedBy =
         displayOptions.pivotMode === 'move_categories'
             ? [displayOptions.pivotedCategory]

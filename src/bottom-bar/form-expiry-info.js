@@ -20,7 +20,7 @@ export default function FormExpiryInfo() {
         calendar,
         timezone,
     })
-    const dateTime = `lockDate (${timezone})`
+    const dateTime = `${lockDate} (${timezone})`
 
     return (
         <>

@@ -1,3 +1,4 @@
+import { useConfig } from '@dhis2/app-runtime'
 import React from 'react'
 import useHighlightedField from '../../shared/highlighted-field/use-highlighted-field.js'
 import { render } from '../../test-utils/index.js'
@@ -94,6 +95,30 @@ describe('<BasicInformation />', () => {
 
         expect(getByText(item.storedBy, { exact: false })).toBeInTheDocument()
         expect(getByText('a minute ago', { exact: false })).toBeInTheDocument()
+    })
+
+    it('renders when item was last updated (absolute time stamp with time zone) if non-gregory calendar', () => {
+        useConfig.mockImplementation(() => ({
+            systemInfo: {
+                serverTimeZoneId: 'Africa/Abidjan',
+                calendar: 'nepali',
+            },
+        }))
+
+        const { getByText } = render(
+            <BasicInformation
+                item={item}
+                onMarkForFollowup={noop}
+                onUnmarkForFollowup={noop}
+            />
+        )
+
+        expect(getByText(item.storedBy, { exact: false })).toBeInTheDocument()
+        expect(
+            getByText('2022-06-28T14:51:14.435 (Africa/Abidjan)', {
+                exact: false,
+            })
+        ).toBeInTheDocument()
     })
 
     it('renders the item description if one is provided', () => {
