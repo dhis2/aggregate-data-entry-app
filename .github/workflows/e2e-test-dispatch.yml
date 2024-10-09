@@ -72,6 +72,7 @@ jobs:
               uses: cypress-io/github-action@v5
               with:
                   start: yarn d2-app-scripts start
+                  browser: chrome
                   wait-on: ${{ github.event.inputs.instance_url }}
                   wait-on-timeout: 300
                   record: ${{ env.SHOULD_RECORD }}
