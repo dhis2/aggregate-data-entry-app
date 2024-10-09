@@ -22,6 +22,7 @@ module.exports = defineConfig({
         setupNodeEvents,
         baseUrl: 'http://localhost:3000',
         specPattern: 'cypress/e2e/**/*.feature',
+        chromeWebSecurity: false, // Allows cross-origin requests in Cypress
     },
     env: {
         dhis2DataTestPrefix: 'dhis2-dataentry',
