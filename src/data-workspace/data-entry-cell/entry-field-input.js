@@ -17,6 +17,7 @@ import {
     OptionSet,
     TrueOnlyCheckbox,
     DateInput,
+    DateTimeInput,
 } from '../inputs/index.js'
 
 function InputComponent({ sharedProps, de }) {
@@ -49,6 +50,9 @@ function InputComponent({ sharedProps, de }) {
         }
         case VALUE_TYPES.DATE: {
             return <DateInput {...sharedProps} />
+        }
+        case VALUE_TYPES.DATETIME: {
+            return <DateTimeInput {...sharedProps} />
         }
         default: {
             return <GenericInput {...sharedProps} valueType={de.valueType} />

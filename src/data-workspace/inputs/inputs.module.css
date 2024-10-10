@@ -106,3 +106,10 @@
     border: none;
 }
 
+.dateTimeInput {
+    margin-inline: var(--spacers-dp4);
+}
+
+.dateTimeInput div {
+    margin-block: var(--spacers-dp4);
+}

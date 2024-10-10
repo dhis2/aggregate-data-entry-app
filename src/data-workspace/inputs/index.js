@@ -5,6 +5,7 @@ export * from './long-text.js'
 export * from './option-set.js'
 export * from './true-only-checkbox.js'
 export * from './date-input.js'
+export * from './datetime-input.js'
 export {
     createLessThan,
     createMoreThan,
