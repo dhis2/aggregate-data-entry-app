@@ -69,9 +69,9 @@ jobs:
                   echo "Spec=${{ join(matrix.spec-group.tests, ',') }}"
 
             - name: End-to-End tests
-              uses: cypress-io/github-action@v5
+              uses: cypress-io/github-action@v6
               with:
-                  start: yarn d2-app-scripts start
+                  config: baseUrl=${{ github.event.inputs.instance_url }}/dhis-web-dataentry/index.action
                   browser: chrome
                   wait-on: ${{ github.event.inputs.instance_url }}
                   wait-on-timeout: 300
@@ -85,7 +85,7 @@ jobs:
                   BROWSER: none
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-                  CYPRESS_dhis2BaseUrl: ${{ github.event.inputs.instance_url }}
+                  CYPRESS_dhis2BaseUrl: ${{ github.event.inputs.instance_url }}/dhis-web-dataentry/index.action
                   CYPRESS_dhis2ApiVersion: ${{ github.event.inputs.dhis2_version }}
                   REPORTPORTAL_API_KEY: ${{ secrets.REPORTPORTAL_API_KEY }}
                   REPORTPORTAL_ENDPOINT: ${{ vars.REPORTPORTAL_ENDPOINT }}
