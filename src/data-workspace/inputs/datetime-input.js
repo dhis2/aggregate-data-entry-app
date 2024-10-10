@@ -85,10 +85,10 @@ export const DateTimeInput = ({
                 input.onFocus()
             }}
         >
-            <div>
+            <div className={styles.dateTimeInput}>
                 <CalendarInput
                     {...input}
-                    label={i18n.t('Pick a date and time')}
+                    label={i18n.t('Pick a date')}
                     className={styles.dateInput}
                     autoComplete="off"
                     onKeyDown={onKeyDown}
@@ -104,8 +104,15 @@ export const DateTimeInput = ({
                     locale={keyUiLocale}
                 />
             </div>
-            <div>
+            <div className={styles.dateTimeInput}>
+                <label
+                    htmlFor={`${fieldname}-time`}
+                    className={styles.timeLabel}
+                >
+                    {i18n.t('Pick a time')}
+                </label>
                 <input
+                    id={`${fieldname}-time`}
                     readOnly={locked}
                     type="time"
                     value={time}
@@ -117,7 +124,7 @@ export const DateTimeInput = ({
                     data-test="time-input"
                 />
             </div>
-            <div>
+            <div className={styles.dateTimeInput}>
                 <Button small onClick={clearValue}>
                     {i18n.t('Clear')}
                 </Button>

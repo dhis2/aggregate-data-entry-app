@@ -92,7 +92,7 @@ describe('date input field', () => {
                 <DateTimeInput {...props} />
             </FormWrapper>
         )
-        const calendarInputLabel = getByText('Pick a date and time')
+        const calendarInputLabel = getByText('Pick a date')
         const calendarInput = getByRole('textbox')
         let calendar = queryByTestId('calendar')
 
@@ -150,7 +150,7 @@ describe('date input field', () => {
         // check that mutate function was not called
         expect(mutate.mock.calls).toHaveLength(0)
 
-        const calendarInputLabel = getByText('Pick a date and time')
+        const calendarInputLabel = getByText('Pick a date')
         const calendarInput = getByRole('textbox')
         let calendar = queryByTestId('calendar')
 
@@ -251,7 +251,7 @@ describe('date input field', () => {
                 <DateTimeInput {...props} />
             </FormWrapper>
         )
-        const calendarInputLabel = getByText('Pick a date and time')
+        const calendarInputLabel = getByText('Pick a date')
         const calendarInput = getByRole('textbox')
         let calendar = queryByTestId('calendar')
 
@@ -300,7 +300,7 @@ describe('date input field', () => {
                 <DateTimeInput {...props} />
             </FormWrapper>
         )
-        const calendarInputLabel = getByText('Pick a date and time')
+        const calendarInputLabel = getByText('Pick a date')
         const calendarInput = getByRole('textbox')
         let calendar = queryByTestId('calendar')
 
