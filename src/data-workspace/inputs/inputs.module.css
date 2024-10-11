@@ -106,12 +106,12 @@
     border: none;
 }
 
-.dateTimeInput {
-    margin-inline: var(--spacers-dp4);
+.dateInputContainer {
+    padding: var(--spacers-dp8);
 }
 
 .dateTimeInput {
-    padding-block: var(--spacers-dp4);
+    padding: var(--spacers-dp4);
 }
 
 .timeLabel {

@@ -47,8 +47,8 @@ FormWrapper.propTypes = {
 
 describe('date input field', () => {
     const props = {
-        cocId: DE,
-        deId: COC,
+        cocId: COC,
+        deId: DE,
         disabled: undefined,
         fieldname: `${DE}.${COC}`,
         form: {},
