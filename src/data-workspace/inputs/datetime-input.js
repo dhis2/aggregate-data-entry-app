@@ -3,7 +3,12 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, CalendarInput } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation, useUserInfo } from '../../shared/index.js'
+import {
+    convertFromIso8601ToString,
+    convertToIso8601ToString,
+    useSetDataValueMutation,
+    useUserInfo,
+} from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
@@ -94,10 +99,19 @@ export const DateTimeInput = ({
                     onKeyDown={onKeyDown}
                     disabled={disabled}
                     readOnly={locked}
-                    date={date}
+                    date={
+                        date === ''
+                            ? ''
+                            : convertFromIso8601ToString(date, calendar)
+                    }
                     calendar={calendar}
                     onDateSelect={(date) => {
-                        const selectedDate = date?.calendarDateString ?? ''
+                        const selectedDate = date?.calendarDateString
+                            ? convertToIso8601ToString(
+                                  date?.calendarDateString,
+                                  calendar
+                              )
+                            : ''
                         setDate(selectedDate)
                         handleChange({ date: selectedDate, time })
                     }}

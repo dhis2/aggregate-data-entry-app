@@ -232,7 +232,7 @@ describe('date input field', () => {
         expect(mutate.mock.calls[0][0]).toHaveProperty('value', '')
     })
 
-    it('works with ethiopian calendar', async () => {
+    it('posts ISO date to backend with ethiopian calendar', async () => {
         // this is 2016-02-30 Ethopian
         jest.setSystemTime(new Date('2023-11-10T09:05:00.000Z'))
 
@@ -281,13 +281,38 @@ describe('date input field', () => {
         fireEvent.change(timepicker, { target: { value: '12:34' } })
 
         expect(mutate.mock.calls).toHaveLength(1)
+
+        // date is converted back to ISO equivalent before being sent to backend
         expect(mutate.mock.calls[0][0]).toHaveProperty(
             'value',
-            '2016-02-30T12:34'
+            '2023-11-10T12:34'
         )
     })
 
-    it('works with nepali calendar', async () => {
+    it('populates the ethiopian equivalent of the persisted ISO date', async () => {
+        jest.setSystemTime(new Date('2024-07-25T09:05:00.000Z'))
+
+        useConfig.mockReturnValue({
+            systemInfo: { calendar: 'ethiopian' },
+        })
+
+        // 2021-04-22 ISO = 2013-08-14 ethiopian
+        const { getByRole, getByTestId } = render(
+            <FormWrapper
+                initialValues={{ [DE]: { [COC]: '2021-04-22T13:17' } }}
+            >
+                <DateTimeInput {...props} />
+            </FormWrapper>
+        )
+
+        const calendarInput = getByRole('textbox')
+        expect(calendarInput.value).toBe('2013-08-14')
+
+        const timepicker = getByTestId('time-input')
+        expect(timepicker.value).toBe('13:17')
+    })
+
+    it('posts ISO date to backend with nepali calendar', async () => {
         // this is 2080-02-32 Nepali
         jest.setSystemTime(new Date('2023-06-15T09:05:00.000Z'))
 
@@ -330,9 +355,34 @@ describe('date input field', () => {
         fireEvent.change(timepicker, { target: { value: '12:34' } })
 
         expect(mutate.mock.calls).toHaveLength(1)
+
+        // date is converted back to ISO equivalent before being sent to backend
         expect(mutate.mock.calls[0][0]).toHaveProperty(
             'value',
-            '2080-02-32T12:34'
+            '2023-06-15T12:34'
         )
+    })
+
+    it('populates the nepali equivalent of the persisted ISO date', async () => {
+        jest.setSystemTime(new Date('2024-07-25T09:05:00.000Z'))
+
+        useConfig.mockReturnValue({
+            systemInfo: { calendar: 'nepali' },
+        })
+
+        // 2021-04-22 ISO = 2078-01-09 ethiopian
+        const { getByRole, getByTestId } = render(
+            <FormWrapper
+                initialValues={{ [DE]: { [COC]: '2021-04-22T13:17' } }}
+            >
+                <DateTimeInput {...props} />
+            </FormWrapper>
+        )
+
+        const calendarInput = getByRole('textbox')
+        expect(calendarInput.value).toBe('2078-01-09')
+
+        const timepicker = getByTestId('time-input')
+        expect(timepicker.value).toBe('13:17')
     })
 })

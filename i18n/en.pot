@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
-"PO-Revision-Date: 2024-01-15T14:35:08.966Z\n"
+"POT-Creation-Date: 2024-10-10T14:28:50.013Z\n"
+"PO-Revision-Date: 2024-10-10T14:28:50.014Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -524,6 +524,12 @@ msgstr "No"
 
 msgid "Clear"
 msgstr "Clear"
+
+msgid "Pick a date"
+msgstr "Pick a date"
+
+msgid "Pick a time"
+msgstr "Pick a time"
 
 msgid "Delete"
 msgstr "Delete"
