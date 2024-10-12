@@ -27,7 +27,7 @@ msgid ""
 msgstr "您无权访问数据审批应用程序。联系系统管理员请求访问。"
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "加载元数据时出现问题"
 
 msgid "There was a problem loading the user's information"
 msgstr "加载用户信息时出现问题"
@@ -37,25 +37,25 @@ msgid ""
 msgstr "会话已过期。请重新加载以重新登录。您不会丢失任何数据。"
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "无法完成表格，请稍后再试"
 
 msgid "Mark incomplete"
 msgstr "标记不完整"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "标记完整"
 
 msgid "Hide details"
 msgstr "隐藏细节"
 
 msgid "View details"
-msgstr ""
+msgstr "查看详情"
 
 msgid "1 invalid value not saved"
-msgstr ""
+msgstr "1 未保存无效值"
 
 msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
+msgstr "{{numberOfErrors}} 未保存无效值"
 
 msgid "1 value failed to save"
 msgstr "1 个值未能保存"
@@ -64,43 +64,43 @@ msgid "{{numberOfErrors}} values failed to save"
 msgstr "{{numberOfErrors}} 个值未能保存"
 
 msgid "This form closes and will be locked at {{-dateTime}}"
-msgstr ""
+msgstr "本表格关闭并将锁定至{{-dateTime}}"
 
 msgid "Closes {{-relativeTime}}"
-msgstr ""
+msgstr "关闭{{-relativeTime}}"
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "离线验证不可用"
 
 msgid "Validation is not available while changes are pending"
-msgstr ""
+msgstr "更改未完成时无法进行验证"
 
 msgid "Run validation"
 msgstr "进行验证"
 
 msgid "Last completed by {{-username}}"
-msgstr ""
+msgstr "最后完成人{{-username}}"
 
 msgid "Last incompleted by {{-username}}"
-msgstr ""
+msgstr "最后未完成人{{-username}}"
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "无法验证表格，请稍后再试"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
-msgstr ""
+msgstr "无法验证表单。这不会影响表格完成！"
 
 msgid "The form can't be completed while invalid"
-msgstr ""
+msgstr "表格无效时无法填写"
 
 msgid "1 comment required"
-msgstr ""
+msgstr "需要 1 条评论"
 
 msgid "{{commentsCount}} comments required"
-msgstr ""
+msgstr "{{commentsCount}} 需要评论"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
-msgstr ""
+msgstr "{{displayShortName}} 在没有值的情况下，必须有注释。"
 
 msgid "High"
 msgstr "高"
@@ -112,10 +112,10 @@ msgid "Low"
 msgstr "低"
 
 msgid "{{length}} {{level}} priority alert"
-msgstr ""
+msgstr "{{length}} {{level}} 优先警报"
 
 msgid "{{length}} {{level}} priority alerts"
-msgstr ""
+msgstr "{{length}} {{level}} 优先警报"
 
 msgid "Validation"
 msgstr "验证"
@@ -123,96 +123,96 @@ msgstr "验证"
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
 " Run validation again to check the current data."
-msgstr ""
+msgstr "输入表单中的数据已更改，因此验证输出可能不正确。再次运行验证以检查当前数据。"
 
 msgid "Run validation again"
-msgstr ""
+msgstr "再次运行验证"
 
 msgid "Alert summary"
-msgstr ""
+msgstr "警报摘要"
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "该数据无验证警报。"
 
 msgid "Running validation..."
-msgstr ""
+msgstr "运行验证..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "运行验证时出现问题"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
-msgstr ""
+msgstr "无法对该数据进行验证。请重试或联系系统管理员。"
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
-msgstr ""
+msgstr "{{leftDescription}} {{rightDescription}} 有值时不能为空"
 
 msgid ""
 "{{leftDescription}} cannot have a value when {{rightDescription}} has a "
 "value"
-msgstr ""
+msgstr "{{leftDescription}} {{rightDescription}} 有值时，\"...... \"不能有值"
 
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
-msgstr ""
+msgstr "某些类别在所选时期或组织单位中没有有效选项 ({{categories}})"
 
 msgid ""
 "There was a problem loading the {{objectType}} selection ({{id}}). You might"
 " not have access, or the selection might be invalid."
-msgstr ""
+msgstr "加载{{objectType}} 选项时出现问题 ({{id}})。您可能没有访问权限，或者选择无效。"
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "选择数据集"
 
 msgid "No available options"
-msgstr ""
+msgstr "无可用选项"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
 "organisation unit."
-msgstr ""
+msgstr "对于所选时期或组织单位，没有{{categoryName}} 选项。"
 
 msgid "Hide menu"
 msgstr "隐藏菜单"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "默认属性组合"
 
 msgid "0 selections"
-msgstr ""
+msgstr "0 个选择"
 
 msgid "1 selection"
-msgstr ""
+msgstr "1 种选择"
 
 msgid "{{amount}} selections"
 msgstr "{{amount}}个选择"
 
 msgid "Cell reference"
-msgstr ""
+msgstr "单元格参考"
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "保存并同步到服务器"
 
 msgid "Waiting to sync, saved locally"
-msgstr ""
+msgstr "等待同步，保存在本地"
 
 msgid "Failed to sync, not saved"
 msgstr "同步失败，未保存"
 
 msgid "Data item has a comment"
-msgstr ""
+msgstr "数据项有注释"
 
 msgid "Invalid value, not saved"
-msgstr ""
+msgstr "无效值，未保存"
 
 msgid "Warning, saved"
-msgstr ""
+msgstr "警告，已保存"
 
 msgid "Locked, not editable"
-msgstr ""
+msgstr "锁定，不可编辑"
 
 msgid "Help"
 msgstr "帮助"
@@ -221,64 +221,64 @@ msgid "or"
 msgstr "或"
 
 msgid "Shortcuts"
-msgstr ""
+msgstr "捷径"
 
 msgid "Show details"
 msgstr "显示详情"
 
 msgid "Ctrl + Enter"
-msgstr ""
+msgstr "Ctrl + Enter"
 
 msgid "Cmd + Enter"
-msgstr ""
+msgstr "Cmd + Enter"
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "转到下一格"
 
 msgid "Tab"
-msgstr ""
+msgstr "选项卡"
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "转到上一格"
 
 msgid "Shift + Tab"
-msgstr ""
+msgstr "Shift + Tab"
 
 msgid "Could not find a data set for the selected id"
-msgstr ""
+msgstr "找不到所选 ID 的数据集"
 
 msgid "There are no data sets available!"
-msgstr ""
+msgstr "没有可用的数据集！"
 
 msgid "Data set"
 msgstr "数据集"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "打印带有数值的表格"
 
 msgid "Print empty form"
-msgstr ""
+msgstr "打印空表格"
 
 msgid "Options"
 msgstr "选项"
 
 msgid "Search org units"
-msgstr ""
+msgstr "搜索组织单位"
 
 msgid "Choose a data set first"
-msgstr ""
+msgstr "先选择数据集"
 
 msgid "Dataset is not assigned to this organisation unit"
-msgstr ""
+msgstr "数据集未分配给该组织单位"
 
 msgid "Organisation unit"
 msgstr "机构"
 
 msgid "Choose a organisation unit"
-msgstr ""
+msgstr "选择组织单位"
 
 msgid "No organisation units could be found"
-msgstr ""
+msgstr "未找到组织单位"
 
 msgid "No children match filter"
 msgstr "没有下属匹配过滤器"
@@ -290,16 +290,16 @@ msgid "Error: {{ ERRORMESSAGE }}"
 msgstr "错误：{{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
-msgstr ""
+msgstr "获取组织单位信息"
 
 msgid "Error occurred while loading organisation unit info"
-msgstr ""
+msgstr "加载组织单位信息时发生错误"
 
 msgid "No periods available in this year"
-msgstr ""
+msgstr "本年度无时段"
 
 msgid "The Period ({{id}}) is not open or is invalid."
-msgstr ""
+msgstr "周期 ({{id}}) 未打开或无效。"
 
 msgid "Period"
 msgstr "期间"
@@ -308,16 +308,16 @@ msgid "Choose a period"
 msgstr "选择一个时期"
 
 msgid "All sections"
-msgstr ""
+msgstr "所有部分"
 
 msgid "Section"
 msgstr "分段"
 
 msgid "Fetching data set info"
-msgstr ""
+msgstr "获取数据集信息"
 
 msgid "Error occurred while loading data set info"
-msgstr ""
+msgstr "加载数据集信息时出现错误"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr "自定义表单无法离线使用。 {{error}}"
@@ -329,43 +329,43 @@ msgid "Totals"
 msgstr "总共"
 
 msgid "Audit log"
-msgstr ""
+msgstr "审计日志"
 
 msgid "Something went wrong loading the audit log"
-msgstr ""
+msgstr "加载审计日志时出了问题"
 
 msgid "Not available offline"
 msgstr "离线不可用"
 
 msgid "No audit log for this data item."
-msgstr ""
+msgstr "该数据项无审计日志。"
 
 msgid "Unmark for follow-up"
-msgstr ""
+msgstr "无标记，以便后续跟进"
 
 msgid "Mark for follow-up"
 msgstr "后续标记"
 
 msgid "Empty values can't be marked for follow -up"
-msgstr ""
+msgstr "空值无法标记为后续值"
 
 msgid "You do not have the authority to mark this value for follow -up"
-msgstr ""
+msgstr "您无权将此值标记为后续值"
 
 msgid "Description: {{- description}}"
 msgstr "说明：{{- description}}"
 
 msgid "Code: {{code}}"
-msgstr ""
+msgstr "代码{{code}}"
 
 msgid "Data element ID: {{id}}"
-msgstr ""
+msgstr "数据元素 ID：{{id}}"
 
 msgid "Category option combo ID: {{id}}"
-msgstr ""
+msgstr "类别选项组合 ID：{{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr ""
+msgstr "最后更新{{- timeAgo}} by{{- name}}"
 
 msgid "Marked for follow-up"
 msgstr "标记为后续"
@@ -374,13 +374,13 @@ msgid "Comment"
 msgstr "评论"
 
 msgid "There was a problem updating the comment for this data item"
-msgstr ""
+msgstr "更新该数据项的注释时出现问题"
 
 msgid "Choose an option"
-msgstr ""
+msgstr "选择一个选项"
 
 msgid "Saving..."
-msgstr ""
+msgstr "节约..."
 
 msgid "Save comment"
 msgstr "保存注释"
@@ -389,16 +389,16 @@ msgid "Cancel"
 msgstr "取消"
 
 msgid "Edit comment"
-msgstr ""
+msgstr "编辑评论"
 
 msgid "Add comment"
 msgstr "添加备注"
 
 msgid "No comment for this data item."
-msgstr ""
+msgstr "该数据项无评论。"
 
 msgid "You do not have the authority to add or edit comments"
-msgstr ""
+msgstr "您无权添加或编辑评论"
 
 msgid "Details"
 msgstr "详情"
@@ -407,25 +407,25 @@ msgid "History"
 msgstr "历史"
 
 msgid "Something went wrong loading the history"
-msgstr ""
+msgstr "加载历史记录时出了问题"
 
 msgid "No history for this data item."
-msgstr ""
+msgstr "该数据项无历史记录。"
 
 msgid "Average value: {{avg}}"
-msgstr ""
+msgstr "平均值：{{avg}}"
 
 msgid "Delete limits"
-msgstr ""
+msgstr "删除限制"
 
 msgid "You do not have the authority to delete limits"
-msgstr ""
+msgstr "您无权删除限制"
 
 msgid "Edit limits"
-msgstr ""
+msgstr "编辑限制"
 
 msgid "You do not have the authority to add limits"
-msgstr ""
+msgstr "您无权增加限制"
 
 msgid "Min"
 msgstr "最小"
@@ -434,36 +434,36 @@ msgid "Max"
 msgstr "最大"
 
 msgid "Min and max limits"
-msgstr ""
+msgstr "最小和最大限制"
 
 msgid "Try again, or contact your system administrator."
-msgstr ""
+msgstr "再试一次，或联系系统管理员。"
 
 msgid "Add limits"
-msgstr ""
+msgstr "增加限制"
 
 msgid "No limits set for this data item."
-msgstr ""
+msgstr "该数据项未设置限制。"
 
 msgid "Save limits"
-msgstr ""
+msgstr "保存限制"
 
 msgid "The current selection does not have a form"
-msgstr ""
+msgstr "当前选择没有表格"
 
 msgid "There was a problem loading data values"
-msgstr ""
+msgstr "加载数据值时出现问题"
 
 msgid "This data set has no assigned Data Elements"
-msgstr ""
+msgstr "本数据集没有指定数据元素"
 
 msgid ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
-msgstr ""
+msgstr "此数据集中没有数据元素。添加一些数据元素以使用此数据集。"
 
 msgid "Data cannot be added or changed outside of the data input period."
-msgstr ""
+msgstr "在数据输入期之外不能添加或更改数据。"
 
 msgid ""
 "Data cannot be added or changed because organisation unit is closed for the "
@@ -471,36 +471,36 @@ msgid ""
 msgstr "无法添加或更改数据，因为组织单位在所选期间关闭。"
 
 msgid "Data cannot be added or changed because data entry has concluded."
-msgstr ""
+msgstr "由于数据输入已结束，因此无法添加或更改数据。"
 
 msgid "Data cannot be added or changed because data has been approved."
-msgstr ""
+msgstr "由于数据已获批准，因此不能添加或更改数据。"
 
 msgid "You do not have the authority to edit entry forms"
-msgstr ""
+msgstr "您无权编辑报名表"
 
 msgid "Data set locked"
-msgstr ""
+msgstr "锁定数据集"
 
 msgid "Get started with data entry"
-msgstr ""
+msgstr "开始数据录入"
 
 msgid ""
 "Choose a data set, organisation unit, and period from the top bar to start "
 "entering data"
-msgstr ""
+msgstr "从顶部栏选择数据集、组织单位和时间段，开始输入数据"
 
 msgid "Learn more about data entry"
-msgstr ""
+msgstr "了解有关数据录入的更多信息"
 
 msgid "Filter fields in all sections"
-msgstr ""
+msgstr "过滤所有部分中的字段"
 
 msgid "Filter fields"
-msgstr ""
+msgstr "筛选字段"
 
 msgid "Clear filter"
-msgstr ""
+msgstr "清除过滤器"
 
 msgid "Indicators"
 msgstr "指标"
@@ -521,7 +521,7 @@ msgid "Delete"
 msgstr "删除"
 
 msgid "Upload an image"
-msgstr ""
+msgstr "上传图片"
 
 msgid "Upload a file"
 msgstr "上传一个文件"
@@ -531,26 +531,26 @@ msgstr "选择选项"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
-msgstr ""
+msgstr "请提供有效日期和时间，格式为 YYYY-MM-DD HH{{c}}MM"
 
 msgid "Please provide a valid time in the format HH{{c}}MM"
-msgstr ""
+msgstr "请提供格式为 HH{{c}}MM 的有效时间"
 
 msgid ""
 "Please make sure the value of this input is less than the value in "
 "\"{{otherField}}\"."
-msgstr ""
+msgstr "请确保该输入值小于 \"{{otherField}}\" 中的值。"
 
 msgid ""
 "Please make sure the value of this input is more than the value in "
 "\"{{otherField}}\"."
-msgstr ""
+msgstr "请确保该输入值大于 \"{{otherField}}\" 中的值。"
 
 msgid "Type here to filter in this section"
-msgstr ""
+msgstr "在此处键入可在此部分进行筛选"
 
 msgid "1 item hidden by filter"
-msgstr ""
+msgstr "过滤器隐藏了 1 个项目"
 
 msgid "{{pendingMutations}} change saved locally"
 msgstr "{{pendingMutations}} 个更改保存在本地"
@@ -561,7 +561,7 @@ msgstr "{{pendingMutations}} 个更改保存在本地"
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
-msgstr ""
+msgstr "在这里，我们可以用 FE 中的自定义信息覆盖 E2017 错误信息"
 
 msgid "Selected period is after latest open future period"
 msgstr "所选期间在最近打开的未来期间之后"
@@ -569,13 +569,13 @@ msgstr "所选期间在最近打开的未来期间之后"
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
-msgstr ""
+msgstr "在将表单完成设置为 \"{{completed}}\"时出了问题：{{errorMessage}}"
 
 msgid "{{title}} (disabled)"
-msgstr ""
+msgstr "{{title}} (禁用)"
 
 msgid "Close details sidebar"
-msgstr ""
+msgstr "关闭详情侧边栏"
 
 msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
-msgstr ""
+msgstr "整数必须在 -2147483648 至 2147483647 的范围内"
