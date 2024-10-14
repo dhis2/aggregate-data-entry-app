@@ -11,49 +11,49 @@ describe('isDateALessThanDateB (gregory)', () => {
     })
 
     it('works for dates without time information', () => {
-        const dateA = '2022-01-01'
-        const dateB = '2022-07-01'
-        const options = { calendar: 'gregory', inclusive: false }
+        const dateA = { date: '2022-01-01', calendar: 'gregory' }
+        const dateB = { date: '2022-07-01', calendar: 'gregory' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('works for dates with time stamp', () => {
-        const dateA = '2022-01-01T12:00:00'
-        const dateB = '2023-07-01T12:00:00'
-        const options = { calendar: 'gregory', inclusive: false }
+        const dateA = { date: '2022-01-01T12:00:00', calendar: 'gregory' }
+        const dateB = { date: '2023-07-01T12:00:00', calendar: 'gregory' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('works for dates mixed with time stamp/without time stamp', () => {
-        const dateA = '2022-01-01'
-        const dateB = '2022-07-01T00:00:00'
-        const options = { calendar: 'gregory', inclusive: false }
+        const dateA = { date: '2022-01-01', calendar: 'gregory' }
+        const dateB = { date: '2022-07-01T00:00:00', calendar: 'gregory' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('returns null for invalid dates', () => {
-        const dateA = '2022-01-01'
-        const dateB = '2022-01-01T00:00.00000'
-        const options = { calendar: 'gregory', inclusive: false }
+        const dateA = { date: '2022-01-01', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01T00:00.00000', calendar: 'gregory' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(null)
     })
 
     it('defaults to assume gregory calendar, and returns null for invalid dates', () => {
-        const dateA = '2022-01-01'
-        const dateB = '2023-13-03'
+        const dateA = { date: '2022-01-01' }
+        const dateB = { date: '2023-13-03' }
         expect(isDateALessThanDateB(dateA, dateB)).toBe(null)
     })
 
     it('defaults to inclusive: false by default', () => {
-        const dateA = '2022-01-01'
-        const dateB = '2022-01-01T00:00:00'
+        const dateA = { date: '2022-01-01', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01T00:00:00', calendar: 'gregory' }
         expect(isDateALessThanDateB(dateA, dateB)).toBe(false)
     })
 
     it('uses inclusive comparison if specified', () => {
-        const dateA = '2022-01-01'
-        const dateB = '2022-01-01T00:00:00'
-        const options = { calendar: 'gregory', inclusive: true }
+        const dateA = { date: '2022-01-01', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01T00:00:00', calendar: 'gregory' }
+        const options = { inclusive: true }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 })
@@ -64,37 +64,37 @@ describe('isDateALessThanDateB (nepali)', () => {
     })
 
     it('works for dates without time information', () => {
-        const dateA = '2078-04-31'
-        const dateB = '2078-05-31'
-        const options = { calendar: 'nepali', inclusive: false }
+        const dateA = { date: '2078-04-31', calendar: 'nepali' }
+        const dateB = { date: '2078-05-31', calendar: 'nepali' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('works for dates with time stamp', () => {
-        const dateA = '2078-04-31T00:00:00'
-        const dateB = '2078-05-31T:00:00:00'
-        const options = { calendar: 'nepali', inclusive: false }
+        const dateA = { date: '2078-04-31T00:00:00', calendar: 'nepali' }
+        const dateB = { date: '2078-05-31T00:00:00', calendar: 'nepali' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('works for dates mixed with time stamp/without time stamp', () => {
-        const dateA = '2078-04-31'
-        const dateB = '2078-05-31T:00:00:00'
-        const options = { calendar: 'nepali', inclusive: false }
+        const dateA = { date: '2078-04-31', calendar: 'nepali' }
+        const dateB = { date: '2078-05-31T00:00:00', calendar: 'nepali' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     // this test will fail while using string comparison
     it.skip('returns null for invalid dates', () => {
-        const dateA = '2078-04-40'
-        const dateB = '2078-05-31'
-        const options = { calendar: 'nepali', inclusive: false }
+        const dateA = { date: '2078-04-40', calendar: 'nepali' }
+        const dateB = { date: '2078-05-31', calendar: 'nepali' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(null)
     })
 
     it('uses inclusive comparison if specified', () => {
-        const dateA = '2022-01-01'
-        const dateB = '2022-01-01T00:00:00'
+        const dateA = { date: '2022-01-01', calendar: 'nepali' }
+        const dateB = { date: '2022-01-01T00:00:00', calendar: 'nepali' }
         const options = { calendar: 'nepali', inclusive: true }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
@@ -106,106 +106,148 @@ describe('isDateALessThanDateB (ethiopian)', () => {
     })
 
     it('works for dates without time information', () => {
-        const dateA = '2016-02-30'
-        const dateB = '2016-04-30'
-        const options = { calendar: 'ethiopian', inclusive: false }
+        const dateA = { date: '2016-02-30', calendar: 'ethiopian' }
+        const dateB = { date: '2016-04-30', calendar: 'ethiopian' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('works for dates with time stamp', () => {
-        const dateA = '2016-02-30T00:00:00'
-        const dateB = '2016-04-30T00:00:00'
-        const options = { calendar: 'ethiopian', inclusive: false }
+        const dateA = { date: '2016-02-30T00:00:00', calendar: 'ethiopian' }
+        const dateB = { date: '2016-04-30T00:00:00', calendar: 'ethiopian' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('works for dates mixed with time stamp/without time stamp', () => {
-        const dateA = '2016-02-30'
-        const dateB = '2016-04-30T00:00:00'
-        const options = { calendar: 'ethiopian', inclusive: false }
+        const dateA = { date: '2016-02-30', calendar: 'ethiopian' }
+        const dateB = { date: '2016-04-30T00:00:00', calendar: 'ethiopian' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     // this test will fail while using string comparison
     it.skip('returns null for invalid dates', () => {
-        const dateA = '2016-02-31'
-        const dateB = '2016-04-30'
-        const options = { calendar: 'ethiopian', inclusive: false }
+        const dateA = { date: '2016-02-31', calendar: 'ethiopian' }
+        const dateB = { date: '2016-04-30', calendar: 'ethiopian' }
+        const options = { inclusive: false }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(null)
     })
 
     it('uses inclusive comparison if specified', () => {
-        const dateA = '2016-02-30'
-        const dateB = '2016-02-30T00:00:00'
-        const options = { calendar: 'ethiopian', inclusive: true }
+        const dateA = { date: '2016-02-30', calendar: 'ethiopian' }
+        const dateB = { date: '2016-02-30T00:00:00', calendar: 'ethiopian' }
+        const options = { inclusive: true }
         expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
     })
 })
 
-describe('isDateAGreaterThanDateB (gregory)', () => {
+describe('isDateALessThanDateB (mixed calendars)', () => {
+    beforeEach(() => {
+        jest.spyOn(console, 'error').mockImplementation(jest.fn())
+    })
+
+    // 2023-09-10 ISO
+    // 2015-13-05 Ethiopian
+    // 2080-05-24 Nepali
+
+    it('works for dates without time information', () => {
+        const dateA = { date: '2023-09-10', calendar: 'gregory' }
+        const dateB = { date: '2015-13-05', calendar: 'ethiopian' }
+        const options = { inclusive: false }
+        expect(isDateALessThanDateB(dateA, dateB, options)).toBe(false)
+    })
+
+    it('works for dates without time information (inclusive)', () => {
+        const dateA = { date: '2023-09-10', calendar: 'gregory' }
+        const dateB = { date: '2015-13-05', calendar: 'ethiopian' }
+        const options = { inclusive: true }
+        expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
+    })
+
+    it('defaults to gregorian calendar if not passed', () => {
+        const dateA = { date: '2016-02-30', calendar: 'ethiopian' }
+        const dateB = { date: '2016-02-30' }
+        const options = { inclusive: false }
+        expect(isDateALessThanDateB(dateA, dateB, options)).toBe(false)
+    })
+
+    it('works with mix of time/timeless strings', () => {
+        const dateA = { date: '2015-13-05', calendar: 'ethiopian' }
+        const dateB = { date: '2023-09-10T00:00', calendar: 'gregory' }
+        const options = { inclusive: true }
+        expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
+    })
+
+    it('works with mix of calendars (dateA is less)', () => {
+        const dateA = { date: '2015-13-05T00:00', calendar: 'ethiopian' }
+        const dateB = { date: '2080-05-25T00:00', calendar: 'nepali' }
+        const options = { inclusive: false }
+        expect(isDateALessThanDateB(dateA, dateB, options)).toBe(true)
+    })
+
+    it('works with mix of calendars (dateA is greater)', () => {
+        const dateA = { date: '2015-13-05T00:00', calendar: 'ethiopian' }
+        const dateB = { date: '2080-05-23T00:00', calendar: 'nepali' }
+        const options = { inclusive: false }
+        expect(isDateALessThanDateB(dateA, dateB, options)).toBe(false)
+    })
+})
+
+describe('isDateAGreaterThanDateB', () => {
     beforeEach(() => {
         jest.spyOn(console, 'error').mockImplementation(jest.fn())
     })
 
     it('works for dates without time information', () => {
-        const dateA = '2022-07-01'
-        const dateB = '2022-01-01'
-        const options = { calendar: 'gregory', inclusive: false }
+        const dateA = { date: '2022-07-01', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01', calendar: 'gregory' }
+        const options = { inclusive: false }
         expect(isDateAGreaterThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('works for dates with time stamp', () => {
-        const dateA = '2023-07-01T12:00:00'
-        const dateB = '2022-01-01T12:00:00'
-        const options = { calendar: 'gregory', inclusive: false }
+        const dateA = { date: '2023-07-01T12:00:00', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01T12:00:00', calendar: 'gregory' }
+        const options = { inclusive: false }
         expect(isDateAGreaterThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('works for dates mixed with time stamp/without time stamp', () => {
-        const dateA = '2022-07-01T00:00:00'
-        const dateB = '2022-01-01'
-        const options = { calendar: 'gregory', inclusive: false }
+        const dateA = { date: '2022-07-01T00:00:00', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01', calendar: 'gregory' }
+        const options = { inclusive: false }
         expect(isDateAGreaterThanDateB(dateA, dateB, options)).toBe(true)
     })
 
     it('returns null for invalid dates', () => {
-        const dateA = '2022-01-01T00:00.00000'
-        const dateB = '2022-01-01'
-        const options = { calendar: 'gregory', inclusive: false }
+        const dateA = { date: '2022-01-01T00:00.00000', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01', calendar: 'gregory' }
+        const options = { inclusive: false }
         expect(isDateAGreaterThanDateB(dateA, dateB, options)).toBe(null)
     })
 
     it('defaults to assume gregory calendar, and returns null for invalid dates', () => {
-        const dateA = '2023-13-03'
-        const dateB = '2022-01-01'
+        const dateA = { date: '2023-13-03' }
+        const dateB = { date: '2022-01-01' }
         expect(isDateAGreaterThanDateB(dateA, dateB)).toBe(null)
     })
 
     it('defaults to inclusive: false by default', () => {
-        const dateA = '2022-01-01T00:00:00'
-        const dateB = '2022-01-01'
+        const dateA = { date: '2022-01-01T00:00:00', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01', calendar: 'gregory' }
         expect(isDateAGreaterThanDateB(dateA, dateB)).toBe(false)
     })
 
     it('uses inclusive comparison if specified', () => {
-        const dateA = '2022-01-01T00:00:00'
-        const dateB = '2022-01-01'
-        const options = { calendar: 'gregory', inclusive: true }
+        const dateA = { date: '2022-01-01T00:00:00', calendar: 'gregory' }
+        const dateB = { date: '2022-01-01', calendar: 'gregory' }
+        const options = { inclusive: true }
         expect(isDateAGreaterThanDateB(dateA, dateB, options)).toBe(true)
     })
 })
 
 describe('addDaysToDateString', () => {
-    it('returns null if calendar is not Gregory', () => {
-        expect(
-            addDaysToDateString({
-                startDateString: '2016-02-30',
-                days: 5,
-                calendar: 'ethiopian',
-            })
-        ).toBeNull()
-    })
-
     it('adds appropriate number of days', () => {
         const startDateString = '2023-03-15'
         const days = 5
@@ -237,6 +279,30 @@ describe('addDaysToDateString', () => {
         const result = addDaysToDateString({ startDateString, days, calendar })
         expect(result).toBe('2023-03-20T12:00:00')
     })
+
+    it('works with ethiopian calendar', () => {
+        const startDateString = '2016-02-30'
+        const days = 5
+        const calendar = 'ethiopian'
+        const result = addDaysToDateString({
+            startDateString,
+            days,
+            calendar,
+        })
+        expect(result).toBe('2016-03-05')
+    })
+
+    it('works with nepali calendar', () => {
+        const startDateString = '2080-02-30'
+        const days = 5
+        const calendar = 'nepali'
+        const result = addDaysToDateString({
+            startDateString,
+            days,
+            calendar,
+        })
+        expect(result).toBe('2080-03-03')
+    })
 })
 
 describe('getRelativeTime', () => {
@@ -249,11 +315,20 @@ describe('getRelativeTime', () => {
         jest.useRealTimers()
     })
 
-    it('returns null if calendar is not gregory type', () => {
+    it('works with ethiopian calendar', () => {
+        // 2024-06-15 Ethiopian = 2032-02-23 (i.e. in 8 years)
         const startDate = '2024-06-15T13:00:00'
         const calendar = 'ethiopian'
         const result = getRelativeTime({ startDate, calendar })
-        expect(result).toBe(null)
+        expect(result).toBe('in 8 years')
+    })
+
+    it('works with nepali calendar', () => {
+        // 2024-06-15 Nepali = 1967-10-01 (i.e. 57 years ago)
+        const startDate = '2024-06-15T13:00:00'
+        const calendar = 'nepali'
+        const result = getRelativeTime({ startDate, calendar })
+        expect(result).toBe('57 years ago')
     })
 
     it('returns relative time (from now) with gregory dates if no end date specified', () => {

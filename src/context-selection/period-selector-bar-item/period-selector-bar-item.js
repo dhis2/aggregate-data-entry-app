@@ -122,12 +122,15 @@ export const PeriodSelectorBarItem = () => {
             const endDate = selectedPeriod?.endDate
             const displayName = selectedPeriod?.displayName
 
-            // date comparison
+            // date comparison (both in system calendar)
             if (
-                isDateAGreaterThanDateB(endDate, dateLimit, {
-                    inclusive: true,
-                    calendar,
-                })
+                isDateAGreaterThanDateB(
+                    { date: endDate, calendar },
+                    { date: dateLimit, calendar },
+                    {
+                        inclusive: true,
+                    }
+                )
             ) {
                 resetPeriod(periodId, displayName)
             }

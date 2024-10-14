@@ -48,18 +48,15 @@ describe('FormExpiryInfo', () => {
         expect(getByText('Closes in 2 hours')).toBeInTheDocument()
     })
 
-    it('shows absolute time for lockedDate, if not locked, there is a lockDate, and calendar not gregory', () => {
+    it('shows relative time for lockedDate, if not locked, there is a lockDate, and calendar not gregory', () => {
         useConfig.mockImplementation(() => ({
             systemInfo: {
-                serverTimeZoneId: 'Africa/Addis_Ababa',
                 calendar: 'ethiopian',
             },
         }))
         const { getByText } = render(<FormExpiryInfo />)
 
-        expect(
-            getByText('Closes 2024-03-15T14:15:00 (Africa/Addis_Ababa)')
-        ).toBeInTheDocument()
+        expect(getByText('Closes in 2 hours')).toBeInTheDocument()
     })
 
     it('corrects relative time for time zone differences', () => {

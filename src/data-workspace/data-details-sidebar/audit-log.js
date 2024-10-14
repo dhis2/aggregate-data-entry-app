@@ -1,4 +1,3 @@
-import { useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     CircularLoader,
@@ -14,7 +13,11 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ExpandableUnit, useConnectionStatus } from '../../shared/index.js'
+import {
+    ExpandableUnit,
+    useConnectionStatus,
+    DateText,
+} from '../../shared/index.js'
 import styles from './audit-log.module.css'
 import useDataValueContext from './use-data-value-context.js'
 import useOpenState from './use-open-state.js'
@@ -25,8 +28,7 @@ export default function AuditLog({ item }) {
     const { offline } = useConnectionStatus()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
-    const { systemInfo = {} } = useConfig()
-    const { serverTimeZoneId: timezone = 'Etc/UTC' } = systemInfo
+    const timeZone = Intl.DateTimeFormat()?.resolvedOptions()?.timeZone
 
     if (!offline && (!open || dataValueContext.isLoading)) {
         return (
@@ -110,11 +112,12 @@ export default function AuditLog({ item }) {
                             return (
                                 <DataTableRow key={key}>
                                     <DataTableCell>
-                                        {created
-                                            ? `${created
-                                                  .substring(0, 16)
-                                                  .replace('T', ' ')}`
-                                            : null}
+                                        {created ? (
+                                            <DateText
+                                                date={created}
+                                                includeTimeZone={false}
+                                            />
+                                        ) : null}
                                     </DataTableCell>
                                     <DataTableCell>{user}</DataTableCell>
                                     <DataTableCell>
@@ -142,8 +145,8 @@ export default function AuditLog({ item }) {
                 {audits.length > 0 && (
                     <div className={styles.timeZoneNote}>
                         {i18n.t(
-                            'audit dates are given in {{- timezone}} time',
-                            { timezone }
+                            'audit dates are given in {{- timeZone}} time',
+                            { timeZone }
                         )}
                     </div>
                 )}

@@ -49,20 +49,28 @@ function sortHistoryByStartDate(history, calendar = 'gregory') {
         }).startDate
 
         // date comparison
+        // date comparison (both in system calendar)
         if (
-            isDateAGreaterThanDateB(leftStartDate, rightStartDate, {
-                calendar,
-                inclusive: false,
-            })
+            isDateAGreaterThanDateB(
+                { date: leftStartDate, calendar },
+                { date: rightStartDate, calendar },
+                {
+                    inclusive: false,
+                }
+            )
         ) {
             return 1
         }
 
         if (
-            isDateALessThanDateB(leftStartDate, rightStartDate, {
-                calendar,
-                inclusive: false,
-            })
+            // date comparison (both are system calendar)
+            isDateALessThanDateB(
+                { date: leftStartDate, calendar },
+                { date: rightStartDate, calendar },
+                {
+                    inclusive: false,
+                }
+            )
         ) {
             return -1
         }

@@ -143,9 +143,10 @@ describe('useCheckLockStatus', () => {
         useConfig.mockImplementationOnce(() => ({
             systemInfo: { calendar: 'ethiopian', serverTimeZoneId: 'Etc/UTC' },
         }))
+        // org unit closed date from back end is ISO (2024-09-10 ISO = 2016-13-05 Ethiopian)
         useOrgUnit.mockImplementationOnce(() => ({
             data: {
-                closedDate: '2016-13-03',
+                closedDate: '2024-09-10',
             },
         }))
         usePeriod.mockImplementationOnce(() => ({

@@ -5,6 +5,7 @@ import {
     addDaysToDateString,
     isDateAGreaterThanDateB,
     isDateALessThanDateB,
+    convertToIso8601ToString,
 } from '../date/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { usePeriod } from '../period/index.js'
@@ -42,7 +43,7 @@ const getFrontendLockStatus = ({
         return
     }
 
-    let serverLockDateString = null
+    let serverLockDateStringISO = null
 
     // this will be a date string corrected for client/server time zone differences
     const currentDateString = getNowInCalendarString({
@@ -73,18 +74,24 @@ const getFrontendLockStatus = ({
         // They are ISO dates without a timezone, so should be parsed
         // as "server dates"
 
-        // date comparison
+        // date comparison (openingDate/closingDate dates are iso, currentDateString is system calendar)
         if (
             (openingDate &&
-                isDateALessThanDateB(currentDateString, openingDate, {
-                    calendar,
-                    inclusive: false,
-                })) ||
+                isDateALessThanDateB(
+                    { date: currentDateString, calendar },
+                    { date: openingDate, calendar: 'gregory' },
+                    {
+                        inclusive: false,
+                    }
+                )) ||
             (closingDate &&
-                isDateAGreaterThanDateB(currentDateString, closingDate, {
-                    calendar,
-                    inclusive: false,
-                }))
+                isDateAGreaterThanDateB(
+                    { date: currentDateString, calendar },
+                    { date: closingDate, calendar: 'gregory' },
+                    {
+                        inclusive: false,
+                    }
+                ))
         ) {
             return {
                 state: LockedStates.LOCKED_DATA_INPUT_PERIOD,
@@ -93,7 +100,8 @@ const getFrontendLockStatus = ({
         }
 
         // If we're here, the form isn't (yet) locked by the data input period.
-        serverLockDateString = closingDate
+        // this date is ISO
+        serverLockDateStringISO = closingDate
     }
 
     if (expiryDays > 0 && !userCanEditExpired) {
@@ -103,30 +111,34 @@ const getFrontendLockStatus = ({
         // Add one day more because selectedPeriod.endDate is the START
         // of the period's last day (00:00), and we want the end of that day
         // (confirmed with backend behavior).
-        // this will currently be null if calendar is not gregory
         const expiryDateString = addDaysToDateString({
             startDateString: selectedPeriod.endDate,
             days: expiryDays + 1,
             calendar,
         })
 
-        // date comparison
+        // date comparison (both in system calendar)
         if (
             currentDateString &&
             expiryDateString &&
-            isDateALessThanDateB(currentDateString, expiryDateString, {
-                calendar,
-                inclusive: false,
-            })
+            isDateALessThanDateB(
+                { date: currentDateString, calendar },
+                { date: expiryDateString, calendar },
+                {
+                    inclusive: false,
+                }
+            )
         ) {
             // Take the sooner of the two possible lock dates
-            serverLockDateString = isDateALessThanDateB(
-                serverLockDateString,
-                expiryDateString,
-                { calendar, inclusive: false }
+            // date comparison (serverLockDateStringISO: ISO, expiryDateString: system calendar)
+            // if serverLockDateStringISO is null, the logic returns null and hence uses expiryDays
+            serverLockDateStringISO = isDateALessThanDateB(
+                { date: serverLockDateStringISO, calendar: 'gregory' },
+                { date: expiryDateString, calendar },
+                { inclusive: false }
             )
-                ? serverLockDateString
-                : expiryDateString
+                ? serverLockDateStringISO
+                : convertToIso8601ToString(expiryDateString, calendar) // expiryDateString is in system calendar an needs to be converted to ISO
             // ! NB:
             // Until lock exception checks are done, this value is still shown,
             // even if the form won't actually lock due to a lock exception.
@@ -138,7 +150,7 @@ const getFrontendLockStatus = ({
         // TODO: implement this full check on the front-end (TECH-1428)
     }
 
-    return { state: LockedStates.OPEN, lockDate: serverLockDateString }
+    return { state: LockedStates.OPEN, lockDate: serverLockDateStringISO }
 }
 
 const isOrgUnitLocked = ({
@@ -162,14 +174,18 @@ const isOrgUnitLocked = ({
     const periodStartDate = selectedPeriod.startDate
     const periodEndDate = selectedPeriod.endDate
 
-    // date comparison
+    // date comparison (orgUnitDates: ISO, periodDates: system calendar)
     // if orgUnitOpeningDate exists, it must be earlier than the periodStartDate
     if (orgUnitOpeningDateString) {
         if (
-            !isDateALessThanDateB(orgUnitOpeningDateString, periodStartDate, {
-                calendar,
-                inclusive: true,
-            })
+            !isDateALessThanDateB(
+                { date: orgUnitOpeningDateString, calendar: 'gregory' },
+                { date: periodStartDate, calendar },
+                {
+                    calendar,
+                    inclusive: true,
+                }
+            )
         ) {
             return true
         }
@@ -178,10 +194,14 @@ const isOrgUnitLocked = ({
     // if orgUnitClosedDate exists, it must be after the periodEndDate
     if (orgUnitClosedDateString) {
         if (
-            !isDateAGreaterThanDateB(orgUnitClosedDateString, periodEndDate, {
-                calendar,
-                inclusive: true,
-            })
+            !isDateAGreaterThanDateB(
+                { date: orgUnitClosedDateString, calendar: 'gregory' },
+                { date: periodEndDate, calendar },
+                {
+                    calendar,
+                    inclusive: true,
+                }
+            )
         ) {
             return true
         }

@@ -97,7 +97,7 @@ describe('<BasicInformation />', () => {
         expect(getByText('a minute ago', { exact: false })).toBeInTheDocument()
     })
 
-    it('renders when item was last updated (absolute time stamp with time zone) if non-gregory calendar', () => {
+    it('renders relative time with non-gregory calendar', () => {
         useConfig.mockImplementation(() => ({
             systemInfo: {
                 serverTimeZoneId: 'Africa/Abidjan',
@@ -115,7 +115,7 @@ describe('<BasicInformation />', () => {
 
         expect(getByText(item.storedBy, { exact: false })).toBeInTheDocument()
         expect(
-            getByText('2022-06-28T14:51:14.435 (Africa/Abidjan)', {
+            getByText('a minute ago', {
                 exact: false,
             })
         ).toBeInTheDocument()

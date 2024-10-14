@@ -2,25 +2,20 @@ import { useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Tooltip, IconFlag16, colors } from '@dhis2/ui'
 import React from 'react'
-import { getRelativeTime } from '../../shared/index.js'
+import { getRelativeTime, DateText } from '../../shared/index.js'
 import FollowUpButton from './basic-information-follow-up-button.js'
 import styles from './basic-information.module.css'
 import ItemPropType from './item-prop-type.js'
 
 const BasicInformation = ({ item }) => {
     const { systemInfo = {} } = useConfig()
-    const { calendar = 'gregory', serverTimeZoneId: timezone = 'Etc/UTC' } =
-        systemInfo
-
-    const lastUpdatedString = item.lastUpdated
-        ? `${item.lastUpdated} (${timezone})`
-        : null
+    const { serverTimeZoneId: timezone = 'Etc/UTC' } = systemInfo
 
     // if item.lastUpdated is "undefined", getRelativeTime returns null
     // and this will not be displayed
     const timeAgo = getRelativeTime({
         startDate: item.lastUpdated,
-        calendar,
+        calendar: 'gregory',
         timezone,
     })
 
@@ -63,14 +58,11 @@ const BasicInformation = ({ item }) => {
                 </li>
                 <li>
                     {item.lastUpdated && (
-                        <Tooltip content={lastUpdatedString}>
-                            {/* timeAgo will be null if non-Gregory calendar. TO DO: update */}
+                        <Tooltip content={<DateText date={item.lastUpdated} />}>
                             {i18n.t(
                                 'Last updated {{- timeAgo}} by {{- name}}',
                                 {
-                                    timeAgo: timeAgo
-                                        ? timeAgo
-                                        : lastUpdatedString,
+                                    timeAgo,
                                     name: item.storedBy,
                                 }
                             )}

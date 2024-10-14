@@ -451,10 +451,15 @@ const isOptionWithinPeriod = ({
     if (categoryOption.startDate) {
         const categoryOptionStartDate = categoryOption.startDate
         if (
-            isDateALessThanDateB(periodStartDate, categoryOptionStartDate, {
-                calendar,
-                inclusive: false,
-            })
+            // date comparison (periodStartDate: system calendar, categoryOptionStartDate: ISO)
+            isDateALessThanDateB(
+                { date: periodStartDate, calendar },
+                { date: categoryOptionStartDate, calendar: 'gregory' },
+                {
+                    calendar,
+                    inclusive: false,
+                }
+            )
         ) {
             // option start date is after period start date
             return false
@@ -463,11 +468,16 @@ const isOptionWithinPeriod = ({
 
     if (categoryOption.endDate) {
         const categoryOptionEndDate = categoryOption.endDate
+        // date comparison (periodEndDate: system calendar, categoryOptionEndDate: ISO)
         if (
-            isDateAGreaterThanDateB(periodEndDate, categoryOptionEndDate, {
-                calendar,
-                inclusive: false,
-            })
+            isDateAGreaterThanDateB(
+                { date: periodEndDate, calendar },
+                { date: categoryOptionEndDate, calendar: 'gregory' },
+                {
+                    calendar,
+                    inclusive: false,
+                }
+            )
         ) {
             // option end date is before period end date
             return false

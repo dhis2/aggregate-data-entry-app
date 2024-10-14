@@ -70,15 +70,14 @@ export default function usePeriods({
 
         // we want to display the last period of the previous year if it
         // stretches into the current year
-        // date comparison
+        // date comparison (both are system calendar)
         if (
             lastPeriodOfPrevYear &&
             isDateALessThanDateB(
-                `${year}-01-01`,
-                lastPeriodOfPrevYear.endDate,
+                { date: `${year}-01-01`, calendar },
+                { date: lastPeriodOfPrevYear.endDate, calendar },
                 {
                     inclusive: true,
-                    calendar,
                 }
             )
         ) {
@@ -97,10 +96,11 @@ export default function usePeriods({
         if (
             firstPeriodNextYear &&
             // `${year + 1}-01-01` > firstPeriodNextYear.startDate
+            // date comparison (both in system calendar)
             isDateAGreaterThanDateB(
-                `${year + 1}-01-01`,
-                firstPeriodNextYear.startDate,
-                { inclusive: false, calendar }
+                { date: `${year + 1}-01-01`, calendar },
+                { date: firstPeriodNextYear.startDate, calendar },
+                { inclusive: false }
             )
         ) {
             periods.push(firstPeriodNextYear)
