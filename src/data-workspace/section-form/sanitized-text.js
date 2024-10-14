@@ -1,9 +1,8 @@
 import * as DOMPurify from 'dompurify'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styles from './section.module.css'
 
-export const SectionDescription = ({ children }) => {
+export const SanitizedText = ({ children, className }) => {
     if (!children) {
         return null
     }
@@ -12,13 +11,11 @@ export const SectionDescription = ({ children }) => {
     })
 
     return (
-        <div
-            className={styles.sectionDescription}
-            dangerouslySetInnerHTML={{ __html: html }}
-        ></div>
+        <p className={className} dangerouslySetInnerHTML={{ __html: html }}></p>
     )
 }
 
-SectionDescription.propTypes = {
+SanitizedText.propTypes = {
     children: PropTypes.node,
+    className: PropTypes.string,
 }
