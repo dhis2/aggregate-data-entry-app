@@ -1,0 +1,17 @@
+name: deploy-branch
+
+on:
+    push:
+        branches:
+            - development
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref }}
+    cancel-in-progress: true
+
+jobs:
+    deploy:
+        uses: dhis2/workflows-platform/.github/workflows/deploy-branch.yml@v1
+        secrets: inherit
+        with:
+            branch: development
