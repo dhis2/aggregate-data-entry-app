@@ -2,7 +2,12 @@ import { useConfig } from '@dhis2/app-runtime'
 import { CalendarInput } from '@dhis2/ui'
 import React from 'react'
 import { useField } from 'react-final-form'
-import { useSetDataValueMutation, useUserInfo } from '../../shared/index.js'
+import {
+    useSetDataValueMutation,
+    useUserInfo,
+    convertFromIso8601ToString,
+    convertToIso8601ToString,
+} from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
@@ -42,6 +47,7 @@ export const DateInput = ({
                     form.mutators.setFieldData(fieldname, {
                         lastSyncedValue: value,
                     })
+                    input.onBlur()
                 },
             }
         )
@@ -55,7 +61,13 @@ export const DateInput = ({
     }
 
     return (
-        <div onClick={onFocus}>
+        <div
+            onClick={() => {
+                onFocus()
+                input.onFocus()
+            }}
+            className={styles.dateInputContainer}
+        >
             <CalendarInput
                 {...input}
                 className={styles.dateInput}
@@ -63,11 +75,21 @@ export const DateInput = ({
                 onKeyDown={onKeyDown}
                 disabled={disabled}
                 readOnly={locked}
-                date={input.value}
+                date={
+                    input?.value
+                        ? convertFromIso8601ToString(input.value, calendar)
+                        : ''
+                }
                 calendar={calendar}
                 onDateSelect={(date) => {
-                    input.onChange(date ? date?.calendarDateString : '')
-                    handleChange(date ? date?.calendarDateString : '')
+                    const selectedDate = date?.calendarDateString
+                        ? convertToIso8601ToString(
+                              date?.calendarDateString,
+                              calendar
+                          )
+                        : ''
+                    input.onChange(selectedDate)
+                    handleChange(selectedDate)
                 }}
                 locale={keyUiLocale}
                 clearable
