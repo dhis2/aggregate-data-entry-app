@@ -1,5 +1,3 @@
-import { renderHook } from '@testing-library/react-hooks'
-import { useClientServerDateUtils, useServerTimeOffset } from '../date/index.js'
 import {
     getSectionByDataSetIdAndSectionId,
     getNrOfColumnsInCategoryCombo,
@@ -37,11 +35,6 @@ import {
     getOptionSets,
     getSections,
 } from './selectors.js'
-
-jest.mock('../date/use-server-time-offset.js', () => ({
-    __esModule: true,
-    default: jest.fn(() => 0),
-}))
 
 /*
  *
@@ -1376,9 +1369,6 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
     })
 
     describe('getCategoriesWithOptionsWithinPeriodWithOrgUnit', () => {
-        useServerTimeOffset.mockImplementation(() => 7200000)
-        const { result } = renderHook(() => useClientServerDateUtils())
-
         it('should return all category options if none have end dates', () => {
             const datasetid = 'dataset-id-1a'
             const periodid = '202201'
@@ -1419,6 +1409,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 },
             }
 
+            const calendar = 'gregory'
+
             const expected = [
                 {
                     categoryOptions: [
@@ -1439,7 +1431,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 datasetid,
                 periodid,
                 orgunitid,
-                result.current.fromClientDate
+                calendar
             )
 
             expect(actual).toEqual(expected)
@@ -1485,6 +1477,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 },
             }
 
+            const calendar = 'gregory'
+
             const expected = [
                 { categoryOptions: [{ id: 'cat-id-c' }], id: 'co-id-letter' },
                 {
@@ -1501,7 +1495,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 datasetid,
                 periodid,
                 orgunitid,
-                result.current.fromClientDate
+                calendar
             )
 
             expect(actual).toEqual(expected)
@@ -1548,6 +1542,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 },
             }
 
+            const calendar = 'gregory'
+
             const expected = [
                 {
                     categoryOptions: [
@@ -1570,7 +1566,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 datasetid,
                 periodid,
                 orgunitid,
-                result.current.fromClientDate
+                calendar
             )
 
             expect(actual).toEqual(expected)
@@ -1616,6 +1612,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 },
             }
 
+            const calendar = 'gregory'
+
             const expected = [
                 {
                     categoryOptions: [
@@ -1639,7 +1637,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 datasetid,
                 periodid,
                 orgunitid,
-                result.current.fromClientDate
+                calendar
             )
 
             expect(actual).toEqual(expected)
@@ -1697,6 +1695,8 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 },
             }
 
+            const calendar = 'gregory'
+
             const expected = [
                 {
                     categoryOptions: [],
@@ -1716,7 +1716,7 @@ describe('getCategoryOptionsByCategoryOptionComboId', () => {
                 datasetid,
                 periodid,
                 orgunitid,
-                result.current.fromClientDate
+                calendar
             )
 
             expect(actual).toEqual(expected)

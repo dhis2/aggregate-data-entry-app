@@ -1,13 +1,9 @@
-import { waitFor } from '@testing-library/react'
+import { waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { render } from '../../test-utils/index.js'
 import AuditLog from './audit-log.js'
 import useDataValueContext from './use-data-value-context.js'
-
-jest.mock('../../shared/date/use-client-server-date-utils.js', () => () => ({
-    fromServerDate: jest.fn(),
-}))
 
 jest.mock('./use-data-value-context.js', () => ({
     __esModule: true,
@@ -71,26 +67,26 @@ describe('<AuditLog />', () => {
 
     // @TODO: Enable and fix when working on:
     // https://dhis2.atlassian.net/browse/TECH-1281
-    it.skip('renders the item audit log once loaded', async () => {
+    it('renders the item audit log once loaded', async () => {
         const audits = [
             {
-                auditType: 'UPDATE',
-                created: new Date('2021-01-01').toISOString(),
+                auditType: 'DELETE',
+                created: new Date('2021-03-01').toISOString(),
                 modifiedBy: 'Firstname Lastname',
-                prevValue: '19',
                 value: '21',
             },
             {
                 auditType: 'UPDATE',
                 created: new Date('2021-02-01').toISOString(),
                 modifiedBy: 'Firstname2 Lastname2',
+                prevValue: '19',
                 value: '21',
             },
             {
-                auditType: 'DELETE',
-                created: new Date('2021-03-01').toISOString(),
+                auditType: 'UPDATE',
+                created: new Date('2021-01-01').toISOString(),
                 modifiedBy: 'Firstname3 Lastname3',
-                value: '',
+                value: '19',
             },
         ]
 
@@ -110,24 +106,38 @@ describe('<AuditLog />', () => {
             expect(queryByRole('progressbar')).not.toBeInTheDocument()
         })
 
-        expect(getByRole('list')).toBeInTheDocument()
-        expect(getAllByRole('listitem')).toHaveLength(audits.length)
+        // the number of rows is: the length of audits + 1 (for header row)
+        const auditRows = getAllByRole('row')
 
-        const firstChangeEl = getByText('Firstname Lastname set to 19', {
-            selector: '.entry:nth-child(3):last-child .entryMessage',
-        })
-        expect(firstChangeEl).toBeInTheDocument()
+        expect(auditRows).toHaveLength(audits.length + 1)
 
-        const secondChangeEl = getByText(
-            'Firstname2 Lastname2 updated to 21 (was 19)',
-            { selector: '.entry:nth-child(2) .entryMessage' }
+        const firstChangeName = within(auditRows[1]).getByText(
+            'Firstname Lastname',
+            {}
         )
-        expect(secondChangeEl).toBeInTheDocument()
+        expect(firstChangeName).toBeInTheDocument()
+        const firstChangeValue = within(auditRows[1]).getByText('21', {})
+        expect(firstChangeValue).toBeInTheDocument()
 
-        const thirdChangeEl = getByText(
-            'Firstname3 Lastname3 deleted (was 21)',
-            { selector: '.entry:nth-child(1) .entryMessage' }
+        const secondChangeName = within(auditRows[2]).getByText(
+            'Firstname2 Lastname2',
+            {}
         )
-        expect(thirdChangeEl).toBeInTheDocument()
+        expect(secondChangeName).toBeInTheDocument()
+        const secondChangeValue = within(auditRows[2]).getByText('21', {})
+        expect(secondChangeValue).toBeInTheDocument()
+
+        const thirdChangeName = within(auditRows[3]).getByText(
+            'Firstname3 Lastname3',
+            {}
+        )
+        expect(thirdChangeName).toBeInTheDocument()
+        const thirdChangeValue = within(auditRows[3]).getByText('19', {})
+        expect(thirdChangeValue).toBeInTheDocument()
+
+        // check that note about time zone appears
+        expect(
+            getByText('audit dates are given in UTC time')
+        ).toBeInTheDocument()
     })
 })

@@ -1,17 +1,17 @@
+import { useConfig } from '@dhis2/app-runtime'
 import React from 'react'
 import useHighlightedField from '../../shared/highlighted-field/use-highlighted-field.js'
 import { render } from '../../test-utils/index.js'
 import BasicInformation from './basic-information.js'
 
-jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
-
-jest.mock('../../shared/date/use-client-server-date.js', () => ({
-    __esModule: true,
-    default: jest.fn(({ serverDate }) => ({
-        serverDate,
-        clientDate: serverDate,
+jest.mock('@dhis2/app-runtime', () => ({
+    ...jest.requireActual('@dhis2/app-runtime'),
+    useConfig: jest.fn(() => ({
+        systemInfo: { serverTimeZoneId: 'Etc/UTC', calendar: 'gregory' },
     })),
 }))
+
+jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
 
 const noop = () => {}
 
@@ -41,6 +41,7 @@ describe('<BasicInformation />', () => {
 
     afterEach(() => {
         jest.useRealTimers()
+        jest.clearAllMocks()
     })
 
     it('renders the item name in a heading', () => {
@@ -94,6 +95,30 @@ describe('<BasicInformation />', () => {
 
         expect(getByText(item.storedBy, { exact: false })).toBeInTheDocument()
         expect(getByText('a minute ago', { exact: false })).toBeInTheDocument()
+    })
+
+    it('renders relative time with non-gregory calendar', () => {
+        useConfig.mockImplementation(() => ({
+            systemInfo: {
+                serverTimeZoneId: 'Africa/Abidjan',
+                calendar: 'nepali',
+            },
+        }))
+
+        const { getByText } = render(
+            <BasicInformation
+                item={item}
+                onMarkForFollowup={noop}
+                onUnmarkForFollowup={noop}
+            />
+        )
+
+        expect(getByText(item.storedBy, { exact: false })).toBeInTheDocument()
+        expect(
+            getByText('a minute ago', {
+                exact: false,
+            })
+        ).toBeInTheDocument()
     })
 
     it('renders the item description if one is provided', () => {
