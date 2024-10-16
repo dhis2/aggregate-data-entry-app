@@ -1,3 +1,10 @@
+## [100.8.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.2...v100.8.3) (2024-10-16)
+
+
+### Bug Fixes
+
+* support non-gregory calendars [DHIS2-17617] ([#397](https://github.com/dhis2/aggregate-data-entry-app/issues/397)) ([7c3e0c8](https://github.com/dhis2/aggregate-data-entry-app/commit/7c3e0c88164107021600ea92b3824293177e18ad))
+
 ## [100.8.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.1...v100.8.2) (2024-09-30)
 
 
