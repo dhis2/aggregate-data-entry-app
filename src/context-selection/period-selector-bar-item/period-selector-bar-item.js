@@ -81,7 +81,9 @@ export const PeriodSelectorBarItem = () => {
         periodType: dataSetPeriodType,
         openFuturePeriods,
         dateLimit,
-        year,
+        year: yearlyFixedPeriodTypes.includes(dataSetPeriodType)
+            ? currentFullYear
+            : year,
     })
 
     useEffect(() => {
