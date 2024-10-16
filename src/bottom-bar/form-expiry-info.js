@@ -3,7 +3,7 @@ import { IconInfo16, colors, Tooltip } from '@dhis2/ui'
 import cx from 'classnames'
 import React from 'react'
 import i18n from '../locales/index.js'
-import { useLockedContext, getRelativeTime } from '../shared/index.js'
+import { useLockedContext, getRelativeTime, DateText } from '../shared/index.js'
 import styles from './main-tool-bar.module.css'
 
 export default function FormExpiryInfo() {
@@ -20,16 +20,14 @@ export default function FormExpiryInfo() {
         calendar: 'gregory',
         timezone,
     })
-    const dateTime = `${lockDate} (${timezone})`
 
     return (
         <>
             {!locked && lockDate && (
                 <Tooltip
-                    content={i18n.t(
-                        'This form closes and will be locked at {{-dateTime}}',
-                        { dateTime }
-                    )}
+                    content={
+                        <DateText date={lockDate} includeTimeZone={true} />
+                    }
                 >
                     <span
                         className={cx(

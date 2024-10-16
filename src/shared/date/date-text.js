@@ -1,4 +1,5 @@
 import { useConfig, useTimeZoneConversion } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { convertFromIso8601ToString } from './date-utils.js'
@@ -37,6 +38,12 @@ export const DateText = ({ date, includeTimeZone }) => {
 
     // NOTE: the passed date is assumed to be in ISO
 
+    // check that date is parsable as ISO
+    const parsedDate = new Date(date)
+    if (isNaN(parsedDate)) {
+        return <span>{i18n.t('Invalid date ({{date}})', { date })}</span>
+    }
+
     // we first correct for time zone
     const dateClient = fromServerDate(date)
 
@@ -49,13 +56,13 @@ export const DateText = ({ date, includeTimeZone }) => {
     // we put it in the system setting for the date display
 
     return (
-        <p>
+        <span>
             {formatDate({
                 dateString: inSystemCalendarDateString,
                 dateFormat,
                 includeTimeZone,
             })}
-        </p>
+        </span>
     )
 }
 

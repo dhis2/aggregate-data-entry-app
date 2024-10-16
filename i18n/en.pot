@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-10-14T16:17:34.694Z\n"
-"PO-Revision-Date: 2024-10-14T16:17:34.694Z\n"
+"POT-Creation-Date: 2024-10-16T08:10:10.883Z\n"
+"PO-Revision-Date: 2024-10-16T08:10:10.883Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -53,9 +53,6 @@ msgstr "1 value failed to save"
 
 msgid "{{numberOfErrors}} values failed to save"
 msgstr "{{numberOfErrors}} values failed to save"
-
-msgid "This form closes and will be locked at {{-dateTime}}"
-msgstr "This form closes and will be locked at {{-dateTime}}"
 
 msgid "Closes {{-relativeTime}}"
 msgstr "Closes {{-relativeTime}}"
@@ -597,6 +594,9 @@ msgid ""
 msgstr ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
+
+msgid "Invalid date ({{date}})"
+msgstr "Invalid date ({{date}})"
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (disabled)"
