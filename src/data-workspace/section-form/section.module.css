@@ -99,21 +99,21 @@
     margin: 2px;
     font-size: 1.5em;
 }
-.sectionsCustomerText{
+.sectionsCustomText{
     width: 100%;
     padding: 16px;
 }
 .sectionTab {
     margin-bottom: 8px;
 }
-.textLeft{
-    text-align: left;
+.textStartLine{
+    text-align: start;
 }
 .textCenter{
     text-align: center;
 }
-.textRight{
-    text-align: right;
+.textEndLine{
+    text-align: end;
 }
 
 .verticalSectionTabWrapper .sectionTab div {

@@ -19,13 +19,14 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
     return (
         <>
             <div
-                className={cx(styles.sectionsCustomerText, {
-                    [styles.textLeft]:
-                        displayOptions.customText?.align === 'left',
+                className={cx(styles.sectionsCustomText, {
+                    [styles.textStartLine]:
+                        displayOptions.customText?.align === 'line-start',
                     [styles.textCenter]:
                         displayOptions.customText?.align === 'center',
-                    [styles.textRight]:
-                        displayOptions.customText?.align === 'right',
+                    [styles.textEndLine]:
+                        !displayOptions.customText ||
+                        displayOptions.customText?.align === 'line-end',
                 })}
             >
                 {displayOptions.customText?.header && (
