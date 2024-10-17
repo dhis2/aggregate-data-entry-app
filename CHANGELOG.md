@@ -1,3 +1,10 @@
+## [100.8.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.3...v100.8.4) (2024-10-17)
+
+
+### Bug Fixes
+
+* make data entry app support RTL [DHIS2-16779] ([#409](https://github.com/dhis2/aggregate-data-entry-app/issues/409)) ([d830626](https://github.com/dhis2/aggregate-data-entry-app/commit/d8306261ecf16850cbed10178ba9d6879b981af1))
+
 ## [100.8.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.2...v100.8.3) (2024-10-16)
 
 
