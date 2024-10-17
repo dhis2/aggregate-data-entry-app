@@ -8,25 +8,26 @@
 .entries {
     margin: 0;
     padding: 0;
-    list-style-position: inside
+    list-style-position: inside;
 }
 
 .entry {
-    margin-bottom: var(--spacers-dp8);
+    margin-block-end: var(--spacers-dp8);
 }
 
 .entry::marker {
     color: var(--colors-grey500);
 }
 
-.entryMessage, .entryTimeAgo {
+.entryMessage,
+.entryTimeAgo {
     font-size: 13px;
     line-height: 16px;
 }
 
 .entryMessage {
     color: var(--colors-grey900);
-    margin-right: var(--spacers-dp4);
+    margin-inline-end: var(--spacers-dp4);
 }
 
 .entryTimeAgo {
@@ -34,7 +35,7 @@
 }
 
 .lineThrough span {
-    text-decoration-line: line-through
+    text-decoration-line: line-through;
 }
 
 .tableWrapper {
@@ -46,12 +47,12 @@
 }
 
 .alignToEnd {
-    text-align: right;
+    text-align: end;
 }
 
 .timeZoneNote {
     margin-block-start: var(--spacers-dp4);
     font-size: 12px;
     line-height: 19px;
-    color: var(--colors-grey600);    
+    color: var(--colors-grey600);
 }

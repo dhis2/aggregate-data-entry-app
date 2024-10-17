@@ -1,8 +1,8 @@
 .table {
     /* overrides fullwidth(100%)- UI-styling */
-    min-width: 240px !important;
+    min-inline-size: 240px !important;
     /* Weird req for allowing <td> cell contents to be 100% cell height */
-    height: 100% !important;
+    block-size: 100% !important;
 }
 
 @media print {
@@ -16,7 +16,7 @@
 }
 .headerCell {
     padding: 0 !important;
-    height: auto !important;
+    block-size: auto !important;
     border: 1px solid var(--colors-grey400) !important;
 }
 
@@ -32,8 +32,8 @@
 .collapseIcon {
     margin-inline-start: -4px;
     padding: var(--spacers-dp4);
-    height: 24px;
-    width: 24px;
+    block-size: 24px;
+    inline-size: 24px;
     align-self: flex-start;
     border-radius: 3px;
     cursor: pointer;
@@ -60,7 +60,7 @@
 .description {
     color: var(--colors-grey300);
     font-size: 13px;
-    margin-top: 2px;
+    margin-block-start: 2px;
     font-weight: 300;
 }
 
@@ -72,12 +72,12 @@
     position: relative;
 }
 .filterInput {
-    height: 100%;
-    width: 100%;
+    block-size: 100%;
+    inline-size: 100%;
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     /* Offset for 'Filter' icon and its padding */
-    padding-left: 32px;
+    padding-inline-start: 32px;
     background: none;
     border: none;
     color: var(--colors-grey900);
@@ -92,7 +92,7 @@
 }
 
 .sectionTab {
-    margin-bottom: 8px;
+    margin-block-end: 8px;
 }
 
 .verticalSectionTabWrapper .sectionTab div {

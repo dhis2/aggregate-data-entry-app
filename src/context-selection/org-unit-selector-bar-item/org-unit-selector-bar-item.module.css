@@ -1,7 +1,7 @@
 .itemContentContainer {
-    min-width: 400px;
-    min-height: 280px;
-    max-height: 70vh;
+    min-inline-size: 400px;
+    min-block-size: 280px;
+    max-block-size: 70vh;
     display: flex;
     flex-direction: column;
 }
@@ -19,12 +19,12 @@
     flex-grow: 1;
     overflow: hidden;
     overflow-y: auto;
-    padding-left: var(--spacers-dp8);
+    padding-inline-start: var(--spacers-dp8);
 }
 
 .labelContentContainer {
     padding: var(--spacers-dp8);
-    margin-top: var(--spacers-dp4);
+    margin-block-start: var(--spacers-dp4);
     display: flex;
     align-items: center;
     color: var(--colors-grey600);
@@ -33,7 +33,7 @@
 .label {
     font-size: 13px;
     line-height: 16px;
-    padding-left: var(--spacers-dp4);
+    padding-inline-start: var(--spacers-dp4);
 }
 
 .disabled {

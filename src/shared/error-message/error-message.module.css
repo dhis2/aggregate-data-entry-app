@@ -1,5 +1,5 @@
 .wrapper {
-    min-width: 400px;
-    max-width: 800px;
+    min-inline-size: 400px;
+    max-inline-size: 800px;
     margin: var(--spacers-dp24) auto 0;
 }

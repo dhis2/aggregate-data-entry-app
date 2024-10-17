@@ -1,5 +1,5 @@
 .wrapper {
-    margin-top: 16px;
+    margin-block-start: 16px;
 }
 .title {
     color: var(--colors-grey900);
@@ -17,5 +17,5 @@
 }
 
 .commentViolationRule {
-    composes: priorityGroupBox info from "./validation-priority-group.module.css";
+    composes: priorityGroupBox info from './validation-priority-group.module.css';
 }

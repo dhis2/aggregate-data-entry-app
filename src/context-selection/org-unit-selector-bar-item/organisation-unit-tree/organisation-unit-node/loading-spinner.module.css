@@ -1,5 +1,5 @@
 .container {
-    width: 24px;
+    inline-size: 24px;
 }
 .extraSmall {
     display: block;

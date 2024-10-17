@@ -6,7 +6,7 @@
 
 .toolbarItem {
     display: flex;
-    margin-right: 12px;
+    margin-inline-end: 12px;
 }
 
 .toolbarItem:last-child {
@@ -14,21 +14,23 @@
      * This way we avoid a break/overflow when the
      * margin would "spill over" otherwise
      */
-    margin-right: 0;
+    margin-inline-end: 0;
 }
 
 .tooltipToolbarItem {
-    margin-right: 12px;
+    margin-inline-end: 12px;
 }
 
 .icon {
     display: block;
-    margin-right: 4px;
-    height: 16px;
-    width: 16px;
+    margin-inline-end: 4px;
+    block-size: 16px;
+    inline-size: 16px;
 }
 
-.goToInvalidValue, .goToErrorValue, .completionSummary {
+.goToInvalidValue,
+.goToErrorValue,
+.completionSummary {
     display: flex;
     align-items: center;
     border: 0;

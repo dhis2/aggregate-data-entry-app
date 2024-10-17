@@ -1,17 +1,21 @@
 /* Composable classes */
 .hw100 {
-    height: 100%;
-    width: 100%;
+    block-size: 100%;
+    inline-size: 100%;
 }
 .cellPadding {
-    padding: 8px 16px 8px 8px;
+    padding-block: 8px;
+    padding-inline-start: 16px;
+    padding-inline-end: 8px;
 }
 .whiteButton {
     background-color: #fff !important;
 }
 /* For use in non-text cells: */
 .densePadding {
-    padding: 1px 16px 1px 8px;
+    padding-block: 1px;
+    padding-inline-start: 16px;
+    padding-inline-end: 8px;
 }
 
 .basicInput {
@@ -24,7 +28,7 @@
     outline: none;
 }
 .alignToEnd {
-    text-align: right;
+    text-align: end;
 }
 
 /* The resize property on this could be changed later. */
@@ -62,7 +66,7 @@
 }
 
 .selectMulti {
-    max-width: 25vw;
+    max-inline-size: 25vw;
 }
 
 .fileInputWrapper {
@@ -73,31 +77,31 @@
 }
 .fileInput {
     /* Fixes extra padding at the bottom of the UI component */
-    margin-bottom: -4px;
+    margin-block-end: -4px;
 }
 .fileLink {
     color: var(--colors-grey700);
 }
 .deleteFileButton {
     composes: whiteButton;
-    margin-left: 8px;
+    margin-inline-start: 8px;
 }
 @media print {
     .hideForPrint {
-        composes: hideForPrint from '../../app/app.css'
+        composes: hideForPrint from '../../app/app.css';
     }
     /* hide icons when printing  */
     .select svg {
         visibility: hidden;
     }
 
-    .select [data-test="dhis2-uicore-select-input"] {
+    .select [data-test='dhis2-uicore-select-input'] {
         border: 0;
         box-shadow: none;
     }
 
-    .select [data-test="dhis2-uicore-chip"] span {
-        margin-left: 0;
+    .select [data-test='dhis2-uicore-chip'] span {
+        margin-inline-start: 0;
     }
 }
 
@@ -105,4 +109,3 @@
     background: none;
     border: none;
 }
-

@@ -1,5 +1,5 @@
 @media print {
     .hideForPrint {
-        composes: hideForPrint from '../../app/app.css'
-    }   
+        composes: hideForPrint from '../../app/app.css';
+    }
 }

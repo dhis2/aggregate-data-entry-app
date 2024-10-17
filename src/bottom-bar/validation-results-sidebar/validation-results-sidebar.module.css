@@ -1,10 +1,10 @@
 .wrapper {
-    padding: var(--spacers-dp16)
+    padding: var(--spacers-dp16);
 }
 
 .buttons {
     display: flex;
-	gap: 4px;
+    gap: 4px;
 }
 
 .title {
@@ -39,5 +39,5 @@
 }
 
 .dataChangedNotice {
-    margin-bottom: 8px;
+    margin-block-end: 8px;
 }

@@ -1,5 +1,5 @@
 .wrapper {
     background: white;
-    min-height: 100%;
-    border-left: 1px solid var(--colors-grey400);
+    min-block-size: 100%;
+    border-inline-start: 1px solid var(--colors-grey400);
 }

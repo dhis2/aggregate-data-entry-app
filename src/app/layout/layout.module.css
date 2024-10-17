@@ -1,5 +1,5 @@
 .wrapper {
-    height: 100%;
+    block-size: 100%;
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr 0;

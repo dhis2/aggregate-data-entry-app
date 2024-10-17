@@ -1,7 +1,7 @@
 .cellBase {
     border: 1px solid var(--colors-grey400) !important;
     padding: 8px !important;
-    height: auto !important;
+    block-size: auto !important;
     font-size: 13px !important;
     line-height: 15px !important;
 }
@@ -12,20 +12,20 @@
     font-weight: 500;
 }
 
-.sectionRowCollapsed{
+.sectionRowCollapsed {
     visibility: collapse;
 }
 
 .categoryNameHeader {
     composes: tableHeader;
     font-weight: 300;
-    text-align: right;
+    text-align: end;
 }
 
 .dataElementName {
     composes: cellBase;
-    min-width: 240px;
-    max-width: 350px;
+    min-inline-size: 240px;
+    max-inline-size: 350px;
 }
 
 .active {
@@ -34,7 +34,7 @@
 
 .tableCell {
     composes: cellBase;
-    min-width: 100px;
+    min-inline-size: 100px;
 }
 
 .hiddenByFilterCell {
@@ -43,8 +43,10 @@
 }
 
 .table td {
-    height: 32px;
-    padding: 8px 16px 8px 8px;
+    block-size: 32px;
+    padding-block: 8px;
+    padding-inline-start: 8px;
+    padding-inline-end: 8px;
 }
 
 .paddingCell {
@@ -64,7 +66,7 @@
 .indicatorCell {
     composes: tableCell;
     background: var(--colors-grey300);
-    text-align: right;
+    text-align: end;
 }
 
 .totalHeader {
@@ -90,7 +92,7 @@
     composes: cellBase;
     /* background-color: transparent !important; */
     /* font-weight: 400; */
-    text-align: left;
+    text-align: start;
 }
 
 .categoryOption {
@@ -99,7 +101,7 @@
 .dataElement {
     font-weight: 400;
     background-color: transparent;
-    text-align: left;
+    text-align: start;
 }
 .category {
     font-weight: 300;

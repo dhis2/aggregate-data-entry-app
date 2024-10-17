@@ -1,20 +1,20 @@
 .container {
-    width: 400px;
+    inline-size: 400px;
     padding: 16px;
 }
 
 .inputs {
-    margin-bottom: 32px;
+    margin-block-end: 32px;
 }
 
 .input {
-    margin-bottom: 16px;
+    margin-block-end: 16px;
 }
 
 .input:last-child {
-    margin-bottom: 0;
+    margin-block-end: 0;
 }
 
 .noOptionsBox {
-    margin: var(--spacers-dp8)
+    margin: var(--spacers-dp8);
 }

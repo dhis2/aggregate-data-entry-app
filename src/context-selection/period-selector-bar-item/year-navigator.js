@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { Button, IconArrowRight24, IconArrowLeft24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -17,7 +18,13 @@ export default function YearNavigator({
                 dataTest="yearnavigator-backbutton"
                 disabled={year <= startYear}
                 onClick={() => onYearChange(year - 1)}
-                icon={<IconArrowLeft24 />}
+                icon={
+                    i18n.dir() === 'rtl' ? (
+                        <IconArrowRight24 />
+                    ) : (
+                        <IconArrowLeft24 />
+                    )
+                }
             />
             <span
                 data-test="yearnavigator-currentyear"
@@ -29,7 +36,13 @@ export default function YearNavigator({
                 dataTest="yearnavigator-forwardbutton"
                 disabled={year >= maxYear}
                 onClick={() => onYearChange(year + 1)}
-                icon={<IconArrowRight24 />}
+                icon={
+                    i18n.dir() === 'rtl' ? (
+                        <IconArrowLeft24 />
+                    ) : (
+                        <IconArrowRight24 />
+                    )
+                }
             />
         </div>
     )

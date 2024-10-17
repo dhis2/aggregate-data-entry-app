@@ -1,6 +1,6 @@
 .menu {
-    max-height: calc(70vh - 45px);
-    min-width: 240px;
+    max-block-size: calc(70vh - 45px);
+    min-inline-size: 240px;
     overflow: auto;
 }
 
@@ -9,5 +9,5 @@
     text-align: center;
     padding: 8px;
     font-size: 14px;
-    width: 240px;
+    inline-size: 240px;
 }
