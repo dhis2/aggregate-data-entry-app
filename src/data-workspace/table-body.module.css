@@ -44,7 +44,9 @@
 
 .table td {
     block-size: 32px;
-    padding: 8px 16px 8px 8px;
+    padding-block: 8px;
+    padding-inline-start: 8px;
+    padding-inline-end: 8px;
 }
 
 .paddingCell {

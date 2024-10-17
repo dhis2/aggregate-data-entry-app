@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-10-16T08:10:10.883Z\n"
-"PO-Revision-Date: 2024-10-16T08:10:10.883Z\n"
+"POT-Creation-Date: 2024-10-17T12:07:03.346Z\n"
+"PO-Revision-Date: 2024-10-17T12:07:03.347Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -571,6 +571,11 @@ msgstr "Type here to filter in this section"
 
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
+
+msgid "{{count}} items hidden by filter"
+msgid_plural "{{count}} items hidden by filter"
+msgstr[0] "{{count}} items hidden by filter"
+msgstr[1] "{{count}} items hidden by filter"
 
 msgid "{{pendingMutations}} change saved locally"
 msgstr "{{pendingMutations}} change saved locally"

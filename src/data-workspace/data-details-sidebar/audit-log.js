@@ -180,7 +180,12 @@ function UpdatedValue({ value, previousValue }) {
         <div className={styles.alignToEnd}>
             {previousValue && <Tag>{previousValue}</Tag>}
             {/* arrow-right*/}
-            <span className={styles.rightArrow}>&rarr;</span>
+            {i18n.dir() === 'rtl' ? (
+                <span className={styles.rightArrow}>&larr;</span>
+            ) : (
+                <span className={styles.rightArrow}>&rarr;</span>
+            )}
+
             <Tag>{value}</Tag>
         </div>
     )
