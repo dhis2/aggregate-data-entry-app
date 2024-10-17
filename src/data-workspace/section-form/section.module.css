@@ -91,8 +91,29 @@
     outline: 3px solid var(--theme-focus);
 }
 
+.sectionsTitle {
+    margin: 4px;
+    font-size: 2em;
+}
+.sectionsSubtitle{
+    margin: 2px;
+    font-size: 1.5em;
+}
+.sectionsCustomText{
+    width: 100%;
+    padding: 16px;
+}
 .sectionTab {
     margin-block-end: 8px;
+}
+.textStartLine{
+    text-align: start;
+}
+.textCenter{
+    text-align: center;
+}
+.textEndLine{
+    text-align: end;
 }
 
 .verticalSectionTabWrapper .sectionTab div {

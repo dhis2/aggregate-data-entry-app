@@ -18,7 +18,7 @@ import { PivotedCategoryComboTableBody } from '../category-combo-table-body-pivo
 import { getFieldId } from '../get-field-id.js'
 import { IndicatorsTableBody } from '../indicators-table-body/indicators-table-body.js'
 import { getDisplayOptions } from './displayOptions.js'
-import { SectionDescription } from './section-description.js'
+import { SanitizedText } from './sanitized-text.js'
 import styles from './section.module.css'
 
 export function SectionFormSection({
@@ -97,7 +97,9 @@ export function SectionFormSection({
 
     return (
         <div>
-            <SectionDescription>{beforeSectionText}</SectionDescription>
+            <SanitizedText className={styles.sectionDescription}>
+                {beforeSectionText}
+            </SanitizedText>
             <Table className={styles.table} suppressZebraStriping>
                 <TableHead>
                     <TableRowHead>
@@ -189,7 +191,9 @@ export function SectionFormSection({
                     />
                 )}
             </Table>
-            <SectionDescription>{afterSectionText}</SectionDescription>
+            <SanitizedText className={styles.sectionDescription}>
+                {afterSectionText}
+            </SanitizedText>
         </div>
     )
 }
