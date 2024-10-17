@@ -1,5 +1,5 @@
 .container {
-    margin-bottom: 12px;
+    margin-block-end: 12px;
     font-size: 14px;
     color: var(--colors-grey600);
 }

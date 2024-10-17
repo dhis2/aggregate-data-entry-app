@@ -5,32 +5,35 @@ body {
 @media print {
     /* This style is needed otherwise Chrome is printing only the visible part of a scrollable div, so we end up with one page of the form printed
     https://stackoverflow.com/questions/25187715/css-print-media-query-prints-only-first-page */
-    * { overflow: visible !important; } 
+    * {
+        overflow: visible !important;
+    }
     div {
         display: block !important; /* This is needed to get around issues with FireFox printing CSS grids: https://tosbourn.com/firefox-printing-issue-for-grid-css/ */
-        max-width: 100% !important;
+        max-inline-size: 100% !important;
         outline: none !important;
     }
-    .app-shell-adapter > header  {
+    .app-shell-adapter > header {
         display: none;
     }
 
     .hideForPrint {
         display: none !important;
     }
-    
+
     table {
-        max-width: 100% !important;
+        max-inline-size: 100% !important;
         page-break-after: always;
     }
-    
+
     table:last-child {
         page-break-after: avoid;
     }
-    
-    tr, td {
+
+    tr,
+    td {
         break-inside: avoid;
-        page-break-inside: avoid;;
+        page-break-inside: avoid;
     }
 
     .form-cleared input,

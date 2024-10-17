@@ -1,12 +1,12 @@
 .customForm table {
     border-collapse: collapse;
-    height: 100%;
+    block-size: 100%;
 }
 .customForm :global(td) {
     border: 1px solid var(--colors-grey400);
     font-size: 13px;
     line-height: 15px;
-    height: auto;
+    block-size: auto;
 }
 .customForm :global(td:empty) {
     background-color: var(--colors-grey200);
@@ -27,7 +27,7 @@
     border: 1px solid var(--colors-grey400);
     padding: 8px;
     background-color: var(--colors-grey200);
-    height: auto;
+    block-size: auto;
     font-size: 13px;
     line-height: 15px;
 }
@@ -57,8 +57,12 @@ prevent accidentally applying this style to cells in the table body
     </tbody>               
 </table>     
 */
-.customForm :global(table) > :global(tr:first-child) > :global(th),  
-.customForm :global(table) > :global(tbody:first-child) > :global(tr:first-child) > :global(th),
+.customForm :global(table) > :global(tr:first-child) > :global(th),
+.customForm
+    :global(table)
+    > :global(tbody:first-child)
+    > :global(tr:first-child)
+    > :global(th),
 .customForm :global(table) > :global(thead) > :global(tr) > :global(th) {
     background-color: var(--colors-grey800);
     border-color: var(--colors-grey800);
@@ -66,8 +70,12 @@ prevent accidentally applying this style to cells in the table body
 }
 
 @media print {
-    .customForm :global(table) > :global(tr:first-child) > :global(th),  
-    .customForm :global(table) > :global(tbody:first-child) > :global(tr:first-child) > :global(th),
+    .customForm :global(table) > :global(tr:first-child) > :global(th),
+    .customForm
+        :global(table)
+        > :global(tbody:first-child)
+        > :global(tr:first-child)
+        > :global(th),
     .customForm :global(table) > :global(thead) > :global(tr) > :global(th) {
         background-color: transparent !important;
         border: 1px solid var(--colors-grey400);

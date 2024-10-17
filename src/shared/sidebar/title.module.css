@@ -2,8 +2,8 @@
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    min-height: 44px;
-    padding-left: var(--spacers-dp16);
+    min-block-size: 44px;
+    padding-inline-start: var(--spacers-dp16);
     background: var(--colors-grey300);
 }
 
@@ -15,8 +15,8 @@
 .closeButton {
     border: none;
     background: none;
-    min-height: 44px;
-    min-width: 44px;
+    min-block-size: 44px;
+    min-inline-size: 44px;
     cursor: pointer;
 }
 
