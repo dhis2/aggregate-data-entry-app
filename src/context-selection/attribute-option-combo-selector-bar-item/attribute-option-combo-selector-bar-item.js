@@ -1,11 +1,10 @@
-import { useAlert } from '@dhis2/app-runtime'
+import { useAlert, useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { SelectorBarItem } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import {
     selectors,
-    useClientServerDateUtils,
     useDataSetId,
     useMetadata,
     useOrgUnitId,
@@ -57,14 +56,16 @@ export default function AttributeOptionComboSelectorBarItem({
     )
     const [attributeOptionComboSelection, setAttributeOptionComboSelection] =
         useAttributeOptionComboSelection()
-    const { fromClientDate } = useClientServerDateUtils()
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory' } = systemInfo
+
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
             metadata,
             dataSetId,
             periodId,
             orgUnitId,
-            fromClientDate
+            calendar
         )
 
     const [open, setOpen] = useState(false)

@@ -17,6 +17,7 @@ const config = {
     entryPoints: {
         app: './src/app/app-wrapper.js',
     },
+    direction: 'auto',
 }
 
 module.exports = config

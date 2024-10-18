@@ -11,13 +11,12 @@ import {
     Tag,
     Tooltip,
 } from '@dhis2/ui'
-import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {
     ExpandableUnit,
     useConnectionStatus,
-    useClientServerDateUtils,
+    DateText,
 } from '../../shared/index.js'
 import styles from './audit-log.module.css'
 import useDataValueContext from './use-data-value-context.js'
@@ -29,7 +28,7 @@ export default function AuditLog({ item }) {
     const { offline } = useConnectionStatus()
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
-    const { fromServerDate } = useClientServerDateUtils()
+    const timeZone = Intl.DateTimeFormat()?.resolvedOptions()?.timeZone
 
     if (!offline && (!open || dataValueContext.isLoading)) {
         return (
@@ -83,10 +82,14 @@ export default function AuditLog({ item }) {
                 <DataTable>
                     <TableHead>
                         <DataTableRow>
-                            <DataTableColumnHeader>Date</DataTableColumnHeader>
-                            <DataTableColumnHeader>User</DataTableColumnHeader>
                             <DataTableColumnHeader>
-                                Change
+                                {i18n.t('Date')}
+                            </DataTableColumnHeader>
+                            <DataTableColumnHeader>
+                                {i18n.t('User')}
+                            </DataTableColumnHeader>
+                            <DataTableColumnHeader>
+                                {i18n.t('Change')}
                             </DataTableColumnHeader>
                         </DataTableRow>
                     </TableHead>
@@ -106,15 +109,15 @@ export default function AuditLog({ item }) {
                             } = audit
                             const key = `${de}-${pe}-${ou}-${coc}-${created}`
 
-                            const { clientDate: createdDateClient } =
-                                fromServerDate(new Date(created))
-
                             return (
                                 <DataTableRow key={key}>
                                     <DataTableCell>
-                                        {moment(createdDateClient).format(
-                                            'YYYY-MM-DD HH:mm'
-                                        )}
+                                        {created ? (
+                                            <DateText
+                                                date={created}
+                                                includeTimeZone={false}
+                                            />
+                                        ) : null}
                                     </DataTableCell>
                                     <DataTableCell>{user}</DataTableCell>
                                     <DataTableCell>
@@ -139,6 +142,14 @@ export default function AuditLog({ item }) {
                         })}
                     </TableBody>
                 </DataTable>
+                {audits.length > 0 && (
+                    <div className={styles.timeZoneNote}>
+                        {i18n.t(
+                            'audit dates are given in {{- timeZone}} time',
+                            { timeZone }
+                        )}
+                    </div>
+                )}
             </div>
         </ExpandableUnit>
     )
@@ -169,7 +180,12 @@ function UpdatedValue({ value, previousValue }) {
         <div className={styles.alignToEnd}>
             {previousValue && <Tag>{previousValue}</Tag>}
             {/* arrow-right*/}
-            <span className={styles.rightArrow}>&rarr;</span>
+            {i18n.dir() === 'rtl' ? (
+                <span className={styles.rightArrow}>&larr;</span>
+            ) : (
+                <span className={styles.rightArrow}>&rarr;</span>
+            )}
+
             <Tag>{value}</Tag>
         </div>
     )

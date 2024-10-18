@@ -6,8 +6,8 @@
 }
 
 .comment {
-    padding-left: 6px;
-    border-left: 2px solid var(--colors-grey400);
+    padding-inline-start: 6px;
+    border-inline-start: 2px solid var(--colors-grey400);
     color: var(--colors-grey900);
 
     /* this is a "pre" element, so we need this */
@@ -19,11 +19,11 @@
 }
 
 .textArea {
-    margin-bottom: var(--spacers-dp12);
+    margin-block-end: var(--spacers-dp12);
 }
 
 .commentOptionSelect {
-    margin-bottom: var(--spacers-dp8);
+    margin-block-end: var(--spacers-dp8);
 }
 
 .errorWrapper {

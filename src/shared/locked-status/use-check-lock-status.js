@@ -1,6 +1,12 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { useEffect } from 'react'
-import { useClientServerDateUtils } from '../date/index.js'
-import { getCurrentDate } from '../fixed-periods/index.js'
+import {
+    getNowInCalendarString,
+    addDaysToDateString,
+    isDateAGreaterThanDateB,
+    isDateALessThanDateB,
+    convertToIso8601ToString,
+} from '../date/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { usePeriod } from '../period/index.js'
 import {
@@ -13,15 +19,14 @@ import { useUserInfo, userInfoSelectors } from '../use-user-info/index.js'
 import { LockedStates, BackendLockStatusMap } from './locked-states.js'
 import { useLockedContext } from './use-locked-context.js'
 
-const DAY_MS = 24 * 60 * 60 * 1000
-
 /** Check for status relative to dataInputPeriods and expiryDays */
 const getFrontendLockStatus = ({
     dataSetId,
     metadata,
     selectedPeriod,
-    clientServerDateUtils: { fromServerDate, fromClientDate },
     userCanEditExpired,
+    calendar,
+    timezone,
 }) => {
     if (!selectedPeriod) {
         return
@@ -38,8 +43,14 @@ const getFrontendLockStatus = ({
         return
     }
 
-    let clientLockDate
-    const currentDate = fromClientDate(getCurrentDate())
+    let serverLockDateStringISO = null
+
+    // this will be a date string corrected for client/server time zone differences
+    const currentDateString = getNowInCalendarString({
+        calendar,
+        timezone,
+        long: true,
+    })
 
     if (dataInputPeriods.length > 0) {
         const applicableDataInputPeriod =
@@ -62,16 +73,25 @@ const getFrontendLockStatus = ({
         // openingDate and closingDate can be undefined.
         // They are ISO dates without a timezone, so should be parsed
         // as "server dates"
-        const parsedOpeningDate =
-            openingDate && fromServerDate(new Date(openingDate))
-        const parsedClosingDate =
-            closingDate && fromServerDate(new Date(closingDate))
 
+        // date comparison (openingDate/closingDate dates are iso, currentDateString is system calendar)
         if (
             (openingDate &&
-                currentDate.serverDate < parsedOpeningDate.serverDate) ||
+                isDateALessThanDateB(
+                    { date: currentDateString, calendar },
+                    { date: openingDate, calendar: 'gregory' },
+                    {
+                        inclusive: false,
+                    }
+                )) ||
             (closingDate &&
-                currentDate.serverDate > parsedClosingDate.serverDate)
+                isDateAGreaterThanDateB(
+                    { date: currentDateString, calendar },
+                    { date: closingDate, calendar: 'gregory' },
+                    {
+                        inclusive: false,
+                    }
+                ))
         ) {
             return {
                 state: LockedStates.LOCKED_DATA_INPUT_PERIOD,
@@ -80,33 +100,45 @@ const getFrontendLockStatus = ({
         }
 
         // If we're here, the form isn't (yet) locked by the data input period.
-        // Set the clientLockDate to the input period's closing date (if this
-        // input period has one) before also checking expiry days.
-        // This might still be undefined, but that's okay
-        clientLockDate = parsedClosingDate?.clientDate
+        // this date is ISO
+        serverLockDateStringISO = closingDate
     }
 
     if (expiryDays > 0 && !userCanEditExpired) {
         // selectedPeriod.endDate is a string like '2023-02-20' -- this gets
         // converted to a UTC time by default, but adding 'T00:00'
-        // to make an ISO string makes Date() parse it in the local zone.
-        // I.e., the UTC time is adjusted to give us the right server clock
-        // time but in the LOCAL time zone. This is the "server date" we need
-        // for the `clientServerDateUtils`.
-        const serverEndDate = new Date(selectedPeriod.endDate + 'T00:00')
-        // Convert that to ms to add expiry days.
-        // Also add one day more because selectedPeriod.endDate is the START
+
+        // Add one day more because selectedPeriod.endDate is the START
         // of the period's last day (00:00), and we want the end of that day
         // (confirmed with backend behavior).
-        const expiryDate = fromServerDate(
-            new Date(serverEndDate.getTime() + (expiryDays + 1) * DAY_MS)
-        )
+        const expiryDateString = addDaysToDateString({
+            startDateString: selectedPeriod.endDate,
+            days: expiryDays + 1,
+            calendar,
+        })
 
-        if (currentDate.serverDate < expiryDate.serverDate) {
+        // date comparison (both in system calendar)
+        if (
+            currentDateString &&
+            expiryDateString &&
+            isDateALessThanDateB(
+                { date: currentDateString, calendar },
+                { date: expiryDateString, calendar },
+                {
+                    inclusive: false,
+                }
+            )
+        ) {
             // Take the sooner of the two possible lock dates
-            clientLockDate = clientLockDate
-                ? new Date(Math.min(clientLockDate, expiryDate.clientDate))
-                : expiryDate.clientDate
+            // date comparison (serverLockDateStringISO: ISO, expiryDateString: system calendar)
+            // if serverLockDateStringISO is null, the logic returns null and hence uses expiryDays
+            serverLockDateStringISO = isDateALessThanDateB(
+                { date: serverLockDateStringISO, calendar: 'gregory' },
+                { date: expiryDateString, calendar },
+                { inclusive: false }
+            )
+                ? serverLockDateStringISO
+                : convertToIso8601ToString(expiryDateString, calendar) // expiryDateString is in system calendar an needs to be converted to ISO
             // ! NB:
             // Until lock exception checks are done, this value is still shown,
             // even if the form won't actually lock due to a lock exception.
@@ -118,13 +150,14 @@ const getFrontendLockStatus = ({
         // TODO: implement this full check on the front-end (TECH-1428)
     }
 
-    return { state: LockedStates.OPEN, lockDate: clientLockDate }
+    return { state: LockedStates.OPEN, lockDate: serverLockDateStringISO }
 }
 
 const isOrgUnitLocked = ({
     orgUnitOpeningDateString,
     orgUnitClosedDateString,
     selectedPeriod,
+    calendar = 'gregory',
 }) => {
     // if period start or end is undefined or if both opening and closed date are undefined for org unit, skip check
     if (
@@ -136,23 +169,40 @@ const isOrgUnitLocked = ({
     }
     // since all the dates are the same (server) time zone, we do not need to do server/client time zone adjustments
 
-    // for the purpose of these calculations, dates are effecitvely treated as days without hours
-    // for example, if org unit closing date is 2020-12-31, the period December 2020 should still be open for the org unit
-    const periodStartDate = new Date(selectedPeriod.startDate + 'T00:00')
-    const periodEndDate = new Date(selectedPeriod.endDate + 'T00:00')
+    // note: period dates are without times (assumed to be T00:00), but org units can have time information
 
+    const periodStartDate = selectedPeriod.startDate
+    const periodEndDate = selectedPeriod.endDate
+
+    // date comparison (orgUnitDates: ISO, periodDates: system calendar)
     // if orgUnitOpeningDate exists, it must be earlier than the periodStartDate
     if (orgUnitOpeningDateString) {
-        const orgUnitOpeningDate = new Date(orgUnitOpeningDateString)
-        if (!(orgUnitOpeningDate <= periodStartDate)) {
+        if (
+            !isDateALessThanDateB(
+                { date: orgUnitOpeningDateString, calendar: 'gregory' },
+                { date: periodStartDate, calendar },
+                {
+                    calendar,
+                    inclusive: true,
+                }
+            )
+        ) {
             return true
         }
     }
 
     // if orgUnitClosedDate exists, it must be after the periodEndDate
     if (orgUnitClosedDateString) {
-        const orgUnitClosedDate = new Date(orgUnitClosedDateString)
-        if (!(orgUnitClosedDate >= periodEndDate)) {
+        if (
+            !isDateAGreaterThanDateB(
+                { date: orgUnitClosedDateString, calendar: 'gregory' },
+                { date: periodEndDate, calendar },
+                {
+                    calendar,
+                    inclusive: true,
+                }
+            )
+        ) {
             return true
         }
     }
@@ -173,7 +223,6 @@ export const useCheckLockStatus = () => {
 
     const [periodId] = usePeriodId()
     const selectedPeriod = usePeriod(periodId)
-    const clientServerDateUtils = useClientServerDateUtils()
 
     const { data: metadata } = useMetadata()
     const dataValueSet = useDataValueSet()
@@ -181,6 +230,10 @@ export const useCheckLockStatus = () => {
 
     const { data: userInfo } = useUserInfo()
     const userCanEditExpired = userInfoSelectors.getCanEditExpired(userInfo)
+
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory', serverTimeZoneId: timezone = 'Etc/UTC' } =
+        systemInfo
 
     useEffect(() => {
         // prefer lock status from backend, found in dataValueSet
@@ -202,6 +255,7 @@ export const useCheckLockStatus = () => {
                 orgUnitOpeningDateString,
                 orgUnitClosedDateString,
                 selectedPeriod,
+                calendar,
             })
         ) {
             setLockStatus({ state: LockedStates.LOCKED_ORGANISATION_UNIT })
@@ -214,8 +268,9 @@ export const useCheckLockStatus = () => {
             dataSetId,
             selectedPeriod,
             metadata,
-            clientServerDateUtils,
             userCanEditExpired,
+            calendar,
+            timezone,
         })
         if (frontendLockStatus) {
             setLockStatus(frontendLockStatus)
@@ -229,10 +284,11 @@ export const useCheckLockStatus = () => {
         dataSetId,
         orgUnitOpeningDateString,
         orgUnitClosedDateString,
-        clientServerDateUtils,
         userCanEditExpired,
         dataValueSet.data?.lockStatus,
         setLockStatus,
         selectedPeriod,
+        calendar,
+        timezone,
     ])
 }

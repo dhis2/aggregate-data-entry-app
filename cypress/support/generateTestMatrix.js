@@ -30,6 +30,4 @@ const createGroups = (files, numberOfGroups = 6) => {
 
 const cypressSpecsPath = './cypress/e2e'
 const specs = getAllFiles(cypressSpecsPath)
-const groupedSpecs = createGroups(specs)
-
-console.log(JSON.stringify(groupedSpecs))
+createGroups(specs)

@@ -1,5 +1,5 @@
 .toggleableUnit {
-    border-bottom: 1px solid var(--colors-grey400);
+    border-block-end: 1px solid var(--colors-grey400);
     padding: 0;
 }
 
@@ -28,11 +28,11 @@
 
 .content {
     padding: var(--spacers-dp16);
-    padding-top: 0;
+    padding-block-start: 0;
 }
 
 .open .title {
-    padding-bottom: var(--spacers-dp16);
+    padding-block-end: var(--spacers-dp16);
 }
 
 .disabled .title {

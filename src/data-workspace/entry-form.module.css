@@ -1,8 +1,8 @@
 .table {
     /* overrides fullwidth(100%)- UI-styling */
-    min-width: 240px !important;
+    min-inline-size: 240px !important;
     /* Weird req for allowing <td> cell contents to be 100% cell height */
-    height: 100% !important;
+    block-size: 100% !important;
 }
 
 .filterWrapper {
@@ -12,11 +12,11 @@
 }
 
 .filterField {
-    width: 420px;
+    inline-size: 420px;
 }
 
 @media print {
     .hideForPrint {
-        composes: hideForPrint from '../app/app.css'
+        composes: hideForPrint from '../app/app.css';
     }
 }

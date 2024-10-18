@@ -225,7 +225,7 @@ describe('date input field', () => {
         // 2021-04-22 ISO = 2078-01-09 nepali
         const { getByRole } = render(
             <FormWrapper
-                initialValues={{ [DE]: { [COC]: '2021-04-22T13:17' } }}
+                initialValues={{ [DE]: { [COC]: '2021-04-22' } }}
             >
                 <DateInput {...props} />
             </FormWrapper>
@@ -270,7 +270,7 @@ describe('date input field', () => {
         // 2021-04-22 ISO = 2013-08-14 ethiopian
         const { getByRole } = render(
             <FormWrapper
-                initialValues={{ [DE]: { [COC]: '2021-04-22T13:17' } }}
+                initialValues={{ [DE]: { [COC]: '2021-04-22' } }}
             >
                 <DateInput {...props} />
             </FormWrapper>

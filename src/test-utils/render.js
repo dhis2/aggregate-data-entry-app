@@ -34,11 +34,16 @@ export function TestWrapper({
 export function Wrapper({
     dataForCustomProvider,
     queryClientOptions,
+    timezone,
     children,
     ...restOptions
 }) {
     return (
-        <Provider baseUrl="http://dhis2-tests.org" apiVersion="41">
+        <Provider
+            baseUrl="http://dhis2-tests.org"
+            apiVersion="41"
+            config={{ systemInfo: { serverTimeZoneId: timezone } }}
+        >
             <CustomDataProvider
                 data={dataForCustomProvider}
                 queryClientOptions={queryClientOptions}
@@ -55,12 +60,17 @@ export function Wrapper({
 }
 
 export function render(ui, options = {}) {
-    const { dataForCustomProvider, ...restOptions } = options
+    const {
+        dataForCustomProvider,
+        timezone = 'Etc/UTC',
+        ...restOptions
+    } = options
     return renderOrig(ui, {
         ...options,
         wrapper: ({ children }) => (
             <Wrapper
                 {...restOptions}
+                timezone={timezone}
                 dataForCustomProvider={dataForCustomProvider}
             >
                 {children}

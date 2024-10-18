@@ -1,22 +1,23 @@
+import { useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Tooltip, IconFlag16, colors } from '@dhis2/ui'
-import moment from 'moment'
 import React from 'react'
-import { useClientServerDate } from '../../shared/index.js'
+import { getRelativeTime, DateText } from '../../shared/index.js'
 import FollowUpButton from './basic-information-follow-up-button.js'
 import styles from './basic-information.module.css'
 import ItemPropType from './item-prop-type.js'
 
 const BasicInformation = ({ item }) => {
-    // This might pass "undefined" to moment and subsequently a wrong
-    // "timeAgo", but in that case we won't render anything anyway, so there's
-    // nothing to worry about in case there is no "item"
-    const lastUpdated = useClientServerDate({
-        serverDate: new Date(item.lastUpdated),
+    const { systemInfo = {} } = useConfig()
+    const { serverTimeZoneId: timezone = 'Etc/UTC' } = systemInfo
+
+    // if item.lastUpdated is "undefined", getRelativeTime returns null
+    // and this will not be displayed
+    const timeAgo = getRelativeTime({
+        startDate: item.lastUpdated,
+        calendar: 'gregory',
+        timezone,
     })
-    // @TODO: This is not being translated!
-    // https://dhis2.atlassian.net/browse/TECH-1461
-    const timeAgo = moment(lastUpdated.clientDate).fromNow()
 
     return (
         <div className={styles.unit}>
@@ -56,20 +57,17 @@ const BasicInformation = ({ item }) => {
                     })}
                 </li>
                 <li>
-                    {
-                        // Safeguard! Using item because the `lastUpdated`
-                        // variable will always have a value
-                        item.lastUpdated && (
-                            <Tooltip
-                                content={lastUpdated.clientDate.toString()}
-                            >
-                                {i18n.t(
-                                    'Last updated {{- timeAgo}} by {{- name}}',
-                                    { timeAgo, name: item.storedBy }
-                                )}
-                            </Tooltip>
-                        )
-                    }
+                    {item.lastUpdated && (
+                        <Tooltip content={<DateText date={item.lastUpdated} />}>
+                            {i18n.t(
+                                'Last updated {{- timeAgo}} by {{- name}}',
+                                {
+                                    timeAgo,
+                                    name: item.storedBy,
+                                }
+                            )}
+                        </Tooltip>
+                    )}
                 </li>
 
                 {item.followUp ? (

@@ -4,6 +4,7 @@ import {
 } from '@dhis2/multi-calendar-dates'
 import { createCachedSelector } from 're-reselect'
 import { createSelector } from 'reselect'
+import { isDateAGreaterThanDateB, isDateALessThanDateB } from '../date/index.js'
 import { cartesian } from '../utils.js'
 // Helper to group array items by an identifier
 
@@ -436,23 +437,48 @@ const isOptionWithinPeriod = ({
     periodStartDate,
     periodEndDate,
     categoryOption,
+    calendar = 'gregory',
 }) => {
     // option has not start and end dates
     if (!categoryOption.startDate && !categoryOption.endDate) {
         return true
     }
 
+    // dates are all server dates so we can ignore time zone adjustment
+    // use string comparison for time being to better handle non-gregory dates
+    // date comparison
+
     if (categoryOption.startDate) {
-        const startDate = new Date(categoryOption.startDate)
-        if (periodStartDate < startDate) {
+        const categoryOptionStartDate = categoryOption.startDate
+        if (
+            // date comparison (periodStartDate: system calendar, categoryOptionStartDate: ISO)
+            isDateALessThanDateB(
+                { date: periodStartDate, calendar },
+                { date: categoryOptionStartDate, calendar: 'gregory' },
+                {
+                    calendar,
+                    inclusive: false,
+                }
+            )
+        ) {
             // option start date is after period start date
             return false
         }
     }
 
     if (categoryOption.endDate) {
-        const endDate = new Date(categoryOption.endDate)
-        if (periodEndDate > endDate) {
+        const categoryOptionEndDate = categoryOption.endDate
+        // date comparison (periodEndDate: system calendar, categoryOptionEndDate: ISO)
+        if (
+            isDateAGreaterThanDateB(
+                { date: periodEndDate, calendar },
+                { date: categoryOptionEndDate, calendar: 'gregory' },
+                {
+                    calendar,
+                    inclusive: false,
+                }
+            )
+        ) {
             // option end date is before period end date
             return false
         }
@@ -486,11 +512,8 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
         getDataSetById,
         (_, __, periodId) => periodId,
         (_, __, ___, orgUnitId) => orgUnitId,
-        (_, __, ___, ____, fromClientDate) => fromClientDate,
-        (metadata, dataSet, periodId, orgUnitId, fromClientDate) => {
-            // @TODO(calendar)
-            const calendar = 'gregory'
-
+        (_, __, ___, ____, calendar) => calendar,
+        (metadata, dataSet, periodId, orgUnitId, calendar = 'gregory') => {
             if (!dataSet?.id || !periodId) {
                 return []
             }
@@ -519,16 +542,12 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
             if (!period) {
                 return []
             }
-            const clientPeriodStartDate = new Date(period.startDate)
-            const periodStartDate = fromClientDate(
-                clientPeriodStartDate
-            ).serverDate
 
-            const [followingPeriod] = getAdjacentFixedPeriods({
-                period,
-                calendar,
-                steps: 1,
-            })
+            const periodStartDate = period.startDate
+
+            // we want to check if option's end date with openPeriodsAfterCoEndDate adjustment is after period end date
+            // this is difficult to calculate, so we instead check if option's end date is after (period end date - optionPeriodsAfterCoEndDate)
+            // that is, we adjust the period end date backwards instead of adjusting the category option end date forward
 
             const openPeriodsAfterCoEndDate = Math.max(
                 dataSet?.openPeriodsAfterCoEndDate || 0,
@@ -536,20 +555,19 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
             )
 
             const previousPeriodsCount = openPeriodsAfterCoEndDate * -1
+
+            // we want 1 day less than the first previous period's start date,
+            // which is the same as the end date of 1 period before the first period
+            // therefore we subtract an additional 1 for steps
             const previousPeriods = previousPeriodsCount
                 ? getAdjacentFixedPeriods({
-                      steps: previousPeriodsCount,
+                      steps: previousPeriodsCount - 1,
                       period,
-                      calendar: 'gregory',
+                      calendar,
                   })
                 : []
 
-            const periodEndDate = new Date(
-                previousPeriods[0]?.startDate || followingPeriod.startDate
-            )
-
-            // remove 1 day because endDate is 1 less than subsequent startDate
-            periodEndDate.setDate(periodEndDate.getDate() - 1)
+            const periodEndDate = previousPeriods[0]?.endDate || period.endDate
 
             return relevantCategoriesWithOptions.map((category) => ({
                 ...category,
@@ -559,6 +577,7 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                             periodStartDate,
                             periodEndDate,
                             categoryOption,
+                            calendar,
                         }) &&
                         isOptionAssignedToOrgUnit({
                             categoryOption,
@@ -586,9 +605,9 @@ export const getApplicableDataInputPeriod = createCachedSelector(
         }
 
         return (
-            dataSet.dataInputPeriods.filter(
-                (dip) => dip?.period?.id === periodId
-            )[0] || null
+            dataSet.dataInputPeriods.filter((dip) => {
+                return dip?.period?.id === periodId
+            })[0] || null
         )
     }
 )((dataSetId, periodId) => `${dataSetId}:${periodId}`)

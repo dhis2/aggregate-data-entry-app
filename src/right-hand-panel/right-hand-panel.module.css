@@ -1,17 +1,17 @@
 .wrapper {
     background: white;
-    height: 100%;
-    border-left: 1px solid var(--colors-grey400);
+    block-size: 100%;
+    border-inline-start: 1px solid var(--colors-grey400);
 }
 
 .portalAnchor {
-    min-height: 100%;
+    min-block-size: 100%;
     overflow: hidden;
     overflow-y: auto;
 }
 
 @media print {
     .hideForPrint {
-        composes: hideForPrint from '../app/app.css'
+        composes: hideForPrint from '../app/app.css';
     }
 }

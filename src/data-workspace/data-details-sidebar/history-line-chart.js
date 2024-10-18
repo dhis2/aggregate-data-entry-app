@@ -1,3 +1,4 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { createFixedPeriodFromPeriodId } from '@dhis2/multi-calendar-dates'
 import {
     Chart as ChartJS,
@@ -12,6 +13,10 @@ import {
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Line } from 'react-chartjs-2'
+import {
+    isDateAGreaterThanDateB,
+    isDateALessThanDateB,
+} from '../../shared/index.js'
 
 ChartJS.register(
     CategoryScale,
@@ -30,29 +35,43 @@ const options = {
     },
 }
 
-function sortHistoryByStartDate(history) {
+function sortHistoryByStartDate(history, calendar = 'gregory') {
     // [...history] ->  prevent mutating the original array
     return [...history].sort((left, right) => {
-        // @TODO(calendar)
-        const calendar = 'gregory'
-        const leftStartDate = new Date(
-            createFixedPeriodFromPeriodId({
-                periodId: left.period,
-                calendar,
-            }).startDate
-        )
-        const rightStartDate = new Date(
-            createFixedPeriodFromPeriodId({
-                periodId: right.period,
-                calendar,
-            }).startDate
-        )
+        const leftStartDate = createFixedPeriodFromPeriodId({
+            periodId: left.period,
+            calendar,
+        }).startDate
 
-        if (leftStartDate > rightStartDate) {
+        const rightStartDate = createFixedPeriodFromPeriodId({
+            periodId: right.period,
+            calendar,
+        }).startDate
+
+        // date comparison
+        // date comparison (both in system calendar)
+        if (
+            isDateAGreaterThanDateB(
+                { date: leftStartDate, calendar },
+                { date: rightStartDate, calendar },
+                {
+                    inclusive: false,
+                }
+            )
+        ) {
             return 1
         }
 
-        if (leftStartDate < rightStartDate) {
+        if (
+            // date comparison (both are system calendar)
+            isDateALessThanDateB(
+                { date: leftStartDate, calendar },
+                { date: rightStartDate, calendar },
+                {
+                    inclusive: false,
+                }
+            )
+        ) {
             return -1
         }
 
@@ -60,9 +79,7 @@ function sortHistoryByStartDate(history) {
     })
 }
 
-function createLabelsFromHistory(history) {
-    // @TODO(calendar)
-    const calendar = 'gregory'
+function createLabelsFromHistory(history, calendar) {
     return history.map(({ period }) => {
         try {
             return createFixedPeriodFromPeriodId({ periodId: period, calendar })
@@ -76,8 +93,10 @@ function createLabelsFromHistory(history) {
 }
 
 export default function HistoryLineChart({ history }) {
-    const oldToNewHistory = sortHistoryByStartDate(history)
-    const labels = createLabelsFromHistory(oldToNewHistory)
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory' } = systemInfo
+    const oldToNewHistory = sortHistoryByStartDate(history, calendar)
+    const labels = createLabelsFromHistory(oldToNewHistory, calendar)
     const data = {
         labels,
         datasets: [

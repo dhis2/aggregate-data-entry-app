@@ -4,9 +4,11 @@ import { useUserInfo } from '../../shared/use-user-info/use-user-info.js'
 import { render } from '../../test-utils/render.js'
 import DataDetailsSidebar from './data-details-sidebar.js'
 
-jest.mock('../../shared/date/use-server-time-offset.js', () => ({
-    __esModule: true,
-    default: () => 0,
+jest.mock('@dhis2/app-runtime', () => ({
+    ...jest.requireActual('@dhis2/app-runtime'),
+    useConfig: jest.fn(() => ({
+        systemInfo: { serverTimeZoneId: 'Etc/UTC', calendar: 'gregory' },
+    })),
 }))
 
 jest.mock('../../shared/highlighted-field/use-highlighted-field.js')
