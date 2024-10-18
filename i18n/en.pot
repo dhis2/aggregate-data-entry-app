@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-10-10T14:28:50.013Z\n"
-"PO-Revision-Date: 2024-10-10T14:28:50.014Z\n"
+"POT-Creation-Date: 2024-10-17T12:07:03.346Z\n"
+"PO-Revision-Date: 2024-10-17T12:07:03.347Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -53,9 +53,6 @@ msgstr "1 value failed to save"
 
 msgid "{{numberOfErrors}} values failed to save"
 msgstr "{{numberOfErrors}} values failed to save"
-
-msgid "This form closes and will be locked at {{-dateTime}}"
-msgstr "This form closes and will be locked at {{-dateTime}}"
 
 msgid "Closes {{-relativeTime}}"
 msgstr "Closes {{-relativeTime}}"
@@ -342,6 +339,18 @@ msgstr "Not available offline"
 msgid "No audit log for this data item."
 msgstr "No audit log for this data item."
 
+msgid "Date"
+msgstr "Date"
+
+msgid "User"
+msgstr "User"
+
+msgid "Change"
+msgstr "Change"
+
+msgid "audit dates are given in {{- timeZone}} time"
+msgstr "audit dates are given in {{- timeZone}} time"
+
 msgid "Unmark for follow-up"
 msgstr "Unmark for follow-up"
 
@@ -525,12 +534,6 @@ msgstr "No"
 msgid "Clear"
 msgstr "Clear"
 
-msgid "Pick a date"
-msgstr "Pick a date"
-
-msgid "Pick a time"
-msgstr "Pick a time"
-
 msgid "Delete"
 msgstr "Delete"
 
@@ -569,6 +572,11 @@ msgstr "Type here to filter in this section"
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
 
+msgid "{{count}} items hidden by filter"
+msgid_plural "{{count}} items hidden by filter"
+msgstr[0] "{{count}} items hidden by filter"
+msgstr[1] "{{count}} items hidden by filter"
+
 msgid "{{pendingMutations}} change saved locally"
 msgstr "{{pendingMutations}} change saved locally"
 
@@ -591,6 +599,9 @@ msgid ""
 msgstr ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
+
+msgid "Invalid date ({{date}})"
+msgstr "Invalid date ({{date}})"
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (disabled)"
