@@ -1,3 +1,10 @@
+## [100.8.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.4...v100.8.5) (2024-10-18)
+
+
+### Bug Fixes
+
+* make datetime input support multicalendar [DHIS2-17618] ([#404](https://github.com/dhis2/aggregate-data-entry-app/issues/404)) ([e8d673d](https://github.com/dhis2/aggregate-data-entry-app/commit/e8d673dade941fe022333cb52149d8d64449ab94))
+
 ## [100.8.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.3...v100.8.4) (2024-10-17)
 
 
