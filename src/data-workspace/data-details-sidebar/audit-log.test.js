@@ -1,9 +1,17 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { render } from '../../test-utils/index.js'
 import AuditLog from './audit-log.js'
 import useDataValueContext from './use-data-value-context.js'
+
+jest.mock('@dhis2/app-runtime', () => ({
+    ...jest.requireActual('@dhis2/app-runtime'),
+    useConfig: jest.fn(() => ({
+        systemInfo: { serverTimeZoneId: 'Etc/UTC', calendar: 'gregory' },
+    })),
+}))
 
 jest.mock('./use-data-value-context.js', () => ({
     __esModule: true,
@@ -18,6 +26,7 @@ describe('<AuditLog />', () => {
     }
 
     afterEach(() => {
+        jest.clearAllMocks()
         useDataValueContext.mockClear()
     })
 
@@ -79,7 +88,7 @@ describe('<AuditLog />', () => {
                 auditType: 'UPDATE',
                 created: new Date('2021-02-01').toISOString(),
                 modifiedBy: 'Firstname2 Lastname2',
-                prevValue: '19',
+                previousValue: '19',
                 value: '21',
             },
             {
@@ -139,5 +148,153 @@ describe('<AuditLog />', () => {
         expect(
             getByText('audit dates are given in UTC time')
         ).toBeInTheDocument()
+    })
+
+    it('renders the date/datetime values in system calendar (ethiopian)', async () => {
+        useConfig.mockImplementation(() => ({
+            systemInfo: {
+                calendar: 'ethiopian',
+            },
+        }))
+        const audits = [
+            {
+                auditType: 'DELETE',
+                created: new Date('2021-03-01').toISOString(),
+                modifiedBy: 'Firstname Lastname',
+                value: '2021-09-10',
+            },
+            {
+                auditType: 'UPDATE',
+                created: new Date('2021-02-01').toISOString(),
+                modifiedBy: 'Firstname2 Lastname2',
+                previousValue: '2021-09-10',
+                value: '2021-09-11',
+            },
+        ]
+
+        const dateItem = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            comment: 'This is a comment',
+            valueType: 'DATE',
+        }
+
+        const data = { audits }
+        useDataValueContext.mockImplementation(() => ({
+            isLoading: false,
+            data,
+        }))
+
+        const { getByRole, getAllByRole, queryByRole, container } = render(
+            <AuditLog item={dateItem} />
+        )
+
+        // Expand and wait for data to load
+        userEvent.click(container.querySelector('summary'))
+        await waitFor(() => {
+            expect(getByRole('group')).toHaveAttribute('open')
+            expect(queryByRole('progressbar')).not.toBeInTheDocument()
+        })
+
+        // the number of rows is: the length of audits + 1 (for header row)
+        const auditRows = getAllByRole('row')
+
+        expect(auditRows).toHaveLength(audits.length + 1)
+
+        const firstChangeName = within(auditRows[1]).getByText(
+            'Firstname Lastname',
+            {}
+        )
+        expect(firstChangeName).toBeInTheDocument()
+        const firstChangeValue = within(auditRows[1]).getByText(
+            '2013-13-05',
+            {}
+        )
+        expect(firstChangeValue).toBeInTheDocument()
+
+        const secondChangeName = within(auditRows[2]).getByText(
+            'Firstname2 Lastname2',
+            {}
+        )
+        expect(secondChangeName).toBeInTheDocument()
+        const secondChangeValue = within(auditRows[2]).getByText(
+            '2014-01-01',
+            {}
+        )
+        expect(secondChangeValue).toBeInTheDocument()
+    })
+
+    it('renders the date/datetime values in system calendar (gregorian)', async () => {
+        useConfig.mockImplementation(() => ({
+            systemInfo: {
+                calendar: 'gregory',
+            },
+        }))
+        const audits = [
+            {
+                auditType: 'DELETE',
+                created: new Date('2021-03-01').toISOString(),
+                modifiedBy: 'Firstname Lastname',
+                value: '2021-09-10',
+            },
+            {
+                auditType: 'UPDATE',
+                created: new Date('2021-02-01').toISOString(),
+                modifiedBy: 'Firstname2 Lastname2',
+                previousValue: '2021-09-10',
+                value: '2021-09-11',
+            },
+        ]
+
+        const dateItem = {
+            categoryOptionCombo: 'coc-id',
+            dataElement: 'de-id',
+            comment: 'This is a comment',
+            valueType: 'DATE',
+        }
+
+        const data = { audits }
+        useDataValueContext.mockImplementation(() => ({
+            isLoading: false,
+            data,
+        }))
+
+        const { getByRole, getAllByRole, queryByRole, container } = render(
+            <AuditLog item={dateItem} />
+        )
+
+        // Expand and wait for data to load
+        userEvent.click(container.querySelector('summary'))
+        await waitFor(() => {
+            expect(getByRole('group')).toHaveAttribute('open')
+            expect(queryByRole('progressbar')).not.toBeInTheDocument()
+        })
+
+        // the number of rows is: the length of audits + 1 (for header row)
+        const auditRows = getAllByRole('row')
+
+        expect(auditRows).toHaveLength(audits.length + 1)
+
+        const firstChangeName = within(auditRows[1]).getByText(
+            'Firstname Lastname',
+            {}
+        )
+        expect(firstChangeName).toBeInTheDocument()
+        const firstChangeValue = within(auditRows[1]).getByText(
+            '2021-09-10',
+            {}
+        )
+        expect(firstChangeValue).toBeInTheDocument()
+
+        const secondChangeName = within(auditRows[2]).getByText(
+            'Firstname2 Lastname2',
+            {}
+        )
+        expect(secondChangeName).toBeInTheDocument()
+        const secondChangeValue = within(auditRows[2]).getByText(
+            '2021-09-11',
+            {}
+        )
+        expect(secondChangeValue).toBeInTheDocument()
     })
 })
