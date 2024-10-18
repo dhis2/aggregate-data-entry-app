@@ -1,3 +1,4 @@
+import { useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     CircularLoader,
@@ -17,6 +18,8 @@ import {
     ExpandableUnit,
     useConnectionStatus,
     DateText,
+    convertFromIso8601ToString,
+    VALUE_TYPES,
 } from '../../shared/index.js'
 import styles from './audit-log.module.css'
 import useDataValueContext from './use-data-value-context.js'
@@ -29,6 +32,8 @@ export default function AuditLog({ item }) {
     const { open, setOpen, openRef } = useOpenState(item)
     const dataValueContext = useDataValueContext(item, openRef.current)
     const timeZone = Intl.DateTimeFormat()?.resolvedOptions()?.timeZone
+    const { systemInfo = {} } = useConfig()
+    const { calendar = 'gregory' } = systemInfo
 
     if (!offline && (!open || dataValueContext.isLoading)) {
         return (
@@ -98,8 +103,8 @@ export default function AuditLog({ item }) {
                         {audits.map((audit) => {
                             const {
                                 modifiedBy: user,
-                                previousValue,
-                                value,
+                                previousValue: nonParsedPreviousValue,
+                                value: nonParsedValue,
                                 created,
                                 auditType,
                                 dataElement: de,
@@ -107,6 +112,26 @@ export default function AuditLog({ item }) {
                                 period: pe,
                                 orgUnit: ou,
                             } = audit
+
+                            const value = [
+                                VALUE_TYPES.DATETIME,
+                                VALUE_TYPES.DATE,
+                            ].includes(item.valueType)
+                                ? convertFromIso8601ToString(
+                                      nonParsedValue,
+                                      calendar
+                                  )
+                                : nonParsedValue
+                            const previousValue = [
+                                VALUE_TYPES.DATETIME,
+                                VALUE_TYPES.DATE,
+                            ].includes(item.valueType)
+                                ? convertFromIso8601ToString(
+                                      nonParsedPreviousValue,
+                                      calendar
+                                  )
+                                : nonParsedPreviousValue
+
                             const key = `${de}-${pe}-${ou}-${coc}-${created}`
 
                             return (
@@ -160,6 +185,7 @@ AuditLog.propTypes = {
         categoryOptionCombo: PropTypes.string.isRequired,
         dataElement: PropTypes.string.isRequired,
         comment: PropTypes.string,
+        valueType: PropTypes.string,
     }).isRequired,
 }
 

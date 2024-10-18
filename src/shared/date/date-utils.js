@@ -34,6 +34,11 @@ const formatDate = (date, withoutTimeStamp) => {
 }
 
 export const convertFromIso8601ToString = (date, calendar) => {
+    // skip if there is no date
+    if (!date) {
+        return undefined
+    }
+
     // return without conversion if already a gregory date
     if (GREGORY_CALENDARS.includes(calendar)) {
         return date
@@ -55,6 +60,11 @@ export const convertFromIso8601ToString = (date, calendar) => {
 }
 
 export const convertToIso8601ToString = (date, calendar) => {
+    // skip if there is no date
+    if (!date) {
+        return undefined
+    }
+
     // return without conversion if already a gregory date
     if (GREGORY_CALENDARS.includes(calendar)) {
         return date
