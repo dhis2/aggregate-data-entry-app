@@ -1,3 +1,16 @@
+# [100.9.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.6...v100.9.0) (2024-10-23)
+
+
+### Bug Fixes
+
+* change text alignment in data set display options from left / right to line start / line end ([ed91642](https://github.com/dhis2/aggregate-data-entry-app/commit/ed916423f2e494dbb35bbb0ac6f3d7dda0787c57))
+* custom text styles ([db2a0f4](https://github.com/dhis2/aggregate-data-entry-app/commit/db2a0f45fd35a0ce8af504b47544dd8d5384a265))
+
+
+### Features
+
+* add title and subtitle to data sets if set in display options ([e8e7df7](https://github.com/dhis2/aggregate-data-entry-app/commit/e8e7df707e65426a6b740806f2feefdc27d275e7))
+
 ## [100.8.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.8.5...v100.8.6) (2024-10-20)
 
 
