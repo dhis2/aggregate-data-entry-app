@@ -1,1 +1,1 @@
-export { CategoryComboTableBody } from './category-combo-table-body.js'
+export { CategoryComboTableBody } from './category-combo-table-body.jsx'
