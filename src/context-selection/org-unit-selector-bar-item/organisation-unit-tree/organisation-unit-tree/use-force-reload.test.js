@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import { useForceReload } from './use-force-reload.js'
 
 describe('OrganisationUnitTree - useForceReload', () => {
