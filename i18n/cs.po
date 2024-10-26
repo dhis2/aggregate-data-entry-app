@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Jiří Podhorecký <jirka.p@volny.cz>, 2024\n"
 "Language-Team: Czech (https://app.transifex.com/hisp-uio/teams/100509/cs/)\n"
@@ -64,9 +64,6 @@ msgstr "1 hodnotu se nepodařilo uložit"
 
 msgid "{{numberOfErrors}} values failed to save"
 msgstr "Hodnoty {{numberOfErrors}} se nepodařilo uložit"
-
-msgid "This form closes and will be locked at {{-dateTime}}"
-msgstr ""
 
 msgid "Closes {{-relativeTime}}"
 msgstr ""
@@ -354,6 +351,18 @@ msgstr "Není k dispozici offline"
 msgid "No audit log for this data item."
 msgstr "Pro tuto datovou položku neexistuje žádný protokol auditu."
 
+msgid "Date"
+msgstr "datum"
+
+msgid "User"
+msgstr "Uživatel"
+
+msgid "Change"
+msgstr ""
+
+msgid "audit dates are given in {{- timeZone}} time"
+msgstr ""
+
 msgid "Unmark for follow-up"
 msgstr "Zrušit označení pro sledování"
 
@@ -535,6 +544,12 @@ msgstr "Ne"
 msgid "Clear"
 msgstr "Vyčistit"
 
+msgid "Pick a date"
+msgstr ""
+
+msgid "Pick a time"
+msgstr ""
+
 msgid "Delete"
 msgstr "Vymazat"
 
@@ -574,6 +589,13 @@ msgstr "Chcete-li filtrovat v této sekci, zadejte zde"
 msgid "1 item hidden by filter"
 msgstr "1 položka skrytá filtrem"
 
+msgid "{{count}} items hidden by filter"
+msgid_plural "{{count}} items hidden by filter"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
 msgid "{{pendingMutations}} change saved locally"
 msgstr "{{pendingMutations}} změna uložena místně"
 
@@ -594,6 +616,9 @@ msgid ""
 msgstr ""
 "Při nastavování dokončení formuláře na „{{completed}}“ se něco pokazilo: "
 "{{errorMessage}}"
+
+msgid "Invalid date ({{date}})"
+msgstr ""
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (zakázáno)"

@@ -2,19 +2,19 @@
 # Translators:
 # Jason Pickering <jason@dhis2.org>, 2024
 # Ge Joao <gsimango@saudigitus.org>, 2024
-# Sheila André <sandre@saudigitus.org>, 2024
 # David Júnior <davidjr.mondlane@gmail.com>, 2024
 # Fernando Jorge Bade, 2024
-# Viktor Varland <viktor@dhis2.org>, 2024
 # Gabriela Rodriguez <grodriguezcoronado@gmail.com>, 2024
 # Philip Larsen Donnelly, 2024
+# Viktor Varland <viktor@dhis2.org>, 2024
+# Sheila André <sandre@saudigitus.org>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Philip Larsen Donnelly, 2024\n"
+"Last-Translator: Sheila André <sandre@saudigitus.org>, 2024\n"
 "Language-Team: Portuguese (https://app.transifex.com/hisp-uio/teams/100509/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,9 +65,6 @@ msgid "1 value failed to save"
 msgstr ""
 
 msgid "{{numberOfErrors}} values failed to save"
-msgstr ""
-
-msgid "This form closes and will be locked at {{-dateTime}}"
 msgstr ""
 
 msgid "Closes {{-relativeTime}}"
@@ -344,6 +341,18 @@ msgstr "Não disponível offline"
 msgid "No audit log for this data item."
 msgstr ""
 
+msgid "Date"
+msgstr "Encontro"
+
+msgid "User"
+msgstr "Utilizador"
+
+msgid "Change"
+msgstr ""
+
+msgid "audit dates are given in {{- timeZone}} time"
+msgstr ""
+
 msgid "Unmark for follow-up"
 msgstr ""
 
@@ -521,6 +530,12 @@ msgstr "Não"
 msgid "Clear"
 msgstr "Limpar"
 
+msgid "Pick a date"
+msgstr ""
+
+msgid "Pick a time"
+msgstr ""
+
 msgid "Delete"
 msgstr "Suprimir"
 
@@ -556,6 +571,12 @@ msgstr ""
 msgid "1 item hidden by filter"
 msgstr ""
 
+msgid "{{count}} items hidden by filter"
+msgid_plural "{{count}} items hidden by filter"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "{{pendingMutations}} change saved locally"
 msgstr ""
 
@@ -573,6 +594,9 @@ msgstr ""
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
+msgstr ""
+
+msgid "Invalid date ({{date}})"
 msgstr ""
 
 msgid "{{title}} (disabled)"

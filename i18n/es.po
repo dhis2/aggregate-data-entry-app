@@ -2,18 +2,19 @@
 # Translators:
 # Alison Andrade <aandrade@ippfwhr.org>, 2024
 # Prabhjot Singh, 2024
-# Viktor Varland <viktor@dhis2.org>, 2024
 # Gabriela Rodriguez <grodriguezcoronado@gmail.com>, 2024
-# Philip Larsen Donnelly, 2024
 # Andres Miguel Rubio, 2024
 # Pablo Del Médico, 2024
+# Enzo Nicolas Rossi <enzo@dhis2.org>, 2024
+# Viktor Varland <viktor@dhis2.org>, 2024
+# Philip Larsen Donnelly, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Pablo Del Médico, 2024\n"
+"Last-Translator: Philip Larsen Donnelly, 2024\n"
 "Language-Team: Spanish (https://app.transifex.com/hisp-uio/teams/100509/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,9 +70,6 @@ msgstr "1 valor no se pudo guardar"
 
 msgid "{{numberOfErrors}} values failed to save"
 msgstr "{{numberOfErrors}} valores no se pudieron guardar"
-
-msgid "This form closes and will be locked at {{-dateTime}}"
-msgstr ""
 
 msgid "Closes {{-relativeTime}}"
 msgstr ""
@@ -367,6 +365,18 @@ msgstr "No disponible sin conexión"
 msgid "No audit log for this data item."
 msgstr "No hay registro de auditoría para este elemento de datos."
 
+msgid "Date"
+msgstr "Fecha"
+
+msgid "User"
+msgstr "Usuario"
+
+msgid "Change"
+msgstr "Cambio"
+
+msgid "audit dates are given in {{- timeZone}} time"
+msgstr ""
+
 msgid "Unmark for follow-up"
 msgstr "Desmarcar para hacer seguimiento"
 
@@ -558,6 +568,12 @@ msgstr "No"
 msgid "Clear"
 msgstr "Limpiar"
 
+msgid "Pick a date"
+msgstr ""
+
+msgid "Pick a time"
+msgstr ""
+
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -598,6 +614,12 @@ msgstr "Escriba aquí para filtrar en esta sección"
 msgid "1 item hidden by filter"
 msgstr "1 elemento oculto por filtro"
 
+msgid "{{count}} items hidden by filter"
+msgid_plural "{{count}} items hidden by filter"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "{{pendingMutations}} change saved locally"
 msgstr "{{pendingMutations}} cambio guardado localmente"
 
@@ -620,6 +642,9 @@ msgid ""
 msgstr ""
 "Algo salió mal al finalizar el formulario en \"{{completed}}\": "
 "{{errorMessage}}"
+
+msgid "Invalid date ({{date}})"
+msgstr ""
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (deshabilitado)"
