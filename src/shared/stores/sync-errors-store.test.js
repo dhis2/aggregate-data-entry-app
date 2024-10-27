@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
 import { useSyncErrorsStore } from './sync-errors-store.js'
 
 describe('highlighted field store', () => {
@@ -16,16 +16,14 @@ describe('highlighted field store', () => {
 
     it('should set an error to a provided id', async () => {
         const cellId = 'aoc-id1;aoc-id2,ds-id,ou-id,2022_de-id_coc-id'
-        const { result, waitFor } = renderHook(useSyncErrorsStore)
+        const { result } = renderHook(useSyncErrorsStore)
 
         act(() => {
             result.current.setErrorById(cellId, 'Error message')
         })
 
-        await waitFor(() => {
-            const error = result.current.getErrorById(cellId)
-            expect(error).toBe('Error message')
-        })
+        const error = result.current.getErrorById(cellId)
+        expect(error).toBe('Error message')
     })
 
     it('should set an error by mutation error', async () => {
@@ -41,17 +39,16 @@ describe('highlighted field store', () => {
         const apiMutationError = new Error('I am an error')
         apiMutationError.mutationKey = mutationKey
 
-        const { result, waitFor } = renderHook(useSyncErrorsStore)
+        const { result } = renderHook(useSyncErrorsStore)
 
         act(() => {
             result.current.setError(apiMutationError)
         })
 
         const cellId = 'aoc-id1;aoc-id2,ds-id,ou-id,2022_de-id_coc-id'
-        await waitFor(() => {
-            const error = result.current.getErrorById(cellId)
-            expect(error).toBe(apiMutationError)
-        })
+
+        const error = result.current.getErrorById(cellId)
+        expect(error).toBe(apiMutationError)
     })
 
     it('should clear an error by id', async () => {
@@ -78,10 +75,8 @@ describe('highlighted field store', () => {
             result.current.clearErrorById(cellId)
         })
 
-        await waitFor(() => {
-            const error = result.current.getErrorById(cellId)
-            expect(error).toBe(undefined)
-        })
+        const error = result.current.getErrorById(cellId)
+        expect(error).toBe(undefined)
     })
 
     it('should clear an error by mutation key', async () => {
@@ -108,10 +103,8 @@ describe('highlighted field store', () => {
             result.current.clearErrorByMutationKey(mutationKey)
         })
 
-        await waitFor(() => {
-            const error = result.current.getErrorById(cellId)
-            expect(error).toBe(undefined)
-        })
+        const error = result.current.getErrorById(cellId)
+        expect(error).toBe(undefined)
     })
 
     it('should clear an error by data value params', async () => {
@@ -138,10 +131,8 @@ describe('highlighted field store', () => {
             result.current.clearErrorByDataValueParams(params)
         })
 
-        await waitFor(() => {
-            const error = result.current.getErrorById(cellId)
-            expect(error).toBe(undefined)
-        })
+        const error = result.current.getErrorById(cellId)
+        expect(error).toBe(undefined)
     })
 
     it('should clear all errors', async () => {
@@ -189,10 +180,8 @@ describe('highlighted field store', () => {
             result.current.clearAll()
         })
 
-        await waitFor(() => {
-            const error = result.current.getErrors()
-            expect(error).toEqual({})
-        })
+        const error = result.current.getErrors()
+        expect(error).toEqual({})
     })
 
     it('should get all errors for a selection', () => {

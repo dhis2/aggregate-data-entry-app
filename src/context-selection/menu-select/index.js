@@ -1,3 +1,3 @@
-import MenuSelect from './menu-select.js'
+import MenuSelect from './menu-select.jsx'
 
 export { MenuSelect }
