@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Khurshid Ibatov <Khurshid.Ibatov@tibbiysugurta.uz>, 2024\n"
 "Language-Team: Uzbek (Cyrillic) (https://app.transifex.com/hisp-uio/teams/100509/uz@Cyrl/)\n"
@@ -64,9 +64,6 @@ msgstr "1 та кўрсатгични сақлашда хатолик юз бе�
 
 msgid "{{numberOfErrors}} values failed to save"
 msgstr "{{numberOfErrors}} 1 та кўрсатгични сақлашда хатолик юз берди"
-
-msgid "This form closes and will be locked at {{-dateTime}}"
-msgstr ""
 
 msgid "Closes {{-relativeTime}}"
 msgstr ""
@@ -358,6 +355,18 @@ msgstr "Оффлайн режимда мавжуд эмас"
 msgid "No audit log for this data item."
 msgstr "Ушбу маълумот бирлиги учун аудит журнали мавжуд эмас."
 
+msgid "Date"
+msgstr "Сана"
+
+msgid "User"
+msgstr "Фойдаланувчи"
+
+msgid "Change"
+msgstr ""
+
+msgid "audit dates are given in {{- timeZone}} time"
+msgstr ""
+
 msgid "Unmark for follow-up"
 msgstr "Кейинги кузатув учун белгини олиб ташланг"
 
@@ -537,6 +546,12 @@ msgstr "Йўқ"
 msgid "Clear"
 msgstr "Тозалаш"
 
+msgid "Pick a date"
+msgstr ""
+
+msgid "Pick a time"
+msgstr ""
+
 msgid "Delete"
 msgstr "Ўчириб ташлаш"
 
@@ -572,6 +587,10 @@ msgstr ""
 msgid "1 item hidden by filter"
 msgstr ""
 
+msgid "{{count}} items hidden by filter"
+msgid_plural "{{count}} items hidden by filter"
+msgstr[0] ""
+
 msgid "{{pendingMutations}} change saved locally"
 msgstr ""
 
@@ -589,6 +608,9 @@ msgstr ""
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
+msgstr ""
+
+msgid "Invalid date ({{date}})"
 msgstr ""
 
 msgid "{{title}} (disabled)"

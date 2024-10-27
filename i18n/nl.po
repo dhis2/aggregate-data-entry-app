@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-01-15T14:35:08.966Z\n"
+"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Philip Larsen Donnelly, 2024\n"
 "Language-Team: Dutch (https://app.transifex.com/hisp-uio/teams/100509/nl/)\n"
@@ -68,9 +68,6 @@ msgstr "1 waarde kan niet worden opgeslagen"
 
 msgid "{{numberOfErrors}} values failed to save"
 msgstr "{{numberOfErrors}} waarden kunnen niet worden opgeslagen"
-
-msgid "This form closes and will be locked at {{-dateTime}}"
-msgstr ""
 
 msgid "Closes {{-relativeTime}}"
 msgstr ""
@@ -370,6 +367,18 @@ msgstr "Niet beschikbaar offline"
 msgid "No audit log for this data item."
 msgstr "Geen controle logboek voor dit gegevensitem."
 
+msgid "Date"
+msgstr "Datum"
+
+msgid "User"
+msgstr "Gebruiker"
+
+msgid "Change"
+msgstr ""
+
+msgid "audit dates are given in {{- timeZone}} time"
+msgstr ""
+
 msgid "Unmark for follow-up"
 msgstr "Demarkeer voor vervolg"
 
@@ -561,6 +570,12 @@ msgstr "Nee"
 msgid "Clear"
 msgstr "Verwijder"
 
+msgid "Pick a date"
+msgstr ""
+
+msgid "Pick a time"
+msgstr ""
+
 msgid "Delete"
 msgstr "Verwijder"
 
@@ -600,6 +615,11 @@ msgstr "Typ hier om in deze sectie te filteren"
 msgid "1 item hidden by filter"
 msgstr "1 item verborgen door filter"
 
+msgid "{{count}} items hidden by filter"
+msgid_plural "{{count}} items hidden by filter"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "{{pendingMutations}} change saved locally"
 msgstr "{{pendingMutations}} wijziging lokaal opgeslagen"
 
@@ -622,6 +642,9 @@ msgid ""
 msgstr ""
 "Er is iets misgegaan bij het instellen van de voltooiing van het formulier "
 "op \"{{completed}}\": {{errorMessage}}"
+
+msgid "Invalid date ({{date}})"
+msgstr ""
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (uitgeschakeld)"

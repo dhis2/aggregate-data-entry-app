@@ -1,16 +1,16 @@
 # 
 # Translators:
-# Philip Larsen Donnelly, 2024
 # 晓东 林 <13981924470@126.com>, 2024
-# easylin <lin_xd@126.com>, 2024
 # Viktor Varland <viktor@dhis2.org>, 2024
+# Philip Larsen Donnelly, 2024
+# easylin <lin_xd@126.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2024\n"
+"Last-Translator: easylin <lin_xd@126.com>, 2024\n"
 "Language-Team: Chinese (https://app.transifex.com/hisp-uio/teams/100509/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -338,7 +338,7 @@ msgid "No audit log for this data item."
 msgstr "该数据项无审计日志。"
 
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 msgid "User"
 msgstr "用户"
@@ -347,7 +347,7 @@ msgid "Change"
 msgstr "改变"
 
 msgid "audit dates are given in {{- timeZone}} time"
-msgstr ""
+msgstr "审计日期以{{- timeZone}} 时间显示"
 
 msgid "Unmark for follow-up"
 msgstr "无标记，以便后续跟进"
@@ -527,10 +527,10 @@ msgid "Clear"
 msgstr "清除"
 
 msgid "Pick a date"
-msgstr ""
+msgstr "选择日期"
 
 msgid "Pick a time"
-msgstr ""
+msgstr "选择时间"
 
 msgid "Delete"
 msgstr "删除"
@@ -569,7 +569,7 @@ msgstr "过滤器隐藏了 1 个项目"
 
 msgid "{{count}} items hidden by filter"
 msgid_plural "{{count}} items hidden by filter"
-msgstr[0] ""
+msgstr[0] "{{count}} 过滤器隐藏的项目"
 
 msgid "{{pendingMutations}} change saved locally"
 msgstr "{{pendingMutations}} 个更改保存在本地"
@@ -591,7 +591,7 @@ msgid ""
 msgstr "在将表单完成设置为 \"{{completed}}\"时出了问题：{{errorMessage}}"
 
 msgid "Invalid date ({{date}})"
-msgstr ""
+msgstr "无效日期 ({{date}})"
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (禁用)"
