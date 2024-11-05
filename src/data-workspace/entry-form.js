@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { NoticeBox } from '@dhis2/ui'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useFormState } from 'react-final-form'
@@ -12,7 +13,10 @@ import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
 import { DefaultForm } from './default-form.js'
 import FilterField from './filter-field.js'
+import { getDisplayOptions } from './section-form/displayOptions.js'
 import { SectionForm } from './section-form/index.js'
+import { SanitizedText } from './section-form/sanitized-text.js'
+import styles from './section-form/section.module.css'
 
 const lockedNoticeBoxMessages = {
     [LockedStates.LOCKED_DATA_INPUT_PERIOD]: i18n.t(
@@ -47,6 +51,7 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
     const formType = dataSet.formType
 
     const Component = formTypeToComponent[formType]
+    const displayOptions = getDisplayOptions(dataSet)
 
     return (
         <>
@@ -63,6 +68,28 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
                 />
             )}
             <EntryFormErrorSpy />
+            <div
+                className={cx(styles.sectionsCustomText, {
+                    [styles.textStartLine]:
+                        displayOptions.customText?.align === 'line-start',
+                    [styles.textCenter]:
+                        displayOptions.customText?.align === 'center',
+                    [styles.textEndLine]:
+                        !displayOptions.customText ||
+                        displayOptions.customText?.align === 'line-end',
+                })}
+            >
+                {displayOptions.customText?.header && (
+                    <SanitizedText className={styles.sectionsTitle}>
+                        {displayOptions.customText?.header}
+                    </SanitizedText>
+                )}
+                {displayOptions.customText?.subheader && (
+                    <SanitizedText className={styles.sectionsSubtitle}>
+                        {displayOptions.customText?.subheader}
+                    </SanitizedText>
+                )}
+            </div>
             <Component dataSet={dataSet} globalFilterText={globalFilterText} />
         </>
     )
