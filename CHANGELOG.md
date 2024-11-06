@@ -1,3 +1,10 @@
+# [100.10.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.9.1...v100.10.0) (2024-11-06)
+
+
+### Features
+
+* add title and subtitle too all form types ([0e51947](https://github.com/dhis2/aggregate-data-entry-app/commit/0e51947c87fc978ad001723e03cea0d4f081f437))
+
 ## [100.9.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.9.0...v100.9.1) (2024-10-27)
 
 
