@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useSectionFilter } from '../../shared/index.js'
 import { getDisplayOptions } from './displayOptions.js'
-import { SanitizedText } from './sanitized-text.js'
 import { SectionFormSection } from './section.js'
 import styles from './section.module.css'
 
@@ -16,49 +15,23 @@ export const SectionForm = ({ dataSet, globalFilterText }) => {
 
     const displayOptions = getDisplayOptions(dataSet)
 
-    return (
-        <>
-            <div
-                className={cx(styles.sectionsCustomText, {
-                    [styles.textStartLine]:
-                        displayOptions.customText?.align === 'line-start',
-                    [styles.textCenter]:
-                        displayOptions.customText?.align === 'center',
-                    [styles.textEndLine]:
-                        !displayOptions.customText ||
-                        displayOptions.customText?.align === 'line-end',
-                })}
-            >
-                {displayOptions.customText?.header && (
-                    <SanitizedText className={styles.sectionsTitle}>
-                        {displayOptions.customText?.header}
-                    </SanitizedText>
-                )}
-                {displayOptions.customText?.subheader && (
-                    <SanitizedText className={styles.sectionsSubtitle}>
-                        {displayOptions.customText?.subheader}
-                    </SanitizedText>
-                )}
-            </div>
-            {dataSet.renderAsTabs ? (
-                <TabbedSectionForm
-                    globalFilterText={globalFilterText}
-                    sections={dataSet.sections}
-                    dataSetId={dataSet.id}
-                    direction={displayOptions?.tabsDirection}
-                />
-            ) : (
-                filteredSections.map((s) => (
-                    <SectionFormSection
-                        section={s}
-                        dataSetId={dataSet.id}
-                        key={s.id}
-                        globalFilterText={globalFilterText}
-                        collapsible
-                    />
-                ))
-            )}
-        </>
+    return dataSet.renderAsTabs ? (
+        <TabbedSectionForm
+            globalFilterText={globalFilterText}
+            sections={dataSet.sections}
+            dataSetId={dataSet.id}
+            direction={displayOptions?.tabsDirection}
+        />
+    ) : (
+        filteredSections.map((s) => (
+            <SectionFormSection
+                section={s}
+                dataSetId={dataSet.id}
+                key={s.id}
+                globalFilterText={globalFilterText}
+                collapsible
+            />
+        ))
     )
 }
 
