@@ -66,7 +66,7 @@ msgid "{{numberOfErrors}} values failed to save"
 msgstr "Hodnoty {{numberOfErrors}} se nepodařilo uložit"
 
 msgid "Closes {{-relativeTime}}"
-msgstr ""
+msgstr "Uzavírá {{-relativeTime}}"
 
 msgid "Validation is not available offline"
 msgstr "Ověření není dostupné offline"
@@ -78,10 +78,10 @@ msgid "Run validation"
 msgstr "Spustit ověření"
 
 msgid "Last completed by {{-username}}"
-msgstr ""
+msgstr "Naposledy dokončil {{-username}}"
 
 msgid "Last incompleted by {{-username}}"
-msgstr ""
+msgstr "Naposledy nedokončil {{-username}}"
 
 msgid "Couldn't validate the form, please try again later"
 msgstr "Formulář se nepodařilo ověřit, zkuste to prosím znovu později"
@@ -220,7 +220,7 @@ msgid "Invalid value, not saved"
 msgstr "Neplatná hodnota, neuloženo"
 
 msgid "Warning, saved"
-msgstr ""
+msgstr "Varování, uloženo"
 
 msgid "Locked, not editable"
 msgstr "Uzamčeno, nelze upravovat"
@@ -307,7 +307,7 @@ msgid "Error occurred while loading organisation unit info"
 msgstr "Při načítání informací o organizační jednotce došlo k chybě"
 
 msgid "No periods available in this year"
-msgstr ""
+msgstr "V tomto roce nejsou k dispozici žádná období"
 
 msgid "The Period ({{id}}) is not open or is invalid."
 msgstr "Období ({{id}}) není otevřené nebo je neplatné."
@@ -358,7 +358,7 @@ msgid "User"
 msgstr "Uživatel"
 
 msgid "Change"
-msgstr ""
+msgstr "Změna"
 
 msgid "audit dates are given in {{- timeZone}} time"
 msgstr ""
@@ -494,6 +494,8 @@ msgid ""
 "Data cannot be added or changed because organisation unit is closed for the "
 "selected period."
 msgstr ""
+"Data nelze přidávat ani měnit, protože organizační jednotka je pro vybrané "
+"období uzavřena."
 
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr "Data nelze přidat ani změnit, protože zadávání dat bylo ukončeno."
@@ -545,10 +547,10 @@ msgid "Clear"
 msgstr "Vyčistit"
 
 msgid "Pick a date"
-msgstr ""
+msgstr "Výběr data"
 
 msgid "Pick a time"
-msgstr ""
+msgstr "Výběr času"
 
 msgid "Delete"
 msgstr "Vymazat"
@@ -560,7 +562,7 @@ msgid "Upload a file"
 msgstr "Nahrát soubor"
 
 msgid "Choose option(s)"
-msgstr ""
+msgstr "Vyberte možnost(i)"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
@@ -618,7 +620,7 @@ msgstr ""
 "{{errorMessage}}"
 
 msgid "Invalid date ({{date}})"
-msgstr ""
+msgstr "Neplatné datum ({{date}})"
 
 msgid "{{title}} (disabled)"
 msgstr "{{title}} (zakázáno)"
@@ -627,4 +629,4 @@ msgid "Close details sidebar"
 msgstr "Zavřít postranní panel podrobností"
 
 msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
-msgstr ""
+msgstr "Celá čísla musí být v rozsahu -2147483648 až 2147483647."
