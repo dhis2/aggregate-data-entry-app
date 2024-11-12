@@ -28,8 +28,7 @@ export default function SectionFilterSelectorBarItem() {
 
     useEffect(() => {
         const sections = dataSet?.sections
-        // select first section if renderAsTabs === true
-        if (dataSet?.renderAsTabs && !sectionFilter && sections?.length) {
+        if (sectionFilter === undefined && sections?.length) {
             setSectionFilter(sections[0].id)
         }
         // clear out section if it is invalid
@@ -55,9 +54,7 @@ export default function SectionFilterSelectorBarItem() {
 
     const selectableOptions = dataSet?.renderAsTabs
         ? sectionOptions
-        : [{ value: undefined, label: i18n.t('All sections') }].concat(
-              ...sectionOptions
-          )
+        : [...sectionOptions, { value: null, label: i18n.t('All sections') }]
 
     return (
         <div data-test="section-filter-selector">
