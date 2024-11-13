@@ -1,3 +1,10 @@
+# [100.11.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.10.1...v100.11.0) (2024-11-13)
+
+
+### Features
+
+* when we have multiple sections, default to first section to avoid performance problems ([ce98863](https://github.com/dhis2/aggregate-data-entry-app/commit/ce98863bbe15657d1dfbf485e91baf608bf11b7f))
+
 ## [100.10.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.10.0...v100.10.1) (2024-11-10)
 
 
