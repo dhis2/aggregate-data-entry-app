@@ -124,7 +124,7 @@ Then('that section should be selected', () => {
 
 Then('the "all sections" option should be selected', () => {
     cy.get('[data-test="section-filter-selector"]')
-        .contains('All sections')
+        .contains('Equipment')
         .should('exist')
 })
 
