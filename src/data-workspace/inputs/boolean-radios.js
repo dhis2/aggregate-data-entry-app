@@ -1,103 +1,72 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, Radio } from '@dhis2/ui'
 import cx from 'classnames'
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect, useState } from 'react'
 import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
-import { convertCallbackSignatures, InputPropTypes } from './utils.js'
+import { InputPropTypes, convertBooleanValue } from './utils.js'
 
-// ? Will this fail to reflect a value on the server if it's not exactly `true` or `false`?
-// todo: may need to handle that when mapping server values to form initial values, e.g.
-// Currently it's working okay
-// boolean: accepts 1, 0, 'true', 'false'
-// Ex: if (dv.valueType === boolean) { formValue = dv.value ... etc }
-// does `isEqual` prop help make 1/true and 0/false/'' equal?
 export const BooleanRadios = ({
-    fieldname,
-    form,
     deId,
     cocId,
     disabled,
     locked,
     onKeyDown,
     onFocus,
+    onBlur,
+    setValueSynced,
+    initialValue,
 }) => {
-    const useFieldWithPatchedOnFocus = (...args) => {
-        const { input, ...rest } = useField(...args)
-        return {
-            ...rest,
-            input: {
-                ...input,
-                onFocus: (...args) => {
-                    input.onFocus(...args)
-                    onFocus?.(...args)
-                },
-            },
+    const [value, setValue] = useState(() => convertBooleanValue(initialValue))
+    const [lastSyncedValue, setLastSyncedValue] = useState(() =>
+        convertBooleanValue(initialValue)
+    )
+    const [syncTouched, setSyncTouched] = useState(false)
+
+    useEffect(() => {
+        if (syncTouched) {
+            setValueSynced(value === lastSyncedValue)
         }
-    }
-    const yesField = useFieldWithPatchedOnFocus(fieldname, {
-        type: 'radio',
-        value: 'true',
-        subscription: { value: true },
-    })
-
-    const noField = useFieldWithPatchedOnFocus(fieldname, {
-        type: 'radio',
-        value: 'false',
-        subscription: { value: true },
-    })
-
-    // Used for the 'clear' button, but works
-    const clearField = useFieldWithPatchedOnFocus(fieldname, {
-        type: 'radio',
-        value: '',
-        subscription: { value: true },
-    })
-
-    const {
-        input: { value: fieldvalue },
-        meta: { valid, data },
-    } = useField(fieldname, {
-        subscription: { value: true, valid: true, data: true },
-    })
+    }, [value, lastSyncedValue, syncTouched])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
-    const syncData = (value) => {
+
+    const syncData = (newValue) => {
+        setSyncTouched(true)
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { value: value || '' },
+            { value: newValue || '' },
             {
                 onSuccess: () => {
-                    form.mutators.setFieldData(fieldname, {
-                        lastSyncedValue: value,
-                    })
+                    setLastSyncedValue(newValue)
                 },
             }
         )
     }
 
-    const clearButtonProps = convertCallbackSignatures(clearField.input)
-    delete clearButtonProps.type
-
-    const handleChange = (value) => {
+    const handleChange = (newValue) => {
+        setValue(newValue)
         // If this value has changed, sync it to server if valid
-        if (valid && value !== data.lastSyncedValue) {
-            syncData(value)
+        // we skip validation as the values are limited to 'false', 'true', ''
+        if (newValue !== lastSyncedValue) {
+            syncData(newValue)
         }
     }
 
     return (
-        <div className={styles.radioFlexWrapper} onClick={onFocus}>
+        <div
+            className={styles.radioFlexWrapper}
+            onClick={onFocus}
+            onBlur={onBlur}
+        >
             <Radio
                 dense
                 label={i18n.t('Yes')}
                 value={'true'}
-                {...convertCallbackSignatures(yesField.input)}
-                onChange={(_, e) => {
+                checked={value === 'true'}
+                onChange={() => {
                     handleChange('true')
-                    yesField.input.onChange(e)
                 }}
                 onKeyDown={onKeyDown}
                 disabled={disabled || locked}
@@ -106,10 +75,9 @@ export const BooleanRadios = ({
                 dense
                 label={i18n.t('No')}
                 value={'false'}
-                {...convertCallbackSignatures(noField.input)}
-                onChange={(_, e) => {
+                checked={value === 'false'}
+                onChange={() => {
                     handleChange('false')
-                    noField.input.onChange(e)
                 }}
                 onKeyDown={onKeyDown}
                 disabled={disabled || locked}
@@ -119,15 +87,11 @@ export const BooleanRadios = ({
                 secondary
                 className={cx(styles.whiteButton, {
                     // If no value to clear, hide but still reserve space
-                    [styles.hidden]: !fieldvalue,
+                    [styles.hidden]: value === '',
                 })}
-                // Callback signatures are transformed above
-                {...clearButtonProps}
-                // On click, set field value to '', sync, and blur
                 onClick={() => {
-                    clearField.input.onChange('')
-                    syncData('')
-                    clearField.input.onBlur()
+                    handleChange('')
+                    onFocus()
                 }}
                 onKeyDown={onKeyDown}
                 disabled={disabled || locked}

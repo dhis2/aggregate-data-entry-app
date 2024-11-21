@@ -7,6 +7,7 @@ import {
     dataDetailsSidebarId,
     useHighlightedFieldStore,
     useComponentWillUnmount,
+    useValueStore,
 } from '../../shared/index.js'
 import { focusNext, focusPrev } from '../focus-utils/index.js'
 import {
@@ -69,6 +70,7 @@ InputComponent.propTypes = {
         valueType: PropTypes.string,
     }).isRequired,
     sharedProps: PropTypes.object.isRequired,
+    initialValue: PropTypes.string,
 }
 
 export function EntryFieldInput({
@@ -78,7 +80,16 @@ export function EntryFieldInput({
     disabled,
     locked,
     highlighted,
+    setValueSynced,
+    setActive,
 }) {
+    const initialValue = useValueStore((state) =>
+        state.getInitialDataValue({
+            dataElementId: de.id,
+            categoryOptionComboId: coc.id,
+        })
+    )
+
     const setHighlightedFieldId = useHighlightedFieldStore(
         (state) => state.setHighlightedField
     )
@@ -119,7 +130,12 @@ export function EntryFieldInput({
             dataElementId: de.id,
             categoryOptionComboId: coc.id,
         })
-    }, [de.id, coc.id, setHighlightedFieldId])
+        setActive(true)
+    }, [de.id, coc.id, setHighlightedFieldId, setActive])
+
+    const onBlur = useCallback(() => {
+        setActive(false)
+    }, [setActive])
 
     const sharedProps = useMemo(
         () => ({
@@ -130,9 +146,24 @@ export function EntryFieldInput({
             disabled,
             locked,
             onFocus,
+            onBlur,
             onKeyDown,
+            setValueSynced,
+            initialValue,
         }),
-        [fieldname, form, de, coc, disabled, locked, onFocus, onKeyDown]
+        [
+            fieldname,
+            form,
+            de,
+            coc,
+            disabled,
+            locked,
+            onFocus,
+            onBlur,
+            onKeyDown,
+            setValueSynced,
+            initialValue,
+        ]
     )
 
     return <InputComponent sharedProps={sharedProps} de={de} />
@@ -154,4 +185,6 @@ EntryFieldInput.propTypes = {
     fieldname: PropTypes.string,
     highlighted: PropTypes.bool,
     locked: PropTypes.bool,
+    setActive: PropTypes.func,
+    setValueSynced: PropTypes.func,
 }

@@ -8,8 +8,7 @@ import {
 } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect, useState } from 'react'
 import {
     useMetadata,
     selectors,
@@ -18,7 +17,21 @@ import {
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
-const MULTI_TEXT_SEPERATOR = ','
+const MULTI_TEXT_SEPARATOR = ','
+
+const parse = ({ value, multi, sortByOptionsOrder }) => {
+    if (multi) {
+        return value?.sort(sortByOptionsOrder)?.join(MULTI_TEXT_SEPARATOR) ?? ''
+    }
+    return value ?? ''
+}
+
+const format = ({ value, multi }) => {
+    if (multi) {
+        return (value && value.split(MULTI_TEXT_SEPARATOR)) || []
+    }
+    return value ?? ''
+}
 
 // This is used to preserve the order of the optionSet for the selected options
 const createSortByOptionsOrder = (options) => (a, b) => {
@@ -39,16 +52,17 @@ const createSortByOptionsOrder = (options) => (a, b) => {
 }
 
 export const OptionSet = ({
-    fieldname,
-    form,
     optionSetId,
     deId,
     cocId,
     onKeyDown,
     onFocus,
+    onBlur,
     disabled,
     locked,
     multi,
+    initialValue,
+    setValueSynced,
 }) => {
     const { data: metadata } = useMetadata()
     const optionSet = selectors.getOptionSetById(metadata, optionSetId)
@@ -56,43 +70,25 @@ export const OptionSet = ({
     const options = optionSet.options.filter((opt) => !!opt)
     const sortByOptionsOrder = createSortByOptionsOrder(options)
 
-    const parse = (value) =>
-        multi
-            ? (value &&
-                  value.sort(sortByOptionsOrder).join(MULTI_TEXT_SEPERATOR)) ??
-              ''
-            : value ?? '' // empty value needs an empty string
+    const [value, setValue] = useState(initialValue)
+    const [lastSyncedValue, setLastSyncedValue] = useState(initialValue)
+    const [syncTouched, setSyncTouched] = useState(false)
 
-    const {
-        input,
-        meta: { data },
-    } = useField(fieldname, {
-        subscription: { value: true, data: true },
-        // format applies to the input.value
-        format:
-            // format to an array when multi, since component expects an array
-            multi
-                ? (value) => {
-                      const formatted =
-                          (value && value.split(MULTI_TEXT_SEPERATOR)) || []
-                      return formatted
-                  }
-                : undefined,
-        // parse happens after onChange, and applies to the value saved in the internal form state
-        // parse from array to a string, since the api expects a string
-        parse,
-    })
+    useEffect(() => {
+        if (syncTouched) {
+            setValueSynced(value === lastSyncedValue)
+        }
+    }, [value, lastSyncedValue, syncTouched])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
-    const syncData = (value) => {
+    const syncData = (newValue) => {
+        setSyncTouched(true)
         // todo: Here's where an error state could be set: ('onError')
         mutate(
-            { value },
+            { value: newValue },
             {
                 onSuccess: () => {
-                    form.mutators.setFieldData(fieldname, {
-                        lastSyncedValue: value,
-                    })
+                    setLastSyncedValue(newValue)
                 },
             }
         )
@@ -100,11 +96,9 @@ export const OptionSet = ({
 
     const handleChange = (value) => {
         // For a select using onChange, don't need to check valid or dirty, respectively
-        if (value !== data.lastSyncedValue) {
-            // need to parse here as well, since it's not parsed before onChange is called
-            // normally you would use the formState, where parse is called by finalForm,
-            // but since we are syncing after every change/blur we need to do this "twice".
-            const parsedValue = parse(value)
+        const parsedValue = parse({ value, multi, sortByOptionsOrder })
+        setValue(parsedValue)
+        if (parsedValue !== lastSyncedValue) {
             syncData(parsedValue)
         }
     }
@@ -117,28 +111,28 @@ export const OptionSet = ({
 
     // todo: onBlur handler doesn't work, meaning the cell stays active.
     return (
-        <div className={styles.selectFlexWrapper} onClick={onFocus}>
+        <div
+            className={styles.selectFlexWrapper}
+            onClick={onFocus}
+            onBlur={onBlur}
+        >
             <div className={styles.selectFlexItem}>
                 <SelectComponent
                     dense
                     className={cx(styles.select, {
                         [styles.selectMulti]: multi,
                     })}
-                    name={input.name}
                     placeholder={placeholder}
-                    selected={input.value || ''}
+                    //
+                    selected={format({ value, multi })}
                     onChange={({ selected }) => {
-                        input.onChange(selected)
                         handleChange(selected)
                     }}
                     onFocus={(...args) => {
-                        // onBlur here helps buggy onFocus work correctly
-                        input.onBlur()
-                        input.onFocus()
                         onFocus?.(...args)
                     }}
                     onKeyDown={onKeyDown}
-                    onBlur={() => input.onBlur()}
+                    onBlur={onBlur}
                     disabled={disabled || locked}
                 >
                     {options.map(({ id, code, displayName }) => (
@@ -150,16 +144,14 @@ export const OptionSet = ({
                     ))}
                 </SelectComponent>
             </div>
-            {input.value && (
+            {value && (
                 <Button
-                    {...input}
                     small
                     secondary
                     className={cx(styles.whiteButton, styles.hideForPrint)}
                     onClick={() => {
-                        input.onChange('')
                         handleChange('')
-                        input.onBlur()
+                        onBlur()
                     }}
                     disabled={disabled || locked}
                 >

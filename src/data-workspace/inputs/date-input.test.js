@@ -54,6 +54,8 @@ describe('date input field', () => {
         locked: false,
         onFocus: jest.fn(),
         onKeyDown: jest.fn(),
+        onBlur: jest.fn(),
+        setValueSynced: jest.fn(),
     }
 
     const mutate = jest.fn()

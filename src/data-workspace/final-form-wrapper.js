@@ -1,7 +1,8 @@
 import setFieldData from 'final-form-set-field-data'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form } from 'react-final-form'
+import { useValueStore } from '../shared/index.js'
 
 function mapObject(input, callback) {
     return Object.fromEntries(Object.entries(input).map(callback))
@@ -31,6 +32,17 @@ export function FinalFormWrapper({ children, dataValueSet }) {
     // TODO: Reinitialize form `onSuccess` of dataValueSets query
     // See https://dhis2.atlassian.net/browse/TECH-1357
     const [initialValues] = useState(() => createInitialValues(dataValueSet))
+
+    const setInitialDataValues = useValueStore(
+        (state) => state.setInitialDataValues
+    )
+
+    useEffect(() => {
+        if (setInitialDataValues && initialValues) {
+            setInitialDataValues(initialValues)
+        }
+    }, [initialValues, setInitialDataValues])
+
     return (
         <Form
             onSubmit={onSubmit}

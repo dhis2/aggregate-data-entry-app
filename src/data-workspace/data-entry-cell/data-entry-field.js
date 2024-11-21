@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import {
     useLockedContext,
     useHighlightedFieldStore,
@@ -25,6 +25,9 @@ export const DataEntryField = React.memo(function DataEntryField({
 
     const { locked } = useLockedContext()
 
+    const [active, setActive] = useState(false)
+    const [valueSynced, setValueSynced] = useState(false)
+
     return (
         <InnerWrapper
             fieldname={fieldname}
@@ -33,6 +36,9 @@ export const DataEntryField = React.memo(function DataEntryField({
             disabled={disabled}
             locked={locked}
             highlighted={highlighted}
+            valueSynced={valueSynced}
+            dirty={true}
+            active={active}
         >
             <EntryFieldInput
                 fieldname={fieldname}
@@ -41,6 +47,8 @@ export const DataEntryField = React.memo(function DataEntryField({
                 disabled={disabled}
                 locked={locked}
                 highlighted={highlighted}
+                setActive={setActive}
+                setValueSynced={setValueSynced}
             />
         </InnerWrapper>
     )
