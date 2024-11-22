@@ -4,24 +4,19 @@ import create from 'zustand'
 const inititalState = {
     errors: {},
     warnings: {},
-    individualErrors: {},
 }
 
 export const useEntryFormStore = create((set, get) => {
     return {
         ...inititalState,
-        setErrors: (errors) => set({ errors: errors ?? {} }),
         getErrors: () => get().errors,
+        getNumberOfErrors: () => countLeaves(get().getErrors()),
         getError: (fieldname) => getIn(get().getErrors(), fieldname),
-        getNumberOfErrors: () => countLeaves(get().getIndividualErrors()),
-        getIndividualErrors: () => get().individualErrors,
-        getIndividualError: (fieldname) =>
-            getIn(get().getIndividualErrors(), fieldname),
-        setIndividualError: (fieldname, error) => {
-            const errors = get().getIndividualErrors()
+        setError: (fieldname, error) => {
+            const errors = get().getErrors()
             // setIn from final-form is used to create the same structure as errors
             const newErrors = setIn(errors, fieldname, error) ?? {}
-            set({ individualErrors: newErrors })
+            set({ errors: newErrors })
         },
         getWarnings: () => get().warnings,
         getWarning: (fieldname) => getIn(get().getWarnings(), fieldname),

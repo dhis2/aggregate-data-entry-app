@@ -79,9 +79,7 @@ export function InnerWrapper({
         (state) => state.clearErrorByDataValueParams
     )
     const warning = useEntryFormStore((state) => state.getWarning(fieldname))
-    const error = useEntryFormStore((state) =>
-        state.getIndividualError(fieldname)
-    )
+    const error = useEntryFormStore((state) => state.getError(fieldname))
 
     const fieldErrorMessage = error ?? warning
 

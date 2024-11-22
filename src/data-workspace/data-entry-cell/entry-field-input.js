@@ -153,7 +153,6 @@ export function EntryFieldInput({
         }),
         [
             fieldname,
-            form,
             de,
             coc,
             disabled,

@@ -61,9 +61,7 @@ export const GenericInput = ({
     const limits = useMinMaxLimits(deId, cocId)
 
     const setWarning = useEntryFormStore((state) => state.setWarning)
-    const setIndividualError = useEntryFormStore(
-        (state) => state.setIndividualError
-    )
+    const setError = useEntryFormStore((state) => state.setError)
 
     const validatorForValueType = validateByValueType(valueType, limits)
     const warningValidator = warningValidateByValueType(valueType, limits)
@@ -94,7 +92,7 @@ export const GenericInput = ({
         const formattedValue = formatValue({ value, valueType })
 
         const invalid = validatorForValueType(value)
-        setIndividualError(fieldname, invalid)
+        setError(fieldname, invalid)
 
         const warningValidationResult = warningValidator(value)
         setWarning(fieldname, warningValidationResult)
