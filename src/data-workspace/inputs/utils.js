@@ -20,18 +20,14 @@ export const convertBooleanValue = (val) => {
 }
 
 export const InputPropTypes = {
-    form: PropTypes.shape({
-        mutators: PropTypes.shape({
-            setFieldData: PropTypes.func,
-        }),
-    }),
-    onKeyDown: PropTypes.func.isRequired,
-    cocId: PropTypes.string,
-    deId: PropTypes.string,
+    coc: PropTypes.string,
+    de: PropTypes.string,
     disabled: PropTypes.bool,
     initialValue: PropTypes.string,
-    lastSyncedValue: PropTypes.any,
+    fieldname: PropTypes.string,
     locked: PropTypes.bool,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
+    onKeyDown: PropTypes.func.isRequired,
+    setValueSynced: PropTypes.func,
 }
