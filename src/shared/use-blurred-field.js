@@ -1,13 +1,12 @@
-import { useMemo, useRef } from 'react'
-import { useFormState } from 'react-final-form'
+import { useRef } from 'react'
+import { useHighlightedField } from './highlighted-field/index.js'
 
 export const useBlurredField = () => {
     const previouslyActiveFieldRef = useRef(undefined)
-    const { active } = useFormState({ subscription: { active: true } })
+    const { dataElement, categoryOptionCombo } = useHighlightedField() || {}
+    const fieldId = `${dataElement}.${categoryOptionCombo}`
 
-    return useMemo(() => {
-        const blurredField = previouslyActiveFieldRef.current
-        previouslyActiveFieldRef.current = active
-        return blurredField
-    }, [active])
+    const blurredField = previouslyActiveFieldRef.current
+    previouslyActiveFieldRef.current = fieldId
+    return blurredField
 }
