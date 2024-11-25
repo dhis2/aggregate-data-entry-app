@@ -29,7 +29,7 @@ export default function SectionFilterSelectorBarItem() {
     useEffect(() => {
         const sections = dataSet?.sections
         if (sectionFilter === undefined && sections?.length) {
-            // setSectionFilter(sections[0].id)
+            setSectionFilter(sections[0].id)
         }
         // clear out section if it is invalid
         if (
