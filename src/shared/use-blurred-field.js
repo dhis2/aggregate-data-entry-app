@@ -1,10 +1,12 @@
 import { useRef } from 'react'
-import { useHighlightedField } from './highlighted-field/index.js'
+import { useHighlightedFieldStore } from './stores/highlighted-field-store.js'
 
 export const useBlurredField = () => {
     const previouslyActiveFieldRef = useRef(undefined)
-    const { dataElement, categoryOptionCombo } = useHighlightedField() || {}
-    const fieldId = `${dataElement}.${categoryOptionCombo}`
+
+    const { dataElementId, categoryOptionComboId } =
+        useHighlightedFieldStore((state) => state.getHighlightedField()) || {}
+    const fieldId = `${dataElementId}.${categoryOptionComboId}`
 
     const blurredField = previouslyActiveFieldRef.current
     previouslyActiveFieldRef.current = fieldId

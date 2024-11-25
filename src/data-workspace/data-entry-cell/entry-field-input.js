@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
-import { useForm } from 'react-final-form'
 import { useSetRightHandPanel } from '../../right-hand-panel/index.js'
 import {
     VALUE_TYPES,
@@ -103,7 +102,6 @@ export function EntryFieldInput({
     // used so we don't consume the "id" which
     // would cause this component to rerender
     const setRightHandPanel = useSetRightHandPanel()
-    const form = useForm()
     // todo: maybe move to InnerWrapper?
     // See https://dhis2.atlassian.net/browse/TECH-1296
     const onKeyDown = useCallback(
@@ -140,7 +138,6 @@ export function EntryFieldInput({
     const sharedProps = useMemo(
         () => ({
             fieldname,
-            form,
             deId: de.id,
             cocId: coc.id,
             disabled,

@@ -1,7 +1,5 @@
-import setFieldData from 'final-form-set-field-data'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import { Form } from 'react-final-form'
 import { useValueStore } from '../shared/index.js'
 
 function mapObject(input, callback) {
@@ -22,11 +20,7 @@ function createInitialValues(dataValueSet) {
     ])
 }
 
-const onSubmit = (values, form) => console.log({ values, form })
-
-const subscriptions = {}
-
-export function FinalFormWrapper({ children, dataValueSet }) {
+export function FormWrapper({ children, dataValueSet }) {
     // This prevents rerendering on every data value update, but also prevents
     // reinitializing (and populating) an empty form when going back online.
     // TODO: Reinitialize form `onSuccess` of dataValueSets query
@@ -43,19 +37,9 @@ export function FinalFormWrapper({ children, dataValueSet }) {
         }
     }, [initialValues, setInitialDataValues])
 
-    return (
-        <Form
-            onSubmit={onSubmit}
-            initialValues={initialValues}
-            subscriptions={subscriptions}
-            keepDirtyOnReinitialize
-            mutators={{ setFieldData }}
-        >
-            {() => children}
-        </Form>
-    )
+    return <>{children}</>
 }
-FinalFormWrapper.propTypes = {
+FormWrapper.propTypes = {
     children: PropTypes.node,
     dataValueSet: PropTypes.object,
 }
