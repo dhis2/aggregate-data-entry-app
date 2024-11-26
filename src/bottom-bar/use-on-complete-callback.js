@@ -12,6 +12,7 @@ import {
     useSetFormCompletionMutation,
     useSetFormCompletionMutationKey,
     validationResultsSidebarId,
+    useHasCompulsoryDataElementOperandsToFillOut,
 } from '../shared/index.js'
 
 const validationFailedMessage = i18n.t(
@@ -135,10 +136,20 @@ export default function useOnCompleteCallback() {
         useOnCompleteWhenValidNotRequiredClick()
     const onCompleteWithoutValidationClick =
         useOnCompleteWithoutValidationClick()
+    const hasCompulsoryDataElementOperandsToFillOut =
+        useHasCompulsoryDataElementOperandsToFillOut()
 
     return () => {
         let promise
-
+        // showErrorAlert('Complete compulsory data element operands')
+        // return Promise.resolve()
+        if (hasCompulsoryDataElementOperandsToFillOut) {
+            cancelCompletionMutation()
+            showErrorAlert(
+                'Compulsory fields must be filled out before completing form'
+            )
+            return Promise.resolve()
+        }
         if (isLoading && offline) {
             cancelCompletionMutation()
             // No need to complete when the completion request

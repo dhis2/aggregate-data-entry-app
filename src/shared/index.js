@@ -23,3 +23,7 @@ export * from './default-on-success.js'
 export * from './use-will-component-unmount.js'
 export * from './api-errors/index.js'
 export * from './use-org-unit/use-organisation-unit.js'
+export {
+    useIsCompulsoryDataElementOperand,
+    useHasCompulsoryDataElementOperandsToFillOut,
+} from './use-is-compulsory-data-element-operand.js'
