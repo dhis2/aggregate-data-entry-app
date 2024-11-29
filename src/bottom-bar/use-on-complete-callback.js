@@ -13,6 +13,7 @@ import {
     useSetFormCompletionMutationKey,
     validationResultsSidebarId,
     useHasCompulsoryDataElementOperandsToFillOut,
+    useEntryFormStore,
 } from '../shared/index.js'
 
 const validationFailedMessage = i18n.t(
@@ -122,7 +123,9 @@ export default function useOnCompleteCallback() {
     const { offline } = useConnectionStatus()
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
-    const dataSet = selectors.getDataSetById(metadata, dataSetId)
+    const dataSet = dataSetId
+        ? selectors.getDataSetById(metadata, dataSetId)
+        : {}
     const { validCompleteOnly } = dataSet
     const { show: showErrorAlert } = useAlert((message) => message, {
         critical: true,
@@ -138,19 +141,24 @@ export default function useOnCompleteCallback() {
         useOnCompleteWithoutValidationClick()
     const hasCompulsoryDataElementOperandsToFillOut =
         useHasCompulsoryDataElementOperandsToFillOut()
+    const setCompleteAttempted = useEntryFormStore(
+        (state) => state.setCompleteAttempted
+    )
 
     return () => {
         let promise
-        // showErrorAlert('Complete compulsory data element operands')
-        // return Promise.resolve()
+
         if (hasCompulsoryDataElementOperandsToFillOut) {
+            setCompleteAttempted(true)
             cancelCompletionMutation()
-            showErrorAlert(
-                'Compulsory fields must be filled out before completing form'
+            promise = Promise.reject(
+                new Error(
+                    i18n.t(
+                        'Compulsory fields must be filled out before completing the form'
+                    )
+                )
             )
-            return Promise.resolve()
-        }
-        if (isLoading && offline) {
+        } else if (isLoading && offline) {
             cancelCompletionMutation()
             // No need to complete when the completion request
             // hasn't been sent yet due to being offline.

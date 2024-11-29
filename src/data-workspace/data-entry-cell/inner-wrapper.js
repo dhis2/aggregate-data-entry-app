@@ -73,6 +73,9 @@ export function InnerWrapper({
         dataElementId: deId,
         categoryOptionComboId: cocId,
     })
+    const completeAttempted = useEntryFormStore((state) =>
+        state.getCompleteAttempted()
+    )
 
     const {
         input: { value },
@@ -104,6 +107,7 @@ export function InnerWrapper({
         (state) => state.clearErrorByDataValueParams
     )
     const warning = useEntryFormStore((state) => state.getWarning(fieldname))
+
     const fieldErrorMessage = error ?? warning
 
     const errorMessage =
@@ -117,16 +121,18 @@ export function InnerWrapper({
         )
 
     const valueSynced = data.lastSyncedValue === value
-    const showSynced = dirty && valueSynced
+    const showSynced = dirty && valueSynced && (!isRequired || !!value)
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
-    const cellStateClassName = invalid
-        ? styles.invalid
-        : warning
-        ? styles.warning
-        : activeMutations === 0 && showSynced
-        ? styles.synced
-        : null
+
+    const cellStateClassName =
+        invalid || (isRequired && !value && completeAttempted)
+            ? styles.invalid
+            : warning
+            ? styles.warning
+            : activeMutations === 0 && showSynced
+            ? styles.synced
+            : null
 
     // initalize lastSyncedValue
     useEffect(

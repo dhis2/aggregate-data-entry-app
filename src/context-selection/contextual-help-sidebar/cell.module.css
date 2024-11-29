@@ -10,6 +10,7 @@
 .input {
     composes: densePadding from '../../data-workspace/inputs/inputs.module.css';
     composes: alignToEnd from '../../data-workspace/inputs/inputs.module.css';
+    padding-inline-end: 16px;
     outline: 1px solid var(--colors-grey400);
 }
 
@@ -44,4 +45,8 @@
 
 .bottomRightTriangle {
     composes: bottomRightTriangle from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
+}
+
+.topRightAsterisk {
+    composes: topRightAsterisk from '../../data-workspace/data-entry-cell/data-entry-cell.module.css';
 }

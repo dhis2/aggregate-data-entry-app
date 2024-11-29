@@ -124,7 +124,7 @@ export const getCategoryOptionsByCategoryOptionComboId = createCachedSelector(
 export const getCompulsoryDataElementOperandsSet = createCachedSelector(
     getDataSetById,
     (dataSet) => {
-        if (!dataSet) {
+        if (!dataSet || !dataSet.compulsoryDataElementOperands) {
             return new Set()
         }
         return new Set(

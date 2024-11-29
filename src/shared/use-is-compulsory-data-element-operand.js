@@ -9,6 +9,9 @@ export const useIsCompulsoryDataElementOperand = ({
 }) => {
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
+    if (!dataSetId) {
+        return false
+    }
     const compulsoryDataElementOperandsSet =
         selectors.getCompulsoryDataElementOperandsSet(metadata, dataSetId)
     return compulsoryDataElementOperandsSet.has(
@@ -22,7 +25,10 @@ export const useHasCompulsoryDataElementOperandsToFillOut = () => {
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
     const hasCompulsoryDataElementOperandsToFillOut = useMemo(() => {
-        const dataSet = selectors.getDataSetById(dataSetId)
+        if (!dataSetId) {
+            return false
+        }
+        const dataSet = selectors.getDataSetById(metadata, dataSetId)
 
         const { compulsoryFieldsCompleteOnly } = dataSet || {}
 

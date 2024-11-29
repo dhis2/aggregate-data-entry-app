@@ -25,6 +25,9 @@ const Cell = ({ value, state }) => (
                 {state === 'SYNCED' && (
                     <div className={styles.topRightTriangle} />
                 )}
+                {state === 'COMPULSORY' && (
+                    <div className={styles.topRightAsterisk}>*</div>
+                )}
             </div>
             <div className={styles.bottomRightIndicator}>
                 {state === 'HAS_COMMENT' && (
