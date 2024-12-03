@@ -29,7 +29,7 @@ export const replaceInputNode = (domNode, metadata) => {
     // TODO: This was already there when I started on this branch
     // Need to check with Kai what his intentions were with it.
     // const cellProps = getCellPropsByInputType(inputType)
-    // console.log(domNode)
+
     if (inputType !== INPUT_TYPES.ENTRYFIELD) {
         return undefined
     }

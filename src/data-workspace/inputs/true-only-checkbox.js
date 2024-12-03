@@ -1,5 +1,5 @@
 import { Checkbox } from '@dhis2/ui'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { convertBooleanValue, InputPropTypes } from './utils.js'
@@ -19,9 +19,17 @@ export const TrueOnlyCheckbox = ({
     const [lastSyncedValue, setLastSyncedValue] = useState(() =>
         convertBooleanValue(initialValue)
     )
+    const [syncTouched, setSyncTouched] = useState(false)
+
+    useEffect(() => {
+        if (syncTouched) {
+            setValueSynced(value === lastSyncedValue)
+        }
+    }, [value, lastSyncedValue, syncTouched])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (newValue) => {
+        setSyncTouched(true)
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
@@ -29,7 +37,6 @@ export const TrueOnlyCheckbox = ({
             {
                 onSuccess: () => {
                     setLastSyncedValue(newValue)
-                    setValueSynced(newValue === value)
                 },
             }
         )

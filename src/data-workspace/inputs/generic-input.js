@@ -57,6 +57,13 @@ export const GenericInput = ({
 }) => {
     const [value, setValue] = useState(initialValue)
     const [lastSyncedValue, setLastSyncedValue] = useState(initialValue)
+    const [syncTouched, setSyncTouched] = useState(false)
+
+    useEffect(() => {
+        if (syncTouched) {
+            setValueSynced(value === lastSyncedValue)
+        }
+    }, [value, lastSyncedValue, syncTouched])
 
     const limits = useMinMaxLimits(deId, cocId)
 
@@ -75,6 +82,7 @@ export const GenericInput = ({
     const { mutate } = useSetDataValueMutation({ deId, cocId })
 
     const syncData = (newValue) => {
+        setSyncTouched(true)
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
@@ -82,7 +90,6 @@ export const GenericInput = ({
             {
                 onSuccess: () => {
                     setLastSyncedValue(newValue)
-                    setValueSynced(value === newValue)
                 },
             }
         )
