@@ -1,3 +1,10 @@
+## [100.11.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.1...v100.11.2) (2024-12-03)
+
+
+### Bug Fixes
+
+* **translations:** sync translations from transifex (master) ([43ffa85](https://github.com/dhis2/aggregate-data-entry-app/commit/43ffa85be3e541fa25054c5b23eefb5a7e1343c7))
+
 ## [100.11.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.0...v100.11.1) (2024-11-24)
 
 
