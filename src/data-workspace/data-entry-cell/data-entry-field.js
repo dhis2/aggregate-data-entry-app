@@ -37,7 +37,6 @@ export const DataEntryField = React.memo(function DataEntryField({
             locked={locked}
             highlighted={highlighted}
             valueSynced={valueSynced}
-            dirty={true}
             active={active}
         >
             <EntryFieldInput
