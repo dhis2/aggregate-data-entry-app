@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useValueStore } from '../shared/index.js'
 
 function mapObject(input, callback) {
@@ -20,7 +20,7 @@ function createInitialValues(dataValueSet) {
     ])
 }
 
-export function FormWrapper({ children, dataValueSet }) {
+export function FormWrapper({ children, dataValueSet, validFormKey }) {
     // This prevents rerendering on every data value update, but also prevents
     // reinitializing (and populating) an empty form when going back online.
     // TODO: Reinitialize form `onSuccess` of dataValueSets query
@@ -31,15 +31,23 @@ export function FormWrapper({ children, dataValueSet }) {
         (state) => state.setInitialDataValues
     )
 
-    useEffect(() => {
-        if (setInitialDataValues && initialValues) {
-            setInitialDataValues(initialValues)
-        }
-    }, [initialValues, setInitialDataValues])
+    const initialValuesInStore =
+        useValueStore((state) => state.getInitialDataValues())?.formKey ===
+        validFormKey
 
+    useLayoutEffect(() => {
+        if (setInitialDataValues && initialValues && validFormKey) {
+            setInitialDataValues(initialValues, validFormKey)
+        }
+    }, [initialValues, setInitialDataValues, validFormKey])
+
+    if (!initialValuesInStore) {
+        return null
+    }
     return <>{children}</>
 }
 FormWrapper.propTypes = {
     children: PropTypes.node,
     dataValueSet: PropTypes.object,
+    validFormKey: PropTypes.string,
 }

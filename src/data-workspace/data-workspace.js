@@ -108,7 +108,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (
-        <FormWrapper key={formKey} dataValueSet={dataValueSet}>
+        <FormWrapper
+            key={formKey}
+            dataValueSet={dataValueSet}
+            validFormKey={validFormKey}
+        >
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>

@@ -24,11 +24,13 @@ export const useValueStore = create((set, get) => ({
             dataValueSet: values ?? initialState.dataValueSet,
         }),
     getInitialDataValue: ({ dataElementId, categoryOptionComboId }) => {
-        return get().initialDataValues?.[dataElementId]?.[categoryOptionComboId]
+        return get().initialDataValues?.values?.[dataElementId]?.[
+            categoryOptionComboId
+        ]
     },
     getInitialDataValues: () => get().initialDataValues,
-    setInitialDataValues: (values) => {
-        set({ initialDataValues: values })
+    setInitialDataValues: (values, formKey) => {
+        set({ initialDataValues: { values, formKey } })
     },
     getMinMaxValues: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet?.minMaxValues?.find(
