@@ -1,8 +1,7 @@
 import { useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Button, CalendarInput } from '@dhis2/ui'
-import React, { useState } from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect, useState } from 'react'
 import {
     convertFromIso8601ToString,
     convertToIso8601ToString,
@@ -12,15 +11,20 @@ import {
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
+const convertToDateWithTime = ({ date, time }) =>
+    `${date}${time === '' ? '' : 'T' + time}`
+
 export const DateTimeInput = ({
     cocId,
     deId,
     disabled,
     fieldname,
-    form,
     locked,
     onFocus,
+    onBlur,
     onKeyDown,
+    initialValue,
+    setValueSynced,
 }) => {
     const { data: userInfo } = useUserInfo()
     const keyUiLocale = userInfo?.settings?.keyUiLocale
@@ -28,45 +32,45 @@ export const DateTimeInput = ({
     const { systemInfo = {} } = useConfig()
     const { calendar = 'gregory' } = systemInfo
 
-    const { input, meta } = useField(fieldname, {
-        subscription: {
-            value: true,
-            dirty: true,
-            valid: true,
-            data: true,
-        },
-    })
+    const [lastSyncedValue, setLastSyncedValue] = useState(initialValue)
+    const [date, setDate] = useState(() => initialValue?.substring(0, 10) ?? '')
+    const [time, setTime] = useState(
+        () => initialValue?.substring(11, 23) ?? ''
+    )
+    const [syncTouched, setSyncTouched] = useState(false)
 
-    const [date, setDate] = useState(input?.value?.substring(0, 10) ?? '')
-    const [time, setTime] = useState(input?.value?.substring(11, 23) ?? '')
+    useEffect(() => {
+        if (syncTouched) {
+            const dateWithTime = convertToDateWithTime({ date, time })
+            setValueSynced(dateWithTime === lastSyncedValue)
+        }
+    }, [date, time, lastSyncedValue, syncTouched])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
 
-    const syncData = (value) => {
+    const syncData = (dateWithTime) => {
+        setSyncTouched(true)
         mutate(
             // Empty values need an empty string
-            { value: value || '' },
+            { value: dateWithTime ?? '' },
             {
                 onSuccess: () => {
-                    form.mutators.setFieldData(fieldname, {
-                        lastSyncedValue: value,
-                    })
-                    input.onBlur()
+                    setLastSyncedValue(dateWithTime)
+                    onBlur()
                 },
             }
         )
     }
 
     const handleChange = ({ date, time }) => {
-        const dateWithTime = `${date}${time === '' ? '' : 'T' + time}`
-        input.onChange(dateWithTime)
+        const dateWithTime = convertToDateWithTime({ date, time })
 
         if (date === '' || time === '') {
             return
         }
 
         // If this value has changed, sync it to server if valid
-        if (meta.valid && dateWithTime !== meta.data.lastSyncedValue) {
+        if (dateWithTime !== lastSyncedValue) {
             syncData(dateWithTime)
         }
     }
@@ -74,10 +78,9 @@ export const DateTimeInput = ({
     const clearValue = () => {
         setDate('')
         setTime('')
-        input.onChange('')
 
         // If this value has changed, sync it to server if valid
-        if (meta.valid && '' !== meta.data.lastSyncedValue) {
+        if ('' !== lastSyncedValue) {
             syncData('')
         }
     }
@@ -87,12 +90,10 @@ export const DateTimeInput = ({
             className={styles.dateTimeInput}
             onClick={() => {
                 onFocus()
-                input.onFocus()
             }}
         >
             <div className={styles.dateTimeInput}>
                 <CalendarInput
-                    {...input}
                     label={i18n.t('Pick a date')}
                     className={styles.dateInput}
                     autoComplete="off"

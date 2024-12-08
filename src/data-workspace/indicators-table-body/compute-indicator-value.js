@@ -1,5 +1,4 @@
 import { Parser } from 'expr-eval'
-import { getIn } from 'final-form'
 import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
 
 /**
@@ -38,9 +37,9 @@ const getDataElementTotalValue = (dataElementCocValues) => {
         return 0
     }
 
-    return Object.values(dataElementCocValues).reduce((sum, value) => {
-        if (!isNaN(value)) {
-            sum = sum + Number(value)
+    return Object.values(dataElementCocValues).reduce((sum, valueObject) => {
+        if (!isNaN(valueObject?.value)) {
+            sum = sum + Number(valueObject?.value)
         }
         return sum
     }, 0)
@@ -69,7 +68,7 @@ const getDataElementTotalValue = (dataElementCocValues) => {
  * @param {Object} values ReactFinalForm `values`
  * @returns {string} a parsed expression template
  */
-const parseExpressionTemplate = (expression, values) => {
+const parseExpressionTemplate = (expression, dataValues) => {
     const matches = expression.match(operandInterpolationPattern)
 
     /*
@@ -83,13 +82,14 @@ const parseExpressionTemplate = (expression, values) => {
 
     return matches.reduce((substitudedExpression, match) => {
         const operand = match.replace(/[#{}]/g, '')
-        const { categoryOptionComboId } = parseFieldOperand(operand)
+        const { dataElementId, categoryOptionComboId } =
+            parseFieldOperand(operand)
         const value =
             (categoryOptionComboId
                 ? // For COCs we read the data directly from the form values
-                  getIn(values, operand)
+                  dataValues?.[dataElementId]?.[categoryOptionComboId]?.value
                 : // For data elements we need the sum of all COC form values
-                  getDataElementTotalValue(values[operand])) || 0
+                  getDataElementTotalValue(dataValues?.[dataElementId])) || 0
 
         return substitudedExpression.replace(match, value)
     }, expression)
@@ -119,7 +119,7 @@ export const round = (value, decimals) => {
  * @param {string} options.denominator Indicator expression template
  * @param {string} options.numerator Indicator expression template
  * @param {number} options.factor Indicator multiplier
- * @param {{values: object}} options.formState ReactFinalForm formState
+ * @param {Object} options.dataValues {[de]:{[coc]:{...rest,value}}}
  * @returns {number} Indicator value
  */
 
@@ -127,16 +127,13 @@ export const computeIndicatorValue = ({
     denominator,
     numerator,
     factor,
-    formState,
+    dataValues,
     decimals,
 }) => {
-    const numeratorExpression = parseExpressionTemplate(
-        numerator,
-        formState.values
-    )
+    const numeratorExpression = parseExpressionTemplate(numerator, dataValues)
     const denominatorExpression = parseExpressionTemplate(
         denominator,
-        formState.values
+        dataValues
     )
     const numeratorValue = evaluate(numeratorExpression)
     const denominatorValue = evaluate(denominatorExpression)

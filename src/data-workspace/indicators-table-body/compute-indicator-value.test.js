@@ -1,25 +1,23 @@
 import { computeIndicatorValue, round } from './compute-indicator-value.js'
 
 describe('computeIndicatorValue', () => {
-    const formState = {
-        values: {
-            a: {
-                a1: '1',
-                a2: '2',
-            },
-            b: {
-                b1: '2',
-            },
-            c: {
-                c1: '3',
-            },
-            d: {
-                d1: '1',
-                d2: '1',
-                d3: '1',
-                d4: '1',
-                d5: '1',
-            },
+    const dataValues = {
+        a: {
+            a1: { value: '1' },
+            a2: { value: '2' },
+        },
+        b: {
+            b1: { value: '2' },
+        },
+        c: {
+            c1: { value: '3' },
+        },
+        d: {
+            d1: { value: '1' },
+            d2: { value: '1' },
+            d3: { value: '1' },
+            d4: { value: '1' },
+            d5: { value: '1' },
         },
     }
     it('produces a correct value for category option combos', () => {
@@ -27,7 +25,7 @@ describe('computeIndicatorValue', () => {
             numerator: '#{a.a1}+#{b.b1}*#{c.c1}', // 1+2*3=7
             denominator: '#{d.d1}*#{c.c1}', // 1*3=3
             factor: 1,
-            formState,
+            dataValues,
         })
         expect(value).toBe(7 / 3)
     })
@@ -36,7 +34,7 @@ describe('computeIndicatorValue', () => {
             numerator: '#{a}+#{b.b1}*#{c.c1}', // 3+2*3=9
             denominator: '#{d}*#{c}', // 5*3=15
             factor: 1,
-            formState,
+            dataValues,
         })
         expect(value).toBe(9 / 15)
     })
@@ -45,7 +43,7 @@ describe('computeIndicatorValue', () => {
             numerator: '#{a}+#{b.b1}*#{c.c1}', // 3+2*3=9
             denominator: '#{d}*#{c}', // 5*3=15
             factor: 100,
-            formState,
+            dataValues,
         })
         expect(value).toBe((9 / 15) * 100)
     })
@@ -54,7 +52,7 @@ describe('computeIndicatorValue', () => {
             numerator: '#{nothing}',
             denominator: '#{nothing_also}',
             factor: 1,
-            formState,
+            dataValues,
         })
         expect(value).toBe('')
     })
@@ -63,7 +61,7 @@ describe('computeIndicatorValue', () => {
             numerator: '#{a}+#{b.b1}*#{c.c1}', // 3+2*3=9
             denominator: '#{nothing}',
             factor: 1,
-            formState,
+            dataValues,
         })
         expect(value).toBe('')
     })
@@ -72,7 +70,7 @@ describe('computeIndicatorValue', () => {
             numerator: '#{a.a1}', // 1
             denominator: '#{c.c1}', // 3
             factor: 100,
-            formState,
+            dataValues,
             decimals: 3,
         })
         expect(value).toBe(33.333)

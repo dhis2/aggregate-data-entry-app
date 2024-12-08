@@ -3,11 +3,37 @@ import { getAllByTestId, getByTestId, getByText } from '@testing-library/react'
 import React from 'react'
 import { useMetadata } from '../../shared/metadata/use-metadata.js'
 import { render } from '../../test-utils/index.js'
-import { FinalFormWrapper } from '../final-form-wrapper.js'
 import { CategoryComboTableBody } from './category-combo-table-body.js'
 
 jest.mock('../../shared/metadata/use-metadata.js', () => ({
     useMetadata: jest.fn(),
+}))
+
+const MOCK_VALUES = {
+    FTRrcoaog83: {
+        HllvX50cXC0: {
+            value: '5',
+        },
+    },
+}
+
+jest.mock('../../shared/stores/data-value-store.js', () => ({
+    useValueStore: jest.fn().mockImplementation((func) => {
+        const state = {
+            getInitialDataValue: ({ dataElementId, categoryOptionComboId }) => {
+                return MOCK_VALUES?.[dataElementId]?.[categoryOptionComboId]
+                    ?.value
+            },
+            hasComment: () => false,
+            getMinMaxValues: () => [],
+            getDataValue: () => '',
+            getDataValues: () => {
+                return MOCK_VALUES
+            },
+        }
+
+        return func(state)
+    }),
 }))
 
 const categories = {
@@ -481,11 +507,7 @@ describe('<CategoryComboTableBody />', () => {
                 />
             </Table>,
             {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
-                ),
+                wrapper: ({ children }) => <>{children}</>,
             }
         )
 
@@ -535,11 +557,7 @@ describe('<CategoryComboTableBody />', () => {
                 />
             </Table>,
             {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
-                ),
+                wrapper: ({ children }) => <>{children}</>,
             }
         )
 
@@ -587,11 +605,7 @@ describe('<CategoryComboTableBody />', () => {
                 />
             </Table>,
             {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
-                ),
+                wrapper: ({ children }) => <>{children}</>,
             }
         )
 
@@ -650,11 +664,7 @@ describe('<CategoryComboTableBody />', () => {
                 />
             </Table>,
             {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
-                ),
+                wrapper: ({ children }) => <>{children}</>,
             }
         )
 
@@ -677,11 +687,7 @@ describe('<CategoryComboTableBody />', () => {
                 />
             </Table>,
             {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
-                ),
+                wrapper: ({ children }) => <>{children}</>,
             }
         )
 
@@ -703,19 +709,7 @@ describe('<CategoryComboTableBody />', () => {
                 />
             </Table>,
             {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper
-                        dataValueSet={{
-                            FTRrcoaog83: {
-                                HllvX50cXC0: {
-                                    value: 5,
-                                },
-                            },
-                        }}
-                    >
-                        {children}
-                    </FinalFormWrapper>
-                ),
+                wrapper: ({ children }) => <>{children}</>,
             }
         )
 
@@ -742,19 +736,7 @@ describe('<CategoryComboTableBody />', () => {
                 />
             </Table>,
             {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper
-                        dataValueSet={{
-                            FTRrcoaog83: {
-                                HllvX50cXC0: {
-                                    value: 5,
-                                },
-                            },
-                        }}
-                    >
-                        {children}
-                    </FinalFormWrapper>
-                ),
+                wrapper: ({ children }) => <>{children}</>,
             }
         )
 
