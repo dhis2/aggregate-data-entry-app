@@ -12,7 +12,7 @@ import {
  * @params {Object} options
  * @params {Boolean} options.enabled - Defaults to `true`
  **/
-export default function useImperativeValidate() {
+export const useImperativeValidate = () => {
     const client = useQueryClient()
     const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
     const {

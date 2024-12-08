@@ -67,6 +67,12 @@ export default function CellsLegend() {
                 name={i18n.t('Locked, not editable')}
                 state="LOCKED"
             />
+            <Divider />
+
+            <CellsLegendSymbol
+                name={i18n.t('Compulsory field')}
+                state="COMPULSORY"
+            />
         </ExpandableUnit>
     )
 }

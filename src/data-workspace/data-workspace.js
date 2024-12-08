@@ -15,6 +15,7 @@ import {
     useIsValidSelection,
     useValueStore,
     dataValueSetQueryKey,
+    useEntryFormStore,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
@@ -33,6 +34,10 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     useEffect(() => {
         updateStore(initialDataValuesFetch.data)
     }, [updateStore, initialDataValuesFetch.data])
+
+    const setCompleteAttempted = useEntryFormStore(
+        (state) => state.setCompleteAttempted
+    )
 
     const isValidSelection = useIsValidSelection()
     const [dataSetId] = useDataSetId()
@@ -55,8 +60,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     cancelRefetch: false,
                 }
             )
+
+            // reset the completionAttempted store for new form
+            setCompleteAttempted(false)
         }
-    }, [validFormKey, queryClient])
+    }, [validFormKey, queryClient, setCompleteAttempted])
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')

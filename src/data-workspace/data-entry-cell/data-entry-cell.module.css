@@ -108,6 +108,11 @@
     border-inline-start: 3px solid transparent;
 }
 
+.topRightAsterisk {
+    color: var(--colors-grey600);
+    inline-size: 8px;
+}
+
 .locked {
     background-color: var(--colors-grey050);
 }

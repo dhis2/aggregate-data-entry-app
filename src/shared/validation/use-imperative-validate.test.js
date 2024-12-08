@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
 import { Wrapper } from '../../test-utils/index.js'
-import useImperativeValidate from './use-imperative-validate.js'
+import { useImperativeValidate } from './use-imperative-validate.js'
 
 jest.mock('@tanstack/react-query', () => {
     const originalModule = jest.requireActual('@tanstack/react-query')

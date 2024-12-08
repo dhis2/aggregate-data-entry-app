@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
-"PO-Revision-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2024-11-29T16:17:15.582Z\n"
+"PO-Revision-Date: 2024-11-29T16:17:15.582Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -80,6 +80,9 @@ msgstr "Couldn't validate the form. This does not effect form completion!"
 
 msgid "The form can't be completed while invalid"
 msgstr "The form can't be completed while invalid"
+
+msgid "Compulsory fields must be filled out before completing the form"
+msgstr "Compulsory fields must be filled out before completing the form"
 
 msgid "1 comment required"
 msgstr "1 comment required"
@@ -212,6 +215,9 @@ msgstr "Warning, saved"
 
 msgid "Locked, not editable"
 msgstr "Locked, not editable"
+
+msgid "Compulsory field"
+msgstr "Compulsory field"
 
 msgid "Help"
 msgstr "Help"
