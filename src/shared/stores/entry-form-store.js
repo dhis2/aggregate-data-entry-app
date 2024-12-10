@@ -4,6 +4,7 @@ import create from 'zustand'
 const inititalState = {
     errors: {},
     warnings: {},
+    completeAttempted: false,
 }
 
 export const useEntryFormStore = create((set, get) => ({
@@ -19,6 +20,8 @@ export const useEntryFormStore = create((set, get) => ({
         const newWarnings = setIn(warnings, fieldname, warning) ?? {}
         set({ warnings: newWarnings })
     },
+    getCompleteAttempted: () => get().completeAttempted,
+    setCompleteAttempted: (bool) => set({ completeAttempted: bool }),
     // could add getNumberOfWarnings if needed
 }))
 

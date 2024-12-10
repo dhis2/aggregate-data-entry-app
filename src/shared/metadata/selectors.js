@@ -29,6 +29,8 @@ export const getIndicators = (metadata) => metadata.indicators
 export const getDataSets = (metadata) => metadata.dataSets
 export const getSections = (metadata) => metadata.sections
 export const getOptionSets = (metadata) => metadata.optionSets
+export const getCompulsoryDataElementOperands = (metadata) =>
+    metadata.compulsoryDataElementOperands
 // Select by id
 
 export const getCategoryById = (metadata, id) => getCategories(metadata)[id]
@@ -115,6 +117,24 @@ export const getCategoryOptionsByCategoryOptionComboId = createCachedSelector(
         return []
     }
 )((_, categoryOptionComboId) => categoryOptionComboId)
+
+/**
+ * @param {*} metadata
+ */
+export const getCompulsoryDataElementOperandsSet = createCachedSelector(
+    getDataSetById,
+    (dataSet) => {
+        if (!dataSet || !dataSet.compulsoryDataElementOperands) {
+            return new Set()
+        }
+        return new Set(
+            dataSet.compulsoryDataElementOperands?.map(
+                (operand) =>
+                    `${operand?.dataElement?.id}.${operand?.categoryOptionCombo?.id}`
+            )
+        )
+    }
+)((_, dataSetId) => dataSetId)
 
 /**
  * @param {*} metadata

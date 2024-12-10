@@ -8,7 +8,7 @@ export default function useImperativeCancelCompletionMutation() {
     const mutationKey = useSetFormCompletionMutationKey()
     const dataValueSetQueryKey = useDataValueSetQueryKey()
 
-    return () => {
+    return ({ completedBoolean } = {}) => {
         const foundMutation = mutationCache.find({ mutationKey })
 
         if (!foundMutation) {
@@ -30,7 +30,7 @@ export default function useImperativeCancelCompletionMutation() {
                 ...previousDataValueSet,
                 completeStatus: {
                     ...previousDataValueSet.completeStatus,
-                    complete: !completed,
+                    complete: completedBoolean ?? !completed,
                 },
             })
         )
