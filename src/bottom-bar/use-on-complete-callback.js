@@ -150,7 +150,7 @@ export default function useOnCompleteCallback() {
 
         if (hasCompulsoryDataElementOperandsToFillOut) {
             setCompleteAttempted(true)
-            cancelCompletionMutation()
+            cancelCompletionMutation({ completedBoolean: false })
             promise = Promise.reject(
                 new Error(
                     i18n.t(
