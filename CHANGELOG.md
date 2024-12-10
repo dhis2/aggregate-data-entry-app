@@ -1,3 +1,10 @@
+## [100.11.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.3...v100.11.4) (2024-12-10)
+
+
+### Bug Fixes
+
+* handle compulsory data element operands [DHIS2-17647] ([#426](https://github.com/dhis2/aggregate-data-entry-app/issues/426)) ([1d6c667](https://github.com/dhis2/aggregate-data-entry-app/commit/1d6c66793407771b9ebd38ceb0dcc0fc1d7c920f))
+
 ## [100.11.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.2...v100.11.3) (2024-12-08)
 
 
