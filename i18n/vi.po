@@ -4,13 +4,14 @@
 # Thuy Nguyen <thuynguyen@hispvietnam.org>, 2024
 # Viktor Varland <viktor@dhis2.org>, 2024
 # Philip Larsen Donnelly, 2024
+# Em Le <em.hispvietnam@gmail.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Philip Larsen Donnelly, 2024\n"
+"Last-Translator: Em Le <em.hispvietnam@gmail.com>, 2024\n"
 "Language-Team: Vietnamese (https://app.transifex.com/hisp-uio/teams/100509/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "Đánh dấu là chưa hoàn thành"
 
 msgid "Mark complete"
 msgstr ""
@@ -332,7 +333,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr ""
+msgstr "Không có cho ngoại tuyến"
 
 msgid "No audit log for this data item."
 msgstr ""

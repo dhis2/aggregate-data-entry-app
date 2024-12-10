@@ -2,8 +2,19 @@ import { Table } from '@dhis2/ui'
 import { getAllByTestId, getByTestId, getByText } from '@testing-library/react'
 import React from 'react'
 import { useMetadata } from '../../shared/metadata/use-metadata.js'
+import { useDataSetId } from '../../shared/use-context-selection/use-context-selection.js'
 import { render } from '../../test-utils/index.js'
 import { CategoryComboTableBody } from './category-combo-table-body.js'
+
+jest.mock(
+    '../../shared/use-context-selection/use-context-selection.js',
+    () => ({
+        ...jest.requireActual(
+            '../../shared/use-context-selection/use-context-selection.js'
+        ),
+        useDataSetId: jest.fn(),
+    })
+)
 
 jest.mock('../../shared/metadata/use-metadata.js', () => ({
     useMetadata: jest.fn(),
@@ -479,6 +490,7 @@ const metadata = {
 
 describe('<CategoryComboTableBody />', () => {
     useMetadata.mockReturnValue({ data: metadata })
+    useDataSetId.mockReturnValue(['dataSet1'])
 
     it('should render rows and columns based on the data elements and categorycombo', () => {
         const tableDataElements = [

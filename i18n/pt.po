@@ -8,13 +8,15 @@
 # Philip Larsen Donnelly, 2024
 # Viktor Varland <viktor@dhis2.org>, 2024
 # Sheila André <sandre@saudigitus.org>, 2024
+# Laurência Luís, 2024
+# Helton Dias, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Sheila André <sandre@saudigitus.org>, 2024\n"
+"Last-Translator: Helton Dias, 2024\n"
 "Language-Team: Portuguese (https://app.transifex.com/hisp-uio/teams/100509/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,85 +25,92 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid "Not authorized"
-msgstr ""
+msgstr "Não autorizado"
 
 msgid ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 msgstr ""
+"Não tem acesso à aplicação de aprovação de dados. Contacte um administrador "
+"do sistema para solicitar o acesso."
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "Houve um problema ao carregar os metadados"
 
 msgid "There was a problem loading the user's information"
-msgstr ""
+msgstr "Houve um problema ao carregar as informações do utilizador"
 
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
+"Sessão expirada. Recarregue para iniciar sessão novamente. Não perderá "
+"quaisquer dados."
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "Não foi possível completar o formulário, tente novamente mais tarde"
 
 msgid "Mark incomplete"
 msgstr "Marca incompleta"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "Marca completa"
 
 msgid "Hide details"
 msgstr "Esconder detalhes"
 
 msgid "View details"
-msgstr ""
+msgstr "Ver pormenores"
 
 msgid "1 invalid value not saved"
-msgstr ""
+msgstr "1 valor inválido não guardado"
 
 msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
+msgstr "{{numberOfErrors}} valores inválidos não guardados"
 
 msgid "1 value failed to save"
-msgstr ""
+msgstr "1 valor não foi guardado"
 
 msgid "{{numberOfErrors}} values failed to save"
-msgstr ""
+msgstr "{{numberOfErrors}} os valores não foram guardados"
 
 msgid "Closes {{-relativeTime}}"
-msgstr ""
+msgstr "Encerra {{-relativeTime}}"
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "A validação não está disponível offline"
 
 msgid "Validation is not available while changes are pending"
 msgstr ""
+"A validação não está disponível enquanto as alterações estiverem pendentes"
 
 msgid "Run validation"
 msgstr "Executar a validação"
 
 msgid "Last completed by {{-username}}"
-msgstr ""
+msgstr "Última vez preenchido por {{-username}}"
 
 msgid "Last incompleted by {{-username}}"
-msgstr ""
+msgstr "Último incompleto por {{-username}}"
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "Não foi possível validar o formulário, tente novamente mais tarde"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
 msgstr ""
+"Não foi possível validar o formulário. Isto não afecta o preenchimento do "
+"formulário!"
 
 msgid "The form can't be completed while invalid"
-msgstr ""
+msgstr "O formulário não pode ser preenchido se for inválido"
 
 msgid "1 comment required"
-msgstr ""
+msgstr "1 comentário necessário"
 
 msgid "{{commentsCount}} comments required"
-msgstr ""
+msgstr "{{commentsCount}} observações necessárias"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
-msgstr ""
+msgstr "{{displayShortName}} deve ter um comentário quando não tem um valor."
 
 msgid "High"
 msgstr "Alta"
@@ -113,10 +122,10 @@ msgid "Low"
 msgstr "Baixa"
 
 msgid "{{length}} {{level}} priority alert"
-msgstr ""
+msgstr "{{length}} {{level}} alerta prioritário"
 
 msgid "{{length}} {{level}} priority alerts"
-msgstr ""
+msgstr "{{length}} {{level}} alertas prioritários"
 
 msgid "Validation"
 msgstr "Validação"
@@ -125,95 +134,110 @@ msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
 " Run validation again to check the current data."
 msgstr ""
+"Os dados no formulário de entrada foram alterados, pelo que o resultado da "
+"validação pode estar incorreto. Execute novamente a validação para verificar"
+" os dados actuais."
 
 msgid "Run validation again"
-msgstr ""
+msgstr "Executar novamente a validação"
 
 msgid "Alert summary"
-msgstr ""
+msgstr "Resumo do alerta"
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "Não há alertas de validação para estes dados."
 
 msgid "Running validation..."
-msgstr ""
+msgstr "Validação em curso..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "Houve um problema na execução da validação"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"Não foi possível efetuar a validação para estes dados. Tente novamente ou "
+"contacte o administrador do sistema."
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
 msgstr ""
+"{{leftDescription}} não pode estar vazio quando {{rightDescription}} tem um "
+"valor"
 
 msgid ""
 "{{leftDescription}} cannot have a value when {{rightDescription}} has a "
 "value"
 msgstr ""
+"{{leftDescription}} não pode ter um valor quando {{rightDescription}} tem um"
+" valor"
 
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
 msgstr ""
+"Algumas categorias não têm opções válidas para o período ou unidade "
+"organizacional selecionados ({{categories}})"
 
 msgid ""
 "There was a problem loading the {{objectType}} selection ({{id}}). You might"
 " not have access, or the selection might be invalid."
 msgstr ""
+"Houve um problema ao carregar a seleção {{objectType}} ({{id}}). Poderá não "
+"ter acesso ou a seleção poderá ser inválida."
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "Selecionar um conjunto de dados"
 
 msgid "No available options"
-msgstr ""
+msgstr "Nenhuma opção disponível"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
 "organisation unit."
 msgstr ""
+"Não existem opções para {{categoryName}} para o período ou unidade "
+"organizacional selecionados."
 
 msgid "Hide menu"
 msgstr "Esconder menu"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "Combinação de atributos por defeito"
 
 msgid "0 selections"
-msgstr ""
+msgstr "0 selecções"
 
 msgid "1 selection"
-msgstr ""
+msgstr "1 seleção"
 
 msgid "{{amount}} selections"
-msgstr ""
+msgstr "{{amount}} selecções"
 
 msgid "Cell reference"
-msgstr ""
+msgstr "Referência da célula"
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "Guardado e sincronizado com o servidor"
 
 msgid "Waiting to sync, saved locally"
-msgstr ""
+msgstr "À espera de sincronização, guardado localmente"
 
 msgid "Failed to sync, not saved"
-msgstr ""
+msgstr "Falha na sincronização, não guardado"
 
 msgid "Data item has a comment"
-msgstr ""
+msgstr "O item de dados tem um comentário"
 
 msgid "Invalid value, not saved"
-msgstr ""
+msgstr "Valor inválido, não guardado"
 
 msgid "Warning, saved"
-msgstr ""
+msgstr "Aviso, guardado"
 
 msgid "Locked, not editable"
-msgstr ""
+msgstr "Bloqueado, não editável"
 
 msgid "Help"
 msgstr "Ajuda"
@@ -222,106 +246,108 @@ msgid "or"
 msgstr "ou"
 
 msgid "Shortcuts"
-msgstr ""
+msgstr "Atalhos"
 
 msgid "Show details"
 msgstr "Mostrar detalhes"
 
 msgid "Ctrl + Enter"
-msgstr ""
+msgstr "Ctrl + Enter"
 
 msgid "Cmd + Enter"
-msgstr ""
+msgstr "Cmd + Enter"
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "Ir para a célula seguinte"
 
 msgid "Tab"
-msgstr ""
+msgstr "Separador"
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "Ir para a célula anterior"
 
 msgid "Shift + Tab"
-msgstr ""
+msgstr "Shift + Tab"
 
 msgid "Could not find a data set for the selected id"
-msgstr ""
+msgstr "Não foi possível encontrar um conjunto de dados para o id selecionado"
 
 msgid "There are no data sets available!"
-msgstr ""
+msgstr "Não existem conjuntos de dados disponíveis!"
 
 msgid "Data set"
 msgstr "Ficha"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "Imprimir formulário com valores"
 
 msgid "Print empty form"
-msgstr ""
+msgstr "Imprimir formulário vazio"
 
 msgid "Options"
 msgstr "Opções"
 
 msgid "Search org units"
-msgstr ""
+msgstr "Pesquisar unidades orgânicas"
 
 msgid "Choose a data set first"
-msgstr ""
+msgstr "Escolha primeiro um conjunto de dados"
 
 msgid "Dataset is not assigned to this organisation unit"
-msgstr ""
+msgstr "O conjunto de dados não está atribuído a esta unidade organizacional"
 
 msgid "Organisation unit"
 msgstr "Unidade organizacional"
 
 msgid "Choose a organisation unit"
-msgstr ""
+msgstr "Escolher uma unidade organizacional"
 
 msgid "No organisation units could be found"
-msgstr ""
+msgstr "Não foi possível encontrar nenhuma unidade orgânica"
 
 msgid "No children match filter"
-msgstr ""
+msgstr "Nenhum filho corresponde ao filtro"
 
 msgid "Could not load children"
-msgstr ""
+msgstr "Não foi possível carregar as crianças"
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr ""
+msgstr "Erro: {{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
-msgstr ""
+msgstr "Obtenção de informações sobre a unidade organizacional"
 
 msgid "Error occurred while loading organisation unit info"
-msgstr ""
+msgstr "Ocorreu um erro ao carregar as informações da unidade organizacional"
 
 msgid "No periods available in this year"
-msgstr ""
+msgstr "Não há períodos disponíveis neste ano"
 
 msgid "The Period ({{id}}) is not open or is invalid."
-msgstr ""
+msgstr "O Período ({{id}}) não está aberto ou é inválido."
 
 msgid "Period"
 msgstr "Período"
 
 msgid "Choose a period"
-msgstr ""
+msgstr "Selecionar um período"
 
 msgid "All sections"
-msgstr ""
+msgstr "Todas as secções"
 
 msgid "Section"
 msgstr "Secção"
 
 msgid "Fetching data set info"
-msgstr ""
+msgstr "Obtenção de informações sobre o conjunto de dados"
 
 msgid "Error occurred while loading data set info"
-msgstr ""
+msgstr "Ocorreu um erro ao carregar a informação do conjunto de dados"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
+"Os formulários personalizados não podiam ser disponibilizados offline. "
+"{{error}}"
 
 msgid "Value"
 msgstr "Valor"
@@ -330,16 +356,16 @@ msgid "Totals"
 msgstr "Totais"
 
 msgid "Audit log"
-msgstr ""
+msgstr "Registo de auditoria"
 
 msgid "Something went wrong loading the audit log"
-msgstr ""
+msgstr "Algo correu mal ao carregar o registo de auditoria"
 
 msgid "Not available offline"
 msgstr "Não disponível offline"
 
 msgid "No audit log for this data item."
-msgstr ""
+msgstr "Não há registo de auditoria para este item de dados."
 
 msgid "Date"
 msgstr "Encontro"
@@ -348,37 +374,37 @@ msgid "User"
 msgstr "Utilizador"
 
 msgid "Change"
-msgstr ""
+msgstr "Alterar"
 
 msgid "audit dates are given in {{- timeZone}} time"
-msgstr ""
+msgstr "as datas das auditorias são indicadas em {{- timeZone}} "
 
 msgid "Unmark for follow-up"
-msgstr ""
+msgstr "Desmarcar para seguimento"
 
 msgid "Mark for follow-up"
 msgstr "Marcar para acompanhamento"
 
 msgid "Empty values can't be marked for follow -up"
-msgstr ""
+msgstr "Os valores vazios não podem ser marcados para seguimento"
 
 msgid "You do not have the authority to mark this value for follow -up"
-msgstr ""
+msgstr "Não tem autoridade para marcar este valor para seguimento"
 
 msgid "Description: {{- description}}"
-msgstr ""
+msgstr "Descrição: {{- description}}"
 
 msgid "Code: {{code}}"
-msgstr ""
+msgstr "Código: {{code}}"
 
 msgid "Data element ID: {{id}}"
-msgstr ""
+msgstr "ID do elemento de dados: {{id}}"
 
 msgid "Category option combo ID: {{id}}"
-msgstr ""
+msgstr "ID da combinação de opções de categoria: {{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr ""
+msgstr "Última atualização {{- timeAgo}} por {{- name}}"
 
 msgid "Marked for follow-up"
 msgstr "Marcado para acompanhamento"
@@ -387,13 +413,13 @@ msgid "Comment"
 msgstr "Comentário"
 
 msgid "There was a problem updating the comment for this data item"
-msgstr ""
+msgstr "Houve um problema ao actualizar o comentário para este item de dados"
 
 msgid "Choose an option"
-msgstr ""
+msgstr "Selecionar uma opção"
 
 msgid "Saving..."
-msgstr ""
+msgstr "Salvando..."
 
 msgid "Save comment"
 msgstr "Gravar comentário"
@@ -402,16 +428,16 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 msgid "Edit comment"
-msgstr ""
+msgstr "Editar comentário"
 
 msgid "Add comment"
 msgstr "Adicionar comentário"
 
 msgid "No comment for this data item."
-msgstr ""
+msgstr "Não há comentários para esta rubrica de dados."
 
 msgid "You do not have the authority to add or edit comments"
-msgstr ""
+msgstr "Não tem autoridade para adicionar ou editar comentários"
 
 msgid "Details"
 msgstr "Detalhes"
@@ -420,25 +446,25 @@ msgid "History"
 msgstr "Histórico"
 
 msgid "Something went wrong loading the history"
-msgstr ""
+msgstr "Algo correu mal ao carregar o histórico"
 
 msgid "No history for this data item."
-msgstr ""
+msgstr "Não há historial para esta rubrica de dados."
 
 msgid "Average value: {{avg}}"
-msgstr ""
+msgstr "Valor médio: {{avg}}"
 
 msgid "Delete limits"
-msgstr ""
+msgstr "Eliminar limites"
 
 msgid "You do not have the authority to delete limits"
-msgstr ""
+msgstr "Não tem autoridade para eliminar limites"
 
 msgid "Edit limits"
-msgstr ""
+msgstr "Editar limites"
 
 msgid "You do not have the authority to add limits"
-msgstr ""
+msgstr "Não tem autoridade para acrescentar limites"
 
 msgid "Min"
 msgstr "Min"
@@ -447,73 +473,84 @@ msgid "Max"
 msgstr "Máx"
 
 msgid "Min and max limits"
-msgstr ""
+msgstr "Limites mínimos e máximos"
 
 msgid "Try again, or contact your system administrator."
-msgstr ""
+msgstr "Tente novamente ou contacte o administrador do sistema."
 
 msgid "Add limits"
-msgstr ""
+msgstr "Adicionar limites"
 
 msgid "No limits set for this data item."
-msgstr ""
+msgstr "Não há limites definidos para esta rubrica de dados."
 
 msgid "Save limits"
-msgstr ""
+msgstr "Guardar limites"
 
 msgid "The current selection does not have a form"
-msgstr ""
+msgstr "A seleção actual não tem um formulário"
 
 msgid "There was a problem loading data values"
-msgstr ""
+msgstr "Houve um problema ao carregar os valores dos dados"
 
 msgid "This data set has no assigned Data Elements"
-msgstr ""
+msgstr "Este conjunto de dados não tem elementos de dados atribuídos"
 
 msgid ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
 msgstr ""
+"Não existem elementos de dados neste conjunto de dados. Adiciona alguns "
+"elementos de dados para utilizar este conjunto de dados."
 
 msgid "Data cannot be added or changed outside of the data input period."
 msgstr ""
+"Os dados não podem ser acrescentados ou alterados fora do período de "
+"introdução de dados."
 
 msgid ""
 "Data cannot be added or changed because organisation unit is closed for the "
 "selected period."
 msgstr ""
+"Os dados não podem ser adicionados ou alterados porque a unidade "
+"organizacional está fechada para o período selecionado."
 
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
+"Os dados não podem ser acrescentados ou alterados porque a introdução de "
+"dados foi concluída."
 
 msgid "Data cannot be added or changed because data has been approved."
 msgstr ""
+"Os dados não podem ser adicionados ou alterados porque foram aprovados."
 
 msgid "You do not have the authority to edit entry forms"
-msgstr ""
+msgstr "Não tem autoridade para editar formulários de inscrição"
 
 msgid "Data set locked"
-msgstr ""
+msgstr "Conjunto de dados bloqueado"
 
 msgid "Get started with data entry"
-msgstr ""
+msgstr "Começar a trabalhar com a introdução de dados"
 
 msgid ""
 "Choose a data set, organisation unit, and period from the top bar to start "
 "entering data"
 msgstr ""
+"Escolha um conjunto de dados, uma unidade orgânica e um período na barra "
+"superior para começar a introduzir dados"
 
 msgid "Learn more about data entry"
-msgstr ""
+msgstr "Saiba mais sobre a introdução de dados"
 
 msgid "Filter fields in all sections"
-msgstr ""
+msgstr "Campos de filtro em todas as secções"
 
 msgid "Filter fields"
-msgstr ""
+msgstr "Campos de filtro"
 
 msgid "Clear filter"
-msgstr ""
+msgstr "Limpar filtro"
 
 msgid "Indicators"
 msgstr "Indicadores"
@@ -531,79 +568,88 @@ msgid "Clear"
 msgstr "Limpar"
 
 msgid "Pick a date"
-msgstr ""
+msgstr "Escolher uma data"
 
 msgid "Pick a time"
-msgstr ""
+msgstr "Escolher um horário"
 
 msgid "Delete"
 msgstr "Suprimir"
 
 msgid "Upload an image"
-msgstr ""
+msgstr "Carregar uma imagem"
 
 msgid "Upload a file"
-msgstr ""
+msgstr "Carregar um ficheiro"
 
 msgid "Choose option(s)"
-msgstr ""
+msgstr "Selecionar opção(ões)"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
-msgstr ""
+msgstr "Forneça uma data e hora válidas no formato AAAA-MM-DD HH{{c}}MM"
 
 msgid "Please provide a valid time in the format HH{{c}}MM"
-msgstr ""
+msgstr "Forneça uma hora válida no formato HH{{c}}MM"
 
 msgid ""
 "Please make sure the value of this input is less than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Certifique-se de que o valor desta entrada é inferior ao valor em "
+"\"{{otherField}}\"."
 
 msgid ""
 "Please make sure the value of this input is more than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Certifique-se de que o valor desta entrada é superior ao valor em "
+"\"{{otherField}}\"."
 
 msgid "Type here to filter in this section"
-msgstr ""
+msgstr "Digite aqui para filtrar nesta secção"
 
 msgid "1 item hidden by filter"
-msgstr ""
+msgstr "1 item oculto por filtro"
 
 msgid "{{count}} items hidden by filter"
 msgid_plural "{{count}} items hidden by filter"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{{count}} itens ocultos por filtro"
+msgstr[1] "{{count}} itens ocultos por filtro"
+msgstr[2] "{{count}} itens ocultos por filtro"
 
 msgid "{{pendingMutations}} change saved locally"
-msgstr ""
+msgstr "{{pendingMutations}} alteração guardada localmente"
 
 msgid "{{pendingMutations}} changes saved locally"
-msgstr ""
+msgstr "{{pendingMutations}} alterações guardadas localmente"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
 msgstr ""
+"Aqui podemos substituir a mensagem do erro E2017 por uma mensagem "
+"personalizada no FE"
 
 msgid "Selected period is after latest open future period"
-msgstr ""
+msgstr "O período selecionado é posterior ao último período futuro aberto"
 
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr ""
+"Algo correu mal ao definir o preenchimento do formulário para "
+"\"{{completed}}\": {{errorMessage}}"
 
 msgid "Invalid date ({{date}})"
-msgstr ""
+msgstr "Data inválida ({{date}})"
 
 msgid "{{title}} (disabled)"
-msgstr ""
+msgstr "{{title}} (desativado)"
 
 msgid "Close details sidebar"
-msgstr ""
+msgstr "Fechar a barra lateral de detalhes"
 
 msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
 msgstr ""
+"Os números inteiros têm de estar no intervalo de -2147483648 a 2147483647"

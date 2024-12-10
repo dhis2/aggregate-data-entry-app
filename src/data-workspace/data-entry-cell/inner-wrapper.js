@@ -9,12 +9,13 @@ import {
     useValueStore,
     useSyncErrorsStore,
     useEntryFormStore,
+    useIsCompulsoryDataElementOperand,
 } from '../../shared/index.js'
 import styles from './data-entry-cell.module.css'
 import { ValidationTooltip } from './validation-tooltip.js'
 
 /** Three dots or triangle in top-right corner of cell */
-const SyncStatusIndicator = ({ error, isLoading, isSynced }) => {
+const SyncStatusIndicator = ({ error, isLoading, isSynced, isRequired }) => {
     let statusIcon = null
     if (isLoading) {
         statusIcon = <IconMore16 color={colors.grey700} />
@@ -22,6 +23,8 @@ const SyncStatusIndicator = ({ error, isLoading, isSynced }) => {
         statusIcon = <IconWarningFilled16 color={colors.yellow800} />
     } else if (isSynced) {
         statusIcon = <div className={styles.topRightTriangle} />
+    } else if (isRequired) {
+        statusIcon = <div className={styles.topRightAsterisk}>*</div>
     }
     return (
         <div className={cx(styles.topRightIndicator, styles.hideForPrint)}>
@@ -32,6 +35,7 @@ const SyncStatusIndicator = ({ error, isLoading, isSynced }) => {
 SyncStatusIndicator.propTypes = {
     error: PropTypes.object,
     isLoading: PropTypes.bool,
+    isRequired: PropTypes.bool,
     isSynced: PropTypes.bool,
 }
 
@@ -66,6 +70,13 @@ export function InnerWrapper({
             categoryOptionComboId: cocId,
         })
     )
+    const isRequired = useIsCompulsoryDataElementOperand({
+        dataElementId: deId,
+        categoryOptionComboId: cocId,
+    })
+    const completeAttempted = useEntryFormStore((state) =>
+        state.getCompleteAttempted()
+    )
 
     const dataValueParams = useDataValueParams({ deId, cocId })
     // Detect if this field is sending data
@@ -93,17 +104,19 @@ export function InnerWrapper({
             fieldErrorMessage ?? syncError?.displayMessage
         )
 
-    const showSynced = valueSynced
+    const showSynced = valueSynced && (!isRequired || !!value)
 
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
-    const cellStateClassName = error
-        ? styles.invalid
-        : warning
-        ? styles.warning
-        : activeMutations === 0 && showSynced
-        ? styles.synced
-        : null
+
+    const cellStateClassName =
+        error || (isRequired && !value && completeAttempted)
+            ? styles.invalid
+            : warning
+            ? styles.warning
+            : activeMutations === 0 && showSynced
+            ? styles.synced
+            : null
 
     // clear error if reset to initital-value
     useEffect(() => {
@@ -129,6 +142,7 @@ export function InnerWrapper({
             >
                 {children}
                 <SyncStatusIndicator
+                    isRequired={isRequired}
                     isLoading={activeMutations > 0}
                     isSynced={showSynced}
                     error={syncError}
