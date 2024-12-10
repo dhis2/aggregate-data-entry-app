@@ -1,22 +1,35 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
+// Helper function to log the current URL
+const logCurrentUrl = () => {
+    cy.url().then((url) => {
+        cy.log(`Current URL: ${url}`)
+        cy.task('log', `Current URL: ${url}`)
+        console.log(`Current URL: ${url}`)
+    })
+}
+
 Given('no data set has been selected yet', () => {
     cy.visit('/')
+    logCurrentUrl()
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
 Given('a data set and period but no org unit have been selected yet', () => {
     cy.visit('/#/?dataSetId=V8MHeZHIrcP&periodId=2021')
+    logCurrentUrl()
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
 Given('a data set and org unit but no period have been selected yet', () => {
     cy.visit('/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd')
+    logCurrentUrl()
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
 Given('a data set, org unit & period have been selected', () => {
     cy.visit('/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202212')
+    logCurrentUrl()
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
@@ -31,6 +44,7 @@ Given(
         cy.visit(
             '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202112'
         )
+        logCurrentUrl()
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
 )
@@ -46,6 +60,7 @@ Given(
         cy.visit(
             '/#/?dataSetId=lyLU2wR22tC&orgUnitId=DiszpKrYNg8&periodId=202112'
         )
+        logCurrentUrl()
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
 )
@@ -56,6 +71,7 @@ Given(
         cy.visit(
             '/#/?dataSetId=BfMAe6Itzgt&orgUnitId=ImspTQPwCqd&periodId=202212'
         )
+        logCurrentUrl()
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
 )
@@ -72,6 +88,7 @@ Given(
         cy.visit(
             '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202212'
         )
+        logCurrentUrl()
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
 )
@@ -82,6 +99,7 @@ Given(
         cy.visit(
             '/#/?dataSetId=BfMAe6Itzgt&orgUnitId=ImspTQPwCqd&periodId=202212'
         )
+        logCurrentUrl()
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
 )
@@ -92,6 +110,7 @@ Given(
         cy.visit(
             '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202112'
         )
+        logCurrentUrl()
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
 )
@@ -102,6 +121,7 @@ Given(
         cy.visit(
             '/#/?dataSetId=lyLU2wR22tC&orgUnitId=ImspTQPwCqd&periodId=202112&attributeOptionComboSelection=LFsZ8v5v7rq-CW81uF03hvV'
         )
+        logCurrentUrl()
         cy.get('[data-test="data-set-selector"]').should('exist')
     }
 )
@@ -110,6 +130,7 @@ Given('a data set, org unit, period and options have been selected', () => {
     cy.visit(
         '#/?attributeOptionComboSelection=yY2bQYqNt0o-M58XdOfhiJ7&dataSetId=TuL8IOPzpHh&orgUnitId=DiszpKrYNg8&periodId=202112'
     )
+    logCurrentUrl()
     cy.get('[data-test="data-set-selector"]').should('exist')
 })
 
@@ -117,12 +138,14 @@ Given('a link references an invalid category option', () => {
     cy.visit(
         '#/?attributeOptionComboSelection=eLwL77Z9E7R-InvalidCategoryOption&dataSetId=Lpw6GcnTrmS&orgUnitId=ImspTQPwCqd&periodId=202112'
     )
+    logCurrentUrl()
 })
 
 Given('a link references an invalid category', () => {
     cy.visit(
         '#/?attributeOptionComboSelection=InvalidCategory-STgy27fGvaU&dataSetId=Lpw6GcnTrmS&orgUnitId=ImspTQPwCqd&periodId=202112'
     )
+    logCurrentUrl()
 })
 
 When('the user opens the dropdown for the category of that option', () => {
