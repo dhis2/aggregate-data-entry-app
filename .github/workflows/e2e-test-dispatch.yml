@@ -71,9 +71,9 @@ jobs:
             - name: End-to-End tests
               uses: cypress-io/github-action@v6
               with:
-                  config: baseUrl=${{ github.event.inputs.instance_url }}/dhis-web-dataentry/index.action
+                  config: baseUrl=https://test.e2e.dhis2.org/analytics-2.41/dhis-web-dataentry/index.action
                   browser: chrome
-                  wait-on: ${{ github.event.inputs.instance_url }}
+                  wait-on: https://test.e2e.dhis2.org/analytics-2.41
                   wait-on-timeout: 300
                   record: ${{ env.SHOULD_RECORD }}
                   parallel: ${{ env.SHOULD_RECORD }}
