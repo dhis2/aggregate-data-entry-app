@@ -70,6 +70,12 @@ export function InnerWrapper({
             categoryOptionComboId: cocId,
         })
     )
+    const value = useValueStore((state) =>
+        state.getDataValue({
+            dataElementId: deId,
+            categoryOptionComboId: cocId,
+        })
+    )
     const isRequired = useIsCompulsoryDataElementOperand({
         dataElementId: deId,
         categoryOptionComboId: cocId,
