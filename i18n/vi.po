@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2024-11-29T16:17:15.582Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Em Le <em.hispvietnam@gmail.com>, 2024\n"
 "Language-Team: Vietnamese (https://app.transifex.com/hisp-uio/teams/100509/vi/)\n"
@@ -89,6 +89,9 @@ msgid "Couldn't validate the form. This does not effect form completion!"
 msgstr ""
 
 msgid "The form can't be completed while invalid"
+msgstr ""
+
+msgid "Compulsory fields must be filled out before completing the form"
 msgstr ""
 
 msgid "1 comment required"
@@ -210,6 +213,9 @@ msgid "Warning, saved"
 msgstr ""
 
 msgid "Locked, not editable"
+msgstr ""
+
+msgid "Compulsory field"
 msgstr ""
 
 msgid "Help"
@@ -345,7 +351,7 @@ msgid "User"
 msgstr "Người dùng"
 
 msgid "Change"
-msgstr ""
+msgstr "Thay đổi"
 
 msgid "audit dates are given in {{- timeZone}} time"
 msgstr ""
