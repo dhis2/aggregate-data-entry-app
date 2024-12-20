@@ -78,7 +78,7 @@ export const OptionSet = ({
         if (syncTouched) {
             setValueSynced(value === lastSyncedValue)
         }
-    }, [value, lastSyncedValue, syncTouched])
+    }, [value, lastSyncedValue, syncTouched, setValueSynced])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
     const syncData = (newValue) => {

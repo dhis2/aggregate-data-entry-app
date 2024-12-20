@@ -63,7 +63,7 @@ export const GenericInput = ({
         if (syncTouched) {
             setValueSynced(value === lastSyncedValue)
         }
-    }, [value, lastSyncedValue, syncTouched])
+    }, [value, lastSyncedValue, syncTouched, setValueSynced])
 
     const limits = useMinMaxLimits(deId, cocId)
 
@@ -75,9 +75,12 @@ export const GenericInput = ({
 
     // check if the initial value has any associated warnings
     useEffect(() => {
-        const warningValidationResult = warningValidator(value)
-        setWarning(fieldname, warningValidationResult)
-    }, [initialValue, warningValidator, setWarning, fieldname])
+        // only check if the value has not been updated (i.e. is initial value)
+        if (!syncTouched) {
+            const warningValidationResult = warningValidator(value)
+            setWarning(fieldname, warningValidationResult)
+        }
+    }, [value, syncTouched, warningValidator, setWarning, fieldname])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
 

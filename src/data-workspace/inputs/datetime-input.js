@@ -44,7 +44,7 @@ export const DateTimeInput = ({
             const dateWithTime = convertToDateWithTime({ date, time })
             setValueSynced(dateWithTime === lastSyncedValue)
         }
-    }, [date, time, lastSyncedValue, syncTouched])
+    }, [date, time, lastSyncedValue, syncTouched, setValueSynced])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
 

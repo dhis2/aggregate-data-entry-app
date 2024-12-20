@@ -45,7 +45,7 @@ export const FileResourceInput = ({
                 )
             }
         }
-    }, [value, lastSyncedValue, syncTouched])
+    }, [value, lastSyncedValue, syncTouched, setValueSynced])
 
     const dataValueParams = useDataValueParams({ deId, cocId })
     const fileLink = useFileInputUrl(dataValueParams)
