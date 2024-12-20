@@ -81,7 +81,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     // We want to block initialization of form if in-flight
     // or else we might use stale data that won't be updated once request completes
-    if (initialDataValuesFetch.isFetching) {
+    if (
+        initialDataValuesFetch.isFetching ||
+        (!initialDataValuesFetch.isFetchedAfterMount &&
+            !initialDataValuesFetch.isPaused)
+    ) {
         return (
             <CenteredContent>
                 <CircularLoader />

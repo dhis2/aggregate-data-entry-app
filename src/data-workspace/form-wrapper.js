@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useValueStore } from '../shared/index.js'
 
 function mapObject(input, callback) {
@@ -35,7 +35,7 @@ export function FormWrapper({ children, dataValueSet, validFormKey }) {
         useValueStore((state) => state.getInitialDataValues())?.formKey ===
         validFormKey
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (setInitialDataValues && initialValues && validFormKey) {
             setInitialDataValues(initialValues, validFormKey)
         }
