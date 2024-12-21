@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2024-11-29T16:17:15.582Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: easylin <lin_xd@126.com>, 2024\n"
 "Language-Team: Chinese (https://app.transifex.com/hisp-uio/teams/100509/zh/)\n"
@@ -89,6 +89,9 @@ msgstr "无法验证表单。这不会影响表格完成！"
 
 msgid "The form can't be completed while invalid"
 msgstr "表格无效时无法填写"
+
+msgid "Compulsory fields must be filled out before completing the form"
+msgstr "填写表格前必须填写必填项"
 
 msgid "1 comment required"
 msgstr "需要 1 条评论"
@@ -210,6 +213,9 @@ msgstr "警告，已保存"
 
 msgid "Locked, not editable"
 msgstr "锁定，不可编辑"
+
+msgid "Compulsory field"
+msgstr "强制字段"
 
 msgid "Help"
 msgstr "帮助"
