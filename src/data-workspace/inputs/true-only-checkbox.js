@@ -1,41 +1,42 @@
 import { Checkbox } from '@dhis2/ui'
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect, useState } from 'react'
 import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
-import { convertCallbackSignatures, InputPropTypes } from './utils.js'
+import { convertBooleanValue, InputPropTypes } from './utils.js'
 
 export const TrueOnlyCheckbox = ({
-    fieldname,
-    form,
     deId,
     cocId,
     onKeyDown,
     onFocus,
+    onBlur,
     disabled,
     locked,
+    initialValue,
+    setValueSynced,
 }) => {
-    const {
-        input,
-        meta: { valid, data },
-    } = useField(fieldname, {
-        type: 'checkbox',
-        subscription: { value: true, dirty: true, valid: true, data: true },
-    })
+    const [value, setValue] = useState(() => convertBooleanValue(initialValue))
+    const [lastSyncedValue, setLastSyncedValue] = useState(() =>
+        convertBooleanValue(initialValue)
+    )
+    const [syncTouched, setSyncTouched] = useState(false)
+
+    useEffect(() => {
+        if (syncTouched) {
+            setValueSynced(value === lastSyncedValue)
+        }
+    }, [value, lastSyncedValue, syncTouched, setValueSynced])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
-    const syncData = (value) => {
+    const syncData = (newValue) => {
+        setSyncTouched(true)
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { value: value || '' },
+            { value: newValue || '' },
             {
                 onSuccess: () => {
-                    form.mutators.setFieldData(fieldname, {
-                        // value will be formatted to boolean, so keep same format
-                        // '' becomes false
-                        lastSyncedValue: !!value,
-                    })
+                    setLastSyncedValue(newValue)
                 },
             }
         )
@@ -43,11 +44,7 @@ export const TrueOnlyCheckbox = ({
 
     // todo: checking then unchecking the box will send a single unnecessary POST
     const handleBlur = () => {
-        // For 'True only', can only send 'true' (or '1') or ''
-        const value = input.checked ? 'true' : ''
-        const lastVal = data.lastSyncedValue ? 'true' : ''
-
-        if (valid && value !== lastVal) {
+        if (value !== lastSyncedValue) {
             syncData(value)
         }
     }
@@ -56,14 +53,16 @@ export const TrueOnlyCheckbox = ({
         <div className={styles.checkboxWrapper} onClick={onFocus}>
             <Checkbox
                 dense
-                {...convertCallbackSignatures(input)}
+                checked={value === 'true'}
                 onFocus={(...args) => {
-                    input.onFocus(...args)
                     onFocus?.(...args)
                 }}
-                onBlur={(e) => {
+                onChange={(e) => {
+                    setValue(e.checked ? 'true' : '')
+                }}
+                onBlur={() => {
                     handleBlur()
-                    input.onBlur(e)
+                    onBlur()
                 }}
                 onKeyDown={onKeyDown}
                 disabled={disabled || locked}
