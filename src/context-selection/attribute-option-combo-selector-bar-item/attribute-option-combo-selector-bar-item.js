@@ -10,6 +10,7 @@ import {
     useOrgUnitId,
     usePeriodId,
     useAttributeOptionComboSelection,
+    useOrgUnit,
 } from '../../shared/index.js'
 import CategoriesMenu from './categories-menu.js'
 import useSelected from './use-selected.js'
@@ -58,6 +59,8 @@ export default function AttributeOptionComboSelectorBarItem({
         useAttributeOptionComboSelection()
     const { systemInfo = {} } = useConfig()
     const { calendar = 'gregory' } = systemInfo
+    const { data: orgUnitData } = useOrgUnit()
+    const orgUnitPath = orgUnitData?.path
 
     const relevantCategoriesWithOptions =
         selectors.getCategoriesWithOptionsWithinPeriodWithOrgUnit(
@@ -65,6 +68,7 @@ export default function AttributeOptionComboSelectorBarItem({
             dataSetId,
             periodId,
             orgUnitId,
+            orgUnitPath,
             calendar
         )
 

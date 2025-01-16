@@ -508,10 +508,21 @@ const isOptionWithinPeriod = ({
     return true
 }
 
-const isOptionAssignedToOrgUnit = ({ categoryOption, orgUnitId }) => {
+const isOptionAssignedToOrgUnit = ({
+    categoryOption,
+    orgUnitId,
+    orgUnitPath,
+}) => {
     // by default,
     if (!categoryOption?.organisationUnits?.length) {
         return true
+    }
+    // if offline, the orgUnitPath may be undefined (we do not have path details in metadata)
+    if (orgUnitPath) {
+        const ancestors = orgUnitPath.split('/').filter((o) => o.length)
+        return ancestors.some((ancestor) =>
+            categoryOption?.organisationUnits.includes(ancestor)
+        )
     }
     return categoryOption?.organisationUnits.includes(orgUnitId)
 }
@@ -532,8 +543,16 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
         getDataSetById,
         (_, __, periodId) => periodId,
         (_, __, ___, orgUnitId) => orgUnitId,
-        (_, __, ___, ____, calendar) => calendar,
-        (metadata, dataSet, periodId, orgUnitId, calendar = 'gregory') => {
+        (_, __, ___, ____, orgUnitPath) => orgUnitPath,
+        (_, __, ___, ____, _____, calendar) => calendar,
+        (
+            metadata,
+            dataSet,
+            periodId,
+            orgUnitId,
+            orgUnitPath,
+            calendar = 'gregory'
+        ) => {
             if (!dataSet?.id || !periodId) {
                 return []
             }
@@ -602,6 +621,7 @@ export const getCategoriesWithOptionsWithinPeriodWithOrgUnit =
                         isOptionAssignedToOrgUnit({
                             categoryOption,
                             orgUnitId,
+                            orgUnitPath,
                         })
                 ),
             }))
