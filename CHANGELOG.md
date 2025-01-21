@@ -1,3 +1,10 @@
+## [100.11.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.6...v100.11.7) (2025-01-21)
+
+
+### Bug Fixes
+
+* test ancestor orgunits for aoc assignment [DHIS2-18526] ([#441](https://github.com/dhis2/aggregate-data-entry-app/issues/441)) ([637af0b](https://github.com/dhis2/aggregate-data-entry-app/commit/637af0bf38e23d2f26d7c5660beab9518d20c00c))
+
 ## [100.11.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.5...v100.11.6) (2024-12-22)
 
 
