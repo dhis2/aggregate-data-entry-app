@@ -222,7 +222,7 @@ describe('ValidationResultsSidebar', () => {
 
         await findByText('Running validation...')
         expect(queryByText('There was a problem running validation')).toBeNull()
-        expect(getByText('2 medium priority alerts')).toBeDefined()
+        expect(await findByText('2 medium priority alerts')).toBeDefined()
     })
     it('should show empty data', async () => {
         const overrideOptions = {
