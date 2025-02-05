@@ -1,13 +1,10 @@
-import { getIn } from 'final-form'
 import { useMemo, useRef } from 'react'
-import { useForm } from 'react-final-form'
-import { useBlurredField } from '../../shared/index.js'
+import { useBlurredField, useValueStore } from '../../shared/index.js'
 import { getFieldId } from '../get-field-id.js'
-const createValueMatrix = (dataElements, sortedCOCs, formState) =>
+
+const createValueMatrix = (dataElements, sortedCOCs, dataValues) =>
     dataElements.map((de) =>
-        sortedCOCs.map((coc) =>
-            getIn(formState.values, getFieldId(de.id, coc.id))
-        )
+        sortedCOCs.map((coc) => dataValues?.[de?.id]?.[coc?.id]?.value)
     )
 
 /**
@@ -18,8 +15,9 @@ const createValueMatrix = (dataElements, sortedCOCs, formState) =>
  */
 export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
     const valueMatrixRef = useRef(null)
-    const form = useForm()
     const blurredField = useBlurredField()
+    const dataValues = useValueStore((state) => state.getDataValues())
+
     const affectedFieldsLookup = useMemo(
         () =>
             new Set(
@@ -38,9 +36,15 @@ export const useValueMatrix = (dataElements = [], sortedCOCs = []) => {
             valueMatrixRef.current = createValueMatrix(
                 dataElements,
                 sortedCOCs,
-                form.getState()
+                dataValues
             )
         }
         return valueMatrixRef.current
-    }, [blurredField, affectedFieldsLookup, dataElements, form, sortedCOCs])
+    }, [
+        blurredField,
+        affectedFieldsLookup,
+        dataElements,
+        dataValues,
+        sortedCOCs,
+    ])
 }

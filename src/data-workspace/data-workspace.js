@@ -16,11 +16,12 @@ import {
     useValueStore,
     dataValueSetQueryKey,
     useEntryFormStore,
+    useConnectionStatus,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { EntryScreen } from './entry-screen.js'
-import { FinalFormWrapper } from './final-form-wrapper.js'
+import { FormWrapper } from './form-wrapper.js'
 import { useHandleHeaderbarStatus } from './use-handle-headerbar-status.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
@@ -30,6 +31,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     useCheckLockStatus()
     const updateStore = useValueStore((state) => state.setDataValueSet)
     const initialDataValuesFetch = useDataValueSet()
+    const { offline } = useConnectionStatus()
 
     useEffect(() => {
         updateStore(initialDataValuesFetch.data)
@@ -81,7 +83,12 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     // We want to block initialization of form if in-flight
     // or else we might use stale data that won't be updated once request completes
-    if (initialDataValuesFetch.isFetching) {
+    if (
+        initialDataValuesFetch.isFetching ||
+        (!offline &&
+            !initialDataValuesFetch.isFetchedAfterMount &&
+            !initialDataValuesFetch.isPaused)
+    ) {
         return (
             <CenteredContent>
                 <CircularLoader />
@@ -116,7 +123,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (
-        <FinalFormWrapper key={formKey} dataValueSet={dataValueSet}>
+        <FormWrapper
+            key={formKey}
+            dataValueSet={dataValueSet}
+            validFormKey={validFormKey}
+        >
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>
@@ -128,7 +139,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     <BottomBar />
                 </footer>
             </div>
-        </FinalFormWrapper>
+        </FormWrapper>
     )
 }
 
