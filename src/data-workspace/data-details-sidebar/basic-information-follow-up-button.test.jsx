@@ -82,7 +82,7 @@ describe('FollowUpButton', () => {
         })
 
         describe('when clicking Mark for followup', () => {
-            it(`should set the value of followUp to true`, () => {
+            it(`should set the value of followUp to true`, async () => {
                 const mutate = jest.fn()
 
                 useSetDataValueMutation.mockImplementation(() => ({
@@ -95,7 +95,7 @@ describe('FollowUpButton', () => {
                     />
                 )
 
-                userEvent.click(getByText('Mark for follow-up'))
+                await userEvent.click(getByText('Mark for follow-up'))
                 expect(mutate).toHaveBeenCalledWith({
                     followUp: true,
                 })
@@ -113,7 +113,7 @@ describe('FollowUpButton', () => {
         })
 
         describe('when clicking Mark for followup', () => {
-            it(`should set the value of followUp to true`, () => {
+            it(`should set the value of followUp to true`, async () => {
                 const mutate = jest.fn()
 
                 useSetDataValueMutation.mockImplementation(() => ({
@@ -126,7 +126,7 @@ describe('FollowUpButton', () => {
                     />
                 )
 
-                userEvent.click(getByText('Unmark for follow-up'))
+                await userEvent.click(getByText('Unmark for follow-up'))
 
                 expect(mutate).toHaveBeenCalledWith({
                     followUp: false,

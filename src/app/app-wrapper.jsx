@@ -31,7 +31,7 @@ const enableRQDevtools = process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
 export function OuterComponents({
     children,
     // This way we can use a different router in tests when needed
-    router: Router,
+    router: Router = HashRouter,
     queryClient: customQueryClient,
 }) {
     const queryClient = useQueryClient()
@@ -58,10 +58,6 @@ export function OuterComponents({
             </ConfiguredQueryClientProvider>
         </>
     )
-}
-
-OuterComponents.defaultProps = {
-    router: HashRouter,
 }
 
 OuterComponents.propTypes = {

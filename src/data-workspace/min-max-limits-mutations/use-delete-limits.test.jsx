@@ -1,5 +1,5 @@
 import { QueryCache } from '@tanstack/react-query'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import React from 'react'
 import { useDataValueSetQueryKey, useDataValueSet } from '../../shared/index.js'
 import { dataValueSets } from '../../shared/use-data-value-set/query-key-factory.js'
@@ -36,36 +36,35 @@ describe('useDeleteLimits', () => {
         const queryCache = new QueryCache()
 
         // first we need to load the data value set so we have an entry for min-max values
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
-                wrapper: ({ children }) => (
-                    <Wrapper
-                        queryClientOptions={{ queryCache }}
-                        dataForCustomProvider={{
-                            'dataEntry/dataValues': () => {
-                                return Promise.resolve({
-                                    minMaxValues: [
-                                        {
-                                            categoryOptionCombo:
-                                                'category-option-combo-id',
-                                            dataElement: 'data-element-id',
-                                            orgUnit: 'orgUnitId',
-                                            minValue: 3,
-                                            maxValue: 4,
-                                        },
-                                    ],
-                                })
-                            },
-                        }}
-                    >
-                        {children}
-                    </Wrapper>
-                ),
-            })
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        'dataEntry/dataValues': () => {
+                            return Promise.resolve({
+                                minMaxValues: [
+                                    {
+                                        categoryOptionCombo:
+                                            'category-option-combo-id',
+                                        dataElement: 'data-element-id',
+                                        orgUnit: 'orgUnitId',
+                                        minValue: 3,
+                                        maxValue: 4,
+                                    },
+                                ],
+                            })
+                        },
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
 
         // we need to wait for the initial data values to have been fetched
         // (and therefore cached)
-        await waitForDataValueSet(() => {
+        await waitFor(() => {
             const { isSuccess, isError } = dataValueSet.current
             expect(isSuccess || isError).toBe(true)
         })
@@ -96,7 +95,7 @@ describe('useDeleteLimits', () => {
         })
 
         // Now update the limits and wait until it's done
-        const { result, waitFor } = renderHook(useDeleteLimits, {
+        const { result } = renderHook(useDeleteLimits, {
             wrapper: ({ children }) => (
                 <Wrapper
                     queryClientOptions={{ queryCache }}
@@ -130,36 +129,35 @@ describe('useDeleteLimits', () => {
         const queryCache = new QueryCache()
 
         // first we need to load the data value set so we have an entry for min-max values
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
-                wrapper: ({ children }) => (
-                    <Wrapper
-                        queryClientOptions={{ queryCache }}
-                        dataForCustomProvider={{
-                            'dataEntry/dataValues': () => {
-                                return Promise.resolve({
-                                    minMaxValues: [
-                                        {
-                                            categoryOptionCombo:
-                                                'category-option-combo-id',
-                                            dataElement: 'data-element-id',
-                                            orgUnit: 'orgUnitId',
-                                            minValue: 3,
-                                            maxValue: 4,
-                                        },
-                                    ],
-                                })
-                            },
-                        }}
-                    >
-                        {children}
-                    </Wrapper>
-                ),
-            })
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        'dataEntry/dataValues': () => {
+                            return Promise.resolve({
+                                minMaxValues: [
+                                    {
+                                        categoryOptionCombo:
+                                            'category-option-combo-id',
+                                        dataElement: 'data-element-id',
+                                        orgUnit: 'orgUnitId',
+                                        minValue: 3,
+                                        maxValue: 4,
+                                    },
+                                ],
+                            })
+                        },
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
 
         // we need to wait for the initial data values to have been fetched
         // (and therefore cached)
-        await waitForDataValueSet(() => {
+        await waitFor(() => {
             const { isSuccess, isError } = dataValueSet.current
             expect(isSuccess || isError).toBe(true)
         })
@@ -189,7 +187,7 @@ describe('useDeleteLimits', () => {
             ],
         })
 
-        const { result, waitFor } = renderHook(useDeleteLimits, {
+        const { result } = renderHook(useDeleteLimits, {
             wrapper: ({ children }) => (
                 <Wrapper
                     queryClientOptions={{ queryCache }}
@@ -235,36 +233,35 @@ describe('useDeleteLimits', () => {
         const queryCache = new QueryCache()
 
         // first we need to load the data value set so we have an entry for min-max values
-        const { result: dataValueSet, waitFor: waitForDataValueSet } =
-            renderHook(useDataValueSet, {
-                wrapper: ({ children }) => (
-                    <Wrapper
-                        queryClientOptions={{ queryCache }}
-                        dataForCustomProvider={{
-                            'dataEntry/dataValues': () => {
-                                return Promise.resolve({
-                                    minMaxValues: [
-                                        {
-                                            categoryOptionCombo:
-                                                'category-option-combo-id',
-                                            dataElement: 'data-element-id',
-                                            orgUnit: 'orgUnitId',
-                                            minValue: 3,
-                                            maxValue: 4,
-                                        },
-                                    ],
-                                })
-                            },
-                        }}
-                    >
-                        {children}
-                    </Wrapper>
-                ),
-            })
+        const { result: dataValueSet } = renderHook(useDataValueSet, {
+            wrapper: ({ children }) => (
+                <Wrapper
+                    queryClientOptions={{ queryCache }}
+                    dataForCustomProvider={{
+                        'dataEntry/dataValues': () => {
+                            return Promise.resolve({
+                                minMaxValues: [
+                                    {
+                                        categoryOptionCombo:
+                                            'category-option-combo-id',
+                                        dataElement: 'data-element-id',
+                                        orgUnit: 'orgUnitId',
+                                        minValue: 3,
+                                        maxValue: 4,
+                                    },
+                                ],
+                            })
+                        },
+                    }}
+                >
+                    {children}
+                </Wrapper>
+            ),
+        })
 
         // we need to wait for the initial data values to have been fetched
         // (and therefore cached)
-        await waitForDataValueSet(() => {
+        await waitFor(() => {
             const { isSuccess, isError } = dataValueSet.current
             expect(isSuccess || isError).toBe(true)
         })
@@ -299,7 +296,7 @@ describe('useDeleteLimits', () => {
             return Promise.resolve({})
         })
 
-        const { result, waitFor } = renderHook(useDeleteLimits, {
+        const { result } = renderHook(useDeleteLimits, {
             wrapper: ({ children }) => (
                 <Wrapper
                     queryClientOptions={{ queryCache }}

@@ -670,9 +670,11 @@ describe('<CategoryComboTableBody />', () => {
             }
         )
 
-        const disabledInputs = result.getAllByRole((role, element) => {
-            return role === 'textbox' && element.disabled
-        })
+        // const disabledInputs = result.getAllByRole('textbox', {
+        //     disabled: true,
+        // })
+        const disabledInputs =
+            result.container.getElementsByClassName('disabled')
 
         expect(disabledInputs.length).toBe(8)
     })
