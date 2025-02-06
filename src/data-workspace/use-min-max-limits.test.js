@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import { useMinMaxLimits } from './use-min-max-limits.js'
 
 jest.mock('../shared/index.js', () => ({
