@@ -142,19 +142,19 @@ describe('CompleteButton', () => {
         useImperativeValidate.mockReturnValue(mockValidate)
     })
 
-    it('validates form and completes when clicked', () => {
+    it('validates form and completes when clicked', async () => {
         mockIsComplete.mockReturnValue(false)
         useDataSetId.mockReturnValue(['data_set_id_1'])
         useDataValueSet.mockReturnValue({ data: MOCK_DATA })
         useMetadata.mockReturnValue({ data: MOCK_METADATA })
         const { getByText } = render(<CompleteButton />)
 
-        userEvent.click(getByText('Mark complete'))
+        await userEvent.click(getByText('Mark complete'))
         expect(mockValidate).toHaveBeenCalledOnce()
         expect(mockSetFormCompletion).toHaveBeenCalledWith({ completed: true })
     })
 
-    it('completes if the compulsoryFieldsCompleteOnly:true but there are no compulsory data element operands', () => {
+    it('completes if the compulsoryFieldsCompleteOnly:true but there are no compulsory data element operands', async () => {
         mockIsComplete.mockReturnValue(false)
         useDataSetId.mockReturnValue([
             'data_set_id_compulsory_validation_without_cdeo',
@@ -163,7 +163,7 @@ describe('CompleteButton', () => {
         useMetadata.mockReturnValue({ data: MOCK_METADATA })
         const { getByText } = render(<CompleteButton />)
 
-        userEvent.click(getByText('Mark complete'))
+        await userEvent.click(getByText('Mark complete'))
         expect(mockValidate).toHaveBeenCalledOnce()
         expect(mockSetFormCompletion).toHaveBeenCalledWith({ completed: true })
         // completeAttempted only set if the complete is rejected due to compulsory data element operands
@@ -179,7 +179,7 @@ describe('CompleteButton', () => {
         useMetadata.mockReturnValue({ data: MOCK_METADATA })
         const { getByText } = render(<CompleteButton />)
 
-        userEvent.click(getByText('Mark complete'))
+        await userEvent.click(getByText('Mark complete'))
         expect(mockValidate).not.toHaveBeenCalled()
         expect(mockSetFormCompletion).not.toHaveBeenCalled()
         expect(mockSetCompleteAttempted).toHaveBeenCalledWith(true)
@@ -190,7 +190,7 @@ describe('CompleteButton', () => {
         )
     })
 
-    it('completes if the compulsoryFieldsCompleteOnly:true and there are compulsory data element operands but all have values', () => {
+    it('completes if the compulsoryFieldsCompleteOnly:true and there are compulsory data element operands but all have values', async () => {
         mockIsComplete.mockReturnValue(false)
         useDataSetId.mockReturnValue([
             'data_set_id_compulsory_validation_with_cdeo',
@@ -199,21 +199,21 @@ describe('CompleteButton', () => {
         useMetadata.mockReturnValue({ data: MOCK_METADATA })
         const { getByText } = render(<CompleteButton />)
 
-        userEvent.click(getByText('Mark complete'))
+        await userEvent.click(getByText('Mark complete'))
         expect(mockValidate).toHaveBeenCalledOnce()
         expect(mockSetFormCompletion).toHaveBeenCalledWith({ completed: true })
         // completeAttempted only set if the complete is rejected due to compulsory data element operands
         expect(mockSetCompleteAttempted).not.toHaveBeenCalled()
     })
 
-    it('marks form as incomplete if form is completed', () => {
+    it('marks form as incomplete if form is completed', async () => {
         mockIsComplete.mockReturnValue(true)
         useDataSetId.mockReturnValue(['data_set_id_1'])
         useDataValueSet.mockReturnValue({ data: MOCK_DATA })
         useMetadata.mockReturnValue({ data: MOCK_METADATA })
         const { getByText } = render(<CompleteButton />)
 
-        userEvent.click(getByText('Mark incomplete'))
+        await userEvent.click(getByText('Mark incomplete'))
         expect(mockValidate).not.toHaveBeenCalledOnce()
         expect(mockSetFormCompletion).toHaveBeenCalledWith({ completed: false })
     })
