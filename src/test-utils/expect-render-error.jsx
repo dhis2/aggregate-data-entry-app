@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 /**
  * Taken from the gist referenced here: https://github.com/facebook/react/issues/11098#issuecomment-412682721
@@ -41,10 +41,11 @@ const expectRenderError = (element, expectedError) => {
     }
 
     const div = document.createElement('div')
+    const root = createRoot(div)
     window.addEventListener('error', handleTopLevelError)
 
     try {
-        ReactDOM.render(<TestBoundary>{element}</TestBoundary>, div)
+        root.render(<TestBoundary>{element}</TestBoundary>)
     } finally {
         window.removeEventListener('error', handleTopLevelError)
     }

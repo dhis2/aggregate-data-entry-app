@@ -69,7 +69,7 @@ describe('highlighted field store', () => {
             errors: { [cellId]: apiMutationError },
         })
 
-        const { result, waitFor } = renderHook(useSyncErrorsStore)
+        const { result } = renderHook(useSyncErrorsStore)
 
         act(() => {
             result.current.clearErrorById(cellId)
@@ -97,7 +97,7 @@ describe('highlighted field store', () => {
             errors: { [cellId]: apiMutationError },
         })
 
-        const { result, waitFor } = renderHook(useSyncErrorsStore)
+        const { result } = renderHook(useSyncErrorsStore)
 
         act(() => {
             result.current.clearErrorByMutationKey(mutationKey)
@@ -125,7 +125,7 @@ describe('highlighted field store', () => {
             errors: { [cellId]: apiMutationError },
         })
 
-        const { result, waitFor } = renderHook(useSyncErrorsStore)
+        const { result } = renderHook(useSyncErrorsStore)
 
         act(() => {
             result.current.clearErrorByDataValueParams(params)
@@ -174,7 +174,7 @@ describe('highlighted field store', () => {
             },
         })
 
-        const { result, waitFor } = renderHook(useSyncErrorsStore)
+        const { result } = renderHook(useSyncErrorsStore)
 
         act(() => {
             result.current.clearAll()

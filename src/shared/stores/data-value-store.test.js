@@ -9,7 +9,7 @@ describe('data value store', () => {
     })
 
     it('should set the data value set', async () => {
-        const { result, waitFor } = renderHook(useValueStore)
+        const { result } = renderHook(useValueStore)
         const dataValueSet = {
             dataValues: 'foo',
             minMaxValues: 'bar',

@@ -1,7 +1,7 @@
-import { CustomDataProvider } from '@dhis2/app-runtime'
+// import { CustomDataProvider } from '@dhis2/app-runtime'
 // import { shallow } from 'enzyme'
-import React from 'react'
-import { OrganisationUnitTree } from './organisation-unit-tree.jsx'
+// import React from 'react'
+// import { OrganisationUnitTree } from './organisation-unit-tree.jsx'
 
 // There is no official Enzyme React 18 (or 17) adapter and the advice is to move to RTL
 // more context here: https://dev.to/wojtekmaj/enzyme-is-dead-now-what-ekl
@@ -22,16 +22,16 @@ describe.skip('OrganisationUnitTree', () => {
     describe('Controlled expanded props', () => {
         describe('Missing props', () => {
             it('should throw a prop-types error when "handleCollapse" is missing', () => {
-                shallow(
-                    <CustomDataProvider data={{}}>
-                        <OrganisationUnitTree
-                            roots="/A001"
-                            expanded={[]}
-                            onChange={() => {}}
-                            handleExpand={() => {}}
-                        />
-                    </CustomDataProvider>
-                )
+                // shallow(
+                //     <CustomDataProvider data={{}}>
+                //         <OrganisationUnitTree
+                //             roots="/A001"
+                //             expanded={[]}
+                //             onChange={() => {}}
+                //             handleExpand={() => {}}
+                //         />
+                //     </CustomDataProvider>
+                // )
 
                 expect(errorMock).toHaveBeenCalledTimes(1)
                 expect(errorMock.mock.calls[0][0]).toMatch(
@@ -40,16 +40,16 @@ describe.skip('OrganisationUnitTree', () => {
             })
 
             it('should throw a prop-types error when "handleExpand" is missing', () => {
-                shallow(
-                    <CustomDataProvider data={{}}>
-                        <OrganisationUnitTree
-                            roots="/A001"
-                            expanded={[]}
-                            onChange={() => {}}
-                            handleCollapse={() => {}}
-                        />
-                    </CustomDataProvider>
-                )
+                // shallow(
+                //     <CustomDataProvider data={{}}>
+                //         <OrganisationUnitTree
+                //             roots="/A001"
+                //             expanded={[]}
+                //             onChange={() => {}}
+                //             handleCollapse={() => {}}
+                //         />
+                //     </CustomDataProvider>
+                // )
 
                 expect(errorMock).toHaveBeenCalledTimes(1)
                 expect(errorMock.mock.calls[0][0]).toMatch(
@@ -58,16 +58,16 @@ describe.skip('OrganisationUnitTree', () => {
             })
 
             it('should throw a prop-types error when "expanded" is missing', () => {
-                shallow(
-                    <CustomDataProvider data={{}}>
-                        <OrganisationUnitTree
-                            roots="/A001"
-                            onChange={() => {}}
-                            handleCollapse={() => {}}
-                            handleExpand={() => {}}
-                        />
-                    </CustomDataProvider>
-                )
+                // shallow(
+                //     <CustomDataProvider data={{}}>
+                //         <OrganisationUnitTree
+                //             roots="/A001"
+                //             onChange={() => {}}
+                //             handleCollapse={() => {}}
+                //             handleExpand={() => {}}
+                //         />
+                //     </CustomDataProvider>
+                // )
 
                 expect(errorMock).toHaveBeenCalledTimes(1)
                 expect(errorMock.mock.calls[0][0]).toMatch(

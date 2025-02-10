@@ -8,7 +8,7 @@ describe('useValidationStore', () => {
     })
 
     it('should update validationToRefresh', async () => {
-        const { result, waitFor } = renderHook(useValidationStore)
+        const { result } = renderHook(useValidationStore)
 
         act(() => {
             result.current.setValidationToRefresh(true)

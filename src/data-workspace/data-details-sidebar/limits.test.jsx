@@ -1,4 +1,3 @@
-import { fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useUserInfo, useCanUserEditFields } from '../../shared/index.js'
@@ -158,12 +157,12 @@ describe('<Limits />', () => {
             }
             const {
                 findByRole,
-                getByRole,
+                // getByRole,
                 rerender,
                 getByLabelText,
                 findByLabelText,
-                getByTestId,
-                queryByLabelText,
+                // getByTestId,
+                // queryByLabelText,
             } = render(<Limits dataValue={firstItem} />)
 
             const user = userEvent.setup({
@@ -174,7 +173,7 @@ describe('<Limits />', () => {
             await user.click(btn)
             await findByLabelText('Min')
             const minInput = getByLabelText('Min')
-            const maxInput = getByLabelText('Max')
+            // const maxInput = getByLabelText('Max')
             await user.type(minInput, '1')
             // await user.type(maxInput, '99')
             // await userEvent.tab()
