@@ -70,22 +70,22 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
             wrapper,
         })
 
-        await waitFor(() => {})
-
-        expect(result.current).toEqual(
-            expect.objectContaining({
-                called: true,
-                error: null,
-                loading: false,
-                rootNodes: [
-                    {
-                        id: 'A0000000000',
-                        path: '/A0000000000',
-                        displayName: 'Org Unit 1',
-                    },
-                ],
-            })
-        )
+        await waitFor(() => {
+            expect(result.current).toEqual(
+                expect.objectContaining({
+                    called: true,
+                    error: null,
+                    loading: false,
+                    rootNodes: [
+                        {
+                            id: 'A0000000000',
+                            path: '/A0000000000',
+                            displayName: 'Org Unit 1',
+                        },
+                    ],
+                })
+            )
+        })
     })
 
     it('should provide the error', async () => {
@@ -105,49 +105,49 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
             wrapper: errorWrapper,
         })
 
-        await waitFor(() => {})
-
-        expect(result.current).toEqual(
-            expect.objectContaining({
-                called: true,
-                loading: false,
-                error: new Error('Error message'),
-                rootNodes: undefined,
-            })
-        )
+        await waitFor(() => {
+            expect(result.current).toEqual(
+                expect.objectContaining({
+                    called: true,
+                    loading: false,
+                    error: new Error('Error message'),
+                    rootNodes: undefined,
+                })
+            )
+        })
     })
 
     it('should send the "isUserDataViewFallback" parameter with value "undefined"', async () => {
         renderHook(() => useRootOrgData(['A0000000000']), { wrapper })
 
-        await waitFor(() => {})
-
-        expect(dataProviderData.organisationUnits).toHaveBeenCalledWith(
-            'read',
-            expect.objectContaining({
-                params: expect.objectContaining({
-                    isUserDataViewFallback: undefined,
+        await waitFor(() => {
+            expect(dataProviderData.organisationUnits).toHaveBeenCalledWith(
+                'read',
+                expect.objectContaining({
+                    params: expect.objectContaining({
+                        isUserDataViewFallback: undefined,
+                    }),
                 }),
-            }),
-            expect.objectContaining({}) // contains the `signal`
-        )
+                expect.objectContaining({}) // contains the `signal`
+            )
+        })
     })
 
     it('should send the "isUserDataViewFallback" parameter with value "true"', async () => {
         const options = { isUserDataViewFallback: true }
         renderHook(() => useRootOrgData(['A0000000000'], options), { wrapper })
 
-        await waitFor(() => {})
-
-        expect(dataProviderData.organisationUnits).toHaveBeenCalledWith(
-            'read',
-            expect.objectContaining({
-                params: expect.objectContaining({
-                    isUserDataViewFallback: true,
+        await waitFor(() => {
+            expect(dataProviderData.organisationUnits).toHaveBeenCalledWith(
+                'read',
+                expect.objectContaining({
+                    params: expect.objectContaining({
+                        isUserDataViewFallback: true,
+                    }),
                 }),
-            }),
-            expect.objectContaining({}) // contains the `signal`
-        )
+                expect.objectContaining({}) // contains the `signal`
+            )
+        })
     })
 
     it('should patch the display name if it is missing', async () => {
@@ -172,21 +172,21 @@ describe('OrganisationUnitTree - useRootOrgData', () => {
             wrapper: wrapperWithoutDisplayName,
         })
 
-        await waitFor(() => {})
-
-        expect(result.current).toEqual(
-            expect.objectContaining({
-                called: true,
-                loading: false,
-                error: null,
-                rootNodes: [
-                    {
-                        id: 'A0000000000',
-                        path: '/A0000000000',
-                        displayName: '',
-                    },
-                ],
-            })
-        )
+        await waitFor(() => {
+            expect(result.current).toEqual(
+                expect.objectContaining({
+                    called: true,
+                    loading: false,
+                    error: null,
+                    rootNodes: [
+                        {
+                            id: 'A0000000000',
+                            path: '/A0000000000',
+                            displayName: '',
+                        },
+                    ],
+                })
+            )
+        })
     })
 })
