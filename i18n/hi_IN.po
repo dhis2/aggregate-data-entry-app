@@ -1,20 +1,18 @@
 # 
 # Translators:
-# Caroline Hesthagen Holen <caroline@devotta.no>, 2022
-# Karoline Tufte Lien <karoline@dhis2.org>, 2023
-# Thomas Zemp, 2024
+# Siddharth Agarwal, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Thomas Zemp, 2024\n"
-"Language-Team: Norwegian Bokmål (https://app.transifex.com/hisp-uio/teams/100509/nb/)\n"
+"Last-Translator: Siddharth Agarwal, 2025\n"
+"Language-Team: Hindi (India) (https://app.transifex.com/hisp-uio/teams/100509/hi_IN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
+"Language: hi_IN\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Not authorized"
@@ -39,13 +37,13 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr "Merk som ufullstendig"
+msgstr ""
 
 msgid "Mark complete"
 msgstr ""
 
 msgid "Hide details"
-msgstr "Skjul detaljer"
+msgstr ""
 
 msgid "View details"
 msgstr ""
@@ -69,7 +67,7 @@ msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
-msgstr "Kjør validering"
+msgstr ""
 
 msgid "Last completed by"
 msgstr ""
@@ -96,13 +94,13 @@ msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
 
 msgid "High"
-msgstr "Høy"
+msgstr "उच्च"
 
 msgid "Medium"
-msgstr "Medium"
+msgstr ""
 
 msgid "Low"
-msgstr "Lav"
+msgstr "निम्न"
 
 msgid "{{length}} {{level}} priority alert"
 msgstr ""
@@ -111,7 +109,7 @@ msgid "{{length}} {{level}} priority alerts"
 msgstr ""
 
 msgid "Validation"
-msgstr "Validering"
+msgstr ""
 
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
@@ -169,7 +167,7 @@ msgid ""
 msgstr ""
 
 msgid "Hide menu"
-msgstr "Skjul meny"
+msgstr ""
 
 msgid "Default attribute combo"
 msgstr ""
@@ -205,16 +203,16 @@ msgid "Locked, not editable"
 msgstr ""
 
 msgid "Help"
-msgstr "Hjelp"
+msgstr "सहायता"
 
 msgid "or"
-msgstr "eller"
+msgstr ""
 
 msgid "Shortcuts"
 msgstr ""
 
 msgid "Show details"
-msgstr "Vis detaljer"
+msgstr ""
 
 msgid "Ctrl + Enter"
 msgstr ""
@@ -241,7 +239,7 @@ msgid "There are no data sets available!"
 msgstr ""
 
 msgid "Data set"
-msgstr "Datasett"
+msgstr ""
 
 msgid "Print form with values"
 msgstr ""
@@ -250,7 +248,7 @@ msgid "Print empty form"
 msgstr ""
 
 msgid "Options"
-msgstr "Alternativ"
+msgstr ""
 
 msgid "Search org units"
 msgstr ""
@@ -262,7 +260,7 @@ msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "Organisation unit"
-msgstr "Organisasjonsenhet"
+msgstr ""
 
 msgid "Choose a organisation unit"
 msgstr ""
@@ -271,13 +269,13 @@ msgid "No organisation units could be found"
 msgstr ""
 
 msgid "No children match filter"
-msgstr "Ingen underenheter matcher filter"
+msgstr ""
 
 msgid "Could not load children"
-msgstr "Kunne ikke laste underordnede enheter"
+msgstr ""
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr "Feil: {{ ERRORMESSAGE }}"
+msgstr ""
 
 msgid "Fetching organisation unit info"
 msgstr ""
@@ -289,7 +287,7 @@ msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
-msgstr "Periode"
+msgstr ""
 
 msgid "Choose a period"
 msgstr ""
@@ -298,7 +296,7 @@ msgid "All sections"
 msgstr ""
 
 msgid "Section"
-msgstr "Seksjon"
+msgstr ""
 
 msgid "Fetching data set info"
 msgstr ""
@@ -310,10 +308,10 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr "Verdi"
+msgstr ""
 
 msgid "Totals"
-msgstr "Totalsummer"
+msgstr ""
 
 msgid "Audit log"
 msgstr ""
@@ -322,7 +320,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr "Ikke tilgjengelig i frakoblet modus"
+msgstr ""
 
 msgid "No audit log for this data item."
 msgstr ""
@@ -331,7 +329,7 @@ msgid "Unmark for follow-up"
 msgstr ""
 
 msgid "Mark for follow-up"
-msgstr "Merk for oppfølging"
+msgstr ""
 
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
@@ -352,13 +350,13 @@ msgid "Category option combo ID: {{id}}"
 msgstr ""
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr "Sist oppdatert for {{- timeAgo}}av {{- name}}"
+msgstr ""
 
 msgid "Marked for follow-up"
 msgstr ""
 
 msgid "Comment"
-msgstr "Kommentar"
+msgstr ""
 
 msgid "There was a problem updating the comment for this data item"
 msgstr ""
@@ -370,16 +368,16 @@ msgid "Saving..."
 msgstr ""
 
 msgid "Save comment"
-msgstr "Lagre kommentar"
+msgstr ""
 
 msgid "Cancel"
-msgstr "Avbryt"
+msgstr "रद्द करें"
 
 msgid "Edit comment"
 msgstr ""
 
 msgid "Add comment"
-msgstr "Legg til en kommentar"
+msgstr ""
 
 msgid "No comment for this data item."
 msgstr ""
@@ -388,10 +386,10 @@ msgid "You do not have the authority to add or edit comments"
 msgstr ""
 
 msgid "Details"
-msgstr "Detaljer"
+msgstr ""
 
 msgid "History"
-msgstr "Historie"
+msgstr "इतिहास"
 
 msgid "Something went wrong loading the history"
 msgstr ""
@@ -415,10 +413,10 @@ msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
-msgstr "Min"
+msgstr ""
 
 msgid "Max"
-msgstr "Max"
+msgstr ""
 
 msgid "Min and max limits"
 msgstr ""
@@ -490,28 +488,28 @@ msgid "Clear filter"
 msgstr ""
 
 msgid "Indicators"
-msgstr "Indikatorer"
+msgstr ""
 
 msgid "Values"
-msgstr "Verdier"
+msgstr ""
 
 msgid "Yes"
-msgstr "Ja"
+msgstr "हाँ"
 
 msgid "No"
-msgstr "Nei"
+msgstr "नहीं"
 
 msgid "Clear"
-msgstr "Fjern"
+msgstr ""
 
 msgid "Delete"
-msgstr "Slett"
+msgstr "हटाएं"
 
 msgid "Upload an image"
 msgstr ""
 
 msgid "Upload a file"
-msgstr "Last opp en fil"
+msgstr ""
 
 msgid "Choose option(s)"
 msgstr ""
