@@ -1,3 +1,10 @@
+## [101.0.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.0...v101.0.1) (2025-02-21)
+
+
+### Bug Fixes
+
+* trigger release ([#446](https://github.com/dhis2/aggregate-data-entry-app/issues/446)) ([418d667](https://github.com/dhis2/aggregate-data-entry-app/commit/418d667be72ce1d7c7cfb0e274c6d18f1a2417f2))
+
 # [101.0.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.8...v101.0.0) (2025-02-21)
 
 
