@@ -1,3 +1,15 @@
+# [101.0.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.8...v101.0.0) (2025-02-21)
+
+
+### Features
+
+* update app title to data entry ([a8c0b3e](https://github.com/dhis2/aggregate-data-entry-app/commit/a8c0b3ea0468e53572c64942f54fda405f1e7658))
+
+
+### BREAKING CHANGES
+
+* updates app title to data entry
+
 ## [100.11.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.7...v100.11.8) (2025-02-04)
 
 
