@@ -1,5 +1,5 @@
 import { useConfig } from '@dhis2/app-runtime'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import usePeriods from './use-periods.js'
 
 jest.mock('@dhis2/app-runtime', () => ({

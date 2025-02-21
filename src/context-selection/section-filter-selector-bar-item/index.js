@@ -1,1 +1,1 @@
-export { default as SectionFilterSelectorBarItem } from './section-filter-selector-bar-item.js'
+export { default as SectionFilterSelectorBarItem } from './section-filter-selector-bar-item.jsx'
