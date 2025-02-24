@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import { useValueStore } from '../shared/index.js'
+import { useEntryFormStore, useValueStore } from '../shared/index.js'
 
 function mapObject(input, callback) {
     return Object.fromEntries(Object.entries(input).map(callback))
@@ -34,12 +34,17 @@ export function FormWrapper({ children, dataValueSet, validFormKey }) {
     const initialValuesInStore =
         useValueStore((state) => state.getInitialDataValues())?.formKey ===
         validFormKey
+    const resetFormMeta = useEntryFormStore((state) => state.reset)
 
     useEffect(() => {
         if (setInitialDataValues && initialValues && validFormKey) {
             setInitialDataValues(initialValues, validFormKey)
         }
     }, [initialValues, setInitialDataValues, validFormKey])
+
+    useEffect(() => {
+        resetFormMeta()
+    }, [resetFormMeta])
 
     if (!initialValuesInStore) {
         return null

@@ -29,6 +29,9 @@ export const useEntryFormStore = create((set, get) => {
         },
         getCompleteAttempted: () => get().completeAttempted,
         setCompleteAttempted: (bool) => set({ completeAttempted: bool }),
+        reset: () => {
+            set(inititalState)
+        },
         // could add getNumberOfWarnings if needed
     }
 })

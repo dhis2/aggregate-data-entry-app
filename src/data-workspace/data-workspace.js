@@ -16,7 +16,6 @@ import {
     useValueStore,
     dataValueSetQueryKey,
     useEntryFormStore,
-    useConnectionStatus,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
@@ -31,7 +30,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     useCheckLockStatus()
     const updateStore = useValueStore((state) => state.setDataValueSet)
     const initialDataValuesFetch = useDataValueSet()
-    const { offline } = useConnectionStatus()
 
     useEffect(() => {
         updateStore(initialDataValuesFetch.data)
@@ -81,21 +79,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return <EntryScreen />
     }
 
-    // We want to block initialization of form if in-flight
-    // or else we might use stale data that won't be updated once request completes
-    if (
-        initialDataValuesFetch.isFetching ||
-        (!offline &&
-            !initialDataValuesFetch.isFetchedAfterMount &&
-            !initialDataValuesFetch.isPaused)
-    ) {
-        return (
-            <CenteredContent>
-                <CircularLoader />
-            </CenteredContent>
-        )
-    }
-
     if (initialDataValuesFetch.error) {
         return (
             <NoticeBox
@@ -105,6 +88,19 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
             >
                 {initialDataValuesFetch.error?.message}
             </NoticeBox>
+        )
+    }
+
+    // We want to block initialization of form if in-flight
+    // or else we might use stale data that won't be updated once request completes
+    if (
+        initialDataValuesFetch.isFetching ||
+        initialDataValuesFetch.isInitialLoading
+    ) {
+        return (
+            <CenteredContent>
+                <CircularLoader />
+            </CenteredContent>
         )
     }
 
