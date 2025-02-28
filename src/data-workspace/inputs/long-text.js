@@ -1,45 +1,46 @@
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect, useState } from 'react'
 import { useSetDataValueMutation } from '../../shared/index.js'
 import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
 export const LongText = ({
-    fieldname,
-    form,
     deId,
     cocId,
     onKeyDown,
     onFocus,
+    onBlur,
     disabled,
     locked,
+    initialValue,
+    setValueSynced,
 }) => {
-    const {
-        input,
-        meta: { valid, data },
-    } = useField(fieldname, {
-        subscription: { value: true, dirty: true, valid: true, data: true },
-    })
+    const [value, setValue] = useState(initialValue)
+    const [lastSyncedValue, setLastSyncedValue] = useState(initialValue)
+    const [syncTouched, setSyncTouched] = useState(false)
+
+    useEffect(() => {
+        if (syncTouched) {
+            setValueSynced(value === lastSyncedValue)
+        }
+    }, [value, lastSyncedValue, syncTouched, setValueSynced])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
-    const syncData = (value) => {
+    const syncData = (newValue) => {
+        setSyncTouched(true)
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { value: value || '' },
+            { value: newValue || '' },
             {
                 onSuccess: () => {
-                    form.mutators.setFieldData(fieldname, {
-                        lastSyncedValue: value,
-                    })
+                    setLastSyncedValue(newValue)
                 },
             }
         )
     }
 
     const handleBlur = () => {
-        const { value } = input
-        if (valid && value !== data.lastSyncedValue) {
+        if (value !== lastSyncedValue) {
             syncData(value)
         }
     }
@@ -48,14 +49,16 @@ export const LongText = ({
         <textarea
             className={styles.longText}
             rows="4"
-            {...input}
+            value={value ?? ''}
+            onChange={(e) => {
+                setValue(e.target.value)
+            }}
             onFocus={(...args) => {
-                input.onFocus(...args)
                 onFocus?.(...args)
             }}
-            onBlur={(e) => {
+            onBlur={() => {
+                onBlur()
                 handleBlur()
-                input.onBlur(e)
             }}
             onKeyDown={onKeyDown}
             disabled={disabled}

@@ -1,7 +1,6 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect, useState } from 'react'
 import {
     NUMBER_TYPES,
     VALUE_TYPES,
@@ -24,97 +23,111 @@ const htmlTypeAttrsByValueType = {
     [VALUE_TYPES.URL]: 'url',
 }
 
+const formatValue = ({ value, valueType }) => {
+    if (value === undefined) {
+        return undefined
+    }
+    const trimmedValue = value.trim()
+    if (trimmedValue === '') {
+        return ''
+    }
+    if (
+        trimmedValue &&
+        NUMBER_TYPES.includes(valueType) &&
+        Number.isFinite(Number(value))
+    ) {
+        return Number(value).toString()
+    } else {
+        return trimmedValue
+    }
+}
+
 export const GenericInput = ({
     fieldname,
-    form,
     deId,
     cocId,
     valueType,
     onKeyDown,
     onFocus,
+    onBlur,
     disabled,
     locked,
+    setValueSynced,
+    initialValue,
 }) => {
-    const limits = useMinMaxLimits(deId, cocId)
-    const formatValue = (value) => {
-        if (value === undefined) {
-            return undefined
-        } else if (
-            value.trim() &&
-            NUMBER_TYPES.includes(valueType) &&
-            Number.isFinite(Number(value))
-        ) {
-            return Number(value).toString()
-        } else {
-            return value.trim()
+    const [value, setValue] = useState(initialValue)
+    const [lastSyncedValue, setLastSyncedValue] = useState(initialValue)
+    const [syncTouched, setSyncTouched] = useState(false)
+
+    useEffect(() => {
+        if (syncTouched) {
+            setValueSynced(value === lastSyncedValue)
         }
-    }
+    }, [value, lastSyncedValue, syncTouched, setValueSynced])
+
+    const limits = useMinMaxLimits(deId, cocId)
+
     const setWarning = useEntryFormStore((state) => state.setWarning)
+    const setError = useEntryFormStore((state) => state.setError)
 
-    const warningValidate = (value) => {
-        const warningValidator = warningValidateByValueType(valueType, limits)
-        const warningValidationResult = warningValidator(value)
-        setWarning(fieldname, warningValidationResult)
-    }
+    const validatorForValueType = validateByValueType(valueType, limits)
+    const warningValidator = warningValidateByValueType(valueType, limits)
 
-    const { input, meta } = useField(fieldname, {
-        validate: (value) => {
-            warningValidate(value)
-            return validateByValueType(valueType, limits)(value)
-        },
-        subscription: {
-            value: true,
-            dirty: true,
-            valid: true,
-            data: true,
-        },
-        format: formatValue,
-        formatOnBlur: true,
-        // This is required to ensure form is validated on first page load
-        // this is because the validate prop doesn't rerender when limits change
-        data: limits,
-    })
+    // check if the initial value has any associated warnings
+    useEffect(() => {
+        // only check if the value has not been updated (i.e. is initial value)
+        if (!syncTouched) {
+            const warningValidationResult = warningValidator(value)
+            setWarning(fieldname, warningValidationResult)
+        }
+    }, [value, syncTouched, warningValidator, setWarning, fieldname])
 
     const { mutate } = useSetDataValueMutation({ deId, cocId })
-    const syncData = (value) => {
+
+    const syncData = (newValue) => {
+        setSyncTouched(true)
         // todo: Here's where an error state could be set: ('onError')
         mutate(
             // Empty values need an empty string
-            { value: value || '' },
+            { value: newValue || '' },
             {
                 onSuccess: () => {
-                    form.mutators.setFieldData(fieldname, {
-                        lastSyncedValue: value,
-                    })
+                    setLastSyncedValue(newValue)
                 },
             }
         )
     }
 
-    const handleBlur = () => {
-        const { value } = input
-        const formattedValue = formatValue(value)
-        const { valid } = meta
-        if (valid && formattedValue !== meta.data.lastSyncedValue) {
+    const handleBlur = (value) => {
+        const formattedValue = formatValue({ value, valueType })
+
+        const invalid = validatorForValueType(value)
+        setError(fieldname, invalid)
+
+        const warningValidationResult = warningValidator(value)
+        setWarning(fieldname, warningValidationResult)
+
+        if (formattedValue !== lastSyncedValue && !invalid) {
             syncData(formattedValue)
         }
     }
 
     return (
         <input
-            {...input}
-            value={input.value ?? ''}
+            value={value ?? ''}
             className={cx(styles.basicInput, {
                 [styles.alignToEnd]: NUMBER_TYPES.includes(valueType),
             })}
             type={htmlTypeAttrsByValueType[valueType]}
             onFocus={(...args) => {
-                input.onFocus(...args)
                 onFocus?.(...args)
             }}
-            onBlur={(e) => {
-                handleBlur()
-                input.onBlur(e)
+            onBlur={() => {
+                onBlur()
+                handleBlur(value)
+            }}
+            onChange={(e) => {
+                setValue(e.target.value)
             }}
             autoComplete="off"
             onKeyDown={onKeyDown}
@@ -126,5 +139,5 @@ export const GenericInput = ({
 
 GenericInput.propTypes = {
     ...InputPropTypes,
-    inputType: PropTypes.string,
+    valueType: PropTypes.string,
 }

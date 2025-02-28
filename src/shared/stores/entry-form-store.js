@@ -7,23 +7,34 @@ const inititalState = {
     completeAttempted: false,
 }
 
-export const useEntryFormStore = create((set, get) => ({
-    ...inititalState,
-    setErrors: (errors) => set({ errors: errors ?? {} }),
-    getErrors: () => get().errors,
-    getNumberOfErrors: () => countLeaves(get().getErrors()),
-    getWarnings: () => get().warnings,
-    getWarning: (fieldname) => getIn(get().getWarnings(), fieldname),
-    setWarning: (fieldname, warning) => {
-        const warnings = get().getWarnings()
-        // setIn from final-form is used to create the same structure as errors
-        const newWarnings = setIn(warnings, fieldname, warning) ?? {}
-        set({ warnings: newWarnings })
-    },
-    getCompleteAttempted: () => get().completeAttempted,
-    setCompleteAttempted: (bool) => set({ completeAttempted: bool }),
-    // could add getNumberOfWarnings if needed
-}))
+export const useEntryFormStore = create((set, get) => {
+    return {
+        ...inititalState,
+        getErrors: () => get().errors,
+        getNumberOfErrors: () => countLeaves(get().getErrors()),
+        getError: (fieldname) => getIn(get().getErrors(), fieldname),
+        setError: (fieldname, error) => {
+            const errors = get().getErrors()
+            // setIn from final-form is used to create the same structure as errors
+            const newErrors = setIn(errors, fieldname, error) ?? {}
+            set({ errors: newErrors })
+        },
+        getWarnings: () => get().warnings,
+        getWarning: (fieldname) => getIn(get().getWarnings(), fieldname),
+        setWarning: (fieldname, warning) => {
+            const warnings = get().getWarnings()
+            // setIn from final-form is used to create the same structure as errors
+            const newWarnings = setIn(warnings, fieldname, warning) ?? {}
+            set({ warnings: newWarnings })
+        },
+        getCompleteAttempted: () => get().completeAttempted,
+        setCompleteAttempted: (bool) => set({ completeAttempted: bool }),
+        reset: () => {
+            set(inititalState)
+        },
+        // could add getNumberOfWarnings if needed
+    }
+})
 
 // errors object is the same shape as form-Values
 // eg. { [dataElementId] : {

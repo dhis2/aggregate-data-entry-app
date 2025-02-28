@@ -1,4 +1,5 @@
 import { useMemo, useRef } from 'react'
+import { useValueStore } from '../../shared/index.js'
 import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
 import {
     computeIndicatorValue,
@@ -13,7 +14,6 @@ import {
  * @param {string} options.blurredField The key of the blurred field
  * @param {string} options.denominator Indicator expression template
  * @param {number} options.factor Indicator multiplier
- * @param {Object} options.form Form instance returned by `useForm()`
  * @param {string} options.numerator Indicator expression template
  * @returns {number} Indicator value
  */
@@ -21,11 +21,11 @@ export const useIndicatorValue = ({
     blurredField,
     denominator,
     factor,
-    form,
     numerator,
     decimals,
 }) => {
     const indicatorValueRef = useRef(null)
+    const dataValues = useValueStore((state) => state.getDataValues())
     const affectedDataElementsLookup = useMemo(
         () =>
             [denominator, numerator].reduce((lookup, expression) => {
@@ -57,7 +57,7 @@ export const useIndicatorValue = ({
                 denominator,
                 numerator,
                 factor,
-                formState: form.getState(),
+                dataValues,
                 decimals,
             })
         }
@@ -68,7 +68,7 @@ export const useIndicatorValue = ({
         blurredField,
         denominator,
         factor,
-        form,
+        dataValues,
         numerator,
         decimals,
     ])
