@@ -2,6 +2,7 @@ import { Parser } from 'expr-eval'
 import { getIn } from 'final-form'
 import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
 
+export const NONCALCULABLE_VALUE = 'noncalculable_value'
 /**
  * --- INDICATOR VALUE CALCULATION ---
  * The general formula for computing an indicator value is:
@@ -18,7 +19,7 @@ const evaluate = (expression) => {
     try {
         return parser.parse(expression).evaluate()
     } catch {
-        return ''
+        return NONCALCULABLE_VALUE
     }
 }
 /*
@@ -143,7 +144,7 @@ export const computeIndicatorValue = ({
     const indicatorValue = (numeratorValue / denominatorValue) * factor
     const isReadableNumber = isFinite(indicatorValue) && !isNaN(indicatorValue)
     if (!isReadableNumber) {
-        return ''
+        return NONCALCULABLE_VALUE
     }
     return decimals ? round(indicatorValue, decimals) : indicatorValue
 }

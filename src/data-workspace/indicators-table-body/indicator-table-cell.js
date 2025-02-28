@@ -1,9 +1,11 @@
-import { TableCell } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { TableCell, Tooltip, IconInfo16 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useForm } from 'react-final-form'
 import { useBlurredField } from '../../shared/index.js'
 import styles from '../table-body.module.css'
+import { NONCALCULABLE_VALUE } from './compute-indicator-value.js'
 import { useIndicatorValue } from './use-indicator-value.js'
 
 export const IndicatorTableCell = ({
@@ -22,6 +24,20 @@ export const IndicatorTableCell = ({
         numerator,
         decimals,
     })
+
+    if (indicatorValue === NONCALCULABLE_VALUE) {
+        return (
+            <TableCell className={styles.indicatorCellNoncalculable}>
+                <Tooltip
+                    content={i18n.t(
+                        'This value cannot be calculated in this app'
+                    )}
+                >
+                    <IconInfo16 />
+                </Tooltip>
+            </TableCell>
+        )
+    }
 
     return (
         <TableCell className={styles.indicatorCell}>{indicatorValue}</TableCell>

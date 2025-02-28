@@ -49,23 +49,23 @@ describe('computeIndicatorValue', () => {
         })
         expect(value).toBe((9 / 15) * 100)
     })
-    it('returns an empty string when computed value would be NaN', () => {
+    it('returns noncalculable_value when computed value would be NaN', () => {
         const value = computeIndicatorValue({
             numerator: '#{nothing}',
             denominator: '#{nothing_also}',
             factor: 1,
             formState,
         })
-        expect(value).toBe('')
+        expect(value).toBe('noncalculable_value')
     })
-    it('returns an empty string when computed value would be Infinity', () => {
+    it('returns noncalculable_value when computed value would be Infinity', () => {
         const value = computeIndicatorValue({
             numerator: '#{a}+#{b.b1}*#{c.c1}', // 3+2*3=9
             denominator: '#{nothing}',
             factor: 1,
             formState,
         })
-        expect(value).toBe('')
+        expect(value).toBe('noncalculable_value')
     })
     it('returns an appropriately rounded value', () => {
         const value = computeIndicatorValue({
@@ -102,7 +102,7 @@ describe('round', () => {
         const decimals = 3
         const originalValue = NaN
         const roundedValue = round(originalValue, decimals)
-        expect(roundedValue).toBe(originalValue)
+        expect(roundedValue).toBe(NaN)
     })
     it('returns the original value if decimals is not provided', () => {
         const decimals = undefined
