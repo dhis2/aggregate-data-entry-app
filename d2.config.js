@@ -18,6 +18,12 @@ const config = {
         app: './src/app/app-wrapper.js',
     },
     direction: 'auto',
+    shorcuts: [
+        {
+            "name": "New form",
+            "url": "#/new-form"
+        }
+    ]
 }
 
 module.exports = config
