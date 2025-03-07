@@ -3,6 +3,7 @@ import { getIn } from 'final-form'
 import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
 
 export const NONCALCULABLE_VALUE = 'noncalculable_value'
+export const MATHEMATICALLY_INVALID_VALUE = 'mathematically_invalid_value'
 /**
  * --- INDICATOR VALUE CALCULATION ---
  * The general formula for computing an indicator value is:
@@ -141,10 +142,30 @@ export const computeIndicatorValue = ({
     )
     const numeratorValue = evaluate(numeratorExpression)
     const denominatorValue = evaluate(denominatorExpression)
+
+    if (
+        numeratorValue === NONCALCULABLE_VALUE ||
+        denominatorValue === NONCALCULABLE_VALUE
+    ) {
+        return {
+            value: NONCALCULABLE_VALUE,
+            numeratorValue,
+            denominatorValue,
+        }
+    }
     const indicatorValue = (numeratorValue / denominatorValue) * factor
     const isReadableNumber = isFinite(indicatorValue) && !isNaN(indicatorValue)
+
     if (!isReadableNumber) {
-        return NONCALCULABLE_VALUE
+        return {
+            value: MATHEMATICALLY_INVALID_VALUE,
+            numeratorValue,
+            denominatorValue,
+        }
     }
-    return decimals ? round(indicatorValue, decimals) : indicatorValue
+    return {
+        value: decimals ? round(indicatorValue, decimals) : indicatorValue,
+        numeratorValue,
+        denominatorValue,
+    }
 }

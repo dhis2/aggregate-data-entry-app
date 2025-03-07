@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-11-29T16:17:15.582Z\n"
-"PO-Revision-Date: 2024-11-29T16:17:15.582Z\n"
+"POT-Creation-Date: 2025-03-06T15:59:30.168Z\n"
+"PO-Revision-Date: 2025-03-06T15:59:30.169Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -524,6 +524,9 @@ msgstr "Filter fields"
 
 msgid "Clear filter"
 msgstr "Clear filter"
+
+msgid "This value cannot be calculated in this app"
+msgstr "This value cannot be calculated in this app"
 
 msgid "Indicators"
 msgstr "Indicators"
