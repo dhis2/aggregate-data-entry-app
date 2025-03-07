@@ -5,6 +5,7 @@ const initialState = {
         dataValues: {},
         minMaxValues: [],
     },
+    initialDataValues: {},
 }
 
 export const useValueStore = create((set, get) => ({
@@ -22,6 +23,15 @@ export const useValueStore = create((set, get) => ({
         set({
             dataValueSet: values ?? initialState.dataValueSet,
         }),
+    getInitialDataValue: ({ dataElementId, categoryOptionComboId }) => {
+        return get().initialDataValues?.values?.[dataElementId]?.[
+            categoryOptionComboId
+        ]
+    },
+    getInitialDataValues: () => get().initialDataValues,
+    setInitialDataValues: (values, formKey) => {
+        set({ initialDataValues: { values, formKey } })
+    },
     getMinMaxValues: ({ dataElementId, categoryOptionComboId }) => {
         return get().dataValueSet?.minMaxValues?.find(
             (minMaxValue) =>

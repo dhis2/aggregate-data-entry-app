@@ -1,7 +1,9 @@
-import { useQueryParam } from 'use-query-params'
+import { renderHook } from '@testing-library/react-hooks'
+import { useQueryParam, useQueryParams } from 'use-query-params'
 import {
     PARAMS_SCHEMA,
     useAttributeOptionComboSelection,
+    useContextSelectionId,
     useDataSetId,
     useOrgUnitId,
     usePeriodId,
@@ -78,6 +80,44 @@ describe('use-query-params usage', () => {
                 expect.arrayContaining([key])
             )
             expect(PARAMS_SCHEMA).toHaveProperty(key)
+        })
+    })
+
+    describe('useContextSelectionId', () => {
+        it('returns a key without section filter if none is present', () => {
+            useQueryParams.mockReturnValue([
+                {
+                    dataSetId: 'ds0',
+                    orgUnitId: 'ou0',
+                    periodId: 'pe0',
+                    attributeOptionComboSelection: {
+                        one: 'at_one',
+                        two: 'at_two',
+                    },
+                    sectionFilter: undefined,
+                },
+            ])
+            const { result } = renderHook(() => useContextSelectionId())
+
+            expect(result.current).toBe('at_one;at_two,ds0,ou0,pe0')
+        })
+
+        it('returns a key with section filter if one is present', () => {
+            useQueryParams.mockReturnValue([
+                {
+                    dataSetId: 'ds0',
+                    orgUnitId: 'ou0',
+                    periodId: 'pe0',
+                    attributeOptionComboSelection: {
+                        one: 'at_one',
+                        two: 'at_two',
+                    },
+                    sectionFilter: 'sect0',
+                },
+            ])
+            const { result } = renderHook(() => useContextSelectionId())
+
+            expect(result.current).toBe('at_one;at_two,ds0,ou0,pe0,sect0')
         })
     })
 })

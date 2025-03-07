@@ -8,19 +8,16 @@ describe('useEntryFormStore', () => {
         useEntryFormStore.setState(initialState)
     })
 
-    it('should accept new errors', async () => {
+    it('should get and set new errors', async () => {
         const { result, waitFor } = renderHook(useEntryFormStore)
-        const nextErrors = {
-            'de-id': { 'coc-id': 'Error message' },
-        }
 
         act(() => {
-            result.current.setErrors(nextErrors)
+            result.current.setError('de-id1.coc-id1', 'Error message 1')
         })
 
         await waitFor(() => {
-            const errors = result.current.getErrors()
-            expect(errors).toBe(nextErrors)
+            const actualError = result.current.getError('de-id1.coc-id1')
+            expect(actualError).toBe('Error message 1')
         })
     })
 
@@ -40,7 +37,11 @@ describe('useEntryFormStore', () => {
         }
 
         act(() => {
-            result.current.setErrors(nextErrors)
+            for (const de of Object.keys(nextErrors)) {
+                for (const coc of Object.keys(nextErrors[de])) {
+                    result.current.setError(`${de}.${coc}`, nextErrors[de][coc])
+                }
+            }
         })
 
         await waitFor(() => {

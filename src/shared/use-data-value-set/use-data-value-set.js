@@ -63,7 +63,6 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
         enabled: !isMutating && isValidSelection,
         staleTime: Infinity,
         select: select,
-        refetchOnMount: false,
         refetchOnReconnect: false,
         meta: { persist: true },
         onSuccess: defaultOnSuccess(onSuccess),

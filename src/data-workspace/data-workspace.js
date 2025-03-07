@@ -20,7 +20,7 @@ import {
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.js'
 import { EntryScreen } from './entry-screen.js'
-import { FinalFormWrapper } from './final-form-wrapper.js'
+import { FormWrapper } from './form-wrapper.js'
 import { useHandleHeaderbarStatus } from './use-handle-headerbar-status.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
@@ -79,16 +79,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
         return <EntryScreen />
     }
 
-    // We want to block initialization of form if in-flight
-    // or else we might use stale data that won't be updated once request completes
-    if (initialDataValuesFetch.isFetching) {
-        return (
-            <CenteredContent>
-                <CircularLoader />
-            </CenteredContent>
-        )
-    }
-
     if (initialDataValuesFetch.error) {
         return (
             <NoticeBox
@@ -98,6 +88,19 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
             >
                 {initialDataValuesFetch.error?.message}
             </NoticeBox>
+        )
+    }
+
+    // We want to block initialization of form if in-flight
+    // or else we might use stale data that won't be updated once request completes
+    if (
+        initialDataValuesFetch.isFetching ||
+        initialDataValuesFetch.isInitialLoading
+    ) {
+        return (
+            <CenteredContent>
+                <CircularLoader />
+            </CenteredContent>
         )
     }
 
@@ -116,7 +119,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const dataValueSet = initialDataValuesFetch.data?.dataValues
 
     return (
-        <FinalFormWrapper key={formKey} dataValueSet={dataValueSet}>
+        <FormWrapper
+            key={formKey}
+            dataValueSet={dataValueSet}
+            validFormKey={validFormKey}
+        >
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>
@@ -128,7 +135,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     <BottomBar />
                 </footer>
             </div>
-        </FinalFormWrapper>
+        </FormWrapper>
     )
 }
 

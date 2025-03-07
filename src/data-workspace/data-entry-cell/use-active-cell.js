@@ -1,18 +1,15 @@
-import { useFormState } from 'react-final-form'
-import { parseFieldId } from '../get-field-id.js'
+import { useHighlightedField } from '../../shared/index.js'
 
 export const useActiveCell = () => {
-    const { active } = useFormState({ subscription: { active: true } })
+    const highlighted = useHighlightedField() || {}
 
-    const { dataElementId: deId, categoryOptionComboId: cocId } =
-        parseFieldId(active)
+    const { dataElement: deId, categoryOptionCombo: cocId } = highlighted
     // Optional category option IDs (requires useMetadata hook):
     // const coIds = active
     //     ? getCategoryOptionComboById(metadata, cocId).categoryOptions
     //     : []
 
     return {
-        active,
         deId,
         cocId,
     }

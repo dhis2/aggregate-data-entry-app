@@ -1,7 +1,5 @@
 import { useConfig } from '@dhis2/app-runtime'
-import { ReactFinalForm } from '@dhis2/ui'
 import userEvent from '@testing-library/user-event'
-import PropTypes from 'prop-types'
 import React from 'react'
 import { useSetDataValueMutation, useUserInfo } from '../../shared/index.js'
 import { render } from '../../test-utils/index.js'
@@ -26,34 +24,17 @@ jest.mock('@dhis2/app-runtime', () => {
 const DE = 'rkAZZFGFEQ7'
 const COC = 'HllvX50cXC0'
 
-const { Form } = ReactFinalForm
-
-const FormWrapper = ({ initialValues, children }) => (
-    <Form
-        onSubmit={() => {}}
-        initialValues={initialValues}
-        subscriptions={{}}
-        keepDirtyOnReinitialize
-    >
-        {() => children}
-    </Form>
-)
-
-FormWrapper.propTypes = {
-    children: PropTypes.node,
-    initialValues: PropTypes.object,
-}
-
 describe('date input field', () => {
     const props = {
         cocId: COC,
         deId: DE,
         disabled: undefined,
         fieldname: `${DE}.${COC}`,
-        form: {},
         locked: false,
         onFocus: jest.fn(),
         onKeyDown: jest.fn(),
+        onBlur: jest.fn(),
+        setValueSynced: jest.fn(),
     }
 
     const mutate = jest.fn()
@@ -87,9 +68,7 @@ describe('date input field', () => {
         })
 
         const { getByText, getByRole, getByTestId, queryByTestId } = render(
-            <FormWrapper initialValues={{}}>
-                <DateInput {...props} />
-            </FormWrapper>
+            <DateInput {...props} />
         )
         const calendarInputLabel = getByText('Pick a date')
         const calendarInput = getByRole('textbox')
@@ -132,9 +111,7 @@ describe('date input field', () => {
         })
 
         const { getByText, getByRole, getByTestId, getByLabelText } = render(
-            <FormWrapper initialValues={{}}>
-                <DateInput {...props} />
-            </FormWrapper>
+            <DateInput {...props} />
         )
 
         const calendarInput = getByRole('textbox')
@@ -181,9 +158,7 @@ describe('date input field', () => {
         })
 
         const { getByRole } = render(
-            <FormWrapper initialValues={{ [DE]: { [COC]: '2021-04-22' } }}>
-                <DateInput {...props} />
-            </FormWrapper>
+            <DateInput {...props} initialValue="2021-04-22" />
         )
 
         const calendarInput = getByRole('textbox')
@@ -195,11 +170,7 @@ describe('date input field', () => {
             systemInfo: { calendar: 'nepali' },
         })
 
-        const { getByText, getByRole } = render(
-            <FormWrapper initialValues={{}}>
-                <DateInput {...props} />
-            </FormWrapper>
-        )
+        const { getByText, getByRole } = render(<DateInput {...props} />)
 
         const calendarInput = getByRole('textbox')
         expect(calendarInput.value).toBe('')
@@ -224,9 +195,7 @@ describe('date input field', () => {
 
         // 2021-04-22 ISO = 2078-01-09 nepali
         const { getByRole } = render(
-            <FormWrapper initialValues={{ [DE]: { [COC]: '2021-04-22' } }}>
-                <DateInput {...props} />
-            </FormWrapper>
+            <DateInput {...props} initialValue="2021-04-22" />
         )
 
         const calendarInput = getByRole('textbox')
@@ -238,11 +207,7 @@ describe('date input field', () => {
             systemInfo: { calendar: 'ethiopian' },
         })
 
-        const { getByText, getByRole } = render(
-            <FormWrapper initialValues={{}}>
-                <DateInput {...props} />
-            </FormWrapper>
-        )
+        const { getByText, getByRole } = render(<DateInput {...props} />)
 
         const calendarInput = getByRole('textbox')
         expect(calendarInput.value).toBe('')
@@ -267,9 +232,7 @@ describe('date input field', () => {
 
         // 2021-04-22 ISO = 2013-08-14 ethiopian
         const { getByRole } = render(
-            <FormWrapper initialValues={{ [DE]: { [COC]: '2021-04-22' } }}>
-                <DateInput {...props} />
-            </FormWrapper>
+            <DateInput {...props} initialValue="2021-04-22" />
         )
 
         const calendarInput = getByRole('textbox')

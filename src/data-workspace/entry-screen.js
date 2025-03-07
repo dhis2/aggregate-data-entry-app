@@ -47,6 +47,7 @@ export const EntryScreen = () => (
             <div className={styles.svgWrapper}>
                 <EmptyStateIcon />
             </div>
+
             <span className={styles.headingText}>
                 {i18n.t('Get started with data entry')}
             </span>

@@ -36,7 +36,6 @@ export const RowTotal = ({ dataElements, categoryOptionCombos, row }) => {
         () => calculateRowTotal(matrix, row),
         [matrix, row]
     )
-
     return <TotalCell>{rowTotal}</TotalCell>
 }
 
