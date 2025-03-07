@@ -1,3 +1,10 @@
+## [101.0.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.1...v101.0.2) (2025-03-07)
+
+
+### Bug Fixes
+
+* remove FinalForm dependency in main form [DHIS2-18373] ([#425](https://github.com/dhis2/aggregate-data-entry-app/issues/425)) ([bdd3ec2](https://github.com/dhis2/aggregate-data-entry-app/commit/bdd3ec2a0cd2fa4c1e7ca9ebf7447ff5c9751dd5))
+
 ## [101.0.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.0...v101.0.1) (2025-02-21)
 
 
