@@ -76,7 +76,6 @@ describe('computeIndicatorValue', () => {
             numerator: 'sqrt(-1)',
             denominator: '#{nothing}',
             factor: 1,
-            formState,
         })
         expect(result.value).toBe('mathematically_invalid_value')
     })

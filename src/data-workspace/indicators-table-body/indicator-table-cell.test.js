@@ -2,7 +2,6 @@ import { IconInfo16, IconWarning16 } from '@dhis2/ui'
 import { fireEvent } from '@testing-library/react'
 import React from 'react'
 import { render } from '../../test-utils/index.js'
-import { FinalFormWrapper } from '../final-form-wrapper.js'
 import { IndicatorTableCell } from './indicator-table-cell.js'
 import { useIndicatorValue } from './use-indicator-value.js'
 
@@ -27,14 +26,7 @@ describe('IndicatorTableCell', () => {
     it('shows the value returned by useIndicatorValue if valid', async () => {
         useIndicatorValue.mockReturnValue({ value: '42' })
         const { findByText } = render(
-            <IndicatorTableCell {...MOCK_INDICATOR_INFO} />,
-            {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
-                ),
-            }
+            <IndicatorTableCell {...MOCK_INDICATOR_INFO} />
         )
         expect(await findByText('42')).toBeInTheDocument()
     })
@@ -43,14 +35,7 @@ describe('IndicatorTableCell', () => {
         IconInfo16.mockReturnValue(<p>INFO_ICON</p>)
         useIndicatorValue.mockReturnValue({ value: 'noncalculable_value' })
         const { findByText, getByTestId } = render(
-            <IndicatorTableCell {...MOCK_INDICATOR_INFO} />,
-            {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
-                ),
-            }
+            <IndicatorTableCell {...MOCK_INDICATOR_INFO} />
         )
 
         const indicatorCell = await getByTestId('dhis2-uicore-tablecell')
@@ -73,14 +58,7 @@ describe('IndicatorTableCell', () => {
             denominatorValue: '0',
         })
         const { findByText, getByTestId } = render(
-            <IndicatorTableCell {...MOCK_INDICATOR_INFO} />,
-            {
-                wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
-                ),
-            }
+            <IndicatorTableCell {...MOCK_INDICATOR_INFO} />
         )
 
         const indicatorCell = await getByTestId('dhis2-uicore-tablecell')
