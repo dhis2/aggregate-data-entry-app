@@ -55,79 +55,38 @@ export const PivotedCategoryComboTableBody = React.memo(
             })
             .flat()
 
+        const filteredDataElements =
+            filterText.toLowerCase() === '' &&
+            globalFilterText.toLowerCase() === ''
+                ? dataElements
+                : dataElements.filter(
+                      (dataElement) =>
+                          (filterText.toLowerCase() !== '' &&
+                              dataElement.displayFormName
+                                  ?.toLowerCase()
+                                  .includes(filterText.toLowerCase())) ||
+                          (globalFilterText.toLowerCase() !== '' &&
+                              dataElement.displayFormName
+                                  ?.toLowerCase()
+                                  .includes(globalFilterText.toLowerCase()))
+                  )
+
         const options = {
             metadata,
             categoryOptionsDetails,
             sortedCOCs,
             categories,
-            dataElements,
+            dataElements: filteredDataElements,
         }
 
         const rowsMatrix = generateFormMatrix(options, displayOptions)
-        const filterRows = (rows) => {
-            return rows.reduce(
-                ({ result, rowIndexedToInclude }, row, rowIndex) => {
-                    if (rowIndexedToInclude.has(rowIndex)) {
-                        return {
-                            result: [...result, row],
-                            rowIndexedToInclude,
-                        }
-                    }
 
-                    const hasCellsMatchingAFilter = row.any(
-                        (cell) =>
-                            cell.type === 'rowHeader' &&
-                            ((filterText.toLowerCase() !== '' &&
-                                cell.displayFormName
-                                    ?.toLowerCase()
-                                    .includes(filterText.toLowerCase())) ||
-                                (globalFilterText.toLowerCase() !== '' &&
-                                    cell.displayFormName
-                                        ?.toLowerCase()
-                                        .includes(
-                                            globalFilterText.toLowerCase()
-                                        )))
-                    )
-
-                    const shouldBeIncluded =
-                        row.every((cell) => cell.type !== 'rowHeader') ||
-                        hasCellsMatchingAFilter
-
-                    if (shouldBeIncluded) {
-                        const newRowIndexesToInclude = new Set(
-                            rowIndexedToInclude
-                        )
-                        row.forEach((cell) => {
-                            if (cell.rowSpan > 1 && cell.type === 'rowHeader') {
-                                for (let i = 1; i < cell.rowSpan; i++) {
-                                    newRowIndexesToInclude.add(rowIndex + i)
-                                }
-                            }
-                        })
-
-                        return {
-                            result: [...result, row],
-                            rowIndexedToInclude: newRowIndexesToInclude,
-                        }
-                    }
-
-                    return { result, rowIndexedToInclude }
-                },
-                { result: [], rowIndexedToInclude: new Set() }
-            ).result
-        }
-
-        const filteredRows =
-            filterText.toLowerCase() === '' &&
-            globalFilterText.toLowerCase() === ''
-                ? rowsMatrix
-                : filterRows(rowsMatrix)
-
-        const hiddenItemsCount = rowsMatrix.length - filteredRows.length
+        const hiddenItemsCount =
+            dataElements.length - filteredDataElements.length
 
         return (
             <>
-                {filteredRows.map((row, id /** todo: find suitable id */) => {
+                {rowsMatrix.map((row, id /** todo: find suitable id */) => {
                     return (
                         <TableRow
                             key={id}
