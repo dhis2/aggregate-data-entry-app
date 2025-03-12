@@ -5,6 +5,7 @@ import React from 'react'
 import { useMetadata, selectors } from '../../shared/index.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
+import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
 import styles from '../table-body.module.css'
 import { generateFormMatrix } from './generate-form-matrix/index.js'
 
@@ -24,12 +25,11 @@ export const PivotedCategoryComboTableBody = React.memo(
         categoryCombo,
         dataElements,
         greyedFields,
-        /*
         filterText,
         globalFilterText,
-        maxColumnsInSection,
-        renderRowTotals,
-        renderColumnTotals,*/
+        // maxColumnsInSection,
+        // renderRowTotals,
+        // renderColumnTotals,
         displayOptions,
         collapsed,
     }) {
@@ -64,10 +64,70 @@ export const PivotedCategoryComboTableBody = React.memo(
         }
 
         const rowsMatrix = generateFormMatrix(options, displayOptions)
+        const filterRows = (rows) => {
+            return rows.reduce(
+                ({ result, rowIndexedToInclude }, row, rowIndex) => {
+                    if (rowIndexedToInclude.has(rowIndex)) {
+                        return {
+                            result: [...result, row],
+                            rowIndexedToInclude,
+                        }
+                    }
+
+                    const hasCellsMatchingAFilter = row.any(
+                        (cell) =>
+                            cell.type === 'rowHeader' &&
+                            ((filterText.toLowerCase() !== '' &&
+                                cell.displayFormName
+                                    ?.toLowerCase()
+                                    .includes(filterText.toLowerCase())) ||
+                                (globalFilterText.toLowerCase() !== '' &&
+                                    cell.displayFormName
+                                        ?.toLowerCase()
+                                        .includes(
+                                            globalFilterText.toLowerCase()
+                                        )))
+                    )
+
+                    const shouldBeIncluded =
+                        row.every((cell) => cell.type !== 'rowHeader') ||
+                        hasCellsMatchingAFilter
+
+                    if (shouldBeIncluded) {
+                        const newRowIndexesToInclude = new Set(
+                            rowIndexedToInclude
+                        )
+                        row.forEach((cell) => {
+                            if (cell.rowSpan > 1 && cell.type === 'rowHeader') {
+                                for (let i = 1; i < cell.rowSpan; i++) {
+                                    newRowIndexesToInclude.add(rowIndex + i)
+                                }
+                            }
+                        })
+
+                        return {
+                            result: [...result, row],
+                            rowIndexedToInclude: newRowIndexesToInclude,
+                        }
+                    }
+
+                    return { result, rowIndexedToInclude }
+                },
+                { result: [], rowIndexedToInclude: new Set() }
+            ).result
+        }
+
+        const filteredRows =
+            filterText.toLowerCase() === '' &&
+            globalFilterText.toLowerCase() === ''
+                ? rowsMatrix
+                : filterRows(rowsMatrix)
+
+        const hiddenItemsCount = rowsMatrix.length - filteredRows.length
 
         return (
             <>
-                {rowsMatrix.map((row, id /** todo: find suitable id */) => {
+                {filteredRows.map((row, id /** todo: find suitable id */) => {
                     return (
                         <TableRow
                             key={id}
@@ -147,6 +207,11 @@ export const PivotedCategoryComboTableBody = React.memo(
                         </TableRow>
                     )
                 })}
+                {hiddenItemsCount > 0 && (
+                    <TableBodyHiddenByFiltersRow
+                        hiddenItemsCount={hiddenItemsCount}
+                    />
+                )}
             </>
         )
     }
@@ -173,6 +238,8 @@ PivotedCategoryComboTableBody.propTypes = {
         pivotMode: PropTypes.oneOf(['move_categories', 'pivot']),
         pivotedCategory: PropTypes.string,
     }),
+    filterText: PropTypes.string,
+    globalFilterText: PropTypes.string,
     /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
     greyedFields: PropTypes.instanceOf(Set),
 }
