@@ -1,3 +1,11 @@
+## [101.0.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.2...v101.0.3) (2025-03-12)
+
+
+### Bug Fixes
+
+* update dompurify and use noreferrer ([6e8a7cf](https://github.com/dhis2/aggregate-data-entry-app/commit/6e8a7cf5b764a9c6b6a4baffd2d8215258331da1))
+* when sanitizing text and target to links so they work w global shell ([3bb7741](https://github.com/dhis2/aggregate-data-entry-app/commit/3bb7741b46c4e31de26af9de489152c9c4a27322))
+
 ## [101.0.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.1...v101.0.2) (2025-03-07)
 
 
