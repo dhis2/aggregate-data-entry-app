@@ -1,3 +1,11 @@
+## [101.0.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.3...v101.0.4) (2025-03-13)
+
+
+### Bug Fixes
+
+* add warning about noncalculable indicators [DHIS2-14221] ([#448](https://github.com/dhis2/aggregate-data-entry-app/issues/448)) ([f7b23ce](https://github.com/dhis2/aggregate-data-entry-app/commit/f7b23ce585b1790976d9dbdc0fae15d1cd68e508))
+* remove final form dependencies in tests ([#453](https://github.com/dhis2/aggregate-data-entry-app/issues/453)) ([4eb2a71](https://github.com/dhis2/aggregate-data-entry-app/commit/4eb2a71bca97110312448bbb267b778bff4e14dd))
+
 ## [101.0.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.2...v101.0.3) (2025-03-12)
 
 
