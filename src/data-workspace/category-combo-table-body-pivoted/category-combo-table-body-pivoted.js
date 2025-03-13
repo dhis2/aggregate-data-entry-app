@@ -5,6 +5,7 @@ import React from 'react'
 import { useMetadata, selectors } from '../../shared/index.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
+import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
 import styles from '../table-body.module.css'
 import { generateFormMatrix } from './generate-form-matrix/index.js'
 
@@ -24,12 +25,11 @@ export const PivotedCategoryComboTableBody = React.memo(
         categoryCombo,
         dataElements,
         greyedFields,
-        /*
         filterText,
         globalFilterText,
-        maxColumnsInSection,
-        renderRowTotals,
-        renderColumnTotals,*/
+        // maxColumnsInSection,
+        // renderRowTotals,
+        // renderColumnTotals,
         displayOptions,
         collapsed,
     }) {
@@ -55,15 +55,50 @@ export const PivotedCategoryComboTableBody = React.memo(
             })
             .flat()
 
+        const filterAppliesToDataElements =
+            filterText.toLowerCase() !== '' &&
+            displayOptions.pivotMode === 'move_categories'
+
+        const filteredDataElements =
+            !filterAppliesToDataElements &&
+            globalFilterText.toLowerCase() === ''
+                ? dataElements
+                : dataElements.filter(
+                      (dataElement) =>
+                          (filterAppliesToDataElements &&
+                              dataElement.displayFormName
+                                  ?.toLowerCase()
+                                  .includes(filterText.toLowerCase())) ||
+                          (globalFilterText.toLowerCase() !== '' &&
+                              dataElement.displayFormName
+                                  ?.toLowerCase()
+                                  .includes(globalFilterText.toLowerCase()))
+                  )
+
+        const filterSortedCOCs =
+            filterText.toLowerCase() === '' ||
+            displayOptions.pivotMode === 'move_categories'
+                ? sortedCOCs
+                : sortedCOCs.filter((coc) =>
+                      coc.displayName
+                          ?.toLowerCase()
+                          .includes(filterText.toLowerCase())
+                  )
+
         const options = {
             metadata,
             categoryOptionsDetails,
-            sortedCOCs,
+            sortedCOCs: filterSortedCOCs,
             categories,
-            dataElements,
+            dataElements: filteredDataElements,
         }
 
         const rowsMatrix = generateFormMatrix(options, displayOptions)
+
+        const hiddenItemsCount =
+            displayOptions.pivotMode === 'move_categories'
+                ? dataElements.length - filteredDataElements.length
+                : sortedCOCs.length - filterSortedCOCs.length
 
         return (
             <>
@@ -147,6 +182,11 @@ export const PivotedCategoryComboTableBody = React.memo(
                         </TableRow>
                     )
                 })}
+                {hiddenItemsCount > 0 && (
+                    <TableBodyHiddenByFiltersRow
+                        hiddenItemsCount={hiddenItemsCount}
+                    />
+                )}
             </>
         )
     }
@@ -173,6 +213,8 @@ PivotedCategoryComboTableBody.propTypes = {
         pivotMode: PropTypes.oneOf(['move_categories', 'pivot']),
         pivotedCategory: PropTypes.string,
     }),
+    filterText: PropTypes.string,
+    globalFilterText: PropTypes.string,
     /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
     greyedFields: PropTypes.instanceOf(Set),
 }

@@ -42,7 +42,10 @@ export const generateMatrixTransposed = (options) => {
 
             // todo(pivot): maybe refactor this logic after confirming this is Functional Design team wants UI-wise
             const lastCateogry = categoryIndex === categories.length - 1
-            if (!alreadyAdded[categoryOption.id] || lastCateogry) {
+            if (
+                (categoryOption && !alreadyAdded[categoryOption.id]) ||
+                lastCateogry
+            ) {
                 dataEntryRow.push({
                     id: categoryOption?.id,
                     displayFormName:
@@ -52,8 +55,15 @@ export const generateMatrixTransposed = (options) => {
                     rowSpan:
                         categories.length === 1
                             ? 1
-                            : sortedCOCs.length /
-                              categories.length /
+                            : sortedCOCs.reduce((acc, item) => {
+                                  return (
+                                      acc +
+                                      item.categoryOptions.filter(
+                                          (option) =>
+                                              option === categoryOption.id
+                                      ).length
+                                  )
+                              }, 0) /
                               (categoryIndex + 1),
                     type: 'rowHeader',
                 })
