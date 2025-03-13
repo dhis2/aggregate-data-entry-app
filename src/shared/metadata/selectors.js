@@ -216,7 +216,10 @@ export const getCategoryOptionsByCategoryId = createCachedSelector(
     getCategoryById,
     getCategoryOptions,
     (category, categoryOptions) =>
-        category.categoryOptions.map((id) => categoryOptions[id])
+        category.categoryOptions.map((id) => ({
+            ...categoryOptions[id],
+            categoryId: category.id,
+        }))
 )((_, categoryId) => categoryId)
 
 /**

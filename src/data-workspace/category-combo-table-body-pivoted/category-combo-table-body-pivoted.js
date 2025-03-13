@@ -55,13 +55,17 @@ export const PivotedCategoryComboTableBody = React.memo(
             })
             .flat()
 
+        const filterAppliesToDataElements =
+            filterText.toLowerCase() !== '' &&
+            displayOptions.pivotMode === 'move_categories'
+
         const filteredDataElements =
-            filterText.toLowerCase() === '' &&
+            !filterAppliesToDataElements &&
             globalFilterText.toLowerCase() === ''
                 ? dataElements
                 : dataElements.filter(
                       (dataElement) =>
-                          (filterText.toLowerCase() !== '' &&
+                          (filterAppliesToDataElements &&
                               dataElement.displayFormName
                                   ?.toLowerCase()
                                   .includes(filterText.toLowerCase())) ||
@@ -71,10 +75,20 @@ export const PivotedCategoryComboTableBody = React.memo(
                                   .includes(globalFilterText.toLowerCase()))
                   )
 
+        const filterSortedCOCs =
+            filterText.toLowerCase() === '' ||
+            displayOptions.pivotMode === 'move_categories'
+                ? sortedCOCs
+                : sortedCOCs.filter((coc) =>
+                      coc.displayName
+                          ?.toLowerCase()
+                          .includes(filterText.toLowerCase())
+                  )
+
         const options = {
             metadata,
             categoryOptionsDetails,
-            sortedCOCs,
+            sortedCOCs: filterSortedCOCs,
             categories,
             dataElements: filteredDataElements,
         }
@@ -82,7 +96,9 @@ export const PivotedCategoryComboTableBody = React.memo(
         const rowsMatrix = generateFormMatrix(options, displayOptions)
 
         const hiddenItemsCount =
-            dataElements.length - filteredDataElements.length
+            displayOptions.pivotMode === 'move_categories'
+                ? dataElements.length - filteredDataElements.length
+                : sortedCOCs.length - filterSortedCOCs.length
 
         return (
             <>
