@@ -1,6 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { selectors } from '../../../shared/index.js'
 
+
 export const generateMatrixTransposed = (options) => {
     const {
         metadata,
@@ -27,37 +28,30 @@ export const generateMatrixTransposed = (options) => {
     ]
 
     const rowHeaders = []
-
-    const alreadyAdded = {}
-    sortedCOCs.forEach((categoryOptionCombo) => {
+    sortedCOCs.forEach((categoryOptionCombo, i) => {
         const dataEntryRow = []
+        let span = sortedCOCs.length
+        // ids for each category option in the combo, one per category
+        const categoryOptionsIds = categoryOptionCombo.categoryOptions
 
-        categoryOptionCombo.categoryOptions.forEach((fco) => {
+        categoryOptionsIds.forEach((coId, optIndex) => {
             const categoryOption = categoryOptionsDetails.find(
-                (cod) => cod.id === fco
+                (cod) => cod.id === coId
             )
-            const categoryIndex = categories.findIndex((cat) =>
-                cat.categoryOptions.includes(fco)
-            )
-
-            // todo(pivot): maybe refactor this logic after confirming this is Functional Design team wants UI-wise
-            const lastCateogry = categoryIndex === categories.length - 1
-            if (!alreadyAdded[categoryOption.id] || lastCateogry) {
+            const category = categories[optIndex]
+            span = span / category.categoryOptions.length
+            // we only want to render the header once "per spanning"-header
+            // the last category (span=1, i % 1 === 0) will always render
+            if (i % span === 0) {
                 dataEntryRow.push({
                     id: categoryOption?.id,
                     displayFormName:
                         categoryOption?.name === 'default'
                             ? i18n.t('Value')
                             : categoryOption?.displayName,
-                    rowSpan:
-                        categories.length === 1
-                            ? 1
-                            : sortedCOCs.length /
-                              categories.length /
-                              (categoryIndex + 1),
+                    rowSpan: span,
                     type: 'rowHeader',
                 })
-                alreadyAdded[categoryOption.id] = true
             }
         })
 
@@ -70,11 +64,11 @@ export const generateMatrixTransposed = (options) => {
                 type: 'de',
                 dataElement,
                 coc: selectors
-                    .getCategoryOptionCombosByCategoryComboId(
+                    .getCategoryOptionCombo(
                         metadata,
-                        dataElement.categoryCombo.id
+                        dataElement.categoryCombo.id,
+                        categoryOptionCombo.id,
                     )
-                    .find((coc) => coc.id === categoryOptionCombo.id),
             })
         })
         rowHeaders.push(dataEntryRow)
