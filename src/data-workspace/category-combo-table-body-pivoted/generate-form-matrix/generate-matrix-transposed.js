@@ -1,7 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { selectors } from '../../../shared/index.js'
 
-
 export const generateMatrixTransposed = (options) => {
     const {
         metadata,
@@ -63,12 +62,11 @@ export const generateMatrixTransposed = (options) => {
                 rowSpan: 1,
                 type: 'de',
                 dataElement,
-                coc: selectors
-                    .getCategoryOptionCombo(
-                        metadata,
-                        dataElement.categoryCombo.id,
-                        categoryOptionCombo.id,
-                    )
+                coc: selectors.getCategoryOptionCombo(
+                    metadata,
+                    dataElement.categoryCombo.id,
+                    categoryOptionCombo.id
+                ),
             })
         })
         rowHeaders.push(dataEntryRow)
