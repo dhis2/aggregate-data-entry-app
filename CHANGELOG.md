@@ -1,3 +1,15 @@
+## [101.0.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.4...v101.0.5) (2025-03-17)
+
+
+### Bug Fixes
+
+* **transpose:** fix transpose rendering of more than 2 categories ([728e701](https://github.com/dhis2/aggregate-data-entry-app/commit/728e7017b7e915b96154a23357a1558cf495cfb7))
+* change roles of global serach and local search depending on display mode ([8c3f44e](https://github.com/dhis2/aggregate-data-entry-app/commit/8c3f44e2bcd6ec22855b7a7300b284973dbae796))
+* small fixes ([fdae4c8](https://github.com/dhis2/aggregate-data-entry-app/commit/fdae4c8d2b02c149a86659244e5e4144e42dc4d3))
+* **pivot:** fix search when pivoted ([5008999](https://github.com/dhis2/aggregate-data-entry-app/commit/5008999edb8e058bf9cd6cbfb698078e753cc80c))
+* update test ([395ae8b](https://github.com/dhis2/aggregate-data-entry-app/commit/395ae8b0b6d7f0eb6d3b896506ee4ed193930776))
+* **transpose:** fix transpose rendering of more than 2 categories ([a897ed9](https://github.com/dhis2/aggregate-data-entry-app/commit/a897ed93c552d3f65aba358ba05885f481679ff9))
+
 ## [101.0.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.3...v101.0.4) (2025-03-13)
 
 
