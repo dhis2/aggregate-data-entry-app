@@ -5,6 +5,7 @@ import React from 'react'
 import { useMetadata, selectors } from '../../shared/index.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
+import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
 import styles from '../table-body.module.css'
 import { generateFormMatrix } from './generate-form-matrix/index.js'
 
@@ -55,24 +56,48 @@ export const PivotedCategoryComboTableBody = React.memo(
             })
             .flat()
 
-        const filterBySearch = (elementName) => {
+        const filterCOCBySearch = (elementName) => {
             const search =
-                filterText.toLowerCase() || globalFilterText.toLowerCase()
+                displayOptions.pivotMode !== 'move_categories' &&
+                filterText.toLowerCase()
             return search ? elementName.toLowerCase().includes(search) : true
         }
+
+        const filterDataElementsBySearch = (elementName) => {
+            const localSearch =
+                displayOptions.pivotMode === 'move_categories' &&
+                filterText.toLowerCase()
+            const globalSearch = globalFilterText.toLowerCase()
+            return localSearch || globalSearch
+                ? (localSearch &&
+                      elementName.toLowerCase().includes(localSearch)) ||
+                      (globalSearch &&
+                          elementName.toLowerCase().includes(globalSearch))
+                : true
+        }
+
+        const filteredDataElements = dataElements.filter((de) =>
+            filterDataElementsBySearch(de.displayName)
+        )
+        const filteredSortedCOCS = sortedCOCs.filter((coc) =>
+            filterCOCBySearch(coc.displayName)
+        )
 
         const options = {
             metadata,
             categoryOptionsDetails,
-            sortedCOCs: sortedCOCs.filter((coc) =>
-                filterBySearch(coc.displayName)
-            ),
+            sortedCOCs: filteredSortedCOCS,
             totalRows: sortedCOCs.length,
             categories,
-            dataElements,
+            dataElements: filteredDataElements,
         }
 
         const rowsMatrix = generateFormMatrix(options, displayOptions)
+
+        const hiddenItemsCount =
+            displayOptions.pivotMode === 'move_categories'
+                ? dataElements.length - filteredDataElements.length
+                : sortedCOCs.length - filteredSortedCOCS.length
 
         return (
             <>
@@ -156,6 +181,11 @@ export const PivotedCategoryComboTableBody = React.memo(
                         </TableRow>
                     )
                 })}
+                {hiddenItemsCount > 0 && (
+                    <TableBodyHiddenByFiltersRow
+                        hiddenItemsCount={hiddenItemsCount}
+                    />
+                )}
             </>
         )
     }
