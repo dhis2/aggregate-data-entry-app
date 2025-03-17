@@ -151,7 +151,7 @@ export function SectionFormSection({
                                         id={filterInputId}
                                         type="text"
                                         placeholder={i18n.t(
-                                            'Type here to filter in this section'
+                                            'Type here to filter rows in this section'
                                         )}
                                         value={filterText}
                                         onChange={({ target }) =>
