@@ -24,9 +24,9 @@ export const PivotedCategoryComboTableBody = React.memo(
         categoryCombo,
         dataElements,
         greyedFields,
-        /*
         filterText,
         globalFilterText,
+        /*
         maxColumnsInSection,
         renderRowTotals,
         renderColumnTotals,*/
@@ -55,10 +55,19 @@ export const PivotedCategoryComboTableBody = React.memo(
             })
             .flat()
 
+        const filterBySearch = (elementName) => {
+            const search =
+                filterText.toLowerCase() || globalFilterText.toLowerCase()
+            return search ? elementName.toLowerCase().includes(search) : true
+        }
+
         const options = {
             metadata,
             categoryOptionsDetails,
-            sortedCOCs,
+            sortedCOCs: sortedCOCs.filter((coc) =>
+                filterBySearch(coc.displayName)
+            ),
+            totalRows: sortedCOCs.length,
             categories,
             dataElements,
         }
@@ -173,6 +182,8 @@ PivotedCategoryComboTableBody.propTypes = {
         pivotMode: PropTypes.oneOf(['move_categories', 'pivot']),
         pivotedCategory: PropTypes.string,
     }),
+    filterText: PropTypes.string,
     /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
+    globalFilterText: PropTypes.string,
     greyedFields: PropTypes.instanceOf(Set),
 }

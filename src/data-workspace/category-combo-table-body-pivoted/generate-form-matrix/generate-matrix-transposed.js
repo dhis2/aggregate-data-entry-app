@@ -8,6 +8,7 @@ export const generateMatrixTransposed = (options) => {
         sortedCOCs,
         categories,
         dataElements,
+        totalRows,
     } = options
 
     const columnHeaderFields = [...categories, ...dataElements]
@@ -29,7 +30,7 @@ export const generateMatrixTransposed = (options) => {
     const rowHeaders = []
     sortedCOCs.forEach((categoryOptionCombo, i) => {
         const dataEntryRow = []
-        let span = sortedCOCs.length
+        let span = totalRows
         // ids for each category option in the combo, one per category
         const categoryOptionsIds = categoryOptionCombo.categoryOptions
 
