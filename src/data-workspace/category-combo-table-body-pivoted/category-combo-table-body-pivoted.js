@@ -55,17 +55,13 @@ export const PivotedCategoryComboTableBody = React.memo(
             })
             .flat()
 
-        const filterAppliesToDataElements =
-            filterText.toLowerCase() !== '' &&
-            displayOptions.pivotMode === 'move_categories'
-
         const filteredDataElements =
-            !filterAppliesToDataElements &&
+            filterText.toLowerCase() === '' &&
             globalFilterText.toLowerCase() === ''
                 ? dataElements
                 : dataElements.filter(
                       (dataElement) =>
-                          (filterAppliesToDataElements &&
+                          (filterText.toLowerCase() !== '' &&
                               dataElement.displayFormName
                                   ?.toLowerCase()
                                   .includes(filterText.toLowerCase())) ||
@@ -75,20 +71,10 @@ export const PivotedCategoryComboTableBody = React.memo(
                                   .includes(globalFilterText.toLowerCase()))
                   )
 
-        const filterSortedCOCs =
-            filterText.toLowerCase() === '' ||
-            displayOptions.pivotMode === 'move_categories'
-                ? sortedCOCs
-                : sortedCOCs.filter((coc) =>
-                      coc.displayName
-                          ?.toLowerCase()
-                          .includes(filterText.toLowerCase())
-                  )
-
         const options = {
             metadata,
             categoryOptionsDetails,
-            sortedCOCs: filterSortedCOCs,
+            sortedCOCs,
             categories,
             dataElements: filteredDataElements,
         }
@@ -96,9 +82,7 @@ export const PivotedCategoryComboTableBody = React.memo(
         const rowsMatrix = generateFormMatrix(options, displayOptions)
 
         const hiddenItemsCount =
-            displayOptions.pivotMode === 'move_categories'
-                ? dataElements.length - filteredDataElements.length
-                : sortedCOCs.length - filterSortedCOCs.length
+            dataElements.length - filteredDataElements.length
 
         return (
             <>
