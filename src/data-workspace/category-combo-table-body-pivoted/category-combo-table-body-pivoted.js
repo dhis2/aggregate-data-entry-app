@@ -64,6 +64,7 @@ export const PivotedCategoryComboTableBody = React.memo(
         }
 
         const filterDataElementsBySearch = (elementName) => {
+            // local search should always work on rows - so disable localSearch when transposed (filterCOCBySearch would do the filter)
             const localSearch =
                 displayOptions.pivotMode === 'move_categories' &&
                 filterText.toLowerCase()
@@ -77,7 +78,7 @@ export const PivotedCategoryComboTableBody = React.memo(
         }
 
         const filteredDataElements = dataElements.filter((de) =>
-            filterDataElementsBySearch(de.displayName)
+            filterDataElementsBySearch(de.displayFormName)
         )
         const filteredSortedCOCS = sortedCOCs.filter((coc) =>
             filterCOCBySearch(coc.displayName)
