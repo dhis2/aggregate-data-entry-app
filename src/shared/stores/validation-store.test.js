@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
 import { useValidationStore } from './validation-store.js'
 
 describe('useValidationStore', () => {
@@ -8,14 +8,12 @@ describe('useValidationStore', () => {
     })
 
     it('should update validationToRefresh', async () => {
-        const { result, waitFor } = renderHook(useValidationStore)
+        const { result } = renderHook(useValidationStore)
 
         act(() => {
             result.current.setValidationToRefresh(true)
         })
 
-        await waitFor(() => {
-            expect(result.current.getValidationToRefresh()).toBe(true)
-        })
+        expect(result.current.getValidationToRefresh()).toBe(true)
     })
 })

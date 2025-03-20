@@ -1,5 +1,5 @@
 import { useQueries } from '@tanstack/react-query'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import useOfflineLevels from './use-offline-levels.js'
 import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 
