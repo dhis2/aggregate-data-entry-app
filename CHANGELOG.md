@@ -1,3 +1,10 @@
+## [101.0.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.5...v101.0.6) (2025-03-20)
+
+
+### Bug Fixes
+
+* make horizontal tabs scrollable whle keepingvertical tabs ([f95b581](https://github.com/dhis2/aggregate-data-entry-app/commit/f95b581d123424b64f30c00052d12210e20ba4e9))
+
 ## [101.0.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.4...v101.0.5) (2025-03-17)
 
 
