@@ -4,7 +4,7 @@ import {
     useLockedContext,
     useHighlightedFieldStore,
 } from '../../shared/index.js'
-import { getFieldId } from '../get-field-id.js'
+import { getFieldId } from '../get-field-id.jsx'
 import { EntryFieldInput } from './entry-field-input.jsx'
 import { InnerWrapper } from './inner-wrapper.jsx'
 

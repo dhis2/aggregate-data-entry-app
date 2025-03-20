@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import { useBlurredField, useValueStore } from '../../shared/index.js'
-import { getFieldId } from '../get-field-id.js'
+import { getFieldId } from '../get-field-id.jsx'
 
 const createValueMatrix = (dataElements, sortedCOCs, dataValues) =>
     dataElements.map((de) =>

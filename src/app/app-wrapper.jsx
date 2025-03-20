@@ -68,10 +68,10 @@ OuterComponents.propTypes = {
 }
 
 // Must be default export as this is the component point to by "d2.config.js"
-export default function AppWrapper() {
-    return (
-        <OuterComponents>
-            <App />
-        </OuterComponents>
-    )
-}
+const AppWrapper = () => (
+    <OuterComponents>
+        <App />
+    </OuterComponents>
+);
+
+export default AppWrapper;

@@ -20,7 +20,6 @@ import {
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.jsx'
 import { EntryScreen } from './entry-screen.jsx'
-import { FinalFormWrapper } from './final-form-wrapper.jsx'
 import { useHandleHeaderbarStatus } from './use-handle-headerbar-status.js'
 
 export const DataWorkspace = ({ selectionHasNoFormMessage }) => {

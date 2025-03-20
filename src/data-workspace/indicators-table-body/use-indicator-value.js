@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import { useValueStore } from '../../shared/index.js'
-import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
+import { parseFieldId as parseFieldOperand } from '../get-field-id.jsx'
 import {
     computeIndicatorValue,
     operandInterpolationPattern,

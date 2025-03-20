@@ -1,5 +1,5 @@
 import { Parser } from 'expr-eval'
-import { parseFieldId as parseFieldOperand } from '../get-field-id.js'
+import { parseFieldId as parseFieldOperand } from '../get-field-id.jsx'
 
 export const NONCALCULABLE_VALUE = 'noncalculable_value'
 export const MATHEMATICALLY_INVALID_VALUE = 'mathematically_invalid_value'
