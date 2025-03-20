@@ -1,3 +1,57 @@
+## [101.0.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.4...v101.0.5) (2025-03-17)
+
+
+### Bug Fixes
+
+* **transpose:** fix transpose rendering of more than 2 categories ([728e701](https://github.com/dhis2/aggregate-data-entry-app/commit/728e7017b7e915b96154a23357a1558cf495cfb7))
+* change roles of global serach and local search depending on display mode ([8c3f44e](https://github.com/dhis2/aggregate-data-entry-app/commit/8c3f44e2bcd6ec22855b7a7300b284973dbae796))
+* small fixes ([fdae4c8](https://github.com/dhis2/aggregate-data-entry-app/commit/fdae4c8d2b02c149a86659244e5e4144e42dc4d3))
+* **pivot:** fix search when pivoted ([5008999](https://github.com/dhis2/aggregate-data-entry-app/commit/5008999edb8e058bf9cd6cbfb698078e753cc80c))
+* update test ([395ae8b](https://github.com/dhis2/aggregate-data-entry-app/commit/395ae8b0b6d7f0eb6d3b896506ee4ed193930776))
+* **transpose:** fix transpose rendering of more than 2 categories ([a897ed9](https://github.com/dhis2/aggregate-data-entry-app/commit/a897ed93c552d3f65aba358ba05885f481679ff9))
+
+## [101.0.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.3...v101.0.4) (2025-03-13)
+
+
+### Bug Fixes
+
+* add warning about noncalculable indicators [DHIS2-14221] ([#448](https://github.com/dhis2/aggregate-data-entry-app/issues/448)) ([f7b23ce](https://github.com/dhis2/aggregate-data-entry-app/commit/f7b23ce585b1790976d9dbdc0fae15d1cd68e508))
+* remove final form dependencies in tests ([#453](https://github.com/dhis2/aggregate-data-entry-app/issues/453)) ([4eb2a71](https://github.com/dhis2/aggregate-data-entry-app/commit/4eb2a71bca97110312448bbb267b778bff4e14dd))
+
+## [101.0.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.2...v101.0.3) (2025-03-12)
+
+
+### Bug Fixes
+
+* update dompurify and use noreferrer ([6e8a7cf](https://github.com/dhis2/aggregate-data-entry-app/commit/6e8a7cf5b764a9c6b6a4baffd2d8215258331da1))
+* when sanitizing text and target to links so they work w global shell ([3bb7741](https://github.com/dhis2/aggregate-data-entry-app/commit/3bb7741b46c4e31de26af9de489152c9c4a27322))
+
+## [101.0.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.1...v101.0.2) (2025-03-07)
+
+
+### Bug Fixes
+
+* remove FinalForm dependency in main form [DHIS2-18373] ([#425](https://github.com/dhis2/aggregate-data-entry-app/issues/425)) ([bdd3ec2](https://github.com/dhis2/aggregate-data-entry-app/commit/bdd3ec2a0cd2fa4c1e7ca9ebf7447ff5c9751dd5))
+
+## [101.0.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.0...v101.0.1) (2025-02-21)
+
+
+### Bug Fixes
+
+* trigger release ([#446](https://github.com/dhis2/aggregate-data-entry-app/issues/446)) ([418d667](https://github.com/dhis2/aggregate-data-entry-app/commit/418d667be72ce1d7c7cfb0e274c6d18f1a2417f2))
+
+# [101.0.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.8...v101.0.0) (2025-02-21)
+
+
+### Features
+
+* update app title to data entry ([a8c0b3e](https://github.com/dhis2/aggregate-data-entry-app/commit/a8c0b3ea0468e53572c64942f54fda405f1e7658))
+
+
+### BREAKING CHANGES
+
+* updates app title to data entry
+
 ## [100.11.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v100.11.7...v100.11.8) (2025-02-04)
 
 

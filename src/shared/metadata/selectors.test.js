@@ -1228,12 +1228,12 @@ describe('getCoCByCategoryOptions', () => {
         ).toEqual(expected)
     })
 
-    it('returns the expected categoryOptionCombo when ids are in a different order', () => {
+    it('returns the expected categoryOptionCombo with updated ids when ids are in a different order', () => {
         const categoryComboId = 'categoryComboId'
         const categoryOptionIds = ['one', 'two']
         const expected = {
             id: 'cocId',
-            categoryOptions: ['two', 'one'],
+            categoryOptions: ['one', 'two'],
         }
 
         const data = {

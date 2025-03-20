@@ -3,7 +3,6 @@ import { useIsMutating } from '@tanstack/react-query'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
-import { useField, useForm } from 'react-final-form'
 import {
     mutationKeys as dataValueMutationKeys,
     useDataValueParams,
@@ -62,9 +61,17 @@ export function InnerWrapper({
     deId,
     cocId,
     highlighted,
+    valueSynced,
+    active,
 }) {
     const hasComment = useValueStore((state) =>
         state.hasComment({
+            dataElementId: deId,
+            categoryOptionComboId: cocId,
+        })
+    )
+    const value = useValueStore((state) =>
+        state.getDataValue({
             dataElementId: deId,
             categoryOptionComboId: cocId,
         })
@@ -76,24 +83,6 @@ export function InnerWrapper({
     const completeAttempted = useEntryFormStore((state) =>
         state.getCompleteAttempted()
     )
-
-    const {
-        input: { value },
-        meta: { invalid, active, data, dirty, error },
-    } = useField(fieldname, {
-        // by default undefined is formatted to ''
-        // this preserves the format used in the input-component
-        format: (v) => v,
-        subscription: {
-            value: true,
-            invalid: true,
-            active: true,
-            data: true,
-            dirty: true,
-            error: true,
-        },
-    })
-    const form = useForm()
 
     const dataValueParams = useDataValueParams({ deId, cocId })
     // Detect if this field is sending data
@@ -107,6 +96,7 @@ export function InnerWrapper({
         (state) => state.clearErrorByDataValueParams
     )
     const warning = useEntryFormStore((state) => state.getWarning(fieldname))
+    const error = useEntryFormStore((state) => state.getError(fieldname))
 
     const fieldErrorMessage = error ?? warning
 
@@ -120,13 +110,13 @@ export function InnerWrapper({
             fieldErrorMessage ?? syncError?.displayMessage
         )
 
-    const valueSynced = data.lastSyncedValue === value
-    const showSynced = dirty && valueSynced && (!isRequired || !!value)
+    const showSynced = valueSynced && (!isRequired || !!value)
+
     // todo: maybe use mutation state to improve this style handling
     // see https://dhis2.atlassian.net/browse/TECH-1316
 
     const cellStateClassName =
-        invalid || (isRequired && !value && completeAttempted)
+        error || (isRequired && !value && completeAttempted)
             ? styles.invalid
             : warning
             ? styles.warning
@@ -134,18 +124,6 @@ export function InnerWrapper({
             ? styles.synced
             : null
 
-    // initalize lastSyncedValue
-    useEffect(
-        () => {
-            if (!syncError) {
-                form.mutators.setFieldData(fieldname, {
-                    lastSyncedValue: value,
-                })
-            }
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
-    )
     // clear error if reset to initital-value
     useEffect(() => {
         if (valueSynced) {
@@ -157,7 +135,7 @@ export function InnerWrapper({
         <ValidationTooltip
             fieldname={fieldname}
             active={active}
-            enabled={!!warning || invalid || !!syncError}
+            enabled={!!warning || !!error || !!syncError}
             content={errorMessage}
         >
             <div
@@ -181,6 +159,7 @@ export function InnerWrapper({
     )
 }
 InnerWrapper.propTypes = {
+    active: PropTypes.bool,
     children: PropTypes.node,
     cocId: PropTypes.string,
     deId: PropTypes.string,
@@ -188,4 +167,5 @@ InnerWrapper.propTypes = {
     fieldname: PropTypes.string,
     highlighted: PropTypes.bool,
     locked: PropTypes.bool,
+    valueSynced: PropTypes.bool,
 }

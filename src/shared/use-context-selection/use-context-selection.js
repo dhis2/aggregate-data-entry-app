@@ -69,8 +69,15 @@ export function useClearEntireSelection() {
  * @returns {string} an unique identifer for the selected context
  */
 export function useContextSelectionId() {
-    const [{ attributeOptionComboSelection, dataSetId, orgUnitId, periodId }] =
-        useContextSelection()
+    const [
+        {
+            attributeOptionComboSelection,
+            dataSetId,
+            orgUnitId,
+            periodId,
+            sectionFilter,
+        },
+    ] = useContextSelection()
 
     const attributeOptions = Object.values(attributeOptionComboSelection)
     // generate an identifier based on the context-selection
@@ -79,6 +86,7 @@ export function useContextSelectionId() {
         dataSetId,
         orgUnitId,
         periodId,
+        sectionFilter,
     })
 }
 
@@ -87,10 +95,19 @@ export const getContextSelectionId = ({
     dataSetId,
     orgUnitId,
     periodId,
+    sectionFilter,
 }) => {
     // Sort these to produce consistent results
     const joinedAttributeOptions = attributeOptions.sort().join(';')
-    return [joinedAttributeOptions, dataSetId, orgUnitId, periodId].join()
+    return [
+        joinedAttributeOptions,
+        dataSetId,
+        orgUnitId,
+        periodId,
+        sectionFilter,
+    ]
+        .filter((i) => i !== undefined)
+        .join()
 }
 
 export const parseContextSelectionId = (contextSelectionId) => {

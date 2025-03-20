@@ -3,12 +3,7 @@ import { NoticeBox } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useFormState } from 'react-final-form'
-import {
-    LockedStates,
-    useLockedContext,
-    useEntryFormStore,
-} from '../shared/index.js'
+import { LockedStates, useLockedContext } from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
 import { DefaultForm } from './default-form.jsx'
@@ -67,7 +62,6 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
                     formType={formType}
                 />
             )}
-            <EntryFormErrorSpy />
             <div
                 className={cx(styles.sectionsCustomText, {
                     [styles.textStartLine]:
@@ -94,26 +88,6 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
         </>
     )
 })
-
-/**
- * Used to sync global store with errors from final-form.
- * Because of the `errors` subscription in `useFormState`, this re-renders
- * on every form input change if there is an error in the form. Therefore, this
- * has its own component to prevent unnecessary re-renders below it in the tree
- */
-const EntryFormErrorSpy = () => {
-    const setFormErrors = useEntryFormStore((state) => state.setErrors)
-
-    useFormState({
-        onChange: (formState) => {
-            setFormErrors(formState.errors)
-        },
-        subscription: {
-            errors: true,
-        },
-    })
-    return null
-}
 
 EntryForm.propTypes = {
     dataSet: PropTypes.shape({

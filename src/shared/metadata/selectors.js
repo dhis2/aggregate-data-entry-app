@@ -403,7 +403,9 @@ export const getCoCByCategoryOptions = createCachedSelector(
             const sameIds = targetIds.every((id) => currentIds.includes(id))
 
             if (sameLength && sameIds) {
-                return coc
+                // coc.categoryOptions are a set on the server, so the order is not guaranteed
+                // so we replace the categoryOptions with the targetIds, which should be in correct order
+                return { ...coc, categoryOptions: targetIds }
             }
         }
 

@@ -69,6 +69,13 @@
     text-align: end;
 }
 
+.indicatorCellNoncalculable {
+    composes: tableCell;
+    background: var(--colors-grey300);
+    text-align: center;
+    color: var(--colors-grey600);
+}
+
 .totalHeader {
     composes: totalCell;
     font-weight: initial;

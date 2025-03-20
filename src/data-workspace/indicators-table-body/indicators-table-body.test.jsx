@@ -1,8 +1,8 @@
 import { getAllByTestId, queryAllByTestId } from '@testing-library/react'
 import React from 'react'
 import { render } from '../../test-utils/index.js'
-import { FinalFormWrapper } from '../final-form-wrapper.jsx'
-import { IndicatorsTableBody } from './indicators-table-body.jsx'
+import { FormWrapper } from '../form-wrapper.js'
+import { IndicatorsTableBody } from './indicators-table-body.js'
 
 const tableIndicators = [
     {
@@ -27,9 +27,7 @@ describe('<IndicatorsTableBody />', () => {
             />,
             {
                 wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
+                    <FormWrapper dataValueSet={{}}>{children}</FormWrapper>
                 ),
             }
         )
@@ -53,9 +51,7 @@ describe('<IndicatorsTableBody />', () => {
             />,
             {
                 wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
+                    <FormWrapper dataValueSet={{}}>{children}</FormWrapper>
                 ),
             }
         )
@@ -80,9 +76,7 @@ describe('<IndicatorsTableBody />', () => {
             />,
             {
                 wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
+                    <FormWrapper dataValueSet={{}}>{children}</FormWrapper>
                 ),
             }
         )
@@ -107,9 +101,7 @@ describe('<IndicatorsTableBody />', () => {
             />,
             {
                 wrapper: ({ children }) => (
-                    <FinalFormWrapper dataValueSet={{}}>
-                        {children}
-                    </FinalFormWrapper>
+                    <FormWrapper dataValueSet={{}}>{children}</FormWrapper>
                 ),
             }
         )

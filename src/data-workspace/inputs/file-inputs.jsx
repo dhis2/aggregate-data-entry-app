@@ -2,8 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { colors, Button, FileInput, IconAttachment16 } from '@dhis2/ui'
 import { useQuery } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
-import React from 'react'
-import { useField } from 'react-final-form'
+import React, { useEffect, useState } from 'react'
 import {
     useDataValueParams,
     useDeleteDataValueMutation,
@@ -18,8 +17,6 @@ const formatFileSize = (size) => {
 }
 
 export const FileResourceInput = ({
-    fieldname,
-    form,
     image,
     deId,
     cocId,
@@ -27,17 +24,28 @@ export const FileResourceInput = ({
     locked,
     onKeyDown,
     onFocus,
+    onBlur,
+    initialValue,
+    setValueSynced,
 }) => {
-    const { input, meta } = useField(fieldname, {
-        // todo: validate
-        subscription: {
-            value: true,
-            pristine: true,
-            onFocus: true,
-            onBlur: true,
-            onChange: true,
-        },
-    })
+    const [value, setValue] = useState(initialValue)
+    const [lastSyncedValue, setLastSyncedValue] = useState(initialValue)
+    const [syncTouched, setSyncTouched] = useState(false)
+
+    useEffect(() => {
+        if (syncTouched) {
+            if (typeof value === 'string') {
+                setValueSynced(value === lastSyncedValue)
+            } else {
+                setValueSynced(
+                    value.name &&
+                        value.name === lastSyncedValue?.name &&
+                        value.size &&
+                        value.size === lastSyncedValue?.size
+                )
+            }
+        }
+    }, [value, lastSyncedValue, syncTouched, setValueSynced])
 
     const dataValueParams = useDataValueParams({ deId, cocId })
     const fileLink = useFileInputUrl(dataValueParams)
@@ -48,15 +56,12 @@ export const FileResourceInput = ({
     // about the file to show in the entry form:
     const { data } = useQuery(
         // This endpoint doesn't support field filtering
-        ['fileResources', { id: input.value }],
+        ['fileResources', { id: value }],
         {
-            enabled:
-                !!input.value &&
-                meta.pristine &&
-                typeof input.value === 'string',
+            enabled: !!value && !syncTouched && typeof value === 'string',
         }
     )
-    // const [deId, cocId] = [dataValueParams.de, dataValueParams.co]
+
     const { mutate: uploadFile } = useUploadFileDataValueMutation({
         deId,
         cocId,
@@ -66,16 +71,16 @@ export const FileResourceInput = ({
     const handleChange = ({ files }) => {
         const newFile = files[0]
         const newFileValue = { name: newFile.name, size: newFile.size }
-        input.onChange(newFileValue)
-        input.onBlur()
+        setSyncTouched(true)
+        setValue(newFileValue)
+
         if (newFile instanceof File) {
             uploadFile(
                 { file: newFile },
                 {
                     onSuccess: () => {
-                        form.mutators.setFieldData(fieldname, {
-                            lastSyncedValue: newFileValue,
-                        })
+                        setLastSyncedValue(newFileValue)
+                        onBlur()
                     },
                 }
             )
@@ -83,21 +88,21 @@ export const FileResourceInput = ({
     }
 
     const handleDelete = () => {
-        input.onChange('')
-        input.onBlur()
+        setValue('')
+        setSyncTouched(true)
         deleteFile(null, {
             onSuccess: () => {
-                form.mutators.setFieldData(fieldname, {
-                    lastSyncedValue: null,
-                })
+                setLastSyncedValue('')
+                onBlur()
             },
         })
     }
 
-    const inputValueHasFileMeta = !!input.value.name && !!input.value.size
+    const inputValueHasFileMeta =
+        typeof value !== 'string' && value?.name && value?.size
     const file = inputValueHasFileMeta
-        ? input.value
-        : data && input.value // i.e. if value is a resource UID, use fetched metadata
+        ? value
+        : data && value // i.e. if value is a resource UID, use fetched metadata
         ? {
               name: data.name,
               size: data.contentLength,
@@ -126,10 +131,9 @@ export const FileResourceInput = ({
                         className={styles.deleteFileButton}
                         onClick={handleDelete}
                         onFocus={(...args) => {
-                            input.onFocus(...args)
                             onFocus?.(...args)
                         }}
-                        onBlur={input.onBlur}
+                        onBlur={onBlur}
                         onKeyDown={onKeyDown}
                         disabled={disabled || locked}
                     >
@@ -139,13 +143,11 @@ export const FileResourceInput = ({
             ) : (
                 <FileInput
                     className={styles.fileInput}
-                    name={input.name}
                     onChange={handleChange}
                     onFocus={(...args) => {
-                        input.onFocus(...args)
                         onFocus?.(...args)
                     }}
-                    onBlur={input.onBlur}
+                    onBlur={onBlur}
                     onKeyDown={onKeyDown}
                     small
                     buttonLabel={
@@ -163,8 +165,4 @@ export const FileResourceInput = ({
 FileResourceInput.propTypes = {
     ...InputPropTypes,
     image: PropTypes.bool,
-}
-
-export const ImageInput = (props) => {
-    return <FileResourceInput {...props} image />
 }

@@ -36,7 +36,10 @@ const generateRowHeaders = (
                         id: de.id,
                         displayFormName: de.displayFormName,
                         type: 'rowHeader',
-                        rowSpan: rowCategories.length * 2, // todo(pivot) should be the number of options in all rest categories
+                        rowSpan: rowCategories.reduce(
+                            (acc, item) => acc * item.categoryOptions.length,
+                            1
+                        ),
                         metadataType: 'dataElement',
                     })
                     addedDataElements[de.id] = true

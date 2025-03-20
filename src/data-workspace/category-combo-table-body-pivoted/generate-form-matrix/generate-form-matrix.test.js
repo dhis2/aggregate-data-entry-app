@@ -3,8 +3,12 @@ import { generateFormMatrix } from './generate-form-matrix.js'
 
 describe('generate-form-matrix', () => {
     describe('pivoted mode', () => {
+        const optionsWithTotalRows = {
+            ...options,
+            totalRows: options.sortedCOCs.length,
+        }
         it('should show all categories and data elements in the column headers', () => {
-            const rowsMatrix = generateFormMatrix(options, {
+            const rowsMatrix = generateFormMatrix(optionsWithTotalRows, {
                 pivotMode: 'pivot',
             })
             expect(
@@ -21,7 +25,7 @@ describe('generate-form-matrix', () => {
         })
 
         it('should show all category options in the row headers', () => {
-            const rowsMatrix = generateFormMatrix(options, {
+            const rowsMatrix = generateFormMatrix(optionsWithTotalRows, {
                 pivotMode: 'pivot',
             })
 
@@ -43,7 +47,7 @@ describe('generate-form-matrix', () => {
         })
 
         it('should have data elements equal to the combination of all data elements and cocs', () => {
-            const rowsMatrix = generateFormMatrix(options, {
+            const rowsMatrix = generateFormMatrix(optionsWithTotalRows, {
                 pivotMode: 'pivot',
             })
 
@@ -59,7 +63,7 @@ describe('generate-form-matrix', () => {
 
         // sanity snapshot check for the refactors
         it('should create a full pivoted matrix', () => {
-            const rowsMatrix = generateFormMatrix(options, {
+            const rowsMatrix = generateFormMatrix(optionsWithTotalRows, {
                 pivotMode: 'pivot',
             })
             // expect(rowsMatrix).toIncludeSameMembers(expectedResult)

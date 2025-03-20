@@ -17,7 +17,7 @@ export default function FilterField({ value, setFilterText, formType }) {
                 dense
                 placeholder={
                     formType === FORM_TYPES.SECTION
-                        ? i18n.t('Filter fields in all sections')
+                        ? i18n.t('Filter data elements in all sections')
                         : i18n.t('Filter fields')
                 }
                 value={value}

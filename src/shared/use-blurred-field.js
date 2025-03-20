@@ -1,13 +1,15 @@
-import { useMemo, useRef } from 'react'
-import { useFormState } from 'react-final-form'
+import { useRef } from 'react'
+import { getFieldId } from '../data-workspace/get-field-id.js'
+import { useHighlightedFieldStore } from './stores/highlighted-field-store.js'
 
 export const useBlurredField = () => {
     const previouslyActiveFieldRef = useRef(undefined)
-    const { active } = useFormState({ subscription: { active: true } })
 
-    return useMemo(() => {
-        const blurredField = previouslyActiveFieldRef.current
-        previouslyActiveFieldRef.current = active
-        return blurredField
-    }, [active])
+    const { dataElementId, categoryOptionComboId } =
+        useHighlightedFieldStore((state) => state.getHighlightedField()) || {}
+    const fieldId = getFieldId(dataElementId, categoryOptionComboId)
+
+    const blurredField = previouslyActiveFieldRef.current
+    previouslyActiveFieldRef.current = fieldId
+    return blurredField
 }
