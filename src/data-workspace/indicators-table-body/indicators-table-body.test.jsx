@@ -1,8 +1,8 @@
 import { getAllByTestId, queryAllByTestId } from '@testing-library/react'
 import React from 'react'
 import { render } from '../../test-utils/index.js'
-import { FormWrapper } from '../form-wrapper.js'
-import { IndicatorsTableBody } from './indicators-table-body.js'
+import { FormWrapper } from '../form-wrapper.jsx'
+import { IndicatorsTableBody } from './indicators-table-body.jsx'
 
 const tableIndicators = [
     {
