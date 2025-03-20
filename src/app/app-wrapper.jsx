@@ -72,6 +72,6 @@ const AppWrapper = () => (
     <OuterComponents>
         <App />
     </OuterComponents>
-);
+)
 
-export default AppWrapper;
+export default AppWrapper
