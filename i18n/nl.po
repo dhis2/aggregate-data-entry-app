@@ -2,14 +2,14 @@
 # Translators:
 # Yury Rogachev <yury@dhis2.org>, 2024
 # Cherise Beek <cherise.beek@gmail.com>, 2024
-# Charel van den Elsen, 2024
+# Charel van den Elsen <zobeadzorg@gmail.com>, 2024
 # Rica, 2024
 # Philip Larsen Donnelly, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Philip Larsen Donnelly, 2024\n"
 "Language-Team: Dutch (https://app.transifex.com/hisp-uio/teams/100509/nl/)\n"
@@ -97,6 +97,9 @@ msgstr ""
 
 msgid "The form can't be completed while invalid"
 msgstr "Het formulier kan niet worden ingevuld terwijl het ongeldig is"
+
+msgid "Compulsory fields must be filled out before completing the form"
+msgstr ""
 
 msgid "1 comment required"
 msgstr "1 opmerking vereist"
@@ -234,6 +237,9 @@ msgstr ""
 
 msgid "Locked, not editable"
 msgstr "Vergrendeld, niet bewerkbaar"
+
+msgid "Compulsory field"
+msgstr ""
 
 msgid "Help"
 msgstr "Hulp"
@@ -546,14 +552,22 @@ msgstr ""
 msgid "Learn more about data entry"
 msgstr "Meer informatie over gegevensinvoer"
 
-msgid "Filter fields in all sections"
-msgstr "Filter velden in alle secties"
+msgid "Filter data sets in all sections"
+msgstr ""
 
 msgid "Filter fields"
 msgstr "Velden filteren"
 
 msgid "Clear filter"
 msgstr "Filter wissen"
+
+msgid "This value cannot be calculated in this app"
+msgstr ""
+
+msgid ""
+"This expression is not mathematically calculable "
+"{{numeratorValue}}/{{denominatorValue}}"
+msgstr ""
 
 msgid "Indicators"
 msgstr "Indicatoren"
@@ -609,8 +623,8 @@ msgstr ""
 "Zorg ervoor dat de waarde van deze invoer groter is dan de waarde in "
 "\"{{otherField}}\"."
 
-msgid "Type here to filter in this section"
-msgstr "Typ hier om in deze sectie te filteren"
+msgid "Type here to filter rows in this section"
+msgstr ""
 
 msgid "1 item hidden by filter"
 msgstr "1 item verborgen door filter"
