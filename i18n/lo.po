@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Philip Larsen Donnelly, 2024\n"
 "Language-Team: Lao (https://app.transifex.com/hisp-uio/teams/100509/lo/)\n"
@@ -94,6 +94,9 @@ msgstr "ບໍ່ສາມາດກວດສອບແບບຟອມໄດ້. �
 
 msgid "The form can't be completed while invalid"
 msgstr "ບໍ່ສາມາດສຳເລັດໄດ້ຫາກຂໍ້ມູນບໍ່ຖືກຕ້ອງ"
+
+msgid "Compulsory fields must be filled out before completing the form"
+msgstr ""
 
 msgid "1 comment required"
 msgstr "ຕ້ອງການ 1 ຄຳຄິດເຫັນ"
@@ -225,6 +228,9 @@ msgstr ""
 
 msgid "Locked, not editable"
 msgstr "ລັອກແລ້ວ, ບໍ່ສາມາດແກ້ໄຂໄດ້"
+
+msgid "Compulsory field"
+msgstr ""
 
 msgid "Help"
 msgstr "ຊ່ວຍ"
@@ -523,14 +529,22 @@ msgstr ""
 msgid "Learn more about data entry"
 msgstr "ຮຽນຮູ້ເພີ່ມເຕີມກ່ຽວກັບການປ້ອນຂໍ້ມູນ"
 
-msgid "Filter fields in all sections"
-msgstr "ກັ່ນຕອງຂໍ້ມູນໃນທຸກພາກສ່ວນ"
+msgid "Filter data sets in all sections"
+msgstr ""
 
 msgid "Filter fields"
 msgstr "ຊ່ອງກັ່ນຕອງ"
 
 msgid "Clear filter"
 msgstr "ລ້າງການກັ່ນຕອງ"
+
+msgid "This value cannot be calculated in this app"
+msgstr ""
+
+msgid ""
+"This expression is not mathematically calculable "
+"{{numeratorValue}}/{{denominatorValue}}"
+msgstr ""
 
 msgid "Indicators"
 msgstr "ຕົວຊີ້ວັດ"
@@ -582,8 +596,8 @@ msgid ""
 "\"{{otherField}}\"."
 msgstr "ກະລຸນາກວດສອບໃຫ້ແນ່ໃຈວ່າຄ່າຂອງຂໍ້ມູນມີຄ່າຫຼາຍກ່ວາຄ່າໃນ \"{{otherField}}\""
 
-msgid "Type here to filter in this section"
-msgstr "ປ້ອນໃສ່ບ່ອນນີ້ເພື່ອກັ່ນຕອງໃນພາກສ່ວນນີ້"
+msgid "Type here to filter rows in this section"
+msgstr ""
 
 msgid "1 item hidden by filter"
 msgstr "1 ລາຍການຖືກເຊື່ອງໂດຍຕົວກັ່ນຕອງ"

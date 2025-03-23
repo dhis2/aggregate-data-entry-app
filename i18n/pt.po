@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Helton Dias, 2024\n"
 "Language-Team: Portuguese (https://app.transifex.com/hisp-uio/teams/100509/pt/)\n"
@@ -102,6 +102,9 @@ msgstr ""
 
 msgid "The form can't be completed while invalid"
 msgstr "O formulário não pode ser preenchido se for inválido"
+
+msgid "Compulsory fields must be filled out before completing the form"
+msgstr ""
 
 msgid "1 comment required"
 msgstr "1 comentário necessário"
@@ -238,6 +241,9 @@ msgstr "Aviso, guardado"
 
 msgid "Locked, not editable"
 msgstr "Bloqueado, não editável"
+
+msgid "Compulsory field"
+msgstr ""
 
 msgid "Help"
 msgstr "Ajuda"
@@ -543,14 +549,22 @@ msgstr ""
 msgid "Learn more about data entry"
 msgstr "Saiba mais sobre a introdução de dados"
 
-msgid "Filter fields in all sections"
-msgstr "Campos de filtro em todas as secções"
+msgid "Filter data sets in all sections"
+msgstr ""
 
 msgid "Filter fields"
 msgstr "Campos de filtro"
 
 msgid "Clear filter"
 msgstr "Limpar filtro"
+
+msgid "This value cannot be calculated in this app"
+msgstr ""
+
+msgid ""
+"This expression is not mathematically calculable "
+"{{numeratorValue}}/{{denominatorValue}}"
+msgstr ""
 
 msgid "Indicators"
 msgstr "Indicadores"
@@ -606,8 +620,8 @@ msgstr ""
 "Certifique-se de que o valor desta entrada é superior ao valor em "
 "\"{{otherField}}\"."
 
-msgid "Type here to filter in this section"
-msgstr "Digite aqui para filtrar nesta secção"
+msgid "Type here to filter rows in this section"
+msgstr ""
 
 msgid "1 item hidden by filter"
 msgstr "1 item oculto por filtro"

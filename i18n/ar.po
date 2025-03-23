@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Philip Larsen Donnelly, 2024\n"
 "Language-Team: Arabic (https://app.transifex.com/hisp-uio/teams/100509/ar/)\n"
@@ -88,6 +88,9 @@ msgstr "تعذر التحقق من صحة النموذج. هذا لا يؤثر �
 
 msgid "The form can't be completed while invalid"
 msgstr "لا يمكن إكمال النموذج وهو غير صحيح"
+
+msgid "Compulsory fields must be filled out before completing the form"
+msgstr ""
 
 msgid "1 comment required"
 msgstr "مطلوب تعليق واحد"
@@ -213,6 +216,9 @@ msgid "Warning, saved"
 msgstr ""
 
 msgid "Locked, not editable"
+msgstr ""
+
+msgid "Compulsory field"
 msgstr ""
 
 msgid "Help"
@@ -508,13 +514,21 @@ msgstr ""
 msgid "Learn more about data entry"
 msgstr ""
 
-msgid "Filter fields in all sections"
+msgid "Filter data sets in all sections"
 msgstr ""
 
 msgid "Filter fields"
 msgstr ""
 
 msgid "Clear filter"
+msgstr ""
+
+msgid "This value cannot be calculated in this app"
+msgstr ""
+
+msgid ""
+"This expression is not mathematically calculable "
+"{{numeratorValue}}/{{denominatorValue}}"
 msgstr ""
 
 msgid "Indicators"
@@ -571,8 +585,8 @@ msgstr ""
 "الرجاء التأكد من أن قيمة هذا الإدخال أكبر من القيمة الموجودة في "
 "\"{{otherField}}\"."
 
-msgid "Type here to filter in this section"
-msgstr "اكتب هنا للتصفية في هذا القسم"
+msgid "Type here to filter rows in this section"
+msgstr ""
 
 msgid "1 item hidden by filter"
 msgstr ""

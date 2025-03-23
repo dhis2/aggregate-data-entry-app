@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Jiří Podhorecký <jirka.p@volny.cz>, 2024\n"
 "Language-Team: Czech (https://app.transifex.com/hisp-uio/teams/100509/cs/)\n"
@@ -91,6 +91,9 @@ msgstr "Formulář se nepodařilo ověřit. Toto nemá vliv na vyplnění formul
 
 msgid "The form can't be completed while invalid"
 msgstr "Pokud je formulář neplatný, nelze jej vyplnit"
+
+msgid "Compulsory fields must be filled out before completing the form"
+msgstr ""
 
 msgid "1 comment required"
 msgstr "Je vyžadován 1 komentář"
@@ -224,6 +227,9 @@ msgstr "Varování, uloženo"
 
 msgid "Locked, not editable"
 msgstr "Uzamčeno, nelze upravovat"
+
+msgid "Compulsory field"
+msgstr ""
 
 msgid "Help"
 msgstr "Nápověda"
@@ -522,14 +528,22 @@ msgstr ""
 msgid "Learn more about data entry"
 msgstr "Další informace o zadávání dat"
 
-msgid "Filter fields in all sections"
-msgstr "Filtrujte pole ve všech sekcích"
+msgid "Filter data sets in all sections"
+msgstr ""
 
 msgid "Filter fields"
 msgstr "Filtrovat pole"
 
 msgid "Clear filter"
 msgstr "Vymazat filtr"
+
+msgid "This value cannot be calculated in this app"
+msgstr ""
+
+msgid ""
+"This expression is not mathematically calculable "
+"{{numeratorValue}}/{{denominatorValue}}"
+msgstr ""
 
 msgid "Indicators"
 msgstr "Indikátory"
@@ -585,8 +599,8 @@ msgstr ""
 "Ujistěte se prosím, že hodnota tohoto vstupu je větší než hodnota v "
 "\"{{otherField}}\"."
 
-msgid "Type here to filter in this section"
-msgstr "Chcete-li filtrovat v této sekci, zadejte zde"
+msgid "Type here to filter rows in this section"
+msgstr ""
 
 msgid "1 item hidden by filter"
 msgstr "1 položka skrytá filtrem"
