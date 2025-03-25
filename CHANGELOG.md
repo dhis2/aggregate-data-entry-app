@@ -1,3 +1,10 @@
+## [101.0.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.7...v101.0.8) (2025-03-25)
+
+
+### Bug Fixes
+
+* adjust background to stretch if form is bigger than page ([215cfaf](https://github.com/dhis2/aggregate-data-entry-app/commit/215cfafcefea13d08c7c4f42064182b46268d7e1))
+
 ## [101.0.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.6...v101.0.7) (2025-03-23)
 
 
