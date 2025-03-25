@@ -21,6 +21,7 @@
     min-inline-size: 600px;
     padding: 8px;
     background-color: #fff;
+    inline-size: max-content;
 }
 
 .footer {
