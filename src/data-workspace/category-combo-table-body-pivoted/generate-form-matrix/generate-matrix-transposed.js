@@ -39,6 +39,10 @@ export const generateMatrixTransposed = (options) => {
                 (cod) => cod.id === coId
             )
             const category = categories[optIndex]
+            if(!category) {
+                console.error('Category out of bounds for categoryOptionCombo. Skipping:', categoryOptionCombo)
+                return
+            }
             span = span / category.categoryOptions.length
             // we only want to render the header once "per spanning"-header
             // the last category (span=1, i % 1 === 0) will always render
