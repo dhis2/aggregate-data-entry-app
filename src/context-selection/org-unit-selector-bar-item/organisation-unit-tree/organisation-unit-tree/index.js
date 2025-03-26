@@ -1,3 +1,3 @@
-export { OrganisationUnitTree } from './organisation-unit-tree.js'
-export { RootError } from './root-error.js'
-export { RootLoading } from './root-loading.js'
+export { OrganisationUnitTree } from './organisation-unit-tree.jsx'
+export { RootError } from './root-error.jsx'
+export { RootLoading } from './root-loading.jsx'

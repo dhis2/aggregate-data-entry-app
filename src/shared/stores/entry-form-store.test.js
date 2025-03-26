@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import { useEntryFormStore } from './entry-form-store.js'
 
 describe('useEntryFormStore', () => {
@@ -22,7 +22,7 @@ describe('useEntryFormStore', () => {
     })
 
     it('should provide the number of errors', async () => {
-        const { result, waitFor } = renderHook(useEntryFormStore)
+        const { result } = renderHook(useEntryFormStore)
         const nextErrors = {
             'de-id1': {
                 'coc-id1': 'Error message 1',

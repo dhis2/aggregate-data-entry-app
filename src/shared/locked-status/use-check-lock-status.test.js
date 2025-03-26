@@ -1,5 +1,5 @@
 import { useConfig } from '@dhis2/app-runtime'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import { useMetadata } from '../metadata/use-metadata.js'
 import { usePeriod } from '../period/index.js'
 import { useDataValueSet } from '../use-data-value-set/use-data-value-set.js'
