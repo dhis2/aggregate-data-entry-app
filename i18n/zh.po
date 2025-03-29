@@ -509,7 +509,7 @@ msgid "Learn more about data entry"
 msgstr "了解有关数据录入的更多信息"
 
 msgid "Filter data sets in all sections"
-msgstr ""
+msgstr "过滤所有部分的数据集"
 
 msgid "Filter fields"
 msgstr "筛选字段"
@@ -576,7 +576,7 @@ msgid ""
 msgstr "请确保该输入值大于 \"{{otherField}}\" 中的值。"
 
 msgid "Type here to filter rows in this section"
-msgstr ""
+msgstr "在此处键入可过滤本节中的行"
 
 msgid "1 item hidden by filter"
 msgstr "过滤器隐藏了 1 个项目"
