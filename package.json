@@ -42,7 +42,7 @@
         "@testing-library/user-event": "13.5.0",
         "cypress": "^12.8.1",
         "enzyme": "3.11.0",
-        "enzyme-adapter-react-16": "1.15.7",
+        "enzyme-adapter-react-16": "1.15.8",
         "eslint-plugin-cypress": "2.12.1",
         "fake-indexeddb": "4.0.1",
         "jest-extended": "^4.0.2",
