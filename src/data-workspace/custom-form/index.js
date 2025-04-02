@@ -1,1 +1,1 @@
-export { CustomForm } from './custom-form.js'
+export { CustomForm } from './custom-form.jsx'
