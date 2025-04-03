@@ -1,3 +1,7 @@
+.customForm {
+    width: 100%;
+}
+
 .customForm table {
     border-collapse: collapse;
     block-size: 100%;
