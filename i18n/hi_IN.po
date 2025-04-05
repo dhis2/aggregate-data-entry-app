@@ -1,23 +1,19 @@
 # 
 # Translators:
-# Ulanbek Abakirov <ulans@mail.ru>, 2022
-# Philip Larsen Donnelly, 2022
-# Viktor Varland <viktor@dhis2.org>, 2022
-# Yury Rogachev <yury@dhis2.org>, 2024
-# Nadiia <semchuk@aph.org.ua>, 2025
+# Siddharth Agarwal, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Nadiia <semchuk@aph.org.ua>, 2025\n"
-"Language-Team: Russian (https://app.transifex.com/hisp-uio/teams/100509/ru/)\n"
+"Last-Translator: Siddharth Agarwal, 2025\n"
+"Language-Team: Hindi (India) (https://app.transifex.com/hisp-uio/teams/100509/hi_IN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Language: hi_IN\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Not authorized"
 msgstr ""
@@ -41,13 +37,13 @@ msgid "Couldn't incomplete the form, please try again later"
 msgstr ""
 
 msgid "Mark incomplete"
-msgstr "Пометить незавершенным"
+msgstr ""
 
 msgid "Mark complete"
 msgstr ""
 
 msgid "Hide details"
-msgstr "Скрыть детали"
+msgstr ""
 
 msgid "View details"
 msgstr ""
@@ -71,7 +67,7 @@ msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
-msgstr "Запустить проверку"
+msgstr ""
 
 msgid "Last completed by"
 msgstr ""
@@ -98,13 +94,13 @@ msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
 
 msgid "High"
-msgstr "Высокий"
+msgstr "उच्च"
 
 msgid "Medium"
-msgstr "Средний"
+msgstr ""
 
 msgid "Low"
-msgstr "Низкий"
+msgstr "निम्न"
 
 msgid "{{length}} {{level}} priority alert"
 msgstr ""
@@ -113,7 +109,7 @@ msgid "{{length}} {{level}} priority alerts"
 msgstr ""
 
 msgid "Validation"
-msgstr "Проверка"
+msgstr ""
 
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
@@ -171,7 +167,7 @@ msgid ""
 msgstr ""
 
 msgid "Hide menu"
-msgstr "Скрыть меню"
+msgstr ""
 
 msgid "Default attribute combo"
 msgstr ""
@@ -207,16 +203,16 @@ msgid "Locked, not editable"
 msgstr ""
 
 msgid "Help"
-msgstr "Помощь"
+msgstr "सहायता"
 
 msgid "or"
-msgstr "или"
+msgstr ""
 
 msgid "Shortcuts"
 msgstr ""
 
 msgid "Show details"
-msgstr "Показать детали"
+msgstr ""
 
 msgid "Ctrl + Enter"
 msgstr ""
@@ -243,7 +239,7 @@ msgid "There are no data sets available!"
 msgstr ""
 
 msgid "Data set"
-msgstr "Набор данных"
+msgstr ""
 
 msgid "Print form with values"
 msgstr ""
@@ -252,7 +248,7 @@ msgid "Print empty form"
 msgstr ""
 
 msgid "Options"
-msgstr "Параметры"
+msgstr ""
 
 msgid "Search org units"
 msgstr ""
@@ -264,7 +260,7 @@ msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "Organisation unit"
-msgstr "Организационная единица"
+msgstr ""
 
 msgid "Choose a organisation unit"
 msgstr ""
@@ -273,13 +269,13 @@ msgid "No organisation units could be found"
 msgstr ""
 
 msgid "No children match filter"
-msgstr "Нет дочерних единиц, соответствующих фильтру"
+msgstr ""
 
 msgid "Could not load children"
-msgstr "¨Не удалось загрузить  дочерних единицы"
+msgstr ""
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr "Ошибка: {{ ERRORMESSAGE }}"
+msgstr ""
 
 msgid "Fetching organisation unit info"
 msgstr ""
@@ -291,7 +287,7 @@ msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
-msgstr "Период"
+msgstr ""
 
 msgid "Choose a period"
 msgstr ""
@@ -300,7 +296,7 @@ msgid "All sections"
 msgstr ""
 
 msgid "Section"
-msgstr "Раздел"
+msgstr ""
 
 msgid "Fetching data set info"
 msgstr ""
@@ -312,10 +308,10 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr "Значение"
+msgstr ""
 
 msgid "Totals"
-msgstr "Итоги"
+msgstr ""
 
 msgid "Audit log"
 msgstr ""
@@ -324,7 +320,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr "Недоступно в автономном режиме"
+msgstr ""
 
 msgid "No audit log for this data item."
 msgstr ""
@@ -333,7 +329,7 @@ msgid "Unmark for follow-up"
 msgstr ""
 
 msgid "Mark for follow-up"
-msgstr "Отметить для последующего наблюдения"
+msgstr ""
 
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
@@ -360,7 +356,7 @@ msgid "Marked for follow-up"
 msgstr ""
 
 msgid "Comment"
-msgstr "Комментарий"
+msgstr ""
 
 msgid "There was a problem updating the comment for this data item"
 msgstr ""
@@ -372,16 +368,16 @@ msgid "Saving..."
 msgstr ""
 
 msgid "Save comment"
-msgstr "Сохранить комментарий"
+msgstr ""
 
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "रद्द करें"
 
 msgid "Edit comment"
 msgstr ""
 
 msgid "Add comment"
-msgstr "Добавить комментарий"
+msgstr ""
 
 msgid "No comment for this data item."
 msgstr ""
@@ -390,10 +386,10 @@ msgid "You do not have the authority to add or edit comments"
 msgstr ""
 
 msgid "Details"
-msgstr "Детали"
+msgstr ""
 
 msgid "History"
-msgstr "История"
+msgstr "इतिहास"
 
 msgid "Something went wrong loading the history"
 msgstr ""
@@ -417,10 +413,10 @@ msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
-msgstr "Минимум"
+msgstr ""
 
 msgid "Max"
-msgstr "Максимум"
+msgstr ""
 
 msgid "Min and max limits"
 msgstr ""
@@ -492,28 +488,28 @@ msgid "Clear filter"
 msgstr ""
 
 msgid "Indicators"
-msgstr "Индикаторы"
+msgstr ""
 
 msgid "Values"
-msgstr "Значения"
+msgstr ""
 
 msgid "Yes"
-msgstr "Да"
+msgstr "हाँ"
 
 msgid "No"
-msgstr "Нет"
+msgstr "नहीं"
 
 msgid "Clear"
-msgstr "Очистить"
+msgstr ""
 
 msgid "Delete"
-msgstr "Удалить"
+msgstr "हटाएं"
 
 msgid "Upload an image"
 msgstr ""
 
 msgid "Upload a file"
-msgstr "Загрузить файл"
+msgstr ""
 
 msgid "Choose option(s)"
 msgstr ""
