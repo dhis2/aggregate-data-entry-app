@@ -1,3 +1,10 @@
+## [101.0.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.9...v101.0.10) (2025-04-08)
+
+
+### Bug Fixes
+
+* custom form stling [BETA-362] ([#466](https://github.com/dhis2/aggregate-data-entry-app/issues/466)) ([ca6ce38](https://github.com/dhis2/aggregate-data-entry-app/commit/ca6ce380d2925e488d408eb63eab2233ca25ad55))
+
 ## [101.0.9](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.8...v101.0.9) (2025-03-30)
 
 
