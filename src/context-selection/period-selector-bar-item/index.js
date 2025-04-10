@@ -1,1 +1,1 @@
-export { PeriodSelectorBarItem } from './period-selector-bar-item.js'
+export { PeriodSelectorBarItem } from './period-selector-bar-item.jsx'

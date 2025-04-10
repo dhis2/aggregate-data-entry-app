@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
 import { useValueStore } from './data-value-store.js'
 
 describe('data value store', () => {
@@ -9,7 +9,7 @@ describe('data value store', () => {
     })
 
     it('should set the data value set', async () => {
-        const { result, waitFor } = renderHook(useValueStore)
+        const { result } = renderHook(useValueStore)
         const dataValueSet = {
             dataValues: 'foo',
             minMaxValues: 'bar',
@@ -19,29 +19,25 @@ describe('data value store', () => {
             result.current.setDataValueSet(dataValueSet)
         })
 
-        await waitFor(() => {
-            const actual = result.current.getDataValues()
-            expect(actual).toEqual(dataValueSet.dataValues)
-        })
+        const actual = result.current.getDataValues()
+        expect(actual).toEqual(dataValueSet.dataValues)
     })
 
     it('should set the data value set to the initial state when argument is falsy', async () => {
-        const { result, waitFor } = renderHook(useValueStore)
+        const { result } = renderHook(useValueStore)
 
         act(() => {
             result.current.setDataValueSet()
         })
 
-        await waitFor(() => {
-            expect(result.current).toEqual(
-                expect.objectContaining({
-                    dataValueSet: {
-                        dataValues: {},
-                        minMaxValues: [],
-                    },
-                })
-            )
-        })
+        expect(result.current).toEqual(
+            expect.objectContaining({
+                dataValueSet: {
+                    dataValues: {},
+                    minMaxValues: [],
+                },
+            })
+        )
     })
 
     it('should get a data value by de id and coc id', async () => {

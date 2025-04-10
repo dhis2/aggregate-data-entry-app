@@ -2,7 +2,7 @@ import { IconInfo16, IconWarning16 } from '@dhis2/ui'
 import { fireEvent } from '@testing-library/react'
 import React from 'react'
 import { render } from '../../test-utils/index.js'
-import { IndicatorTableCell } from './indicator-table-cell.js'
+import { IndicatorTableCell } from './indicator-table-cell.jsx'
 import { useIndicatorValue } from './use-indicator-value.js'
 
 jest.mock('@dhis2/ui', () => ({
