@@ -71,7 +71,8 @@ export const CategoryComboTableBody = React.memo(
                 <CategoryComboTableBodyHeader
                     categoryOptionCombos={sortedCOCs}
                     categories={categories}
-                    renderRowTotals={renderRowTotals && !nonNumberValueType}
+                    renderRowTotals={renderRowTotals}
+                    nonNumberValueType={nonNumberValueType}
                     paddingCells={paddingCells}
                     checkTableActive={checkTableActive}
                 />
@@ -104,12 +105,21 @@ export const CategoryComboTableBody = React.memo(
                                     className={styles.tableCell}
                                 />
                             ))}
-                            {renderRowTotals && !nonNumberValueType && (
-                                <RowTotal
-                                    dataElements={dataElements}
-                                    categoryOptionCombos={sortedCOCs}
-                                    row={i}
-                                />
+                            {renderRowTotals && (
+                                <>
+                                    {!nonNumberValueType ? (
+                                        <RowTotal
+                                            dataElements={dataElements}
+                                            categoryOptionCombos={sortedCOCs}
+                                            row={i}
+                                        />
+                                    ) : (
+                                        <PaddingCell
+                                            key={i}
+                                            className={styles.tableCell}
+                                        />
+                                    )}
+                                </>
                             )}
                         </TableRow>
                     )
@@ -156,4 +166,9 @@ CategoryComboTableBody.propTypes = {
     renderRowTotals: PropTypes.bool,
 }
 
-const PaddingCell = () => <TableCell className={styles.paddingCell}></TableCell>
+const PaddingCell = () => (
+    <TableCell
+        className={styles.paddingCell}
+        dataTest="dhis2-dataentry-paddingcell"
+    ></TableCell>
+)

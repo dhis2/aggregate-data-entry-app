@@ -706,7 +706,7 @@ describe('<CategoryComboTableBody />', () => {
         const paddingCells = result.getAllByTestId(
             'dhis2-dataentry-paddingcell'
         )
-        expect(paddingCells.length).toBe(3)
+        expect(paddingCells.length).toBe(6)
     })
 
     it('should render the column totals when renderColumTotals = true', () => {
@@ -736,6 +736,34 @@ describe('<CategoryComboTableBody />', () => {
         expect(totalCells.length).toBe(1)
     })
 
+    it('should not render the column totals when renderColumTotals = true but value type is non-numeric', () => {
+        const tableDataElements = [{ ...dataElements.FTRrcoaog83 }]
+        tableDataElements[0].valueType = 'TEXT'
+
+        const result = render(
+            <Table>
+                <CategoryComboTableBody
+                    renderColumnTotals
+                    categoryCombo={categoryCombos.bjDvmb4bfuf}
+                    dataElements={tableDataElements}
+                />
+            </Table>,
+            {
+                wrapper: ({ children }) => <>{children}</>,
+            }
+        )
+
+        const columnTotalsRow = result.queryByTestId(
+            'dhis2-dataentry-columntotals'
+        )
+        expect(columnTotalsRow).toBeNull()
+
+        const totalCells = result.queryAllByText('5', {
+            selector: '[data-test="dhis2-dataentry-totalcell"]',
+        })
+        expect(totalCells.length).toBe(0)
+    })
+
     it('should render the row totals when renderTowTotals = true', () => {
         const tableDataElements = [dataElements.FTRrcoaog83]
 
@@ -760,5 +788,34 @@ describe('<CategoryComboTableBody />', () => {
             'dhis2-dataentry-totalcell'
         )
         expect(totalCells).toBeTruthy()
+    })
+
+    it('should not render the row totals when renderTowTotals = true but value type is non-numeric', () => {
+        const tableDataElements = [{ ...dataElements.FTRrcoaog83 }]
+        tableDataElements[0].valueType = 'TEXT'
+
+        const result = render(
+            <Table>
+                <CategoryComboTableBody
+                    renderRowTotals
+                    categoryCombo={categoryCombos.bjDvmb4bfuf}
+                    dataElements={tableDataElements}
+                />
+            </Table>,
+            {
+                wrapper: ({ children }) => <>{children}</>,
+            }
+        )
+
+        const inputRows = result.queryAllByTestId(
+            'dhis2-dataentry-tableinputrow'
+        )
+        expect(inputRows.length).toBe(1)
+
+        // it should render a padding cell that replaces the total cell (and one on header line)
+        const paddingCells = result.getAllByTestId(
+            'dhis2-dataentry-paddingcell'
+        )
+        expect(paddingCells.length).toBe(2)
     })
 })
