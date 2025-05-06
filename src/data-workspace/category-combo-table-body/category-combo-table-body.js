@@ -2,7 +2,7 @@ import { TableBody, TableCell, TableRow } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
-import { selectors, useMetadata } from '../../shared/index.js'
+import { selectors, useMetadata, NUMBER_TYPES } from '../../shared/index.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
 import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.js'
@@ -58,6 +58,9 @@ export const CategoryComboTableBody = React.memo(
             }
         })
         const hiddenItemsCount = filteredDeIds.size
+        const nonNumberValueType = dataElements
+            .map(({ valueType }) => valueType)
+            .some((valueType) => !NUMBER_TYPES.includes(valueType))
 
         return (
             <TableBody
@@ -68,7 +71,7 @@ export const CategoryComboTableBody = React.memo(
                 <CategoryComboTableBodyHeader
                     categoryOptionCombos={sortedCOCs}
                     categories={categories}
-                    renderRowTotals={renderRowTotals}
+                    renderRowTotals={renderRowTotals && !nonNumberValueType}
                     paddingCells={paddingCells}
                     checkTableActive={checkTableActive}
                 />
@@ -101,7 +104,7 @@ export const CategoryComboTableBody = React.memo(
                                     className={styles.tableCell}
                                 />
                             ))}
-                            {renderRowTotals && (
+                            {renderRowTotals && !nonNumberValueType && (
                                 <RowTotal
                                     dataElements={dataElements}
                                     categoryOptionCombos={sortedCOCs}
@@ -111,7 +114,7 @@ export const CategoryComboTableBody = React.memo(
                         </TableRow>
                     )
                 })}
-                {renderColumnTotals && (
+                {renderColumnTotals && !nonNumberValueType && (
                     <ColumnTotals
                         paddingCells={paddingCells}
                         renderTotalSum={renderRowTotals && renderColumnTotals}
