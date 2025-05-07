@@ -61,6 +61,9 @@ export const CategoryComboTableBody = React.memo(
         const nonNumberValueType = dataElements
             .map(({ valueType }) => valueType)
             .some((valueType) => !NUMBER_TYPES.includes(valueType))
+        const allNonNumberValueType = dataElements
+            .map(({ valueType }) => valueType)
+            .every((valueType) => !NUMBER_TYPES.includes(valueType))
 
         return (
             <TableBody
@@ -72,7 +75,7 @@ export const CategoryComboTableBody = React.memo(
                     categoryOptionCombos={sortedCOCs}
                     categories={categories}
                     renderRowTotals={renderRowTotals}
-                    nonNumberValueType={nonNumberValueType}
+                    allNonNumberValueType={allNonNumberValueType}
                     paddingCells={paddingCells}
                     checkTableActive={checkTableActive}
                 />
@@ -107,7 +110,7 @@ export const CategoryComboTableBody = React.memo(
                             ))}
                             {renderRowTotals && (
                                 <>
-                                    {!nonNumberValueType ? (
+                                    {NUMBER_TYPES.includes(de.valueType) ? (
                                         <RowTotal
                                             dataElements={dataElements}
                                             categoryOptionCombos={sortedCOCs}
