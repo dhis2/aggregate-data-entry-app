@@ -26,6 +26,11 @@ const MOCK_VALUES = {
             value: '5',
         },
     },
+    FTRrcoaog83_NUMERIC: {
+        HllvX50cXC0: {
+            value: '150',
+        },
+    },
 }
 
 jest.mock('../../shared/stores/data-value-store.js', () => ({
@@ -817,5 +822,47 @@ describe('<CategoryComboTableBody />', () => {
             'dhis2-dataentry-paddingcell'
         )
         expect(paddingCells.length).toBe(2)
+    })
+
+    it('should not render row totals if value type is non-numeric and render row totals if value type is numeric', () => {
+        const tableDataElements = [
+            { ...dataElements.FTRrcoaog83 },
+            { ...dataElements.FTRrcoaog83 },
+        ]
+        tableDataElements[0].valueType = 'TEXT'
+        tableDataElements[1].id = 'FTRrcoaog83_NUMERIC'
+
+        const result = render(
+            <Table>
+                <CategoryComboTableBody
+                    renderRowTotals
+                    categoryCombo={categoryCombos.bjDvmb4bfuf}
+                    dataElements={tableDataElements}
+                />
+            </Table>,
+            {
+                wrapper: ({ children }) => <>{children}</>,
+            }
+        )
+
+        const inputRows = result.queryAllByTestId(
+            'dhis2-dataentry-tableinputrow'
+        )
+        expect(inputRows.length).toBe(2)
+        const totalCells = getByTestId(
+            inputRows[1],
+            'dhis2-dataentry-totalcell'
+        )
+        expect(totalCells).toBeTruthy()
+        const totalCells_value = result.queryAllByText('150', {
+            selector: '[data-test="dhis2-dataentry-totalcell"]',
+        })
+        expect(totalCells_value.length).toBe(1)
+
+        // it should render a padding cell that replaces the total cell (and one on header line)
+        const paddingCells = result.getAllByTestId(
+            'dhis2-dataentry-paddingcell'
+        )
+        expect(paddingCells.length).toBe(1)
     })
 })
