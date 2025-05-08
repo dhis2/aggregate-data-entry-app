@@ -1,3 +1,10 @@
+## [101.0.11](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.10...v101.0.11) (2025-05-08)
+
+
+### Bug Fixes
+
+* prevent crash with missing category options [DHIS2-19523] ([#468](https://github.com/dhis2/aggregate-data-entry-app/issues/468)) ([3a88b35](https://github.com/dhis2/aggregate-data-entry-app/commit/3a88b351bc0916c6d9ea5d050e227c2b5c7408b3))
+
 ## [101.0.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.9...v101.0.10) (2025-04-08)
 
 
