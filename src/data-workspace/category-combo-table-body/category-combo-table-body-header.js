@@ -55,6 +55,7 @@ export const CategoryComboTableBodyHeader = ({
     categoryOptionCombos,
     categories,
     checkTableActive,
+    allNonNumberValueType,
 }) => {
     const { deId: activeDeId, cocId: activeCocId } = useActiveCell()
 
@@ -109,7 +110,13 @@ export const CategoryComboTableBodyHeader = ({
                     <PaddingCell key={i} />
                 ))}
                 {renderRowTotals && colInfoIndex === 0 && (
-                    <TotalHeader rowSpan={categories.length} />
+                    <>
+                        {allNonNumberValueType ? (
+                            <PaddingCell key={'total_header_padding'} />
+                        ) : (
+                            <TotalHeader rowSpan={categories.length} />
+                        )}
+                    </>
                 )}
             </TableRowHead>
         )
@@ -117,6 +124,7 @@ export const CategoryComboTableBodyHeader = ({
 }
 
 CategoryComboTableBodyHeader.propTypes = {
+    allNonNumberValueType: PropTypes.bool,
     categories: PropTypes.array,
     // Note that this must be the sorted categoryoOptionCombos, eg. in the same order as they are rendered
     categoryOptionCombos: PropTypes.arrayOf(
