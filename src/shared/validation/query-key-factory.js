@@ -37,6 +37,7 @@ export const getValidationMetaDataQueryKey = (datasetId) => {
                     'displayDescription',
                     'displayName',
                 ],
+                paging: false,
             },
         },
     ]
