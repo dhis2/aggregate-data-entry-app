@@ -1,7 +1,7 @@
 import { TableBody, TableCell, TableRow } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { selectors, useMetadata, NUMBER_TYPES } from '../../shared/index.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.js'
@@ -58,12 +58,19 @@ export const CategoryComboTableBody = React.memo(
             }
         })
         const hiddenItemsCount = filteredDeIds.size
-        const nonNumberValueType = dataElements
-            .map(({ valueType }) => valueType)
-            .some((valueType) => !NUMBER_TYPES.includes(valueType))
-        const allNonNumberValueType = dataElements
-            .map(({ valueType }) => valueType)
-            .every((valueType) => !NUMBER_TYPES.includes(valueType))
+
+        const {
+            hasNonNumberValueType: hideColumnTotalsDueToNonNumberValueType,
+            allAreNonNumberValueType: hideRowTotalsDueToNonNumberValueTypes,
+        } = useMemo(() => {
+            const hasNonNumberValueType = dataElements
+                .map(({ valueType }) => valueType)
+                .some((valueType) => !NUMBER_TYPES.includes(valueType))
+            const allAreNonNumberValueType = dataElements
+                .map(({ valueType }) => valueType)
+                .every((valueType) => !NUMBER_TYPES.includes(valueType))
+            return { hasNonNumberValueType, allAreNonNumberValueType }
+        }, [dataElements])
 
         return (
             <TableBody
@@ -75,7 +82,9 @@ export const CategoryComboTableBody = React.memo(
                     categoryOptionCombos={sortedCOCs}
                     categories={categories}
                     renderRowTotals={renderRowTotals}
-                    allNonNumberValueType={allNonNumberValueType}
+                    hideRowTotalsDueToNonNumberValueTypes={
+                        hideRowTotalsDueToNonNumberValueTypes
+                    }
                     paddingCells={paddingCells}
                     checkTableActive={checkTableActive}
                 />
@@ -118,7 +127,7 @@ export const CategoryComboTableBody = React.memo(
                                         />
                                     ) : (
                                         <PaddingCell
-                                            key={i}
+                                            key={'total_replacement_padding'}
                                             className={styles.tableCell}
                                         />
                                     )}
@@ -127,14 +136,17 @@ export const CategoryComboTableBody = React.memo(
                         </TableRow>
                     )
                 })}
-                {renderColumnTotals && !nonNumberValueType && (
-                    <ColumnTotals
-                        paddingCells={paddingCells}
-                        renderTotalSum={renderRowTotals && renderColumnTotals}
-                        dataElements={dataElements}
-                        categoryOptionCombos={sortedCOCs}
-                    />
-                )}
+                {renderColumnTotals &&
+                    !hideColumnTotalsDueToNonNumberValueType && (
+                        <ColumnTotals
+                            paddingCells={paddingCells}
+                            renderTotalSum={
+                                renderRowTotals && renderColumnTotals
+                            }
+                            dataElements={dataElements}
+                            categoryOptionCombos={sortedCOCs}
+                        />
+                    )}
                 {hiddenItemsCount > 0 && (
                     <TableBodyHiddenByFiltersRow
                         hiddenItemsCount={hiddenItemsCount}
