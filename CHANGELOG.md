@@ -1,3 +1,10 @@
+## [101.0.12](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.11...v101.0.12) (2025-05-15)
+
+
+### Bug Fixes
+
+* get all validation rules metadata [DHIS2-19591] ([#470](https://github.com/dhis2/aggregate-data-entry-app/issues/470)) ([16b47ac](https://github.com/dhis2/aggregate-data-entry-app/commit/16b47ac87a673dd105a508b9c79777c5afcd9a44))
+
 ## [101.0.11](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.10...v101.0.11) (2025-05-08)
 
 
