@@ -1,3 +1,10 @@
+## [101.0.13](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.12...v101.0.13) (2025-05-20)
+
+
+### Bug Fixes
+
+* number only totals [DHIS2-18640] ([#469](https://github.com/dhis2/aggregate-data-entry-app/issues/469)) ([e2ad93a](https://github.com/dhis2/aggregate-data-entry-app/commit/e2ad93a8f7066f677627c4f2efb3c4e87dfe7e72))
+
 ## [101.0.12](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.11...v101.0.12) (2025-05-15)
 
 
