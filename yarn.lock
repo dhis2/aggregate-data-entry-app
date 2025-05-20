@@ -2665,9 +2665,9 @@
     jscodeshift "^0.11.0"
 
 "@dhis2/cypress-plugins@^10.0.1":
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/@dhis2/cypress-plugins/-/cypress-plugins-10.0.1.tgz#735ccfbbdfe4cc9ad102decf9a71df2b5b56ac2d"
-  integrity sha512-siWpoJlZOnrEcfZhXP4nDe9Uh9lQtjPr6/HI+16ORt9W2PPffp6e78Xc6hMM94j3hwl23Czu0LXSfUcZdymL6Q==
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@dhis2/cypress-plugins/-/cypress-plugins-10.1.0.tgz#17818f0d490f15932477ec8b06e13fc580a7e250"
+  integrity sha512-Kw5rq1+QIveoOR/2NSK0Y5LvvRVlB7OjdJ0mXL+3253kPKw79WuNpefKKtGQ8Jk+x9VMamkM3jJIsAtOBoWMBA==
 
 "@dhis2/d2-i18n@1.1.3", "@dhis2/d2-i18n@^1.1.1", "@dhis2/d2-i18n@^1.1.3":
   version "1.1.3"
