@@ -22,7 +22,7 @@
     padding: 8px;
     background-color: #fff;
     inline-size: max-content;
-    width: 100%;
+    inline-size: 100%;
 }
 
 .footer {
