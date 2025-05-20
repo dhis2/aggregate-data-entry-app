@@ -54,3 +54,7 @@ export const CustomFormTotalCell = ({ dataElementId }) => {
 CustomFormTotalCell.propTypes = {
     dataElementId: PropTypes.string.isRequired,
 }
+
+export const replaceTotalCell = (dataElementId) => (
+    <CustomFormTotalCell dataElementId={dataElementId} />
+)
