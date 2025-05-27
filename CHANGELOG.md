@@ -1,3 +1,10 @@
+## [101.0.14](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.13...v101.0.14) (2025-05-27)
+
+
+### Bug Fixes
+
+* replace non-td total cells ([#471](https://github.com/dhis2/aggregate-data-entry-app/issues/471)) ([4789f3f](https://github.com/dhis2/aggregate-data-entry-app/commit/4789f3f12ef25d98fcbd98ebaf785e1213cbcdfa))
+
 ## [101.0.13](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.12...v101.0.13) (2025-05-20)
 
 
