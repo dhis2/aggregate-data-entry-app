@@ -18,11 +18,10 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-    min-inline-size: 600px;
     padding: 8px;
     background-color: #fff;
     inline-size: max-content;
-    inline-size: 100%;
+    min-inline-size: 100%;
 }
 
 .footer {
