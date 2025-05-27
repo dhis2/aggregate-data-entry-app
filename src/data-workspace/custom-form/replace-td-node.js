@@ -1,11 +1,7 @@
 import { attributesToProps } from 'html-react-parser'
 import React from 'react'
 import { IndicatorTableCell } from '../indicators-table-body/indicator-table-cell.js'
-import { CustomFormTotalCell } from './custom-form-total-cell.js'
-
-const replaceTotalCell = (dataElementId) => (
-    <CustomFormTotalCell dataElementId={dataElementId} />
-)
+import { replaceTotalCell } from './custom-form-total-cell.js'
 
 const replaceIndicatorCell = (indicatorId, metadata) => {
     const {
