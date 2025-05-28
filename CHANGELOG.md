@@ -1,3 +1,10 @@
+## [101.0.15](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.14...v101.0.15) (2025-05-28)
+
+
+### Bug Fixes
+
+* make sure background expands to whole table if it is bigger than page size ([8054d76](https://github.com/dhis2/aggregate-data-entry-app/commit/8054d760d08f22ca1cbc17d64ce0d6e67ed3359e))
+
 ## [101.0.14](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.13...v101.0.14) (2025-05-27)
 
 
