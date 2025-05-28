@@ -1,251 +1,177 @@
+import { selectors } from '../../../shared/index.js'
+
 export const generateMatrixGroupedByCategory = (options, groupedBy) => {
     const columnHeaders = generateColumnHeaders(options, groupedBy)
 
-    // the category options that make part of the coc are defined in the field parentCategoryOptions
-    const columnCategoryOptions = columnHeaders
-        .flat()
-        .flat()
-        .filter((col) => col.parentCategoryOptions?.length)
-
-    const rowHeaders = generateRowHeaders(
-        options,
-        groupedBy,
-        columnCategoryOptions
-    )
+    const rowHeaders = generateRowHeaders(options, groupedBy)
     return { columnHeaders, rowHeaders }
 }
 
-const generateRowHeaders = (
-    options,
-    groupedBy = [],
-    columnCategoryOptions = []
-) => {
-    const { categoryOptionsDetails, sortedCOCs, categories, dataElements } =
-        options
+const generateHeaderMetadata = (metadata, categories, numberOfCoCs) => {
+    let catColSpan = numberOfCoCs
+    return categories.map((c) => {
+        const categoryOptions = selectors.getCategoryOptionsByCategoryId(
+            metadata,
+            c.id
+        )
+        const nrOfOptions = c.categoryOptions.length
+        // catColSpan should always be equal to nrOfOptions in last iteration
+        // unless anomaly with categoryOptionCombo-generation server-side
+        if (nrOfOptions > 0 && catColSpan >= nrOfOptions) {
+            // calculate colSpan for current options
+            // this is the span for each option, not the "total" span of the row
+            catColSpan = catColSpan / nrOfOptions
+            // when table have multiple categories, options need to be repeated for each disaggregation "above" current-category
+            const repeat = numberOfCoCs / (catColSpan * nrOfOptions)
+
+            const columnsToRender = new Array(repeat)
+                .fill(0)
+                .flatMap(() => categoryOptions)
+
+            return {
+                span: catColSpan,
+                columns: columnsToRender,
+                category: c,
+                categoryOptions,
+                repeat,
+            }
+        } else {
+            console.warn(
+                `Category ${c.displayFormName} malformed. Number of options: ${nrOfOptions}, span: ${catColSpan}`
+            )
+        }
+        return c
+    })
+}
+
+const generateRowHeaders = (options, groupedBy = []) => {
+    const { sortedCOCs, categories, dataElements } = options
 
     const rowCategories = categories.filter((cat) => groupedBy.includes(cat.id))
+    const totalCocsInRow = rowCategories.reduce(
+        (acc, item) => acc * item.categoryOptions.length,
+        1
+    )
+    // we only support one transposed category for now
+    const [rowHeaderMetadata] = generateHeaderMetadata(
+        options.metadata,
+        rowCategories,
+        totalCocsInRow
+    )
 
     const rows = []
-    const addedDataElements = {}
+    const alreadyAdded = new Set()
     dataElements.forEach((de) => {
-        rowCategories.forEach((category) => {
-            category.categoryOptions.forEach((rowCategoryOption) => {
-                const dataEntryRow = []
-                if (!addedDataElements[de.id]) {
-                    dataEntryRow.push({
-                        id: de.id,
-                        displayFormName: de.displayFormName,
-                        type: 'rowHeader',
-                        rowSpan: rowCategories.reduce(
-                            (acc, item) => acc * item.categoryOptions.length,
-                            1
-                        ),
-                        metadataType: 'dataElement',
-                    })
-                    addedDataElements[de.id] = true
-                }
-
-                const match = categoryOptionsDetails.find(
-                    (cod) => cod.id === rowCategoryOption
-                )
-
+        rowHeaderMetadata.categoryOptions.forEach((rowCategoryOption) => {
+            const dataEntryRow = []
+            if (rows.length % totalCocsInRow === 0) {
                 dataEntryRow.push({
-                    id: match?.id,
-                    displayFormName: match?.displayFormName,
+                    id: de.id,
+                    displayFormName: de.displayFormName,
                     type: 'rowHeader',
-                    metadataType: 'categoryOption',
+                    rowSpan: totalCocsInRow,
+                    metadataType: 'dataElement',
                 })
+                alreadyAdded.add(de.id)
+            }
+            // add the category option - ie. the row header
+            dataEntryRow.push({
+                id: rowCategoryOption.id,
+                displayFormName: rowCategoryOption.displayFormName,
+                type: 'rowHeader',
+                metadataType: 'categoryOption',
+                span: rowHeaderMetadata.span,
+            })
 
-                columnCategoryOptions.forEach((colCategoryOption) => {
-                    const categoryOptionsToMatch = [
-                        ...colCategoryOption.parentCategoryOptions,
-                        rowCategoryOption,
-                    ]
-
-                    const matchedCoc = sortedCOCs.find((coc) => {
-                        return categoryOptionsToMatch.every((catOption) =>
-                            coc.categoryOptions.includes(catOption)
-                        )
-                    })
-
+            // add relevant COCs to the row - ie. the data cells
+            sortedCOCs
+                .filter((coc) =>
+                    coc.categoryOptions.includes(rowCategoryOption.id)
+                )
+                .forEach((coc) => {
                     dataEntryRow.push({
-                        id: de.id + matchedCoc?.id,
+                        id: de.id + coc?.id,
                         type: 'de',
                         dataElement: de,
-                        coc: matchedCoc,
+                        coc: coc,
                         metadataType: 'categoryOptionCombo',
                     })
                 })
 
-                rows.push(dataEntryRow)
-            })
+            rows.push(dataEntryRow)
         })
     })
-
     return rows
 }
 
 const generateColumnHeaders = (options, groupedBy) => {
-    const { categoryOptionsDetails, categories } = options
-
-    const columnHeaderFields = [
-        ...categories.filter((cat) => !groupedBy.includes(cat.id)),
-    ]
-
-    const transposedCategories = categories.filter((cat) =>
-        groupedBy.includes(cat.id)
-    )
+    const { categories } = options
 
     const columnCategories = categories.filter(
         (cat) => !groupedBy.includes(cat.id)
     )
 
+    const [transposedCategory] = categories.filter((cat) =>
+        groupedBy.includes(cat.id)
+    )
+    const totalCocsWithoutGroupedCategory = columnCategories.reduce(
+        (acc, cat) => acc * cat.categoryOptions.length,
+        1
+    )
+
+    // generate header-metadata like span for  the regular "categories"
+    // ie. each category that is not transposed to the row
+    const columnHeaderMetadata = generateHeaderMetadata(
+        options.metadata,
+        columnCategories,
+        totalCocsWithoutGroupedCategory
+    )
+
     const columnHeaders = []
 
-    const largestOptionsLength =
-        columnCategories[columnCategories.length - 1]?.categoryOptions.length *
-        (columnCategories.length > 1
-            ? columnCategories[0]?.categoryOptions.length
-            : 1)
-    const fullRowSpan = columnCategories.length * 2 // one row for category, one for category options
-
-    if (columnHeaderFields.length === 1) {
-        const [firstCategory] = columnHeaderFields
-        const categoryTitle = {
-            id: firstCategory?.id,
-            displayFormName: firstCategory?.displayFormName,
-            type: 'columnHeader',
-            metadataType: 'category',
-            // colSpan: largestOptionsLength,
-        }
-        const emptyPadding = {
-            id: -1 /** todo: unique id */,
-            type: 'empty',
-            colSpan:
-                (categories.length - columnHeaderFields.length) * 2 -
-                transposedCategories.length,
-        }
-
-        columnHeaders.push([
-            { ...emptyPadding, colSpan: emptyPadding.colSpan + 1 },
-            {
-                ...categoryTitle,
-                colSpan: firstCategory.categoryOptions?.length,
-            },
-        ])
-        const categoryOptions = [
-            emptyPadding,
-            {
-                id: transposedCategories[0]?.id,
-                displayFormName: transposedCategories[0]?.displayFormName,
-                type: 'columnHeader',
-                metadataType: 'category',
-                // colSpan: categories.length,
-                // rowSpan: fullRowSpan,
-            },
-        ]
-        firstCategory.categoryOptions?.forEach((co) => {
-            const optionMatch = categoryOptionsDetails.find(
-                (cod) => cod.id === co
-            )
-            categoryOptions.push({
-                id: optionMatch?.id,
-                displayFormName: optionMatch?.displayFormName,
-                type: 'columnHeader',
-                metadataType: 'categoryOption',
-                parentCategoryOptions: [co],
-            })
-        })
-        columnHeaders.push(categoryOptions)
-        return columnHeaders
+    const paddingCell = {
+        id: -1 /** todo: unique id */,
+        type: 'empty',
+        colSpan: 1,
+        // rowSpan: fullRowSpan,
     }
-
-    columnHeaderFields.forEach((categoryHeader, categoryIndex) => {
-        const lastCategory = categoryIndex === columnHeaderFields.length - 1
-
-        // category title
-        const categoryTitle = {
-            id: categoryHeader?.id,
-            displayFormName: categoryHeader?.displayFormName,
+    // add the column headers (each category as a row)
+    columnHeaderMetadata.forEach((header) => {
+        const category = {
+            id: header.category?.id,
+            displayFormName: header.category?.displayFormName,
             type: 'columnHeader',
             metadataType: 'category',
             // colSpan: largestOptionsLength,
         }
-
-        const categoryOptionsRow = []
-        categoryOptionsRow.push(
-            {
-                id: -1 /** todo: unique id */,
-                type: 'empty',
-                colSpan:
-                    (categories.length - columnHeaderFields.length) * 2 -
-                    transposedCategories.length,
-            },
-            categoryTitle
-        )
-
-        // Repeat for each of the previous row category options
-        const repeat =
-            columnHeaderFields[categoryIndex - 1]?.categoryOptions?.length ?? 1
-
-        for (let i = 0; i < repeat; i++) {
-            categoryHeader.categoryOptions?.forEach((co) => {
-                const optionMatch = categoryOptionsDetails.find(
-                    (cod) => cod.id === co
-                )
-
-                const colSpan =
-                    largestOptionsLength /
-                    categoryHeader.categoryOptions.length /
-                    repeat
-
-                // todo: this logic is hardcoded to two levels max - update
-                const parentCo =
-                    columnHeaderFields[categoryIndex - 1]?.categoryOptions[i]
-                const parentCategoryOptions = !lastCategory
-                    ? []
-                    : parentCo
-                    ? [co, parentCo]
-                    : [co]
-
-                categoryOptionsRow.push({
-                    id: optionMatch?.id,
-                    displayFormName: optionMatch?.displayFormName,
-                    type: 'columnHeader',
-                    metadataType: 'categoryOption',
-                    colSpan,
-                    parentCategoryOptions,
-                })
-            })
-        }
-
-        columnHeaders.push(categoryOptionsRow)
+        const categoryOptions = header.columns.map((co) => ({
+            id: co.id,
+            displayFormName: co.displayFormName,
+            type: 'columnHeader',
+            metadataType: 'categoryOption',
+            colSpan: header.span,
+        }))
+        columnHeaders.push([paddingCell, category, ...categoryOptions])
     })
 
+    // add the "transposed category" as the last row
     columnHeaders.push([
         {
             id: -1 /** todo: unique id */,
             type: 'empty',
-            colSpan:
-                (categories.length - columnHeaderFields.length) * 2 -
-                transposedCategories.length,
-            // rowSpan: fullRowSpan,
+            colSpan: 1,
         },
         {
-            id: transposedCategories[0]?.id,
-            displayFormName: transposedCategories[0]?.displayFormName,
+            id: transposedCategory?.id,
+            displayFormName: transposedCategory?.displayFormName,
             type: 'columnHeader',
             metadataType: 'category',
-            // colSpan: categories.length,
-            // rowSpan: fullRowSpan,
         },
         {
             id: -1 /** todo: unique id */,
             type: 'empty',
-            colSpan: fullRowSpan,
-            // rowSpan: fullRowSpan,
+            colSpan: totalCocsWithoutGroupedCategory,
         },
     ])
-
     return columnHeaders
 }
