@@ -69,9 +69,8 @@ describe('usePrefetchedOrganisationUnits', () => {
                     enabled: true,
                     select: expect.any(Function),
                     queryKey: [
-                        'organisationUnits',
+                        'organisationUnits/gist',
                         {
-                            id: 'rootId1',
                             params: {
                                 fields: [
                                     'id',
@@ -80,9 +79,12 @@ describe('usePrefetchedOrganisationUnits', () => {
                                     'children::size',
                                     'level',
                                 ],
-                                filter: 'level:in:[1,2,3]',
+                                filter: [
+                                    'level:in:[1,2,3]',
+                                    'path:ilike:rootId1',
+                                ],
                                 includeDescendants: true,
-                                paging: false,
+                                pageSize: 1000,
                             },
                         },
                     ],
@@ -91,9 +93,8 @@ describe('usePrefetchedOrganisationUnits', () => {
                     enabled: true,
                     select: expect.any(Function),
                     queryKey: [
-                        'organisationUnits',
+                        'organisationUnits/gist',
                         {
-                            id: 'rootId2',
                             params: {
                                 fields: [
                                     'id',
@@ -102,9 +103,12 @@ describe('usePrefetchedOrganisationUnits', () => {
                                     'children::size',
                                     'level',
                                 ],
-                                filter: 'level:in:[2,3]',
+                                filter: [
+                                    'level:in:[2,3]',
+                                    'path:ilike:rootId2',
+                                ],
                                 includeDescendants: true,
-                                paging: false,
+                                pageSize: 1000,
                             },
                         },
                     ],

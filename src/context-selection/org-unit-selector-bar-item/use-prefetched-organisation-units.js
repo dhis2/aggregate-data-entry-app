@@ -3,9 +3,8 @@ import useOfflineLevels from './use-offline-levels.js'
 
 const createPrefetchQueryArgs = ([id, offlineLevels]) => ({
     queryKey: [
-        'organisationUnits',
+        'organisationUnits/gist',
         {
-            id,
             params: {
                 fields: [
                     'id',
@@ -15,8 +14,11 @@ const createPrefetchQueryArgs = ([id, offlineLevels]) => ({
                     'level',
                 ],
                 includeDescendants: true,
-                paging: false,
-                filter: `level:in:[${offlineLevels?.join()}]`,
+                pageSize: 1000,
+                filter: [
+                    `level:in:[${offlineLevels?.join()}]`,
+                    `path:ilike:${id}`,
+                ],
             },
         },
     ],

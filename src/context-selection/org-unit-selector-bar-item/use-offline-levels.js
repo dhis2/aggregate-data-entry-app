@@ -47,9 +47,10 @@ export default function useOfflineLevels() {
                     },
                 ],
                 select: (data) =>
-                    data.organisationUnits.map(({ id, level }) => ({
+                    data.organisationUnits.map(({ id, level, path }) => ({
                         id,
                         level,
+                        path,
                     })),
             },
             {
@@ -90,7 +91,7 @@ export default function useOfflineLevels() {
         offlineLevels:
             !loading && !error
                 ? userOrgUnitRoots.reduce((acc, userOrgUnitRoot) => {
-                      acc[userOrgUnitRoot.id] = computeOfflineLevels(
+                      acc[userOrgUnitRoot.path] = computeOfflineLevels(
                           userOrgUnitRoot,
                           filledOrganisationUnitLevels,
                           configOfflineOrgUnitLevel

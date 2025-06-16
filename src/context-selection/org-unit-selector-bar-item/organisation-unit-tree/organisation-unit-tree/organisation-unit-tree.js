@@ -109,7 +109,7 @@ const OrganisationUnitTree = ({
                         onCollapse={handleCollapse}
                         onExpand={handleExpand}
                         level={rootNode.level}
-                        offlineLevels={offlineLevels[rootNode.id]}
+                        offlineLevels={offlineLevels[rootNode.path]}
                         prefetchedOrganisationUnits={
                             prefetchedOrganisationUnits
                         }
