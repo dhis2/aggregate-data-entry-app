@@ -39,11 +39,15 @@ export const replaceInputNode = (domNode, metadata) => {
     }
 
     const [deId, cocId] = domNode.attribs.id.split('-')
+    const disabled =
+        domNode.attribs.disabled === 'disabled' ||
+        domNode.attribs.disabled === 'true'
     const dataElement = selectors.getDataElementById(metadata, deId)
     return (
         <DataEntryField
             dataElement={dataElement}
             categoryOptionCombo={{ id: cocId }}
+            disabled={disabled}
         />
     )
 }
