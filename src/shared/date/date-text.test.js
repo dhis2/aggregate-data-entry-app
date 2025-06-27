@@ -142,7 +142,7 @@ describe('DateText', () => {
             includeTimeZone,
             output
         ) => {
-            useConfig.mockReturnValueOnce({
+            useConfig.mockReturnValue({
                 systemInfo: {
                     serverTimeZoneId: serverTimeZone,
                     calendar,

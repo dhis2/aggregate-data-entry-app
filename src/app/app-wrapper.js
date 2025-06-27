@@ -7,7 +7,7 @@ import { HashRouter, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.js'
 import { RightHandPanelProvider } from '../right-hand-panel/index.js'
-import { LockedProvider } from '../shared/index.js'
+import { FeatureToggleProvider, LockedProvider } from '../shared/index.js'
 import '../locales/index.js'
 import App from './app.js'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.js'
@@ -46,13 +46,15 @@ export function OuterComponents({
                 {enableRQDevtools && <ReactQueryDevtools />}
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
-                        <LockedProvider>
-                            <RightHandPanelProvider>
-                                <PrintAreaProvider>
-                                    {children}
-                                </PrintAreaProvider>
-                            </RightHandPanelProvider>
-                        </LockedProvider>
+                        <FeatureToggleProvider>
+                            <LockedProvider>
+                                <RightHandPanelProvider>
+                                    <PrintAreaProvider>
+                                        {children}
+                                    </PrintAreaProvider>
+                                </RightHandPanelProvider>
+                            </LockedProvider>
+                        </FeatureToggleProvider>
                     </QueryParamProvider>
                 </Router>
             </ConfiguredQueryClientProvider>
