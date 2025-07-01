@@ -1,3 +1,10 @@
+## [101.0.16](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.15...v101.0.16) (2025-07-01)
+
+
+### Bug Fixes
+
+* disabled fields in custom forms [DHIS2-19768] ([#475](https://github.com/dhis2/aggregate-data-entry-app/issues/475)) ([cc541c6](https://github.com/dhis2/aggregate-data-entry-app/commit/cc541c6a9dc3d03b21be0c48990addd9d6e9caa9))
+
 ## [101.0.15](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.14...v101.0.15) (2025-05-28)
 
 
