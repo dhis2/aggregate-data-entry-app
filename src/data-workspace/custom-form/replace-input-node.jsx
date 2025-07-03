@@ -1,7 +1,7 @@
 import React from 'react'
 import { selectors } from '../../shared/index.js'
 import { DataEntryField } from '../data-entry-cell/index.js'
-import { replaceTotalCell } from './custom-form-total-cell.js'
+import { replaceTotalCell } from './custom-form-total-cell.jsx'
 
 const INPUT_TYPES = {
     ENTRYFIELD: 'ENTRYFIELD',
