@@ -1,7 +1,7 @@
 import React from 'react'
 import { DataEntryField } from '../data-entry-cell/index.js'
-import { CustomFormTotalCell } from './custom-form-total-cell.js'
-import { parseHtmlToReact } from './parse-html-to-react.js'
+import { CustomFormTotalCell } from './custom-form-total-cell.jsx'
+import { parseHtmlToReact } from './parse-html-to-react.jsx'
 
 describe('parseHtmlToReact', () => {
     it('replaces total cells inside td elements', () => {

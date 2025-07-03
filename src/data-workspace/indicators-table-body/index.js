@@ -1,1 +1,1 @@
-export { IndicatorsTableBody } from './indicators-table-body.js'
+export { IndicatorsTableBody } from './indicators-table-body.jsx'

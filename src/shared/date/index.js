@@ -8,4 +8,4 @@ export {
     isDateAGreaterThanDateB,
     isDateALessThanDateB,
 } from './date-utils.js'
-export { DateText } from './date-text.js'
+export { DateText } from './date-text.jsx'
