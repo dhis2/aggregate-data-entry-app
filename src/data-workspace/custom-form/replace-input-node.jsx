@@ -1,6 +1,7 @@
 import React from 'react'
 import { selectors } from '../../shared/index.js'
 import { DataEntryField } from '../data-entry-cell/index.js'
+import { replaceTotalCell } from './custom-form-total-cell.js'
 
 const INPUT_TYPES = {
     ENTRYFIELD: 'ENTRYFIELD',
@@ -29,17 +30,24 @@ export const replaceInputNode = (domNode, metadata) => {
     // TODO: This was already there when I started on this branch
     // Need to check with Kai what his intentions were with it.
     // const cellProps = getCellPropsByInputType(inputType)
+    if (inputType === INPUT_TYPES.TOTAL && domNode.attribs.dataelementid) {
+        return replaceTotalCell(domNode.attribs.dataelementid)
+    }
 
     if (inputType !== INPUT_TYPES.ENTRYFIELD) {
         return undefined
     }
 
     const [deId, cocId] = domNode.attribs.id.split('-')
+    const disabled =
+        domNode.attribs.disabled === 'disabled' ||
+        domNode.attribs.disabled === 'true'
     const dataElement = selectors.getDataElementById(metadata, deId)
     return (
         <DataEntryField
             dataElement={dataElement}
             categoryOptionCombo={{ id: cocId }}
+            disabled={disabled}
         />
     )
 }

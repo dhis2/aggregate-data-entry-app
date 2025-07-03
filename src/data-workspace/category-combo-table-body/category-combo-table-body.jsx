@@ -1,8 +1,8 @@
 import { TableBody, TableCell, TableRow } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import React, { useCallback } from 'react'
-import { selectors, useMetadata } from '../../shared/index.js'
+import React, { useCallback, useMemo } from 'react'
+import { selectors, useMetadata, NUMBER_TYPES } from '../../shared/index.js'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.jsx'
 import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.jsx'
@@ -59,6 +59,19 @@ export const CategoryComboTableBody = React.memo(
         })
         const hiddenItemsCount = filteredDeIds.size
 
+        const {
+            hasNonNumberValueType: hideColumnTotalsDueToNonNumberValueType,
+            allAreNonNumberValueType: hideRowTotalsDueToNonNumberValueTypes,
+        } = useMemo(() => {
+            const hasNonNumberValueType = dataElements
+                .map(({ valueType }) => valueType)
+                .some((valueType) => !NUMBER_TYPES.includes(valueType))
+            const allAreNonNumberValueType = dataElements
+                .map(({ valueType }) => valueType)
+                .every((valueType) => !NUMBER_TYPES.includes(valueType))
+            return { hasNonNumberValueType, allAreNonNumberValueType }
+        }, [dataElements])
+
         return (
             <TableBody
                 className={cx({
@@ -69,6 +82,9 @@ export const CategoryComboTableBody = React.memo(
                     categoryOptionCombos={sortedCOCs}
                     categories={categories}
                     renderRowTotals={renderRowTotals}
+                    hideRowTotalsDueToNonNumberValueTypes={
+                        hideRowTotalsDueToNonNumberValueTypes
+                    }
                     paddingCells={paddingCells}
                     checkTableActive={checkTableActive}
                 />
@@ -102,23 +118,35 @@ export const CategoryComboTableBody = React.memo(
                                 />
                             ))}
                             {renderRowTotals && (
-                                <RowTotal
-                                    dataElements={dataElements}
-                                    categoryOptionCombos={sortedCOCs}
-                                    row={i}
-                                />
+                                <>
+                                    {NUMBER_TYPES.includes(de.valueType) ? (
+                                        <RowTotal
+                                            dataElements={dataElements}
+                                            categoryOptionCombos={sortedCOCs}
+                                            row={i}
+                                        />
+                                    ) : (
+                                        <PaddingCell
+                                            key={'total_replacement_padding'}
+                                            className={styles.tableCell}
+                                        />
+                                    )}
+                                </>
                             )}
                         </TableRow>
                     )
                 })}
-                {renderColumnTotals && (
-                    <ColumnTotals
-                        paddingCells={paddingCells}
-                        renderTotalSum={renderRowTotals && renderColumnTotals}
-                        dataElements={dataElements}
-                        categoryOptionCombos={sortedCOCs}
-                    />
-                )}
+                {renderColumnTotals &&
+                    !hideColumnTotalsDueToNonNumberValueType && (
+                        <ColumnTotals
+                            paddingCells={paddingCells}
+                            renderTotalSum={
+                                renderRowTotals && renderColumnTotals
+                            }
+                            dataElements={dataElements}
+                            categoryOptionCombos={sortedCOCs}
+                        />
+                    )}
                 {hiddenItemsCount > 0 && (
                     <TableBodyHiddenByFiltersRow
                         hiddenItemsCount={hiddenItemsCount}
@@ -153,4 +181,9 @@ CategoryComboTableBody.propTypes = {
     renderRowTotals: PropTypes.bool,
 }
 
-const PaddingCell = () => <TableCell className={styles.paddingCell}></TableCell>
+const PaddingCell = () => (
+    <TableCell
+        className={styles.paddingCell}
+        dataTest="dhis2-dataentry-paddingcell"
+    ></TableCell>
+)

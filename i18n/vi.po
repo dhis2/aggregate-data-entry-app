@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-11-29T16:17:15.582Z\n"
+"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: Em Le <em.hispvietnam@gmail.com>, 2024\n"
 "Language-Team: Vietnamese (https://app.transifex.com/hisp-uio/teams/100509/vi/)\n"
@@ -534,14 +534,22 @@ msgstr "Chọn một biểu nhập, đơn vị, và thời điểm để bắt �
 msgid "Learn more about data entry"
 msgstr "Tìm hiểu thêm về nhập liệu tổng hợp"
 
-msgid "Filter fields in all sections"
-msgstr "Lọc các ô nhập trong tất cả phân đoạn"
+msgid "Filter data sets in all sections"
+msgstr ""
 
 msgid "Filter fields"
 msgstr "Ô lọc"
 
 msgid "Clear filter"
 msgstr "Xóa bộ lọc"
+
+msgid "This value cannot be calculated in this app"
+msgstr ""
+
+msgid ""
+"This expression is not mathematically calculable "
+"{{numeratorValue}}/{{denominatorValue}}"
+msgstr ""
 
 msgid "Indicators"
 msgstr "Chỉ số"
@@ -598,8 +606,8 @@ msgstr ""
 "Hãy đảm bảo giá trị của đầu vào này lớn hơn giá trị trong "
 "\"{{otherField}}\"."
 
-msgid "Type here to filter in this section"
-msgstr "Nhập vào đây để lọc trong phân đoạn này"
+msgid "Type here to filter rows in this section"
+msgstr ""
 
 msgid "1 item hidden by filter"
 msgstr "1 mục đã bị ẩn bởi bộ lọc"

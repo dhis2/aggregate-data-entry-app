@@ -4,13 +4,14 @@
 # Viktor Varland <viktor@dhis2.org>, 2024
 # Yury Rogachev <yury@dhis2.org>, 2024
 # Philip Larsen Donnelly, 2024
+# Nadiia <semchuk@aph.org.ua>, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-10-18T12:58:59.146Z\n"
+"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Philip Larsen Donnelly, 2024\n"
+"Last-Translator: Nadiia <semchuk@aph.org.ua>, 2025\n"
 "Language-Team: Russian (https://app.transifex.com/hisp-uio/teams/100509/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,6 +89,9 @@ msgid "Couldn't validate the form. This does not effect form completion!"
 msgstr ""
 
 msgid "The form can't be completed while invalid"
+msgstr ""
+
+msgid "Compulsory fields must be filled out before completing the form"
 msgstr ""
 
 msgid "1 comment required"
@@ -209,6 +213,9 @@ msgid "Warning, saved"
 msgstr ""
 
 msgid "Locked, not editable"
+msgstr ""
+
+msgid "Compulsory field"
 msgstr ""
 
 msgid "Help"
@@ -502,7 +509,7 @@ msgstr ""
 msgid "Learn more about data entry"
 msgstr ""
 
-msgid "Filter fields in all sections"
+msgid "Filter data sets in all sections"
 msgstr ""
 
 msgid "Filter fields"
@@ -511,11 +518,19 @@ msgstr ""
 msgid "Clear filter"
 msgstr ""
 
+msgid "This value cannot be calculated in this app"
+msgstr ""
+
+msgid ""
+"This expression is not mathematically calculable "
+"{{numeratorValue}}/{{denominatorValue}}"
+msgstr ""
+
 msgid "Indicators"
 msgstr "Индикаторы"
 
 msgid "Values"
-msgstr ""
+msgstr "Значения"
 
 msgid "Yes"
 msgstr "Да"
@@ -561,7 +576,7 @@ msgid ""
 "\"{{otherField}}\"."
 msgstr ""
 
-msgid "Type here to filter in this section"
+msgid "Type here to filter rows in this section"
 msgstr ""
 
 msgid "1 item hidden by filter"

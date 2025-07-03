@@ -530,11 +530,12 @@ const isOptionAssignedToOrgUnit = ({
 }
 
 const resolveCategoryOptionIds = (categories, categoryOptions) => {
+    // note: an option may be missing because of sharing settings, so filter out undefineds
     return categories.map((category) => ({
         ...category,
-        categoryOptions: category.categoryOptions.map(
-            (id) => categoryOptions[id]
-        ),
+        categoryOptions: category.categoryOptions
+            .map((id) => categoryOptions[id])
+            .filter((opt) => opt !== undefined),
     }))
 }
 

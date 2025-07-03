@@ -1,3 +1,80 @@
+## [101.0.16](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.15...v101.0.16) (2025-07-01)
+
+
+### Bug Fixes
+
+* disabled fields in custom forms [DHIS2-19768] ([#475](https://github.com/dhis2/aggregate-data-entry-app/issues/475)) ([cc541c6](https://github.com/dhis2/aggregate-data-entry-app/commit/cc541c6a9dc3d03b21be0c48990addd9d6e9caa9))
+
+## [101.0.15](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.14...v101.0.15) (2025-05-28)
+
+
+### Bug Fixes
+
+* make sure background expands to whole table if it is bigger than page size ([8054d76](https://github.com/dhis2/aggregate-data-entry-app/commit/8054d760d08f22ca1cbc17d64ce0d6e67ed3359e))
+
+## [101.0.14](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.13...v101.0.14) (2025-05-27)
+
+
+### Bug Fixes
+
+* replace non-td total cells ([#471](https://github.com/dhis2/aggregate-data-entry-app/issues/471)) ([4789f3f](https://github.com/dhis2/aggregate-data-entry-app/commit/4789f3f12ef25d98fcbd98ebaf785e1213cbcdfa))
+
+## [101.0.13](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.12...v101.0.13) (2025-05-20)
+
+
+### Bug Fixes
+
+* number only totals [DHIS2-18640] ([#469](https://github.com/dhis2/aggregate-data-entry-app/issues/469)) ([e2ad93a](https://github.com/dhis2/aggregate-data-entry-app/commit/e2ad93a8f7066f677627c4f2efb3c4e87dfe7e72))
+
+## [101.0.12](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.11...v101.0.12) (2025-05-15)
+
+
+### Bug Fixes
+
+* get all validation rules metadata [DHIS2-19591] ([#470](https://github.com/dhis2/aggregate-data-entry-app/issues/470)) ([16b47ac](https://github.com/dhis2/aggregate-data-entry-app/commit/16b47ac87a673dd105a508b9c79777c5afcd9a44))
+
+## [101.0.11](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.10...v101.0.11) (2025-05-08)
+
+
+### Bug Fixes
+
+* prevent crash with missing category options [DHIS2-19523] ([#468](https://github.com/dhis2/aggregate-data-entry-app/issues/468)) ([3a88b35](https://github.com/dhis2/aggregate-data-entry-app/commit/3a88b351bc0916c6d9ea5d050e227c2b5c7408b3))
+
+## [101.0.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.9...v101.0.10) (2025-04-08)
+
+
+### Bug Fixes
+
+* custom form stling [BETA-362] ([#466](https://github.com/dhis2/aggregate-data-entry-app/issues/466)) ([ca6ce38](https://github.com/dhis2/aggregate-data-entry-app/commit/ca6ce380d2925e488d408eb63eab2233ca25ad55))
+
+## [101.0.9](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.8...v101.0.9) (2025-03-30)
+
+
+### Bug Fixes
+
+* **translations:** sync translations from transifex (master) ([9e909f6](https://github.com/dhis2/aggregate-data-entry-app/commit/9e909f60256f58c09256b52fb53affc982f0cff9))
+
+## [101.0.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.7...v101.0.8) (2025-03-25)
+
+
+### Bug Fixes
+
+* adjust background to stretch if form is bigger than page ([215cfaf](https://github.com/dhis2/aggregate-data-entry-app/commit/215cfafcefea13d08c7c4f42064182b46268d7e1))
+
+## [101.0.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.6...v101.0.7) (2025-03-23)
+
+
+### Bug Fixes
+
+* **translations:** sync translations from transifex (master) ([3d7a1b1](https://github.com/dhis2/aggregate-data-entry-app/commit/3d7a1b1e6f90b31dc789a58f39c28a76ab75df33))
+
+## [101.0.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.5...v101.0.6) (2025-03-20)
+
+
+### Bug Fixes
+
+* make horizontal tabs scrollable whle keepingvertical tabs ([f95b581](https://github.com/dhis2/aggregate-data-entry-app/commit/f95b581d123424b64f30c00052d12210e20ba4e9))
+
 ## [101.0.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.4...v101.0.5) (2025-03-17)
 
 
