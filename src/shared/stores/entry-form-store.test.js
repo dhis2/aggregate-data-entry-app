@@ -9,7 +9,7 @@ describe('useEntryFormStore', () => {
     })
 
     it('should get and set new errors', async () => {
-        const { result, waitFor } = renderHook(useEntryFormStore)
+        const { result } = renderHook(useEntryFormStore)
 
         act(() => {
             result.current.setError('de-id1.coc-id1', 'Error message 1')
