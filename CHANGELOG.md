@@ -1,3 +1,10 @@
+## [101.0.17](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.16...v101.0.17) (2025-07-04)
+
+
+### Bug Fixes
+
+* use gist api on offline organisationUnits query ([#474](https://github.com/dhis2/aggregate-data-entry-app/issues/474)) ([fcb7960](https://github.com/dhis2/aggregate-data-entry-app/commit/fcb79608c8a01d3ee2594c4893a33001e3f30022))
+
 ## [101.0.16](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.15...v101.0.16) (2025-07-01)
 
 
