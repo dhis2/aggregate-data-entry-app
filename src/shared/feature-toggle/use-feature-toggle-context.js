@@ -5,7 +5,7 @@ const shouldUtilizeGistApiForPrefetchedOrganisationUnits = (serverVersion) => {
     if (minor >= 43) {
         return true
     }
-    if (String(minor) === '42' && (patch === undefined || patch >= 1)) {
+    if (String(minor) === '42' && (patch === undefined || patch >= 2)) {
         return true
     }
     if (String(minor) === '41' && (patch === undefined || patch >= 5)) {
