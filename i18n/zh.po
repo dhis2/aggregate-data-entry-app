@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
+"POT-Creation-Date: 2025-07-04T13:29:52.415Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
 "Last-Translator: easylin <lin_xd@126.com>, 2025\n"
 "Language-Team: Chinese (https://app.transifex.com/hisp-uio/teams/100509/zh/)\n"
@@ -508,8 +508,8 @@ msgstr "从顶部栏选择数据集、组织单位和时间段，开始输入数
 msgid "Learn more about data entry"
 msgstr "了解有关数据录入的更多信息"
 
-msgid "Filter data sets in all sections"
-msgstr "过滤所有部分的数据集"
+msgid "Filter data elements in all sections"
+msgstr "过滤所有分段的数据元素"
 
 msgid "Filter fields"
 msgstr "筛选字段"
