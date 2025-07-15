@@ -2,6 +2,7 @@ import { Checkbox } from '@dhis2-ui/checkbox'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Icon } from './icon.jsx'
+import styles from './single-selection-label.module.css'
 
 export const IconizedCheckbox = ({
     checked,
@@ -26,15 +27,8 @@ export const IconizedCheckbox = ({
 
     const checkboxLabel = (
         <>
-            <span>{icon}</span>
+            <span className={styles.iconizedCheckbox}>{icon}</span>
             {children}
-
-            <style jsx>{`
-                span {
-                    display: inline-block;
-                    margin-inline-end: 4px;
-                }
-            `}</style>
         </>
     )
 

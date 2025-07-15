@@ -1,19 +1,10 @@
-import { colors, spacers, theme } from '@dhis2/ui-constants'
 import PropTypes from 'prop-types'
 import React from 'react'
+import styles from './error-message.module.css'
 
 export const ErrorMessage = ({ children, dataTest }) => (
-    <span data-test={`${dataTest}-error`}>
+    <span data-test={`${dataTest}-error`} className={styles.errorMessageSpan}>
         {children}
-
-        <style jsx>{`
-            span {
-                font-size: 14px;
-                color: ${colors.grey800};
-                margin: ${spacers.dp4};
-                color: ${theme.error};
-            }
-        `}</style>
     </span>
 )
 

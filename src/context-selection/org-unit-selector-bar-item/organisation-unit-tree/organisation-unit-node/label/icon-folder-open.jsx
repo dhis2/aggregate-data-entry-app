@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import styles from './single-selection-label.module.css'
 
 export const IconFolderOpen = ({ dataTest }) => (
     <svg
@@ -8,6 +9,7 @@ export const IconFolderOpen = ({ dataTest }) => (
         viewBox="0 0 18 18"
         version="1.1"
         data-test={`${dataTest}-iconfolderopen`}
+        className={styles.iconDefaultStyle}
     >
         <g
             id="icon/folder/open"
@@ -34,13 +36,6 @@ export const IconFolderOpen = ({ dataTest }) => (
                 />
             </g>
         </g>
-
-        <style jsx>{`
-            svg {
-                margin: 3px 0;
-                display: block;
-            }
-        `}</style>
     </svg>
 )
 

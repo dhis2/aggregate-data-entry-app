@@ -1,7 +1,7 @@
-import { colors } from '@dhis2/ui-constants'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
+import styles from './single-selection-label.module.css'
 
 /**
  * @param {Object} props
@@ -10,23 +10,12 @@ import React from 'react'
  * @returns {React.Component}
  */
 export const LabelContainer = ({ highlighted, children }) => (
-    <div className={cx({ highlighted })}>
+    <div
+        className={cx(styles.labelContainer, {
+            [styles.labelContainerHighlighted]: highlighted,
+        })}
+    >
         <span>{children}</span>
-
-        <style jsx>{`
-            div {
-                display: flex;
-            }
-
-            span {
-                display: block;
-            }
-
-            .highlighted {
-                background: ${colors.teal200};
-                padding-inline-end: 4px;
-            }
-        `}</style>
     </div>
 )
 
