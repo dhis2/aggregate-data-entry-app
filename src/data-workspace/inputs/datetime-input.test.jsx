@@ -63,6 +63,7 @@ describe('date input field', () => {
 
     it('posts values back to server after date then time is selected', async () => {
         jest.setSystemTime(new Date('2024-07-25T09:05:00.000Z'))
+        const user = userEvent.setup({ delay: null })
 
         useConfig.mockReturnValue({
             systemInfo: { calendar: 'gregorian' },
@@ -80,14 +81,15 @@ describe('date input field', () => {
         expect(calendar).not.toBeInTheDocument()
 
         // open calendar
-        await userEvent.click(calendarInput)
+        await user.click(calendarInput)
+
         calendar = getByTestId('calendar')
         expect(calendar).toBeInTheDocument()
 
         // select today's date: 25th July 2024
         const today = getByText('25')
         expect(today.classList.contains('isToday')).toBe(true)
-        await userEvent.click(today)
+        await user.click(today)
 
         expect(calendarInput.value).toBe('2024-07-25')
 
@@ -109,6 +111,7 @@ describe('date input field', () => {
 
     it('posts values back to server after time then date is selected', async () => {
         jest.setSystemTime(new Date('2024-07-25T09:05:00.000Z'))
+        const user = userEvent.setup({ delay: null })
 
         useConfig.mockReturnValue({
             systemInfo: { calendar: 'gregorian' },
@@ -136,14 +139,14 @@ describe('date input field', () => {
         expect(calendar).not.toBeInTheDocument()
 
         // open calendar
-        await userEvent.click(calendarInput)
+        await user.click(calendarInput)
         calendar = getByTestId('calendar')
         expect(calendar).toBeInTheDocument()
 
         // select today's date: 25th July 2024
         const today = getByText('25')
         expect(today.classList.contains('isToday')).toBe(true)
-        await userEvent.click(today)
+        await user.click(today)
 
         expect(calendarInput.value).toBe('2024-07-25')
 
@@ -174,6 +177,7 @@ describe('date input field', () => {
 
     it('can be cleared with clear button', async () => {
         jest.setSystemTime(new Date('2024-07-25T09:05:00.000Z'))
+        const user = userEvent.setup({ delay: null })
 
         useConfig.mockReturnValue({
             systemInfo: { calendar: 'gregorian' },
@@ -190,7 +194,7 @@ describe('date input field', () => {
         expect(timepicker.value).toBe('13:17')
 
         const clearButton = getByText('Clear')
-        await userEvent.click(clearButton)
+        await user.click(clearButton)
 
         // previous values should be cleared in UI
         expect(calendarInput.value).toBe('')
@@ -204,6 +208,7 @@ describe('date input field', () => {
     it('posts ISO date to backend with ethiopian calendar', async () => {
         // this is 2016-02-30 Ethopian
         jest.setSystemTime(new Date('2023-11-10T09:05:00.000Z'))
+        const user = userEvent.setup({ delay: null })
 
         useConfig.mockReturnValue({
             systemInfo: { calendar: 'ethiopian' },
@@ -225,14 +230,14 @@ describe('date input field', () => {
         expect(calendar).not.toBeInTheDocument()
 
         // open calendar
-        await userEvent.click(calendarInput)
+        await user.click(calendarInput)
         calendar = getByTestId('calendar')
         expect(calendar).toBeInTheDocument()
 
         // select today's date: 30 Tekemt 2016
         const today = getAllByText('30')[1] // the first 30 is the previous month
         expect(today.classList.contains('isToday')).toBe(true)
-        await userEvent.click(today)
+        await user.click(today)
 
         expect(calendarInput.value).toBe('2016-02-30')
 
@@ -276,6 +281,7 @@ describe('date input field', () => {
     it('posts ISO date to backend with nepali calendar', async () => {
         // this is 2080-02-32 Nepali
         jest.setSystemTime(new Date('2023-06-15T09:05:00.000Z'))
+        const user = userEvent.setup({ delay: null })
 
         useConfig.mockReturnValue({
             systemInfo: { calendar: 'nepali' },
@@ -293,14 +299,14 @@ describe('date input field', () => {
         expect(calendar).not.toBeInTheDocument()
 
         // open calendar
-        await userEvent.click(calendarInput)
+        await user.click(calendarInput)
         calendar = getByTestId('calendar')
         expect(calendar).toBeInTheDocument()
 
         // select today's date: 32 Jestha 2080
         const today = getByText('32')
         expect(today.classList.contains('isToday')).toBe(true)
-        await userEvent.click(today)
+        await user.click(today)
 
         expect(calendarInput.value).toBe('2080-02-32')
 
