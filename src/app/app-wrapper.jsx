@@ -1,6 +1,6 @@
 import { CssReset, CssVariables } from '@dhis2/ui'
 import { QueryClient } from '@tanstack/react-query'
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { HashRouter, Route } from 'react-router-dom'
@@ -13,7 +13,7 @@ import App from './app.jsx'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.jsx'
 import useQueryClient from './query-client/use-query-client.js'
 
-// const enableRQDevtools = process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
+const enableRQDevtools = process.env.REACT_APP_ENABLE_RQ_DEVTOOLS === 'true'
 
 /**
  * @param {Object} props
@@ -43,7 +43,7 @@ export function OuterComponents({
             <ConfiguredQueryClientProvider
                 queryClient={customQueryClient || queryClient}
             >
-                {/* {enableRQDevtools && <ReactQueryDevtools />} */}
+                {enableRQDevtools && <ReactQueryDevtools />}
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
                         <LockedProvider>
