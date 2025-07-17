@@ -594,11 +594,6 @@ msgstr "Type here to filter rows in this section"
 msgid "1 item hidden by filter"
 msgstr "1 item hidden by filter"
 
-msgid "{{count}} items hidden by filter"
-msgid_plural "{{count}} items hidden by filter"
-msgstr[0] "{{count}} items hidden by filter"
-msgstr[1] "{{count}} items hidden by filter"
-
 msgid "{{pendingMutations}} change saved locally"
 msgstr "{{pendingMutations}} change saved locally"
 
@@ -633,3 +628,11 @@ msgstr "Close details sidebar"
 
 msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
 msgstr "Integer numbers have to be in the range from -2147483648 to 2147483647"
+
+msgctxt "Application title"
+msgid "__MANIFEST_APP_TITLE"
+msgstr "Data Entry"
+
+msgctxt "Application description"
+msgid "__MANIFEST_APP_DESCRIPTION"
+msgstr ""

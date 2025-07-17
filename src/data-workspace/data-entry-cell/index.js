@@ -1,3 +1,3 @@
-export { DataEntryCell } from './data-entry-cell.js'
-export { DataEntryField } from './data-entry-field.js'
+export { DataEntryCell } from './data-entry-cell.jsx'
+export { DataEntryField } from './data-entry-field.jsx'
 export { useActiveCell } from './use-active-cell.js'

@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { getFieldId } from '../data-workspace/get-field-id.js'
+import { getFieldId } from '../data-workspace/get-field-id.jsx'
 import { useHighlightedFieldStore } from './stores/highlighted-field-store.js'
 
 export const useBlurredField = () => {

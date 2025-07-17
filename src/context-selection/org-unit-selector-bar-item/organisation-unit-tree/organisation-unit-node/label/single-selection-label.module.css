@@ -1,0 +1,44 @@
+.singleSelectSpan {
+    background: transparent;
+    border-radius: 3px;
+    color: var(--colors-grey900);
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 0 5px;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.checked {
+    background: var(--colors-teal700);
+    color: var(--colors-white);
+}
+
+.loading {
+    cursor: auto;
+}
+
+.iconDefaultStyle {
+    display: block;
+    margin: 3px 0;
+}
+
+.iconizedCheckbox {
+    display: inline-block;
+    margin-inline-end: 4px;
+}
+
+.labelContainer {
+    display: flex;
+}
+
+.labelContainer > span {
+    display: block;
+}
+
+.labelContainerHighlighted {
+    background: var(--colors-teal200);
+    padding-inline-end: 4px;
+}

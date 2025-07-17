@@ -9,4 +9,5 @@ module.exports = {
     moduleNameMapper: {
         '\\.css$': 'identity-obj-proxy',
     },
+    transformIgnorePatterns: ['/node_modules/@tanstack/react-query-devtools'],
 }

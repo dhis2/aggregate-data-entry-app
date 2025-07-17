@@ -1,5 +1,5 @@
 export { useCheckLockStatus } from './use-check-lock-status.js'
 export { LockedContext } from './locked-info-context.js'
-export { LockedProvider } from './locked-info-provider.js'
+export { LockedProvider } from './locked-info-provider.jsx'
 export { LockedStates } from './locked-states.js'
 export { useLockedContext } from './use-locked-context.js'

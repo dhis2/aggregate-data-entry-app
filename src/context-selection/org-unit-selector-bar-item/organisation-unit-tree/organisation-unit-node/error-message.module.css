@@ -1,0 +1,6 @@
+.errorMessageSpan {
+    font-size: 14px;
+    color: var(--colors-grey800);
+    margin: var(--spacers-dp4);
+    color: var(--colors-red500);
+}

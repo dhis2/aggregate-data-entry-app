@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
 import { useHighlightedFieldStore } from './highlighted-field-store.js'
 
 describe('highlighted field store', () => {
@@ -19,16 +19,14 @@ describe('highlighted field store', () => {
             categoryOptionComboId: 'coc-id',
         }
 
-        const { result, waitFor } = renderHook(useHighlightedFieldStore)
+        const { result } = renderHook(useHighlightedFieldStore)
 
         act(() => {
             result.current.setHighlightedField(nextHighlightedField)
         })
 
-        await waitFor(() => {
-            const highlightedField = result.current.getHighlightedField()
-            expect(highlightedField).toBe(nextHighlightedField)
-        })
+        const highlightedField = result.current.getHighlightedField()
+        expect(highlightedField).toBe(nextHighlightedField)
     })
 
     it('yield true when checking whether the currently highlighted field is highlighted', () => {

@@ -1,1 +1,1 @@
-export { default as ValidationResultsSidebar } from './validation-results-sidebar.js'
+export { default as ValidationResultsSidebar } from './validation-results-sidebar.jsx'

@@ -1,1 +1,1 @@
-export { OrganisationUnitNode } from './organisation-unit-node.js'
+export { OrganisationUnitNode } from './organisation-unit-node.jsx'

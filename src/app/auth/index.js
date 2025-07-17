@@ -1,1 +1,1 @@
-export { default as AuthWall } from './auth-wall.js'
+export { default as AuthWall } from './auth-wall.jsx'

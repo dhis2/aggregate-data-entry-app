@@ -1,11 +1,11 @@
-export * from './generic-input.js'
-export * from './boolean-radios.js'
-export * from './file-inputs.js'
-export * from './long-text.js'
-export * from './option-set.js'
-export * from './true-only-checkbox.js'
-export * from './date-input.js'
-export * from './datetime-input.js'
+export * from './generic-input.jsx'
+export * from './boolean-radios.jsx'
+export * from './file-inputs.jsx'
+export * from './long-text.jsx'
+export * from './option-set.jsx'
+export * from './true-only-checkbox.jsx'
+export * from './date-input.jsx'
+export * from './datetime-input.jsx'
 export {
     createLessThan,
     createMoreThan,

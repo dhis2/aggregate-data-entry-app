@@ -1,3 +1,5 @@
+![React 18](https://img.shields.io/badge/react-18-blue)
+
 # Data entry app
 
 [Live demo development branch](https://dhis2-data-entry.netlify.app/#/)
