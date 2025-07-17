@@ -1,3 +1,10 @@
+## [101.0.18](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.17...v101.0.18) (2025-07-17)
+
+
+### Bug Fixes
+
+* **app-platform:** upgrade platform tools to use vite and react 18 ([#414](https://github.com/dhis2/aggregate-data-entry-app/issues/414)) ([97f09ea](https://github.com/dhis2/aggregate-data-entry-app/commit/97f09ea4a270e103ab74dc7ca159f077b192c210))
+
 ## [101.0.17](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.16...v101.0.17) (2025-07-04)
 
 
