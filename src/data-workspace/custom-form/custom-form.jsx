@@ -1,4 +1,5 @@
-import { Plugin, useDataEngine } from '@dhis2/app-runtime'
+import { useDataEngine } from '@dhis2/app-runtime'
+import { Plugin } from '@dhis2/app-runtime/experimental'
 import { useMutation } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -82,7 +83,7 @@ export const CustomForm = ({ dataSet }) => {
         <>
             <div style={{ height: '100vh', width: '100%' }}>
                 <Plugin
-                    pluginSource="http://localhost:3002/plugin.html"
+                    pluginSource="/plugin.html"
                     htmlCode={customForm.htmlCode}
                     initialValues={initialDataValues}
                     metadata={metadata}
