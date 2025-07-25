@@ -3101,7 +3101,7 @@
     "@dhis2/pwa" "12.6.5"
     moment "^2.24.0"
 
-"@dhis2/app-runtime@^3.13.1", "@dhis2/app-runtime@^3.14.3":
+"@dhis2/app-runtime@^3.14.3", "@dhis2/app-runtime@^3.14.5":
   version "3.14.5"
   resolved "https://registry.yarnpkg.com/@dhis2/app-runtime/-/app-runtime-3.14.5.tgz#e9e455fbddaee473c80943ad6cc691fa0130b38c"
   integrity sha512-Uh5bPu2L4MUm9j8uwJCQN9W9FEIoniVmC+7occLoBN0qtUjIRKn/ClsBpjQlM/mvMEmlkUL4R0IZGByjE+s30g==
@@ -3292,12 +3292,13 @@
     i18next "^10.3"
     moment "^2.24.0"
 
-"@dhis2/multi-calendar-dates@2.1.2", "@dhis2/multi-calendar-dates@^1.0.0-alpha.22":
-  version "1.0.0-alpha.22"
-  resolved "https://registry.yarnpkg.com/@dhis2/multi-calendar-dates/-/multi-calendar-dates-1.0.0-alpha.22.tgz#c290f985a1687782dc03a5c367c2f5de95e4ae65"
-  integrity sha512-z4i999cMXt8EoW3idTWPk+BJl4CxoL28Cv7O7yGxPGkyLUlDE43VWf3KFsEhx+nUNrhSBOFavRZua8ZGnIBSkw==
+"@dhis2/multi-calendar-dates@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@dhis2/multi-calendar-dates/-/multi-calendar-dates-2.1.2.tgz#c3dd01e358c3dda4354c6722bb72e077b3ddd9b8"
+  integrity sha512-7/EuYZFi266QwyRpK+s79iEiwdOUVBwM+QjKwNUHN3zdYMDmQcWLTo5TujJFg1XnnQ8UhdiRqESq5rgoJkM2fQ==
   dependencies:
-    "@js-temporal/polyfill" "^0.4.2"
+    "@dhis2/d2-i18n" "^1.1.3"
+    "@js-temporal/polyfill" "0.4.3"
     classnames "^2.3.2"
 
 "@dhis2/multi-calendar-dates@^1.3.2":
