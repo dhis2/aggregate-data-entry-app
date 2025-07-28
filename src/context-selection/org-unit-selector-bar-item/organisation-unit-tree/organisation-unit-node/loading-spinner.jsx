@@ -1,4 +1,4 @@
-import { CircularLoader } from '@dhis2-ui/loader'
+import { CircularLoader } from '@dhis2/ui'
 import React from 'react'
 import styles from './loading-spinner.module.css'
 

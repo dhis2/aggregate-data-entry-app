@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
     create-bom:
-        uses: dhis2/workflows-platform/.github/workflows/generate-and-upload-bom.yml@v1
+        uses: dhis2/workflows-platform/.github/workflows/generate-and-upload-bom.yml@pnpm
         with:
             node_version: 20
             project_id: '2437140f-8722-4dd4-a994-dcc48793b4ae'
