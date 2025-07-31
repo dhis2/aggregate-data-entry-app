@@ -1,4 +1,4 @@
-import { CircularLoader } from '@dhis2-ui/loader'
+import { CircularLoader } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './root-loading.module.css'

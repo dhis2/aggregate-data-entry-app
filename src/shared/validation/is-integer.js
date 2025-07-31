@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { integer } from '@dhis2/ui-forms'
+import { integer } from '@dhis2/ui'
 
 /**
  * The `integer` validator of the `@dhis2/ui` library uses

@@ -9,6 +9,6 @@ concurrency:
 
 jobs:
     deploy:
-        uses: dhis2/workflows-platform/.github/workflows/deploy-pr.yml@v1
+        uses: dhis2/workflows-platform/.github/workflows/deploy-pr.yml@pnpm
         if: '!github.event.pull_request.head.repo.fork'
         secrets: inherit
