@@ -1,3 +1,10 @@
+## [101.0.19](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.18...v101.0.19) (2025-08-01)
+
+
+### Bug Fixes
+
+* totals calculation in custom form [DHIS2-19832] ([#482](https://github.com/dhis2/aggregate-data-entry-app/issues/482)) ([86b78af](https://github.com/dhis2/aggregate-data-entry-app/commit/86b78af274e34f7924ad2988cb5ec8a973670663))
+
 ## [101.0.18](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.17...v101.0.18) (2025-07-17)
 
 
