@@ -18,7 +18,6 @@ import {
  * @returns {number} Indicator value
  */
 export const useIndicatorValue = ({
-    blurredField,
     denominator,
     factor,
     numerator,
@@ -43,33 +42,35 @@ export const useIndicatorValue = ({
         [denominator, numerator]
     )
 
+    const affectedValues = [...affectedDataElementsLookup]
+        .map((de) =>
+            Object.values(dataValues[de] ?? {})
+                .sort((a, b) =>
+                    a?.categoryOptionCombo?.localeCompare(
+                        b?.categoryOptionCombo
+                    )
+                )
+                .map((d) => d.value)
+        )
+        .flat()
+    const stringifiedValues = JSON.stringify(affectedValues)
+
     return useMemo(() => {
         /*
          * Only recompute the indicator value when a field related to
          * a data element in the indicator expression template is blurred.
          */
-        const { dataElementId } = parseFieldOperand(blurredField)
-        const containsAffectedDataElement =
-            affectedDataElementsLookup.has(dataElementId)
 
-        if (indicatorValueRef.current === null || containsAffectedDataElement) {
-            indicatorValueRef.current = computeIndicatorValue({
-                denominator,
-                numerator,
-                factor,
-                dataValues,
-                decimals,
-            })
-        }
+        indicatorValueRef.current = computeIndicatorValue({
+            denominator,
+            numerator,
+            factor,
+            dataValues,
+            decimals,
+        })
 
         return indicatorValueRef.current
-    }, [
-        affectedDataElementsLookup,
-        blurredField,
-        denominator,
-        factor,
-        dataValues,
-        numerator,
-        decimals,
-    ])
+    }, [stringifiedValues, denominator, numerator, factor, decimals])
+    // dependency array is non-exhaustive insofar as dataValues is excluded
+    // we check for only relevant changes in dataValues by using stringifiedValues
 }

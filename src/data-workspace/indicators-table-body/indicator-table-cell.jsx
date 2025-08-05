@@ -2,7 +2,6 @@ import i18n from '@dhis2/d2-i18n'
 import { TableCell, Tooltip, IconInfo16, IconWarning16 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useBlurredField } from '../../shared/index.js'
 import styles from '../table-body.module.css'
 import {
     NONCALCULABLE_VALUE,
@@ -29,13 +28,11 @@ export const IndicatorTableCell = ({
     numerator,
     decimals,
 }) => {
-    const blurredField = useBlurredField()
     const {
         value: indicatorValue,
         numeratorValue,
         denominatorValue,
     } = useIndicatorValue({
-        blurredField,
         denominator,
         factor,
         numerator,
