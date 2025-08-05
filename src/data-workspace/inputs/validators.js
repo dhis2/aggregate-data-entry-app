@@ -9,7 +9,7 @@ import {
     internationalPhoneNumber,
     number,
     url,
-} from '@dhis2/ui-forms'
+} from '@dhis2/ui'
 import {
     CAN_HAVE_LIMITS_TYPES,
     VALUE_TYPES,
@@ -118,11 +118,11 @@ export const minMaxValidatorsByValueType = {
 
 // This is an internal helper of the ui-forms library,
 // can be removed once `createLessThan` and `createMoreThan` have been moved to
-// the @dhis2/ui-forms library
+// the @dhis2/ui library
 const isEmpty = (value) =>
     typeof value === 'undefined' || value === null || value === ''
 
-// @TODO: Move to @dhis2/ui-forms validators
+// @TODO: Move to @dhis2/ui validators
 export const createLessThan = (key, description) => {
     const errorMessage = i18n.t(
         'Please make sure the value of this input is less than the value in "{{otherField}}".',
@@ -137,7 +137,7 @@ export const createLessThan = (key, description) => {
             : errorMessage
 }
 
-// @TODO: Move to @dhis2/ui-forms validators
+// @TODO: Move to @dhis2/ui validators
 export const createMoreThan = (key, description) => {
     const errorMessage = i18n.t(
         'Please make sure the value of this input is more than the value in "{{otherField}}".',

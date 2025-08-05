@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
     deploy:
-        uses: dhis2/workflows-platform/.github/workflows/deploy-production.yml@v1
+        uses: dhis2/workflows-platform/.github/workflows/deploy-production.yml@pnpm
         secrets: inherit
         with:
             branch: master

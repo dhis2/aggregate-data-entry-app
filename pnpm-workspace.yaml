@@ -1,0 +1,21 @@
+# These hoists are needed for @dhis2/app-shell since it uses directly some libraries that were hoisted by yarn 1
+# This is a better alternative than pnpm's shamefullyHoist https://pnpm.io/settings#shamefullyhoist until we update the way that @dhis2/app-shell works
+publicHoistPattern:
+  - "@dhis2/*"
+  - "typeface-roboto"
+  - "prop-types"
+  - "post-robot"
+  - "styled-jsx"
+  # the older versions of use-query-params and tanstack needs to be hoisted, otherwise linting fails
+  - "@tanstack/*"
+  - "serialize-query-params" 
+
+ignoredBuiltDependencies:
+  - '@ffmpeg-installer/linux-x64'
+  - core-js-pure
+  - esbuild
+
+onlyBuiltDependencies:
+  - '@dhis2/cli-helpers-engine'
+  - '@dhis2/cli-style'
+  - cypress
