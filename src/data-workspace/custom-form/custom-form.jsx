@@ -90,6 +90,9 @@ export const CustomForm = ({ dataSet }) => {
                 metadata={metadata}
                 dataSet={dataSet}
                 saveValue={saveMutation}
+                dataSetId={dataSetId}
+                orgUnitId={orgUnitId}
+                periodId={periodId}
             />
             <div className={styles.customForm}>
                 <h2>Existing custom form functionality (for reference)</h2>
