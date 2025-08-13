@@ -16,6 +16,7 @@ const config = {
     },
     entryPoints: {
         app: './src/app/app-wrapper.jsx',
+        plugin: './src/plugin-custom-forms/plugin-wrapper.jsx',
     },
     direction: 'auto',
 }
