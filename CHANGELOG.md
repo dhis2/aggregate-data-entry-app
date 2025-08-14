@@ -1,3 +1,10 @@
+## [101.0.20](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.19...v101.0.20) (2025-08-14)
+
+
+### Bug Fixes
+
+* update indicator recalculation logic [DHIS2-19832] ([#483](https://github.com/dhis2/aggregate-data-entry-app/issues/483)) ([e4eb6ec](https://github.com/dhis2/aggregate-data-entry-app/commit/e4eb6ecffd165acfb664410c9a57882cfd334ee5))
+
 ## [101.0.19](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.18...v101.0.19) (2025-08-01)
 
 
