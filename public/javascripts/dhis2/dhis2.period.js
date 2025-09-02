@@ -32,7 +32,6 @@
  * @author Morten Olav Hansen <mortenoh@gmail.com>
  */
 
-console.log('>>>>>>>>>??? DHIS2.period')
 dhis2.util.namespace( 'dhis2.period' );
 
 dhis2.period.DEFAULT_DATE_FORMAT = "yyyy-mm-dd";

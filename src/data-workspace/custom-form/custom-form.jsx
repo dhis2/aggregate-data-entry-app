@@ -94,10 +94,10 @@ export const CustomForm = ({ dataSet }) => {
                 orgUnitId={orgUnitId}
                 periodId={periodId}
             />
-            <div className={styles.customForm}>
+            {/* <div className={styles.customForm}>
                 <h2>Existing custom form functionality (for reference)</h2>
                 {parseHtmlToReact(customForm.htmlCode, metadata)}
-            </div>
+            </div> */}
         </>
     ) : null
 }

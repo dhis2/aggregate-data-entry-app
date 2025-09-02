@@ -47,6 +47,8 @@ const files = [
 
     // '/javascripts/moment/moment-with-langs.min.js',
     // '/select2/select2.min.js',
+    '/javascripts/floatThead/jquery.floatThead.min.js',
+    
     // ? all the calendar and date utilties take up the bulk of space - maybe they can be bundled optionally?
     // jquery calendars
     '/javascripts/dhis2/dhis2.period.js',
@@ -64,6 +66,14 @@ const files = [
     '/javascripts/dhis2/dhis2.contextmenu.js',
     '/javascripts/dhis2/dhis2.appcache.js',
     '/javascripts/dhis2/dhis2.translate.js',
+
+
+    // form-entry
+    // 'javascripts/ouwt/ouwt.js',
+    '/javascripts/data-entry/form.js',
+    '/javascripts/data-entry/entry.js',
+    // '/javascripts/data-entry/entry.fileresource.js',
+    // '/javascripts/data-entry/history.js',
 ]
 
 export default files

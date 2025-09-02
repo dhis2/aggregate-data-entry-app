@@ -27,7 +27,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-console.log('?????????????????????????????dhis2.storage')
 dhis2.util.namespace( 'dhis2.storage' );
 
 dhis2.storage.DATABASE_IS_NOT_OPEN = "Database is not open, please call .open() on your store before using it.";

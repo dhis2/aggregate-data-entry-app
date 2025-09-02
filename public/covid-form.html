@@ -954,7 +954,7 @@
 <script type="text/javascript">
     var orgUnit = dhis2.de.currentOrganisationUnitId
 
-    console.log('[custom form (form code)]: ' + orgUnit)
+    console.log('[custom-form] orgUnit: ' + orgUnit)
     var periodId = $('#selectedPeriodId').val()
     var datasetId = dhis2.de.currentDataSetId
 
@@ -1015,7 +1015,7 @@
     var dataValueSetsCur = new Array()
 
     ui_showSpinner = function (callBack) {
-        console.log('[custom form (inside] ui_show_spinner')
+        console.log('[custom-forms](inside): ui_show_spinner')
         var html = `<div class="scrim">
                             <div class="loadingSpinner">
                                 <div class="loadingDialogSpinner rounded"></div>
@@ -1201,7 +1201,7 @@
                 ''
 
             console.log(
-                '[custom form (inside)]: calling getDataJSON with url: ' + url
+                '[custom-forms](inside): calling getDataJSON with url: ' + url
             )
 
             // 1: get future cumulative totals, for incrementing
@@ -8903,7 +8903,6 @@
         dataValueSetsPrev
     ) {
         var fieldIds = fieldId.split('-')
-        console.log('[custom form] fieldIds', fieldIds)
         feedbackId = '#' + (feedbackId || fieldId)
 
         if (fieldIds.length > 3) {
@@ -9134,8 +9133,6 @@
         parms['cumCases_prevPeriodValue'] = cPrevVal
 
         // determine what current period values should be when NEW field is edited
-        console.log('[custom form] casesNew_input', casesNew_input)
-        console.log('[custom form] parms', parms)
         if (casesNew_input) {
             parms['newCases_newValue'] = parseFloat(value)
             parms['newCases_oldValue'] =
@@ -9254,9 +9251,6 @@
             $('#' + targNew).val(parms['newCases_newValue'])
             $('#' + targNew).css('backgroundColor', color)
         }
-
-        console.log('[custom form] dhis2.de.cst', dhis2.de.cst)
-        console.log('[custom form] parms', parms)
 
         ui_showSpinner(function () {
             setTimeout(function () {
@@ -9415,7 +9409,6 @@
     }
 
     configure_tabIndexes = function () {
-        console.log('[custom form] configure_tabIndexes', arrDxNew)
         var tabIndex = 0
 
         $.each(arrDxNew, function (i) {
@@ -9439,7 +9432,7 @@
     }
 
     update_networkInfo = function (info) {
-        // ! [custom form] changed info.effectiveType to info?.effectiveType
+        // ! [custom-forms] changed info.effectiveType to info?.effectiveType
         var displayData =
             ` type: ` +
             info?.effectiveType +

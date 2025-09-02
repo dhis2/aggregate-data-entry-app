@@ -4,7 +4,6 @@ dhis2.util.namespace( 'dhis2.de.api' );
 dhis2.util.namespace( 'dhis2.de.event' );
 dhis2.util.namespace( 'dhis2.de.cst' );
 
-console.log('[custom form] +++++ form.js');
 // API / methods to be used externally from forms / scripts
 
 /**
@@ -713,118 +712,140 @@ dhis2.de.clearEntryForm = function()
 dhis2.de.loadForm = function()
 {
     var dataSetId = dhis2.de.currentDataSetId;
-    console.log('[custom form] dhis2.de.loadForm', dataSetId)
+    console.log(`[custom-forms] dhis2.de.loadForm - dataSetId: "${dataSetId}"`)
 	
-	dhis2.de.currentOrganisationUnitId = selection.getSelected()[0];
+    $( "#tabs" ).tabs({
+        activate: function(){
+            // ToDo(custom-forms): need to find sample forms to test these
+            //populate section row/column totals
+            dhis2.de.populateRowTotals();
+            dhis2.de.populateColumnTotals();
+        }
+    });
 
-    if ( !dhis2.de.multiOrganisationUnit  )
-    {
-        console.log('[custom form] !dhis2.de.multiOrganisationUnit')
-        dhis2.de.storageManager.formExists( dataSetId ).done( function( value ) 
-        {           
-	    	if ( value ) 
-	    	{
-	            console.log( 'Loading form locally: ' + dataSetId );
+	// dhis2.de.currentOrganisationUnitId = selection.getSelected()[0];
+    console.log('[custom-forms] dhis2.de.currentOrganisationUnitId', dhis2.de.currentOrganisationUnitId)
+    console.log('[custom-forms] dhis2.de.currentDataSetId', dhis2.de.currentDataSetId)
+    $( document ).trigger( dhis2.de.event.formLoaded, dhis2.de.currentDataSetId );
+
+    loadDataValues();
+    var table = $( '.sectionTable' );
+    table.floatThead({
+        position: 'absolute',
+        top: 44,
+        zIndex: 9
+    });
+    
+    
+
+    // if ( !dhis2.de.multiOrganisationUnit  )
+    // {
+    //     dhis2.de.storageManager.formExists( dataSetId ).done( function( value ) 
+    //     {           
+    //         console.log('[custom-forms] dhis2.de.storageManager DONE', value)
+	//     	if ( value ) 
+	//     	{
+	//             console.log( 'Loading form locally: ' + dataSetId );
 	
-	            dhis2.de.storageManager.getForm( dataSetId ).done( function( html ) 
-	            {
-	                $( '#contentDiv' ).html( html );
+	//             dhis2.de.storageManager.getForm( dataSetId ).done( function( html ) 
+	//             {
+	//                 $( '#contentDiv' ).html( html );
 
-	                if ( dhis2.de.dataSets[dataSetId].renderAsTabs )
-	                {
-	                    $( "#tabs" ).tabs({
-							activate: function(){
-								//populate section row/column totals
-								dhis2.de.populateRowTotals();
-								dhis2.de.populateColumnTotals();
-							}
-						});
-	                }
+	//                 if ( dhis2.de.dataSets[dataSetId].renderAsTabs )
+	//                 {
+	//                     $( "#tabs" ).tabs({
+	// 						activate: function(){
+	// 							//populate section row/column totals
+	// 							dhis2.de.populateRowTotals();
+	// 							dhis2.de.populateColumnTotals();
+	// 						}
+	// 					});
+	//                 }
 
-	                dhis2.de.enableSectionFilter();	               
-	                $( document ).trigger( dhis2.de.event.formLoaded, dhis2.de.currentDataSetId );
+	//                 dhis2.de.enableSectionFilter();	               
+	//                 $( document ).trigger( dhis2.de.event.formLoaded, dhis2.de.currentDataSetId );
 
-	                loadDataValues();
-                    var table = $( '.sectionTable' );
-                    table.floatThead({
-                        position: 'absolute',
-                        top: 44,
-                        zIndex: 9
-                    });
+	//                 loadDataValues();
+    //                 var table = $( '.sectionTable' );
+    //                 table.floatThead({
+    //                     position: 'absolute',
+    //                     top: 44,
+    //                     zIndex: 9
+    //                 });
 
 
 
-                  dhis2.de.insertOptionSets();
-                  dhis2.de.enableDEDescriptionEvent();
+    //               dhis2.de.insertOptionSets();
+    //               dhis2.de.enableDEDescriptionEvent();
 
-	            } );
-	        } 
-	    	else {
-                dhis2.de.storageManager.formExistsRemotely( dataSetId ).done( function( value ) {
-                    console.log( 'Loading form remotely: ' + dataSetId );
+	//             } );
+	//         } 
+	//     	else {
+    //             dhis2.de.storageManager.formExistsRemotely( dataSetId ).done( function( value ) {
+    //                 console.log( 'Loading form remotely: ' + dataSetId );
 
-       	            dhis2.de.storageManager.getForm( dataSetId ).done( function( html )
-       	            {
-       	                $( '#contentDiv' ).html( html );
+    //    	            dhis2.de.storageManager.getForm( dataSetId ).done( function( html )
+    //    	            {
+    //    	                $( '#contentDiv' ).html( html );
 
-       	                if ( dhis2.de.dataSets[dataSetId].renderAsTabs )
-       	                {
-       	                    $( "#tabs" ).tabs({
-								activate: function(){
-									//populate section row/column totals
-									dhis2.de.populateRowTotals();
-									dhis2.de.populateColumnTotals();
-								}
-							});
-       	                }
+    //    	                if ( dhis2.de.dataSets[dataSetId].renderAsTabs )
+    //    	                {
+    //    	                    $( "#tabs" ).tabs({
+	// 							activate: function(){
+	// 								//populate section row/column totals
+	// 								dhis2.de.populateRowTotals();
+	// 								dhis2.de.populateColumnTotals();
+	// 							}
+	// 						});
+    //    	                }
 
-       	                dhis2.de.enableSectionFilter();
-       	                $( document ).trigger( dhis2.de.event.formLoaded, dhis2.de.currentDataSetId );
+    //    	                dhis2.de.enableSectionFilter();
+    //    	                $( document ).trigger( dhis2.de.event.formLoaded, dhis2.de.currentDataSetId );
 
-       	                loadDataValues();
-       	                dhis2.de.insertOptionSets();
-                        dhis2.de.enableDEDescriptionEvent();
-       	            } );
-                });
-            }
-        } );
-    }
-    else
-    {
-        console.log( '[custom form] Loading form remotely: ' + dataSetId );
+    //    	                loadDataValues();
+    //    	                dhis2.de.insertOptionSets();
+    //                     dhis2.de.enableDEDescriptionEvent();
+    //    	            } );
+    //             });
+    //         }
+    //     } );
+    // }
+    // else
+    // {
+    //     console.log( '[custom-forms] Loading form remotely: ' + dataSetId );
 
-        $( '#contentDiv' ).load( 'loadForm.action', 
-        {
-            dataSetId : dataSetId,
-            multiOrganisationUnit: dhis2.de.multiOrganisationUnit ? dhis2.de.getCurrentOrganisationUnit() : ''
-        }, 
-        function() 
-        {
-            if ( !dhis2.de.multiOrganisationUnit )
-            {
-                if ( dhis2.de.dataSets[dataSetId].renderAsTabs ) 
-                {
-                    $( "#tabs" ).tabs({
-						activate: function(){
-							//populate section row/column totals
-							dhis2.de.populateRowTotals();
-							dhis2.de.populateColumnTotals();
-						}
-					});
-                }
+    //     $( '#contentDiv' ).load( 'loadForm.action', 
+    //     {
+    //         dataSetId : dataSetId,
+    //         multiOrganisationUnit: dhis2.de.multiOrganisationUnit ? dhis2.de.getCurrentOrganisationUnit() : ''
+    //     }, 
+    //     function() 
+    //     {
+    //         if ( !dhis2.de.multiOrganisationUnit )
+    //         {
+    //             if ( dhis2.de.dataSets[dataSetId].renderAsTabs ) 
+    //             {
+    //                 $( "#tabs" ).tabs({
+	// 					activate: function(){
+	// 						//populate section row/column totals
+	// 						dhis2.de.populateRowTotals();
+	// 						dhis2.de.populateColumnTotals();
+	// 					}
+	// 				});
+    //             }
 
-                dhis2.de.enableSectionFilter();
-            }
-            else
-            {
-                $( '#currentOrganisationUnit' ).html( i18n_no_organisationunit_selected );
-            }
+    //             dhis2.de.enableSectionFilter();
+    //         }
+    //         else
+    //         {
+    //             $( '#currentOrganisationUnit' ).html( i18n_no_organisationunit_selected );
+    //         }
 
-            dhis2.de.insertOptionSets();
+    //         dhis2.de.insertOptionSets();
 
-            loadDataValues();
-        } );
-    }
+    //         loadDataValues();
+    //     } );
+    // }
 }
 
 //------------------------------------------------------------------------------
@@ -1317,8 +1338,8 @@ function dataSetSelected()
     }
     else
     {
-        $( '#selectedPeriodId').val( "" );
-        $( '#selectedPeriodId' ).attr( 'disabled', 'disabled' );
+        // $( '#selectedPeriodId').val( "" );
+        // $( '#selectedPeriodId' ).attr( 'disabled', 'disabled' );
         $( '#prevButton' ).attr( 'disabled', 'disabled' );
         $( '#nextButton' ).attr( 'disabled', 'disabled' );
 
@@ -1703,12 +1724,12 @@ dhis2.de.inputSelected = function()
 
 function loadDataValues()
 {
-    console.log('[custom forms]: loadDataValues')
+    console.log('[custom-forms]: loadDataValues')
     $( '#completeButton' ).removeAttr( 'disabled' );
     $( '#undoButton' ).attr( 'disabled', 'disabled' );
     $( '#infoDiv' ).css( 'display', 'none' );
 
-    dhis2.de.currentOrganisationUnitId = selection.getSelected()[0];
+    // dhis2.de.currentOrganisationUnitId = selection.getSelected()[0];
 
     getAndInsertDataValues();
     displayEntryFormCompleted();
@@ -1722,7 +1743,8 @@ function clearFileEntryFields() {
     $fields.find( '.upload-field' ).css( 'background-color', dhis2.de.cst.colorWhite );
     $fields.find( 'input' ).val( '' );
     
-    $('.select2-container').select2("val", "");
+    // ToDo: do we want to include select2? https://select2.org/ 
+    // $('.select2-container').select2("val", "");
 }
 
 function getAndInsertDataValues()
@@ -1731,7 +1753,8 @@ function getAndInsertDataValues()
     var dataSetId = $( '#selectedDataSetId' ).val();
 
     // Clear existing values and colors, grey disabled fields
-
+    console.log(`[custom-forms](getAndInsertDataValues) periodId "${periodId}" | dataSetId "${dataSetId}"`)
+    
     $( '.entryfield' ).val( '' );
     $( '.entrytime' ).val( '' );
     $( '.entryselect' ).each( function()
@@ -1751,17 +1774,17 @@ function getAndInsertDataValues()
 
     clearFileEntryFields();
 
-
     $( '[name="min"]' ).html( '' );
     $( '[name="max"]' ).html( '' );
 
     $( '.entryfield' ).filter( ':disabled' ).css( 'background-color', dhis2.de.cst.colorGrey );
 
     var params = {
-		periodId : periodId,
-        dataSetId : dataSetId,
-        organisationUnitId : dhis2.de.getCurrentOrganisationUnit(),
-        multiOrganisationUnit: dhis2.de.multiOrganisationUnit
+		pe : periodId,
+        ds : dataSetId,
+        // dataElementId: dataElementId,
+        ou : dhis2.de.getCurrentOrganisationUnit(),
+        // multiOrganisationUnit: dhis2.de.multiOrganisationUnit
     };
 
     var cc = dhis2.de.getCurrentCategoryCombo();
@@ -1774,7 +1797,7 @@ function getAndInsertDataValues()
     }
     
     $.ajax( {
-    	url: 'getDataValues.action',
+    	url: '/api/dataEntry/dataValues',
     	data: params,
 	    dataType: 'json',
 	    error: function() // offline
@@ -1783,7 +1806,6 @@ function getAndInsertDataValues()
 	    	$( '#infoDiv' ).hide();
 	    	
 	    	var json = getOfflineDataValueJson( params );
-
 	    	insertDataValues( json );
 	    },
 	    success: function( json ) // online
@@ -1847,34 +1869,34 @@ function insertDataValues( json )
         periodLocked = moment().add( serverTimeDelta, 'ms' ).isAfter( maxDate );
     }
 
-    var lockExceptionId = dhis2.de.currentOrganisationUnitId + "-" + dhis2.de.currentDataSetId + "-" + period.iso;
+    // var lockExceptionId = dhis2.de.currentOrganisationUnitId + "-" + dhis2.de.currentDataSetId + "-" + period.iso;
 
-    periodLocked = periodLocked && dhis2.de.lockExceptions.indexOf( lockExceptionId ) == -1;
+    // periodLocked = periodLocked && dhis2.de.lockExceptions.indexOf( lockExceptionId ) == -1;
 
-    if ( json.locked !== 'OPEN' || dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 || periodLocked )
-	{
-		dhis2.de.lockForm();
+    // if ( json.locked !== 'OPEN' || dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 || periodLocked )
+	// {
+	// 	dhis2.de.lockForm();
 
-		if ( periodLocked ) {
-			setHeaderDelayMessage( i18n_dataset_is_concluded );
-		} else if ( dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 ) {
-			setHeaderDelayMessage( i18n_dataset_is_closed );
-		} else if ( json.locked === 'APPROVED' ) {
-			setHeaderDelayMessage( i18n_dataset_is_approved );
-		} else {
-			setHeaderDelayMessage( i18n_dataset_is_locked );
-		}
+	// 	if ( periodLocked ) {
+	// 		setHeaderDelayMessage( i18n_dataset_is_concluded );
+	// 	} else if ( dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 ) {
+	// 		setHeaderDelayMessage( i18n_dataset_is_closed );
+	// 	} else if ( json.locked === 'APPROVED' ) {
+	// 		setHeaderDelayMessage( i18n_dataset_is_approved );
+	// 	} else {
+	// 		setHeaderDelayMessage( i18n_dataset_is_locked );
+	// 	}
 
-	}
-	else
-	{
-        $( '#contentDiv input' ).removeAttr( 'readonly' );
-        $( '#contentDiv textarea' ).removeAttr( 'readonly' );
-		$( '#completenessDiv' ).show();
-	}
+	// }
+	// else
+	// {
+    //     $( '#contentDiv input' ).removeAttr( 'readonly' );
+    //     $( '#contentDiv textarea' ).removeAttr( 'readonly' );
+	// 	$( '#completenessDiv' ).show();
+	// }
 
-    // Set the data-disabled attribute on any file upload fields
-    $( '#contentDiv .entryfileresource' ).data( 'disabled', json.locked !== 'OPEN' );
+    // // Set the data-disabled attribute on any file upload fields
+    // $( '#contentDiv .entryfileresource' ).data( 'disabled', json.locked !== 'OPEN' );
 
     // Set data values, works for selects too as data value=select value    
     if ( !dhis2.de.multiOrganisationUnit  )
@@ -1912,15 +1934,21 @@ function insertDataValues( json )
 		}
 
     }
-    
     $.safeEach( json.dataValues, function( i, value )
     {
-        var fieldId = '#' + value.id + '-val';
-        var commentId = '#' + value.id + '-comment';
+        /**
+         * [custom-forms]
+         * some workarounds here to be able to work with the formats returned from the legacy '/dhis-web-dataentry/getDataValues.action'
+         * as well as '/api/dataEntry/dataValues'
+         */
+        var id = value.id ?? (value.dataElement + '-' + value.categoryOptionCombo)
+        var fieldId = '#' + id + '-val';
+        var commentId = '#' + id + '-comment';
+        var valueToShow = value.val ?? value.value
         if ( $( fieldId ).length > 0 ) // Set values
         {
             var entryField = $( fieldId );
-            if ( 'true' == value.val && ( entryField.attr( 'name' ) == 'entrytrueonly' || entryField.hasClass( "entrytrueonly" ) ) )
+            if ( 'true' == valueToShow && ( entryField.attr( 'name' ) == 'entrytrueonly' || entryField.hasClass( "entrytrueonly" ) ) )
             {
               $( fieldId ).prop( 'checked', true );
             }
@@ -1932,12 +1960,12 @@ function insertDataValues( json )
             {                
                 var fId = fieldId.substring(1, fieldId.length);
     
-                if( value.val == 'true' )
+                if( valueToShow == 'true' )
                 {
                   $('input[id=' + fId + ']:nth(0)').prop( 'checked', true );
                   $('input[id=' + fId + ']:nth(0)').addClass( 'checked' );
                 }
-                else if ( value.val == 'false')
+                else if ( valueToShow == 'false')
                 {
                   $('input[id=' + fId + ']:nth(1)').prop( 'checked', true );
                   $('input[id=' + fId + ']:nth(1)').addClass( 'checked' );
@@ -2002,7 +2030,7 @@ function insertDataValues( json )
             }
             else 
             {                
-                $( fieldId ).val( value.val );
+                $( fieldId ).val( valueToShow );
             }
         }
         
@@ -2020,7 +2048,8 @@ function insertDataValues( json )
         
         dataValueMap[value.id] = value.val;
 
-        dhis2.period.picker.updateDate(fieldId);
+        // ToDO: what is this????
+        // dhis2.period.picker.updateDate(fieldId);
         
     } );
 
@@ -2085,7 +2114,7 @@ function displayEntryFormCompleted()
     $( '#validateButton' ).removeAttr( 'disabled' );
 
     dhis2.de.dataEntryFormIsLoaded = true;
-    hideLoader();
+    // hideLoader();
     
     $( document ).trigger( dhis2.de.event.formReady, dhis2.de.currentDataSetId );
 }
@@ -3753,7 +3782,7 @@ dhis2.de.autocompleteOptionSetField = function( idField, optionSetUid )
 dhis2.de.getSelectedPeriod = function()
 {
     
-    var periodId = $( '#selectedPeriodId').val();
+    var periodId = dhis2.de.currentPeriodId // $( '#selectedPeriodId').val();
     
     var period = null;
     
