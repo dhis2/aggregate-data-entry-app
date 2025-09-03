@@ -28,7 +28,11 @@ export default function SectionFilterSelectorBarItem() {
 
     useEffect(() => {
         const sections = dataSet?.sections
-        if (sectionFilter === undefined && sections?.length) {
+        if (
+            dataSet?.renderAsTabs &&
+            sectionFilter === undefined &&
+            sections?.length
+        ) {
             setSectionFilter(sections[0].id)
         }
         // clear out section if it is invalid
@@ -54,7 +58,7 @@ export default function SectionFilterSelectorBarItem() {
 
     const selectableOptions = dataSet?.renderAsTabs
         ? sectionOptions
-        : [...sectionOptions, { value: null, label: i18n.t('All sections') }]
+        : [{ value: null, label: i18n.t('All sections') }, ...sectionOptions]
 
     return (
         <div data-test="section-filter-selector">
@@ -67,7 +71,7 @@ export default function SectionFilterSelectorBarItem() {
             >
                 <MenuSelect
                     values={selectableOptions}
-                    selected={sectionFilter}
+                    selected={sectionFilter ?? null}
                     onChange={({ selected }) => {
                         setSectionFilter(selected)
                         setOpen(false)
