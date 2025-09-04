@@ -10,8 +10,6 @@ import {
     useMetadata,
     useValueStore,
 } from '../../shared/index.js'
-import styles from './custom-form.module.css'
-import { parseHtmlToReact } from './parse-html-to-react.jsx'
 
 /**
  * This implementation of custom forms only supports custom

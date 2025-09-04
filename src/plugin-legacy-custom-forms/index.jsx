@@ -5,7 +5,7 @@ import getCustomFormShim from './custom-form-shim.js'
 import externalCSS from './external-css.js'
 import externalScripts from './external-scripts.js'
 
-const CustomFormPlugin = (props) => {
+const LegacyCustomFormPlugin = (props) => {
     /* 
     This is what get passed from data-entry app and effectively the contract for custom form plugins (legacy or not)
     */
@@ -95,11 +95,12 @@ const CustomFormPlugin = (props) => {
         // ! - expose a loading function
         // ! - update form.js
         // !         - calls to legacy API `x.action`
-        // ! - other operations: completing, validation, printing
+        // ! - other operations: offline, completing, validation, printing
+        // ! - support date fields (and other field types)
         // ! ✅ show error messages with useAlert (proxy setHeaderDelayMessage to useAlert)
-        // ! ✅ inline CSS not working
-        // ! ✅ requests to relative pat: '../api/data....' (handled with jQuery AJAX override)
-        // ! ✅custom tabs: a lot of custom tabs with jquery plugins: $( "#tabs" ).tabs();
+        // ! ✅ support inline CSS
+        // ! ✅ API requests to relative path: '../api/data....' (handled with jQuery AJAX override)
+        // ! ✅ Support custom tabs: a lot of custom tabs with jquery plugins: $( "#tabs" ).tabs();
         // ! ✅ dhis2.de.currentOrganisationUnitId;
         // ! ✅ jquery UI: floatThead, tabs,
         // ? - other global JS:
@@ -149,7 +150,7 @@ const CustomFormPlugin = (props) => {
     )
 }
 
-CustomFormPlugin.propTypes = {
+LegacyCustomFormPlugin.propTypes = {
     dataSetId: PropTypes.string.isRequired,
     htmlCode: PropTypes.string.isRequired,
     orgUnitId: PropTypes.string.isRequired,
@@ -158,4 +159,4 @@ CustomFormPlugin.propTypes = {
     initialValues: PropTypes.shape({}),
     metadata: PropTypes.object,
 }
-export default CustomFormPlugin
+export default LegacyCustomFormPlugin
