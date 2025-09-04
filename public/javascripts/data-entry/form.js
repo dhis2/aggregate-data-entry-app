@@ -526,7 +526,7 @@ dhis2.de.uploadLocalData = function()
 
 dhis2.de.addEventListeners = function()
 {
-    $( '.entryfield, .entrytime' ).each( function( i )
+    $( '.entryfield, .entrytime, [name="entryfield"]' ).each( function( i )
     {
         var id = $( this ).attr( 'id' );
         var isTimeField = $( this ).hasClass('entrytime');
@@ -1109,6 +1109,7 @@ function organisationUnitSelected( orgUnits, orgUnitNames, children )
 
             if ( dhis2.de.inputSelected() && dhis2.de.dataEntryFormIsLoaded ) {
                 dhis2.de.resetSectionFilters();
+                console.log('--- loader')
                 showLoader();
                 loadDataValues();
             }
@@ -1325,6 +1326,7 @@ function dataSetSelected()
 
         if ( dhis2.de.inputSelected() && previousSelectionValid )
         {
+            console.log('--- loader')
             showLoader();
             dhis2.de.loadForm();
         }
@@ -1365,6 +1367,7 @@ function periodSelected()
     
     if ( dhis2.de.inputSelected() )
     {    	
+        console.log('--- loader')
         showLoader();
 
         if ( dhis2.de.dataEntryFormIsLoaded )
@@ -1684,6 +1687,7 @@ dhis2.de.clearAttributes = function()
 dhis2.de.attributeSelected = function( categoryId )
 {
 	if ( dhis2.de.inputSelected() ) {    	
+        console.log('--- loader')
         showLoader();
 
         if ( dhis2.de.dataEntryFormIsLoaded ) {
@@ -2133,14 +2137,15 @@ function valueFocus( e )
     var dataElementName = getDataElementName( dataElementId );
     var optionComboName = getOptionComboName( optionComboId );
     var organisationUnitName;
-    if ( dhis2.de.multiOrganisationUnit ) {
-        organisationUnitName = organisationUnitList.filter( ou=>ou.uid === dhis2.de.getCurrentOrganisationUnit() )[0].n;
-    } else {
-        organisationUnitName = organisationUnits[dhis2.de.getCurrentOrganisationUnit()].n;
-    }
+    // ToDo(custom-forms): do we need this logic?
+    // if ( dhis2.de.multiOrganisationUnit ) {
+    //     organisationUnitName = organisationUnitList.filter( ou=>ou.uid === dhis2.de.getCurrentOrganisationUnit() )[0].n;
+    // } else {
+    //     organisationUnitName = organisationUnits[dhis2.de.getCurrentOrganisationUnit()].n;
+    // }
 
-    $( '#currentOrganisationUnit' ).html( organisationUnitName );
-    $( '#currentDataElement' ).html( dataElementName + ' ' + optionComboName );
+    // $( '#currentOrganisationUnit' ).html( organisationUnitName );
+    // $( '#currentDataElement' ).html( dataElementName + ' ' + optionComboName );
 
     $( '#' + dataElementId + '-cell' ).addClass( 'currentRow' );
 }

@@ -395,10 +395,10 @@ function ValueSaver( de, pe, co, ds, value, fieldId, resultColor )
     	dhis2.de.storageManager.saveDataValue( dataValue );
 
         $.ajax( {
-            url: '../api/dataValues',
-            beforeSend: function( xhr ) {
-              xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
-            },
+            url: '/api/dataValues',
+            // beforeSend: function( xhr ) {
+            //   xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
+            // },
             data: dataValue,
             type: 'post',
             success: handleSuccess,
@@ -422,6 +422,7 @@ function ValueSaver( de, pe, co, ds, value, fieldId, resultColor )
 
     function handleError( xhr, textStatus, errorThrown )
     {
+        console.log(xhr, textStatus)
     	if ( 403 == xhr.status || 409 == xhr.status || 500 == xhr.status ) // Invalid value or locked
     	{
     		markValue( fieldId, dhis2.de.cst.colorRed );
