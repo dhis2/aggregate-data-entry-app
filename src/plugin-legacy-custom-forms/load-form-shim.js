@@ -4,11 +4,11 @@
 ! these contracts are either global JS objects, for example under de.dataSets and other objects exposed mostly in form.js 
 ! or other implicit contract like HTML elements that custom forms used to get some values (i.e. #selectedPeriodId)
 */
-const getCustomFormShim = ({
+
+const loadCustomFormShim = ({
     periodId,
     dataSetId,
     baseUrl,
-    originalFormScripts,
     metadata,
     orgUnitId,
     hideAlert,
@@ -18,7 +18,7 @@ const getCustomFormShim = ({
     // ToDo: is getting period from selectedPeriodId a common enough pattern to have a workaround?
     const periodInput = document.createElement('input')
     periodInput.id = 'selectedPeriodId'
-    periodInput.value = periodId // periodId from plugin wrapper
+    periodInput.value = periodId
     periodInput.hidden = true
 
     const dataSetInput = document.createElement('input')
@@ -28,8 +28,8 @@ const getCustomFormShim = ({
 
     document.body.append(periodInput, dataSetInput)
 
-    // Todo: fake Selection API as well? so that things like this work: dhis2.de.currentOrganisationUnitId = selection.getSelected()[0]
-    // the organisation unit was typically retrieved from  selection.getSelected()[0]; based on OUWT.js
+    // ! the organisation unit was typically retrieved from  selection.getSelected()[0]; based on OUWT.js
+    // Todo: fake Selection API (https://developer.mozilla.org/en-US/docs/Web/API/Selection) as well? so that code like this works: dhis2.de.currentOrganisationUnitId = selection.getSelected()[0]
     window.dhis2.de.currentOrganisationUnitId = orgUnitId
     window.dhis2.de.currentDataSetId = dataSetId
     window.dhis2.de.currentPeriodId = periodId // ! doesn't exist in original object but seems reasonable to provide
@@ -38,7 +38,7 @@ const getCustomFormShim = ({
     for (const [key, value] of Object.entries(metadata.dataSets)) {
         dataSetsForForm[key] = {
             ...value,
-            //? custom forms expect periodId - do we update the forms, or update the object (and where do we stop with these shims)?
+            //? custom forms expect periodId - do we update the forms, or update the object (and where do we stop with these shims!)?
             periodId: value?.period,
         }
     }
@@ -83,10 +83,6 @@ const getCustomFormShim = ({
     window.setHeaderDelayMessage = (message) => {
         showAlert({ message })
     }
-    // * appending the scripts that are part of the custom form at the end (after jQuery and dhis2 utils are loaded)
-    // ToDo: find a better way to control the order of loading scripts
-    document.body.append(...originalFormScripts)
-    window.dhis2?.de?.loadForm()
 }
 
-export default getCustomFormShim
+export default loadCustomFormShim

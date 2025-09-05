@@ -1,9 +1,41 @@
 import { useAlert, useConfig } from '@dhis2/app-runtime'
 import PropTypes from 'prop-types'
-import React, { useEffect, useMemo } from 'react'
-import getCustomFormShim from './custom-form-shim.js'
-import externalCSS from './external-css.js'
-import externalScripts from './external-scripts.js'
+import React, { useEffect } from 'react'
+import getBaseExternalFiles from './get-base-external-files.js'
+import loadCustomFormShim from './load-form-shim.js'
+import parseFormContent from './parse-form-content.js'
+
+/* 
+! Other todos/notes:
+- [x] The core: load all JS files defined in the old Struts app, and a shim for commonly used global properties and functions (**ongoing**)
+- [x]  support `dhis2.de.currentOrganisationUnitId` and other properties available in `dhis2.de`
+- [ ] expose a spinner/loader - _the idea was to use the loader from the new data-entry app, but this is technically difficult as it causes a re-render of the form. Likely we will just support whatever loader the custom form had in the code (i.e. jQuery UI)_
+- [ ] update all the `form.js` that are deprecated (i.e. all the calls to `.action` struts routes) (**ongoing**)  
+    - [ ] update calls to legacy API `x.action`
+    - [ ] jQuery.getJSON( '../dhis-web-commons-ajax-json/getCategoryOptionCombos.action', {
+- [ ] other operations: offline, completing, validation, printing
+- [ ] support date fields (and other field types)
+- [x]  show error messages with useAlert (proxy setHeaderDelayMessage to useAlert)
+- [x]  support inline CSS
+- [x]  API requests to relative path: '../api/data....' (handled with jQuery AJAX override)
+- [x]  Support custom tabs: a lot of custom tabs with jquery plugins: $( "#tabs" ).tabs();
+- [x]  jquery UI: floatThead, tabs,
+- [ ] decide what to bring over from the old Struts `/src/main/webapp/dhis-web-commons/javascripts/commons.js`
+    - [ ] show/hide loader
+- [ ] ensure events events:  dhis2.util.on(dhis2.de.event.formReady", dhis2.de.event.dataValuesLoaded, dhis2.de.event.dataValueSaved, dhis2.de.event.completed
+- [ ] Other implicit contracts: IDs to data elements, `$('#morb')` `$('#mort')`??, window.location.pathname.indexOf("dataentry")
+- [ ] _Possible_  future optimisations: 
+- [ ] concatenate all JS for faster loading
+- [ ] maybe make loading some JS files optional (through dataStore seting?)
+    - [ ] Provide a guide (script?) to replace jQuery operations as they're mostly redundant in modern browsers now 
+- [ ] ensure the external scripts are cached on production (or reused by the plugin) etc...
+ 
+! ToDos for new custom forms
+- interface for selecting items, similar to: document.querySelector("#hiTm0oSRRRi-HoIsxzhEmia-val");
+
+*/
+
+const { externalCSS, externalScripts } = getBaseExternalFiles()
 
 const LegacyCustomFormPlugin = (props) => {
     /* 
@@ -20,109 +52,64 @@ const LegacyCustomFormPlugin = (props) => {
         orgUnitId,
     } = props
 
-    console.log('[custom-forms] Plugin starting (plugin-wrapper.jsx)')
+    console.log('[custom-forms] 🏁 Legacy Custom Form Plugin starting 🏁')
 
     const config = useConfig()
 
-    // Load the htmlCode into a doc to allow manipulating it
+    // * Load the htmlCode into a doc to allow manipulating it
     const doc = new DOMParser().parseFromString(htmlCode, 'text/html')
-    const scriptsFromFrom = doc.getElementsByTagName('script')
-    const stylesFromForm = doc.getElementsByTagName('style')
+    const parsedContent = parseFormContent(doc)
 
-    const originalFormScripts = useMemo(() => {
-        const scriptsList = []
-        Array.from(scriptsFromFrom).forEach((script) => {
-            // * removing the scripts from the form HTML, keeping them in a copy that gets appended at the end
-            // * after all base JS is loaded (jQuery etc..)
-            const scriptCopy = document.createElement('script')
-            scriptCopy.textContent = script.textContent
-            scriptCopy.async = false
-            scriptsList.push(scriptCopy)
-            script.remove()
-        })
-        return scriptsList
-    }, [scriptsFromFrom])
+    // * Extracting the form's HTML, JS scripts and CSS
+    // The HTML would end up set as the plugin content as it is
+    // The JS and CSS are manipulated first to ensure they're loaded after the base styles and scripts (the ones that were part of  the Struts templates in DHIS2 pre-41 by default)
+    const formHtml = doc.body.innerHTML
+    const formScripts = parsedContent.scripts
+    const formStyles = parsedContent.styles
 
+    // * The shim will proxy the legacy setHeaderDelayMessage that was used to show alerts to the modern AlertBar stack 
     const { show: showAlert, hide: hideAlert } = useAlert(
         ({ message }) => message,
         { warning: true }
     )
 
     useEffect(() => {
-        if (!htmlCode) {
+        if (!htmlCode || !formStyles || !formScripts) {
             return
         }
 
-        const scriptsToAdd = externalScripts.map((scriptFile) => {
-            const script = document.createElement('script')
-            script.src = scriptFile
-            // * making sure that the script are sync to avoid race conditions and to copy the loading behaviour of the struts templates
-            script.async = false
-            return script
-        })
-
+        // ! Order matters
+        // 1. load external JS first (jquery etc..)
+        // 2. Append external CSS (jQuery UI, old data-entry styles etc..)
+        // 3. Append inline styles that comes from the form itself
+        // 4. Load the shim
+        // 5. Load JS scripts from the form itself
+        document.body.append(...externalScripts)
         const head = document.getElementsByTagName('head')[0]
+        head.append(...externalCSS, ...formStyles)
 
-        externalCSS.forEach((cssFile) => {
-            // ? what other CSS files we should include? the base CSS from old Struts - would people expect the look to be similar to the old version
-            const style = document.createElement('link')
-            style.href = cssFile
-            style.type = 'text/css'
-            style.rel = 'stylesheet'
-            head.append(style)
-        })
-
-        document.body.append(...scriptsToAdd)
-        document.body.append(...stylesFromForm)
-
-        const shim = () =>
-            getCustomFormShim({
+        // ! loading the shim needs to be delayed in order to ensure that the base scripts (jquery et al.) are loaded first.
+        // * That order was implicit in the old Struts app, but it's not easy to guarantee in the React realm
+        // ToDo: research a better less-hacky way to control the order of loading external scripts
+        setTimeout(() => {
+            loadCustomFormShim({
                 periodId,
                 dataSetId,
                 baseUrl: config.baseUrl,
-                originalFormScripts,
+                scripts: formScripts,
                 metadata,
                 orgUnitId,
                 hideAlert,
                 showAlert,
             })
 
-        // * loading these values needs to be delayed in order to ensure that the base scripts (jquery et al.) are loaded first.
-        // * That order was implicit in the old Struts app, but it's not easy to guarantee in the React realm
-        setTimeout(shim, 1000) // ToDo: research a better less-hacky way to control the order of loading external scripts 
+            // * appending the scripts that are part of the custom form at the end
+            // * (after jQuery and dhis2 utils and the shim objects are loaded as they often depend on those)
+            document.body.append(...formScripts)
 
-        // ! Other todos/notes:
-        // ! - expose a loading function
-        // ! - update form.js
-        // !         - calls to legacy API `x.action`
-        // ! - other operations: offline, completing, validation, printing
-        // ! - support date fields (and other field types)
-        // ! ✅ show error messages with useAlert (proxy setHeaderDelayMessage to useAlert)
-        // ! ✅ support inline CSS
-        // ! ✅ API requests to relative path: '../api/data....' (handled with jQuery AJAX override)
-        // ! ✅ Support custom tabs: a lot of custom tabs with jquery plugins: $( "#tabs" ).tabs();
-        // ! ✅ dhis2.de.currentOrganisationUnitId;
-        // ! ✅ jquery UI: floatThead, tabs,
-        // ? - other global JS:
-        // ?    - show/hide loader (/src/main/webapp/dhis-web-commons/javascript    s/commons.js)
-        // ? - events  dhis2.util.on(
-        // ?        dhis2.de.event.formReady",
-        // ?        dhis2.de.event.dataValuesLoaded
-        // ?        dhis2.de.event.dataValueSaved
-        // ?        dhis2.de.event.completed
-        // ? - HTML contracts: IDs to data elements, $('#morb') $('#mort')??, window.location.pathname.indexOf("dataentry")
-        // ? - jQuery.getJSON( '../dhis-web-commons-ajax-json/getCategoryOptionCombos.action', {
-
-        /**
-         * ! for new custom forms
-         * ! - interface for selecting items, similar to: document.querySelector("#hiTm0oSRRRi-HoIsxzhEmia-val");
-         *
-         */
-
-        // ToDo: what cleanup is needed if any
-        // return () => {
-        //     document.body.removeChild(script)
-        // }
+            //! Kick off everything 🚀
+            window.dhis2?.de?.loadForm()
+        }, 1000)
     }, [
         config.baseUrl,
         dataSetId,
@@ -131,10 +118,10 @@ const LegacyCustomFormPlugin = (props) => {
         metadata,
         metadata.dataSets,
         orgUnitId,
-        originalFormScripts,
+        formScripts,
         periodId,
         showAlert,
-        stylesFromForm,
+        formStyles,
     ])
 
     return (
@@ -142,8 +129,9 @@ const LegacyCustomFormPlugin = (props) => {
             <div>
                 <h3>Legacy Custom Form plugin: {dataSet?.displayName}</h3>
                 <div
+                    // ? the parent style in old Struts world - do we keep it?
                     className="cde-NORMAL"
-                    dangerouslySetInnerHTML={{ __html: doc.body.innerHTML }}
+                    dangerouslySetInnerHTML={{ __html: formHtml }}
                 ></div>
             </div>
         </div>
