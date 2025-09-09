@@ -82,7 +82,7 @@ export const CustomForm = ({ dataSet }) => {
         <>
             <Plugin
                 width="100%"
-                pluginSource="/plugin.html"
+                pluginSource="plugin.html"
                 htmlCode={customForm.htmlCode}
                 initialValues={initialDataValues}
                 metadata={metadata}

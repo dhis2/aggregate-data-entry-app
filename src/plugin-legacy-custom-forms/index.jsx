@@ -95,7 +95,7 @@ const LegacyCustomFormPlugin = (props) => {
             loadCustomFormShim({
                 periodId,
                 dataSetId,
-                baseUrl: config.baseUrl,
+                baseUrl: config?.systemInfo?.contextPath,
                 scripts: formScripts,
                 metadata,
                 orgUnitId,
@@ -111,7 +111,7 @@ const LegacyCustomFormPlugin = (props) => {
             window.dhis2?.de?.loadForm()
         }, 1000)
     }, [
-        config.baseUrl,
+        config?.systemInfo?.contextPath,
         dataSetId,
         hideAlert,
         htmlCode,
