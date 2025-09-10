@@ -1,15 +1,14 @@
-
 /**
  * ToDo
  * 1. decide which scripts are necessary and should be bundled
  * 2. (maybe) concatenate the files in a single file (or few files) to simplify order logic and improve performance
  * 3. optimise that these scripts are not re-loaded every time
- * 
+ *
  * What to do with all the date utilities? How common are they - is it easier to migrate to newer patterns
- *  
+ *
  */
 
-// ! add form and entry.js from core 
+// ! add form and entry.js from core
 const files = [
     'javascripts/jQuery/jquery.min.js',
     'javascripts/jQuery/placeholders.jquery.min.js',
@@ -48,7 +47,7 @@ const files = [
     // 'javascripts/moment/moment-with-langs.min.js',
     // 'select2/select2.min.js',
     'javascripts/floatThead/jquery.floatThead.min.js',
-    
+
     // ? all the calendar and date utilties take up the bulk of space - maybe they can be bundled optionally?
     // jquery calendars
     'javascripts/dhis2/dhis2.period.js',
@@ -66,7 +65,6 @@ const files = [
     'javascripts/dhis2/dhis2.contextmenu.js',
     'javascripts/dhis2/dhis2.appcache.js',
     'javascripts/dhis2/dhis2.translate.js',
-
 
     // form-entry
     // 'javascripts/ouwt/ouwt.js',

@@ -1087,9 +1087,11 @@
             error: function (returnData) {
                 if (actionError !== undefined) actionError(returnData)
             },
-            beforeSend: function (xhr) {
-                if (loadingStart !== undefined) loadingStart()
-            },
+            //! ToDo: a beforeSend here overrides the one from the shim
+            // beforeSend: function (xhr) {
+            //     if (loadingStart !== undefined) loadingStart()
+
+            // },
         }).always(function (data) {
             if (loadingEnd !== undefined) loadingEnd()
         })
@@ -1142,10 +1144,10 @@
         parms,
         callback
     ) {
-        var dhisSiteURL =
-            window.location.href
-                .toString()
-                .replace('/dhis-web-dataentry/index.action', '') + '/'
+        var dhisSiteURL = '/'
+        // window.location.href
+        //     .toString()
+        //     .replace('/dhis-web-dataentry/index.action', '') + '/'
         var queryURL_api = dhisSiteURL + 'api/dataValueSets'
 
         var ouID = dhis2.de.currentOrganisationUnitId
@@ -1186,7 +1188,6 @@
 
         payload.dataValues.push(item)
 
-        debugger
         if (parms.cumCases_incr !== 0 || parms.cumCases_diff !== 0) {
             var url =
                 queryURL_api +
@@ -1318,6 +1319,7 @@
 
     //22/03/2022 - Get current dataValues
     function getAndInsertDataValues() {
+        // showLoader()
         var periodId = $('#selectedPeriodId').val()
         var dataSetId = $('#selectedDataSetId').val()
 
@@ -1357,6 +1359,10 @@
             dataSetId: dataSetId,
             organisationUnitId: dhis2.de.getCurrentOrganisationUnit(),
             multiOrganisationUnit: dhis2.de.multiOrganisationUnit,
+
+            // pe : periodId,
+            // ds : dataSetId,
+            // ou : dhis2.de.getCurrentOrganisationUnit(),
         }
 
         var cc = dhis2.de.getCurrentCategoryCombo()
@@ -1368,7 +1374,8 @@
         }
 
         $.ajax({
-            url: 'getDataValues.action',
+            url: '/dhis-web-dataentry/getDataValues.action',
+            // url: '/dataEntry/dataValues',
             data: params,
             dataType: 'json',
             error: function () // offline
@@ -1381,6 +1388,7 @@
                 insertDataValues(json)
                 //22/03/2022 - Get current dataValues
                 dataValueSetsCur = json
+                // hideLoader()
             },
             success: function (
                 json // online
@@ -1388,6 +1396,7 @@
                 insertDataValues(json)
                 //22/03/2022 - Get current dataValues
                 dataValueSetsCur = json
+                // hideLoader()
             },
             complete: function () {
                 $('.indicator').attr('readonly', 'readonly')
@@ -1410,15 +1419,13 @@
         $('#undoButton').attr('disabled', 'disabled')
         $('#infoDiv').css('display', 'none')
 
-        //showLoader();
-
-        dhis2.de.currentOrganisationUnitId = selection.getSelected()[0]
+        // dhis2.de.currentOrganisationUnitId = selection.getSelected()[0]
         getAndInsertDataValues()
         displayEntryFormCompleted()
         //bug - 02/03/2022 this resolves refresh issue on first selection and org unit switch
         var periodId = $('#selectedPeriodId').val()
         var datasetId = $('#selectedDataSetId').val()
-        var dhisSiteURL = window.location.href
+        var dhisSiteURL = '' // window.location.href
         dhisSiteURL =
             dhisSiteURL.replace('/dhis-web-dataentry/index.action', '') + '/'
         var queryURL_api = dhisSiteURL + 'api/'
@@ -9315,15 +9322,16 @@
                     dataType: 'json',
                     async: false,
                     success: function (data) {
+                        // console.log('[custom-forms] success for period API call', data)
                         if (data.dataValues != undefined) {
                             if (data.dataValues.length > 0) {
                                 dataValueSetsArray.push(data)
                             }
                         }
                     },
-                    error: function () {
-                        'errror in the web api call ' +
-                            console.log(JSON.parse(xhr.responseText))
+                    error: function (xhr) {
+                        ;`errror in the web api call ${queryURL_DataValueSetsQuery}`,
+                            console.log(xhr?.responseText ?? '{}')
                     },
                 })
                 if (dataValueSetsArray.length > 0) {
@@ -9397,7 +9405,6 @@
         dhis2.de.setAttributesMarkup()
 
         if (dhis2.de.inputSelected()) {
-            showLoader()
             if (dhis2.de.dataEntryFormIsLoaded) {
                 loadDataValues()
             } else {

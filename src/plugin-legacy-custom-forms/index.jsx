@@ -67,7 +67,7 @@ const LegacyCustomFormPlugin = (props) => {
     const formScripts = parsedContent.scripts
     const formStyles = parsedContent.styles
 
-    // * The shim will proxy the legacy setHeaderDelayMessage that was used to show alerts to the modern AlertBar stack 
+    // * The shim will proxy the legacy setHeaderDelayMessage that was used to show alerts to the modern AlertBar stack
     const { show: showAlert, hide: hideAlert } = useAlert(
         ({ message }) => message,
         { warning: true }

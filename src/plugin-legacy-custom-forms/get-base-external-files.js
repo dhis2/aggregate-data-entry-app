@@ -10,7 +10,6 @@ const getBaseExternalFiles = () => {
         return script
     })
 
-    
     const cssToAdd = externalCSS.map((cssFile) => {
         // ? what other CSS files we should include? the base CSS from old Struts - would people expect the look to be similar to the old version
         const style = document.createElement('link')
@@ -20,9 +19,8 @@ const getBaseExternalFiles = () => {
         // head.append(style)
         return style
     })
-    
-    return {externalScripts: scriptsToAdd, externalCSS: cssToAdd}
-    
+
+    return { externalScripts: scriptsToAdd, externalCSS: cssToAdd }
 }
 
 export default getBaseExternalFiles

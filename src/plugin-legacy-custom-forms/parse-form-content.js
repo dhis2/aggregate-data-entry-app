@@ -13,7 +13,7 @@ const parseFormContent = (doc) => {
         script.remove()
     })
 
-    return {scripts: scriptsList ?? [], styles: stylesFromForm ?? []}
+    return { scripts: scriptsList ?? [], styles: stylesFromForm ?? [] }
 }
 
 export default parseFormContent
