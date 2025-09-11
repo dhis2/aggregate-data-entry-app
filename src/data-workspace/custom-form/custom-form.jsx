@@ -1,6 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 // eslint-disable-next-line import/no-unresolved
-import { Plugin } from '@dhis2/app-runtime/experimental'
+import { Plugin } from '@dhis2/app-runtime/experimental' // ToDo: find out why /experimental causes lint and jest issues
 import { useMutation } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import React from 'react'

@@ -45,7 +45,7 @@ const LegacyCustomFormPlugin = (props) => {
         htmlCode,
         // initialValues,
         metadata,
-        dataSet,
+        // dataSet,
         // saveValue,
         periodId,
         dataSetId,
@@ -127,7 +127,6 @@ const LegacyCustomFormPlugin = (props) => {
     return (
         <div>
             <div>
-                <h3>Legacy Custom Form plugin: {dataSet?.displayName}</h3>
                 <div
                     // ? the parent style in old Struts world - do we keep it?
                     className="cde-NORMAL"
