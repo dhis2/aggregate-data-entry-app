@@ -1,3 +1,10 @@
+# [101.1.0-alpha.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.2...v101.1.0-alpha.3) (2025-09-11)
+
+
+### Bug Fixes
+
+* fix publishing on pre-release branches ([17caaac](https://github.com/dhis2/aggregate-data-entry-app/commit/17caaacc6224da504db915ba148b00a822dc20ef))
+
 # [101.1.0-alpha.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.1...v101.1.0-alpha.2) (2025-09-11)
 
 
