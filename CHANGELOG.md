@@ -1,3 +1,10 @@
+## [101.0.21](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.20...v101.0.21) (2025-09-11)
+
+
+### Bug Fixes
+
+* default to all sections [DHIS2-19909] ([#484](https://github.com/dhis2/aggregate-data-entry-app/issues/484)) ([1acd9cc](https://github.com/dhis2/aggregate-data-entry-app/commit/1acd9cce5e21d21439649ef917a86bcd9d330ffd))
+
 ## [101.0.20](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.19...v101.0.20) (2025-08-14)
 
 
