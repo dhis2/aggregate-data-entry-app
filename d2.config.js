@@ -1,10 +1,11 @@
 /** @type {import('@dhis2/cli-app-scripts').D2Config} */
 const config = {
-    name: 'aggregate-data-entry-custom-forms',
+    id: '4a5b87dc-015c-47db-ae77-f2f42e3bbb5a',
+    name: 'aggregate-data-entry',
     type: 'app',
-    title: 'Data Entry (Legacy Custom Forms beta)',
+    title: 'Data Entry',
     minDHIS2Version: '2.39',
-    coreApp: false,
+    coreApp: true,
     pwa: {
         enabled: true,
         caching: {
