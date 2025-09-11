@@ -1,2 +1,3 @@
 cypress/fixtures/network
 src/locales
+public/legacy-custom-forms
