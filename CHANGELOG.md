@@ -1,3 +1,15 @@
+# [101.1.0-alpha.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.20...v101.1.0-alpha.1) (2025-09-11)
+
+
+### Bug Fixes
+
+* revert d2.config to publish to alpha ([f45b98f](https://github.com/dhis2/aggregate-data-entry-app/commit/f45b98f0424991c9d1276c7a916d8b300369f842))
+
+
+### Features
+
+* **custom-forms:** legacy custom forms plugin base ([#480](https://github.com/dhis2/aggregate-data-entry-app/issues/480)) ([f88867a](https://github.com/dhis2/aggregate-data-entry-app/commit/f88867ac14cf63b8841a523728bca410fc866686))
+
 ## [101.0.20](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.19...v101.0.20) (2025-08-14)
 
 
