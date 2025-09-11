@@ -8,6 +8,7 @@ module.exports = {
     ],
     moduleNameMapper: {
         '\\.css$': 'identity-obj-proxy',
+        'custom-form.jsx': 'identity-obj-proxy',
     },
     transformIgnorePatterns: ['/node_modules/@tanstack/react-query-devtools'],
 }

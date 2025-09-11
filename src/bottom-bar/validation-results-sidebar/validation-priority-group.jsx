@@ -10,7 +10,11 @@ import {
 } from './validation-result-prop-types.js'
 import ValidationRuleExpression from './validation-rule-expression.jsx'
 
-const ValidationPriortyGroup = ({ level, validationViolations = [] }) => {
+const defaultValidationViolations = []
+const ValidationPriortyGroup = ({
+    level,
+    validationViolations = defaultValidationViolations,
+}) => {
     if (validationViolations?.length === 0) {
         return null
     }
