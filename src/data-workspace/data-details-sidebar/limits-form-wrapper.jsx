@@ -1,4 +1,4 @@
-import { composeValidators, hasValue } from '@dhis2/ui-forms'
+import { composeValidators, hasValue } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Form } from 'react-final-form'

@@ -1,4 +1,4 @@
-import { Checkbox } from '@dhis2-ui/checkbox'
+import { Checkbox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Icon } from './icon.jsx'
