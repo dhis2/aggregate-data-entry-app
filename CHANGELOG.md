@@ -1,3 +1,10 @@
+## [101.0.22](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.21...v101.0.22) (2025-09-29)
+
+
+### Bug Fixes
+
+* clean up frontend audit presentation [DHIS2-20126] ([#487](https://github.com/dhis2/aggregate-data-entry-app/issues/487)) ([7427528](https://github.com/dhis2/aggregate-data-entry-app/commit/7427528bc74fc05dffe1fb74bc10d58f96394c53))
+
 ## [101.0.21](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.20...v101.0.21) (2025-09-11)
 
 
