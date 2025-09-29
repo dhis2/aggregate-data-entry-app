@@ -7,7 +7,6 @@ import {
     usePeriodId,
 } from '../../shared/index.js'
 import * as queryKeyFactory from '../query-key-factory.js'
-import processAudits from './process-audits.js'
 
 /**
  * @returns PropTypes.shape({
@@ -17,7 +16,6 @@ import processAudits from './process-audits.js'
  *                 auditType: PropTypes.oneOf(['UPDATE', 'DELETE']).isRequired,
  *                 created: PropTypes.string,
  *                 modifiedBy: PropTypes.string,
- *                 prevValue: PropTypes.string,
  *                 value: PropTypes.string,
  *             })
  *         ),
@@ -56,13 +54,5 @@ export default function useDataValueContext(item, enabled) {
 
     return useQuery(dataValueContextQueryKey, {
         enabled: enabled && online && isValidSelection,
-        select: (data) => {
-            const { audits } = data
-
-            return {
-                ...data,
-                audits: processAudits(audits, item),
-            }
-        },
     })
 }

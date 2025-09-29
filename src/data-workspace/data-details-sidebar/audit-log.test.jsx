@@ -88,7 +88,6 @@ describe('<AuditLog />', () => {
                 auditType: 'UPDATE',
                 created: new Date('2021-02-01').toISOString(),
                 modifiedBy: 'Firstname2 Lastname2',
-                previousValue: '19',
                 value: '21',
             },
             {
@@ -135,6 +134,7 @@ describe('<AuditLog />', () => {
         expect(secondChangeName).toBeInTheDocument()
         const secondChangeValue = within(auditRows[2]).getByText('21', {})
         expect(secondChangeValue).toBeInTheDocument()
+        expect(auditRows[2].textContent).toContain('→21')
 
         const thirdChangeName = within(auditRows[3]).getByText(
             'Firstname3 Lastname3',
@@ -143,10 +143,16 @@ describe('<AuditLog />', () => {
         expect(thirdChangeName).toBeInTheDocument()
         const thirdChangeValue = within(auditRows[3]).getByText('19', {})
         expect(thirdChangeValue).toBeInTheDocument()
+        expect(auditRows[3].textContent).toContain('→19')
 
         // check that note about time zone appears
         expect(
             getByText('audit dates are given in UTC time')
+        ).toBeInTheDocument()
+
+        // check that warning about limited audit history appears
+        expect(
+            getByText('log displays only changes made while audit was enabled')
         ).toBeInTheDocument()
     })
 
@@ -167,7 +173,6 @@ describe('<AuditLog />', () => {
                 auditType: 'UPDATE',
                 created: new Date('2021-02-01').toISOString(),
                 modifiedBy: 'Firstname2 Lastname2',
-                previousValue: '2021-09-10',
                 value: '2021-09-11',
             },
         ]
@@ -241,7 +246,6 @@ describe('<AuditLog />', () => {
                 auditType: 'UPDATE',
                 created: new Date('2021-02-01').toISOString(),
                 modifiedBy: 'Firstname2 Lastname2',
-                previousValue: '2021-09-10',
                 value: '2021-09-11',
             },
         ]
