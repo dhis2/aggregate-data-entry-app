@@ -337,6 +337,7 @@ function saveTrueOnly( dataElementId, optionComboId, fieldId )
     valueSaver.save();
 }
 
+// ToDo(plugin): update to use alert manager?
 /**
  * Supportive method.
  */
@@ -431,7 +432,10 @@ function ValueSaver( de, pe, co, ds, value, fieldId, resultColor )
     	}
     	else if ( 401 == xhr.status )
 	    {
-            markValue( fieldId, resultColor );
+            // ?! (plugin) not sure why this wasn't showing an error - seems wrong to me, and have updated it as it was confusing
+            // markValue( fieldId, resultColor ); 
+            markValue( fieldId, dhis2.de.cst.colorRed );
+            
             dhis2.availability._isLoggedIn = false;
             $(document).trigger("dhis2.online", [ false ]);
 	    }
