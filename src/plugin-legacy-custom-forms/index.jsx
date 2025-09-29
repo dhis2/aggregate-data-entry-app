@@ -50,6 +50,7 @@ const LegacyCustomFormPlugin = (props) => {
         periodId,
         dataSetId,
         orgUnitId,
+        attributeOptionComboSelection,
     } = props
 
     console.log('[custom-forms] 🏁 Legacy Custom Form Plugin starting 🏁')
@@ -95,6 +96,7 @@ const LegacyCustomFormPlugin = (props) => {
             loadCustomFormShim({
                 periodId,
                 dataSetId,
+                attributeOptionComboSelection,
                 baseUrl: config?.systemInfo?.contextPath,
                 scripts: formScripts,
                 metadata,
@@ -122,6 +124,7 @@ const LegacyCustomFormPlugin = (props) => {
         periodId,
         showAlert,
         formStyles,
+        attributeOptionComboSelection,
     ])
 
     return (
@@ -142,6 +145,7 @@ LegacyCustomFormPlugin.propTypes = {
     htmlCode: PropTypes.string.isRequired,
     orgUnitId: PropTypes.string.isRequired,
     periodId: PropTypes.string.isRequired,
+    attributeOptionComboSelection: PropTypes.object,
     dataSet: PropTypes.shape({ displayName: PropTypes.string }),
     initialValues: PropTypes.shape({}),
     metadata: PropTypes.object,

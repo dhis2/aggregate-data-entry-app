@@ -27,7 +27,8 @@ export const CustomForm = ({ dataSet }) => {
 
     const { data: metadata } = useMetadata()
     const engine = useDataEngine()
-    const [{ dataSetId, orgUnitId, periodId }] = useContextSelection()
+    const [{ dataSetId, orgUnitId, periodId, attributeOptionComboSelection }] =
+        useContextSelection()
 
     const mutationClient = useMutation({
         mutationFn: (variables) => {
@@ -91,6 +92,7 @@ export const CustomForm = ({ dataSet }) => {
                 dataSetId={dataSetId}
                 orgUnitId={orgUnitId}
                 periodId={periodId}
+                attributeOptionComboSelection={attributeOptionComboSelection}
             />
             {/* <div className={styles.customForm}>
                 <h2>Existing custom form functionality (for reference)</h2>

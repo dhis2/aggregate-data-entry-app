@@ -8,6 +8,7 @@
 const loadCustomFormShim = ({
     periodId,
     dataSetId,
+    attributeOptionComboSelection,
     baseUrl,
     metadata,
     orgUnitId,
@@ -26,6 +27,16 @@ const loadCustomFormShim = ({
     dataSetInput.value = dataSetId
     dataSetInput.hidden = true
 
+    if (attributeOptionComboSelection) {
+        Object.keys(attributeOptionComboSelection).forEach((selection) => {
+            const aocInput = document.createElement('input')
+            aocInput.id = `category-${selection}`
+            aocInput.value = attributeOptionComboSelection[selection]
+            aocInput.hidden = true
+            document.body.append(aocInput)
+        })
+    }
+
     document.body.append(periodInput, dataSetInput)
 
     // ! the organisation unit was typically retrieved from  selection.getSelected()[0]; based on OUWT.js
@@ -33,6 +44,19 @@ const loadCustomFormShim = ({
     window.dhis2.de.currentOrganisationUnitId = orgUnitId
     window.dhis2.de.currentDataSetId = dataSetId
     window.dhis2.de.currentPeriodId = periodId // ! doesn't exist in original object but seems reasonable to provide
+    window.dhis2.de.defaultCategoryCombo = Object.values(
+        metadata.categoryCombos
+    )?.find?.((co) => co.isDefault)?.id
+    window.dhis2.de.categories = metadata.categories
+    window.dhis2.de.categoryCombos = metadata.categoryCombos
+    window.dhis2.de.dataElements = metadata.dataElements
+    window.dhis2.de.optionSets = metadata.optionSets
+
+    // ?ToDo: these also used to be loaded from metadata in form.js - there is no direct equivalent now, what do we do with them?
+    // dhis2.de.emptyOrganisationUnits = metaData.emptyOrganisationUnits;
+    // dhis2.de.significantZeros = metaData.significantZeros;
+    // dhis2.de.indicatorFormulas = metaData.indicatorFormulas; //? is this the same as indicators?
+    // dhis2.de.lockExceptions = metaData.lockExceptions;
 
     const dataSetsForForm = {}
     for (const [key, value] of Object.entries(metadata.dataSets)) {
@@ -83,6 +107,8 @@ const loadCustomFormShim = ({
     window.setHeaderDelayMessage = (message) => {
         showAlert({ message })
     }
+
+    window.dhis2.shim.metadata = metadata
 }
 
 export default loadCustomFormShim
