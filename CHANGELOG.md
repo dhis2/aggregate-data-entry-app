@@ -1,3 +1,10 @@
+# [101.1.0-alpha.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.3...v101.1.0-alpha.4) (2025-09-30)
+
+
+### Features
+
+* add support for attribute option combos ([fb7a1cb](https://github.com/dhis2/aggregate-data-entry-app/commit/fb7a1cb20a5e324cdd776c8ed95a0d2059321c61))
+
 # [101.1.0-alpha.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.2...v101.1.0-alpha.3) (2025-09-11)
 
 
