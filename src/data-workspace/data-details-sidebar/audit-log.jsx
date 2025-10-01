@@ -180,11 +180,18 @@ AuditLog.propTypes = {
 }
 
 function DeletedValue({ value }) {
+    if (value) {
+        return (
+            <div className={styles.alignToEnd}>
+                <Tag negative className={styles.lineThrough}>
+                    {value}
+                </Tag>
+            </div>
+        )
+    }
     return (
         <div className={styles.alignToEnd}>
-            <Tag negative className={styles.lineThrough}>
-                {value}
-            </Tag>
+            <Tag negative>{i18n.t('Deleted')}</Tag>
         </div>
     )
 }

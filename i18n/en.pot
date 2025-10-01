@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-09-16T12:04:32.693Z\n"
-"PO-Revision-Date: 2025-09-16T12:04:32.694Z\n"
+"POT-Creation-Date: 2025-10-01T10:47:43.465Z\n"
+"PO-Revision-Date: 2025-10-01T10:47:43.465Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -359,6 +359,9 @@ msgstr "audit dates are given in {{- timeZone}} time"
 
 msgid "log displays only changes made while audit was enabled"
 msgstr "log displays only changes made while audit was enabled"
+
+msgid "Deleted"
+msgstr "Deleted"
 
 msgid "Unmark for follow-up"
 msgstr "Unmark for follow-up"

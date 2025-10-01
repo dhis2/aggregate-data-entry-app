@@ -96,6 +96,11 @@ describe('<AuditLog />', () => {
                 modifiedBy: 'Firstname3 Lastname3',
                 value: '19',
             },
+            {
+                auditType: 'DELETE',
+                created: new Date('2021-01-01').toISOString(),
+                modifiedBy: 'Firstname4 Lastname4',
+            },
         ]
 
         const data = { audits }
@@ -144,6 +149,9 @@ describe('<AuditLog />', () => {
         const thirdChangeValue = within(auditRows[3]).getByText('19', {})
         expect(thirdChangeValue).toBeInTheDocument()
         expect(auditRows[3].textContent).toContain('→19')
+
+        // expect a DELETED audit without value to show deleted
+        expect(auditRows[4].textContent).toContain('Deleted')
 
         // check that note about time zone appears
         expect(
