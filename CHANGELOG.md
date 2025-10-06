@@ -1,3 +1,10 @@
+## [101.0.23](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.22...v101.0.23) (2025-10-06)
+
+
+### Bug Fixes
+
+* deleted audit no value ([#489](https://github.com/dhis2/aggregate-data-entry-app/issues/489)) ([97b9858](https://github.com/dhis2/aggregate-data-entry-app/commit/97b9858bc2a9cf901ecd3b25d9be91bfb716576a))
+
 ## [101.0.22](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.21...v101.0.22) (2025-09-29)
 
 
