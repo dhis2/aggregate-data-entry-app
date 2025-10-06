@@ -144,10 +144,6 @@ dhis2.de.event.formLoaded = "dhis2.de.event.formLoaded";
 dhis2.de.event.dataValuesLoaded = "dhis2.de.event.dataValuesLoaded";
 dhis2.de.event.formReady = "dhis2.de.event.formReady";
 dhis2.de.event.dataValueSaved = "dhis2.de.event.dataValueSaved";
-dhis2.de.event.completed = "dhis2.de.event.completed";
-dhis2.de.event.uncompleted = "dhis2.de.event.uncompleted";
-dhis2.de.event.validationSucces = "dhis2.de.event.validationSuccess";
-dhis2.de.event.validationError = "dhis2.de.event.validationError";
 
 /**
  * Convenience method to be used from inside custom forms. When a function is
@@ -246,6 +242,7 @@ dhis2.de.manageOfflineData = function()
  * @deprecated
  */
 dhis2.de.shouldFetchDataSets = function( ids ) {
+    warnDeprecate('dhis2.de.shouldFetchDataSets')
     return false;
 };
 
@@ -253,35 +250,26 @@ dhis2.de.shouldFetchDataSets = function( ids ) {
  * (plugin) we do not need to make an API to get metadata in the plugin as the metadata is provided by parent
  * which also sets the values on dhis2.de for convenience and backwards compatibility
  * 
- * @deprecated
+ * @deprecated dhis2.de.loadMetaData does not make an API call anymore. Values are provided by the parent to the plugin.
  */
 dhis2.de.loadMetaData = function()
 {
-    console.warn('obsolete: dhis2.de.loadMetaData does not make an API call anymore. Values are provided by the parent to the plugin.')
+    warnDeprecate('dhis2.de.loadMetadata')
 };
 
-// !(plugin): dataSetAssociations?? is this relevant
+function warnDeprecate(method, extraContext) {
+    let message = `"${method}" is deprecated in the custom form plugin.`
+    if(extraContext) {
+        message += extraContext
+    }
+    console.warn(message)
+}
+/**
+ * @deprecated
+ */
 dhis2.de.loadDataSetAssociations = function()
 {
-	var def = $.Deferred();
-	
-	$.ajax( {
-    	url: 'getDataSetAssociations.action',
-    	dataType: 'json',
-    	success: function( json )
-	    {
-	        sessionStorage[dhis2.de.cst.dataSetAssociations] = JSON.stringify( json.dataSetAssociations );
-	    },
-	    complete: function()
-	    {
-	        var metaData = JSON.parse( sessionStorage[dhis2.de.cst.dataSetAssociations] );
-	        dhis2.de.dataSetAssociationSets = metaData.dataSetAssociationSets;
-	        dhis2.de.organisationUnitAssociationSetMap = metaData.organisationUnitAssociationSetMap;	        
-	        def.resolve();
-	    }
-	} );
-	
-	return def.promise();
+    warnDeprecate('dhis2.de.loadDataSetAssociations')
 };
 
 // ? (plugin) do we need to call this still (for manageOfflineData and updateForms)
@@ -609,18 +597,12 @@ dhis2.de.clearPeriod = function()
     // dhis2.de.clearEntryForm();
 }
 
+/**
+ * @deprecated
+ */
 dhis2.de.clearEntryForm = function()
 {
-    // ToDo(plugin): make a call to parent?
-
-    // $( '#contentDiv' ).html( '' );
-
-    // dhis2.de.currentPeriodOffset = 0;
-
-    // dhis2.de.dataEntryFormIsLoaded = false;
-
-    // $( '#completenessDiv' ).hide();
-    // $( '#infoDiv' ).hide();
+    warnDeprecate('dhis2.de.clearEntryForm')
 }
 
 dhis2.de.loadForm = function()
@@ -641,6 +623,7 @@ dhis2.de.loadForm = function()
     console.log('[custom-forms] dhis2.de.currentOrganisationUnitId', dhis2.de.currentOrganisationUnitId)
     console.log('[custom-forms] dhis2.de.currentDataSetId', dhis2.de.currentDataSetId)
     $( document ).trigger( dhis2.de.event.formLoaded, dhis2.de.currentDataSetId );
+    // dhis2.de.manageOfflineData();
 
     dataSetSelected();
     loadDataValues();
@@ -654,93 +637,6 @@ dhis2.de.loadForm = function()
     // ToDo(plugin) re-check the scope of the original loadForm and see if functionality missing
     // dhis2.de.insertOptionSets();
     //               dhis2.de.enableDEDescriptionEvent();
-}
-
-//------------------------------------------------------------------------------
-// Section filter
-//------------------------------------------------------------------------------
-
-dhis2.de.enableSectionFilter = function()
-{
-    var $sectionHeaders = $( '.formSection .cent h3' );
-    dhis2.de.clearSectionFilters();
-
-    if ( $sectionHeaders.size() > 1)
-    {
-        $( '#filterDataSetSection' ).append( "<option value='all'>" + i18n_show_all_sections + "</option>" );
-
-        $sectionHeaders.each( function( idx, value ) 
-        {
-            $( '#filterDataSetSection' ).append( "<option value='" + idx + "'>" + value.innerHTML + "</option>" );
-        } );
-
-        $( '#filterDataSetSectionDiv' ).show();
-    }
-    else
-    {
-        $( '#filterDataSetSectionDiv' ).hide();
-    }
-}
-
-dhis2.de.filterOnSection = function()
-{
-    var $filterDataSetSection = $( '#filterDataSetSection' );    
-    var value = $filterDataSetSection.val();
-    
-    if ( value == 'all' )
-    {
-        $( '.formSection' ).show();
-    }
-    else
-    {        
-        $( '.formSection' ).hide();
-        $( $( '.formSection' )[value] ).show();
-    }
-}
-
-dhis2.de.filterInSection = function( $this )
-{
-    var $tbody = $this.closest('.sectionTable').find("tbody");    
-    var thisTable = $tbody.parent().get(0);           
-    var $trTarget = $tbody.find( 'tr');
-
-    if ( $this.val() == '' )
-    {
-        $trTarget.show();
-    }
-    else
-    {
-        var $trTargetChildren = $trTarget.find( 'td:first-child' );
-
-        $trTargetChildren.each( function( idx, item ) 
-        {
-            var text1 = $this.val().toUpperCase();
-            var text2 = $( item ).find( 'span' ).html();
-            
-            if( text2 && text2 != "")
-            {
-                text2 = text2.toUpperCase();
-
-                if ( text2.indexOf( text1 ) >= 0 )
-                {
-                    $( item ).parent().show();
-                }
-                else
-                {
-                    $( item ).parent().hide();
-                }
-            }
-            
-        } );
-    }
-
-    refreshZebraStripes( $tbody );
-    $.each($( '.sectionTable' ), function(index, table){
-        if(table == thisTable) return;
-        $(table).trigger( 'reflow' );
-    });
-    
-    dhis2.de.populateColumnTotals();
 }
 
 //------------------------------------------------------------------------------
@@ -838,12 +734,12 @@ function arrayChunk( array, size )
 /**
  * Fetch data-sets for a orgUnit + data-sets for its children.
  *
- * @deprecated
+ * @deprecated datasets are provided by the parent to the plugin and the plugin is refreshed when selection changes
  */
 dhis2.de.fetchDataSets = function( ou )
 {
-    // ! fetching datasets logic changed because we don't restrict which datasets to show based on OU
-    // ?(plugin) do we still want to filter these methods by OU like before
+    warnDeprecate('dhis2.de.fetchDataSets', 'The method now just returns the datasets passed to the plugin by the parent.')
+
     var def = $.Deferred();
     
     def.resolve(dhis2.shim.metadata.dataSets)
@@ -854,33 +750,19 @@ dhis2.de.fetchDataSets = function( ou )
 /**
  * @deprecated
  */
-// ?(plugin) do we still want to filter these methods by OU like before
 dhis2.de.getOrFetchDataSetList = function( ou ) {
-    var def = $.Deferred();
-
-    var dataSets = getSortedDataSetList(ou);
-    ou = ou || dhis2.de.getCurrentOrganisationUnit();
-
-    if (dataSets.length > 0) {
-        def.resolve(dataSets);
-    } 
-    else {
-        dhis2.de.fetchDataSets(ou).then(function() {
-            def.resolve(getSortedDataSetList(ou));
-        });
-    }
-
-    /* TODO check if data sets are accessible for current user */
-    
-    return def.promise();
+    warnDeprecate('dhis2.de.getOrFetchDataSetList')
 };
 
 /**
  * Returns an array containing associative array elements with id and name
  * properties. The array is sorted on the element name property.
+ * 
+ * @deprecated
  */
 function getSortedDataSetList( orgUnit )
 {
+    warnDeprecate('getSortedDataSetList', 'the method now just returns the sorted list of datasets passed to the plugin.')
     //!(plugin) do we need to do these operations by orgUnit?
     const dataSets = window.dhis2.shim.metadata?.dataSets
     
@@ -894,40 +776,12 @@ function getSortedDataSetList( orgUnit )
 
 /**
  * Gets list of data sets for selected organisation units.
+ * 
+ * @deprecated
  */
-function getSortedDataSetListForOrgUnits( orgUnits )
+function getSortedDataSetListForOrgUnits()
 {
-    const dataSets = window.dhis2.shim.metadata?.dataSets
-
-    var dataSetList = [];
-
-    $.safeEach( orgUnits, function( idx, item )
-    {
-        dataSetList.push.apply( dataSetList, getSortedDataSetList(item) )
-    } );
-
-    var filteredDataSetList = [];
-
-    $.safeEach( dataSetList, function( idx, item ) 
-    {
-        var formType = dhis2.de.dataSets[item.id].type;
-        var found = false;
-
-        $.safeEach( filteredDataSetList, function( i, el ) 
-        {
-            if( item.name == el.name )
-            {
-                found = true;
-            }
-        } );
-
-        if ( !found && ( formType == dhis2.de.cst.formTypeSection || formType == dhis2.de.cst.formTypeDefault ) )
-        {
-            filteredDataSetList.push(item);
-        }
-    } );
-
-    return filteredDataSetList;
+    warnDeprecate('getSortedDataSetListForOrgUnits')
 }
 
 // -----------------------------------------------------------------------------
@@ -1147,7 +1001,7 @@ dhis2.de.optionValidForSelectedOrgUnit = function( option )
  */
 dhis2.de.setAttributesMarkup = function()
 {
-    console.warn('this method is obsolete in the Custom Forms plugin')
+    warnDeprecate('dhis2.de.setAttributesMarkup')
 }
 
 /**
@@ -1155,7 +1009,7 @@ dhis2.de.setAttributesMarkup = function()
 */
 dhis2.de.getAttributesMarkup = function()
 {
-	console.warn('this method is obsolete in the Custom Forms plugin')
+    warnDeprecate('dhis2.de.getAttributesMarkup')
 };
 
 /**
@@ -1172,7 +1026,7 @@ dhis2.de.clearAttributes = function()
  */
 dhis2.de.attributeSelected = function( categoryId )
 {
-    console.warn('this method is obsolete in the Custom Forms plugin')
+    warnDeprecate('dhis2.de.attributeSelected')
 
 };
 
@@ -1187,7 +1041,7 @@ dhis2.de.attributeSelected = function( categoryId )
  */
 dhis2.de.inputSelected = function()
 {
-    console.warn('this method is obsolete in the Custom Forms plugin')
+    warnDeprecate('dhis2.de.inputSelected')
 };
 
 function loadDataValues()
@@ -1339,7 +1193,7 @@ function insertDataValues( json )
 
     // if ( json.locked !== 'OPEN' || dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 || periodLocked )
 	// {
-	// 	dhis2.de.lockForm();
+		// dhis2.de.lockForm();
 
 	// 	if ( periodLocked ) {
 	// 		setHeaderDelayMessage( i18n_dataset_is_concluded );
@@ -1523,37 +1377,11 @@ function insertDataValues( json )
 
     dhis2.de.updateIndicators();
     dhis2.de.updateDataElementTotals();
-
-    // Set completeness button
-
-    if ( json.complete && json.locked === 'OPEN' )
-    {
-        $( '#completeButton' ).attr( 'disabled', 'disabled' );
-        $( '#undoButton' ).removeAttr( 'disabled' );
-
-        if ( json.lastUpdatedBy )
-        {
-            $( '#infoDiv' ).show();
-            $( '#completedBy' ).html( json.lastUpdatedBy );
-            $( '#completedDate' ).html( json.date );
-
-            dhis2.de.currentCompletedByUser = json.lastUpdatedBy;
-        }
-    }
-    else
-    {
-        $( '#completeButton' ).removeAttr( 'disabled' );
-        $( '#undoButton' ).attr( 'disabled', 'disabled' );
-        $( '#infoDiv' ).hide();
-    }
 }
 
 function displayEntryFormCompleted()
 {
     dhis2.de.addEventListeners();
-
-    // $( '#validationButton' ).removeAttr( 'disabled' );
-    // $( '#validateButton' ).removeAttr( 'disabled' );
 
     dhis2.de.dataEntryFormIsLoaded = true;
     // hideLoader();
@@ -1568,22 +1396,8 @@ function valueFocus( e )
 
     var split = dhis2.de.splitFieldId( id );
     var dataElementId = split.dataElementId;
-    var optionComboId = split.optionComboId;
     dhis2.de.currentOrganisationUnitId = split.organisationUnitId;
     dhis2.de.currentExistingValue = value;
-
-    var dataElementName = getDataElementName( dataElementId );
-    var optionComboName = getOptionComboName( optionComboId );
-    var organisationUnitName;
-    // ToDo(custom-forms): do we need this logic?
-    // if ( dhis2.de.multiOrganisationUnit ) {
-    //     organisationUnitName = organisationUnitList.filter( ou=>ou.uid === dhis2.de.getCurrentOrganisationUnit() )[0].n;
-    // } else {
-    //     organisationUnitName = organisationUnits[dhis2.de.getCurrentOrganisationUnit()].n;
-    // }
-
-    // $( '#currentOrganisationUnit' ).html( organisationUnitName );
-    // $( '#currentDataElement' ).html( dataElementName + ' ' + optionComboName );
 
     $( '#' + dataElementId + '-cell' ).addClass( 'currentRow' );
 }
@@ -1648,81 +1462,6 @@ function getPreviousEntryField( field )
         }
     }
 }
-
-// -----------------------------------------------------------------------------
-// Validation
-// -----------------------------------------------------------------------------
-
-dhis2.de.validateCompulsoryDataElements = function ()
-{
-
-    // ToDO(plugin): hook with validation in the parent form (or remove?)
-  
-}
-
-/**
- * Executes all validation checks.
- * 
- * @param ignoreValidationSuccess indicates whether no dialog should be display
- *        if validation is successful.
- * @param successCallback the function to execute if validation is successful.                                  
- */
-dhis2.de.validate = function( completeUncomplete, ignoreValidationSuccess, successCallback )
-{
-    // ToDO(plugin): hook with validation in the parent form (or remove?)
-}
-
-/**
- * Displays the validation dialog.
- * 
- * @param html the html content to display in the dialog.
- * @param height the height of the dialog.
- */
-dhis2.de.displayValidationDialog = function( html, height )
-{
-    // ToDO(plugin): hook with validation in the parent form (or remove?)
-}
-
-/**
- * Validates that all category option combinations have all values or no values
- * per data element given that the fieldCombinationRequired is true for the 
- * current data set.
- */
-dhis2.de.validateCompulsoryCombinations = function()
-{
-    // ToDO(plugin): hook with validation in the parent form (or remove?)
-    // ? does this kind of specific validation exist in the new app
-	
-};
-
-// ToDo(plugin): WHAT IS THIS???
-dhis2.de.validateOrgUnitOpening = function(organisationUnit, period)
-{
-  var iso8601 = $.calendars.instance( 'gregorian' );
-  var odate, cdate;
-
-  if ( organisationUnit.odate ) {
-    odate = dhis2.period.calendar.fromJD( iso8601.parseDate( "yyyy-mm-dd", organisationUnit.odate ).toJD() );
-  }
-
-  if ( organisationUnit.cdate ) {
-    cdate = dhis2.period.calendar.fromJD( iso8601.parseDate( "yyyy-mm-dd", organisationUnit.cdate ).toJD() );
-  }
-
-  var startDate = dhis2.period.calendar.parseDate( dhis2.period.format, period.startDate );
-  var endDate = dhis2.period.calendar.parseDate( dhis2.period.format, period.endDate );
-
-  if( ( cdate && cdate < startDate ) || odate > endDate )
-  {
-    $( '#contentDiv input' ).attr( 'readonly', 'readonly' );
-    $( '#contentDiv textarea' ).attr( 'readonly', 'readonly' );
-    $( '.entrytrueonly' ).attr( 'onclick', 'return false;');
-    $( '.entrytrueonly' ).attr( 'onkeydown', 'return false;');
-    return true;
-  }
-
-  return false;
-};
 
 
 // -----------------------------------------------------------------------------
@@ -1999,13 +1738,7 @@ function StorageManager()
      */
     this.loadForm = function( dataSetId )
     {
-        return $.ajax({
-            url: 'loadForm.action',
-            data: {
-                dataSetId: dataSetId
-            },
-            dataType: 'text'
-        });
+        warnDeprecate('StoreManager.loadForm')
     };
 
     /**
