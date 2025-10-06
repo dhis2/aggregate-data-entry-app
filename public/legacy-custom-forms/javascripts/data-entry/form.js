@@ -1400,6 +1400,13 @@ function valueFocus( e )
     dhis2.de.currentExistingValue = value;
 
     $( '#' + dataElementId + '-cell' ).addClass( 'currentRow' );
+
+    if (dataElementId) {
+        window.dhis2.shim.setHighlightedField({
+            dataElementId: split.dataElementId,
+            categoryOptionComboId: split.optionComboId,
+        })
+    }
 }
 
 function valueBlur( e )
