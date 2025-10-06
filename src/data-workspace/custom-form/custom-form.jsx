@@ -7,6 +7,7 @@ import React from 'react'
 import useCustomForm from '../../custom-forms/use-custom-form.js'
 import {
     useContextSelection,
+    useHighlightedFieldStore,
     useMetadata,
     useValueStore,
 } from '../../shared/index.js'
@@ -76,6 +77,9 @@ export const CustomForm = ({ dataSet }) => {
         return mutationClient.mutateAsync(dataValueParams)
     }
 
+    const setHighlightedField = useHighlightedFieldStore(
+        (state) => state.setHighlightedField
+    )
     /*
         displaying both versions of the form for now: the new "sanitised" way of rendering the custom form (the plugin way)
     */
@@ -93,6 +97,7 @@ export const CustomForm = ({ dataSet }) => {
                 orgUnitId={orgUnitId}
                 periodId={periodId}
                 attributeOptionComboSelection={attributeOptionComboSelection}
+                setHighlightedField={setHighlightedField}
             />
             {/* <div className={styles.customForm}>
                 <h2>Existing custom form functionality (for reference)</h2>

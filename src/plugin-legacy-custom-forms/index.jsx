@@ -5,36 +5,6 @@ import getBaseExternalFiles from './get-base-external-files.js'
 import loadCustomFormShim from './load-form-shim.js'
 import parseFormContent from './parse-form-content.js'
 
-/* 
-! Other todos/notes:
-- [x] The core: load all JS files defined in the old Struts app, and a shim for commonly used global properties and functions (**ongoing**)
-- [x]  support `dhis2.de.currentOrganisationUnitId` and other properties available in `dhis2.de`
-- [ ] expose a spinner/loader - _the idea was to use the loader from the new data-entry app, but this is technically difficult as it causes a re-render of the form. Likely we will just support whatever loader the custom form had in the code (i.e. jQuery UI)_
-- [ ] update all the `form.js` that are deprecated (i.e. all the calls to `.action` struts routes) (**ongoing**)  
-    - [ ] update calls to legacy API `x.action`
-    - [ ] jQuery.getJSON( '../dhis-web-commons-ajax-json/getCategoryOptionCombos.action', {
-- [ ] other operations: offline, completing, validation, printing
-- [ ] support date fields (and other field types)
-- [x]  show error messages with useAlert (proxy setHeaderDelayMessage to useAlert)
-- [x]  support inline CSS
-- [x]  API requests to relative path: '../api/data....' (handled with jQuery AJAX override)
-- [x]  Support custom tabs: a lot of custom tabs with jquery plugins: $( "#tabs" ).tabs();
-- [x]  jquery UI: floatThead, tabs,
-- [ ] decide what to bring over from the old Struts `/src/main/webapp/dhis-web-commons/javascripts/commons.js`
-    - [ ] show/hide loader
-- [ ] ensure events events:  dhis2.util.on(dhis2.de.event.formReady", dhis2.de.event.dataValuesLoaded, dhis2.de.event.dataValueSaved, dhis2.de.event.completed
-- [ ] Other implicit contracts: IDs to data elements, `$('#morb')` `$('#mort')`??, window.location.pathname.indexOf("dataentry")
-- [ ] _Possible_  future optimisations: 
-- [ ] concatenate all JS for faster loading
-- [ ] maybe make loading some JS files optional (through dataStore seting?)
-    - [ ] Provide a guide (script?) to replace jQuery operations as they're mostly redundant in modern browsers now 
-- [ ] ensure the external scripts are cached on production (or reused by the plugin) etc...
- 
-! ToDos for new custom forms
-- interface for selecting items, similar to: document.querySelector("#hiTm0oSRRRi-HoIsxzhEmia-val");
-
-*/
-
 const { externalCSS, externalScripts } = getBaseExternalFiles()
 
 const LegacyCustomFormPlugin = (props) => {
@@ -51,6 +21,7 @@ const LegacyCustomFormPlugin = (props) => {
         dataSetId,
         orgUnitId,
         attributeOptionComboSelection,
+        setHighlightedField,
     } = props
 
     console.log('[custom-forms] 🏁 Legacy Custom Form Plugin starting 🏁')
@@ -103,6 +74,7 @@ const LegacyCustomFormPlugin = (props) => {
                 orgUnitId,
                 hideAlert,
                 showAlert,
+                setHighlightedField,
             })
 
             // * appending the scripts that are part of the custom form at the end
@@ -125,6 +97,7 @@ const LegacyCustomFormPlugin = (props) => {
         showAlert,
         formStyles,
         attributeOptionComboSelection,
+        setHighlightedField,
     ])
 
     return (
@@ -149,5 +122,6 @@ LegacyCustomFormPlugin.propTypes = {
     dataSet: PropTypes.shape({ displayName: PropTypes.string }),
     initialValues: PropTypes.shape({}),
     metadata: PropTypes.object,
+    setHighlightedField: PropTypes.func,
 }
 export default LegacyCustomFormPlugin

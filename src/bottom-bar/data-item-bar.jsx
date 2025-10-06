@@ -9,6 +9,9 @@ export default function DataItemBar() {
     const rightHandPanel = useRightHandPanelContext()
     const item = useHighlightedField()
 
+    if (!item) {
+        return null
+    }
     return (
         <div className={styles.container}>
             <span className={styles.name}>
