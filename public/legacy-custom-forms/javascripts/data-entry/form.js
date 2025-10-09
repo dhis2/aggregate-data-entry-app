@@ -279,7 +279,8 @@ dhis2.de.setMetaDataLoaded = function()
     $( '#loaderSpan' ).hide();
     console.log( 'Meta-data loaded' );
 
-    dhis2.de.manageOfflineData();
+    // ToDo(custom-forms): revisit with offline work
+    // dhis2.de.manageOfflineData();
     updateForms();
 };
 
@@ -548,26 +549,8 @@ dhis2.de.addEventListeners = function()
         } );
     } );
 
-    $( '.commentlink' ).each( function( i )
-    {
-        var id = $( this ).attr( 'id' );
-        var split = dhis2.de.splitFieldId( id );
-
-        var dataElementId = split.dataElementId;
-        var optionComboId = split.optionComboId;
-
-        $( this ).unbind( 'click' );
-
-        $( this ).attr( "src", "../images/comment.png" );
-        $( this ).attr( "title", i18n_view_comment );
-
-        $( this ).css( "cursor", "pointer" );
-
-        $( this ).click( function()
-        {
-            viewHist( dataElementId, optionComboId );
-        } );
-    } );
+    $( '.commentlink' ).remove();
+    
 
     $( '.entryfileresource' ).each( function()
     {
@@ -605,6 +588,9 @@ dhis2.de.clearEntryForm = function()
     warnDeprecate('dhis2.de.clearEntryForm')
 }
 
+/**
+ * ![custom-forms] This is the starting method being called from the plugin
+ */
 dhis2.de.loadForm = function()
 {
     var dataSetId = dhis2.de.currentDataSetId;
@@ -626,17 +612,16 @@ dhis2.de.loadForm = function()
     // dhis2.de.manageOfflineData();
 
     dataSetSelected();
-    loadDataValues();
     var table = $( '.sectionTable' );
     table.floatThead({
         position: 'absolute',
         top: 44,
         zIndex: 9
     });
+    dhis2.de.insertOptionSets();
+    loadDataValues();
 
-    // ToDo(plugin) re-check the scope of the original loadForm and see if functionality missing
-    // dhis2.de.insertOptionSets();
-    //               dhis2.de.enableDEDescriptionEvent();
+    // ToDo(custom-forms) re-check the scope of the original loadForm and see if functionality missing
 }
 
 //------------------------------------------------------------------------------
@@ -1061,8 +1046,7 @@ function clearFileEntryFields() {
     $fields.find( '.upload-field' ).css( 'background-color', dhis2.de.cst.colorWhite );
     $fields.find( 'input' ).val( '' );
     
-    // ToDo: do we want to include select2? https://select2.org/ 
-    // $('.select2-container').select2("val", "");
+    $('.select2-container').select2("val", "");
 }
 
 function getAndInsertDataValues()
@@ -1089,8 +1073,6 @@ function getAndInsertDataValues()
     $( '.entryselect' ).css( 'background-color', dhis2.de.cst.colorWhite ).css( 'border', '1px solid ' + dhis2.de.cst.colorBorder );
     $( '.indicator' ).css( 'background-color', dhis2.de.cst.colorLightGrey  ).css( 'border', '1px solid ' + dhis2.de.cst.colorBorder );
     $( '.entrytrueonly' ).css( 'background-color', dhis2.de.cst.colorWhite );    
-
-    clearFileEntryFields();
 
     $( '[name="min"]' ).html( '' );
     $( '[name="max"]' ).html( '' );
@@ -2248,27 +2230,21 @@ function StorageManager()
  */
 dhis2.de.setOptionNameInField = function( fieldId, value )
 {
-  var id = value.id;
+    var dataElement = dhis2.de.dataElements[value.dataElement]
+    var optionSetId = dataElement.optionSet.id
+    var optionSet = dhis2.de.optionSets[optionSetId]
 
-  if(value.id.split("-").length == 3)
-  {
-    id = id.substr(12);
-  }
-
-	var optionSetUid = dhis2.de.optionSets[id].uid;
-
-	DAO.store.get( 'optionSets', optionSetUid ).done( function( obj ) {
-		if ( obj && obj.optionSet && obj.optionSet.options ) {			
-			$.each( obj.optionSet.options, function( inx, option ) {
-				if ( option && option.code == value.val ) {
-			          option.id = option.code;
-			          option.text = option.displayName;
-			          $( fieldId ).select2('data', option);
-			          return false;
-				}
-			} );
-		}		
-	} );
+    
+    if ( optionSet?.options?.length ) {			
+        $.each( optionSet?.options, function( inx, option ) {
+            if ( option && option.code == value.value ) {
+                    option.id = option.code;
+                    option.text = option.displayName;
+                    $( fieldId ).select2('data', option);
+                    return false;
+            }
+        } );
+    }		
 };
 
 /**
@@ -2360,60 +2336,22 @@ dhis2.de.getOptions = function( uid, query, success )
 
 /**
  * Loads option sets from server into local store.
+ * @deprecated This method used to load optionSets from API and save them to cache, now all the option sets are passed from the parent at load time.
  */
 dhis2.de.loadOptionSets = function() 
 {
-    var options = _.uniq( _.values( dhis2.de.optionSets ), function( item ) {
-        return item.uid;
-    }); // Array of objects with uid and v
-
-    var uids = [];
-
-    var deferred = $.Deferred();
-    var promise = deferred.promise();
-
-    _.each( options, function ( item, idx ) {
-        if ( uids.indexOf( item.uid ) == -1 ) {
-            DAO.store.get( 'optionSets', item.uid ).done( function( obj ) {
-                if( !obj || !obj.optionSet || !obj.optionSet.version || !item.v || obj.optionSet.version !== item.v ) {
-                    promise = promise.then( function () {
-                        var encodedFields = encodeURIComponent(':all,options[:all]');
-                      
-                        return $.ajax( {
-                            url: '../api/optionSets/' + item.uid + '.json?fields=' + encodedFields,
-                            type: 'GET',
-                            cache: false
-                        } ).then( function ( data ) {
-                            console.log( 'Successfully stored optionSet: ' + item.uid );
-
-                            var obj = {};
-                            obj.id = item.uid;
-                            obj.optionSet = data;
-                            DAO.store.set( 'optionSets', obj );
-                        }, function (error) {
-                            console.warn( 'Failed to load optionSet: ' + item.uid, error);
-                        } );
-                    } );
-
-                    uids.push( item.uid );
-                }
-            });
-        }
-    } );
-
-    promise = promise.then( function () {
-    } );
-
-    deferred.resolve();
+    
+    // ToDO(custom-froms): maybe we set DAO.store.set( 'optionSets', dhis2.de.optionSets ); to keep the old interface working?
 };
 
 /**
  * Enable event for showing DataElement description when click on
  * a DataElement label
+ * 
+ * @deprecated In the plugin, we have different way of highlighting a field and showing its details in the bottom bar
  */
 dhis2.de.enableDEDescriptionEvent = function()
 {
-    // ToDo(plugin): see if we can hook this with the parent to show in the bottom bar
     
 }
 
@@ -2423,47 +2361,38 @@ dhis2.de.enableDEDescriptionEvent = function()
 dhis2.de.insertOptionSets = function() 
 {
     $( '.entryoptionset').each( function( idx, item ) {
-        
         var fieldId = item.id;
         
         var split = dhis2.de.splitFieldId( fieldId );
 
         var dataElementId = split.dataElementId;
         var optionComboId = split.optionComboId;
-        
-    	var optionSetKey = dhis2.de.splitFieldId( item.id );
-        var s2prefix = 's2id_';        
-        optionSetKey.dataElementId = optionSetKey.dataElementId.indexOf(s2prefix) != -1 ? optionSetKey.dataElementId.substring(s2prefix.length, optionSetKey.dataElementId.length) : optionSetKey.dataElementId;
-        
-        if ( dhis2.de.multiOrganisationUnit ) {
-        	item = optionSetKey.organisationUnitId + '-' + optionSetKey.dataElementId + '-' + optionSetKey.optionComboId;
-        } 
-        else {
-        	item = optionSetKey.dataElementId + '-' + optionSetKey.optionComboId;
-        }
-        
-        item = item + '-val';
-        optionSetKey = optionSetKey.dataElementId + '-' + optionSetKey.optionComboId;
-        var optionSetUid = dhis2.de.optionSets[optionSetKey].uid;
-        
-        DAO.store.get( 'optionSets', optionSetUid ).done( function( obj ) {
-		if ( obj && obj.optionSet && obj.optionSet.options ) {
 
-                    $.each( obj.optionSet.options, function( inx, option ) {
-                        option.text = option.displayName;
-                        option.id = option.code;
-                    } );
-                    
-                    $("#" + item).select2({
-                        placeholder: i18n_select_option ,
-                        allowClear: true,
-                        dataType: 'json',
-                        data: obj.optionSet.options
-                    }).on("change", function(e){
-                        saveVal( dataElementId, optionComboId, fieldId );
-                    });
-		}		
-	} );        
+        const optionSetsForDataElement = dhis2.de.dataElements[dataElementId].optionSet?.id
+
+        const optionSet =  dhis2.de.optionSets[optionSetsForDataElement]
+
+        const elementId = dataElementId + '-' + optionComboId + '-val';
+
+        $.each( optionSet.options, function( inx, option ) {
+            option.text = option.displayName;
+            option.id = option.code;
+        } );
+        
+        $("#" + elementId).select2({
+            // placeholder: i18n_select_option ,
+            placeholder: 'Select option', // ToDo(custom-forms): how to localise things here
+            allowClear: true,
+            dataType: 'json',
+            data: optionSet.options,
+        }).on("change", function(e){
+            saveVal( dataElementId, optionComboId, fieldId );
+        }).on('select2-focus', function () {
+            window.dhis2.shim.setHighlightedField({
+                dataElementId: dataElementId,
+                categoryOptionComboId: optionComboId,
+            })
+        });      
     } );
 };
 

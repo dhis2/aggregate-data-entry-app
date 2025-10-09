@@ -50,7 +50,7 @@ dhis2.de.updateIndicators = function()
 
         var formula = dhis2.de.indicatorFormulas[indicatorId];
 
-        if ( isDefined( formula ) )
+        if ( typeof formula !== 'undefined' )
         {        
 	        var expression = dhis2.de.generateExpression( formula );
 

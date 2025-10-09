@@ -127,13 +127,6 @@
   height: 14px;
 }
 
-.historyHeader
-{
-  color: #606060;
-  font-size: 17px;
-  padding: 5px 0;
-}
-
 .entryfield,
 .entryoptionset,
 .entryselect,
@@ -179,95 +172,6 @@
 textarea:read-only
 { 
     background-color: rgb(238, 238, 238) !important;
-}
-
-/* jQuery UI tab style overrides for data value history view */
-
-#historyTabs
-{
-    padding: 0;
-    width:  545px;
-    height: 305px;
-}
-
-#historyTabs.ui-tabs.ui-widget.ui-widget-content
-{
-    border-width: 0;
-}
-
-#historyTabs .ui-tabs-nav
-{
-    border-width: 0px;
-    border-bottom-width: 1px;
-    border-bottom-color: inherit;
-    border-radius: 0;
-    background: transparent;
-    padding: 0;
-}
-
-#historyTabs.ui-widget-content
-{
-    background: none;
-}
-
-#historyTabs .ui-tabs-panel. ui-widget-content
-{
-    padding-top: 0.5em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    border-width: 0;
-}
-
-/* History audit table */
-
-#historyAuditTable
-{
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    background-color: #F5F5F5;
-}
-
-#historyAuditTable tbody tr:nth-child( odd )
-{
-    background-color: #EDEDED;
-}
-
-#historyAuditTable td, #historyAuditTable th
-{
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-}
-
-#historyAuditTable td
-{
-    border: 1px solid lightgrey;
-}
-
-#historyAuditTable th
-{
-    background-color: #DFEFFC;
-    border: 1px solid #C5DBEC;
-}
-
-#historyTabs-chart
-{
-    padding-bottom: 0;
-    padding-left: 0;
-}
-
-#historyTabs-audit
-{
-    height: 260px;
-    overflow: auto;
-    padding-top: 0;
-    margin-top: 20px;
-}
-
-#historyTabs table thead th .text
-{
-    position: absolute;
 }
 
 /* FileResource - uploads */
@@ -415,24 +319,6 @@ textarea:read-only
     display: inline-block;
     position: absolute;
     top: 16px;
-}
-
-.select2-container .select2-choice {
-    border-radius: 0;
-}
-
-
-.select2-container .select2-choice .select2-arrow {
-    border-radius: 0;
-}
-
-.select2-chosen {
-    padding-top: 6px;
-}
-
-.sectionContainer {
-    display: inline-block;
-    margin-bottom: 20px;
 }
 
 .total-cell {

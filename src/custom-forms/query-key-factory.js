@@ -8,12 +8,9 @@ const queryKeyFactory = {
         },
     ],
     byId: (id) => [
-        'dataEntryForms',
+        'dataEntry/customForms',
         {
             id,
-            params: {
-                fields: 'htmlCode',
-            },
         },
     ],
 }
