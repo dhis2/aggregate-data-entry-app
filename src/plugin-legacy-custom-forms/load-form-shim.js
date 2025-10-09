@@ -52,11 +52,10 @@ const loadCustomFormShim = ({
     window.dhis2.de.categoryCombos = metadata.categoryCombos
     window.dhis2.de.dataElements = metadata.dataElements
     window.dhis2.de.optionSets = metadata.optionSets
-
+    window.dhis2.de.indicatorFormulas = metadata.indicators
     // ?ToDo: these also used to be loaded from metadata in form.js - there is no direct equivalent now, what do we do with them?
     // dhis2.de.emptyOrganisationUnits = metaData.emptyOrganisationUnits;
     // dhis2.de.significantZeros = metaData.significantZeros;
-    // dhis2.de.indicatorFormulas = metaData.indicatorFormulas; //? is this the same as indicators?
     // dhis2.de.lockExceptions = metaData.lockExceptions;
 
     const dataSetsForForm = {}
