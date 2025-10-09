@@ -19,7 +19,7 @@ import {
  */
 export const CustomForm = ({ dataSet }) => {
     const { data: customForm } = useCustomForm({
-        id: dataSet.dataEntryForm.id,
+        id: dataSet.id,
         version: dataSet.version,
     })
 
@@ -88,7 +88,7 @@ export const CustomForm = ({ dataSet }) => {
             <Plugin
                 width="100%"
                 pluginSource="plugin.html"
-                htmlCode={customForm.htmlCode}
+                htmlCode={customForm.form}
                 initialValues={initialDataValues}
                 metadata={metadata}
                 dataSet={dataSet}
@@ -109,9 +109,7 @@ export const CustomForm = ({ dataSet }) => {
 
 CustomForm.propTypes = {
     dataSet: PropTypes.shape({
-        dataEntryForm: PropTypes.shape({
-            id: PropTypes.string,
-        }),
+        id: PropTypes.string,
         version: PropTypes.number,
     }),
 }

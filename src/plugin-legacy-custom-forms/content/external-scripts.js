@@ -45,7 +45,8 @@ const files = [
     'javascripts/jQuery/calendars/jquery.calendars.plus.min.js',
 
     // 'javascripts/moment/moment-with-langs.min.js',
-    // 'select2/select2.min.js',
+    //! ToDo(custom-forms): select2 is only needed for option sets - maybe we can do without it
+    'javascripts/select2.min.js',
     'javascripts/floatThead/jquery.floatThead.min.js',
 
     // ? all the calendar and date utilties take up the bulk of space - maybe they can be bundled optionally?
