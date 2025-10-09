@@ -1,3 +1,10 @@
+# [101.1.0-alpha.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.4...v101.1.0-alpha.5) (2025-10-09)
+
+
+### Features
+
+* support viewing data item details ([97b11b3](https://github.com/dhis2/aggregate-data-entry-app/commit/97b11b35a58e33435ed291b57a4aee9cd524767f))
+
 # [101.1.0-alpha.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.3...v101.1.0-alpha.4) (2025-09-30)
 
 
