@@ -94,9 +94,10 @@ function useHandleDataSetIdChange() {
             // if orgUnit is not assigned to dataset, clear out orgUnit assignment
             if (
                 orgUnitId !== undefined &&
+                dataSetId &&
                 !assignedOrgUnits?.includes(orgUnitId)
             ) {
-                setOrgUnitId(undefined)
+                // setOrgUnitId(undefined)
             }
 
             setPrevDataSetId(dataSetId)

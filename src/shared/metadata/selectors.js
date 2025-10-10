@@ -26,7 +26,25 @@ export const getCategoryCombos = (metadata) => metadata.categoryCombos
 export const getCategoryOptions = (metadata) => metadata.categoryOptions
 export const getDataElements = (metadata) => metadata.dataElements
 export const getIndicators = (metadata) => metadata.indicators
-export const getDataSets = (metadata) => metadata.dataSets
+export const getDataSets = (metadata) =>
+    Object.fromEntries(
+        Object.entries(metadata.dataSets).filter(
+            (dsEntry) => dsEntry[1]?.organisationUnits?.length
+        )
+    )
+// to replace, probably
+export const getAllAssignedOrgUnits = (metadata) => {
+    const allOrgUnitsWithDuplicates = Array.from(
+        Object.values(metadata.dataSets).map((ds) => ds.organisationUnits)
+    ).flat()
+    const organisationUnits = Array.from(new Set(allOrgUnitsWithDuplicates))
+    return { organisationUnits }
+}
+export const getDataSetsByOrgUnitId = (metadata, orgUnitId) =>
+    Object.values(metadata.dataSets).filter((ds) =>
+        ds.organisationUnits.includes(orgUnitId)
+    )
+
 export const getSections = (metadata) => metadata.sections
 export const getOptionSets = (metadata) => metadata.optionSets
 export const getCompulsoryDataElementOperands = (metadata) =>
