@@ -136,6 +136,7 @@ const DataSetSelectorBarDropDownContent = ({
                             small
                             secondary
                             onClick={() => setOrgUnitId(undefined)}
+                            dataTest={'data-set-selector-remove-orgUnit-button'}
                         >
                             {i18n.t('Show all data sets')}
                         </Button>

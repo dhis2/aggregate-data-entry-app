@@ -103,7 +103,7 @@ When('the user enters the filter term {string}', (filterTerm) => {
 
 Then('the list shows {int} data set', (dataSetsCount) => {
     cy.get('[data-test="data-set-selector-menu"] li').should(
-        'have.length.of',
+        'have.length',
         dataSetsCount
     )
 })

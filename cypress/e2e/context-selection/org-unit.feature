@@ -36,6 +36,17 @@ Feature: An org unit can be selected
         And the org unit's id "fdc6uOvgoji" should be persisted
         And there should be 2 data sets available to select
 
+    Scenario: A user clears org unit selection from data set menu
+        Given no data set has been selected
+        When the user opens the org unit selector
+        And the root org unit have been loaded
+        And the user expands the root org unit
+        And selects the org unit "Bombali"
+        And the user opens the data set selector
+        And the user clicks button to remove data set filtering
+        Then a no-value-label should be displayed
+        And there should be 26 data sets available to select
+
     Scenario: The user tries to select an org unit that is not assigned to the dataset
         Given a data set has been selected
         When the user opens the org unit selector

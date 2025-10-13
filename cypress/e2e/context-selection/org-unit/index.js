@@ -119,9 +119,13 @@ Then("the org unit's id {string} should be persisted", (orgUnitId) => {
 
 Then('there should be {int} data sets available to select', (dataSetsCount) => {
     cy.get('[data-test="data-set-selector-menu"] li').should(
-        'have.length.of',
+        'have.length',
         dataSetsCount
     )
+})
+
+When('the user clicks button to remove data set filtering', () => {
+    cy.get('[data-test="data-set-selector-remove-orgUnit-button"]').click()
 })
 
 When(

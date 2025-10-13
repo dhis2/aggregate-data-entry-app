@@ -26,12 +26,7 @@ export const getCategoryCombos = (metadata) => metadata.categoryCombos
 export const getCategoryOptions = (metadata) => metadata.categoryOptions
 export const getDataElements = (metadata) => metadata.dataElements
 export const getIndicators = (metadata) => metadata.indicators
-export const getDataSets = (metadata) =>
-    Object.fromEntries(
-        Object.entries(metadata.dataSets).filter(
-            (dsEntry) => dsEntry[1]?.organisationUnits?.length
-        )
-    )
+export const getDataSets = (metadata) => metadata.dataSets
 export const getSections = (metadata) => metadata.sections
 export const getOptionSets = (metadata) => metadata.optionSets
 export const getCompulsoryDataElementOperands = (metadata) =>
@@ -660,6 +655,24 @@ export const getApplicableDataInputPeriod = createCachedSelector(
     }
 )((dataSetId, periodId) => `${dataSetId}:${periodId}`)
 
+// /**
+//  * @param {*} metadata
+//  */
+// export const getDataSets = createSelector(
+//     (metadata) => metadata,
+//     (metadata) =>
+//         metadata?.dataSets ?
+//         Object.fromEntries(
+//             Object.entries(metadata.dataSets).filter((dsEntry) => {
+//                 console.log(
+//                     dsEntry[1].name,
+//                     dsEntry[1]?.organisationUnits?.length
+//                 )
+//                 return dsEntry[1]?.organisationUnits?.length
+//             })
+//         ) : {}
+// )
+
 /**
  * @param {*} metadata
  */
@@ -673,13 +686,6 @@ export const getAllAssignedOrgUnits = createSelector(
         return { organisationUnits }
     }
 )
-
-export const getDataSetsByOrgUnitIdX = (metadata, orgUnitId) =>
-    Object.fromEntries(
-        Object.entries(metadata.dataSets).filter((dsEntry) =>
-            dsEntry[1].organisationUnits.includes(orgUnitId)
-        )
-    )
 
 /**
  * @param {*} metadata
