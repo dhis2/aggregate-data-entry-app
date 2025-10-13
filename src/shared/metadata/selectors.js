@@ -655,24 +655,6 @@ export const getApplicableDataInputPeriod = createCachedSelector(
     }
 )((dataSetId, periodId) => `${dataSetId}:${periodId}`)
 
-// /**
-//  * @param {*} metadata
-//  */
-// export const getDataSets = createSelector(
-//     (metadata) => metadata,
-//     (metadata) =>
-//         metadata?.dataSets ?
-//         Object.fromEntries(
-//             Object.entries(metadata.dataSets).filter((dsEntry) => {
-//                 console.log(
-//                     dsEntry[1].name,
-//                     dsEntry[1]?.organisationUnits?.length
-//                 )
-//                 return dsEntry[1]?.organisationUnits?.length
-//             })
-//         ) : {}
-// )
-
 /**
  * @param {*} metadata
  */
