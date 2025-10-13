@@ -2,8 +2,7 @@ Feature: An org unit can be selected
 
     Scenario: The selector is hidden
         Given no data set has been selected
-        When the user hovers the org unit selector
-        Then a tooltip with the content "Choose a data set first" should be shown
+        Then a no-value-label should be displayed
 
     Scenario: No value is being displayed
         Given a data set has been selected
@@ -18,13 +17,24 @@ Feature: An org unit can be selected
         Given a data set and an org unit have been selected but loading the org unit's data will fail
         Then an error message should be displayed
 
-    Scenario: An org unit gets selected
+    Scenario: An org unit gets selected after a data set is selected
         Given a data set has been selected
         When the user opens the org unit selector
         And the root org unit have been loaded
         And selects the org unit "Sierra Leone"
-        Then the org unit's display name should be displayed as selected value
-        And the org unit's id should be persisted
+        Then the org unit's display name "Sierra Leone" should be displayed as selected value
+        And the org unit's id "ImspTQPwCqd" should be persisted
+
+    Scenario: An org unit gets selected before a data set is selected
+        Given no data set has been selected
+        When the user opens the org unit selector
+        And the root org unit have been loaded
+        And the user expands the root org unit
+        And selects the org unit "Bombali"
+        And the user opens the data set selector
+        Then the org unit's display name "Bombali" should be displayed as selected value
+        And the org unit's id "fdc6uOvgoji" should be persisted
+        And there should be 2 data sets available to select
 
     Scenario: The user tries to select an org unit that is not assigned to the dataset
         Given a data set has been selected

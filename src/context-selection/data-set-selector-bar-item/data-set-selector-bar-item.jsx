@@ -34,8 +34,8 @@ const FiltrableMenuItems = ({
     const hasMatch = filtered?.length > 0
 
     return (
-        <div className={styles.menuSelect} data-test={dataTest}>
-            <Menu>
+        <>
+            {options.length > 1 && (
                 <Input
                     dense
                     dataTest={`${dataTest}-filterinput`}
@@ -46,30 +46,38 @@ const FiltrableMenuItems = ({
                     initialFocus
                     className={styles.input}
                 />
-                {hasMatch ? (
-                    filtered.map((option) => (
-                        <MenuItem
-                            key={option.value}
-                            label={option.label}
-                            value={option.value}
-                            suffix=""
-                            onClick={() => {
-                                onChange({ selected: option.value })
-                            }}
-                            active={selected === option.value}
-                        />
-                    ))
-                ) : (
-                    <div className={styles.empty}>
-                        <span>
-                            {i18n.t('No results found for {{filter}}', {
-                                filter,
-                            })}
-                        </span>
-                    </div>
-                )}
-            </Menu>
-        </div>
+            )}
+            <div className={styles.menuSelect} data-test={dataTest}>
+                <Menu>
+                    {hasMatch ? (
+                        filtered.map((option) => (
+                            <MenuItem
+                                key={option.value}
+                                label={
+                                    <span data-value={option.value}>
+                                        {option.label}
+                                    </span>
+                                }
+                                value={option.value}
+                                suffix=""
+                                onClick={() => {
+                                    onChange({ selected: option.value })
+                                }}
+                                active={selected === option.value}
+                            />
+                        ))
+                    ) : (
+                        <div className={styles.empty}>
+                            <span>
+                                {i18n.t('No results found for {{filter}}', {
+                                    filter,
+                                })}
+                            </span>
+                        </div>
+                    )}
+                </Menu>
+            </div>
+        </>
     )
 }
 
@@ -115,12 +123,6 @@ const DataSetSelectorBarDropDownContent = ({
                 searchText={i18n.t('Search for a data set')}
                 dataTest="data-set-selector-menu"
             />
-            {/* <MenuSelect
-                values={dataSets || []}
-                selected={dataSetId}
-                dataTest="data-set-selector-menu"
-                onChange={onChange}
-            /> */}
             {dataSetsAreRestricted && (
                 <>
                     <MenuDivider />
@@ -171,8 +173,9 @@ export default function DataSetSelectorBarItem() {
 
     // Select the first item if there's only one
     useEffect(() => {
-        const dataSetIDs = Object.keys(dataSets)
-        if (dataSetIDs.length === 1) {
+        const isThereOnlyOneDataSet = Object.keys(dataSets)?.length === 1
+        if (isThereOnlyOneDataSet) {
+            const dataSetIDs = Object.keys(dataSets)
             setDataSetId(dataSetIDs[0])
         }
     }, [dataSets, setDataSetId])
@@ -199,7 +202,8 @@ export default function DataSetSelectorBarItem() {
                             setDataSetOpen(false)
                         }}
                         dataSetsAreRestricted={
-                            allDataSets.length !== dataSets.length
+                            Object.keys(allDataSets)?.length !==
+                            Object.keys(dataSets)?.length
                         }
                     />
                 </div>
