@@ -30,11 +30,11 @@ Feature: An org unit can be selected
         When the user opens the org unit selector
         And the root org unit have been loaded
         And the user expands the root org unit
-        And selects the org unit "Bombali"
+        And selects the org unit "Sierra Leone"
         And the user opens the data set selector
-        Then the org unit's display name "Bombali" should be displayed as selected value
-        And the org unit's id "fdc6uOvgoji" should be persisted
-        And there should be 2 data sets available to select
+        Then the org unit's display name "Sierra Leone" should be displayed as selected value
+        And the org unit's id "ImspTQPwCqd" should be persisted
+        And there should be 21 data sets available to select
 
     Scenario: A user clears org unit selection from data set menu
         Given no data set has been selected
