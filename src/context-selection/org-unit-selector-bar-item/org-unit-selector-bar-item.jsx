@@ -22,7 +22,6 @@ import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
 import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
-// import DisabledTooltip from './disabled-tooltip.jsx' // get rid of associated code
 
 const UnclickableLabel = ({ label }) => {
     return (
@@ -101,9 +100,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
 
     return (
         <div data-test="org-unit-selector">
-            {/* <DisabledTooltip> */}
             <SelectorBarItem
-                // disabled={disabled}
                 label={i18n.t('Organisation unit')}
                 value={selectorBarItemValue}
                 open={orgUnitOpen}
@@ -190,7 +187,6 @@ export default function OrganisationUnitSetSelectorBarItem() {
                     </div>
                 </div>
             </SelectorBarItem>
-            {/* </DisabledTooltip> */}
         </div>
     )
 }
