@@ -1,3 +1,11 @@
+# [101.1.0-alpha.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.5...v101.1.0-alpha.6) (2025-10-15)
+
+
+### Features
+
+* add support for option sets ([008c368](https://github.com/dhis2/aggregate-data-entry-app/commit/008c368dcb7433c99bd612a4a471ac8f5aa28938))
+* add support indicators ([8767049](https://github.com/dhis2/aggregate-data-entry-app/commit/8767049ff88d0d2bbb4fb0f946f7c39d57089260))
+
 # [101.1.0-alpha.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.4...v101.1.0-alpha.5) (2025-10-09)
 
 
