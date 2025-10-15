@@ -1,0 +1,38 @@
+.filterWarning {
+    inline-size: 450px;
+    font-size: 14px;
+    color: var(--colors-grey700);
+    gap: var(--spacers-dp8);
+    padding-block: var(--spacers-dp4);
+    padding-inline: var(--spacers-dp12);
+}
+
+.filterWarningTextContainer {
+    margin-block-end: var(--spacers-dp8);
+}
+
+.input {
+    position: 'sticky';
+    inset-block-start: '0';
+    background: var(--colors-white);
+    padding-inline: var(--spacers-dp8);
+    padding-block-start: var(--spacers-dp8);
+    padding-block-end: var(--spacers-dp8);
+    z-index: '1';
+}
+
+.empty {
+    font-size: 14px;
+    color: var(--colors-grey700);
+    display: 'flex';
+    justify-content: 'center';
+    padding-block: var(--spacers-dp16);
+    padding-inline: var(--spacers-dp8);
+}
+
+.menuSelect {
+    inline-size: 450px;
+    max-block-size: 70vh;
+    overflow: hidden;
+    overflow-y: auto;
+}

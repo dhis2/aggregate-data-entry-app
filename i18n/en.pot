@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-10-01T10:47:43.465Z\n"
-"PO-Revision-Date: 2025-10-01T10:47:43.465Z\n"
+"POT-Creation-Date: 2025-10-13T08:59:52.741Z\n"
+"PO-Revision-Date: 2025-10-13T08:59:52.742Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -249,11 +249,23 @@ msgstr "Go to previous cell"
 msgid "Shift + Tab"
 msgstr "Shift + Tab"
 
+msgid "No results found for {{filter}}"
+msgstr "No results found for {{filter}}"
+
 msgid "Could not find a data set for the selected id"
 msgstr "Could not find a data set for the selected id"
 
 msgid "There are no data sets available!"
 msgstr "There are no data sets available!"
+
+msgid "Search for a data set"
+msgstr "Search for a data set"
+
+msgid "Some data sets are being filtered by the chosen organisation unit"
+msgstr "Some data sets are being filtered by the chosen organisation unit"
+
+msgid "Show all data sets"
+msgstr "Show all data sets"
 
 msgid "Data set"
 msgstr "Data set"
