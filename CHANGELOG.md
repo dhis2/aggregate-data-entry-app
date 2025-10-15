@@ -1,3 +1,10 @@
+# [101.1.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.23...v101.1.0) (2025-10-15)
+
+
+### Features
+
+* allow initial selection of orgunit [DHIS2-20003] ([#492](https://github.com/dhis2/aggregate-data-entry-app/issues/492)) ([8bb3cac](https://github.com/dhis2/aggregate-data-entry-app/commit/8bb3cac6ae2e6a59e5e1f3713c5cabd25a55a668))
+
 ## [101.0.23](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.22...v101.0.23) (2025-10-06)
 
 
