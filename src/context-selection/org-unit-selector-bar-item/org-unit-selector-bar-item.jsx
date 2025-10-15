@@ -55,8 +55,6 @@ export default function OrganisationUnitSetSelectorBarItem() {
     const { expanded, handleExpand, handleCollapse } = useExpandedState()
     const { data: metadata } = useMetadata()
     const [dataSetId] = useDataSetId()
-    // const { organisationUnits: assignedOrgUnits } =
-    //     selectors.getDataSetById(metadata, dataSetId) || {}
     const { organisationUnits: assignedOrgUnits } =
         (dataSetId
             ? selectors.getDataSetById(metadata, dataSetId)
@@ -69,7 +67,6 @@ export default function OrganisationUnitSetSelectorBarItem() {
 
     const selectorBarItemValue = useSelectorBarItemValue()
     const selected = orgUnit.data ? [orgUnit.data.path] : []
-    // const disabled = false
     const filteredOrgUnitPaths = filter ? orgUnitPathsByName.data : []
     const orgUnitPathsByNameLoading =
         // offline levels need to be prefetched before rendering the org-unit-tree
