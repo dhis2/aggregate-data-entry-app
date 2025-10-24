@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useOrgUnit } from '../../shared'
+import { useOrgUnit } from '../../shared/index.js'
 import useUserOrgUnits from './use-user-org-units.js'
 
 const getExpandedOrgUnitsFromPath = (path, userOrgUnits) => {
