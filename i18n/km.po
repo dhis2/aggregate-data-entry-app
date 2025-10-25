@@ -221,7 +221,7 @@ msgid "Help"
 msgstr "ជំនួយ​"
 
 msgid "or"
-msgstr ""
+msgstr "ឬ"
 
 msgid "Shortcuts"
 msgstr ""
@@ -329,7 +329,7 @@ msgid "Value"
 msgstr "តម្លៃ"
 
 msgid "Totals"
-msgstr ""
+msgstr "តម្លៃសរុប"
 
 msgid "Audit log"
 msgstr ""
