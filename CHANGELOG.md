@@ -1,3 +1,10 @@
+## [101.1.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0...v101.1.1) (2025-10-30)
+
+
+### Bug Fixes
+
+* auto expand selected orgunit [TEC-1468] ([#493](https://github.com/dhis2/aggregate-data-entry-app/issues/493)) ([b08a4fd](https://github.com/dhis2/aggregate-data-entry-app/commit/b08a4fd739caab4a5cf3351a3291f2c355a3d5bd))
+
 # [101.1.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.23...v101.1.0) (2025-10-15)
 
 
