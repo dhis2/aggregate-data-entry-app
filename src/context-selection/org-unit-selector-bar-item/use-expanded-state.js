@@ -7,15 +7,15 @@ const getExpandedOrgUnitsFromPath = (path, userOrgUnits) => {
         return []
     }
     // trim path down to the user's available root org units
-    const trimmedPath = !userOrgUnits
-        ? path
-        : userOrgUnits.reduce((trimmedPath, orgUnit) => {
+    const trimmedPath = userOrgUnits
+        ? userOrgUnits.reduce((trimmedPath, orgUnit) => {
               if (!path.includes(orgUnit)) {
                   return trimmedPath
               }
               const thisPath = path.substring(path.indexOf(orgUnit) - 1)
               return thisPath.length > trimmedPath ? thisPath : trimmedPath
           }, '')
+        : path
 
     const selectedPaths = trimmedPath.split('/')
     const expandedPaths = selectedPaths.reduce((acc, cv, index) => {
