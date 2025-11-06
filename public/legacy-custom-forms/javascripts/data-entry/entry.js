@@ -163,8 +163,6 @@ function saveVal( dataElementId, optionComboId, fieldId, feedbackId )
 
     fieldId = '#' + fieldId;
 
-    var dataElementName = getDataElementName( dataElementId );
-
     var type = getDataElementType( dataElementId );
 
     var value;
@@ -187,116 +185,20 @@ function saveVal( dataElementId, optionComboId, fieldId, feedbackId )
         value = $(fieldId).val();
     }
 
-    $( feedbackId ).css( 'background-color', dhis2.de.cst.colorYellow );
+    $( feedbackId ).wrap( $('<div style="border: 0px solid red; position: relative" class="field-wrapper"></div>' ));
 
+    $( feedbackId ).parent('.field-wrapper').prepend('<div class="updating" style="position: absolute;inset-block-start: 0;inset-inline-end: 0;"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg" color="#4a5768"><path d="M3 7a1 1 0 110 2 1 1 0 010-2zm5 0a1 1 0 110 2 1 1 0 010-2zm5 0a1 1 0 110 2 1 1 0 010-2z" fill="currentColor" fill-rule="evenodd"></path></svg></div>')
     var periodId = $( '#selectedPeriodId' ).val();
 
     var dataSetId = $( '#selectedDataSetId' ).val();
 
-    var warning = undefined;
-
-    var existing = !!( dhis2.de.currentExistingValue && dhis2.de.currentExistingValue != '' );
-	
-    if ( value )
-    {
-        if ( type == 'TEXT' || type == 'NUMBER' || type == 'INTEGER' || type == 'INTEGER_POSITIVE' || type == 'INTEGER_NEGATIVE'
-          || type == 'INTEGER_ZERO_OR_POSITIVE' || type == 'UNIT_INTERVAL' || type == 'PERCENTAGE' || type == 'COORDINATE' || type == 'URL' )
-        {
-            if ( value.length > dhis2.de.cst.valueMaxLength )
-            {
-                return dhis2.de.alertField( fieldId, i18n_value_too_long + '\n\n' + dataElementName );
-            }
-            if ( type == 'NUMBER' && !dhis2.validation.isNumber( value ) )
-            {
-                if ( dhis2.validation.isNumber( '0' + value ) )
-                {
-                    value = '0' + value; // Prepend '0' to a leading decimal point
-                }
-                else
-                {
-                    return dhis2.de.alertField(fieldId, i18n_value_must_number + '\n\n' + dataElementName);
-                }
-            }
-            if ( type == 'INTEGER' && !dhis2.validation.isInt( value ) )
-            {
-                return dhis2.de.alertField( fieldId, i18n_value_must_integer + '\n\n' + dataElementName );
-            }
-            if ( type == 'INTEGER_POSITIVE' && !dhis2.validation.isPositiveInt( value ) )
-            {
-                return dhis2.de.alertField( fieldId, i18n_value_must_positive_integer + '\n\n' + dataElementName );
-            }
-            if ( type == 'INTEGER_NEGATIVE' && !dhis2.validation.isNegativeInt( value ) )
-            {
-                return dhis2.de.alertField( fieldId, i18n_value_must_negative_integer + '\n\n' + dataElementName );
-            }
-            if ( type == 'INTEGER_ZERO_OR_POSITIVE' && !dhis2.validation.isZeroOrPositiveInt( value ) )
-            {
-                return dhis2.de.alertField( fieldId, i18n_value_must_zero_or_positive_integer + '\n\n' + dataElementName );
-            }
-            if ( type == 'COORDINATE' && !dhis2.validation.isCoordinate( value ) )
-            {
-                return dhis2.de.alertField( fieldId, i18n_value_must_coordinate + '\n\n' + dataElementName );
-            }
-            if ( type == 'UNIT_INTERVAL' && !dhis2.validation.isUnitInterval( value ) )
-            {
-            	return dhis2.de.alertField( fieldId, i18n_value_must_unit_interval + '\n\n' + dataElementName );
-            }
-            if ( type == 'PERCENTAGE' && !dhis2.validation.isPercentage( value ) )
-            {
-            	return dhis2.de.alertField( fieldId, i18n_value_must_percentage + '\n\n' + dataElementName );
-            }
-            if ( type == 'URL' && !dhis2.validation.isValidUrl( value ) )
-            {
-                return dhis2.de.alertField( fieldId, i18n_value_must_valid_url + '\n\n' + dataElementName );
-            }
-            if ( !existing && dhis2.validation.isValidZeroNumber( value ) )
-            {
-                // If value = 0 and zero not significant for data element, skip
-            	// If existing value, let through and delete on server
-
-                if ( dhis2.de.significantZeros.indexOf( dataElementId ) == -1 && dhis2.validation.isNumericType(type) )
-                {
-                    $( fieldId ).css( 'background-color', dhis2.de.cst.colorGreen );
-                    return false;
-                }
-            }
-
-            var minString = dhis2.de.currentMinMaxValueMap[dataElementId + '-' + optionComboId + '-min'];
-            var maxString = dhis2.de.currentMinMaxValueMap[dataElementId + '-' + optionComboId + '-max'];
-
-            if ( minString && maxString ) // TODO if only one exists?
-            {
-                var valueNo = new Number( value );
-                var min = new Number( minString );
-                var max = new Number( maxString );
-
-                if ( valueNo < min )
-                {
-                    warning = i18n_value_of_data_element_less + ': ' + min + '\n\n' + dataElementName;
-                }
-
-                if ( valueNo > max )
-                {
-                    warning = i18n_value_of_data_element_greater + ': ' + max + '\n\n' + dataElementName;
-                }
-            }
-        }
-    }
-    
-    var color = warning ? dhis2.de.cst.colorOrange : dhis2.de.cst.colorGreen;
-    
-    var valueSaver = new ValueSaver( dataElementId, periodId, optionComboId, dataSetId, value, feedbackId, color );
+    var valueSaver = new ValueSaver( dataElementId, periodId, optionComboId, dataSetId, value, feedbackId, dhis2.de.cst.colorGreen );
     valueSaver.save();
 
     dhis2.de.populateRowTotals();
     dhis2.de.populateColumnTotals();
     dhis2.de.updateIndicators(); // Update indicators for custom form
     dhis2.de.updateDataElementTotals( dataElementId ); // Update data element totals for custom forms
-    
-    if ( warning )
-    {
-    	window.alert( warning );
-    }
 }
 
 function saveBoolean( dataElementId, optionComboId, _fieldId )
@@ -338,7 +240,6 @@ function saveTrueOnly( dataElementId, optionComboId, fieldId )
     valueSaver.save();
 }
 
-// ToDo(plugin): update to use alert manager?
 /**
  * Supportive method.
  */
@@ -346,8 +247,7 @@ dhis2.de.alertField = function( fieldId, alertMessage )
 {
     var $field = $( fieldId );
     $field.css( 'background-color', dhis2.de.cst.colorYellow );
-
-    window.alert( alertMessage );
+    dhis2.shim.showAlert( alertMessage );
     
     var val = dhis2.de.currentExistingValue || '';
     $field.val( val );
@@ -380,7 +280,9 @@ function ValueSaver( de, pe, co, ds, value, fieldId, resultColor )
         'ds' : ds,
         'ou' : ou,
         'pe' : pe,
-        'value' : value
+        'value' : value,
+        deId: de,
+        cocId: co
     };
 
     var cc = dhis2.de.getCurrentCategoryCombo();
@@ -394,18 +296,18 @@ function ValueSaver( de, pe, co, ds, value, fieldId, resultColor )
     
     this.save = function()
     {
-    	dhis2.de.storageManager.saveDataValue( dataValue );
-
-        $.ajax( {
-            url: '/api/dataValues',
-            // beforeSend: function( xhr ) {
-            //   xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
-            // },
-            data: dataValue,
-            type: 'post',
-            success: handleSuccess,
-            error: handleError
-        } );
+        window.dhis2.shim.saveValue(dataValue, { 
+            onSuccess: () => {
+                // need to wrap fieldId here to keep it linked to the onSuccess of this field
+                // otherwise if we pass it to parent, and then back, it gets lost in memoising hell in the useDataMutation hook
+                handleSuccess(fieldId)
+            }, 
+            onError: (e) => {
+                $(fieldId ).parent().find('.updating').remove()
+                markValue(fieldId, dhis2.de.cst.colorYellow );
+                window.dhis2.shim.showAlert(e)
+            }
+        })
     };
 
     var afterHandleSuccess = function() {};
@@ -414,39 +316,12 @@ function ValueSaver( de, pe, co, ds, value, fieldId, resultColor )
         afterHandleSuccess = callback;
     };
 
-    function handleSuccess()
+    function handleSuccess(_fieldId)
     {
-        dhis2.de.storageManager.clearDataValueJSON( dataValue );
-        markValue( fieldId, resultColor );
-        $( document ).trigger( dhis2.de.event.dataValueSaved, [ dhis2.de.currentDataSetId, dataValue ] );
+        markValue( _fieldId, resultColor );
+        // console.log($( fieldId ))
+        $( _fieldId ).parent().find('.updating').remove()
         afterHandleSuccess();
-    }
-
-    function handleError( xhr, textStatus, errorThrown )
-    {
-        console.log(xhr, textStatus)
-    	if ( 403 == xhr.status || 409 == xhr.status || 500 == xhr.status ) // Invalid value or locked
-    	{
-    		markValue( fieldId, dhis2.de.cst.colorRed );
-            var errorText = JSON.parse( xhr.responseText );
-    		setHeaderDelayMessage( errorText.message );
-    	}
-    	else if ( 401 == xhr.status )
-	    {
-            // ?! (plugin) not sure why this wasn't showing an error - seems wrong to me, and have updated it as it was confusing
-            // markValue( fieldId, resultColor ); 
-            markValue( fieldId, dhis2.de.cst.colorRed );
-            
-            dhis2.availability._isLoggedIn = false;
-            $(document).trigger("dhis2.online", [ false ]);
-	    }
-    	else // Offline, keep local value
-    	{
-            $( document ).trigger( dhis2.de.event.dataValueSaved, [ dhis2.de.currentDataSetId, dataValue ] );
-    		markValue( fieldId, resultColor );
-    		setHeaderDelayMessage( i18n_offline_notification );
-            dhis2.availability.startAvailabilityCheck();
-    	}
     }
 
     function markValue( fieldId, color )

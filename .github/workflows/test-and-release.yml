@@ -23,7 +23,7 @@ jobs:
             api_version: 41
     release:
         needs: [lint-commits, lint, test, e2e]
-        uses: dhis2/workflows-platform/.github/workflows/release.yml@with-apphub--channel
+        uses: dhis2/workflows-platform/.github/workflows/release.yml@v1
         # Skips forks and dependabot PRs
         if: '!github.event.push.repository.fork'
         secrets: inherit

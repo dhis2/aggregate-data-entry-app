@@ -26,6 +26,7 @@ function useSharedDataValueMutation({
     dataValueParams,
     mutationFn,
     optimisticUpdateFn,
+    options: { onSuccess, onError } = {},
 }) {
     const queryClient = useQueryClient()
     const dataValueSetQueryKey = useDataValueSetQueryKey()
@@ -34,6 +35,7 @@ function useSharedDataValueMutation({
     const clearError = useSyncErrorsStore(
         (state) => state.clearErrorByMutationKey
     )
+
     return useMutation(mutationFn, {
         mutationKey: mutationKey,
         onMutate: async (variables) => {
@@ -61,6 +63,7 @@ function useSharedDataValueMutation({
         // If the mutation fails, use the context returned from onMutate to roll back
         onError: (err, newDataValue, context) => {
             // this should always be the case, unless a SyntaxError occurs?
+            onError?.()
             if (isFetchError(err)) {
                 err = new ApiMutationError(
                     err,
@@ -78,9 +81,10 @@ function useSharedDataValueMutation({
                 )
             }
         },
-        onSuccess: defaultOnSuccess((data, value, { mutationKey }) =>
+        onSuccess: defaultOnSuccess((data, value, { mutationKey }) => {
             clearError(mutationKey)
-        ),
+            onSuccess?.()
+        }),
     })
 }
 
@@ -91,7 +95,7 @@ function useSharedDataValueMutation({
  * This and the following mutations handle the rest of the data value params
  * and merge in the `variables` object.
  */
-export function useSetDataValueMutation({ deId, cocId }) {
+export function useSetDataValueMutation({ deId, cocId }, options) {
     const dataValueParams = useDataValueParams({ deId, cocId })
     const mutationFn = useSetDataValueMutationFunction()
 
@@ -100,6 +104,7 @@ export function useSetDataValueMutation({ deId, cocId }) {
         mutationKey: mutationKeys.update(dataValueParams),
         mutationFn,
         optimisticUpdateFn: optimisticallySetDataValue,
+        options,
     })
 }
 /**

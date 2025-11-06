@@ -16,7 +16,7 @@ const LegacyCustomFormPlugin = (props) => {
         // initialValues,
         metadata,
         // dataSet,
-        // saveValue,
+        saveValue,
         periodId,
         dataSetId,
         orgUnitId,
@@ -45,60 +45,65 @@ const LegacyCustomFormPlugin = (props) => {
         { warning: true }
     )
 
-    useEffect(() => {
-        if (!htmlCode || !formStyles || !formScripts) {
-            return
-        }
+    useEffect(
+        () => {
+            if (!htmlCode || !formStyles || !formScripts) {
+                return
+            }
 
-        // ! Order matters
-        // 1. load external JS first (jquery etc..)
-        // 2. Append external CSS (jQuery UI, old data-entry styles etc..)
-        // 3. Append inline styles that comes from the form itself
-        // 4. Load the shim
-        // 5. Load JS scripts from the form itself
-        document.body.append(...externalScripts)
-        const head = document.getElementsByTagName('head')[0]
-        head.append(...externalCSS, ...formStyles)
+            // ! Order matters
+            // 1. load external JS first (jquery etc..)
+            // 2. Append external CSS (jQuery UI, old data-entry styles etc..)
+            // 3. Append inline styles that comes from the form itself
+            // 4. Load the shim
+            // 5. Load JS scripts from the form itself
+            document.body.append(...externalScripts)
+            const head = document.getElementsByTagName('head')[0]
+            head.append(...externalCSS, ...formStyles)
 
-        // ! loading the shim needs to be delayed in order to ensure that the base scripts (jquery et al.) are loaded first.
-        // * That order was implicit in the old Struts app, but it's not easy to guarantee in the React realm
-        // ToDo: research a better less-hacky way to control the order of loading external scripts
-        setTimeout(() => {
-            loadCustomFormShim({
-                periodId,
-                dataSetId,
-                attributeOptionComboSelection,
-                baseUrl: config?.systemInfo?.contextPath,
-                scripts: formScripts,
-                metadata,
-                orgUnitId,
-                hideAlert,
-                showAlert,
-                setHighlightedField,
-            })
+            // ! loading the shim needs to be delayed in order to ensure that the base scripts (jquery et al.) are loaded first.
+            // * That order was implicit in the old Struts app, but it's not easy to guarantee in the React realm
+            // ToDo: research a better less-hacky way to control the order of loading external scripts
+            setTimeout(() => {
+                loadCustomFormShim({
+                    periodId,
+                    dataSetId,
+                    attributeOptionComboSelection,
+                    baseUrl: config?.systemInfo?.contextPath,
+                    scripts: formScripts,
+                    metadata,
+                    orgUnitId,
+                    hideAlert,
+                    showAlert,
+                    setHighlightedField,
+                    saveValue,
+                })
 
-            // * appending the scripts that are part of the custom form at the end
-            // * (after jQuery and dhis2 utils and the shim objects are loaded as they often depend on those)
-            document.body.append(...formScripts)
+                // * appending the scripts that are part of the custom form at the end
+                // * (after jQuery and dhis2 utils and the shim objects are loaded as they often depend on those)
+                document.body.append(...formScripts)
 
-            //! Kick off everything 🚀
-            window.dhis2?.de?.loadForm()
-        }, 1000)
-    }, [
-        config?.systemInfo?.contextPath,
-        dataSetId,
-        hideAlert,
-        htmlCode,
-        metadata,
-        metadata.dataSets,
-        orgUnitId,
-        formScripts,
-        periodId,
-        showAlert,
-        formStyles,
-        attributeOptionComboSelection,
-        setHighlightedField,
-    ])
+                //! Kick off everything 🚀
+                window.dhis2?.de?.loadForm()
+            }, 2000)
+        },
+        [
+            // config?.systemInfo?.contextPath,
+            // dataSetId,
+            // hideAlert,
+            // htmlCode,
+            // // metadata,
+            // // metadata.dataSets,
+            // orgUnitId,
+            // // formScripts,
+            // periodId,
+            // // showAlert,
+            // // formStyles,
+            // // attributeOptionComboSelection,
+            // // setHighlightedField,
+            // // saveValue
+        ]
+    )
 
     return (
         <div>
@@ -122,6 +127,7 @@ LegacyCustomFormPlugin.propTypes = {
     dataSet: PropTypes.shape({ displayName: PropTypes.string }),
     initialValues: PropTypes.shape({}),
     metadata: PropTypes.object,
+    saveValue: PropTypes.func,
     setHighlightedField: PropTypes.func,
 }
 export default LegacyCustomFormPlugin
