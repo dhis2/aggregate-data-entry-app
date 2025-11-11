@@ -24,7 +24,10 @@ export const CustomForm = ({ dataSet }) => {
     })
 
     const getDataValues = useValueStore((state) => state.getDataValues)
-    const initialDataValues = getDataValues()
+    const initialDataValues = React.useMemo(
+        () => getDataValues(),
+        [getDataValues]
+    )
 
     const { data: metadata } = useMetadata()
     const [{ dataSetId, orgUnitId, periodId, attributeOptionComboSelection }] =
@@ -34,7 +37,30 @@ export const CustomForm = ({ dataSet }) => {
         (state) => state.setHighlightedField
     )
 
-    const { mutate: saveValue } = useSetDataValueMutation(defaultMutation)
+    const { mutate } = useSetDataValueMutation(defaultMutation)
+
+    const allFuncs = React.useMemo(() => [], [])
+    const sync = React.useCallback(
+        (updatedValue, options) => {
+            // ! We need to manually keep a list of the updated fields for when an offline form comes online
+            // ! otherwise, only the last field state is updated (turned green). This is different from the
+            // ! standard forms as these get re-rendered on sync, and the affected fields updated.
+            if (options?.onSuccess) {
+                allFuncs.push(options.onSuccess)
+            }
+            mutate(updatedValue, {
+                onSuccess: () => {
+                    let func = allFuncs.pop()
+                    while (func) {
+                        func?.()
+                        func = allFuncs.pop()
+                    }
+                },
+                onError: options?.onError,
+            })
+        },
+        [allFuncs, mutate]
+    )
 
     return customForm ? (
         <>
@@ -45,7 +71,7 @@ export const CustomForm = ({ dataSet }) => {
                 initialValues={initialDataValues}
                 metadata={metadata}
                 dataSet={dataSet}
-                saveValue={saveValue}
+                saveValue={sync}
                 dataSetId={dataSetId}
                 orgUnitId={orgUnitId}
                 periodId={periodId}
