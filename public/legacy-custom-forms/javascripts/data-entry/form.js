@@ -241,7 +241,7 @@ dhis2.de.addEventListeners = function()
         var optionComboId = split.optionComboId;
         dhis2.de.currentOrganisationUnitId = split.organisationUnitId;
 
-        var type = getDataElementType( dataElementId );
+        var type = getDataElementType( dataElementId )?.valueType;
 
         $( this ).unbind( 'focus' );
         $( this ).unbind( 'blur' );
@@ -265,26 +265,8 @@ dhis2.de.addEventListeners = function()
 
         if ( ( type === 'DATE' || type === 'DATETIME' ) && !isTimeField )
         {
-            // Fake event, needed for valueBlur / valueFocus when using date-picker
-            var fakeEvent = {
-                target: {
-                    id: id + '-dp'
-                }
-            };
-
-            dhis2.period.picker.createInstance( '#' + id, false, false, {
-                onSelect: function() {
-                    saveVal( dataElementId, optionComboId, id, fakeEvent.target.id );
-                },
-                onClose: function() {
-                    valueBlur( fakeEvent );
-                },
-                onShow: function() {
-                    valueFocus( fakeEvent );
-                },
-                minDate: null,
-                maxDate: null
-            } );
+            $(this).attr('type', 'date')
+            
         }
     } );
 
@@ -969,9 +951,9 @@ function insertDataValues( json )
             {
                 var $field = $( fieldId );
 
-                $field.find( 'input[class="entryfileresource-input"]' ).val( value.val );
+                $field.find( 'input[class="entryfileresource-input"]' ).val( valueToShow );
 
-                var split = dhis2.de.splitFieldId( value.id );
+                var split = dhis2.de.splitFieldId( value.value );
 
                 var dvParams = {
                     'de': split.dataElementId,
@@ -999,7 +981,8 @@ function insertDataValues( json )
                 }
                 else
                 {
-                    name = i18n_loading_file_info_failed;
+                    //  ToDO(custom-forms): fix i18n
+                    name = 'i18n_loading_file_info_failed'
                 }
 
                 var $filename = $field.find( '.upload-fileinfo-name' );
