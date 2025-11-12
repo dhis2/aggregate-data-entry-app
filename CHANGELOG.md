@@ -1,3 +1,10 @@
+# [101.1.0-alpha.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.6...v101.1.0-alpha.7) (2025-11-12)
+
+
+### Features
+
+* **custom-forms:** support offline mode ([#495](https://github.com/dhis2/aggregate-data-entry-app/issues/495)) ([4ed158f](https://github.com/dhis2/aggregate-data-entry-app/commit/4ed158f1a21882943cc53076293c247e0c1bbdb9))
+
 # [101.1.0-alpha.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.5...v101.1.0-alpha.6) (2025-10-15)
 
 
