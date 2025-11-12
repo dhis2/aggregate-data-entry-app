@@ -673,6 +673,15 @@ ul.pageSizeSelection input
 .cde table 
 {
   border-collapse: collapse;
+  border: 0px;
+}
+
+/* ToDo(custom-forms): how much custom styling do we want to do? do we want to put an effort to make it look like the new app? */
+
+.cde-NORMAL thead {
+  background-color: #404b5a;
+  color: white;
+  font-weight: normal;
 }
 
 .cde-greyfield 
@@ -683,7 +692,7 @@ ul.pageSizeSelection input
 .cde-NORMAL td, .cde-NORMAL th 
 {
   padding: 12px;
-  border: 1px solid #c0c0c0;
+  /* border: 1px solid #c0c0c0; */
 }
 
 .cde-COMFORTABLE td, .cde-COMFORTABLE th 

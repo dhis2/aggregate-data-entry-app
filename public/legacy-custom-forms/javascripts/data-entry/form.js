@@ -93,15 +93,6 @@ dhis2.de.blackListedPeriods = [];
 // Username of user who marked the current data set as complete if any
 dhis2.de.currentCompletedByUser = null;
 
-// Instance of the StorageManager
-dhis2.de.storageManager = new StorageManager();
-
-// Indicates whether current form is multi org unit
-dhis2.de.multiOrganisationUnit = false;
-
-// Indicates whether multi org unit is enabled on instance
-dhis2.de.multiOrganisationUnitEnabled = false;
-
 // Simple object to see if we have tried to fetch children DS for a parent before
 dhis2.de.fetchedDataSets = {};
 
@@ -155,18 +146,11 @@ dhis2.de.on = function( event, fn )
     $( document ).off( event ).on( event, fn );
 };
 
-var DAO = DAO || {};
 
 dhis2.de.getCurrentOrganisationUnit = function() 
 {    
     return dhis2.de.currentOrganisationUnitId;
 };
-
-DAO.store = new dhis2.storage.Store( {
-    name: 'dhis2de',
-    adapters: [ dhis2.storage.IndexedDBAdapter, dhis2.storage.DomSessionStorageAdapter, dhis2.storage.InMemoryAdapter ],
-    objectStores: [ 'optionSets', 'forms' ]
-} );
 
 ( function( $ ) {
     $.safeEach = function( arr, fn ) 
@@ -179,60 +163,9 @@ DAO.store = new dhis2.storage.Store( {
 } )( jQuery );
 
 
-// !(plugin) Check these connectivity events trigger (and what do we do with them)
-$(document).bind('dhis2.online', function( event, loggedIn ) {
-    dhis2.de.isOffline = false;
-
-    if( loggedIn ) {
-        dhis2.de.manageOfflineData();
-    }
-    else {
-        var form = [
-            '<form style="display:inline;">',
-            '<label for="username">Username</label>',
-            '<input name="username" id="username" type="text" style="width: 70px; margin-left: 10px; margin-right: 10px" size="10"/>',
-            '<label for="password">Password</label>',
-            '<input name="password" id="password" type="password" style="width: 70px; margin-left: 10px; margin-right: 10px" size="10"/>',
-            '<button id="login_button" type="button">Login</button>',
-            '</form>'
-        ].join('');
-
-        setHeaderMessage(form);
-        dhis2.de.ajaxLogin();
-    }
-});
-
-$(document).bind('dhis2.offline', function() {
-    dhis2.de.isOffline = true;
-
-    if( dhis2.de.emptyOrganisationUnits ) {
-        setHeaderMessage(i18n_no_orgunits);
-    }
-    else {
-        setHeaderMessage(i18n_offline_notification);
-    }
-});
-
-
-// !(plugin): check as part of connectivity rework
 dhis2.de.manageOfflineData = function()
 {
-    if( dhis2.de.storageManager.hasLocalData() ) {
-        var message = i18n_need_to_sync_notification
-          + ' <button id="sync_button" type="button">' + i18n_sync_now + '</button>';
-
-        setHeaderMessage(message);
-
-        $('#sync_button').bind('click', dhis2.de.uploadLocalData);
-    }
-    else {
-        if( dhis2.de.emptyOrganisationUnits ) {
-            setHeaderMessage(i18n_no_orgunits);
-        }
-        else {
-            setHeaderDelayMessage(i18n_online_notification);
-        }
-    }
+    warnDeprecate('dhis2.de.manageOfflineData', 'managing offline data is handled by the parent app')
 };
 
 /**
@@ -272,156 +205,21 @@ dhis2.de.loadDataSetAssociations = function()
     warnDeprecate('dhis2.de.loadDataSetAssociations')
 };
 
-// ? (plugin) do we need to call this still (for manageOfflineData and updateForms)
 dhis2.de.setMetaDataLoaded = function()
 {
-    dhis2.de.metaDataIsLoaded = true;
-    $( '#loaderSpan' ).hide();
-    console.log( 'Meta-data loaded' );
-
-    // ToDo(custom-forms): revisit with offline work
-    // dhis2.de.manageOfflineData();
-    updateForms();
+    warnDeprecate('dhis2.de.setMetaDataLoaded', 'metadata is passed to the plugin on mount rather than being loaded')
 };
 
 dhis2.de.discardLocalData = function() {
-    if( confirm( i18n_remove_local_data ) ) {
-        dhis2.de.storageManager.clearAllDataValues();
-        hideHeaderMessage();
-    }
+    warnDeprecate('dhis2.de.discardLocalData', 'managing offline data is handled by the parent app')
 };
 
 dhis2.de.uploadLocalData = function()
 {
-    if ( !dhis2.de.storageManager.hasLocalData() )
-    {
-        return;
-    }
-
-    var dataValues = dhis2.de.storageManager.getAllDataValues();
-    var completeDataSets = dhis2.de.storageManager.getCompleteDataSets();
-
-    setHeaderWaitMessage( i18n_uploading_data_notification );
-
-    var dataValuesArray = dataValues ? Object.keys( dataValues ) : [];
-    var completeDataSetsArray = completeDataSets ? Object.keys( completeDataSets ) : [];
-
-    function pushCompleteDataSets( array )
-    {
-        if ( array.length < 1 )
-        {
-            return;
-        }
-
-        var key = array[0];
-        var value = completeDataSets[key];
-
-        console.log( 'Uploaded complete data set: ' + key + ', with value: ' + value );
-
-        $.ajax( {
-            url: '../api/26/completeDataSetRegistrations',
-            data: value,
-            dataType: 'json',
-            success: function( data, textStatus, jqXHR )
-            {
-            	dhis2.de.storageManager.clearCompleteDataSet( value );
-                console.log( 'Successfully saved complete dataset with value: ' + value );
-                ( array = array.slice( 1 ) ).length && pushCompleteDataSets( array );
-
-                if ( array.length < 1 )
-                {
-                    setHeaderDelayMessage( i18n_sync_success );
-                }
-            },
-            error: function( jqXHR, textStatus, errorThrown )
-            {
-            	if ( 409 === xhr.status || 500 === xhr.status ) // Invalid value or locked
-            	{
-            		// Ignore value for now TODO needs better handling for locking
-            		
-            		dhis2.de.storageManager.clearCompleteDataSet( value );
-            	}
-            	else // Connection lost during upload
-        		{
-                    var message = i18n_sync_failed
-                        + ' <button id="sync_button" type="button">' + i18n_sync_now + '</button>'
-                        + ' <button id="discard_button" type="button">' + i18n_discard + '</button>';
-
-                    setHeaderMessage( message );
-
-                    $( '#sync_button' ).bind( 'click', dhis2.de.uploadLocalData );
-                    $( '#discard_button' ).bind( 'click', dhis2.de.discardLocalData );
-        		}
-            }
-        } );
-    }
-
-    ( function pushDataValues( array )
-    {
-        if ( array.length < 1 )
-        {
-            setHeaderDelayMessage( i18n_online_notification );
-
-            pushCompleteDataSets( completeDataSetsArray );
-
-            return;
-        }
-
-        var key = array[0];
-        var value = dataValues[key];
-
-        if ( value !== undefined && value.value !== undefined && value.value.length > 254 )
-        {
-            value.value = value.value.slice(0, 254);
-        }
-
-        console.log( 'Uploading data value: ' + key + ', with value: ' + value );
-
-        $.ajax( {
-            url: '../api/dataValues',
-            data: value,
-            dataType: 'text',
-            type: 'post',
-            success: function( data, textStatus, xhr )
-            {
-            	dhis2.de.storageManager.clearDataValueJSON( value );
-                console.log( 'Successfully saved data value with value: ' + value );
-                ( array = array.slice( 1 ) ).length && pushDataValues( array );
-
-                if ( array.length < 1 && completeDataSetsArray.length > 0 )
-                {
-                    pushCompleteDataSets( completeDataSetsArray );
-                }
-                else
-                {
-                    setHeaderDelayMessage( i18n_sync_success );
-                }
-            },
-            error: function( xhr, textStatus, errorThrown )
-            {
-            	if ( 403 == xhr.status || 409 === xhr.status || 500 === xhr.status ) // Invalid value or locked
-            	{
-            		// Ignore value for now TODO needs better handling for locking
-            		
-            		dhis2.de.storageManager.clearDataValueJSON( value );
-            	}
-            	else // Connection lost during upload
-            	{
-	                var message = i18n_sync_failed
-                    + ' <button id="sync_button" type="button">' + i18n_sync_now + '</button>'
-                    + ' <button id="discard_button" type="button">' + i18n_discard + '</button>';
-
-	                setHeaderMessage( message );
-
-	                $( '#sync_button' ).bind( 'click', dhis2.de.uploadLocalData );
-                  $( '#discard_button' ).bind( 'click', dhis2.de.discardLocalData );
-            	}
-            }
-        } );
-    } )( dataValuesArray );
+    warnDeprecate('dhis2.de.uploadLocalData', 'managing offline data is handled by the parent app')
 };
 
-// ToDO(plugin): go through these event listeners
+// ToDO(custom-forms): go through these event listeners
 dhis2.de.addEventListeners = function()
 {
     $( '.entryfield, .entrytime, [name="entryfield"]' ).each( function( i )
@@ -458,11 +256,6 @@ dhis2.de.addEventListeners = function()
         $( this ).change( function()
         {
             saveVal( dataElementId, optionComboId, id );
-        } );
-
-        $( this ).dblclick( function()
-        {
-            viewHist( dataElementId, optionComboId );
         } );
 
         $( this ).keyup( function( event )
@@ -560,24 +353,17 @@ dhis2.de.addEventListeners = function()
 
 dhis2.de.resetSectionFilters = function()
 {
-    // ToDo(plugin): should this make a call to the parent (need custom form with custom forms)
-    // $( '#filterDataSetSectionDiv' ).hide();
-    // $( '.formSection' ).show();
+    warnDeprecate('dhis2.de.resetSectionFilters')
 }
 
 dhis2.de.clearSectionFilters = function()
 {
-    // ToDo(plugin): should this make a call to the parent (need custom form with custom forms)
-    // $( '#filterDataSetSection' ).children().remove();
-    // $( '#filterDataSetSectionDiv' ).hide();
-    // $( '.formSection' ).show();
+    warnDeprecate('dhis2.de.clearSectionFilters')
 }
 
 dhis2.de.clearPeriod = function()
 {
-    // ToDo(plugin): should this make a call to the parent?
-    // clearListById( 'selectedPeriodId' );
-    // dhis2.de.clearEntryForm();
+    warnDeprecate('dhis2.de.clearPeriod')
 }
 
 /**
@@ -598,7 +384,6 @@ dhis2.de.loadForm = function()
 	
     $( "#tabs" ).tabs({
         activate: function(){
-            // ToDo(custom-forms): need to find sample forms to test these
             //populate section row/column totals
             dhis2.de.populateRowTotals();
             dhis2.de.populateColumnTotals();
@@ -609,7 +394,6 @@ dhis2.de.loadForm = function()
     console.log('[custom-forms] dhis2.de.currentOrganisationUnitId', dhis2.de.currentOrganisationUnitId)
     console.log('[custom-forms] dhis2.de.currentDataSetId', dhis2.de.currentDataSetId)
     $( document ).trigger( dhis2.de.event.formLoaded, dhis2.de.currentDataSetId );
-    // dhis2.de.manageOfflineData();
 
     dataSetSelected();
     var table = $( '.sectionTable' );
@@ -635,26 +419,11 @@ dhis2.de.splitFieldId = function( id )
 {
     var split = {};
 
-    if ( dhis2.de.multiOrganisationUnit )
-    {
-        split.organisationUnitId = id.split( '-' )[0];
-        split.dataElementId = id.split( '-' )[1];
-        split.optionComboId = id.split( '-' )[2];
-    }
-    else
-    {
-        split.organisationUnitId = dhis2.de.getCurrentOrganisationUnit();
-        split.dataElementId = id.split( '-' )[0];
-        split.optionComboId = id.split( '-' )[1];
-    }
+    split.organisationUnitId = dhis2.de.getCurrentOrganisationUnit();
+    split.dataElementId = id.split( '-' )[0];
+    split.optionComboId = id.split( '-' )[1];
 
     return split;
-}
-
-function refreshZebraStripes( $tbody )
-{
-    $tbody.find( 'tr:not([colspan]):visible:even' ).find( 'td:first-child' ).removeClass( 'reg alt' ).addClass( 'alt' );
-    $tbody.find( 'tr:not([colspan]):visible:odd' ).find( 'td:first-child' ).removeClass( 'reg alt' ).addClass( 'reg' );
 }
 
 function getDataElementType( dataElementId )
@@ -694,27 +463,6 @@ function getOptionComboName( optionComboId )
 	return dhis2.de.cst.defaultName;
 }
 
-function arrayChunk( array, size )
-{
-    if ( !array || !array.length )
-    {
-        return [];
-    }
-
-    if ( !size || size < 1 )
-    {
-        return array;
-    }
-
-    var groups = [];
-    var chunks = array.length / size;
-    for ( var i = 0, j = 0; i < chunks; i++, j += size )
-    {
-        groups[i] = array.slice(j, j + size);
-    }
-
-    return groups;
-}
 
 /**
  * Fetch data-sets for a orgUnit + data-sets for its children.
@@ -785,9 +533,7 @@ function dataSetSelected()
     dhis2.de.currentDataSetId = $( '#selectedDataSetId' ).val();
     dhis2.de.currentCategories = dhis2.de.getCategories( dhis2.de.currentDataSetId );
 
-    
-    // ! all period blocking and navigation logic removed as it is in the parent app now
-    // ! test allow future periods
+    // ToDo(plugin): test "allow future periods"
     
 }
 
@@ -1002,8 +748,7 @@ dhis2.de.getAttributesMarkup = function()
  */
 dhis2.de.clearAttributes = function()
 {
-    // ToDo(plugin): proxy this method to parent
-	$( '#attributeComboDiv' ).html( '' );
+    warnDeprecate('dhis2.de.clearAttributes')
 };
 
 /**
@@ -1032,8 +777,6 @@ dhis2.de.inputSelected = function()
 function loadDataValues()
 {
     console.log('[custom-forms]: loadDataValues')
-    // dhis2.de.currentOrganisationUnitId = selection.getSelected()[0];
-
     getAndInsertDataValues();
     displayEntryFormCompleted();
 }
@@ -1084,7 +827,6 @@ function getAndInsertDataValues()
         ds : dataSetId,
         // dataElementId: dataElementId,
         ou : dhis2.de.getCurrentOrganisationUnit(),
-        // multiOrganisationUnit: dhis2.de.multiOrganisationUnit
     };
 
     var cc = dhis2.de.getCurrentCategoryCombo();
@@ -1100,13 +842,10 @@ function getAndInsertDataValues()
     	url: '/api/dataEntry/dataValues',
     	data: params,
 	    dataType: 'json',
-	    error: function() // offline
+	    error: function(err) // offline
 	    {
-	    	$( '#completenessDiv' ).show();
-	    	$( '#infoDiv' ).hide();
-	    	
-	    	var json = getOfflineDataValueJson( params );
-	    	insertDataValues( json );
+            console.error(err)
+            // ToDo(custom-forms): what do we do on error - we can use a similar approach to saving and use parent method to load data values (then it might work offline too)
 	    },
 	    success: function( json ) // online
 	    {
@@ -1125,32 +864,6 @@ function getAndInsertDataValues()
 	} );
 }
 
-function getOfflineDataValueJson( params )
-{
-	var dataValues = dhis2.de.storageManager.getDataValuesInForm( params );
-	var complete = dhis2.de.storageManager.hasCompleteDataSet( params );
-	
-	var json = {};
-	json.dataValues = new Array();
-	json.locked = 'OPEN';
-	json.complete = complete;
-	json.date = "";
-	json.storedBy = "";
-    json.lastUpdatedBy = "";
-		
-	for ( var i = 0; i < dataValues.length; i++ )
-	{
-		var dataValue = dataValues[i];
-		
-		json.dataValues.push( { 
-			'id': dataValue.de + '-' + dataValue.co,
-			'val': dataValue.value
-		} );
-	}
-	
-	return json;
-}
-
 function insertDataValues( json )
 {
     var dataValueMap = []; // Reset
@@ -1164,7 +877,8 @@ function insertDataValues( json )
     
     if ( dataSet && dataSet.expiryDays > 0 )
     {
-        var serverTimeDelta = dhis2.de.storageManager.getServerTimeDelta() || 0;
+        // ToDO(custom-forms): do we need an equivalent of this server time delta logic?
+        var serverTimeDelta = dhis2.de?.storageManager?.getServerTimeDelta?.() || 0;
         var maxDate = moment( period.endDate, dhis2.period.format.toUpperCase() ).add( parseInt(dataSet.expiryDays), 'day' );
         periodLocked = moment().add( serverTimeDelta, 'ms' ).isAfter( maxDate );
     }
@@ -1199,18 +913,16 @@ function insertDataValues( json )
     // $( '#contentDiv .entryfileresource' ).data( 'disabled', json.locked !== 'OPEN' );
 
     // Set data values, works for selects too as data value=select value    
-    if ( !dhis2.de.multiOrganisationUnit  )
-    {	
-    	if ( period )
-		{    
-    		if ( dhis2.de.validateOrgUnitOpening( organisationUnits[dhis2.de.getCurrentOrganisationUnit()], period ) )
-    		{
-    			dhis2.de.lockForm();
-            setHeaderDelayMessage( i18n_orgunit_is_closed );
-    	        return;
-    		}
-    	}
+    if ( period )
+    {    
+        if ( dhis2.de.validateOrgUnitOpening( organisationUnits[dhis2.de.getCurrentOrganisationUnit()], period ) )
+        {
+            dhis2.de.lockForm();
+        setHeaderDelayMessage( i18n_orgunit_is_closed );
+            return;
+        }
     }
+    
     
     $.safeEach( json.dataValues, function( i, value )
     {
@@ -1326,7 +1038,7 @@ function insertDataValues( json )
         
         dataValueMap[value.id] = value.val;
 
-        // ToDO: what is this????
+        // ToDO(custom-forms): what is this???? do we need to do something special for pickers?
         // dhis2.period.picker.updateDate(fieldId);
         
     } );
@@ -1452,774 +1164,10 @@ function getPreviousEntryField( field )
     }
 }
 
-
-// -----------------------------------------------------------------------------
-// Local storage of forms
-// -----------------------------------------------------------------------------
-
-function updateForms()
-{
-    DAO.store.open()
-        .then(purgeLocalForms)
-        .then(getLocalFormsToUpdate)
-        .then(downloadForms)
-        .then(getUserSetting)
-        .then(getTimeDelta)
-        .then(getRemoteFormsToDownload)
-        .then(downloadForms)
-        .then(dhis2.de.loadOptionSets)
-        .done( function() {
-            setDisplayNamePreferences();
-
-            selection.responseReceived();
-        } );
-}
-
-function setDisplayNamePreferences() {
-    var settings = dhis2.de.storageManager.getUserSettings();
-    var useShortNames = true;
-
-    if ( settings !== null ) {
-        useShortNames = settings.keyAnalysisDisplayProperty === "shortName";
-    }
-
-    selection.setDisplayShortNames(useShortNames);
-}
-
-function purgeLocalForms()
-{
-    var def = $.Deferred();
-
-    dhis2.de.storageManager.getAllForms().done(function( formIds ) {
-        var keys = [];
-
-        $.safeEach( formIds, function( idx, item )
-        {
-            if ( dhis2.de.dataSets[item] == null )
-            {
-                keys.push(item);
-            	dhis2.de.storageManager.deleteFormVersion( item );
-                console.log( 'Deleted locally stored form: ' + item );
-            }
-        } );
-
-        def.resolve();
-
-        console.log( 'Purged local forms' );
-    });
-
-    return def.promise();
-}
-
-function getLocalFormsToUpdate()
-{
-    var def = $.Deferred();
-    var formsToDownload = [];
-
-    dhis2.de.storageManager.getAllForms().done(function( formIds ) {
-        var formVersions = dhis2.de.storageManager.getAllFormVersions();
-
-        $.safeEach( formIds, function( idx, item )
-        {
-            var ds = dhis2.de.dataSets[item];
-            var remoteVersion = ds ? ds.version : null;
-            var localVersion = formVersions[item];
-
-            if ( remoteVersion == null || localVersion == null || remoteVersion != localVersion )
-            {
-            	formsToDownload.push({id: item, version: remoteVersion});
-            }
-        } );
-
-        def.resolve( formsToDownload );
-    });
-
-    return def.promise();
-}
-
-function getRemoteFormsToDownload()
-{
-    var def = $.Deferred();
-    var formsToDownload = [];
-
-    $.safeEach( dhis2.de.dataSets, function( idx, item )
-    {
-        var remoteVersion = item.version;
-
-        if ( !item.skipOffline )
-        {
-            dhis2.de.storageManager.formExists( idx ).done(function( value ) {
-                if( !value ) {
-                	formsToDownload.push({id: idx, version: remoteVersion})
-                }
-            });
-        }
-    } );
-
-    $.when.apply($, formsToDownload).then(function() {
-        def.resolve( formsToDownload );
-    });
-
-    return def.promise();
-}
-
-function downloadForms( forms )
-{
-    if ( !forms || !forms.length || forms.length < 1 )
-    {
-        return;
-    }
-
-    var batches = arrayChunk( forms, dhis2.de.cst.downloadBatchSize );
-
-    var mainDef = $.Deferred();
-    var mainPromise = mainDef.promise();
-
-    var batchDef = $.Deferred();
-    var batchPromise = batchDef.promise();
-
-    var builder = $.Deferred();
-    var build = builder.promise();
-
-    $.safeEach( batches, function ( idx, batch ) {
-        batchPromise = batchPromise.then(function(){
-            return downloadFormsInBatch( batch );
-        });
-    });
-
-    build.done(function() {
-        batchDef.resolve();
-        batchPromise = batchPromise.done( function () {
-            mainDef.resolve();
-        } );
-
-    }).fail(function(){
-        mainDef.resolve();
-    });
-
-    builder.resolve();
-
-    return mainPromise;
-}
-
-function downloadFormsInBatch( batch )
-{
-    var def = $.Deferred();
-    var chain = [];
-
-    $.safeEach( batch, function ( idx, item ) {
-        if ( item && item.id && item.version )
-        {
-            chain.push( dhis2.de.storageManager.downloadForm( item.id, item.version ) );
-        }
-    });
-
-    $.when.apply($, chain).then(function() {
-    	def.resolve( chain );
-    });
-
-    return def.promise();
-}
-// -----------------------------------------------------------------------------
-// StorageManager
-// -----------------------------------------------------------------------------
-
-/**
- * This object provides utility methods for localStorage and manages data entry
- * forms and data values.
- */
-function StorageManager()
-{
-    var KEY_FORM_VERSIONS = 'formversions';
-    var KEY_DATAVALUES = 'datavalues';
-    var KEY_COMPLETEDATASETS = 'completedatasets';
-    var KEY_USER_SETTINGS = 'usersettings';
-    var KEY_SERVER_TIME_DELTA = 'servertimedelta';
-    var KEY_SERVER_TIME_RETRIEVED = 'servertimeretrieved';
-
-    /**
-     * Gets the content of a data entry form.
-     *
-     * @param dataSetId the identifier of the data set of the form.
-     * @return the content of a data entry form.
-     */
-    this.getForm = function( dataSetId )
-    {
-        var def = $.Deferred();
-
-        DAO.store.get( "forms", dataSetId ).done( function( form ) {
-            if( typeof form !== 'undefined' ) {
-                def.resolve( form.data );
-            } else {
-                dhis2.de.storageManager.loadForm( dataSetId ).done(function( data ) {
-                    def.resolve( data );
-                }).fail(function() {
-                    def.resolve( "A form with that ID is not available. Please clear browser cache and try again." );
-                });
-            }
-        });
-
-        return def.promise();
-    };
-
-    /**
-     * Returns an array of the identifiers of all forms.
-     *
-     * @return array with form identifiers.
-     */
-    this.getAllForms = function()
-    {
-        var def = $.Deferred();
-
-        DAO.store.getKeys( "forms" ).done( function( keys ) {
-            def.resolve( keys );
-        });
-
-        return def.promise();
-    };
-
-    /**
-     * Indicates whether a form exists.
-     *
-     * @param dataSetId the identifier of the data set of the form.
-     * @return true if a form exists, false otherwise.
-     */
-    this.formExists = function( dataSetId )
-    {
-        var def = $.Deferred();
-
-        DAO.store.contains( "forms", dataSetId ).done( function( found ) {
-            def.resolve( found );
-        });
-
-        return def.promise();
-    };
-
-    /**
-     * Indicates whether a form exists remotely.
-     *
-     * @param dataSetId the identifier of the data set of the form.
-     * @return true if a form exists, false otherwise.
-     */
-    this.formExistsRemotely = function( dataSetId )
-    {
-        var def = $.Deferred();
-
-        $.ajax({
-            url: '../api/dataSets/' + dataSetId,
-            accept: 'application/json',
-            type: 'GET'
-        }).done(function() {
-            def.resolve( true );
-        }).fail(function() {
-            def.resolve( false );
-        });
-
-        return def.promise();
-    };
-
-    /**
-     * Loads a form directly from the server, does not try to save it in the
-     * browser (so that it doesn't interfere with any current downloads).
-     *
-     * @param dataSetId
-     * @returns {*}
-     */
-    this.loadForm = function( dataSetId )
-    {
-        warnDeprecate('StoreManager.loadForm')
-    };
-
-    /**
-     * Downloads the form for the data set with the given identifier from the
-     * remote server and saves the form locally. Potential existing forms with
-     * the same identifier will be overwritten. Updates the form version.
-     *
-     * @param dataSetId the identifier of the data set of the form.
-     * @param formVersion the version of the form of the remote data set.
-     */
-    this.downloadForm = function( dataSetId, formVersion )
-    {
-        var def = $.Deferred();
-        
-        console.log( 'Starting download of form: ' + dataSetId );
-
-        $.ajax( {
-            url: 'loadForm.action',
-            data:
-            {
-                dataSetId : dataSetId
-            },
-            dataSetId: dataSetId,
-            formVersion: formVersion,
-            dataType: 'text',
-            success: function( data )
-            {
-                var dataSet = {
-                    id: dataSetId,
-                    version: formVersion,
-                    data: data
-                };
-
-                DAO.store.set( "forms", dataSet ).done(function() {
-                    console.log( 'Successfully stored form: ' + dataSetId );
-                    def.resolve();
-                });
-
-            	dhis2.de.storageManager.saveFormVersion( this.dataSetId, this.formVersion );
-            }
-        } );
-
-        return def.promise();
-    };
-
-    /**
-     * Saves a version for a form.
-     *
-     * @param dataSetId the identifier of the data set of the form.
-     * @param formVersion the version of the form.
-     */
-    this.saveFormVersion = function( dataSetId, formVersion )
-    {
-        var formVersions = {};
-
-        if ( localStorage[KEY_FORM_VERSIONS] != null )
-        {
-            formVersions = JSON.parse( localStorage[KEY_FORM_VERSIONS] );
-        }
-
-        formVersions[dataSetId] = formVersion;
-
-        try
-        {
-            localStorage[KEY_FORM_VERSIONS] = JSON.stringify( formVersions );
-
-          console.log( 'Successfully stored form version: ' + dataSetId );
-        } 
-        catch ( e )
-        {
-          console.log( 'Max local storage quota reached, ignored form version: ' + dataSetId );
-        }
-    };
-
-    /**
-     * Returns the version of the form of the data set with the given
-     * identifier.
-     *
-     * @param dataSetId the identifier of the data set of the form.
-     * @return the form version.
-     */
-    this.getFormVersion = function( dataSetId )
-    {
-        if ( localStorage[KEY_FORM_VERSIONS] != null )
-        {
-            var formVersions = JSON.parse( localStorage[KEY_FORM_VERSIONS] );
-
-            return formVersions[dataSetId];
-        }
-
-        return null;
-    };
-
-    /**
-     * Deletes the form version of the data set with the given identifier.
-     *
-     * @param dataSetId the identifier of the data set of the form.
-     */
-    this.deleteFormVersion = function( dataSetId )
-    {
-    	if ( localStorage[KEY_FORM_VERSIONS] != null )
-        {
-            var formVersions = JSON.parse( localStorage[KEY_FORM_VERSIONS] );
-
-            if ( formVersions[dataSetId] != null )
-            {
-                delete formVersions[dataSetId];
-                localStorage[KEY_FORM_VERSIONS] = JSON.stringify( formVersions );
-            }
-        }
-    };
-
-    this.getAllFormVersions = function()
-    {
-        return localStorage[KEY_FORM_VERSIONS] != null ? JSON.parse( localStorage[KEY_FORM_VERSIONS] ) : null;
-    };
-
-    /**
-     * Saves a data value.
-     *
-     * @param dataValue The datavalue and identifiers in json format.
-     */
-    this.saveDataValue = function( dataValue )
-    {
-        var id = this.getDataValueIdentifier( dataValue.de, 
-        		dataValue.co, dataValue.pe, dataValue.ou );
-
-        var dataValues = {};
-
-        if ( localStorage[KEY_DATAVALUES] != null )
-        {
-            dataValues = JSON.parse( localStorage[KEY_DATAVALUES] );
-        }
-
-        dataValues[id] = dataValue;
-
-        try
-        {
-            localStorage[KEY_DATAVALUES] = JSON.stringify( dataValues );
-
-          console.log( 'Successfully stored data value' );
-        } 
-        catch ( e )
-        {
-          console.log( 'Max local storage quota reached, not storing data value locally' );
-        }
-    };
-
-    /**
-     * Gets the value for the data value with the given arguments, or null if it
-     * does not exist.
-     *
-     * @param de the data element identifier.
-     * @param co the category option combo identifier.
-     * @param pe the period identifier.
-     * @param ou the organisation unit identifier.
-     * @return the value for the data value with the given arguments, null if
-     *         non-existing.
-     */
-    this.getDataValue = function( de, co, pe, ou )
-    {
-        var id = this.getDataValueIdentifier( de, co, pe, ou );
-
-        if ( localStorage[KEY_DATAVALUES] != null )
-        {
-            var dataValues = JSON.parse( localStorage[KEY_DATAVALUES] );
-
-            return dataValues[id];
-        }
-
-        return null;
-    };
-    
-    /**
-     * Returns the data values for the given period and organisation unit 
-     * identifiers as an array.
-     * 
-     * @param json object with periodId and organisationUnitId properties.
-     */
-    this.getDataValuesInForm = function( json )
-    {
-    	var dataValues = this.getDataValuesAsArray();
-    	var valuesInForm = new Array();
-    	
-		for ( var i = 0; i < dataValues.length; i++ )
-		{
-			var val = dataValues[i];
-			
-			if ( val.pe == json.periodId && val.ou == json.organisationUnitId )
-			{
-				valuesInForm.push( val );
-			}
-		}
-    	
-    	return valuesInForm;
-    }
-
-    /**
-     * Removes the given dataValue from localStorage.
-     *
-     * @param dataValue The datavalue and identifiers in json format.
-     */
-    this.clearDataValueJSON = function( dataValue )
-    {
-        this.clearDataValue( dataValue.de, dataValue.co, dataValue.pe,
-                dataValue.ou );
-    };
-
-    /**
-     * Removes the given dataValue from localStorage.
-     *
-     * @param de the data element identifier.
-     * @param co the category option combo identifier.
-     * @param pe the period identifier.
-     * @param ou the organisation unit identifier.
-     */
-    this.clearDataValue = function( de, co, pe, ou )
-    {
-        var id = this.getDataValueIdentifier( de, co, pe, ou );
-        var dataValues = this.getAllDataValues();
-
-        if ( dataValues != null && dataValues[id] != null )
-        {
-            delete dataValues[id];
-            localStorage[KEY_DATAVALUES] = JSON.stringify( dataValues );
-        }
-    };
-
-    /**
-     * Returns a JSON associative array where the keys are on the form <data
-     * element id>-<category option combo id>-<period id>-<organisation unit
-     * id> and the data values are the values.
-     *
-     * @return a JSON associative array.
-     */
-    this.getAllDataValues = function()
-    {
-        return localStorage[KEY_DATAVALUES] != null ? JSON.parse( localStorage[KEY_DATAVALUES] ) : null;
-    };
-
-    this.clearAllDataValues = function()
-    {
-        localStorage[KEY_DATAVALUES] = "";
-    };
-
-    /**
-     * Returns all data value objects in an array. Returns an empty array if no
-     * data values exist. Items in array are guaranteed not to be undefined.
-     */
-    this.getDataValuesAsArray = function()
-    {
-    	var values = new Array();
-    	var dataValues = this.getAllDataValues();
-    	
-    	if ( undefined === dataValues )
-    	{
-    		return values;
-    	}
-    	
-    	for ( i in dataValues )
-    	{
-    		if ( dataValues.hasOwnProperty( i ) && undefined !== dataValues[i] )
-    		{
-    			values.push( dataValues[i] );
-    		}
-    	}
-    	
-    	return values;
-    }
-
-    /**
-     * Generates an identifier.
-     */
-    this.getDataValueIdentifier = function( de, co, pe, ou )
-    {
-        return de + '-' + co + '-' + pe + '-' + ou;
-    };
-
-    /**
-     * Generates an identifier.
-     */
-    this.getCompleteDataSetId = function( json )
-    {
-        return json.ds + '-' + json.pe + '-' + json.ou;
-    };
-
-    /**
-     * Returns current state in data entry form as associative array.
-     *
-     * @return an associative array.
-     */
-    this.getCurrentCompleteDataSetParams = function()
-    {
-        var params = {
-            'ds': $( '#selectedDataSetId' ).val(),
-            'pe': $( '#selectedPeriodId').val(),
-            'ou': dhis2.de.getCurrentOrganisationUnit(),
-            'multiOu': dhis2.de.multiOrganisationUnit
-        };
-
-        return params;
-    };
-
-    /**
-     * Gets all complete data set registrations as JSON.
-     *
-     * @return all complete data set registrations as JSON.
-     */
-    this.getCompleteDataSets = function()
-    {
-        if ( localStorage[KEY_COMPLETEDATASETS] != null )
-        {
-            return JSON.parse( localStorage[KEY_COMPLETEDATASETS] );
-        }
-
-        return null;
-    };
-
-    /**
-     * Saves a complete data set registration.
-     *
-     * @param json the complete data set registration as JSON.
-     */
-    this.saveCompleteDataSet = function( json )
-    {
-        var completeDataSets = this.getCompleteDataSets();
-        var completeDataSetId = this.getCompleteDataSetId( json );
-
-        if ( completeDataSets != null )
-        {
-            completeDataSets[completeDataSetId] = json;
-        }
-        else
-        {
-            completeDataSets = {};
-            completeDataSets[completeDataSetId] = json;
-        }
-
-        try
-        {
-        	localStorage[KEY_COMPLETEDATASETS] = JSON.stringify( completeDataSets );
-        }
-        catch ( e )
-        {
-        	log( 'Max local storage quota reached, not storing complete registration locally' );
-        }
-    };
-    
-    /**
-     * Indicates whether a complete data set registration exists for the given
-     * argument.
-     * 
-     * @param json object with periodId, dataSetId, organisationUnitId properties.
-     */
-    this.hasCompleteDataSet = function( json )
-    {
-    	var id = this.getCompleteDataSetId( json );
-    	var registrations = this.getCompleteDataSets();
-    	
-        if ( null != registrations && undefined !== registrations && undefined !== registrations[id] )
-        {
-            return true;
-        }
-    	
-    	return false;
-    }
-
-    /**
-     * Removes the given complete data set registration.
-     *
-     * @param json the complete data set registration as JSON.
-     */
-    this.clearCompleteDataSet = function( json )
-    {
-        var completeDataSets = this.getCompleteDataSets();
-        var completeDataSetId = this.getCompleteDataSetId( json );
-
-        if ( completeDataSets != null )
-        {
-            delete completeDataSets[completeDataSetId];
-
-            if ( completeDataSets.length > 0 )
-            {
-                localStorage.removeItem( KEY_COMPLETEDATASETS );
-            }
-            else
-            {
-                localStorage[KEY_COMPLETEDATASETS] = JSON.stringify( completeDataSets );
-            }
-        }
-    };
-
-    /**
-     * Returns the cached user settings
-     */
-    this.getUserSettings = function()
-    {
-        return localStorage[ KEY_USER_SETTINGS ] !== null 
-            ? JSON.parse(localStorage[ KEY_USER_SETTINGS ])
-            : null;
-    }
-
-    /**
-     * Caches the user settings
-     * @param settings The user settings object (JSON) to serialize into cache
-     */
-    this.setUserSettings = function(settings)
-    {
-        localStorage[ KEY_USER_SETTINGS ] = JSON.stringify(settings);
-    }
-
-    /**
-     * Returns the cached server time delta
-     */
-    this.getServerTimeDelta = function()
-    {
-        // if it has been more than 1 hour since last update, pull server time again
-        var lastRetrieved = this.getServerTimeRetrieved();
-        if (lastRetrieved === null || (new Date() - lastRetrieved > 3600000)) {
-            getTimeDelta();
-        }
-        return localStorage[ KEY_SERVER_TIME_DELTA ]
-            ? JSON.parse(localStorage[ KEY_SERVER_TIME_DELTA ])
-            : null;
-    }
-
-    /**
-     * Caches the time difference between server time and browser time
-     * @param timeDelta The time difference (server - client) in milliseconds (integer)
-     */
-    this.setServerTimeDelta = function(timeDelta)
-    {
-        localStorage[ KEY_SERVER_TIME_DELTA ] = timeDelta;
-    }
-
-    /**
-     * Returns the cached time when server time delta was retrieved
-     */
-    this.getServerTimeRetrieved = function()
-    {
-        return localStorage[ KEY_SERVER_TIME_RETRIEVED ]
-        ? parseInt(localStorage[ KEY_SERVER_TIME_RETRIEVED ])
-        : null;
-    }
-
-    /**
-     * Caches the time that server time delta was last retrieved
-     * @param retrievalTime javascript date
-     */
-    this.setServerTimeRetrieved = function(retrievalTime)
-    {
-        localStorage[ KEY_SERVER_TIME_RETRIEVED ] = retrievalTime.getTime();
-    }
-
-    /**
-     * Indicates whether there exists data values or complete data set
-     * registrations in the local storage.
-     *
-     * @return true if local data exists, false otherwise.
-     */
-    this.hasLocalData = function()
-    {
-        var dataValues = this.getAllDataValues();
-        var completeDataSets = this.getCompleteDataSets();
-
-        if ( dataValues == null && completeDataSets == null )
-        {
-            return false;
-        }
-        else if ( dataValues != null )
-        {
-            if ( Object.keys( dataValues ).length < 1 )
-            {
-                return false;
-            }
-        }
-        else if ( completeDataSets != null )
-        {
-            if ( Object.keys( completeDataSets ).length < 1 )
-            {
-                return false;
-            }
-        }
-
-        return true;
-    };
-}
-
 // -----------------------------------------------------------------------------
 // Option set
 // -----------------------------------------------------------------------------
-// ToDo(plugin): what needs to be done for option sets
+// ToDo(custom-forms): what needs to be done for option sets? searching, autocompleting etc...
 /**
  * Inserts the name of the option set in the input field with the given identifier.
  * The option set input fields should use the name as label and code as value to
@@ -2254,52 +1202,8 @@ dhis2.de.setOptionNameInField = function( fieldId, value )
  * set from server.
  */
 dhis2.de.searchOptionSet = function( uid, query, success ) 
-{
-	var noneVal = '[No value]';
-	
-    if ( window.DAO !== undefined && window.DAO.store !== undefined ) {
-        DAO.store.get( 'optionSets', uid ).done( function ( obj ) {
-            if ( obj && obj.optionSet ) {
-                var options = [];
-
-                if ( query == null || query == '' || query == noneVal ) {
-                    options = obj.optionSet.options.slice( 0, dhis2.de.cst.dropDownMaxItems - 1 );
-                } 
-                else {
-                    query = query.toLowerCase();
-
-                    for ( var idx=0, len = obj.optionSet.options.length; idx < len; idx++ ) {
-                        var item = obj.optionSet.options[idx];
-
-                        if ( options.length >= dhis2.de.cst.dropDownMaxItems ) {
-                            break;
-                        }
-
-                        if ( item.name.toLowerCase().indexOf( query ) != -1 ) {
-                            options.push( item );
-                        }
-                    }
-                }
-                
-                if ( options && options.length > 0 ) {
-                	options.push( { name: noneVal, code: '' } );
-                }
-
-                success( $.map( options, function ( item ) {
-                    return {
-                        label: item.displayName,
-                        id: item.code
-                    };
-                } ) );
-            }
-            else {
-                dhis2.de.getOptions( uid, query, success );
-            }
-        } );
-    } 
-    else {
-        dhis2.de.getOptions( uid, query, success );
-    }
+{	
+    dhis2.de.getOptions( uid, query, success );
 };
 
 /**
@@ -2340,8 +1244,7 @@ dhis2.de.getOptions = function( uid, query, success )
  */
 dhis2.de.loadOptionSets = function() 
 {
-    
-    // ToDO(custom-froms): maybe we set DAO.store.set( 'optionSets', dhis2.de.optionSets ); to keep the old interface working?
+    warnDeprecate('dhis2.de.loadOptionSets')
 };
 
 /**
@@ -2352,7 +1255,7 @@ dhis2.de.loadOptionSets = function()
  */
 dhis2.de.enableDEDescriptionEvent = function()
 {
-    
+    warnDeprecate('dhis2.de.enableDEDescriptionEvent')
 }
 
 /**
@@ -2478,135 +1381,86 @@ dhis2.de.getSelectedPeriod = function()
     return period;
 }
 
-/*
+/**
  * lock all input filed in data entry form
+ * 
+ * @deprecated
  */
-// ToDO(plugin): test functionality
 dhis2.de.lockForm = function()
 {
-    $( '#contentDiv input').attr( 'readonly', 'readonly' );
-    $( '#contentDiv textarea').attr( 'readonly', 'readonly' );
-    $( '.sectionFilter').removeAttr( 'disabled' );
-    $( '#completenessDiv' ).hide();
-    
-    $( '#contentDiv input' ).css( 'backgroundColor', '#eee' );
-    $( '.sectionFilter' ).css( 'backgroundColor', '#fff' );
+    warnDeprecate('dhis2.de.lockForm')
 }
 
 /*
  * populate section row totals
  */
-// ToDO(plugin): test functionality
+// ToDO(custom-forms): test functionality for populating totals
 dhis2.de.populateRowTotals = function(){
-    
-    if( !dhis2.de.multiOrganisationUnit )
-    {
-        $("input[id^='row-']").each(function(i, el){
-            var ids = this.id.split('-');
-            if( ids.length > 2 )
+    $("input[id^='row-']").each(function(i, el){
+        var ids = this.id.split('-');
+        if( ids.length > 2 )
+        {
+            var de = ids[1], total = new Number();
+            for( var i=2; i<ids.length; i++ )
             {
-                var de = ids[1], total = new Number();
-                for( var i=2; i<ids.length; i++ )
-                {
-                    var val = $( '#' + de + "-" + ids[i] + "-val" ).val();
-                    if( dhis2.validation.isNumber( val ) )
-                    {                        
-                        total += new Number( val );
-                    }                    
-                }
-                $(this).val( total );
-            }            
-        });
-    }
+                var val = $( '#' + de + "-" + ids[i] + "-val" ).val();
+                if( dhis2.validation.isNumber( val ) )
+                {                        
+                    total += new Number( val );
+                }                    
+            }
+            $(this).val( total );
+        }            
+    });    
 };
 
 /*
  * populate section column totals
  */
-// ToDO(plugin): test functionality
-dhis2.de.populateColumnTotals = function(){
-    
-    if( !dhis2.de.multiOrganisationUnit )
-    {
-        $("input[id^='col-']").each(function(i, el){            
-            
-            var $tbody = $(this).closest('.sectionTable').find("tbody");
-            var $trTarget = $tbody.find( 'tr');
-            
-            var ids = this.id.split('-');
-            
-            if( ids.length > 1 )
-            {
-                var total = new Number();
-                for( var i=1; i<ids.length; i++ )
-                {                    
-                    $trTarget.each( function( idx, item ) 
-                    {
-                        var inputs = $( item ).find( '.entryfield' );                        
-                        inputs.each( function(k, e){
-                            if( this.id.indexOf( ids[i] ) !== -1 && $(this).is(':visible') )
-                            {
-                                var val = $( this ).val();
-                                if( dhis2.validation.isNumber( val ) )
-                                {                        
-                                    total += new Number( val );
-                                }
+// ToDO(custom-forms): test functionality for populating totals
+dhis2.de.populateColumnTotals = function(){    
+    $("input[id^='col-']").each(function(i, el){            
+        
+        var $tbody = $(this).closest('.sectionTable').find("tbody");
+        var $trTarget = $tbody.find( 'tr');
+        
+        var ids = this.id.split('-');
+        
+        if( ids.length > 1 )
+        {
+            var total = new Number();
+            for( var i=1; i<ids.length; i++ )
+            {                    
+                $trTarget.each( function( idx, item ) 
+                {
+                    var inputs = $( item ).find( '.entryfield' );                        
+                    inputs.each( function(k, e){
+                        if( this.id.indexOf( ids[i] ) !== -1 && $(this).is(':visible') )
+                        {
+                            var val = $( this ).val();
+                            if( dhis2.validation.isNumber( val ) )
+                            {                        
+                                total += new Number( val );
                             }
-                        });
-                    } );
-                }                
-                $(this).val( total );
-            }            
-        });
-    }
+                        }
+                    });
+                } );
+            }                
+            $(this).val( total );
+        }            
+    });
 };
 
 // -----------------------------------------------------------------------------
 // Various
 // -----------------------------------------------------------------------------
 
-// ToDO(plugin): test functionality
 function getUserSetting()
 {   
-    if ( dhis2.de.isOffline && settings !== null ) {
-        return;
-    }
-
-    var def = $.Deferred();
-
-    var url = '../api/userSettings.json?key=keyAnalysisDisplayProperty';
-
-    //Gets the user setting for whether it should display short names for org units or not.
-    $.getJSON(url, function( data ) {
-            console.log("User settings loaded: ", data);
-            dhis2.de.storageManager.setUserSettings(data);
-            def.resolve();
-        }
-    );
-
-    return def;
+    warnDeprecate('getUserSetting')
 }
-// ToDO(plugin): test functionality
+
 function getTimeDelta()
 {
-    if (dhis2.de.isOffline) {
-        return;
-    }
-
-    var def = $.Deferred();
-
-    var url = '../api/system/info';
-
-    //Gets the server time delta
-    $.getJSON(url, function( data ) {
-            serverTimeDelta = new Date(data.serverDate.substring(0,24)) - new Date();
-            dhis2.de.storageManager.setServerTimeDelta(serverTimeDelta);
-            // if successful, record time of update
-            dhis2.de.storageManager.setServerTimeRetrieved(new Date());
-            console.log("stored server time delta of " + serverTimeDelta + " ms");
-            def.resolve();
-        }
-    );
-
-    return def;
+    warnDeprecate('getTimeDelta')
 }

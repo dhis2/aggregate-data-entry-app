@@ -1,7 +1,5 @@
-import { useDataEngine } from '@dhis2/app-runtime'
 // eslint-disable-next-line import/no-unresolved
 import { Plugin } from '@dhis2/app-runtime/experimental' // ToDo: find out why /experimental causes lint and jest issues
-import { useMutation } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import React from 'react'
 import useCustomForm from '../../custom-forms/use-custom-form.js'
@@ -9,9 +7,11 @@ import {
     useContextSelection,
     useHighlightedFieldStore,
     useMetadata,
+    useSetDataValueMutation,
     useValueStore,
 } from '../../shared/index.js'
 
+const defaultMutation = {}
 /**
  * This implementation of custom forms only supports custom
  * HTML and CSS. It does not support custom logic (JavaScript).
@@ -24,65 +24,44 @@ export const CustomForm = ({ dataSet }) => {
     })
 
     const getDataValues = useValueStore((state) => state.getDataValues)
-    const initialDataValues = getDataValues()
+    const initialDataValues = React.useMemo(
+        () => getDataValues(),
+        [getDataValues]
+    )
 
     const { data: metadata } = useMetadata()
-    const engine = useDataEngine()
     const [{ dataSetId, orgUnitId, periodId, attributeOptionComboSelection }] =
         useContextSelection()
-
-    const mutationClient = useMutation({
-        mutationFn: (variables) => {
-            return engine.mutate(
-                {
-                    resource: 'dataValues',
-                    type: 'create',
-                    data: (data) => data,
-                },
-                {
-                    variables,
-                    onComplete: () => {
-                        // ToDo: maybe there is a way to update the client cache here?
-                    },
-                }
-            )
-        },
-        networkMode: 'online',
-    })
-
-    /* 
-    
-    
-    */
-    /**
-     * saveMutation - an imperative saveMutation method
-     *
-     * the declarative style we use in the app is tied to each field and is hard (impossible?) to pass to the plugin
-     *
-     * @param {*} valueToSave an object  {deId: dataElementId, cocId: categoryOptionId, value: valueToSave }
-     */
-    const saveMutation = async (valueToSave) => {
-        const { deId, cocId, value } = valueToSave
-
-        const dataValueParams = {
-            de: deId,
-            co: cocId,
-            ds: dataSetId,
-            ou: orgUnitId,
-            pe: periodId,
-            value,
-        }
-
-        // ToDo: do optimistic update and stuff?
-        return mutationClient.mutateAsync(dataValueParams)
-    }
 
     const setHighlightedField = useHighlightedFieldStore(
         (state) => state.setHighlightedField
     )
-    /*
-        displaying both versions of the form for now: the new "sanitised" way of rendering the custom form (the plugin way)
-    */
+
+    const { mutate } = useSetDataValueMutation(defaultMutation)
+
+    const allFuncs = React.useMemo(() => [], [])
+    const sync = React.useCallback(
+        (updatedValue, options) => {
+            // ! We need to manually keep a list of the updated fields for when an offline form comes online
+            // ! otherwise, only the last field state is updated (turned green). This is different from the
+            // ! standard forms as these get re-rendered on sync, and the affected fields updated.
+            if (options?.onSuccess) {
+                allFuncs.push(options.onSuccess)
+            }
+            mutate(updatedValue, {
+                onSuccess: () => {
+                    let func = allFuncs.pop()
+                    while (func) {
+                        func?.()
+                        func = allFuncs.pop()
+                    }
+                },
+                onError: options?.onError,
+            })
+        },
+        [allFuncs, mutate]
+    )
+
     return customForm ? (
         <>
             <Plugin
@@ -92,7 +71,7 @@ export const CustomForm = ({ dataSet }) => {
                 initialValues={initialDataValues}
                 metadata={metadata}
                 dataSet={dataSet}
-                saveValue={saveMutation}
+                saveValue={sync}
                 dataSetId={dataSetId}
                 orgUnitId={orgUnitId}
                 periodId={periodId}

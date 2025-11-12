@@ -7,7 +7,9 @@ import parseFormContent from './parse-form-content.js'
 
 const { externalCSS, externalScripts } = getBaseExternalFiles()
 
-const LegacyCustomFormPlugin = (props) => {
+const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
+    props
+) {
     /* 
     This is what get passed from data-entry app and effectively the contract for custom form plugins (legacy or not)
     */
@@ -16,7 +18,7 @@ const LegacyCustomFormPlugin = (props) => {
         // initialValues,
         metadata,
         // dataSet,
-        // saveValue,
+        saveValue,
         periodId,
         dataSetId,
         orgUnitId,
@@ -75,6 +77,7 @@ const LegacyCustomFormPlugin = (props) => {
                 hideAlert,
                 showAlert,
                 setHighlightedField,
+                saveValue,
             })
 
             // * appending the scripts that are part of the custom form at the end
@@ -98,6 +101,7 @@ const LegacyCustomFormPlugin = (props) => {
         formStyles,
         attributeOptionComboSelection,
         setHighlightedField,
+        saveValue,
     ])
 
     return (
@@ -111,7 +115,7 @@ const LegacyCustomFormPlugin = (props) => {
             </div>
         </div>
     )
-}
+})
 
 LegacyCustomFormPlugin.propTypes = {
     dataSetId: PropTypes.string.isRequired,
@@ -122,6 +126,7 @@ LegacyCustomFormPlugin.propTypes = {
     dataSet: PropTypes.shape({ displayName: PropTypes.string }),
     initialValues: PropTypes.shape({}),
     metadata: PropTypes.object,
+    saveValue: PropTypes.func,
     setHighlightedField: PropTypes.func,
 }
 export default LegacyCustomFormPlugin
