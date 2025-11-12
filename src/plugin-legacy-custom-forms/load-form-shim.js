@@ -16,6 +16,7 @@ const loadCustomFormShim = ({
     showAlert,
     setHighlightedField,
     saveValue,
+    showDetailsBar,
 }) => {
     // * adding periodId and dataSetId to hidden selects so that previous jQuery code works as it is
     // ToDo: is getting period from selectedPeriodId a common enough pattern to have a workaround?
@@ -115,6 +116,8 @@ const loadCustomFormShim = ({
     window.dhis2.shim.saveValue = (dataValue, options) => {
         saveValue(dataValue, options)
     }
+
+    window.dhis2.shim.showDetailsBar = showDetailsBar
 }
 
 export default loadCustomFormShim

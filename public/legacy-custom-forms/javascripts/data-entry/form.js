@@ -1115,7 +1115,16 @@ function valueBlur( e )
 
 function keyPress( event, field )
 {
-    var key = event.keyCode || event.charCode || event.which;
+    const { ctrlKey, metaKey } = event
+    const key = event.keyCode || event.charCode || event.which;
+
+    const ctrlXorMetaKey = ctrlKey ^ metaKey
+
+    if (ctrlXorMetaKey && event.key === 'Enter') {
+        window.dhis2.shim.showDetailsBar()
+        return
+    } 
+    
 
     var focusField = ( key == 13 || key == 40 ) ? getNextEntryField( field )
             : ( key == 38 ) ? getPreviousEntryField( field ) : false;
