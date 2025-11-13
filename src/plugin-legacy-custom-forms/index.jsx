@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import getBaseExternalFiles from './get-base-external-files.js'
 import loadCustomFormShim from './load-form-shim.js'
 import parseFormContent from './parse-form-content.js'
+import '../locales/index.js'
 
 const { externalCSS, externalScripts } = getBaseExternalFiles()
 

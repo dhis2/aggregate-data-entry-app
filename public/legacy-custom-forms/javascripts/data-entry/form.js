@@ -874,13 +874,13 @@ function insertDataValues( json )
 		// dhis2.de.lockForm();
 
 	// 	if ( periodLocked ) {
-	// 		setHeaderDelayMessage( i18n_dataset_is_concluded );
+	// 		setHeaderDelayMessage( dhis2.shim.i18n.t('Dataset is concluded') );
 	// 	} else if ( dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 ) {
-	// 		setHeaderDelayMessage( i18n_dataset_is_closed );
+	// 		setHeaderDelayMessage( dhis2.shim.i18n.t('Dataset is closed') );
 	// 	} else if ( json.locked === 'APPROVED' ) {
-	// 		setHeaderDelayMessage( i18n_dataset_is_approved );
+	// 		setHeaderDelayMessage( dhis2.shim.i18n.t('Dataset is approved') );
 	// 	} else {
-	// 		setHeaderDelayMessage( i18n_dataset_is_locked );
+	// 		setHeaderDelayMessage( dhis2.shim.i18n.t('Dataset is locked') );
 	// 	}
 
 	// }
@@ -900,7 +900,7 @@ function insertDataValues( json )
         if ( dhis2.de.validateOrgUnitOpening( organisationUnits[dhis2.de.getCurrentOrganisationUnit()], period ) )
         {
             dhis2.de.lockForm();
-        setHeaderDelayMessage( i18n_orgunit_is_closed );
+        setHeaderDelayMessage( dhis2.shim.i18n.t('Org unit is closed') );
             return;
         }
     }
@@ -982,7 +982,7 @@ function insertDataValues( json )
                 else
                 {
                     //  ToDO(custom-forms): fix i18n
-                    name = 'i18n_loading_file_info_failed'
+                    name = dhis2.shim.i18n.t('Loading file info failed')
                 }
 
                 var $filename = $field.find( '.upload-fileinfo-name' );
@@ -1275,8 +1275,7 @@ dhis2.de.insertOptionSets = function()
         } );
         
         $("#" + elementId).select2({
-            // placeholder: i18n_select_option ,
-            placeholder: 'Select option', // ToDo(custom-forms): how to localise things here
+            placeholder: dhis2.shim.i18n.t('Choose an option'),
             allowClear: true,
             dataType: 'json',
             data: optionSet.options,
@@ -1335,7 +1334,7 @@ dhis2.de.autocompleteOptionSetField = function( idField, optionSetUid )
 
     var button = $( '<a style="width:20px; margin-bottom:1px; height:20px;">' )
         .attr( 'tabIndex', -1 )
-        .attr( 'title', i18n_show_all_items )
+        .attr( 'title', dhis2.shim.i18n.t('Show all options') )
         .appendTo( wrapper )
         .button( {
             icons: {
