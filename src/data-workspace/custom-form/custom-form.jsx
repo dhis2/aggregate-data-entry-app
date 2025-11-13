@@ -3,7 +3,9 @@ import { Plugin } from '@dhis2/app-runtime/experimental' // ToDo: find out why /
 import PropTypes from 'prop-types'
 import React from 'react'
 import useCustomForm from '../../custom-forms/use-custom-form.js'
+import useSetRightHandPanel from '../../right-hand-panel/use-show-right-hand-panel.js'
 import {
+    dataDetailsSidebarId,
     useContextSelection,
     useHighlightedFieldStore,
     useMetadata,
@@ -28,7 +30,6 @@ export const CustomForm = ({ dataSet }) => {
         () => getDataValues(),
         [getDataValues]
     )
-
     const { data: metadata } = useMetadata()
     const [{ dataSetId, orgUnitId, periodId, attributeOptionComboSelection }] =
         useContextSelection()
@@ -36,6 +37,11 @@ export const CustomForm = ({ dataSet }) => {
     const setHighlightedField = useHighlightedFieldStore(
         (state) => state.setHighlightedField
     )
+
+    const setRightHandPanel = useSetRightHandPanel()
+    const showDetailsBar = React.useCallback(() => {
+        setRightHandPanel(dataDetailsSidebarId)
+    }, [setRightHandPanel])
 
     const { mutate } = useSetDataValueMutation(defaultMutation)
 
@@ -77,6 +83,7 @@ export const CustomForm = ({ dataSet }) => {
                 periodId={periodId}
                 attributeOptionComboSelection={attributeOptionComboSelection}
                 setHighlightedField={setHighlightedField}
+                showDetailsBar={showDetailsBar}
             />
             {/* <div className={styles.customForm}>
                 <h2>Existing custom form functionality (for reference)</h2>

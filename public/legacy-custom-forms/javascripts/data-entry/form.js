@@ -241,7 +241,7 @@ dhis2.de.addEventListeners = function()
         var optionComboId = split.optionComboId;
         dhis2.de.currentOrganisationUnitId = split.organisationUnitId;
 
-        var type = getDataElementType( dataElementId );
+        var type = getDataElementType( dataElementId )?.valueType;
 
         $( this ).unbind( 'focus' );
         $( this ).unbind( 'blur' );
@@ -265,26 +265,8 @@ dhis2.de.addEventListeners = function()
 
         if ( ( type === 'DATE' || type === 'DATETIME' ) && !isTimeField )
         {
-            // Fake event, needed for valueBlur / valueFocus when using date-picker
-            var fakeEvent = {
-                target: {
-                    id: id + '-dp'
-                }
-            };
-
-            dhis2.period.picker.createInstance( '#' + id, false, false, {
-                onSelect: function() {
-                    saveVal( dataElementId, optionComboId, id, fakeEvent.target.id );
-                },
-                onClose: function() {
-                    valueBlur( fakeEvent );
-                },
-                onShow: function() {
-                    valueFocus( fakeEvent );
-                },
-                minDate: null,
-                maxDate: null
-            } );
+            $(this).attr('type', 'date')
+            
         }
     } );
 
@@ -892,13 +874,13 @@ function insertDataValues( json )
 		// dhis2.de.lockForm();
 
 	// 	if ( periodLocked ) {
-	// 		setHeaderDelayMessage( i18n_dataset_is_concluded );
+	// 		setHeaderDelayMessage( dhis2.shim.i18n.t('Dataset is concluded') );
 	// 	} else if ( dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 ) {
-	// 		setHeaderDelayMessage( i18n_dataset_is_closed );
+	// 		setHeaderDelayMessage( dhis2.shim.i18n.t('Dataset is closed') );
 	// 	} else if ( json.locked === 'APPROVED' ) {
-	// 		setHeaderDelayMessage( i18n_dataset_is_approved );
+	// 		setHeaderDelayMessage( dhis2.shim.i18n.t('Dataset is approved') );
 	// 	} else {
-	// 		setHeaderDelayMessage( i18n_dataset_is_locked );
+	// 		setHeaderDelayMessage( dhis2.shim.i18n.t('Dataset is locked') );
 	// 	}
 
 	// }
@@ -918,7 +900,7 @@ function insertDataValues( json )
         if ( dhis2.de.validateOrgUnitOpening( organisationUnits[dhis2.de.getCurrentOrganisationUnit()], period ) )
         {
             dhis2.de.lockForm();
-        setHeaderDelayMessage( i18n_orgunit_is_closed );
+        setHeaderDelayMessage( dhis2.shim.i18n.t('Org unit is closed') );
             return;
         }
     }
@@ -969,9 +951,9 @@ function insertDataValues( json )
             {
                 var $field = $( fieldId );
 
-                $field.find( 'input[class="entryfileresource-input"]' ).val( value.val );
+                $field.find( 'input[class="entryfileresource-input"]' ).val( valueToShow );
 
-                var split = dhis2.de.splitFieldId( value.id );
+                var split = dhis2.de.splitFieldId( value.value );
 
                 var dvParams = {
                     'de': split.dataElementId,
@@ -999,7 +981,8 @@ function insertDataValues( json )
                 }
                 else
                 {
-                    name = i18n_loading_file_info_failed;
+                    //  ToDO(custom-forms): fix i18n
+                    name = dhis2.shim.i18n.t('Loading file info failed')
                 }
 
                 var $filename = $field.find( '.upload-fileinfo-name' );
@@ -1115,7 +1098,16 @@ function valueBlur( e )
 
 function keyPress( event, field )
 {
-    var key = event.keyCode || event.charCode || event.which;
+    const { ctrlKey, metaKey } = event
+    const key = event.keyCode || event.charCode || event.which;
+
+    const ctrlXorMetaKey = ctrlKey ^ metaKey
+
+    if (ctrlXorMetaKey && event.key === 'Enter') {
+        window.dhis2.shim.showDetailsBar()
+        return
+    } 
+    
 
     var focusField = ( key == 13 || key == 40 ) ? getNextEntryField( field )
             : ( key == 38 ) ? getPreviousEntryField( field ) : false;
@@ -1283,8 +1275,7 @@ dhis2.de.insertOptionSets = function()
         } );
         
         $("#" + elementId).select2({
-            // placeholder: i18n_select_option ,
-            placeholder: 'Select option', // ToDo(custom-forms): how to localise things here
+            placeholder: dhis2.shim.i18n.t('Choose an option'),
             allowClear: true,
             dataType: 'json',
             data: optionSet.options,
@@ -1343,7 +1334,7 @@ dhis2.de.autocompleteOptionSetField = function( idField, optionSetUid )
 
     var button = $( '<a style="width:20px; margin-bottom:1px; height:20px;">' )
         .attr( 'tabIndex', -1 )
-        .attr( 'title', i18n_show_all_items )
+        .attr( 'title', dhis2.shim.i18n.t('Show all options') )
         .appendTo( wrapper )
         .button( {
             icons: {

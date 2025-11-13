@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 /*
 ! The following part is the shim to make the transition of legacy forms as smooth as possible
 ! it consists of several workarounds for the "contracts" that custom forms depended on
@@ -16,6 +17,7 @@ const loadCustomFormShim = ({
     showAlert,
     setHighlightedField,
     saveValue,
+    showDetailsBar,
 }) => {
     // * adding periodId and dataSetId to hidden selects so that previous jQuery code works as it is
     // ToDo: is getting period from selectedPeriodId a common enough pattern to have a workaround?
@@ -115,6 +117,20 @@ const loadCustomFormShim = ({
     window.dhis2.shim.saveValue = (dataValue, options) => {
         saveValue(dataValue, options)
     }
+
+    window.dhis2.shim.showDetailsBar = showDetailsBar
+
+    /**
+     * ! This is a way to include some string that were used by the legacy data entry
+     * ! Having them here (under src/) makes them get parsed and included in the pot file
+     * ? There are only few localiseable strings in the old app, maybe it's not worth it
+     * ? passing i18n, and just pass the specific strings.
+     * i18n.t('Org unit is closed')
+     * i18n.t('File upload failed.')
+     * i18n.t('Confirm deletion')
+     * i18n.t('Loading file info failed')
+     */
+    window.dhis2.shim.i18n = i18n
 }
 
 export default loadCustomFormShim
