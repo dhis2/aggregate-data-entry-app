@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 /*
 ! The following part is the shim to make the transition of legacy forms as smooth as possible
 ! it consists of several workarounds for the "contracts" that custom forms depended on
@@ -118,6 +119,22 @@ const loadCustomFormShim = ({
     }
 
     window.dhis2.shim.showDetailsBar = showDetailsBar
+
+    /**
+     * ! These are few localised strings that were baked into the old struts app and are used in form.js still
+     */
+    window.dhis2.shim.i18n_translations = {
+        i18n_loading_file_info_failed: i18n.t('Loading file info failed'),
+        i18n_file_upload_failed: i18n.t('File upload failed'),
+        i18n_confirm_deletion: i18n.t('Confirm deletion'),
+        i18n_dataset_is_concluded: i18n.t('Dataset is concluded'),
+        i18n_dataset_is_closed: i18n.t('Dataset is closed'),
+        i18n_dataset_is_approved: i18n.t('Dataset is approved'),
+        i18n_dataset_is_locked: i18n.t('Dataset is locked'),
+        i18n_orgunit_is_closed: i18n.t('Org unit is closed'),
+        i18n_select_option: i18n.t('Choose an option'),
+        i18n_show_all_items: i18n.t('Show all items'),
+    }
 }
 
 export default loadCustomFormShim
