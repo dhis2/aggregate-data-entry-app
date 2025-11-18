@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-11-11T09:27:56.011Z\n"
-"PO-Revision-Date: 2025-11-11T09:27:56.011Z\n"
+"POT-Creation-Date: 2025-11-18T12:04:48.560Z\n"
+"PO-Revision-Date: 2025-11-18T12:04:48.560Z\n"
 
 msgid "Not authorized"
 msgstr "Not authorized"
@@ -600,6 +600,33 @@ msgstr "{{pendingMutations}} change saved locally"
 msgid "{{pendingMutations}} changes saved locally"
 msgstr "{{pendingMutations}} changes saved locally"
 
+msgid "Loading file info failed"
+msgstr "Loading file info failed"
+
+msgid "File upload failed"
+msgstr "File upload failed"
+
+msgid "Confirm deletion"
+msgstr "Confirm deletion"
+
+msgid "Dataset is concluded"
+msgstr "Dataset is concluded"
+
+msgid "Dataset is closed"
+msgstr "Dataset is closed"
+
+msgid "Dataset is approved"
+msgstr "Dataset is approved"
+
+msgid "Dataset is locked"
+msgstr "Dataset is locked"
+
+msgid "Org unit is closed"
+msgstr "Org unit is closed"
+
+msgid "Show all items"
+msgstr "Show all items"
+
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
@@ -628,3 +655,11 @@ msgstr "Close details sidebar"
 
 msgid "Integer numbers have to be in the range from -2147483648 to 2147483647"
 msgstr "Integer numbers have to be in the range from -2147483648 to 2147483647"
+
+msgctxt "Application title"
+msgid "__MANIFEST_APP_TITLE"
+msgstr "Data Entry"
+
+msgctxt "Application description"
+msgid "__MANIFEST_APP_DESCRIPTION"
+msgstr ""
