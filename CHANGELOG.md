@@ -1,3 +1,17 @@
+# [101.1.0-alpha.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.7...v101.1.0-alpha.8) (2025-11-26)
+
+
+### Bug Fixes
+
+* pass legacy localised strings to plugin ([61f9984](https://github.com/dhis2/aggregate-data-entry-app/commit/61f99849f1fa59298d0725a7249152c33d6dbc70))
+* re-add dhis2.validation.js  as it is still used in some helpers ([cce316b](https://github.com/dhis2/aggregate-data-entry-app/commit/cce316b4dc47ce64100ffa81800f3a4de0caa0f5))
+* use native datepicker for DATE fields ([7d02d54](https://github.com/dhis2/aggregate-data-entry-app/commit/7d02d5405e903def9942ec956e6d526423fd40a1))
+
+
+### Features
+
+* open details bar using cmd+enter ([72d055d](https://github.com/dhis2/aggregate-data-entry-app/commit/72d055d762c2222b2c8d578df6ec0aa01a13a066))
+
 # [101.1.0-alpha.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.6...v101.1.0-alpha.7) (2025-11-12)
 
 
