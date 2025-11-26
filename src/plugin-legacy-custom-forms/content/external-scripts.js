@@ -57,7 +57,7 @@ const files = [
     // 'javascripts/dhis2/dhis2.availability.js',
     // 'javascripts/dhis2/dhis2.trigger.js',
     // 'javascripts/dhis2/dhis2.sharing.js',
-    // 'javascripts/dhis2/dhis2.validation.js',
+    'javascripts/dhis2/dhis2.validation.js',
     // 'javascripts/dhis2/dhis2.storage.ss.js',
     // 'javascripts/dhis2/dhis2.storage.ls.js',
     // 'javascripts/dhis2/dhis2.storage.idb.js',
