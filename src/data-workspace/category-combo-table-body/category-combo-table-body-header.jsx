@@ -102,7 +102,7 @@ export const CategoryComboTableBodyHeader = ({
                         >
                             {co.isDefault
                                 ? i18n.t('Value')
-                                : co.displayFormName}
+                                : co.displayFormName ?? co.displayName}
                         </TableCellHead>
                     )
                 })}
