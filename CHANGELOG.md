@@ -1,3 +1,10 @@
+## [101.1.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.2...v101.1.3) (2025-12-03)
+
+
+### Bug Fixes
+
+* quick fix category headers ([#498](https://github.com/dhis2/aggregate-data-entry-app/issues/498)) ([2291e6d](https://github.com/dhis2/aggregate-data-entry-app/commit/2291e6deeeeaaf06a51b61aafcaac7e41094254f))
+
 ## [101.1.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.1...v101.1.2) (2025-12-03)
 
 
