@@ -1,3 +1,10 @@
+## [101.1.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.1...v101.1.2) (2025-12-03)
+
+
+### Bug Fixes
+
+* handly missing displayFormName for category opts ([#497](https://github.com/dhis2/aggregate-data-entry-app/issues/497)) ([072f102](https://github.com/dhis2/aggregate-data-entry-app/commit/072f102169cee1337e08a9e1b84c9e1a1820ca61))
+
 ## [101.1.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0...v101.1.1) (2025-10-30)
 
 
