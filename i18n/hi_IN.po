@@ -1,13 +1,15 @@
 # 
 # Translators:
 # Siddharth Agarwal, 2025
+# AkashJindal, 2025
+# Rohit Wadhwani, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2024-11-29T16:17:15.582Z\n"
+"POT-Creation-Date: 2025-07-04T13:29:52.415Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Siddharth Agarwal, 2025\n"
+"Last-Translator: Rohit Wadhwani, 2025\n"
 "Language-Team: Hindi (India) (https://app.transifex.com/hisp-uio/teams/100509/hi_IN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,37 +18,41 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Not authorized"
-msgstr ""
+msgstr "अनुमति नहीं है"
 
 msgid ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 msgstr ""
+"आपके पास डेटा अप्रूवल ऐप का एक्सेस नहीं है। एक्सेस का अनुरोध करने के लिए "
+"सिस्टम एडमिनिस्ट्रेटर से संपर्क करें।"
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "मेटाडाटा लोड करने में समस्या हुई"
 
 msgid "There was a problem loading the user's information"
-msgstr ""
+msgstr "यूज़र की जानकारी लोड करने में एक समस्या हुई"
 
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
+"सेशन समाप्त हो गया है। दोबारा लॉग इन करने के लिए कृपया पेज फिर से लोड करें। "
+"आपका कोई भी डेटा नहीं खोएगा।"
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "फ़ॉर्म पूर्ण नहीं किया जा सका, कृपया बाद में फिर से प्रयास करें।"
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "अपूर्ण चिह्नित करें"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "पूर्ण चिह्नित करें"
 
 msgid "Hide details"
-msgstr ""
+msgstr "विवरण छुपाएँ"
 
 msgid "View details"
-msgstr ""
+msgstr "विवरण देखें"
 
 msgid "1 invalid value not saved"
 msgstr ""
@@ -64,13 +70,13 @@ msgid "Closes {{-relativeTime}}"
 msgstr ""
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "ऑफ़लाइन होने पर वैलिडेशन उपलब्ध नहीं है"
 
 msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
-msgstr ""
+msgstr "वैलिडेशन चलाएँ"
 
 msgid "Last completed by {{-username}}"
 msgstr ""
@@ -79,7 +85,7 @@ msgid "Last incompleted by {{-username}}"
 msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "फ़ॉर्म का वैलिडेशन नहीं हो सका, कृपया बाद में फिर से प्रयास करें।"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
 msgstr ""
@@ -88,7 +94,7 @@ msgid "The form can't be completed while invalid"
 msgstr ""
 
 msgid "Compulsory fields must be filled out before completing the form"
-msgstr ""
+msgstr "फ़ॉर्म पूर्ण करने से पहले अनिवार्य फ़ील्ड भरना आवश्यक है।"
 
 msgid "1 comment required"
 msgstr ""
@@ -115,7 +121,7 @@ msgid "{{length}} {{level}} priority alerts"
 msgstr ""
 
 msgid "Validation"
-msgstr ""
+msgstr "वैलिडेशन"
 
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
@@ -123,24 +129,26 @@ msgid ""
 msgstr ""
 
 msgid "Run validation again"
-msgstr ""
+msgstr "वैलिडेशन फिर से चलाएँ"
 
 msgid "Alert summary"
 msgstr ""
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "इस डेटा के लिए कोई वैलिडेशन अलर्ट नहीं हैं।"
 
 msgid "Running validation..."
-msgstr ""
+msgstr "वैलिडेशन चल रहा है..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "वैलिडेशन चलाने में समस्या हुई"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"इस डेटा के लिए वैलिडेशन नहीं चलाया जा सका। कृपया फिर से प्रयास करें या अपने "
+"सिस्टम एडमिनिस्ट्रेटर से संपर्क करें।"
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
@@ -162,10 +170,10 @@ msgid ""
 msgstr ""
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "एक डेटा सेट चुनें"
 
 msgid "No available options"
-msgstr ""
+msgstr "कोई उपलब्ध ऑप्शन नहीं है"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
@@ -173,10 +181,10 @@ msgid ""
 msgstr ""
 
 msgid "Hide menu"
-msgstr ""
+msgstr "मेनू छुपाएँ"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "डिफ़ॉल्ट एट्रिब्यूट कॉम्बो"
 
 msgid "0 selections"
 msgstr ""
@@ -191,7 +199,7 @@ msgid "Cell reference"
 msgstr ""
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "सेव किया गया और सर्वर से सिंक हो गया"
 
 msgid "Waiting to sync, saved locally"
 msgstr ""
@@ -218,7 +226,7 @@ msgid "Help"
 msgstr "सहायता"
 
 msgid "or"
-msgstr ""
+msgstr "या"
 
 msgid "Shortcuts"
 msgstr ""
@@ -260,7 +268,7 @@ msgid "Print empty form"
 msgstr ""
 
 msgid "Options"
-msgstr ""
+msgstr "ऑप्शन्स"
 
 msgid "Search org units"
 msgstr ""
@@ -305,7 +313,7 @@ msgid "Period"
 msgstr ""
 
 msgid "Choose a period"
-msgstr ""
+msgstr "एक अवधि चुनें"
 
 msgid "All sections"
 msgstr ""
@@ -323,10 +331,10 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr ""
+msgstr "वैल्यू"
 
 msgid "Totals"
-msgstr ""
+msgstr "कुल"
 
 msgid "Audit log"
 msgstr ""
@@ -341,7 +349,7 @@ msgid "No audit log for this data item."
 msgstr ""
 
 msgid "Date"
-msgstr ""
+msgstr "तारीख"
 
 msgid "User"
 msgstr ""
@@ -505,13 +513,21 @@ msgstr ""
 msgid "Learn more about data entry"
 msgstr ""
 
-msgid "Filter fields in all sections"
+msgid "Filter data elements in all sections"
 msgstr ""
 
 msgid "Filter fields"
 msgstr ""
 
 msgid "Clear filter"
+msgstr ""
+
+msgid "This value cannot be calculated in this app"
+msgstr ""
+
+msgid ""
+"This expression is not mathematically calculable "
+"{{numeratorValue}}/{{denominatorValue}}"
 msgstr ""
 
 msgid "Indicators"
@@ -527,7 +543,7 @@ msgid "No"
 msgstr "नहीं"
 
 msgid "Clear"
-msgstr ""
+msgstr "साफ़ करें"
 
 msgid "Pick a date"
 msgstr ""
@@ -564,7 +580,7 @@ msgid ""
 "\"{{otherField}}\"."
 msgstr ""
 
-msgid "Type here to filter in this section"
+msgid "Type here to filter rows in this section"
 msgstr ""
 
 msgid "1 item hidden by filter"
