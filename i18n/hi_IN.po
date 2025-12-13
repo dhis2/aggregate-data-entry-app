@@ -298,7 +298,7 @@ msgid "Period"
 msgstr ""
 
 msgid "Choose a period"
-msgstr ""
+msgstr "एक अवधि चुनें"
 
 msgid "All sections"
 msgstr ""
@@ -316,7 +316,7 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr ""
+msgstr "वैल्यू"
 
 msgid "Totals"
 msgstr "कुल"
