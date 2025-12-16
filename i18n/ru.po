@@ -384,7 +384,7 @@ msgid "Last updated {{- timeAgo}} by {{- name}}"
 msgstr ""
 
 msgid "Marked for follow-up"
-msgstr ""
+msgstr "Отмечено для последующего наблюдения"
 
 msgid "Comment"
 msgstr "Комментарий"

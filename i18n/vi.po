@@ -4,14 +4,14 @@
 # Thuy Nguyen <thuynguyen@hispvietnam.org>, 2024
 # Viktor Varland <viktor@dhis2.org>, 2024
 # Philip Larsen Donnelly, 2024
-# Em Le <em.hispvietnam@gmail.com>, 2024
+# Em Le <em.hispvietnam@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-03-17T13:24:26.070Z\n"
+"POT-Creation-Date: 2025-07-04T13:29:52.415Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Em Le <em.hispvietnam@gmail.com>, 2024\n"
+"Last-Translator: Em Le <em.hispvietnam@gmail.com>, 2025\n"
 "Language-Team: Vietnamese (https://app.transifex.com/hisp-uio/teams/100509/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -534,8 +534,8 @@ msgstr "Chọn một biểu nhập, đơn vị, và thời điểm để bắt �
 msgid "Learn more about data entry"
 msgstr "Tìm hiểu thêm về nhập liệu tổng hợp"
 
-msgid "Filter data sets in all sections"
-msgstr ""
+msgid "Filter data elements in all sections"
+msgstr "Lọc phần tử dữ liệu trong mọi phân đoạn"
 
 msgid "Filter fields"
 msgstr "Ô lọc"
@@ -544,12 +544,14 @@ msgid "Clear filter"
 msgstr "Xóa bộ lọc"
 
 msgid "This value cannot be calculated in this app"
-msgstr ""
+msgstr "Giá trị này không thể được tính ở đây"
 
 msgid ""
 "This expression is not mathematically calculable "
 "{{numeratorValue}}/{{denominatorValue}}"
 msgstr ""
+"Biểu thức này không thể tính toán được bằng toán học "
+"{{numeratorValue}}/{{denominatorValue}}"
 
 msgid "Indicators"
 msgstr "Chỉ số"
@@ -607,7 +609,7 @@ msgstr ""
 "\"{{otherField}}\"."
 
 msgid "Type here to filter rows in this section"
-msgstr ""
+msgstr "Nhập vào đây để lọc từng dòng trong phân đoạn này"
 
 msgid "1 item hidden by filter"
 msgstr "1 mục đã bị ẩn bởi bộ lọc"

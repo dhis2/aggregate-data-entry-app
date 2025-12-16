@@ -1,22 +1,19 @@
 # 
 # Translators:
-# Viktor Varland <viktor@dhis2.org>, 2024
-# channara rin, 2024
-# Philip Larsen Donnelly, 2024
-# Em Le <em.hispvietnam@gmail.com>, 2025
+# Rohit Wadhwani, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2025-07-04T13:29:52.415Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Em Le <em.hispvietnam@gmail.com>, 2025\n"
-"Language-Team: Khmer (https://app.transifex.com/hisp-uio/teams/100509/km/)\n"
+"Last-Translator: Rohit Wadhwani, 2025\n"
+"Language-Team: English (United States) (https://app.transifex.com/hisp-uio/teams/100509/en_US/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: km\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Not authorized"
 msgstr ""
@@ -46,7 +43,7 @@ msgid "Mark complete"
 msgstr ""
 
 msgid "Hide details"
-msgstr "លាក់​ព័ត៌មាន​លម្អិត"
+msgstr ""
 
 msgid "View details"
 msgstr ""
@@ -73,7 +70,7 @@ msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
-msgstr "ដំណើរការផ្ទៀងផ្ទាត់ឲបានត្រឹមត្រូវ"
+msgstr ""
 
 msgid "Last completed by {{-username}}"
 msgstr ""
@@ -176,7 +173,7 @@ msgid ""
 msgstr ""
 
 msgid "Hide menu"
-msgstr "បិទ​ម៉ឺនុយ"
+msgstr ""
 
 msgid "Default attribute combo"
 msgstr ""
@@ -218,16 +215,16 @@ msgid "Compulsory field"
 msgstr ""
 
 msgid "Help"
-msgstr "ជំនួយ​"
+msgstr ""
 
 msgid "or"
-msgstr "ឬ"
+msgstr ""
 
 msgid "Shortcuts"
 msgstr ""
 
 msgid "Show details"
-msgstr "បង្ហាញ​សេចក្ដី​លម្អិត"
+msgstr ""
 
 msgid "Ctrl + Enter"
 msgstr ""
@@ -254,7 +251,7 @@ msgid "There are no data sets available!"
 msgstr ""
 
 msgid "Data set"
-msgstr "Data set"
+msgstr ""
 
 msgid "Print form with values"
 msgstr ""
@@ -263,7 +260,7 @@ msgid "Print empty form"
 msgstr ""
 
 msgid "Options"
-msgstr "ជម្រើស"
+msgstr ""
 
 msgid "Search org units"
 msgstr ""
@@ -275,7 +272,7 @@ msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "Organisation unit"
-msgstr "ផ្នែក​នៃ​អង្គការ"
+msgstr ""
 
 msgid "Choose a organisation unit"
 msgstr ""
@@ -305,7 +302,7 @@ msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
-msgstr "កំឡុងពេល"
+msgstr ""
 
 msgid "Choose a period"
 msgstr ""
@@ -326,10 +323,10 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr "តម្លៃ"
+msgstr ""
 
 msgid "Totals"
-msgstr "តម្លៃសរុប"
+msgstr ""
 
 msgid "Audit log"
 msgstr ""
@@ -338,13 +335,13 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr "មិនអាចប្រើប្រាស់បាននៅពេលបណ្ដាញត្រូវបានផ្តាច់"
+msgstr ""
 
 msgid "No audit log for this data item."
 msgstr ""
 
 msgid "Date"
-msgstr "កាលបរិច្ឆេទ"
+msgstr ""
 
 msgid "User"
 msgstr ""
@@ -386,7 +383,7 @@ msgid "Marked for follow-up"
 msgstr ""
 
 msgid "Comment"
-msgstr "មតិយោបល់"
+msgstr ""
 
 msgid "There was a problem updating the comment for this data item"
 msgstr ""
@@ -398,10 +395,10 @@ msgid "Saving..."
 msgstr ""
 
 msgid "Save comment"
-msgstr "រក្សាទុកមតិយោបល់"
+msgstr ""
 
 msgid "Cancel"
-msgstr "បោះបង់"
+msgstr "कैंसल"
 
 msgid "Edit comment"
 msgstr ""
@@ -416,7 +413,7 @@ msgid "You do not have the authority to add or edit comments"
 msgstr ""
 
 msgid "Details"
-msgstr "លម្អិត"
+msgstr ""
 
 msgid "History"
 msgstr ""
@@ -443,10 +440,10 @@ msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
-msgstr "អប្បបរមា"
+msgstr ""
 
 msgid "Max"
-msgstr "អតិបរមា"
+msgstr ""
 
 msgid "Min and max limits"
 msgstr ""
@@ -526,19 +523,19 @@ msgid ""
 msgstr ""
 
 msgid "Indicators"
-msgstr "Indicators"
+msgstr ""
 
 msgid "Values"
 msgstr ""
 
 msgid "Yes"
-msgstr "បាទ/ចាស"
+msgstr "हाँ"
 
 msgid "No"
-msgstr "ទេ"
+msgstr "नहीं"
 
 msgid "Clear"
-msgstr "សម្អាត"
+msgstr "साफ़ करें"
 
 msgid "Pick a date"
 msgstr ""
@@ -547,13 +544,13 @@ msgid "Pick a time"
 msgstr ""
 
 msgid "Delete"
-msgstr "​លុប​"
+msgstr "डिलीट"
 
 msgid "Upload an image"
 msgstr ""
 
 msgid "Upload a file"
-msgstr "ផ្ញើឯកសារ"
+msgstr ""
 
 msgid "Choose option(s)"
 msgstr ""
@@ -584,6 +581,7 @@ msgstr ""
 msgid "{{count}} items hidden by filter"
 msgid_plural "{{count}} items hidden by filter"
 msgstr[0] ""
+msgstr[1] ""
 
 msgid "{{pendingMutations}} change saved locally"
 msgstr ""
