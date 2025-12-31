@@ -61,7 +61,7 @@ dhis2.de.categories = {};
 dhis2.de.lockExceptions = [];
 
 // Array with keys {dataelementid}-{optioncomboid}-min/max with min/max values
-dhis2.de.currentMinMaxValueMap = [];
+dhis2.de.currentMinMaxValueMap = {};
 
 // Indicates whether any data entry form has been loaded
 dhis2.de.dataEntryFormIsLoaded = false;
@@ -848,7 +848,7 @@ function getAndInsertDataValues()
 
 function insertDataValues( json )
 {
-    var dataValueMap = []; // Reset
+    var dataValueMap = {}; // Reset
     dhis2.de.currentMinMaxValueMap = []; // Reset
     
     var period = dhis2.de.getSelectedPeriod();
@@ -1018,7 +1018,7 @@ function insertDataValues( json )
             }
         }
         
-        dataValueMap[value.id] = value.val;
+        dataValueMap[id] = valueToShow;
 
         // ToDO(custom-forms): what is this???? do we need to do something special for pickers?
         // dhis2.period.picker.updateDate(fieldId);
@@ -1027,25 +1027,32 @@ function insertDataValues( json )
 
     // Set min-max values and colorize violation fields
 
-    if ( json.locked === 'OPEN' )
+    if ( json.lockStatus === 'OPEN' )
     {
-        $.safeEach( json.minMaxDataElements, function( i, value )
-        {
-            var minId = value.id + '-min';
-            var maxId = value.id + '-max';
-
-            var valFieldId = '#' + value.id + '-val';
-
-            var dataValue = dataValueMap[value.id];
-
-            if ( dataValue && ( ( value.min && new Number( dataValue ) < new Number(
-                value.min ) ) || ( value.max && new Number( dataValue ) > new Number( value.max ) ) ) )
-            {
-                $( valFieldId ).css( 'background-color', dhis2.de.cst.colorOrange );
+        $.safeEach( json.minMaxValues, function( i, value )
+        {            
+            var valueId = value?.dataElement + '-' + value?.categoryOptionCombo
+            
+            var minId = valueId + '-min';
+            var maxId = valueId + '-max';
+            
+            var valFieldId = '#' + valueId + '-val';
+            
+            var dataValue = dataValueMap[valueId];
+            if (dataValue) {
+                var dataValueNumber = new Number( dataValue )
+    
+                var lessThanMin = value.minValue && dataValueNumber < new Number(value.minValue )
+                var moreThanMax = value.maxValue && dataValueNumber > new Number( value.maxValue )
+    
+                if ( lessThanMin || moreThanMax )
+                {
+                    $( valFieldId ).css( 'background-color', dhis2.de.cst.colorOrange );
+                }
             }
 
-            dhis2.de.currentMinMaxValueMap[minId] = value.min;
-            dhis2.de.currentMinMaxValueMap[maxId] = value.max;
+            dhis2.de.currentMinMaxValueMap[minId] = value.minValue;
+            dhis2.de.currentMinMaxValueMap[maxId] = value.maxValue;
         } );
     }
 

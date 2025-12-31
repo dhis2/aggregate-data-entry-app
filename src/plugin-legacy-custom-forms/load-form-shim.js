@@ -134,6 +134,12 @@ const loadCustomFormShim = ({
         i18n_orgunit_is_closed: i18n.t('Org unit is closed'),
         i18n_select_option: i18n.t('Choose an option'),
         i18n_show_all_items: i18n.t('Show all items'),
+        i18n_value_of_data_element_greater: i18n.t(
+            'The value of the following data element is less than the specified minimum value.'
+        ),
+        i18n_value_of_data_element_less: i18n.t(
+            'The value of the following data element is greater than the specified maximum value.'
+        ),
     }
 }
 

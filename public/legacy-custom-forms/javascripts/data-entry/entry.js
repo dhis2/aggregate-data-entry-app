@@ -185,6 +185,33 @@ function saveVal( dataElementId, optionComboId, fieldId, feedbackId )
         value = $(fieldId).val();
     }
 
+    var colorToShow =  dhis2.de.cst.colorGreen
+
+    var minString = dhis2.de.currentMinMaxValueMap[dataElementId + '-' + optionComboId + '-min'];
+    var maxString = dhis2.de.currentMinMaxValueMap[dataElementId + '-' + optionComboId + '-max'];
+
+    if ( minString && maxString ) // TODO if only one exists?
+    {
+        var valueNo = new Number( value );
+        var min = new Number( minString );
+        var max = new Number( maxString );
+
+        if ( valueNo < min || valueNo > max) {
+            if ( valueNo < min )
+            {
+                warning = window.dhis2.shim.i18n_translations.i18n_value_of_data_element_less + ': ' + min + '\n\n' + getDataElementName(dataElementId);
+            }
+
+            if ( valueNo > max )
+            {
+                warning = window.dhis2.shim.i18n_translations.i18n_value_of_data_element_greater + ': ' + max + '\n\n' + getDataElementName(dataElementId);
+            }
+            
+            colorToShow = dhis2.de.cst.colorOrange
+            window.dhis2.shim.showAlert( {message: warning} );
+        }
+    }
+
     $( feedbackId ).wrap( $('<div style="position: relative; display:inline-block" class="field-wrapper"></div>' ));
 
     $( feedbackId ).parent('.field-wrapper').prepend('<div class="updating" style="position: absolute;inset-block-start: 0;inset-inline-end: 0;"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg" color="#4a5768"><path d="M3 7a1 1 0 110 2 1 1 0 010-2zm5 0a1 1 0 110 2 1 1 0 010-2zm5 0a1 1 0 110 2 1 1 0 010-2z" fill="currentColor" fill-rule="evenodd"></path></svg></div>')
@@ -192,7 +219,7 @@ function saveVal( dataElementId, optionComboId, fieldId, feedbackId )
 
     var dataSetId = $( '#selectedDataSetId' ).val();
 
-    var valueSaver = new ValueSaver( dataElementId, periodId, optionComboId, dataSetId, value, feedbackId, dhis2.de.cst.colorGreen );
+    var valueSaver = new ValueSaver( dataElementId, periodId, optionComboId, dataSetId, value, feedbackId, colorToShow );
     valueSaver.save();
 
     dhis2.de.populateRowTotals();
@@ -247,7 +274,7 @@ dhis2.de.alertField = function( fieldId, alertMessage )
 {
     var $field = $( fieldId );
     $field.css( 'background-color', dhis2.de.cst.colorYellow );
-    dhis2.shim.showAlert( alertMessage );
+    window.dhis2.shim.showAlert( {message: alertMessage} );
     
     var val = dhis2.de.currentExistingValue || '';
     $field.val( val );
