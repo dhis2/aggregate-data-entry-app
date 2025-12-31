@@ -26,6 +26,7 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         attributeOptionComboSelection,
         setHighlightedField,
         showDetailsBar,
+        fileHelper,
     } = props
 
     console.log('[custom-forms] 🏁 Legacy Custom Form Plugin starting 🏁')
@@ -81,6 +82,7 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
                 setHighlightedField,
                 saveValue,
                 showDetailsBar,
+                fileHelper,
             })
 
             // * appending the scripts that are part of the custom form at the end
@@ -106,6 +108,7 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         setHighlightedField,
         saveValue,
         showDetailsBar,
+        fileHelper,
     ])
 
     return (
@@ -128,6 +131,7 @@ LegacyCustomFormPlugin.propTypes = {
     periodId: PropTypes.string.isRequired,
     attributeOptionComboSelection: PropTypes.object,
     dataSet: PropTypes.shape({ displayName: PropTypes.string }),
+    fileHelper: PropTypes.object,
     initialValues: PropTypes.shape({}),
     metadata: PropTypes.object,
     saveValue: PropTypes.func,

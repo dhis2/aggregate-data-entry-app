@@ -69,7 +69,7 @@ const files = [
     // 'javascripts/ouwt/ouwt.js',
 
     // form-entry
-    'javascripts/data-entry/entry.fileresource.js',
+    // 'javascripts/data-entry/entry.fileresource.js',
 
     'javascripts/data-entry/form.js',
     'javascripts/data-entry/entry.js',

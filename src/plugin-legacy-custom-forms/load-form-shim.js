@@ -18,6 +18,7 @@ const loadCustomFormShim = ({
     setHighlightedField,
     saveValue,
     showDetailsBar,
+    fileHelper,
 }) => {
     // * adding periodId and dataSetId to hidden selects so that previous jQuery code works as it is
     // ToDo: is getting period from selectedPeriodId a common enough pattern to have a workaround?
@@ -75,7 +76,8 @@ const loadCustomFormShim = ({
     //* make sure that all AJAX requests go to the Backend Url
     //* there are a variety of workarounds that people do currently but this should make them obsolete (as well as help with local development)
     //! it's also a pseudo-security measure, as it basically ensures that all calls are to the DHIS2 server - no outside API calls
-    window.DHIS_BASE_URL = baseUrl + '/'
+    window.DHIS2_BASE_URL = baseUrl + '/'
+
     window.$.ajaxSetup({
         beforeSend: function (xhr, options) {
             if (!options.url?.match(baseUrl)) {
@@ -119,6 +121,8 @@ const loadCustomFormShim = ({
     }
 
     window.dhis2.shim.showDetailsBar = showDetailsBar
+
+    window.dhis2.shim.fileHelper = fileHelper
 
     /**
      * ! These are few localised strings that were baked into the old struts app and are used in form.js still
