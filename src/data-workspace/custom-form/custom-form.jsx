@@ -12,6 +12,7 @@ import {
     useSetDataValueMutation,
     useValueStore,
 } from '../../shared/index.js'
+import useCustomFormFileHelper from './use-custom-form-file-helper.js'
 
 const defaultMutation = {}
 /**
@@ -44,6 +45,8 @@ export const CustomForm = ({ dataSet }) => {
     }, [setRightHandPanel])
 
     const { mutate } = useSetDataValueMutation(defaultMutation)
+
+    const fileHelper = useCustomFormFileHelper()
 
     const allFuncs = React.useMemo(() => [], [])
     const sync = React.useCallback(
@@ -84,6 +87,7 @@ export const CustomForm = ({ dataSet }) => {
                 attributeOptionComboSelection={attributeOptionComboSelection}
                 setHighlightedField={setHighlightedField}
                 showDetailsBar={showDetailsBar}
+                fileHelper={fileHelper}
             />
             {/* <div className={styles.customForm}>
                 <h2>Existing custom form functionality (for reference)</h2>

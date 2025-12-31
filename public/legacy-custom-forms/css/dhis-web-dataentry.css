@@ -248,7 +248,7 @@ textarea:read-only
 .upload-fileinfo
 {
     padding: 5px;
-    position: absolute;
+    /* position: absolute; */
     max-width: 95%;
     z-index: 2;
     white-space: nowrap;

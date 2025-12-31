@@ -326,10 +326,78 @@ dhis2.de.addEventListeners = function()
 
     $( '.commentlink' ).remove();
     
+    var periodId = $( '#selectedPeriodId' ).val();
+    var dataSetId = $( '#selectedDataSetId' ).val();
+
+    $( '.entryfileresource' ).off( 'change' );
 
     $( '.entryfileresource' ).each( function()
     {
-        $( this ).fileEntryField();
+        var id = $( this ).attr( 'id' );
+        var split = dhis2.de.splitFieldId( id );
+        
+        const dvParams = {
+            'de' : split.dataElementId,
+            'co' : split.optionComboId,
+            deId: split.dataElementId,
+            cocId: split.optionComboId,
+            'ds' : dataSetId,
+            'ou' : split.organisationUnitId,
+            'pe' : periodId,
+        };
+
+        const $field = $(this)
+        $field.find(".upload-button")
+        .text('×')
+        .attr('title', 'Delete file')
+        .on('click', (ev) => {
+            window.dhis2.shim.fileHelper.deleteFile(dvParams, {
+                onSuccess: () => {
+                    window.dhis2.shim.showAlert({message: 'File deleted successfully'})
+                    $field.find('input[type="file"]').show().val('')
+                    $field.find('.upload-field').hide()
+                    $field.find('.upload-button-group').hide()
+                }
+            })
+        })
+        
+        $field.find('input[type="file"]').show()
+        // ! remove old HTML prepared by the API as it is no longer relevant 
+        $field.find('.entryfileresource-input').remove()
+        $field.find('.upload-field').hide()
+        $field.find('.upload-button-group').hide()
+        
+        $field.find("input[type='file']").on('change', async (ev)  =>{
+            ev.preventDefault()
+            const file = ev.target.files?.[0]
+            const reader = new FileReader();
+            if(file instanceof File) {
+                reader.readAsDataURL(file);
+                
+                reader.addEventListener("load", () => {
+                    window.dhis2.shim.fileHelper.uploadFile(reader.result, {
+                        fileName: file.name,
+                        dataValueParams: dvParams,
+                        onSuccess: () => {
+                            $field.find('input[type="file"]').hide()
+                            $field.find('.upload-field').show()
+                            $field.find('.upload-button-group').show()
+                            var $filename = $field.find( '.upload-fileinfo-name' );
+                            $filename.html('')
+                            $( '<a>', {
+                                text: file.name,
+                                title: file.name,
+                                target: '_blank',
+                                href: window.DHIS2_BASE_URL + "api/dataValues/files?" + $.param( dvParams )
+                            } ).appendTo( $filename );
+
+                            $field.find( '.upload-fileinfo-size' ).text( file.size );
+                        }
+                    })
+                });
+                
+            }
+        })
     } );
 }
 
@@ -763,17 +831,6 @@ function loadDataValues()
     displayEntryFormCompleted();
 }
 
-function clearFileEntryFields() {
-    var $fields = $( '.entryfileresource' );
-    $fields.find( '.upload-fileinfo-name' ).text( '' );
-    $fields.find( '.upload-fileinfo-size' ).text( '' );
-
-    $fields.find( '.upload-field' ).css( 'background-color', dhis2.de.cst.colorWhite );
-    $fields.find( 'input' ).val( '' );
-    
-    $('.select2-container').select2("val", "");
-}
-
 function getAndInsertDataValues()
 {
     var periodId = $( '#selectedPeriodId').val();
@@ -920,6 +977,7 @@ function insertDataValues( json )
         if ( $( fieldId ).length > 0 ) // Set values
         {
             var entryField = $( fieldId );
+
             if ( 'true' == valueToShow && ( entryField.attr( 'name' ) == 'entrytrueonly' || entryField.hasClass( "entrytrueonly" ) ) )
             {
               $( fieldId ).prop( 'checked', true );
@@ -950,11 +1008,8 @@ function insertDataValues( json )
             else if ( entryField.attr( 'class' ) == 'entryfileresource' )
             {
                 var $field = $( fieldId );
-
-                $field.find( 'input[class="entryfileresource-input"]' ).val( valueToShow );
-
-                var split = dhis2.de.splitFieldId( value.value );
-
+                var split = dhis2.de.splitFieldId( $field.attr( 'id' ) );
+                
                 var dvParams = {
                     'de': split.dataElementId,
                     'co': split.optionComboId,
@@ -962,38 +1017,56 @@ function insertDataValues( json )
                     'pe': $( '#selectedPeriodId' ).val(),
                     'ds': $( '#selectedDataSetId' ).val()
                 };
+                
+                if  ( !valueToShow ) {
+                    $field.find('input[type="file"]').show()
+                    $field.find('.upload-field').hide()
+                    $field.find('.upload-button-group').hide()
+                } else {
+                    $field.find('input[type="file"]').hide()
+                    $field.find('.upload-field').show()
+                    $field.find('.upload-button-group').show()
+                    
+                    dhis2.shim.fileHelper.loadFileMetadata(valueToShow).then((data) => {
 
-                var cc = dhis2.de.getCurrentCategoryCombo();
-                var cp = dhis2.de.getCurrentCategoryOptionsQueryValue();
+                        $field.find( 'input[class="entryfileresource-input"]' ).val( valueToShow );
 
-                if( cc && cp )
-                {
-                    dvParams.cc = cc;
-                    dvParams.cp = cp;
+                        
+
+                        var cc = dhis2.de.getCurrentCategoryCombo();
+                        var cp = dhis2.de.getCurrentCategoryOptionsQueryValue();
+
+                        if( cc && cp )
+                        {
+                            dvParams.cc = cc;
+                            dvParams.cp = cp;
+                        }
+
+                        var name = "", size = "";
+
+                        if ( data.name )
+                        {
+                            name = data.name;
+                            size = '(' + ( data.contentLength ) + ')';
+                        }
+                        else
+                        {
+                            name = dhis2.shim.i18n_translations.i18n_loading_file_info_failed
+                        }
+
+                        var $filename = $field.find( '.upload-fileinfo-name' );
+
+                        $( '<a>', {
+                            text: name,
+                            title: name,
+                            target: '_blank',
+                            href: window.DHIS2_BASE_URL + "api/dataValues/files?" + $.param( dvParams )
+                        } ).appendTo( $filename );
+
+                        $field.find( '.upload-fileinfo-size' ).text( size );
+                    })
                 }
 
-                var name = "", size = "";
-
-                if ( value.fileMeta )
-                {
-                    name = value.fileMeta.name;
-                    size = '(' + filesize( value.fileMeta.size ) + ')';
-                }
-                else
-                {
-                    name = dhis2.shim.i18n_translations.i18n_loading_file_info_failed
-                }
-
-                var $filename = $field.find( '.upload-fileinfo-name' );
-
-                $( '<a>', {
-                    text: name,
-                    title: name,
-                    target: '_blank',
-                    href: "../api/dataValues/files?" + $.param( dvParams )
-                } ).appendTo( $filename );
-
-                $field.find( '.upload-fileinfo-size' ).text( size );
             }
             else if ( $( fieldId.replace('val', 'time') ).length > 0 )
             {
