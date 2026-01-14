@@ -1,3 +1,10 @@
+# [101.1.0-alpha.9](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.8...v101.1.0-alpha.9) (2026-01-14)
+
+
+### Bug Fixes
+
+* support min/max values validation ([34beffa](https://github.com/dhis2/aggregate-data-entry-app/commit/34beffa28d2b40057ec39a413693c7fc1f1d0b5f))
+
 # [101.1.0-alpha.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.7...v101.1.0-alpha.8) (2025-11-26)
 
 
