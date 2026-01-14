@@ -46,8 +46,8 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
 
     // * The shim will proxy the legacy setHeaderDelayMessage that was used to show alerts to the modern AlertBar stack
     const { show: showAlert, hide: hideAlert } = useAlert(
-        ({ message }) => message,
-        { warning: true }
+        (options) => options?.message ?? options,
+        (options) => options?.alertOptions ?? { warning: true }
     )
 
     useEffect(() => {
