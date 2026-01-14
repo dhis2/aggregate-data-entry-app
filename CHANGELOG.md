@@ -1,3 +1,15 @@
+# [101.1.0-alpha.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.9...v101.1.0-alpha.10) (2026-01-14)
+
+
+### Bug Fixes
+
+* change alert shim to allow passing AlerBar options ([9e0a7ae](https://github.com/dhis2/aggregate-data-entry-app/commit/9e0a7aee4a13a51216a806b85de3b615b4e2153c))
+
+
+### Features
+
+* support files value types ([3d95a3e](https://github.com/dhis2/aggregate-data-entry-app/commit/3d95a3ef40da9ab738ae644f730038b87e2a4655))
+
 # [101.1.0-alpha.9](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.8...v101.1.0-alpha.9) (2026-01-14)
 
 
