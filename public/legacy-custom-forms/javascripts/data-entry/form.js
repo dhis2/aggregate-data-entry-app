@@ -353,7 +353,7 @@ dhis2.de.addEventListeners = function()
         .on('click', (ev) => {
             window.dhis2.shim.fileHelper.deleteFile(dvParams, {
                 onSuccess: () => {
-                    window.dhis2.shim.showAlert({message: 'File deleted successfully'})
+                    window.dhis2.shim.showAlert({ message: 'File deleted successfully', alertOptions: { success: true } })
                     $field.find('input[type="file"]').show().val('')
                     $field.find('.upload-field').hide()
                     $field.find('.upload-button-group').hide()
