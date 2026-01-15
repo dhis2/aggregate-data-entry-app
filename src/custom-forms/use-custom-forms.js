@@ -7,8 +7,9 @@ const getCustomForms = createSelector(getDataSets, (dataSets) =>
     dataSets
         .filter((dataSet) => dataSet.formType === 'CUSTOM')
         .map((dataSet) => ({
-            id: dataSet.dataEntryForm.id,
+            id: dataSet.id,
             version: dataSet.version,
+            dataSet: dataSet.dataSet,
         }))
 )
 

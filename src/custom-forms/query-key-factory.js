@@ -3,7 +3,7 @@ const queryKeyFactory = {
         'dataSets',
         {
             params: {
-                fields: 'dataEntryForm[id],formType,version',
+                fields: 'dataEntryForm[id],formType,version,id',
             },
         },
     ],
