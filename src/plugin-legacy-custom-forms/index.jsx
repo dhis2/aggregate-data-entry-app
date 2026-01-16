@@ -40,9 +40,28 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
     // * Extracting the form's HTML, JS scripts and CSS
     // The HTML would end up set as the plugin content as it is
     // The JS and CSS are manipulated first to ensure they're loaded after the base styles and scripts (the ones that were part of  the Struts templates in DHIS2 pre-41 by default)
-    const formHtml = doc.body.innerHTML
+    let formHtml = doc.body.innerHTML
+
+    const divLoader = `<div class="custom-forms-loader">
+            <div role="progressbar" class="loader"></div>
+        </div>`
+
+    formHtml = `<div class="plugin-legacy-custom-forms-wrapper">
+            ${divLoader}
+            <div class="custom-forms-form" style="visibility:hidden">
+                ${formHtml}
+            </div>
+        </div>`
+
     const formScripts = parsedContent.scripts
     const formStyles = parsedContent.styles
+
+    const script = document.createElement('script')
+    script.text = `$(document).ready(() => { 
+        $('.plugin-legacy-custom-forms-wrapper .custom-forms-loader').hide()
+        $('.plugin-legacy-custom-forms-wrapper .custom-forms-form').attr('style', 'visibility: visible')
+    })`
+    formScripts.push(script)
 
     // * The shim will proxy the legacy setHeaderDelayMessage that was used to show alerts to the modern AlertBar stack
     const { show: showAlert, hide: hideAlert } = useAlert(
