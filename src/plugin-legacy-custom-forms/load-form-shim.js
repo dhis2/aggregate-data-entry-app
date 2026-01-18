@@ -144,6 +144,29 @@ const loadCustomFormShim = ({
         i18n_value_of_data_element_less: i18n.t(
             'The value of the following data element is greater than the specified maximum value.'
         ),
+
+        i18n_value_too_long: i18n.t('Value is too long'),
+        i18n_value_must_number: i18n.t('Value must be a number'),
+        i18n_value_must_integer: i18n.t('Value must be an integer'),
+        i18n_value_must_positive_integer: i18n.t(
+            'Value must be a  positive integer'
+        ),
+        i18n_value_must_negative_integer: i18n.t(
+            'Value must be a negative integer'
+        ),
+        i18n_value_must_zero_or_positive_integer: i18n.t(
+            'Value must be zero or a positive integer'
+        ),
+        i18n_value_must_coordinate: i18n.t(
+            'Value must be a coordinate (longitude, latitude)'
+        ),
+        i18n_value_must_unit_interval: i18n.t(
+            'Value must be a unit interval (between 0 and 1)'
+        ),
+        i18n_value_must_percentage: i18n.t(
+            'Value must be a percentage (between 0 and 100)'
+        ),
+        i18n_value_must_valid_url: i18n.t('Value must be a valid url'),
     }
 }
 
