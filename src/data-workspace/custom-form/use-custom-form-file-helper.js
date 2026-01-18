@@ -6,11 +6,13 @@ import {
 } from '../../shared/index.js'
 
 function dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[arr.length - 1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n)
+    const arr = dataurl.split(',')
+    const mime = arr[0].match(/:(.*?);/)[1]
+    const bstr = atob(arr[arr.length - 1])
+
+    let n = bstr.length
+    const u8arr = new Uint8Array(n)
+
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n)
     }
@@ -29,10 +31,6 @@ const useCustomFormFileHelper = () => {
 
     const uploadFile = useCallback(
         (base64File, { fileName, dataValueParams, onSuccess }) => {
-            console.debug(
-                '[custom-forms] useCustomFormFileHelper.upload - ',
-                fileName
-            )
             const file = dataURLtoFile(base64File, fileName)
 
             uploadFileMutate(

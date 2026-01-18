@@ -478,9 +478,9 @@ dhis2.de.splitFieldId = function( id )
 
 function getDataElementType( dataElementId )
 {
-	if ( dhis2.de.dataElements[dataElementId] != null )
+	if ( dhis2.de.dataElements[dataElementId]?.valueType != null )
 	{
-		return dhis2.de.dataElements[dataElementId];
+		return dhis2.de.dataElements[dataElementId]?.valueType;
 	}
 
 	console.log( 'Data element not present in data set, falling back to default type: ' + dataElementId );
