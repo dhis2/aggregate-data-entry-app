@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useDataSetId } from '../../shared/index.js'
 
-export default function useDataSetSectionsInfo() {
+export default function useDataSetAdditionalInfo() {
     const [id] = useDataSetId()
     const queryKey = [
         'dataSets',
@@ -12,6 +12,7 @@ export default function useDataSetSectionsInfo() {
                     'formType',
                     'sections[id,displayName]',
                     'renderAsTabs',
+                    'dataEntryForm[id,htmlCode]',
                 ],
             },
         },
@@ -23,6 +24,10 @@ export default function useDataSetSectionsInfo() {
         data,
     } = useQuery(queryKey, {
         enabled: !!id,
+        // We added this staleTime to reuse the same call for section info, to also get the HTML content for custom forms and avoid a second API call
+        // 1 minute should be enough to take into account the amount of time users need to finish context selection,
+        // without being too long as in to hinder form authors from seeing their changes while they're developing them
+        staleTime: 1 * 60 * 1000,
     })
 
     return {
