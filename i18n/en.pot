@@ -5,18 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-10-13T08:59:52.741Z\n"
-"PO-Revision-Date: 2025-10-13T08:59:52.742Z\n"
-
-msgid "Not authorized"
-msgstr "Not authorized"
-
-msgid ""
-"You don't have access to the Data Approval App. Contact a system "
-"administrator to request access."
-msgstr ""
-"You don't have access to the Data Approval App. Contact a system "
-"administrator to request access."
+"POT-Creation-Date: 2026-01-26T16:17:18.280Z\n"
+"PO-Revision-Date: 2026-01-26T16:17:18.280Z\n"
 
 msgid "There was a problem loading metadata"
 msgstr "There was a problem loading metadata"
@@ -282,9 +272,6 @@ msgstr "Options"
 msgid "Search org units"
 msgstr "Search org units"
 
-msgid "Choose a data set first"
-msgstr "Choose a data set first"
-
 msgid "Dataset is not assigned to this organisation unit"
 msgstr "Dataset is not assigned to this organisation unit"
 
@@ -311,6 +298,9 @@ msgstr "Fetching organisation unit info"
 
 msgid "Error occurred while loading organisation unit info"
 msgstr "Error occurred while loading organisation unit info"
+
+msgid "Choose a data set first"
+msgstr "Choose a data set first"
 
 msgid "No periods available in this year"
 msgstr "No periods available in this year"
