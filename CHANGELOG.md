@@ -1,3 +1,13 @@
+# [101.1.0-alpha.11](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.10...v101.1.0-alpha.11) (2026-01-26)
+
+
+### Bug Fixes
+
+* rerun pipeline ([17ebe47](https://github.com/dhis2/aggregate-data-entry-app/commit/17ebe47a2d536fd647a03deca12ff927677438e3))
+* **DHIS2-20563:** use dataset ID instead of form ID to get the custom form ([a0c8ee7](https://github.com/dhis2/aggregate-data-entry-app/commit/a0c8ee75421d9b184b4a43cb2d8e8c3b8f6578f3))
+* **DHIS2-20563:** validate valueTypes on the client-side ([a37c5ec](https://github.com/dhis2/aggregate-data-entry-app/commit/a37c5ec27d8bd847e3b003d8907d74a8e9f82070))
+* **DHIS2-20575:** show loader until form is ready to interact with ([8dca817](https://github.com/dhis2/aggregate-data-entry-app/commit/8dca817c72a250b3ecf529c7c5886d451829ad31))
+
 # [101.1.0-alpha.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.9...v101.1.0-alpha.10) (2026-01-14)
 
 
