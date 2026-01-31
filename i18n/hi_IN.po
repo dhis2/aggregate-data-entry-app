@@ -2,17 +2,17 @@
 # Translators:
 # Siddharth Agarwal, 2025
 # AkashJindal, 2025
-# Rohit Wadhwani, 2025
+# Rohit Wadhwani, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2025-07-04T13:29:52.415Z\n"
 "PO-Revision-Date: 2024-09-24 13:03+0000\n"
-"Last-Translator: Rohit Wadhwani, 2025\n"
+"Last-Translator: Rohit Wadhwani, 2026\n"
 "Language-Team: Hindi (India) (https://app.transifex.com/hisp-uio/teams/100509/hi_IN/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hi_IN\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -259,7 +259,7 @@ msgid "There are no data sets available!"
 msgstr ""
 
 msgid "Data set"
-msgstr ""
+msgstr "डेटा सेट"
 
 msgid "Print form with values"
 msgstr ""
@@ -391,7 +391,7 @@ msgid "Marked for follow-up"
 msgstr ""
 
 msgid "Comment"
-msgstr ""
+msgstr "कमेंट"
 
 msgid "There was a problem updating the comment for this data item"
 msgstr ""
@@ -448,10 +448,10 @@ msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
-msgstr ""
+msgstr "न्यूनतम"
 
 msgid "Max"
-msgstr ""
+msgstr "अधिकतम"
 
 msgid "Min and max limits"
 msgstr ""
