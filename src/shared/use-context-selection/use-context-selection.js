@@ -68,7 +68,9 @@ export function useClearEntireSelection() {
  *
  * @returns {string} an unique identifer for the selected context
  */
-export function useContextSelectionId() {
+export function useContextSelectionId(
+    { excludeSectionFilter } = { excludeSectionFilter: false }
+) {
     const [
         {
             attributeOptionComboSelection,
@@ -86,7 +88,7 @@ export function useContextSelectionId() {
         dataSetId,
         orgUnitId,
         periodId,
-        sectionFilter,
+        sectionFilter: excludeSectionFilter ? undefined : sectionFilter,
     })
 }
 

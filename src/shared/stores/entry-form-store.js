@@ -32,6 +32,9 @@ export const useEntryFormStore = create((set, get) => {
         reset: () => {
             set(inititalState)
         },
+        resetErrorsAndWarnings: () => {
+            set({ errors: {}, warnings: {} })
+        },
         // could add getNumberOfWarnings if needed
     }
 })

@@ -10,6 +10,7 @@ import {
     useSyncErrorsStore,
     useEntryFormStore,
     useIsCompulsoryDataElementOperand,
+    useValidationStore,
 } from '../../shared/index.js'
 import styles from './data-entry-cell.module.css'
 import { ValidationTooltip } from './validation-tooltip.jsx'
@@ -83,6 +84,9 @@ export function InnerWrapper({
     const completeAttempted = useEntryFormStore((state) =>
         state.getCompleteAttempted()
     )
+    const validationHasRun = useValidationStore((store) =>
+        store.getValidationHasRun()
+    )
 
     const dataValueParams = useDataValueParams({ deId, cocId })
     // Detect if this field is sending data
@@ -116,7 +120,8 @@ export function InnerWrapper({
     // see https://dhis2.atlassian.net/browse/TECH-1316
 
     const cellStateClassName =
-        error || (isRequired && !value && completeAttempted)
+        error ||
+        (isRequired && !value && (completeAttempted || validationHasRun))
             ? styles.invalid
             : warning
             ? styles.warning

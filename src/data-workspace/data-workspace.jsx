@@ -16,6 +16,7 @@ import {
     useValueStore,
     dataValueSetQueryKey,
     useEntryFormStore,
+    useValidationStore,
 } from '../shared/index.js'
 import styles from './data-workspace.module.css'
 import { EntryForm } from './entry-form.jsx'
@@ -38,12 +39,18 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     const setCompleteAttempted = useEntryFormStore(
         (state) => state.setCompleteAttempted
     )
+    const setValidationHasRun = useValidationStore(
+        (state) => state.setValidationHasRun
+    )
 
     const isValidSelection = useIsValidSelection()
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
-    const formKey = useContextSelectionId()
-
+    const formKey = useContextSelectionId({ excludeSectionFilter: false })
+    const formKeyWithoutSectionFilter = useContextSelectionId({
+        excludeSectionFilter: true,
+    })
+    // resetErrorsAndWarnings
     // to keep one stable dependency for effect below
     const validFormKey = isValidSelection ? formKey : false
     // force refetch when context-selection changes
@@ -60,11 +67,13 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     cancelRefetch: false,
                 }
             )
-
-            // reset the completionAttempted store for new form
-            setCompleteAttempted(false)
         }
-    }, [validFormKey, queryClient, setCompleteAttempted])
+    }, [validFormKey, queryClient])
+
+    useEffect(() => {
+        setCompleteAttempted(false)
+        setValidationHasRun(false)
+    }, [formKeyWithoutSectionFilter, setCompleteAttempted, setValidationHasRun])
 
     if (selectionHasNoFormMessage) {
         const title = i18n.t('The current selection does not have a form')
