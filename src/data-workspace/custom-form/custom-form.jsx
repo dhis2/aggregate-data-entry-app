@@ -2,6 +2,7 @@
 import { Plugin } from '@dhis2/app-runtime/experimental' // ToDo: find out why /experimental causes lint and jest issues
 import PropTypes from 'prop-types'
 import React from 'react'
+import useDataSetAdditionalInfo from '../../context-selection/section-filter-selector-bar-item/use-data-set-additional-info.js'
 import useCustomForm from '../../custom-forms/use-custom-form.js'
 import useSetRightHandPanel from '../../right-hand-panel/use-show-right-hand-panel.js'
 import {
@@ -12,6 +13,8 @@ import {
     useSetDataValueMutation,
     useValueStore,
 } from '../../shared/index.js'
+import styles from './custom-form.module.css'
+import { parseHtmlToReact } from './parse-html-to-react.jsx'
 import useCustomFormFileHelper from './use-custom-form-file-helper.js'
 
 const defaultMutation = {}
@@ -21,6 +24,7 @@ const defaultMutation = {}
  * For more info see ./docs/custom-froms.md
  */
 export const CustomForm = ({ dataSet }) => {
+    const { data: dataSetInfo } = useDataSetAdditionalInfo()
     const { data: customForm } = useCustomForm({
         id: dataSet.id,
         version: dataSet.version,
@@ -71,12 +75,31 @@ export const CustomForm = ({ dataSet }) => {
         [allFuncs, mutate]
     )
 
-    return customForm ? (
-        <>
+    const formContent = customForm?.form
+
+    if (!formContent || !dataSetInfo) {
+        return null
+    }
+
+    const useModernRendering =
+        !formContent?.match('<script') &&
+        !formContent?.match('<!-- NO_MODERN_HTML_ONLY_RENDERING -->')
+
+    if (useModernRendering) {
+        return (
+            <div className={styles.customForm}>
+                {parseHtmlToReact(
+                    dataSetInfo?.dataEntryForm?.htmlCode,
+                    metadata
+                )}
+            </div>
+        )
+    } else {
+        return (
             <Plugin
                 width="100%"
                 pluginSource="plugin.html"
-                htmlCode={customForm.form}
+                htmlCode={formContent}
                 initialValues={initialDataValues}
                 metadata={metadata}
                 dataSet={dataSet}
@@ -89,12 +112,8 @@ export const CustomForm = ({ dataSet }) => {
                 showDetailsBar={showDetailsBar}
                 fileHelper={fileHelper}
             />
-            {/* <div className={styles.customForm}>
-                <h2>Existing custom form functionality (for reference)</h2>
-                {parseHtmlToReact(customForm.htmlCode, metadata)}
-            </div> */}
-        </>
-    ) : null
+        )
+    }
 }
 
 CustomForm.propTypes = {

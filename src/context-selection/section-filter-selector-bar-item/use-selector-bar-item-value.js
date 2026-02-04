@@ -1,10 +1,10 @@
 import i18n from '@dhis2/d2-i18n'
 import { useSectionFilter } from '../../shared/index.js'
-import useDataSetSectionsInfo from './use-data-set-sections-info.js'
+import useDataSetAdditionalInfo from './use-data-set-additional-info.js'
 
 export default function useSelectorBarItemValue() {
     const [sectionFilter] = useSectionFilter()
-    const dataSetSectionsInfo = useDataSetSectionsInfo()
+    const dataSetSectionsInfo = useDataSetAdditionalInfo()
 
     if (!sectionFilter) {
         return undefined
