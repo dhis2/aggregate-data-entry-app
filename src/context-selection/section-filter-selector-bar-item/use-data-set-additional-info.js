@@ -12,6 +12,8 @@ export default function useDataSetAdditionalInfo() {
                     'formType',
                     'sections[id,displayName]',
                     'renderAsTabs',
+                    // Only used for custom forms, but saves making another request to dataSets later.
+                    // The field is empty for non-custom forms, so it's cheap to add
                     'dataEntryForm[id,htmlCode]',
                 ],
             },
