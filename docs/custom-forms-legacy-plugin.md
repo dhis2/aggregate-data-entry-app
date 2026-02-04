@@ -13,11 +13,11 @@ The Legacy Custom Forms plugin is available now on the **beta** channel. You can
 
 As part of the new Data Entry app, we dropped support for custom logic and JavaScript in custom forms. This presented challenges for implementations that relied heavily on custom forms for a number of years.
 
-### Why we dropped support for custom JavaScript?
+### Why did we drop support for custom JavaScript?
 
 The challenge with custom forms generally, and arbitrary JavaScript specifically, is multifold:
 
--   Security concerns: Anything is possible in these forms as they run in the context of the user (using its permissions and access model). While good governance models around who can author such forms can mitigate some of these risks of malicious JS running in forms, inadvertent security lapses remain possible, for example, hardcoding secrets in the forms, making API calls to other servers, cross-side scripting etc...
+-   Security concerns: Anything is possible in these forms as they run in the context of the user (using its permissions and access model). While good governance models around who can author such forms can mitigate some of these risks of malicious JS running in forms, inadvertent security lapses remain possible, for example, hardcoding secrets in the forms, making API calls to other servers, cross-site scripting, etc.
 
 -   More Security concerns (legacy patterns and libraries): The forms often depended on libraries that are old and outdated (jQuery 3.2.1 for example, and plugins related to it). This is inefficient as most of the use cases for such libraries are obsolete and supported natively by modern browsers, but also potentially poses security risks as the forms have an outdated dependency that is not in active development for a number of years.
 
@@ -27,17 +27,17 @@ The challenge with custom forms generally, and arbitrary JavaScript specifically
 
 These challenges led the core team to initially drop support for custom forms with JavaScript, but this presented a barrier for upgrade for many implementations.
 
-### Why we re-instate support for custom JavaScript now?
+### Why are we reinstating support for custom JavaScript now?
 
-With the Legacy Custom Forms plugin, we re-instate support for custom forms with JavaScript.
+With the Legacy Custom Forms plugin, we reinstate support for custom forms with JavaScript.
 
 The plugin architecture provides a generic extension point for developers. This allows developers - the core team for now, but external developers in the near future - to extend the functionality of the Data Entry app without affecting the main app's security and UX.
 
-In the context of custom forms, this provides a level of isolation and control over the inherited risks of custom JS in forms, but does not mitigate them completely. From the point of view of end-users and custom forms authors, the plugin provides a _pragmatic_ workaround to upgrade to newer versions of DHIS2, but keep their custom forms working with the least amount of friction.
+In the context of custom forms, this provides a level of isolation and control over the inherent risks of custom JS in forms, but does not mitigate them completely. From the point of view of end-users and custom forms authors, the plugin provides a _pragmatic_ workaround to upgrade to newer versions of DHIS2, but keep their custom forms working with the least amount of friction.
 
-From a technical point of view, the plugin provides a "shim" or an adapter that makes legacy custom forms function similarly to the old Struts legacy app, but in the context of the modern app. This provides improved functionality and integration with the new app's shell (i.e. context selection, data element details, offline support etc..), a by-product of that is an improvement in security and UX by reusing the main app's functionality whenever possible, for example, accessing the metadata, or a data element details, and operations like completing forms, and offline support all happen through the main app's shell which means that they can .
+From a technical point of view, the plugin provides a "shim" or an adapter that makes legacy custom forms function similarly to the old Struts legacy app, but in the context of the modern app. This provides improved functionality and integration with the new app's shell (i.e. context selection, data element details, offline support, etc.). A by-product of that is an improvement in security and UX by reusing the main app's functionality whenever possible, for example, accessing the metadata or a data element's details, operations like completing forms, and offline support all happen through the main app's shell which means that they can [TO DO].
 
-Our recommendation is still to move away from custom forms whenever possible though. We realise that this is not always achievable, but it is also becoming increasingly possible as many of the use cases that people required custom forms for are now natively supported, this includes better support for Right-to-Left languages, ability to show tabs (horizontally and vertically), ability to pivot forms and ability to show custom HTML between sections in forms. We aim to add more native abilities in the future to make custom forms unnecessary.
+Our recommendation is still to move away from custom forms whenever possible though. We realise that this is not always achievable, but it is also becoming increasingly possible as many of the use cases that people required custom forms for are now natively supported -- this includes better support for Right-to-Left languages, ability to show tabs (horizontally and vertically), ability to pivot forms, and ability to show custom HTML between sections in forms. We aim to add more native abilities in the future to make custom forms unnecessary.
 
 ## Technical overview and notes for forms authors
 
