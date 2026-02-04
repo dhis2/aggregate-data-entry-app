@@ -1,3 +1,10 @@
+# [101.1.0-alpha.12](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.11...v101.1.0-alpha.12) (2026-02-04)
+
+
+### Bug Fixes
+
+* **DHIS2-20567:** show modern styles for html-only forms ([#509](https://github.com/dhis2/aggregate-data-entry-app/issues/509)) ([3b5e95a](https://github.com/dhis2/aggregate-data-entry-app/commit/3b5e95ab9e37afe109c5943391d13e8ef7889044))
+
 # [101.1.0-alpha.11](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.10...v101.1.0-alpha.11) (2026-01-26)
 
 
