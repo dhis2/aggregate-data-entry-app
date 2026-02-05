@@ -138,18 +138,19 @@ These are some objects that existed in the global `window` context but are remov
 
 -   `jQuery` and its plugins: we bundled the same version of jQuery that was part of the last Struts app (`3.2.1`) along `jQuery UI` and some of the plugins that are necessary for making the transition easier. These are namely jQuery `select2`, `floatThead` and jQuery `calendar`.
 
--   We got rid of `underscore`, `autogrow`, `dhisAjaxSelect` and other utilities that were part of dhis Struts app (for managing storage, translation, `ouwt` for managing organisation units logic, etc.).
+-   We got rid of `underscore`, `jquery.autogrow`, `jquery.cookie` , `jquery.blockUi`, `dhisAjaxSelect` and other utilities that were part of dhis Struts app (for managing storage, translation, etc.).
+
+-   DHIS2 Utilities such as `ouwt` for managing organisation units logic, `dhis2.array` are removed. They are either obsolete or unnecessary in modern browsers. We kept `dhis2.util` namespace as we suspected that some forms might still be using some of the utitlities there.
 
 We did not see any custom forms that use these libraries directly, and their main purpose was to be used internally by the Struts app. If your form depended on one of these, then you can update it.
 
 ## Support and Future plans
 
-ToDO (support plan?)
+The Legacy Custom Forms plugin will be kept alive to ensure that existing legacy forms continue working without interruption, but no new features or functionality will be added.
 
-In the future, our focus will be to enhance the security of the plugin model, mainly to restrict API calls outside the domain of the DHIS2 instance. For custom forms, we will likely introduce these in an opt-in way.
+In the future, our focus will be to enhance the security of the plugin model, mainly to restrict API calls outside the domain of the DHIS2 instance. For custom forms, we will likely introduce these restrictions in an opt-in way.
 
-We are also planning a different modern plugin entry point, that would allow people to build custom forms that are more modern-looking (and secure by default). This plugin though (the Legacy Custom Forms plugin) will remain, to keep existing legacy forms working without interruption.
-
+We are also planning a different modern plugin entry point, that would allow people to build custom forms that are more modern-looking, and secure by default.
 ...
 
 ## FAQs
@@ -165,3 +166,7 @@ If something doesn’t work, then you are able to update the forms and there are
 For custom forms that do not have JavaScript, i.e. they only contain custom HTML and CSS, we render them using the modern app by default.
 
 If for some reason, you prefer them to be still rendered using the old styles, you can add the directive `<!-- NO_MODERN_HTML_ONLY_RENDERING -->` anywhere in the custom form code, and in that case, the Legacy Custom Form plugin will be used to render the form.
+
+-   **Feature X used to work on the old app but not anymore**
+
+If a feature does not work out of the box, you - as the form author - have the ability to update the form so that it works, given that there are no restrictions on the JavaScript ran on these forms. The aim of the plugin is to aim these updates, but there is no way to predict the ways people built custom forms before since everything (including using internal methods) was possible. If something is broken, and you think it's a common enough pattern that it should be supported by the plugin by default, then please get in touch and we can look at updating the plugin. But if it's a use case specific to your implementation, then you should update the forms accordingly.
