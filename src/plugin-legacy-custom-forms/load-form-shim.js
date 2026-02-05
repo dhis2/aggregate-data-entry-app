@@ -21,7 +21,6 @@ const loadCustomFormShim = ({
     fileHelper,
 }) => {
     // * adding periodId and dataSetId to hidden selects so that previous jQuery code works as it is
-    // ToDo: is getting period from selectedPeriodId a common enough pattern to have a workaround?
     const periodInput = document.createElement('input')
     periodInput.id = 'selectedPeriodId'
     periodInput.value = periodId
@@ -44,8 +43,6 @@ const loadCustomFormShim = ({
 
     document.body.append(periodInput, dataSetInput)
 
-    // ! the organisation unit was typically retrieved from  selection.getSelected()[0]; based on OUWT.js
-    // Todo: fake Selection API (https://developer.mozilla.org/en-US/docs/Web/API/Selection) as well? so that code like this works: dhis2.de.currentOrganisationUnitId = selection.getSelected()[0]
     window.dhis2.de.currentOrganisationUnitId = orgUnitId
     window.dhis2.de.currentDataSetId = dataSetId
     window.dhis2.de.currentPeriodId = periodId // ! doesn't exist in original object but seems reasonable to provide
@@ -66,7 +63,7 @@ const loadCustomFormShim = ({
     for (const [key, value] of Object.entries(metadata.dataSets)) {
         dataSetsForForm[key] = {
             ...value,
-            //? custom forms expect periodId - do we update the forms, or update the object (and where do we stop with these shims!)?
+            //! custom forms expect periodId so mapping period to periodId
             periodId: value?.period,
         }
     }
@@ -75,7 +72,7 @@ const loadCustomFormShim = ({
 
     //* make sure that all AJAX requests go to the Backend Url
     //* there are a variety of workarounds that people do currently but this should make them obsolete (as well as help with local development)
-    //! it's also a pseudo-security measure, as it basically ensures that all calls are to the DHIS2 server - no outside API calls
+    //! This is also a pseudo-security measure, as it would ensures that all calls are to the DHIS2 server - no outside API calls (but it only applies if the forms uses jQuery)
     window.DHIS2_BASE_URL = baseUrl + '/'
 
     window.$.ajaxSetup({
@@ -93,7 +90,7 @@ const loadCustomFormShim = ({
     /**
      * ! these global objects were initialised as part of main.vm (dhis-web/dhis-web-commons-resources/src/main/webapp/main.vm) for calendar
      *
-     * ? Do we want to support multi-calendar in this custom form world (please say No!)
+     * ToDo: investigate remove period helpers
      */
     window.dhis2.period.format = '$dateFormat.js'
     window.dhis2.period.calendar = window.$.calendars.instance('gregorian')
