@@ -43,7 +43,7 @@ Our recommendation is still to move away from custom forms whenever possible tho
 
 The aim of the plugin is to support existing custom forms out of the box. To achieve that, the plugin creates a [shim](<https://en.wikipedia.org/wiki/Shim_(computing)>) that keeps the old custom forms API as intact as possible.
 
-This API was the contract that legacy custom forms needed to adhere to, and it consists of functions and components that forms relied on, and expected they exist, to build its functionality, such as:
+This API was the contract that legacy custom forms needed to adhere to, and it consists of functions and components that forms relied on to build its functionality, such as:
 
 1. `dhis2.de` namespace: Custom forms relied on utility functions that were available under [dhis2.de namespace](https://github.com/dhis2/dhis2-core/blob/patch/2.41.6/dhis-2/dhis-web/dhis-web-dataentry/src/main/webapp/dhis-web-dataentry/javascript/form.js). We tried to keep these as intact as possible. Their internals might have changed but the interface exists.
 
@@ -70,7 +70,7 @@ We also _tried_ to patch some of these objects so that they look similar to the 
 
 > While we tried to anticipate some of these object differences, there is always a slight chance that your forms relied on a property that doesn't exist anymore. In that case, you can update the form accordingly or raise an issue if you think this is a common use case that the shim should handle.
 
--   API base URLs: Custom forms had a variety of ways for handling API requests and deciding on the base URL for the DHIS2 instance. We consolidated these so that the shim appends your requests to the correct DHIS2 BASE_URL as defined the instance config. Sof if you have a call to `/me`, you can just leave it as `/me` and the plugin will append the correct base URL to make the call to `https://play.dhis2.org/42/me` for example (if your call already specified the base URL correctly then appending the base URL will be ignored).
+-   API base URLs: Custom forms had a variety of ways for handling API requests and deciding on the base URL for the DHIS2 instance. We consolidated these so that the shim appends your requests to the correct DHIS2 BASE_URL as defined the instance config. So if you have a call to `/me`, you can just leave it as `/me` and the plugin will append the correct base URL to make the call to `https://play.dhis2.org/42/me`, for example (if your call already specified the base URL correctly, then appending the base URL will be ignored).
 
 :::note
 This ability to identify and append the base URL only works if you used jQuery AJAX methods (i.e. `$.get` or `jQuery.post`). This seems to be the case for the majority of forms we have seen. If you are doing requests in a different way (using `fetch` for example), then it is your responsibility to construct the URL properly.
@@ -87,20 +87,20 @@ The namespace is necessary to expose certain functionality from the modern app's
 ### Things that might not work out of the box
 
 :::note
-It is important to note that - for anything that doesn't work - you now have the ability to change the custom form so that it works (for example, so that it doesn't rely on a method that doesn't exist anyore). The aim of the plugin is mainly to minimise the amount of these changes that you need to apply on a form.
+It is important to note that -- for anything that doesn't work -- you now have the ability to change the custom form so that it works (for example, so that it doesn't rely on a method that doesn't exist anyore). The aim of the plugin is mainly to minimise the amount of these changes that you need to apply on a form.
 :::
 
 #### Relying on internal methods
 
-Because of the nature of how the legacy app was built, any method or library that is part of the Struts app was avaialable globally (in the `window` object in the browser) and as such could be accessed from custom forms. In practice, we haven't seen custom forms that rely on these methods directly, but the possibility exists. For such forms, the authors should update them so that they don't rely on these internal methods anymore.
+Because of the nature of how the legacy app was built, any method or library that is part of the Struts app was available globally (in the `window` object in the browser) and as such could be accessed from custom forms. In practice, we haven't seen custom forms that rely on these methods directly, but the possibility exists. For such forms, the authors should update them so that they don't rely on these internal methods anymore.
 
 #### Patched internal methods
 
-A related, likely more common, pattern is custom forms that override these internal methods as a way of fixing bugs in the legacy app. These patches will not work, but they are likely not necessary anymore because the plugin relies on methods from the shell of the modern app
+A related, likely more common, pattern is custom forms that override these internal methods as a way of fixing bugs in the legacy app. These patches will not work, but they are likely not necessary anymore because the plugin relies on methods from the shell of the modern app.
 
-#### Deprecated dhis2.de methods
+#### Deprecated `dhis2.de` methods
 
-There are methods under `dhis2.de` that are deprecated now. These are mostly operations that were used by the Struts for default and section forms, so they are not relevant for custom forms. We have not seen forms that make use of these methods, but in theory - because everything is global and accessible in the old app - custom forms could have used these methods.
+There are methods under `dhis2.de` that are deprecated now. These are mostly operations that were used by Struts for Default and Section forms, so they are not relevant for custom forms. We have not seen forms that make use of these methods, but in theory -- because everything is global and accessible in the old app -- custom forms could have used these methods.
 
 Some of these methods are:
 
@@ -124,9 +124,9 @@ Some of these methods are:
 
 These will give a warning in the console that are deprecated. Update your forms to not call or depend on these.
 
-##### Deprecated dhis2.de properties
+##### Deprecated `dhis2.de` properties
 
-There are also properties that no longer exists. These are harder to track and document given the dynamic nature of JavaScript, but if your custom form tries to access a proeprty `dhis2.de.cst.some_object.some_property` and it gets an error that the object is undefined, then that means it's accessing an object that doesn't exist anymore.
+There are also properties that no longer exists. These are harder to track and document, given the dynamic nature of JavaScript, but if your custom form tries to access a property `dhis2.de.cst.some_object.some_property` and it gets an error that the object is undefined, then that means it's accessing an object that doesn't exist anymore.
 
 It is very unlikely that this is the case for custom forms, and it should only take a simple update to the form to get it working.
 
@@ -138,7 +138,7 @@ These are some objects that existed in the global `window` context but are remov
 
 -   `jQuery` and its plugins: we bundled the same version of jQuery that was part of the last Struts app (`3.2.1`) along `jQuery UI` and some of the plugins that are necessary for making the transition easier. These are namely jQuery `select2`, `floatThead` and jQuery `calendar`.
 
--   We got rid of `underscore`, `autogrow`, `dhisAjaxSelect` and other utilities that were part of dhis Struts app (for managing storage, translation, `ouwt` for managing organisation units logic etc...).
+-   We got rid of `underscore`, `autogrow`, `dhisAjaxSelect` and other utilities that were part of dhis Struts app (for managing storage, translation, `ouwt` for managing organisation units logic, etc.).
 
 We did not see any custom forms that use these libraries directly, and their main purpose was to be used internally by the Struts app. If your form depended on one of these, then you can update it.
 
@@ -156,9 +156,9 @@ We are also planning a different modern plugin entry point, that would allow peo
 
 -   **Are there any restrictions on custom forms using the plugin?**
 
-The aim of the plugin is to support existing custom forms without modifications, so there are no _explicit_ restrictions. The old forms should work out of the box unless they used hidden internals that were available in the struts app (which they shouldn’t have anyhow).
+The aim of the plugin is to support existing custom forms without modifications as much as possible, so there are no _explicit_ restrictions. The old forms should work out of the box unless they used hidden internals that were available in the struts app (which they shouldn’t have, anyhow).
 
-If something doesn’t work, then you are able to update the forms and there are no explicit restrictions on the JavaScript ran under the forms - there might be some _implicit_ restrictions, i.e. the CSP Headers in the newer versions of DHIS2, could block inline JavaScript, but a simple update to the form should be enough to get it working.
+If something doesn’t work, then you are able to update the forms and there are no explicit restrictions on the JavaScript run under the forms. There might be some _implicit_ restrictions, i.e. the CSP Headers in the newer versions of DHIS2, could block inline JavaScript, but a simple update to the form should be enough to get it working.
 
 -   **Some custom forms are being loading using the modern app not the plugin, why?**
 
