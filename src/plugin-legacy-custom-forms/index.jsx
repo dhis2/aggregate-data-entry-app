@@ -134,7 +134,6 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         <div>
             <div>
                 <div
-                    // ? the parent style in old Struts world - do we keep it?
                     className="cde-NORMAL"
                     dangerouslySetInnerHTML={{ __html: formHtml }}
                 ></div>

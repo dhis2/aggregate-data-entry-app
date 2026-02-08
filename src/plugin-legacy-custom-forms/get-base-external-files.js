@@ -11,12 +11,10 @@ const getBaseExternalFiles = () => {
     })
 
     const cssToAdd = externalCSS.map((cssFile) => {
-        // ? what other CSS files we should include? the base CSS from old Struts - would people expect the look to be similar to the old version
         const style = document.createElement('link')
         style.href = `legacy-custom-forms/${cssFile}`
         style.type = 'text/css'
         style.rel = 'stylesheet'
-        // head.append(style)
         return style
     })
 
