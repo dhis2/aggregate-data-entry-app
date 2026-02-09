@@ -1,3 +1,34 @@
+# [101.1.0-beta.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.20...v101.1.0-beta.1) (2026-02-09)
+
+
+### Bug Fixes
+
+* **DHIS2-20567:** show modern styles for html-only forms ([#509](https://github.com/dhis2/aggregate-data-entry-app/issues/509)) ([3b5e95a](https://github.com/dhis2/aggregate-data-entry-app/commit/3b5e95ab9e37afe109c5943391d13e8ef7889044))
+* rerun pipeline ([17ebe47](https://github.com/dhis2/aggregate-data-entry-app/commit/17ebe47a2d536fd647a03deca12ff927677438e3))
+* **DHIS2-20563:** use dataset ID instead of form ID to get the custom form ([a0c8ee7](https://github.com/dhis2/aggregate-data-entry-app/commit/a0c8ee75421d9b184b4a43cb2d8e8c3b8f6578f3))
+* **DHIS2-20563:** validate valueTypes on the client-side ([a37c5ec](https://github.com/dhis2/aggregate-data-entry-app/commit/a37c5ec27d8bd847e3b003d8907d74a8e9f82070))
+* **DHIS2-20575:** show loader until form is ready to interact with ([8dca817](https://github.com/dhis2/aggregate-data-entry-app/commit/8dca817c72a250b3ecf529c7c5886d451829ad31))
+* alpha release to apphub ([28c3fc1](https://github.com/dhis2/aggregate-data-entry-app/commit/28c3fc1dd4de9b990616b1822435f50d62052752))
+* change alert shim to allow passing AlerBar options ([9e0a7ae](https://github.com/dhis2/aggregate-data-entry-app/commit/9e0a7aee4a13a51216a806b85de3b615b4e2153c))
+* fix publishing on pre-release branches ([17caaac](https://github.com/dhis2/aggregate-data-entry-app/commit/17caaacc6224da504db915ba148b00a822dc20ef))
+* pass legacy localised strings to plugin ([61f9984](https://github.com/dhis2/aggregate-data-entry-app/commit/61f99849f1fa59298d0725a7249152c33d6dbc70))
+* re-add dhis2.validation.js  as it is still used in some helpers ([cce316b](https://github.com/dhis2/aggregate-data-entry-app/commit/cce316b4dc47ce64100ffa81800f3a4de0caa0f5))
+* revert d2.config to publish to alpha ([f45b98f](https://github.com/dhis2/aggregate-data-entry-app/commit/f45b98f0424991c9d1276c7a916d8b300369f842))
+* support min/max values validation ([34beffa](https://github.com/dhis2/aggregate-data-entry-app/commit/34beffa28d2b40057ec39a413693c7fc1f1d0b5f))
+* use native datepicker for DATE fields ([7d02d54](https://github.com/dhis2/aggregate-data-entry-app/commit/7d02d5405e903def9942ec956e6d526423fd40a1))
+
+
+### Features
+
+* add support for attribute option combos ([fb7a1cb](https://github.com/dhis2/aggregate-data-entry-app/commit/fb7a1cb20a5e324cdd776c8ed95a0d2059321c61))
+* add support for option sets ([008c368](https://github.com/dhis2/aggregate-data-entry-app/commit/008c368dcb7433c99bd612a4a471ac8f5aa28938))
+* add support indicators ([8767049](https://github.com/dhis2/aggregate-data-entry-app/commit/8767049ff88d0d2bbb4fb0f946f7c39d57089260))
+* open details bar using cmd+enter ([72d055d](https://github.com/dhis2/aggregate-data-entry-app/commit/72d055d762c2222b2c8d578df6ec0aa01a13a066))
+* support files value types ([3d95a3e](https://github.com/dhis2/aggregate-data-entry-app/commit/3d95a3ef40da9ab738ae644f730038b87e2a4655))
+* **custom-forms:** legacy custom forms plugin base ([#480](https://github.com/dhis2/aggregate-data-entry-app/issues/480)) ([f88867a](https://github.com/dhis2/aggregate-data-entry-app/commit/f88867ac14cf63b8841a523728bca410fc866686))
+* **custom-forms:** support offline mode ([#495](https://github.com/dhis2/aggregate-data-entry-app/issues/495)) ([4ed158f](https://github.com/dhis2/aggregate-data-entry-app/commit/4ed158f1a21882943cc53076293c247e0c1bbdb9))
+* support viewing data item details ([97b11b3](https://github.com/dhis2/aggregate-data-entry-app/commit/97b11b35a58e33435ed291b57a4aee9cd524767f))
+
 # [101.1.0-alpha.12](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-alpha.11...v101.1.0-alpha.12) (2026-02-04)
 
 
