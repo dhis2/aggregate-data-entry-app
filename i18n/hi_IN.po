@@ -352,7 +352,7 @@ msgid "Date"
 msgstr "तारीख"
 
 msgid "User"
-msgstr ""
+msgstr "यूज़र"
 
 msgid "Change"
 msgstr "बदलें"
@@ -400,7 +400,7 @@ msgid "Choose an option"
 msgstr ""
 
 msgid "Saving..."
-msgstr ""
+msgstr "सेव किया जा रहा है…"
 
 msgid "Save comment"
 msgstr ""
@@ -531,10 +531,10 @@ msgid ""
 msgstr ""
 
 msgid "Indicators"
-msgstr ""
+msgstr "इंडिकेटर्स"
 
 msgid "Values"
-msgstr ""
+msgstr "वैल्यू"
 
 msgid "Yes"
 msgstr "हाँ"
@@ -558,7 +558,7 @@ msgid "Upload an image"
 msgstr ""
 
 msgid "Upload a file"
-msgstr ""
+msgstr "फ़ाइल अपलोड करें"
 
 msgid "Choose option(s)"
 msgstr ""
