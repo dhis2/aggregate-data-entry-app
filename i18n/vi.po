@@ -1,73 +1,77 @@
-# 
 # Translators:
-# Thuy Nguyen <thuynguyen@hispvietnam.org>, 2022
 # Mai Nguyen <thanhmai.jica@gmail.com>, 2022
-# phil_dhis2, 2022
+# Philip Larsen Donnelly, 2022
 # Viktor Varland <viktor@dhis2.org>, 2022
+# Thuy Nguyen <thuynguyen@hispvietnam.org>, 2024
+# Em Le <em.hispvietnam@gmail.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2022\n"
+"Last-Translator: Em Le <em.hispvietnam@gmail.com>, 2024\n"
 "Language-Team: Vietnamese (https://app.transifex.com/hisp-uio/teams/100509/vi/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "Not authorized"
-msgstr ""
+msgstr "Không được phép"
 
 msgid ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 msgstr ""
+"Bạn không có quyền truy cập vào Ứng dụng phê duyệt dữ liệu. Hãy liên hệ với "
+"quản trị viên hệ thống để yêu cầu quyền truy cập."
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "Đã có sự cố khi tải metadata"
 
 msgid "There was a problem loading the user's information"
-msgstr ""
+msgstr "Có sự cố khi tải thông tin người dùng"
 
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
+"Phiên đã hết hạn. Vui lòng tải lại để đăng nhập lại. Bạn sẽ không mất bất kỳ"
+" dữ liệu nào."
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "Không thể  hủy hoàn thành biểu mẫu, vui lòng thử lại sau"
 
 msgid "Mark incomplete"
-msgstr ""
+msgstr "Đánh dấu là chưa hoàn thành"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "Đánh dấu hoàn thành"
 
 msgid "Hide details"
 msgstr "Ẩn chi tiết"
 
 msgid "View details"
-msgstr ""
+msgstr "Xem chi tiết"
 
 msgid "1 invalid value not saved"
-msgstr ""
+msgstr "1 giá trị không hợp lệ không được lưu"
 
 msgid "{{numberOfErrors}} invalid values not saved"
-msgstr ""
+msgstr "{{numberOfErrors}} giá trị không hợp lệ không được lưu"
 
 msgid "1 value failed to save"
-msgstr ""
+msgstr "1 giá trị không lưu được"
 
 msgid "{{numberOfErrors}} values failed to save"
-msgstr ""
+msgstr "{{numberOfErrors}} giá trị không lưu được"
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "Tính hợp lệ không khả dụng ngoại tuyến"
 
 msgid "Validation is not available while changes are pending"
-msgstr ""
+msgstr "Tính hợp lệ không khả dụng trong khi các thay đổi đang chờ xử lý"
 
 msgid "Run validation"
 msgstr "Kiểm tra sự hợp lệ"
@@ -79,22 +83,26 @@ msgid "Last incompleted by"
 msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "Không thể kiểm tra biểu nhập, hãy thử lại sau"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
 msgstr ""
+"Không thể kiểm tra biểu nhập. Việc này không ảnh hưởng đến việc hoàn thành "
+"biểu nhập."
 
 msgid "The form can't be completed while invalid"
-msgstr ""
+msgstr "Biểu mẫu không thể hoàn thành khi không hợp lệ"
 
 msgid "1 comment required"
-msgstr ""
+msgstr "Cần 1 bình luận"
 
 msgid "{{commentsCount}} comments required"
-msgstr ""
+msgstr "Cần {{commentsCount}} bình luận"
 
 msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
+"{{displayShortName}} cần phải có một bình luận khi nó không có giá trị dữ "
+"liệu nào"
 
 msgid "High"
 msgstr "Cao"
@@ -106,10 +114,10 @@ msgid "Low"
 msgstr "Thấp"
 
 msgid "{{length}} {{level}} priority alert"
-msgstr ""
+msgstr "{{length}}{{level}} cảnh báo ưu tiên"
 
 msgid "{{length}} {{level}} priority alerts"
-msgstr ""
+msgstr "{{length}}{{level}}cảnh báo ưu tiên"
 
 msgid "Validation"
 msgstr "Kiểm tra hợp lệ"
@@ -118,92 +126,104 @@ msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
 " Run validation again to check the current data."
 msgstr ""
+"Dữ liệu trong biểu mẫu nhập đã thay đổi, do đó đầu ra xác thực có thể không "
+"chính xác. Chạy lại xác thực để kiểm tra dữ liệu hiện tại."
 
 msgid "Run validation again"
-msgstr ""
+msgstr "Chạy kiểm tra hợp lệ lần nữa"
 
 msgid "Alert summary"
-msgstr ""
+msgstr "Tóm tắt cảnh báo"
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "Không có cảnh hợp lệ nào cho dữ liệu này."
 
 msgid "Running validation..."
-msgstr ""
+msgstr "Đang chạy kiểm tra hợp lệ..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "Có vấn đề khi chạy kiểm tra hợp lệ"
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"Không thể chạy kiểm tra hợp lệ cho dữ liệu này. Hãy thử lại hoặc liên hệ với"
+" quản trị viên hệ thống của bạn."
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
 msgstr ""
+"{{leftDescription}} không thể rỗng khi {{rightDescription}} có giá trị"
 
 msgid ""
 "{{leftDescription}} cannot have a value when {{rightDescription}} has a "
 "value"
 msgstr ""
+"{{leftDescription}} không thể có giá trị khi {{rightDescription}}có giá trị"
 
 msgid ""
 "Some categories have no valid options for the selected period or "
 "organisation unit ({{categories}})"
 msgstr ""
+"Một số phân loại không có tùy chọn hợp lệ cho thời điểm hoặc đơn vị đã chọn "
+"({{categories}})"
 
 msgid ""
 "There was a problem loading the {{objectType}} selection ({{id}}). You might"
 " not have access, or the selection might be invalid."
 msgstr ""
+"Có vấn đề khi tải {{objectType}} ({{id}}). Bạn không có quyền truy cập, hoặc"
+" các lựa chọn không hợp lệ."
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "Chọn một Biểu nhập"
 
 msgid "No available options"
-msgstr ""
+msgstr "Không có tùy chọn nào"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
 "organisation unit."
 msgstr ""
+"Không có tùy chọn nào cho {{categoryName}} cho thời điểm và đơn vị được "
+"chọn."
 
 msgid "Hide menu"
 msgstr "Ẩn danh mục"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "Thuộc tính kết hợp mặc định"
 
 msgid "0 selections"
-msgstr ""
+msgstr "0 lựa chọn"
 
 msgid "1 selection"
-msgstr ""
+msgstr "1 lựa chọn"
 
 msgid "{{amount}} selections"
-msgstr ""
+msgstr "{{amount}} lựa chọn"
 
 msgid "Cell reference"
-msgstr ""
+msgstr "Ô tham chiếu"
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "Đã lưu và đồng bộ với máy chủ"
 
 msgid "Waiting to sync, saved locally"
-msgstr ""
+msgstr "Đang chờ đồng bộ, đã lưu cục bộ"
 
 msgid "Failed to sync, not saved"
-msgstr ""
+msgstr "Không đồng bộ được, không lưu được"
 
 msgid "Data item has a comment"
-msgstr ""
+msgstr "Mục dữ liệu có một bình luận"
 
 msgid "Invalid value, not saved"
-msgstr ""
+msgstr "Giá trị không hợp lệ, không được lưu"
 
 msgid "Locked, not editable"
-msgstr ""
+msgstr "Đã khóa, không thể chỉnh sửa"
 
 msgid "Help"
 msgstr "Giúp đỡ"
@@ -212,103 +232,103 @@ msgid "or"
 msgstr "hoặc"
 
 msgid "Shortcuts"
-msgstr ""
+msgstr "Đường tắt"
 
 msgid "Show details"
 msgstr "Hiển thị chi tiết"
 
 msgid "Ctrl + Enter"
-msgstr ""
+msgstr "Ctrl + Enter"
 
 msgid "Cmd + Enter"
-msgstr ""
+msgstr "Cmd + Enter"
 
 msgid "Go to next cell"
-msgstr ""
+msgstr "Chuyển đến ô kế tiếp"
 
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 msgid "Go to previous cell"
-msgstr ""
+msgstr "Chuyển về ô trước"
 
 msgid "Shift + Tab"
-msgstr ""
+msgstr "Shift + Tab"
 
 msgid "Could not find a data set for the selected id"
-msgstr ""
+msgstr "Không thể tìm thấy biểu nhập cho id đã chọn"
 
 msgid "There are no data sets available!"
-msgstr ""
+msgstr "Không có biểu nhập nào khả dụng!"
 
 msgid "Data set"
 msgstr "Tập dữ liệu"
 
 msgid "Print form with values"
-msgstr ""
+msgstr "In biểu mẫu có giá trị"
 
 msgid "Print empty form"
-msgstr ""
+msgstr "In biểu mẫu trống"
 
 msgid "Options"
 msgstr "Tùy chọn"
 
 msgid "Search org units"
-msgstr ""
+msgstr "Tìm kiếm đơn vị"
 
 msgid "Choose a data set first"
-msgstr ""
+msgstr "Hãy chọn một biểu nhập trước"
 
 msgid "Dataset is not assigned to this organisation unit"
-msgstr ""
+msgstr "Biểu nhập không được gán cho đơn vị này"
 
 msgid "Organisation unit"
 msgstr "Đơn vị"
 
 msgid "Choose a organisation unit"
-msgstr ""
+msgstr "Chọn một đơn vị"
 
 msgid "No organisation units could be found"
-msgstr ""
+msgstr "Không tìm thấy đơn vị nào"
 
 msgid "No children match filter"
-msgstr ""
+msgstr "Không có đơn vị con phù hợp với bộ lọc"
 
 msgid "Could not load children"
 msgstr "Không thể tải đơn vị con"
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr ""
+msgstr "Lỗi: {{ ERRORMESSAGE }}"
 
 msgid "Fetching organisation unit info"
-msgstr ""
+msgstr "Truy xuất thông tin đơn vị"
 
 msgid "Error occurred while loading organisation unit info"
-msgstr ""
+msgstr "Lỗi xảy ra khi tải thông tin đơn vị"
 
 msgid "The Period ({{id}}) is not open or is invalid."
-msgstr ""
+msgstr "Thời điểm ({{id}}) không được mở hoặc không hợp lệ"
 
 msgid "Period"
 msgstr "Thời điểm"
 
 msgid "Choose a period"
-msgstr ""
+msgstr "Chọn một thời điểm"
 
 msgid "All sections"
-msgstr ""
+msgstr "Tất cả phân đoạn"
 
 msgid "Section"
 msgstr "Section"
 
 msgid "Fetching data set info"
-msgstr ""
+msgstr "Đang lấy thông tin biểu nhập"
 
 msgid "Error occurred while loading data set info"
-msgstr ""
+msgstr "Có lỗi xảy ra khi tải thông tin biểu nhập"
 
 msgid "Custom forms couldn't be made available offline. {{error}}"
-msgstr ""
+msgstr "Biểu nhập tùy chỉnh không hỗ trợ ngoại tuyến. {{error}}"
 
 msgid "Value"
 msgstr "Giá trị"
@@ -317,58 +337,58 @@ msgid "Totals"
 msgstr "Tổng"
 
 msgid "Audit log"
-msgstr ""
+msgstr "Nhật ký kiểm toán"
 
 msgid "Something went wrong loading the audit log"
-msgstr ""
+msgstr "Có lỗi khi tải nhật ký kiểm toán"
 
 msgid "Not available offline"
-msgstr ""
+msgstr "Không có cho ngoại tuyến"
 
 msgid "No audit log for this data item."
-msgstr ""
+msgstr "Không có nhật ký kiểm toán cho mục dữ liệu này."
 
 msgid "Unmark for follow-up"
-msgstr ""
+msgstr "Bỏ đánh dấu để theo dõi"
 
 msgid "Mark for follow-up"
 msgstr "Đánh dấu để theo-dõi"
 
 msgid "Empty values can't be marked for follow -up"
-msgstr ""
+msgstr "Giá trị trống không thể được đánh dấu để theo dõi"
 
 msgid "You do not have the authority to mark this value for follow -up"
-msgstr ""
+msgstr "Bạn không có thẩm quyền đánh dấu giá trị này để theo dõi"
 
 msgid "Description: {{- description}}"
-msgstr ""
+msgstr "Mô tả: {{- description}}"
 
 msgid "Code: {{code}}"
-msgstr ""
+msgstr "Mã: {{code}}"
 
 msgid "Data element ID: {{id}}"
-msgstr ""
+msgstr "ID phần tử dữ liệu: {{id}}"
 
 msgid "Category option combo ID: {{id}}"
-msgstr ""
+msgstr "ID Tùy chọn kết hợp: {{id}}"
 
 msgid "Last updated {{- timeAgo}} by {{- name}}"
-msgstr ""
+msgstr "Cập nhật lần cuối {{- timeAgo}} bởi {{- name}}"
 
 msgid "Marked for follow-up"
-msgstr ""
+msgstr "Đã đánh dấu để theo dõi"
 
 msgid "Comment"
 msgstr "Bình luận"
 
 msgid "There was a problem updating the comment for this data item"
-msgstr ""
+msgstr "Đã xảy ra sự cố khi cập nhật bình luận cho mục dữ liệu này"
 
 msgid "Choose an option"
-msgstr ""
+msgstr "Chọn một tùy chọn"
 
 msgid "Saving..."
-msgstr ""
+msgstr "Đang lưu..."
 
 msgid "Save comment"
 msgstr "Lưu chú thích"
@@ -377,16 +397,16 @@ msgid "Cancel"
 msgstr "Hủy"
 
 msgid "Edit comment"
-msgstr ""
+msgstr "Sửa bình luận"
 
 msgid "Add comment"
 msgstr "Thêm bình luận"
 
 msgid "No comment for this data item."
-msgstr ""
+msgstr "Không có bình luận nào cho mục dữ liệu này."
 
 msgid "You do not have the authority to add or edit comments"
-msgstr ""
+msgstr "Bạn không có thẩm quyền để thêm hoặc chỉnh sửa bình luận"
 
 msgid "Details"
 msgstr "Chi tiết"
@@ -395,25 +415,25 @@ msgid "History"
 msgstr "Lịch sử"
 
 msgid "Something went wrong loading the history"
-msgstr ""
+msgstr "Có gì đó không ổn khi tải lịch sử"
 
 msgid "No history for this data item."
-msgstr ""
+msgstr "Không có lịch sử dữ liệu cho mục này"
 
 msgid "Average value: {{avg}}"
-msgstr ""
+msgstr "Giá trị trung bình: {{avg}}"
 
 msgid "Delete limits"
-msgstr ""
+msgstr "Xóa giới hạn"
 
 msgid "You do not have the authority to delete limits"
-msgstr ""
+msgstr "Bạn không có quyền xóa giới hạn"
 
 msgid "Edit limits"
-msgstr ""
+msgstr "Chỉnh sửa giới hạn"
 
 msgid "You do not have the authority to add limits"
-msgstr ""
+msgstr "Bạn không có quyền thêm giới hạn"
 
 msgid "Min"
 msgstr "Nhỏ nhất"
@@ -422,73 +442,78 @@ msgid "Max"
 msgstr "Lớn nhất"
 
 msgid "Min and max limits"
-msgstr ""
+msgstr "Giới hạn nhỏ nhất và lớn nhất"
 
 msgid "Try again, or contact your system administrator."
-msgstr ""
+msgstr "Hãy thử lại hoặc liên hệ với quản trị viên hệ thống của bạn."
 
 msgid "Add limits"
-msgstr ""
+msgstr "Thêm giới hạn"
 
 msgid "No limits set for this data item."
-msgstr ""
+msgstr "Không có giới hạn nào được đặt cho mục dữ liệu này."
 
 msgid "Save limits"
-msgstr ""
+msgstr "Lưu giới hạn"
 
 msgid "The current selection does not have a form"
-msgstr ""
+msgstr "Lựa chọn hiện tại không có biểu mẫu"
 
 msgid "There was a problem loading data values"
-msgstr ""
+msgstr "Có sự cố khi tải dữ liệu giá trị"
 
 msgid "This data set has no assigned Data Elements"
-msgstr ""
+msgstr "Không có phần tử dữ liệu nào được gán cho biểu nhập này."
 
 msgid ""
 "There are no Data Elements in this data set. Adds some Data Elements to use "
 "this data set."
 msgstr ""
+"Không có phần tử dữ liệu nào trong biểu nhập này. Hãy thêm vài phần tử dữ "
+"liệu để sử dụng biểu nhập."
 
 msgid "Data cannot be added or changed outside of the data input period."
-msgstr ""
+msgstr "Không thể thêm hoặc thay đổi dữ liệu ngoài thời điểm nhập dữ liệu."
 
 msgid ""
 "Data cannot be added or changed because organisation unit is closed for the "
 "selected period."
 msgstr ""
+"Không thể thêm hoặc thay đổi dữ liệu vì đơn vị đã đóng cửa trong khoảng thời"
+" gian đã chọn."
 
 msgid "Data cannot be added or changed because data entry has concluded."
 msgstr ""
+"Không thể thêm hoặc thay đổi dữ liệu vì quá trình nhập dữ liệu đã kết thúc."
 
 msgid "Data cannot be added or changed because data has been approved."
-msgstr ""
+msgstr "Không thể thêm hoặc thay đổi dữ liệu vì dữ liệu đã được phê duyệt."
 
 msgid "You do not have the authority to edit entry forms"
-msgstr ""
+msgstr "Bạn không có thẩm quyền chỉnh sửa biểu mẫu nhập liệu"
 
 msgid "Data set locked"
-msgstr ""
+msgstr "Biểu nhập đã bị khóa"
 
 msgid "Get started with data entry"
-msgstr ""
+msgstr "Bắt đầu với nhập dữ liệu"
 
 msgid ""
 "Choose a data set, organisation unit, and period from the top bar to start "
 "entering data"
-msgstr ""
+msgstr "Chọn một biểu nhập, đơn vị, và thời điểm để bắt đầu nhập liệu"
 
 msgid "Learn more about data entry"
-msgstr ""
+msgstr "Tìm hiểu thêm về nhập liệu"
 
 msgid "Filter fields in all sections"
-msgstr ""
+msgstr "Lọc các ô nhập trong tất cả phân đoạn"
 
 msgid "Filter fields"
-msgstr ""
+msgstr "Ô lọc"
 
 msgid "Clear filter"
-msgstr ""
+msgstr "Xóa bộ lọc"
 
 msgid "Indicators"
 msgstr "Chỉ số"
@@ -509,58 +534,68 @@ msgid "Delete"
 msgstr "Xóa"
 
 msgid "Upload an image"
-msgstr ""
+msgstr "Tải lên một hình ảnh"
 
 msgid "Upload a file"
-msgstr ""
+msgstr "Tải lên một tệp"
 
 msgid "Choose option(s)"
-msgstr ""
+msgstr "Chọn tùy chọn"
 
 msgid ""
 "Please provide a valid date and time in the format YYYY-MM-DD HH{{c}}MM"
 msgstr ""
+"Vui lòng cung cấp ngày và giờ hợp lệ theo định dạng YYYY-MM-DD HH{{c}}MM"
 
 msgid "Please provide a valid time in the format HH{{c}}MM"
-msgstr ""
+msgstr "Vui lòng cung cấp thời gian hợp lệ theo định dạng HH{{c}}MM"
 
 msgid ""
 "Please make sure the value of this input is less than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Hãy đảm bảo giá trị của đầu vào này nhỏ hơn giá trị trong "
+"\"{{otherField}}\"."
 
 msgid ""
 "Please make sure the value of this input is more than the value in "
 "\"{{otherField}}\"."
 msgstr ""
+"Hãy đảm bảo giá trị của đầu vào này lớn hơn giá trị trong "
+"\"{{otherField}}\"."
 
 msgid "Type here to filter in this section"
-msgstr ""
+msgstr "Nhập vào đây để lọc trong phân đoạn này"
 
 msgid "1 item hidden by filter"
-msgstr ""
+msgstr "1 mục đã bị ẩn bởi bộ lọc"
 
 msgid "{{pendingMutations}} change saved locally"
-msgstr ""
+msgstr "{{pendingMutations}} thay đổi được lưu cục bộ"
 
 msgid "{{pendingMutations}} changes saved locally"
-msgstr ""
+msgstr "{{pendingMutations}} thay đổi được lưu cục bộ"
 
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
 msgstr ""
+"Ở đây chúng ta có thể ghi đè thông báo lỗi E2017 bằng thông báo tùy chỉnh "
+"trong FE"
 
 msgid "Selected period is after latest open future period"
 msgstr ""
+"Khoảng thời gian được chọn là sau khoảng thời gian tương lai mở mới nhất"
 
 msgid ""
 "Something went wrong while setting the form's completion to "
 "\"{{completed}}\": {{errorMessage}}"
 msgstr ""
+"Có gì đó không ổn khi thiết lập hoàn thành biểu mẫu thành \"{{completed}}\":"
+" {{errorMessage}}"
 
 msgid "{{title}} (disabled)"
-msgstr ""
+msgstr "{{title}}(bị vô hiệu)"
 
 msgid "Close details sidebar"
-msgstr ""
+msgstr "Đóng thanh bên chi tiết"
