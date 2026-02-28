@@ -1,55 +1,58 @@
+# 
 # Translators:
-# Viktor Varland <viktor@dhis2.org>, 2022
-# Philip Larsen Donnelly, 2022
-# Nadiia <semchuk@aph.org.ua>, 2022
-# Éva Tamási, 2022
-# Mykhailo Siusko <m.siusko@redcross.org.ua>, 2025
+# Siddharth Agarwal, 2025
+# AkashJindal, 2025
+# Rohit Wadhwani, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2023-04-13T13:04:22.948Z\n"
 "PO-Revision-Date: 2022-09-16 08:17+0000\n"
-"Last-Translator: Mykhailo Siusko <m.siusko@redcross.org.ua>, 2025\n"
-"Language-Team: Ukrainian (https://app.transifex.com/hisp-uio/teams/100509/uk/)\n"
+"Last-Translator: Rohit Wadhwani, 2026\n"
+"Language-Team: Hindi (India) (https://app.transifex.com/hisp-uio/teams/100509/hi_IN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uk\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"Language: hi_IN\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Not authorized"
-msgstr ""
+msgstr "अनुमति नहीं है"
 
 msgid ""
 "You don't have access to the Data Approval App. Contact a system "
 "administrator to request access."
 msgstr ""
+"आपके पास डेटा अप्रूवल ऐप का एक्सेस नहीं है। एक्सेस का अनुरोध करने के लिए "
+"सिस्टम एडमिनिस्ट्रेटर से संपर्क करें।"
 
 msgid "There was a problem loading metadata"
-msgstr ""
+msgstr "मेटाडाटा लोड करने में समस्या हुई"
 
 msgid "There was a problem loading the user's information"
-msgstr ""
+msgstr "यूज़र की जानकारी लोड करने में एक समस्या हुई"
 
 msgid ""
 "Session Expired. Please reload to log in again. You will not lose any data."
 msgstr ""
+"सेशन समाप्त हो गया है। दोबारा लॉग इन करने के लिए कृपया पेज फिर से लोड करें। "
+"आपका कोई भी डेटा नहीं खोएगा।"
 
 msgid "Couldn't incomplete the form, please try again later"
-msgstr ""
+msgstr "फ़ॉर्म पूर्ण नहीं किया जा सका, कृपया बाद में फिर से प्रयास करें।"
 
 msgid "Mark incomplete"
-msgstr "Позначити реєстрацію як незавершену"
+msgstr "अपूर्ण चिह्नित करें"
 
 msgid "Mark complete"
-msgstr ""
+msgstr "पूर्ण चिह्नित करें"
 
 msgid "Hide details"
-msgstr "Сховати деталі"
+msgstr "विवरण छुपाएँ"
 
 msgid "View details"
-msgstr ""
+msgstr "विवरण देखें"
 
 msgid "1 invalid value not saved"
 msgstr ""
@@ -64,13 +67,13 @@ msgid "{{numberOfErrors}} values failed to save"
 msgstr ""
 
 msgid "Validation is not available offline"
-msgstr ""
+msgstr "ऑफ़लाइन होने पर वैलिडेशन उपलब्ध नहीं है"
 
 msgid "Validation is not available while changes are pending"
 msgstr ""
 
 msgid "Run validation"
-msgstr "Запустити перевірку"
+msgstr "वैलिडेशन चलाएँ"
 
 msgid "Last completed by"
 msgstr ""
@@ -79,7 +82,7 @@ msgid "Last incompleted by"
 msgstr ""
 
 msgid "Couldn't validate the form, please try again later"
-msgstr ""
+msgstr "फ़ॉर्म का वैलिडेशन नहीं हो सका, कृपया बाद में फिर से प्रयास करें।"
 
 msgid "Couldn't validate the form. This does not effect form completion!"
 msgstr ""
@@ -97,13 +100,13 @@ msgid "{{displayShortName}} must have a comment when it doesn't have a value."
 msgstr ""
 
 msgid "High"
-msgstr "High"
+msgstr "उच्च"
 
 msgid "Medium"
-msgstr "Medium"
+msgstr ""
 
 msgid "Low"
-msgstr "Low"
+msgstr "निम्न"
 
 msgid "{{length}} {{level}} priority alert"
 msgstr ""
@@ -112,7 +115,7 @@ msgid "{{length}} {{level}} priority alerts"
 msgstr ""
 
 msgid "Validation"
-msgstr ""
+msgstr "वैलिडेशन"
 
 msgid ""
 "Data in the entry form has changed, so validation output might be incorrect."
@@ -120,24 +123,26 @@ msgid ""
 msgstr ""
 
 msgid "Run validation again"
-msgstr ""
+msgstr "वैलिडेशन फिर से चलाएँ"
 
 msgid "Alert summary"
 msgstr ""
 
 msgid "No validation alerts for this data."
-msgstr ""
+msgstr "इस डेटा के लिए कोई वैलिडेशन अलर्ट नहीं हैं।"
 
 msgid "Running validation..."
-msgstr ""
+msgstr "वैलिडेशन चल रहा है..."
 
 msgid "There was a problem running validation"
-msgstr ""
+msgstr "वैलिडेशन चल रहा है..."
 
 msgid ""
 "Validation could not be run for this data. Try again or contact your system "
 "administrator."
 msgstr ""
+"इस डेटा के लिए वैलिडेशन नहीं चलाया जा सका। कृपया फिर से प्रयास करें या अपने "
+"सिस्टम एडमिनिस्ट्रेटर से संपर्क करें।"
 
 msgid ""
 "{{leftDescription}} cannot be empty when {{rightDescription}} has a value"
@@ -159,10 +164,10 @@ msgid ""
 msgstr ""
 
 msgid "Choose a data set"
-msgstr ""
+msgstr "एक डेटा सेट चुनें"
 
 msgid "No available options"
-msgstr ""
+msgstr "कोई उपलब्ध ऑप्शन नहीं है"
 
 msgid ""
 "There are no options for {{categoryName}} for the selected period or "
@@ -170,10 +175,10 @@ msgid ""
 msgstr ""
 
 msgid "Hide menu"
-msgstr "Сховати меню"
+msgstr "मेनू छुपाएँ"
 
 msgid "Default attribute combo"
-msgstr ""
+msgstr "डिफ़ॉल्ट एट्रिब्यूट कॉम्बो"
 
 msgid "0 selections"
 msgstr ""
@@ -188,7 +193,7 @@ msgid "Cell reference"
 msgstr ""
 
 msgid "Saved and synced to server"
-msgstr ""
+msgstr "सेव किया गया और सर्वर से सिंक हो गया"
 
 msgid "Waiting to sync, saved locally"
 msgstr ""
@@ -206,16 +211,16 @@ msgid "Locked, not editable"
 msgstr ""
 
 msgid "Help"
-msgstr "Довідка"
+msgstr "सहायता"
 
 msgid "or"
-msgstr "або"
+msgstr "या"
 
 msgid "Shortcuts"
 msgstr ""
 
 msgid "Show details"
-msgstr "Показати деталі"
+msgstr ""
 
 msgid "Ctrl + Enter"
 msgstr ""
@@ -242,7 +247,7 @@ msgid "There are no data sets available!"
 msgstr ""
 
 msgid "Data set"
-msgstr "Набір даних"
+msgstr "डेटा सेट"
 
 msgid "Print form with values"
 msgstr ""
@@ -251,7 +256,7 @@ msgid "Print empty form"
 msgstr ""
 
 msgid "Options"
-msgstr "Опції"
+msgstr "ऑप्शन्स"
 
 msgid "Search org units"
 msgstr ""
@@ -263,7 +268,7 @@ msgid "Dataset is not assigned to this organisation unit"
 msgstr ""
 
 msgid "Organisation unit"
-msgstr "Організаційний підрозділ"
+msgstr ""
 
 msgid "Choose a organisation unit"
 msgstr ""
@@ -272,13 +277,13 @@ msgid "No organisation units could be found"
 msgstr ""
 
 msgid "No children match filter"
-msgstr "Немає дочірніх об'єктів, які відповідають фільтру"
+msgstr ""
 
 msgid "Could not load children"
-msgstr "Не вдалося завантажити дочірні об'єкти"
+msgstr ""
 
 msgid "Error: {{ ERRORMESSAGE }}"
-msgstr "Помилка: {{ ERRORMESSAGE }}"
+msgstr ""
 
 msgid "Fetching organisation unit info"
 msgstr ""
@@ -290,16 +295,16 @@ msgid "The Period ({{id}}) is not open or is invalid."
 msgstr ""
 
 msgid "Period"
-msgstr "Період"
+msgstr ""
 
 msgid "Choose a period"
-msgstr ""
+msgstr "एक अवधि चुनें"
 
 msgid "All sections"
 msgstr ""
 
 msgid "Section"
-msgstr "Секція"
+msgstr ""
 
 msgid "Fetching data set info"
 msgstr ""
@@ -311,10 +316,10 @@ msgid "Custom forms couldn't be made available offline. {{error}}"
 msgstr ""
 
 msgid "Value"
-msgstr "Значення"
+msgstr "वैल्यू"
 
 msgid "Totals"
-msgstr "Підсумки"
+msgstr "कुल"
 
 msgid "Audit log"
 msgstr ""
@@ -323,7 +328,7 @@ msgid "Something went wrong loading the audit log"
 msgstr ""
 
 msgid "Not available offline"
-msgstr "Недоступно в автономному режимі"
+msgstr ""
 
 msgid "No audit log for this data item."
 msgstr ""
@@ -332,7 +337,7 @@ msgid "Unmark for follow-up"
 msgstr ""
 
 msgid "Mark for follow-up"
-msgstr "Позначити для подальших дій"
+msgstr ""
 
 msgid "Empty values can't be marked for follow -up"
 msgstr ""
@@ -359,7 +364,7 @@ msgid "Marked for follow-up"
 msgstr ""
 
 msgid "Comment"
-msgstr "Коментар"
+msgstr "कमेंट"
 
 msgid "There was a problem updating the comment for this data item"
 msgstr ""
@@ -368,13 +373,13 @@ msgid "Choose an option"
 msgstr ""
 
 msgid "Saving..."
-msgstr ""
+msgstr "सेव किया जा रहा है…"
 
 msgid "Save comment"
-msgstr "Зберегти коментар"
+msgstr ""
 
 msgid "Cancel"
-msgstr "Скасувати"
+msgstr "रद्द करें"
 
 msgid "Edit comment"
 msgstr ""
@@ -389,10 +394,10 @@ msgid "You do not have the authority to add or edit comments"
 msgstr ""
 
 msgid "Details"
-msgstr "Деталі"
+msgstr ""
 
 msgid "History"
-msgstr "Історія"
+msgstr "इतिहास"
 
 msgid "Something went wrong loading the history"
 msgstr ""
@@ -416,10 +421,10 @@ msgid "You do not have the authority to add limits"
 msgstr ""
 
 msgid "Min"
-msgstr "Мін"
+msgstr "न्यूनतम"
 
 msgid "Max"
-msgstr "Макс"
+msgstr "अधिकतम"
 
 msgid "Min and max limits"
 msgstr ""
@@ -491,28 +496,28 @@ msgid "Clear filter"
 msgstr ""
 
 msgid "Indicators"
-msgstr "Індикатори"
+msgstr "इंडिकेटर्स"
 
 msgid "Values"
-msgstr "Значення"
+msgstr "वैल्यू"
 
 msgid "Yes"
-msgstr "Так"
+msgstr "हाँ"
 
 msgid "No"
-msgstr "Ні"
+msgstr "नहीं"
 
 msgid "Clear"
-msgstr "Очистити"
+msgstr "साफ़ करें"
 
 msgid "Delete"
-msgstr "Видалити"
+msgstr "हटाएं"
 
 msgid "Upload an image"
 msgstr ""
 
 msgid "Upload a file"
-msgstr "Вивантажити файл"
+msgstr "फ़ाइल अपलोड करें"
 
 msgid "Choose option(s)"
 msgstr ""
