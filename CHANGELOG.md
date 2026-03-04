@@ -1,3 +1,10 @@
+# [101.1.0-beta.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-beta.1...v101.1.0-beta.2) (2026-03-04)
+
+
+### Bug Fixes
+
+* remove moment reference ([#523](https://github.com/dhis2/aggregate-data-entry-app/issues/523)) ([e55d6d0](https://github.com/dhis2/aggregate-data-entry-app/commit/e55d6d08fda38a621381d26647de980503c4d99c))
+
 # [101.1.0-beta.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.0.20...v101.1.0-beta.1) (2026-02-09)
 
 
