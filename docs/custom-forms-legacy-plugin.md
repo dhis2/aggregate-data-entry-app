@@ -124,6 +124,14 @@ Some of these methods are:
 
 These will give a warning in the console that are deprecated. Update your forms to not call or depend on these.
 
+##### Styling
+
+We tried to replicate most of the styling of the old app in the context of the plugin, but forms are not always guaranteed to look exactly the same. In the old app, styles came from a variety of places and it is hard to replicate them all: from CSS stylesheets, inline styles from Struts, base styles from the older version of DHIS2 app itself, jQuery plugins and, of course, custom styles from implmentations (which could be applied globally through the API). We made our best effort to copy as much as possible of these styles, but it is not possible to guarantee the exact same look - out of the box - all the time.
+
+If a styling issue causes functional problems, then please raise the issue and we will see if we can update the shim. Otherwise, you always have the ability to update the styles of your forms to work as you expect them to.
+
+Alternatively, if you form doesn't contain any JS (only custom styles), consider enabling the modern rendering by adding `<!-- NO_MODERN_HTML_ONLY_RENDERING -->` to the form (check the FAQs for more info).
+
 ##### Deprecated `dhis2.de` properties
 
 There are also properties that no longer exists. These are harder to track and document, given the dynamic nature of JavaScript, but if your custom form tries to access a property `dhis2.de.cst.some_object.some_property` and it gets an error that the object is undefined, then that means it's accessing an object that doesn't exist anymore.
