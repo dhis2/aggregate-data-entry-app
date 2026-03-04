@@ -914,13 +914,14 @@ function insertDataValues( json )
     
     var periodLocked = false;
     
-    if ( dataSet && dataSet.expiryDays > 0 )
-    {
-        // ToDO(custom-forms): do we need an equivalent of this server time delta logic?
-        var serverTimeDelta = dhis2.de?.storageManager?.getServerTimeDelta?.() || 0;
-        var maxDate = moment( period.endDate, dhis2.period.format.toUpperCase() ).add( parseInt(dataSet.expiryDays), 'day' );
-        periodLocked = moment().add( serverTimeDelta, 'ms' ).isAfter( maxDate );
-    }
+    // ToDO: We have a ticket to look at locking logic and update it  https://dhis2.atlassian.net/browse/DHIS2-20885
+    // if ( dataSet && dataSet.expiryDays > 0 )
+    // {
+    //     // ToDO(custom-forms): do we need an equivalent of this server time delta logic?
+    //     var serverTimeDelta = dhis2.de?.storageManager?.getServerTimeDelta?.() || 0;
+    //     var maxDate = moment( period.endDate, dhis2.period.format.toUpperCase() ).add( parseInt(dataSet.expiryDays), 'day' );
+    //     periodLocked = moment().add( serverTimeDelta, 'ms' ).isAfter( maxDate );
+    // }
 
     // var lockExceptionId = dhis2.de.currentOrganisationUnitId + "-" + dhis2.de.currentDataSetId + "-" + period.iso;
 
