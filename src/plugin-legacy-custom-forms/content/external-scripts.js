@@ -29,6 +29,8 @@ const files = [
     'javascripts/jQuery/jquery.tmpl.js',
     'javascripts/jQuery/jquery.autogrow.js',
     'javascripts/jQuery/jquery.fileupload.min.js',
+
+    'javascripts/bootstrap.min.js',
     // 'javascripts/underscore.min.js',
     // 'javascripts/filesize.min.js',
     'javascripts/dhis2/dhis2.util.js',
