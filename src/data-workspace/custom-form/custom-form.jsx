@@ -111,6 +111,7 @@ export const CustomForm = ({ dataSet }) => {
                 setHighlightedField={setHighlightedField}
                 showDetailsBar={showDetailsBar}
                 fileHelper={fileHelper}
+                style={dataSetInfo?.dataEntryForm?.style}
             />
         )
     }
