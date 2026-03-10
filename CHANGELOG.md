@@ -1,3 +1,10 @@
+# [101.1.0-beta.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-beta.2...v101.1.0-beta.3) (2026-03-10)
+
+
+### Bug Fixes
+
+* add bootstrap CSS and JS dependencies ([#526](https://github.com/dhis2/aggregate-data-entry-app/issues/526)) ([04d943f](https://github.com/dhis2/aggregate-data-entry-app/commit/04d943f937bc1aef06e9e9eb3819bbdfce8c787b))
+
 # [101.1.0-beta.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-beta.1...v101.1.0-beta.2) (2026-03-04)
 
 
