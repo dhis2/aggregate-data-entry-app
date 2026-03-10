@@ -27,6 +27,7 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         setHighlightedField,
         showDetailsBar,
         fileHelper,
+        style = 'NORMAL',
     } = props
 
     console.log('[custom-forms] 🏁 Legacy Custom Form Plugin starting 🏁')
@@ -134,7 +135,7 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         <div>
             <div>
                 <div
-                    className="cde-NORMAL"
+                    className={`cde cde-${style}`}
                     dangerouslySetInnerHTML={{ __html: formHtml }}
                 ></div>
             </div>
@@ -155,5 +156,6 @@ LegacyCustomFormPlugin.propTypes = {
     saveValue: PropTypes.func,
     setHighlightedField: PropTypes.func,
     showDetailsBar: PropTypes.func,
+    style: PropTypes.string,
 }
 export default LegacyCustomFormPlugin
