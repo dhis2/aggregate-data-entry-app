@@ -427,7 +427,7 @@ dhis2.de.clearEntryForm = function()
 /**
  * ![custom-forms] This is the starting method being called from the plugin
  */
-dhis2.de.loadForm = function()
+dhis2.de.loadForm = function(locked)
 {
     var dataSetId = dhis2.de.currentDataSetId;
     console.log(`[custom-forms] dhis2.de.loadForm - dataSetId: "${dataSetId}"`)
@@ -454,6 +454,10 @@ dhis2.de.loadForm = function()
     });
     dhis2.de.insertOptionSets();
     loadDataValues();
+
+    if (locked) {
+        dhis2.de.lockForm()
+    }
 
     // ToDo(custom-forms) re-check the scope of the original loadForm and see if functionality missing
 }
@@ -906,63 +910,7 @@ function getAndInsertDataValues()
 function insertDataValues( json )
 {
     var dataValueMap = {}; // Reset
-    dhis2.de.currentMinMaxValueMap = []; // Reset
-    
-    var period = dhis2.de.getSelectedPeriod();
-    
-    var dataSet = dhis2.de.dataSets[dhis2.de.currentDataSetId];
-    
-    var periodLocked = false;
-    
-    // ToDO: We have a ticket to look at locking logic and update it  https://dhis2.atlassian.net/browse/DHIS2-20885
-    // if ( dataSet && dataSet.expiryDays > 0 )
-    // {
-    //     // ToDO(custom-forms): do we need an equivalent of this server time delta logic?
-    //     var serverTimeDelta = dhis2.de?.storageManager?.getServerTimeDelta?.() || 0;
-    //     var maxDate = moment( period.endDate, dhis2.period.format.toUpperCase() ).add( parseInt(dataSet.expiryDays), 'day' );
-    //     periodLocked = moment().add( serverTimeDelta, 'ms' ).isAfter( maxDate );
-    // }
-
-    // var lockExceptionId = dhis2.de.currentOrganisationUnitId + "-" + dhis2.de.currentDataSetId + "-" + period.iso;
-
-    // periodLocked = periodLocked && dhis2.de.lockExceptions.indexOf( lockExceptionId ) == -1;
-
-    // if ( json.locked !== 'OPEN' || dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 || periodLocked )
-	// {
-		// dhis2.de.lockForm();
-
-	// 	if ( periodLocked ) {
-	// 		setHeaderDelayMessage( dhis2.shim.i18n_translations.i18n_dataset_is_concluded );
-	// 	} else if ( dhis2.de.blackListedPeriods.indexOf( period.iso ) > -1 ) {
-	// 		setHeaderDelayMessage( dhis2.shim.i18n_translations.i18n_dataset_is_closed );
-	// 	} else if ( json.locked === 'APPROVED' ) {
-	// 		setHeaderDelayMessage( dhis2.shim.i18n_translations.i18n_dataset_is_approved );
-	// 	} else {
-	// 		setHeaderDelayMessage( dhis2.shim.i18n_translations.i18n_dataset_is_locked );
-	// 	}
-
-	// }
-	// else
-	// {
-    //     $( '#contentDiv input' ).removeAttr( 'readonly' );
-    //     $( '#contentDiv textarea' ).removeAttr( 'readonly' );
-	// 	$( '#completenessDiv' ).show();
-	// }
-
-    // // Set the data-disabled attribute on any file upload fields
-    // $( '#contentDiv .entryfileresource' ).data( 'disabled', json.locked !== 'OPEN' );
-
-    // Set data values, works for selects too as data value=select value    
-    if ( period )
-    {    
-        if ( dhis2.de.validateOrgUnitOpening( organisationUnits[dhis2.de.getCurrentOrganisationUnit()], period ) )
-        {
-            dhis2.de.lockForm();
-        setHeaderDelayMessage( dhis2.shim.i18n_translations.i18n_orgunit_is_closed);
-            return;
-        }
-    }
-    
+    dhis2.de.currentMinMaxValueMap = []; // Reset    
     
     $.safeEach( json.dataValues, function( i, value )
     {
@@ -1459,7 +1407,8 @@ dhis2.de.getSelectedPeriod = function()
  */
 dhis2.de.lockForm = function()
 {
-    warnDeprecate('dhis2.de.lockForm')
+    $( 'input').attr( 'readonly', 'readonly' ).disable();
+    $( 'textarea').attr( 'readonly', 'readonly' ).disable();
 }
 
 /*

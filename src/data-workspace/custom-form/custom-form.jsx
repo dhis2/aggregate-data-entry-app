@@ -9,6 +9,7 @@ import {
     dataDetailsSidebarId,
     useContextSelection,
     useHighlightedFieldStore,
+    useLockedContext,
     useMetadata,
     useSetDataValueMutation,
     useValueStore,
@@ -29,6 +30,8 @@ export const CustomForm = ({ dataSet }) => {
         id: dataSet.id,
         version: dataSet.version,
     })
+
+    const { locked } = useLockedContext()
 
     const getDataValues = useValueStore((state) => state.getDataValues)
     const initialDataValues = React.useMemo(
@@ -112,6 +115,7 @@ export const CustomForm = ({ dataSet }) => {
                 showDetailsBar={showDetailsBar}
                 fileHelper={fileHelper}
                 style={dataSetInfo?.dataEntryForm?.style}
+                locked={locked}
             />
         )
     }

@@ -1,0 +1,5 @@
+.cde.form-locked input:read-only,
+.cde.form-locked textarea:read-only {
+    background-color: #eee;
+    cursor: not-allowed;
+}
