@@ -1,3 +1,10 @@
+# [101.1.0-beta.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-beta.3...v101.1.0-beta.4) (2026-03-11)
+
+
+### Bug Fixes
+
+* respect style set in form settings ([d785c16](https://github.com/dhis2/aggregate-data-entry-app/commit/d785c16fd19cdb0c537aa60c4400140c218ba8b6))
+
 # [101.1.0-beta.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.0-beta.2...v101.1.0-beta.3) (2026-03-10)
 
 
