@@ -28,6 +28,7 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         showDetailsBar,
         fileHelper,
         style = 'NORMAL',
+        locked,
     } = props
 
     console.log('[custom-forms] 🏁 Legacy Custom Form Plugin starting 🏁')
@@ -110,7 +111,7 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
             document.body.append(...formScripts)
 
             //! Kick off everything 🚀
-            window.dhis2?.de?.loadForm()
+            window.dhis2?.de?.loadForm(locked)
         }, 1000)
     }, [
         config?.systemInfo?.contextPath,
@@ -129,13 +130,16 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         saveValue,
         showDetailsBar,
         fileHelper,
+        locked,
     ])
 
     return (
         <div>
             <div>
                 <div
-                    className={`cde cde-${style}`}
+                    className={`cde cde-${style} ${
+                        locked ? 'form-locked' : ''
+                    }`}
                     dangerouslySetInnerHTML={{ __html: formHtml }}
                 ></div>
             </div>
@@ -152,6 +156,7 @@ LegacyCustomFormPlugin.propTypes = {
     dataSet: PropTypes.shape({ displayName: PropTypes.string }),
     fileHelper: PropTypes.object,
     initialValues: PropTypes.shape({}),
+    locked: PropTypes.bool,
     metadata: PropTypes.object,
     saveValue: PropTypes.func,
     setHighlightedField: PropTypes.func,

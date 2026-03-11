@@ -5,6 +5,7 @@ const files = [
     'css/select2/select2.css',
     'css/dhis-web-dataentry.css',
     'css/bootstrap/bootstrap.min.css',
+    'css/plugin-styles.css',
 ]
 
 export default files
