@@ -654,3 +654,32 @@ export const getApplicableDataInputPeriod = createCachedSelector(
         )
     }
 )((dataSetId, periodId) => `${dataSetId}:${periodId}`)
+
+/**
+ * @param {*} metadata
+ */
+export const getAllAssignedOrgUnits = createSelector(
+    getDataSets,
+    (dataSets) => {
+        const allOrgUnitsWithDuplicates = Array.from(
+            Object.values(dataSets).map((ds) => ds.organisationUnits)
+        ).flat()
+        const organisationUnits = Array.from(new Set(allOrgUnitsWithDuplicates))
+        return { organisationUnits }
+    }
+)
+
+/**
+ * @param {*} metadata
+ * @param {string} organisationUnitId
+ */
+export const getDataSetsByOrgUnitId = createCachedSelector(
+    getDataSets,
+    (_, organisationUnitId) => organisationUnitId,
+    (dataSets, organisationUnitId) =>
+        Object.fromEntries(
+            Object.entries(dataSets).filter((dsEntry) =>
+                dsEntry[1].organisationUnits.includes(organisationUnitId)
+            )
+        )
+)((_, organisationUnitId) => organisationUnitId)

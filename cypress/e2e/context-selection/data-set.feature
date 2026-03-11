@@ -18,6 +18,13 @@ Feature: A data set can be selected
         When the user opens the menu
         Then a list of data sets should be displayed
 
+    Scenario: The user filters available data sets
+        Given some selectable data sets exists
+        When the user opens the menu
+        When the user enters the filter term "Clinical"
+        Then the list shows 1 data set
+        And the data set list includes "Clinical Monitoring Checklist" data set
+
     Scenario: The user selects a data set
         Given some selectable data sets exists
         When the user opens the menu

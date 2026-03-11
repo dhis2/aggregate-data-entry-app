@@ -92,6 +92,29 @@ Then('a list of data sets should be displayed', () => {
     )
 })
 
+// the user enters the filter term "Facility"
+
+When('the user enters the filter term {string}', (filterTerm) => {
+    cy.get('[data-test="data-set-selector-menu-filterinput"] input').type(
+        filterTerm
+    )
+    // the menu should not be opened
+})
+
+Then('the list shows {int} data set', (dataSetsCount) => {
+    cy.get('[data-test="data-set-selector-menu"] li').should(
+        'have.length',
+        dataSetsCount
+    )
+})
+
+Then('the data set list includes {string} data set', (dataSetName) => {
+    cy.get('[data-test="data-set-selector-menu"] li').should(
+        'contain',
+        dataSetName
+    )
+})
+
 Then('a no-value-label should be displayed', () => {
     cy.get('[data-test="data-set-selector"]')
         .contains('Choose a data set')

@@ -88,6 +88,12 @@ When('the user opens the org unit selector', () => {
     cy.get('[data-test="org-unit-selector"] button').click()
 })
 
+When('the user opens the data set selector', () => {
+    cy.contains('Choose a data set').should('exist')
+
+    cy.get('[data-test="data-set-selector"] button').click()
+})
+
 When('the root org unit have been loaded', () => {
     cy.get(
         `[data-test="org-unit-selector-tree"] :contains("Sierra Leone")`
@@ -101,14 +107,25 @@ When('selects the org unit {string}', (orgUnitName) => {
 })
 
 Then(
-    "the org unit's display name should be displayed as selected value",
-    () => {
-        getOrgUnitSelectorValueLabelByContent('Sierra Leone').should('exist')
+    "the org unit's display name {string} should be displayed as selected value",
+    (orgUnitName) => {
+        getOrgUnitSelectorValueLabelByContent(orgUnitName).should('exist')
     }
 )
 
-Then("the org unit's id should be persisted", () => {
-    cy.url().should('match', new RegExp(`orgUnitId=ImspTQPwCqd`))
+Then("the org unit's id {string} should be persisted", (orgUnitId) => {
+    cy.url().should('match', new RegExp(`orgUnitId=${orgUnitId}`))
+})
+
+Then('there should be {int} data sets available to select', (dataSetsCount) => {
+    cy.get('[data-test="data-set-selector-menu"] li').should(
+        'have.length',
+        dataSetsCount
+    )
+})
+
+When('the user clicks button to remove data set filtering', () => {
+    cy.get('[data-test="data-set-selector-remove-orgUnit-button"]').click()
 })
 
 When(

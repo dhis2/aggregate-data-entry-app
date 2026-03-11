@@ -103,7 +103,6 @@ export default function AuditLog({ item }) {
                         {audits.map((audit) => {
                             const {
                                 modifiedBy: user,
-                                previousValue: nonParsedPreviousValue,
                                 value: nonParsedValue,
                                 created,
                                 auditType,
@@ -122,15 +121,6 @@ export default function AuditLog({ item }) {
                                       calendar
                                   )
                                 : nonParsedValue
-                            const previousValue = [
-                                VALUE_TYPES.DATETIME,
-                                VALUE_TYPES.DATE,
-                            ].includes(item.valueType)
-                                ? convertFromIso8601ToString(
-                                      nonParsedPreviousValue,
-                                      calendar
-                                  )
-                                : nonParsedPreviousValue
 
                             const key = `${de}-${pe}-${ou}-${coc}-${created}`
 
@@ -152,14 +142,7 @@ export default function AuditLog({ item }) {
                                             )}
                                             {['UPDATE', 'CREATE'].includes(
                                                 auditType
-                                            ) && (
-                                                <UpdatedValue
-                                                    value={value}
-                                                    previousValue={
-                                                        previousValue
-                                                    }
-                                                />
-                                            )}
+                                            ) && <UpdatedValue value={value} />}
                                         </div>
                                     </DataTableCell>
                                 </DataTableRow>
@@ -168,11 +151,18 @@ export default function AuditLog({ item }) {
                     </TableBody>
                 </DataTable>
                 {audits.length > 0 && (
-                    <div className={styles.timeZoneNote}>
-                        {i18n.t(
-                            'audit dates are given in {{- timeZone}} time',
-                            { timeZone }
-                        )}
+                    <div>
+                        <div className={styles.timeZoneNote}>
+                            {i18n.t(
+                                'audit dates are given in {{- timeZone}} time',
+                                { timeZone }
+                            )}
+                        </div>
+                        <div className={styles.timeZoneNote}>
+                            {i18n.t(
+                                'log displays only changes made while audit was enabled'
+                            )}
+                        </div>
                     </div>
                 )}
             </div>
@@ -190,10 +180,19 @@ AuditLog.propTypes = {
 }
 
 function DeletedValue({ value }) {
+    if (value) {
+        return (
+            <div className={styles.alignToEnd}>
+                <Tag negative className={styles.lineThrough}>
+                    {value}
+                </Tag>
+            </div>
+        )
+    }
     return (
-        <Tag negative className={styles.lineThrough}>
-            {value}
-        </Tag>
+        <div className={styles.alignToEnd}>
+            <Tag negative>{i18n.t('Deleted')}</Tag>
+        </div>
     )
 }
 
@@ -201,11 +200,9 @@ DeletedValue.propTypes = {
     value: PropTypes.string.isRequired,
 }
 
-function UpdatedValue({ value, previousValue }) {
+function UpdatedValue({ value }) {
     return (
         <div className={styles.alignToEnd}>
-            {previousValue && <Tag>{previousValue}</Tag>}
-            {/* arrow-right*/}
             {i18n.dir() === 'rtl' ? (
                 <span className={styles.rightArrow}>&larr;</span>
             ) : (
@@ -219,5 +216,4 @@ function UpdatedValue({ value, previousValue }) {
 
 UpdatedValue.propTypes = {
     value: PropTypes.string.isRequired,
-    previousValue: PropTypes.string,
 }

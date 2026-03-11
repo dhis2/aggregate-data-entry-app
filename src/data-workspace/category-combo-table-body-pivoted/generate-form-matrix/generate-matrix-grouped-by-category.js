@@ -51,7 +51,8 @@ const generateRowHeaders = (
 
                 dataEntryRow.push({
                     id: match?.id,
-                    displayFormName: match?.displayFormName,
+                    displayFormName:
+                        match?.displayFormName ?? match?.displayName,
                     type: 'rowHeader',
                     metadataType: 'categoryOption',
                 })
@@ -150,7 +151,8 @@ const generateColumnHeaders = (options, groupedBy) => {
             )
             categoryOptions.push({
                 id: optionMatch?.id,
-                displayFormName: optionMatch?.displayFormName,
+                displayFormName:
+                    optionMatch?.displayFormName ?? optionMatch.displayName,
                 type: 'columnHeader',
                 metadataType: 'categoryOption',
                 parentCategoryOptions: [co],
@@ -210,7 +212,9 @@ const generateColumnHeaders = (options, groupedBy) => {
 
                 categoryOptionsRow.push({
                     id: optionMatch?.id,
-                    displayFormName: optionMatch?.displayFormName,
+                    displayFormName:
+                        optionMatch?.displayFormName ??
+                        optionMatch?.displayName,
                     type: 'columnHeader',
                     metadataType: 'categoryOption',
                     colSpan,
@@ -233,7 +237,9 @@ const generateColumnHeaders = (options, groupedBy) => {
         },
         {
             id: transposedCategories[0]?.id,
-            displayFormName: transposedCategories[0]?.displayFormName,
+            displayFormName:
+                transposedCategories[0]?.displayFormName ??
+                transposedCategories[0]?.displayName,
             type: 'columnHeader',
             metadataType: 'category',
             // colSpan: categories.length,
