@@ -406,6 +406,7 @@ function ValueSaver( de, pe, co, ds, value, fieldId, resultColor )
         markValue( _fieldId, resultColor );
         // console.log($( fieldId ))
         $( _fieldId ).parent().find('.updating').remove()
+        $( document ).trigger( dhis2.de.event.dataValueSaved, [ dhis2.de.currentDataSetId, dataValue ] );
         afterHandleSuccess();
     }
 
