@@ -1,3 +1,10 @@
+# [101.2.0-beta.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.2.0-beta.1...v101.2.0-beta.2) (2026-03-12)
+
+
+### Bug Fixes
+
+* ensure event is triggered when value saved ([c36b38c](https://github.com/dhis2/aggregate-data-entry-app/commit/c36b38c0ca438fe1bd3c378e94c48523e6075e0c))
+
 # [101.2.0-beta.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.6...v101.2.0-beta.1) (2026-03-11)
 
 
