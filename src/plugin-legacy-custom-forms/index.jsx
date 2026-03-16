@@ -44,13 +44,13 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
     // The JS and CSS are manipulated first to ensure they're loaded after the base styles and scripts (the ones that were part of  the Struts templates in DHIS2 pre-41 by default)
     let formHtml = doc.body.innerHTML
 
-    const divLoader = `<div class="custom-forms-loader">
+    const divLoader = `<div id="loaderDiv" class="custom-forms-loader">
             <div role="progressbar" class="loader"></div>
         </div>`
 
     formHtml = `<div class="plugin-legacy-custom-forms-wrapper">
             ${divLoader}
-            <div class="custom-forms-form" style="visibility:hidden">
+            <div id="contentDiv" class="custom-forms-form" style="visibility:hidden">
                 ${formHtml}
             </div>
         </div>`
