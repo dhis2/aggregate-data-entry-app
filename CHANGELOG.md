@@ -1,3 +1,11 @@
+# [101.2.0-beta.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.2.0-beta.2...v101.2.0-beta.3) (2026-03-16)
+
+
+### Bug Fixes
+
+* **DHIS2-20555:** fix double scroll on long and wide custom forms ([d6005e6](https://github.com/dhis2/aggregate-data-entry-app/commit/d6005e6e1ca792d86dca0eefcdfaf9b941dce4cf))
+* add old html IDs to content and loader divs ([7bfb55a](https://github.com/dhis2/aggregate-data-entry-app/commit/7bfb55a89f0fd92100cec92b41a1b9a7597eb60b))
+
 # [101.2.0-beta.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.2.0-beta.1...v101.2.0-beta.2) (2026-03-12)
 
 
