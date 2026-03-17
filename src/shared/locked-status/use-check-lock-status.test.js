@@ -134,7 +134,7 @@ describe('useCheckLockStatus', () => {
         })
     })
 
-    it.skip('locks if org unit closes before period ends (ethiopian calendar)', () => {
+    it('locks if org unit closes before period ends (ethiopian calendar)', () => {
         const setLockedStatusMocked = jest.fn()
         jest.spyOn(
             useLockedContextModule,
@@ -481,7 +481,7 @@ describe('useCheckLockStatus', () => {
 
     // this test confirms that we do not have functionality to add days to non-gregory days
     // i.e., we'd like this test to fail eventually when we add ability to add days to non-gregory dates
-    it.skip('does not set lockDate based on expiry days if calendar is non-gregory ', () => {
+    it('does not set lockDate based on expiry days if calendar is non-gregory ', () => {
         jest.useFakeTimers('modern')
         jest.setSystemTime(new Date('2024-02-04'))
         useConfig.mockImplementationOnce(() => ({
