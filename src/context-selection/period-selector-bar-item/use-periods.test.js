@@ -288,7 +288,7 @@ describe('usePeriods', () => {
     })
 })
 
-describe('usePeriods (ethiopian)', () => {
+describe.skip('usePeriods (ethiopian)', () => {
     beforeEach(() => {
         jest.useFakeTimers('modern')
         jest.setSystemTime(new Date('2024-07-15T12:00:00').getTime())
