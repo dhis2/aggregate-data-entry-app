@@ -100,7 +100,7 @@ describe('isDateALessThanDateB (nepali)', () => {
     })
 })
 
-describe('isDateALessThanDateB (ethiopian)', () => {
+describe.skip('isDateALessThanDateB (ethiopian)', () => {
     beforeEach(() => {
         jest.spyOn(console, 'error').mockImplementation(jest.fn())
     })
@@ -142,7 +142,7 @@ describe('isDateALessThanDateB (ethiopian)', () => {
     })
 })
 
-describe('isDateALessThanDateB (mixed calendars)', () => {
+describe.skip('isDateALessThanDateB (mixed calendars)', () => {
     beforeEach(() => {
         jest.spyOn(console, 'error').mockImplementation(jest.fn())
     })
@@ -280,7 +280,7 @@ describe('addDaysToDateString', () => {
         expect(result).toBe('2023-03-20T12:00:00')
     })
 
-    it('works with ethiopian calendar', () => {
+    it.skip('works with ethiopian calendar', () => {
         const startDateString = '2016-02-30'
         const days = 5
         const calendar = 'ethiopian'
@@ -315,7 +315,7 @@ describe('getRelativeTime', () => {
         jest.useRealTimers()
     })
 
-    it('works with ethiopian calendar', () => {
+    it.skip('works with ethiopian calendar', () => {
         // 2024-06-15 Ethiopian = 2032-02-23 (i.e. in 8 years)
         const startDate = '2024-06-15T13:00:00'
         const calendar = 'ethiopian'

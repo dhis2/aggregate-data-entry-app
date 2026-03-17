@@ -608,6 +608,33 @@ msgstr "{{pendingMutations}} change saved locally"
 msgid "{{pendingMutations}} changes saved locally"
 msgstr "{{pendingMutations}} changes saved locally"
 
+msgid "Loading file info failed"
+msgstr "Loading file info failed"
+
+msgid "File upload failed"
+msgstr "File upload failed"
+
+msgid "Confirm deletion"
+msgstr "Confirm deletion"
+
+msgid "Dataset is concluded"
+msgstr "Dataset is concluded"
+
+msgid "Dataset is closed"
+msgstr "Dataset is closed"
+
+msgid "Dataset is approved"
+msgstr "Dataset is approved"
+
+msgid "Dataset is locked"
+msgstr "Dataset is locked"
+
+msgid "Org unit is closed"
+msgstr "Org unit is closed"
+
+msgid "Show all items"
+msgstr "Show all items"
+
 msgid ""
 "Here we could override the message for E2017 error with a custom message in "
 "the FE"
