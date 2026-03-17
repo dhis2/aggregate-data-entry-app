@@ -1,3 +1,17 @@
+# [102.0.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.6...v102.0.0) (2026-03-17)
+
+
+### Features
+
+* implement Legacy Custom Forms plugin (beta to master) ([#533](https://github.com/dhis2/aggregate-data-entry-app/issues/533)) ([7bf27a2](https://github.com/dhis2/aggregate-data-entry-app/commit/7bf27a2c0c0b81a3b272f6d249335ac8d8f00ebb)), closes [#480](https://github.com/dhis2/aggregate-data-entry-app/issues/480) [#480](https://github.com/dhis2/aggregate-data-entry-app/issues/480) [#495](https://github.com/dhis2/aggregate-data-entry-app/issues/495) [#495](https://github.com/dhis2/aggregate-data-entry-app/issues/495) [#509](https://github.com/dhis2/aggregate-data-entry-app/issues/509)
+* release custom forms plugin ([dcf1f11](https://github.com/dhis2/aggregate-data-entry-app/commit/dcf1f11d1c4d386ecd578541e68e45e35e3835a5))
+
+
+### BREAKING CHANGES
+
+* The Legacy Custom Forms plugin changes rendering of custom forms with JS
+* Add the Legacy Custom Forms plugin changing how custom forms are rendered to support forms with JavaScript
+
 # [101.2.0-beta.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.2.0-beta.2...v101.2.0-beta.3) (2026-03-16)
 
 
