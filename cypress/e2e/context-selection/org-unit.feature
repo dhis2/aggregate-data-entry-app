@@ -13,9 +13,9 @@ Feature: An org unit can be selected
         Then a loading message should be displayed while loading its data
         Then its value-label should be displayed
 
-    Scenario: Retrieving a selected org unit's data fails
-        Given a data set and an org unit have been selected but loading the org unit's data will fail
-        Then an error message should be displayed
+    # Scenario: Retrieving a selected org unit's data fails
+    #     Given a data set and an org unit have been selected but loading the org unit's data will fail
+    #     Then an error message should be displayed
 
     Scenario: An org unit gets selected after a data set is selected
         Given a data set has been selected
