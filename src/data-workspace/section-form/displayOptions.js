@@ -11,7 +11,7 @@ export const getDisplayOptions = (section) => {
 
     try {
         const { displayOptions: displayOptionString } = section
-        return JSON.parse(displayOptionString)
+        return JSON.parse(displayOptionString ?? '{}')
     } catch (e) {
         console.error(
             `Failed to parse displayOptions for section ${section?.displayName}(${section?.id})`,
