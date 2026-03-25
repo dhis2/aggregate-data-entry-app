@@ -126,9 +126,13 @@ export default function useOnCompleteCallback() {
     const dataSet = dataSetId
         ? selectors.getDataSetById(metadata, dataSetId)
         : {}
+    const { compulsoryFieldsCompleteOnly } = dataSet || {}
     const { validCompleteOnly } = dataSet
     const { show: showErrorAlert } = useAlert((message) => message, {
         critical: true,
+    })
+    const { show: showWarningAlert } = useAlert((message) => message, {
+        warning: true,
     })
     const setFormCompletionMutationKey = useSetFormCompletionMutationKey()
     const isLoading = useIsMutating(setFormCompletionMutationKey)
@@ -147,9 +151,20 @@ export default function useOnCompleteCallback() {
 
     return () => {
         let promise
-
-        if (hasCompulsoryDataElementOperandsToFillOut) {
-            setCompleteAttempted(true)
+        setCompleteAttempted(true)
+        if (
+            hasCompulsoryDataElementOperandsToFillOut &&
+            !compulsoryFieldsCompleteOnly
+        ) {
+            showWarningAlert(
+                i18n.t(
+                    'There are compulsory fields which have not been filled out'
+                )
+            )
+        } else if (
+            hasCompulsoryDataElementOperandsToFillOut &&
+            compulsoryFieldsCompleteOnly
+        ) {
             cancelCompletionMutation({ completedBoolean: false })
             promise = Promise.reject(
                 new Error(
