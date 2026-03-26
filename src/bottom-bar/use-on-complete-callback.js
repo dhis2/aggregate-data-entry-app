@@ -161,7 +161,8 @@ export default function useOnCompleteCallback() {
                     'There are compulsory fields which have not been filled out'
                 )
             )
-        } else if (
+        }
+        if (
             hasCompulsoryDataElementOperandsToFillOut &&
             compulsoryFieldsCompleteOnly
         ) {
