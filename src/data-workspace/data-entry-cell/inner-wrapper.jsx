@@ -121,7 +121,9 @@ export function InnerWrapper({
 
     const cellStateClassName =
         error ||
-        (isRequired && !value && (completeAttempted || validationHasRun))
+        (isRequired &&
+            (!value || value?.value === '') &&
+            (completeAttempted || validationHasRun))
             ? styles.invalid
             : warning
             ? styles.warning
