@@ -1,11 +1,9 @@
 # The Legacy Custom Forms plugin
 
 :::caution
-The Legacy Custom Forms plugin is available now on the **beta** channel. You can download it from AppHub or App Management in your instance. Go to App Management, Search for "Data Entry" app, then go to previous releases and make sure to tick "Development" channel. This will display the alpha and beta versions of the app, and you can download or install the latest version in the beta channel.
+The Legacy Custom Forms plugin is available from version `102.0.0` of the Data Entry app. To upgrade to this vresion, go to App Management, Search for "Data Entry" app, then you can update to version `102.0.0` or later.
 
-![Development channel in App Managemt app](./app-management-development-channel.png 'Development channel in App Managemt app')
-
-> Note that the plugin only changes the behaviour of the "Data Entry" app when it comes to custom forms. The rest of the app functionality remains the same as the main stable release.
+![Development channel in App Managemt app](./data-entry-app-management.png 'Development channel in App Managemt app')
 
 :::
 
