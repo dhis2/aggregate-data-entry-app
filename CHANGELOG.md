@@ -1,3 +1,10 @@
+## [102.0.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.0...v102.0.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **app-platform:** support for loading custom translations from the data store ([#535](https://github.com/dhis2/aggregate-data-entry-app/issues/535)) ([0f3e7fb](https://github.com/dhis2/aggregate-data-entry-app/commit/0f3e7fb5415ee162d2c2a63fffb932bc40d29af8))
+
 # [102.0.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v101.1.6...v102.0.0) (2026-03-17)
 
 
