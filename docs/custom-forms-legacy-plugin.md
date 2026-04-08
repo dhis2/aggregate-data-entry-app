@@ -67,11 +67,9 @@ We also _tried_ to patch some of these objects so that they look similar to the 
 
 -   API base URLs: Custom forms had a variety of ways for handling API requests and deciding on the base URL for the DHIS2 instance. We consolidated these so that the shim appends your requests to the correct DHIS2 BASE_URL as defined the instance config. So if you have a call to `/me`, you can just leave it as `/me` and the plugin will append the correct base URL to make the call to `https://play.dhis2.org/42/me`, for example (if your call already specified the base URL correctly, then appending the base URL will be ignored).
 
-:::note
-This ability to identify and append the base URL only works if you used jQuery AJAX methods (i.e. `$.get` or `jQuery.post`). This seems to be the case for the majority of forms we have seen. If you are doing requests in a different way (using `fetch` for example), then it is your responsibility to construct the URL properly.
-
-We make a property available in the global window context of the form to make this easier: `window.DHIS2_BASE_URL`
-:::
+> This ability to identify and append the base URL only works if you used jQuery AJAX methods (i.e. `$.get` or `jQuery.post`). This seems to be the case for the majority of forms we have seen. If you are doing requests in a different way (using `fetch` for example), then it is your responsibility to construct the URL properly.
+>
+> We make a property available in the global window context of the form to make this easier: `window.DHIS2_BASE_URL`
 
 -   `dhis2.shim` namespace: This is a new namespace that is exposed by the plugin for internal use. ⚠️ This should not be treated as a stable API ⚠️. Forms should not directly call the methods available under this namespace, as it might change.
 
@@ -81,9 +79,7 @@ The namespace is necessary to expose certain functionality from the modern app's
 
 ### Things that might not work out of the box
 
-:::note
-It is important to note that -- for anything that doesn't work -- you now have the ability to change the custom form so that it works (for example, so that it doesn't rely on a method that doesn't exist anyore). The aim of the plugin is mainly to minimise the amount of these changes that you need to apply on a form.
-:::
+> It is important to note that -- for anything that doesn't work -- you now have the ability to change the custom form so that it works (for example, so that it doesn't rely on a method that doesn't exist anyore). The aim of the plugin is mainly to minimise the amount of these changes that you need to apply on a form.
 
 #### Relying on internal methods
 
@@ -97,25 +93,7 @@ A related, likely more common, pattern is custom forms that override these inter
 
 There are methods under `dhis2.de` that are deprecated now. These are mostly operations that were used by Struts for Default and Section forms, so they are not relevant for custom forms. We have not seen forms that make use of these methods, but in theory -- because everything is global and accessible in the old app -- custom forms could have used these methods.
 
-Some of these methods are:
-
--   `dhis2.de.loadDataSetAssociations`
--   `dhis2.de.setMetaDataLoaded`
--   `dhis2.de.discardLocalDat`
--   `dhis2.de.uploadLocalData`
--   `dhis2.de.resetSectionFilters`
--   `dhis2.de.clearSectionFilters`
--   `dhis2.de.clearPeriod`
--   `dhis2.de.clearEntryForm`
--   `dhis2.de.getOrFetchDataSetList`
--   `dhis2.de.setAttributesMarkup`
--   `dhis2.de.getAttributesMarkup`
--   `dhis2.de.clearAttributes`
--   `dhis2.de.attributeSelected`
--   `dhis2.de.inputSelected`
--   `dhis2.de.loadOptionSets`
--   `dhis2.de.enableDEDescriptionEvent`
--   `dhis2.de.lockForm`
+Some of these methods are: `dhis2.de.loadDataSetAssociations`, `dhis2.de.setMetaDataLoaded`, `dhis2.de.discardLocalDat`, `dhis2.de.uploadLocalData`, `dhis2.de.resetSectionFilters`, `dhis2.de.clearSectionFilters`, `dhis2.de.clearPeriod`, `dhis2.de.clearEntryForm`, `dhis2.de.getOrFetchDataSetList`, `dhis2.de.setAttributesMarkup`, `dhis2.de.getAttributesMarkup`, `dhis2.de.clearAttributes`, `dhis2.de.attributeSelected`, `dhis2.de.inputSelected`, `dhis2.de.loadOptionSets`, `dhis2.de.enableDEDescriptionEvent`, `dhis2.de.lockForm`
 
 These will give a warning in the console that are deprecated. Update your forms to not call or depend on these.
 
