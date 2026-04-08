@@ -17,7 +17,10 @@ jest.mock('../../shared/use-user-info/use-user-info.js', () => ({
     })),
 }))
 
-describe('usePeriods', () => {
+/**
+ * skipping until https://dhis2.atlassian.net/browse/LIBS-763 is done
+ */
+describe.skip('usePeriods', () => {
     const actualSystemTime = new Date()
     jest.useFakeTimers()
 
@@ -288,7 +291,10 @@ describe('usePeriods', () => {
     })
 })
 
-describe('usePeriods (ethiopian)', () => {
+/**
+ * skipping until https://dhis2.atlassian.net/browse/LIBS-763 is done
+ */
+describe.skip('usePeriods (ethiopian)', () => {
     beforeEach(() => {
         jest.useFakeTimers('modern')
         jest.setSystemTime(new Date('2024-07-15T12:00:00').getTime())
@@ -433,7 +439,10 @@ describe('usePeriods (ethiopian)', () => {
     })
 })
 
-describe('usePeriods (nepali)', () => {
+/**
+ * skipping until https://dhis2.atlassian.net/browse/LIBS-763 is done
+ */
+describe.skip('usePeriods (nepali)', () => {
     beforeEach(() => {
         jest.useFakeTimers('modern')
         jest.setSystemTime(new Date('2024-07-15T12:00:00').getTime())

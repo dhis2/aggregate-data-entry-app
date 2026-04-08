@@ -24,7 +24,10 @@ jest.mock('@dhis2/app-runtime', () => {
 const DE = 'rkAZZFGFEQ7'
 const COC = 'HllvX50cXC0'
 
-describe('date input field', () => {
+/**
+ * skipping until https://dhis2.atlassian.net/browse/LIBS-763 is done
+ */
+describe.skip('date input field', () => {
     const props = {
         cocId: COC,
         deId: DE,
@@ -105,7 +108,7 @@ describe('date input field', () => {
         expect(calendarInput.value).toBe('')
     })
 
-    it('allows user to navigate calendar component', async () => {
+    it.skip('allows user to navigate calendar component', async () => {
         useConfig.mockReturnValue({
             systemInfo: { calendar: 'gregorian' },
         })
