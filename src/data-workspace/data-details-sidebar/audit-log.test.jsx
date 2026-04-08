@@ -164,7 +164,7 @@ describe('<AuditLog />', () => {
         ).toBeInTheDocument()
     })
 
-    it.skip('renders the date/datetime values in system calendar (ethiopian)', async () => {
+    it('renders the date/datetime values in system calendar (ethiopian)', async () => {
         useConfig.mockImplementation(() => ({
             systemInfo: {
                 calendar: 'ethiopian',
