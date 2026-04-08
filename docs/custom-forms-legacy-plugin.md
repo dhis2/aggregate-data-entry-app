@@ -1,11 +1,8 @@
 # The Legacy Custom Forms plugin
 
-:::caution
-The Legacy Custom Forms plugin is available from version `102.0.0` of the Data Entry app. To upgrade to this vresion, go to App Management, Search for "Data Entry" app, then you can update to version `102.0.0` or later.
-
-![Stable release in App Management app](./data-entry-app-management.png 'Stable release in App Management app')
-
-:::
+> The Legacy Custom Forms plugin is available from version `102.0.0` of the Data Entry app. To upgrade to this vresion, go to App Management, Search for "Data Entry" app, then you can update to version `102.0.0` or later.
+>
+> ![Stable release in App Management app](./data-entry-app-management.png)
 
 ## Intro
 
