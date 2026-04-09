@@ -1,8 +1,8 @@
-# The Legacy Custom Forms plugin
+# Custom Forms support
 
-> The Legacy Custom Forms plugin is available from version `102.0.0` of the Data Entry app. To upgrade to this vresion, go to App Management, Search for "Data Entry" app, then you can update to version `102.0.0` or later.
->
-> ![Stable release in App Management app](./data-entry-app-management.png)
+> Custom Forms support in the Data Entry app was reinstated from version `102.0.0`. To upgrade to this version, go to App Management, Search for "Data Entry" app, then upgrade to version `102.0.0` or later. This is the default version that ships with DHIS2 v43, but also works with earlier versions of DHIS2.
+
+![Stable release in App Management app](./data-entry-app-management.png)
 
 ## Intro
 
@@ -24,13 +24,13 @@ These challenges led the core team to initially drop support for custom forms wi
 
 ### Why are we reinstating support for custom JavaScript now?
 
-With the Legacy Custom Forms plugin, we reinstate support for custom forms with JavaScript.
+From version 102.0.0 of the Data Entry app, we reinstate support for custom forms with JavaScript through the Legacy Custom Forms plugin.
 
-The plugin architecture provides a generic extension point for developers. This allows developers - the core team for now, but external developers in the near future - to extend the functionality of the Data Entry app without affecting the main app's security and UX.
+The plugin architecture is transparent to the end-user. From a technical point of view, the architecture provides an generic point for developers - the core team for now, but external developers in the near future - to extend the functionality of the Data Entry app without affecting the main app's security and UX.
 
 In the context of custom forms, this provides a level of isolation and control over the inherent risks of custom JS in forms, but does not mitigate them completely. From the point of view of end-users and custom forms authors, the plugin provides a _pragmatic_ workaround to upgrade to newer versions of DHIS2, but keep their custom forms working with the least amount of friction.
 
-From a technical point of view, the plugin provides a "shim" or an adapter that makes legacy custom forms function similarly to the old Struts legacy app, but in the context of the modern app. This provides improved functionality and integration with the new app's shell (i.e. context selection, data element details, offline support, etc.). A by-product of that is an improvement in security and UX by reusing the main app's functionality whenever possible, for example, accessing the metadata or a data element's details, operations like completing forms, and offline support all happen through the main app's shell.
+The Legacy Custom Forms plugin provides a "shim" or an adapter that makes legacy custom forms function similarly to the old Struts legacy app, but in the context of the modern app. This provides improved functionality and integration with the new app's shell (i.e. context selection, data element details, offline support, etc.). A by-product of that is an improvement in security and UX by reusing the main app's functionality whenever possible, for example, accessing the metadata or a data element's details, operations like completing forms, and offline support all happen through the main app's shell.
 
 Our recommendation is still to move away from custom forms whenever possible though. We realise that this is not always achievable, but it is also becoming increasingly possible as many of the use cases that people required custom forms for are now natively supported -- this includes better support for Right-to-Left languages, ability to show tabs (horizontally and vertically), ability to pivot forms, and ability to show custom HTML between sections in forms. We aim to add more native abilities in the future to make custom forms unnecessary.
 
