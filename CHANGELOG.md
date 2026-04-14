@@ -1,3 +1,10 @@
+## [102.0.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.1...v102.0.2) (2026-04-14)
+
+
+### Bug Fixes
+
+* mandatory fields [DHIS2-21165] ([25abd36](https://github.com/dhis2/aggregate-data-entry-app/commit/25abd36c7623c20c029652cd8c46183abacff5b1))
+
 ## [102.0.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.0...v102.0.1) (2026-04-07)
 
 
