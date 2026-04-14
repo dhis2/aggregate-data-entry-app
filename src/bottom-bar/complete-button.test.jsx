@@ -108,6 +108,28 @@ const MOCK_METADATA = {
             ],
             compulsoryFieldsCompleteOnly: true,
         },
+        data_set_id_non_compulsory_validation_with_cdeo: {
+            id: 'data_set_id_compulsory_validation_without_cdeo',
+            compulsoryDataElementOperands: [
+                {
+                    dataElement: {
+                        id: 'de-id-1',
+                    },
+                    categoryOptionCombo: {
+                        id: 'coc-id-1',
+                    },
+                },
+                {
+                    dataElement: {
+                        id: 'de-id-2',
+                    },
+                    categoryOptionCombo: {
+                        id: 'coc-id-2',
+                    },
+                },
+            ],
+            compulsoryFieldsCompleteOnly: false,
+        },
     },
 }
 
@@ -166,8 +188,8 @@ describe('CompleteButton', () => {
         await userEvent.click(getByText('Mark complete'))
         expect(mockValidate).toHaveBeenCalledOnce()
         expect(mockSetFormCompletion).toHaveBeenCalledWith({ completed: true })
-        // completeAttempted only set if the complete is rejected due to compulsory data element operands
-        expect(mockSetCompleteAttempted).not.toHaveBeenCalled()
+        // completeAttempted is set to indicate that a completion has been attempted
+        expect(mockSetCompleteAttempted).toHaveBeenCalled()
     })
 
     it('does not complete and shows error if the compulsoryFieldsCompleteOnly:true and there are compulsory data element operands without values', async () => {
@@ -202,8 +224,29 @@ describe('CompleteButton', () => {
         await userEvent.click(getByText('Mark complete'))
         expect(mockValidate).toHaveBeenCalledOnce()
         expect(mockSetFormCompletion).toHaveBeenCalledWith({ completed: true })
-        // completeAttempted only set if the complete is rejected due to compulsory data element operands
-        expect(mockSetCompleteAttempted).not.toHaveBeenCalled()
+        // completeAttempted is set to indicate that a completion has been attempted
+        expect(mockSetCompleteAttempted).toHaveBeenCalled()
+    })
+
+    it('completes with warning if the compulsoryFieldsCompleteOnly:false and there are compulsory data element operands without values', async () => {
+        mockIsComplete.mockReturnValue(false)
+        useDataSetId.mockReturnValue([
+            'data_set_id_non_compulsory_validation_with_cdeo',
+        ])
+        useDataValueSet.mockReturnValue({ data: MOCK_DATA_INCOMPLETE })
+        useMetadata.mockReturnValue({ data: MOCK_METADATA })
+        const { getByText } = render(<CompleteButton />)
+
+        await userEvent.click(getByText('Mark complete'))
+        expect(mockValidate).toHaveBeenCalledOnce()
+        expect(mockSetFormCompletion).toHaveBeenCalledWith({ completed: true })
+        // completeAttempted is set to indicate that a completion has been attempted
+        expect(mockSetCompleteAttempted).toHaveBeenCalled()
+        await waitFor(() =>
+            expect(mockShow).toHaveBeenCalledWith(
+                'There are compulsory fields which have not been filled out'
+            )
+        )
     })
 
     it('marks form as incomplete if form is completed', async () => {

@@ -2,6 +2,7 @@ import create from 'zustand'
 
 const inititalState = {
     validationToRefresh: false,
+    validationHasRun: false,
 }
 
 export const useValidationStore = create((set, get) => ({
@@ -9,4 +10,8 @@ export const useValidationStore = create((set, get) => ({
     setValidationToRefresh: (validationToRefresh) =>
         set({ validationToRefresh }),
     getValidationToRefresh: () => get().validationToRefresh,
+    setValidationHasRun: (validationHasRun) => {
+        set({ validationHasRun })
+    },
+    getValidationHasRun: () => get().validationHasRun,
 }))

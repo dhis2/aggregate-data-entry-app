@@ -54,8 +54,12 @@ export default function MainToolBar() {
     const setValidationToRefresh = useValidationStore(
         (store) => store.setValidationToRefresh
     )
+    const setValidationHasRun = useValidationStore(
+        (store) => store.setValidationHasRun
+    )
 
     const validate = () => {
+        setValidationHasRun(true)
         if (rightHandPanel.id === validationResultsSidebarId) {
             setValidationToRefresh(true)
         } else {

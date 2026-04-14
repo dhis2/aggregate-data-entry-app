@@ -34,7 +34,9 @@ export function FormWrapper({ children, dataValueSet, validFormKey }) {
     const initialValuesInStore =
         useValueStore((state) => state.getInitialDataValues())?.formKey ===
         validFormKey
-    const resetFormMeta = useEntryFormStore((state) => state.reset)
+    const resetFormMeta = useEntryFormStore(
+        (state) => state.resetErrorsAndWarnings
+    )
 
     useEffect(() => {
         if (setInitialDataValues && initialValues && validFormKey) {

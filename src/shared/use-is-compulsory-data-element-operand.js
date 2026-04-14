@@ -28,13 +28,6 @@ export const useHasCompulsoryDataElementOperandsToFillOut = () => {
         if (!dataSetId) {
             return false
         }
-        const dataSet = selectors.getDataSetById(metadata, dataSetId)
-
-        const { compulsoryFieldsCompleteOnly } = dataSet || {}
-
-        if (!compulsoryFieldsCompleteOnly) {
-            return false
-        }
 
         const compulsoryDataElementOperandsSet =
             selectors.getCompulsoryDataElementOperandsSet(metadata, dataSetId)
