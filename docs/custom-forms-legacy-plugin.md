@@ -1,5 +1,6 @@
 # Custom Forms support
 
+> **Important**
 > Custom Forms support in the Data Entry app was reinstated from version `102.0.0`. To upgrade to this version, go to App Management, Search for "Data Entry" app, then upgrade to version `102.0.0` or later. This is the default version that ships with DHIS2 v43, but also works with earlier versions of DHIS2.
 
 ![Stable release in App Management app](./data-entry-app-management.png)
@@ -63,10 +64,12 @@ For example, all of these global properties remain available, even though the wa
 
 We also _tried_ to patch some of these objects so that they look similar to the old app - for example, data sets required a `periodId` field that comes as `period` in the new app. In this case, we patch the object so that both properties are avaialable.
 
+> **Note**
 > While we tried to anticipate some of these object differences, there is always a slight chance that your forms relied on a property that doesn't exist anymore. In that case, you can update the form accordingly or raise an issue if you think this is a common use case that the shim should handle.
 
 -   API base URLs: Custom forms had a variety of ways for handling API requests and deciding on the base URL for the DHIS2 instance. We consolidated these so that the shim appends your requests to the correct DHIS2 BASE_URL as defined the instance config. So if you have a call to `/me`, you can just leave it as `/me` and the plugin will append the correct base URL to make the call to `https://play.dhis2.org/42/me`, for example (if your call already specified the base URL correctly, then appending the base URL will be ignored).
 
+> **Important**
 > This ability to identify and append the base URL only works if you used jQuery AJAX methods (i.e. `$.get` or `jQuery.post`). This seems to be the case for the majority of forms we have seen. If you are doing requests in a different way (using `fetch` for example), then it is your responsibility to construct the URL properly.
 >
 > We make a property available in the global window context of the form to make this easier: `window.DHIS2_BASE_URL`
@@ -79,6 +82,7 @@ The namespace is necessary to expose certain functionality from the modern app's
 
 ### Things that might not work out of the box
 
+> **Tip**
 > It is important to note that -- for anything that doesn't work -- you now have the ability to change the custom form so that it works (for example, so that it doesn't rely on a method that doesn't exist anyore). The aim of the plugin is mainly to minimise the amount of these changes that you need to apply on a form.
 
 #### Relying on internal methods
