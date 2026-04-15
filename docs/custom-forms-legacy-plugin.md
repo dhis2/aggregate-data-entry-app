@@ -1,7 +1,7 @@
-# Custom Forms support
+# Support for JavaScript in custom forms
 
 > **Important**
-> Custom Forms support in the Data Entry app was reinstated from version `102.0.0`. To upgrade to this version, go to App Management, Search for "Data Entry" app, then upgrade to version `102.0.0` or later. This is the default version that ships with DHIS2 v43, but also works with earlier versions of DHIS2.
+> Support for JavaScript in custom forms was reinstated from version `102.0.0` of the Data Entry app. To upgrade to this version, go to App Management, Search for "Data Entry" app, then upgrade to version `102.0.0` or later. This is the default version that ships with DHIS2 v43, but also works with earlier versions of DHIS2.
 
 ![Stable release in App Management app](./data-entry-app-management.png)
 
