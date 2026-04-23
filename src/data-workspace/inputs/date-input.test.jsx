@@ -24,7 +24,10 @@ jest.mock('@dhis2/app-runtime', () => {
 const DE = 'rkAZZFGFEQ7'
 const COC = 'HllvX50cXC0'
 
-describe('date input field', () => {
+/**
+ * skipping until https://dhis2.atlassian.net/browse/LIBS-763 is done
+ */
+describe.skip('date input field', () => {
     const props = {
         cocId: COC,
         deId: DE,
@@ -105,7 +108,7 @@ describe('date input field', () => {
         expect(calendarInput.value).toBe('')
     })
 
-    it('allows user to navigate calendar component', async () => {
+    it.skip('allows user to navigate calendar component', async () => {
         useConfig.mockReturnValue({
             systemInfo: { calendar: 'gregorian' },
         })
@@ -202,7 +205,7 @@ describe('date input field', () => {
         expect(calendarInput.value).toBe('2078-01-09')
     })
 
-    it.skip('renders system set calendar, i.e. ethiopian', async () => {
+    it('renders system set calendar, i.e. ethiopian', async () => {
         useConfig.mockReturnValue({
             systemInfo: { calendar: 'ethiopian' },
         })
@@ -223,7 +226,7 @@ describe('date input field', () => {
         expect(mutate.mock.calls[0][0]).toHaveProperty('value', '2024-07-25')
     })
 
-    it.skip('populates the ethiopian equivalent of the persisted ISO date', async () => {
+    it('populates the ethiopian equivalent of the persisted ISO date', async () => {
         jest.setSystemTime(new Date('2024-07-25T09:05:00.000Z'))
 
         useConfig.mockReturnValue({

@@ -43,7 +43,7 @@ describe('getNowInCalendarString', () => {
         expect(result).toBe('2081-03-01T12:00:00')
     })
 
-    it.skip('handles ethiopian calendar', () => {
+    it('handles ethiopian calendar', () => {
         const long = true
         const calendar = 'ethiopian'
         const result = getNowInCalendarString({ long, calendar })
