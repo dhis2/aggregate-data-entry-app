@@ -6,9 +6,14 @@ const EDIT_EXPIRED = 'F_EDIT_EXPIRED'
 
 export const getAuthorities = (userInfo) => userInfo.authorities
 
-export const getCanDeleteMinMax = (userInfo) =>
+export const getCanDeleteMinMax = (userInfo, minMaxDeleteAuthorityExists) =>
     userInfo.authorities.some((auth) =>
-        [DELETE_MIN_MAX_AUTHORITY, ALL_AUTHORITY].includes(auth)
+        [
+            minMaxDeleteAuthorityExists
+                ? DELETE_MIN_MAX_AUTHORITY
+                : ADD_MIN_MAX_AUTHORITY,
+            ALL_AUTHORITY,
+        ].includes(auth)
     )
 
 export const getCanAddMinMax = (userInfo) =>
