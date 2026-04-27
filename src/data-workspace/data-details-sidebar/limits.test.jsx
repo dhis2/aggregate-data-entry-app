@@ -1,9 +1,15 @@
+import { useConfig } from '@dhis2/app-runtime'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useUserInfo, useCanUserEditFields } from '../../shared/index.js'
 import { render } from '../../test-utils/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import Limits from './limits.jsx'
+
+jest.mock('@dhis2/app-runtime', () => ({
+    ...jest.requireActual('@dhis2/app-runtime'),
+    useConfig: jest.fn(),
+}))
 
 jest.mock('../use-min-max-limits.js', () => ({
     useMinMaxLimits: jest.fn(),
@@ -28,6 +34,9 @@ describe('<Limits />', () => {
                     authorities: ['ALL'],
                 },
             }))
+            useConfig.mockReturnValue({
+                serverVersion: { major: 2, minor: 43, patch: undefined },
+            })
         })
 
         it('is expanded by default', () => {
@@ -75,6 +84,97 @@ describe('<Limits />', () => {
         })
     })
 
+    describe('shows delete limits button based on version-dependent authorities', () => {
+        beforeAll(() => {
+            useMinMaxLimits.mockReturnValue({ min: 3, max: 4 })
+        })
+
+        it('shows delete button in v43 if user has F_MINMAX_DATAELEMENT_ADD authority', async () => {
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['F_MINMAX_DATAELEMENT_ADD'],
+                },
+            }))
+            useConfig.mockReturnValue({
+                serverVersion: { major: 2, minor: 43, patch: undefined },
+            })
+            const { getByRole } = render(
+                <Limits
+                    dataValue={{
+                        canHaveLimits: true,
+                        categoryOptionCombo: 'cat-combo-id',
+                        dataElement: 'de-id',
+                        valueType: 'INTEGER',
+                    }}
+                />
+            )
+
+            expect(
+                getByRole('button', { name: 'Edit limits' })
+            ).toBeInTheDocument()
+            expect(
+                getByRole('button', { name: 'Delete limits' })
+            ).toBeInTheDocument()
+        })
+
+        it('does not show delete button in v40 if user only has F_MINMAX_DATAELEMENT_ADD authority', async () => {
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['F_MINMAX_DATAELEMENT_ADD'],
+                },
+            }))
+            useConfig.mockReturnValue({
+                serverVersion: { major: 2, minor: 40, patch: undefined },
+            })
+            const { getByRole, queryByRole } = render(
+                <Limits
+                    dataValue={{
+                        canHaveLimits: true,
+                        categoryOptionCombo: 'cat-combo-id',
+                        dataElement: 'de-id',
+                        valueType: 'INTEGER',
+                    }}
+                />
+            )
+
+            expect(
+                getByRole('button', { name: 'Edit limits' })
+            ).toBeInTheDocument()
+            expect(queryByRole('button', { name: 'Delete limits' })).toBeNull()
+        })
+
+        it('shows delete button in v40 if user has F_MINMAX_DATAELEMENT_DELETE authority', async () => {
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: [
+                        'F_MINMAX_DATAELEMENT_ADD',
+                        'F_MINMAX_DATAELEMENT_DELETE',
+                    ],
+                },
+            }))
+            useConfig.mockReturnValue({
+                serverVersion: { major: 2, minor: 43, patch: undefined },
+            })
+            const { getByRole } = render(
+                <Limits
+                    dataValue={{
+                        canHaveLimits: true,
+                        categoryOptionCombo: 'cat-combo-id',
+                        dataElement: 'de-id',
+                        valueType: 'INTEGER',
+                    }}
+                />
+            )
+
+            expect(
+                getByRole('button', { name: 'Edit limits' })
+            ).toBeInTheDocument()
+            expect(
+                getByRole('button', { name: 'Delete limits' })
+            ).toBeInTheDocument()
+        })
+    })
+
     describe('when has no limits to render', () => {
         beforeAll(() => {
             useMinMaxLimits.mockReturnValue({})
@@ -83,6 +183,9 @@ describe('<Limits />', () => {
                     authorities: ['ALL'],
                 },
             }))
+            useConfig.mockReturnValue({
+                serverVersion: { major: 2, minor: 43, patch: undefined },
+            })
         })
         it(`is disabled if value of itemType prop is not 'numerical'`, () => {
             const { getByText } = render(

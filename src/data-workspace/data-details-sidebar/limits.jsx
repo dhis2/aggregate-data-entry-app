@@ -8,6 +8,7 @@ import {
     useUnsavedDataStore,
     useContextSelectionId,
     getCellId,
+    useFeatureToggleContext,
 } from '../../shared/index.js'
 import { useMinMaxLimits } from '../use-min-max-limits.js'
 import LimitsDisplay from './limits-display.jsx'
@@ -20,6 +21,7 @@ export default function Limits({ dataValue }) {
     const [open, setOpen] = useState(true)
     const [editing, setEditing] = useState(false)
     const contextSelectionId = useContextSelectionId()
+    const { minMaxDeleteAuthorityExists } = useFeatureToggleContext()
 
     const cellId = getCellId({ item: dataValue, contextSelectionId })
     const unsavedLimits = useUnsavedDataStore((state) => {
@@ -34,7 +36,10 @@ export default function Limits({ dataValue }) {
 
     const { data: userInfo } = useUserInfo()
 
-    const canDelete = userInfoSelectors.getCanDeleteMinMax(userInfo)
+    const canDelete = userInfoSelectors.getCanDeleteMinMax(
+        userInfo,
+        minMaxDeleteAuthorityExists
+    )
     const canAdd = userInfoSelectors.getCanAddMinMax(userInfo)
 
     useEffect(() => {
