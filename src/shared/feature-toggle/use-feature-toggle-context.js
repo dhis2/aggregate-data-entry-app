@@ -19,5 +19,6 @@ export function useFeatureToggleContext() {
     return {
         utilizeGistApiForPrefetchedOrganisationUnits:
             shouldUtilizeGistApiForPrefetchedOrganisationUnits(serverVersion),
+        minMaxDeleteAuthorityExists: serverVersion?.minor <= 40,
     }
 }

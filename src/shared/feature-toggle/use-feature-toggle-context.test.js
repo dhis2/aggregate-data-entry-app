@@ -33,4 +33,25 @@ describe('useFeatureToggle', () => {
             ).toBe(outcome)
         }
     )
+    it.each([
+        [false, { major: 2, minor: 43, patch: undefined }],
+        [false, { major: 2, minor: 43, patch: 0 }],
+        [false, { major: 2, minor: 43, patch: 3 }],
+        [false, { major: 2, minor: 42, patch: 2 }],
+        [false, { major: 2, minor: 42, patch: 1 }],
+        [false, { major: 2, minor: 41, patch: 5 }],
+        [false, { major: 2, minor: 41, patch: 6 }],
+        [false, { major: 2, minor: 41, patch: 4 }],
+        [true, { major: 2, minor: 40, patch: 9 }],
+        [true, { major: 2, minor: 40, patch: 11 }],
+        [true, { major: 2, minor: 40, patch: 8 }],
+    ])(
+        'sets minMaxDeleteAuthorityExists to %s when server version is %s',
+        async (outcome, serverVersion) => {
+            useConfig.mockReturnValue({ serverVersion })
+            const { result } = renderHook(() => useFeatureToggleContext())
+            expect(result.current).toHaveProperty('minMaxDeleteAuthorityExists')
+            expect(result.current.minMaxDeleteAuthorityExists).toBe(outcome)
+        }
+    )
 })
