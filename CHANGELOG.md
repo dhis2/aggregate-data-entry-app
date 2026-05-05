@@ -1,3 +1,10 @@
+## [102.0.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.2...v102.0.3) (2026-05-05)
+
+
+### Bug Fixes
+
+* show delete limits button [DHIS2-19517] ([#552](https://github.com/dhis2/aggregate-data-entry-app/issues/552)) ([8782429](https://github.com/dhis2/aggregate-data-entry-app/commit/8782429b9867b78c3a7af3b1cde91400d8fbc6f6))
+
 ## [102.0.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.1...v102.0.2) (2026-04-14)
 
 
