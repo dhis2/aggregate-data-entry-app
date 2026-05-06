@@ -18,6 +18,7 @@ import {
     getCategoryCombos,
     getCategoryOptionById,
     getCategoryOptionCombosByCategoryComboId,
+    getCategoryOptionComboByCategoryOptionComboId,
     getCategoryOptions,
     getCategoryOptionsByCategoryId,
     getCategoryOptionsByCategoryOptionComboId,
@@ -481,6 +482,52 @@ describe('getCategoryOptionCombosByCategoryComboId', () => {
         expect(
             getCategoryOptionCombosByCategoryComboId(data, categoryComboId)
         ).toBeNull()
+    })
+})
+
+describe('getCategoryOptionComboByCategoryOptionComboId', () => {
+    it('returns the expected data', () => {
+        const categoryComboId = 'categoryComboId'
+        const categoryOptionCombo = {
+            id: 'id',
+            displayName: 'my category optionCombo',
+        }
+        const data = {
+            categoryCombos: {
+                [categoryComboId]: {
+                    categoryOptionCombos: [categoryOptionCombo],
+                    isDefault: false,
+                },
+            },
+        }
+        const expected = { ...categoryOptionCombo, isDefault: false }
+
+        expect(
+            getCategoryOptionComboByCategoryOptionComboId(
+                data,
+                categoryOptionCombo.id
+            )
+        ).toEqual(expected)
+    })
+
+    it('returns undefined if there is no categoryOptionCombo', () => {
+        const categoryComboId = 'categoryComboId'
+        const categoryOptionCombo = {
+            id: 'id',
+            displayName: 'my category optionCombo',
+        }
+        const data = {
+            categoryCombos: {
+                [categoryComboId]: {
+                    categoryOptionCombos: [categoryOptionCombo],
+                    isDefault: false,
+                },
+            },
+        }
+
+        expect(
+            getCategoryOptionComboByCategoryOptionComboId(data, 'invalid_id')
+        ).toBeUndefined()
     })
 })
 

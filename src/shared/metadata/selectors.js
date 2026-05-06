@@ -683,3 +683,41 @@ export const getDataSetsByOrgUnitId = createCachedSelector(
             )
         )
 )((_, organisationUnitId) => organisationUnitId)
+
+/**
+ * @param {*} metadata
+ */
+export const getCategoryOptionCombosMap = createSelector(
+    getCategoryCombos,
+    (categoryCombos) => {
+        const arrayOfCoCs = Object.values(categoryCombos ?? []).flatMap(
+            (categoryCombo) => {
+                const categoryOptionCombos =
+                    categoryCombo?.categoryOptionCombos ?? []
+
+                return categoryOptionCombos.map(({ id, displayName }) => [
+                    id,
+                    {
+                        id,
+                        displayName,
+                        isDefault: categoryCombo?.isDefault,
+                    },
+                ])
+            }
+        )
+
+        return Object.fromEntries(arrayOfCoCs)
+    }
+)
+
+/**
+ * @param {*} metadata
+ * @param {string} organisationUnitId
+ */
+export const getCategoryOptionComboByCategoryOptionComboId =
+    createCachedSelector(
+        getCategoryOptionCombosMap,
+        (_, categoryOptionComboId) => categoryOptionComboId,
+        (categoryOptionCombosMap, categoryOptionComboId) =>
+            categoryOptionCombosMap?.[categoryOptionComboId]
+    )((_, categoryOptionComboId) => categoryOptionComboId)

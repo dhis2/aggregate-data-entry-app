@@ -17,19 +17,16 @@ function gatherHighlightedFieldData({
     const canHaveLimits = optionSet
         ? false
         : CAN_HAVE_LIMITS_TYPES.includes(valueType)
-    const categoryCombo = selectors.getCategoryComboById(
-        metadata,
-        dataElement.categoryCombo.id
-    )
-    const categoryOptionCombo = selectors.getCategoryOptionCombo(
-        metadata,
-        categoryCombo.id,
-        categoryOptionComboId
-    )
 
-    const categoryOptionComboName = categoryCombo.isDefault
+    const categoryOptionCombo =
+        selectors.getCategoryOptionComboByCategoryOptionComboId(
+            metadata,
+            categoryOptionComboId
+        )
+
+    const categoryOptionComboName = categoryOptionCombo?.isDefault
         ? ''
-        : categoryOptionCombo.displayName
+        : categoryOptionCombo?.displayName
 
     if (dataValue) {
         return {
