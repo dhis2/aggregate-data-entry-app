@@ -1,3 +1,10 @@
+## [102.0.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.3...v102.0.4) (2026-05-07)
+
+
+### Bug Fixes
+
+* useHighlightedFieldStore coc logic [DHIS2-20741] ([5635287](https://github.com/dhis2/aggregate-data-entry-app/commit/56352871faad48912b5dfe3ea99db16a1c1f6701))
+
 ## [102.0.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.2...v102.0.3) (2026-05-05)
 
 
