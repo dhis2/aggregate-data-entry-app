@@ -1,0 +1,120 @@
+diff --git a/node_modules/@dhis2/multi-calendar-dates/build/cjs/period-calculation/monthly-periods/build-monthly-fixed-period.js b/node_modules/@dhis2/multi-calendar-dates/build/cjs/period-calculation/monthly-periods/build-monthly-fixed-period.js
+index 3ba5236..4d3044a 100644
+--- a/node_modules/@dhis2/multi-calendar-dates/build/cjs/period-calculation/monthly-periods/build-monthly-fixed-period.js
++++ b/node_modules/@dhis2/multi-calendar-dates/build/cjs/period-calculation/monthly-periods/build-monthly-fixed-period.js
+@@ -124,14 +124,15 @@ const buildLabel = options => {
+   if ((0, _helpers.isCustomCalendar)(calendar)) {
+     return buildLabelForCustomCalendar(options);
+   }
++  const calendarForLocaleString = calendar === 'iso8601' ? 'gregory' : calendar;
+   const withYearFormat = {
+     month: 'long',
+     year: 'numeric',
+-    calendar
++    calendar: calendarForLocaleString
+   };
+   const monthOnlyFormat = {
+     month: 'long',
+-    calendar
++    calendar: calendarForLocaleString
+   };
+   let result = '';
+   if (_periodTypeGroups.multiMonthFixedPeriodTypes.includes(periodType)) {
+diff --git a/node_modules/@dhis2/multi-calendar-dates/build/cjs/utils/localisationHelpers.js b/node_modules/@dhis2/multi-calendar-dates/build/cjs/utils/localisationHelpers.js
+index acd0933..4476d5a 100644
+--- a/node_modules/@dhis2/multi-calendar-dates/build/cjs/utils/localisationHelpers.js
++++ b/node_modules/@dhis2/multi-calendar-dates/build/cjs/utils/localisationHelpers.js
+@@ -43,8 +43,9 @@ const localiseDateLabel = function (selectedDateZdt, localeOptions) {
+   }
+   const isCustom = (0, _helpers.isCustomCalendar)(localeOptions.calendar);
+   const nonCustomDate = selectedDateZdt instanceof _polyfill.Temporal.ZonedDateTime ? selectedDateZdt === null || selectedDateZdt === void 0 ? void 0 : selectedDateZdt.toPlainDate() : selectedDateZdt;
++  const calendarForLocaleString = localeOptions.calendar === 'iso8601' ? 'gregory' : localeOptions.calendar;
+   return isCustom ? (0, _helpers.formatDate)(selectedDateZdt) : nonCustomDate.toLocaleString(localeOptions.locale, {
+-    calendar: localeOptions.calendar,
++    calendar: calendarForLocaleString,
+     dateStyle: options.dateStyle
+   }).toString();
+ };
+@@ -55,8 +56,9 @@ const localiseWeekLabel = (zdt, localeOptions) => {
+   }
+   const isCustom = (0, _helpers.isCustomCalendar)(localeOptions.calendar);
+   const customLocale = getCustomCalendarLocale(localeOptions.calendar, localeOptions.locale);
++  const calendarForLocaleString = localeOptions.calendar === 'iso8601' ? 'gregory' : localeOptions.calendar;
+   return isCustom ? (customLocale === null || customLocale === void 0 ? void 0 : (_customLocale$numbers = customLocale.numbers) === null || _customLocale$numbers === void 0 ? void 0 : _customLocale$numbers[zdt.day]) || zdt.day : zdt.toPlainDate().toLocaleString(localeOptions.locale, {
+-    calendar: localeOptions.calendar,
++    calendar: calendarForLocaleString,
+     numberingSystem: _constants.numberingSystems.includes(localeOptions.numberingSystem) ? localeOptions.numberingSystem : undefined,
+     day: 'numeric'
+   });
+@@ -77,9 +79,10 @@ const localiseWeekDayLabel = (zdt, localeOptions) => {
+   const customCalendar = getCustomCalendarLocale(localeOptions.calendar, localeOptions.locale);
+   const customDayString = customCalendar === null || customCalendar === void 0 ? void 0 : customCalendar.dayNamesShort[zdt.dayOfWeek - 1]; // dayOfWeek is 1-based
+ 
++  const calendarForLocaleString = localeOptions.calendar === 'iso8601' ? 'gregory' : localeOptions.calendar;
+   return isCustom && customDayString ? customDayString : zdt.toPlainDate().toLocaleString(localeOptions.locale, {
+     weekday: localeOptions.weekDayFormat,
+-    calendar: localeOptions.calendar
++    calendar: calendarForLocaleString
+   });
+ };
+ exports.localiseWeekDayLabel = localiseWeekDayLabel;
+diff --git a/node_modules/@dhis2/multi-calendar-dates/build/es/period-calculation/monthly-periods/build-monthly-fixed-period.js b/node_modules/@dhis2/multi-calendar-dates/build/es/period-calculation/monthly-periods/build-monthly-fixed-period.js
+index 4f26fd0..0a11797 100644
+--- a/node_modules/@dhis2/multi-calendar-dates/build/es/period-calculation/monthly-periods/build-monthly-fixed-period.js
++++ b/node_modules/@dhis2/multi-calendar-dates/build/es/period-calculation/monthly-periods/build-monthly-fixed-period.js
+@@ -116,14 +116,15 @@ const buildLabel = options => {
+   if (isCustomCalendar(calendar)) {
+     return buildLabelForCustomCalendar(options);
+   }
++  const calendarForLocaleString = calendar === 'iso8601' ? 'gregory' : calendar;
+   const withYearFormat = {
+     month: 'long',
+     year: 'numeric',
+-    calendar
++    calendar: calendarForLocaleString
+   };
+   const monthOnlyFormat = {
+     month: 'long',
+-    calendar
++    calendar: calendarForLocaleString
+   };
+   let result = '';
+   if (multiMonthFixedPeriodTypes.includes(periodType)) {
+diff --git a/node_modules/@dhis2/multi-calendar-dates/build/es/utils/localisationHelpers.js b/node_modules/@dhis2/multi-calendar-dates/build/es/utils/localisationHelpers.js
+index c55f896..11a7810 100644
+--- a/node_modules/@dhis2/multi-calendar-dates/build/es/utils/localisationHelpers.js
++++ b/node_modules/@dhis2/multi-calendar-dates/build/es/utils/localisationHelpers.js
+@@ -37,8 +37,9 @@ const localiseDateLabel = function (selectedDateZdt, localeOptions) {
+   }
+   const isCustom = isCustomCalendar(localeOptions.calendar);
+   const nonCustomDate = selectedDateZdt instanceof Temporal.ZonedDateTime ? selectedDateZdt === null || selectedDateZdt === void 0 ? void 0 : selectedDateZdt.toPlainDate() : selectedDateZdt;
++  const calendarForLocaleString = localeOptions.calendar === 'iso8601' ? 'gregory' : localeOptions.calendar;
+   return isCustom ? formatDate(selectedDateZdt) : nonCustomDate.toLocaleString(localeOptions.locale, {
+-    calendar: localeOptions.calendar,
++    calendar: calendarForLocaleString,
+     dateStyle: options.dateStyle
+   }).toString();
+ };
+@@ -49,8 +50,9 @@ const localiseWeekLabel = (zdt, localeOptions) => {
+   }
+   const isCustom = isCustomCalendar(localeOptions.calendar);
+   const customLocale = getCustomCalendarLocale(localeOptions.calendar, localeOptions.locale);
++  const calendarForLocaleString = localeOptions.calendar === 'iso8601' ? 'gregory' : localeOptions.calendar;
+   return isCustom ? (customLocale === null || customLocale === void 0 ? void 0 : (_customLocale$numbers = customLocale.numbers) === null || _customLocale$numbers === void 0 ? void 0 : _customLocale$numbers[zdt.day]) || zdt.day : zdt.toPlainDate().toLocaleString(localeOptions.locale, {
+-    calendar: localeOptions.calendar,
++    calendar: calendarForLocaleString,
+     numberingSystem: numberingSystems.includes(localeOptions.numberingSystem) ? localeOptions.numberingSystem : undefined,
+     day: 'numeric'
+   });
+@@ -71,9 +73,10 @@ export const localiseWeekDayLabel = (zdt, localeOptions) => {
+   const customCalendar = getCustomCalendarLocale(localeOptions.calendar, localeOptions.locale);
+   const customDayString = customCalendar === null || customCalendar === void 0 ? void 0 : customCalendar.dayNamesShort[zdt.dayOfWeek - 1]; // dayOfWeek is 1-based
+ 
++  const calendarForLocaleString = localeOptions.calendar === 'iso8601' ? 'gregory' : localeOptions.calendar;
+   return isCustom && customDayString ? customDayString : zdt.toPlainDate().toLocaleString(localeOptions.locale, {
+     weekday: localeOptions.weekDayFormat,
+-    calendar: localeOptions.calendar
++    calendar: calendarForLocaleString
+   });
+ };
+ export const localiseYear = (zdt, localeOptions, format) => {
