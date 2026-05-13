@@ -1,3 +1,10 @@
+## [102.0.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.5...v102.0.6) (2026-05-13)
+
+
+### Bug Fixes
+
+* dedupe dhis2-ui ([#558](https://github.com/dhis2/aggregate-data-entry-app/issues/558)) ([dda5851](https://github.com/dhis2/aggregate-data-entry-app/commit/dda58514ede0c38f1c5d9f1e9395ae918980af73))
+
 ## [102.0.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.4...v102.0.5) (2026-05-13)
 
 
