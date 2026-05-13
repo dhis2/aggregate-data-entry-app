@@ -1,3 +1,10 @@
+## [102.0.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.4...v102.0.5) (2026-05-13)
+
+
+### Bug Fixes
+
+* use gregorian calendar for iso to handle chrome bug ([#557](https://github.com/dhis2/aggregate-data-entry-app/issues/557)) ([2de0805](https://github.com/dhis2/aggregate-data-entry-app/commit/2de0805ba4cbea829ed8b61b329b0baa5b614181))
+
 ## [102.0.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.3...v102.0.4) (2026-05-07)
 
 
