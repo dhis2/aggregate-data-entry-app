@@ -28,7 +28,6 @@ const getInputType = (domNode) => {
 
 export const replaceInputNode = (domNode, metadata) => {
     const inputType = getInputType(domNode)
-    console.log('inputType', inputType)
     // TODO: This was already there when I started on this branch
     // Need to check with Kai what his intentions were with it.
     // const cellProps = getCellPropsByInputType(inputType)
