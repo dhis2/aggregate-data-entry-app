@@ -1,6 +1,6 @@
 import { useQueries } from '@tanstack/react-query'
 import { renderHook } from '@testing-library/react'
-import { useFeatureToggleContext } from '../../shared/feature-toggle/use-feature-toggle-context.js'
+import { useFeatureToggleContext } from '../../shared/index.js'
 import useOfflineLevels from './use-offline-levels.js'
 import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 
@@ -13,7 +13,7 @@ jest.mock('./use-offline-levels.js', () => ({
     default: jest.fn(),
 }))
 
-jest.mock('../../shared/feature-toggle/use-feature-toggle-context.js', () => ({
+jest.mock('../../shared/index.js', () => ({
     useFeatureToggleContext: jest.fn(),
 }))
 
