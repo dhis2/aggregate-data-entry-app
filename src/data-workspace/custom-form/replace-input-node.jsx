@@ -1,6 +1,7 @@
 import React from 'react'
 import { selectors } from '../../shared/index.js'
 import { DataEntryField } from '../data-entry-cell/index.js'
+import { replaceIndicatorCell } from './custom-form-indicator-cell.jsx'
 import { replaceTotalCell } from './custom-form-total-cell.jsx'
 
 const INPUT_TYPES = {
@@ -27,11 +28,16 @@ const getInputType = (domNode) => {
 
 export const replaceInputNode = (domNode, metadata) => {
     const inputType = getInputType(domNode)
+    console.log('inputType', inputType)
     // TODO: This was already there when I started on this branch
     // Need to check with Kai what his intentions were with it.
     // const cellProps = getCellPropsByInputType(inputType)
     if (inputType === INPUT_TYPES.TOTAL && domNode.attribs.dataelementid) {
         return replaceTotalCell(domNode.attribs.dataelementid)
+    }
+
+    if (inputType === INPUT_TYPES.INDICATOR) {
+        return replaceIndicatorCell(domNode.attribs.indicatorid, metadata)
     }
 
     if (inputType !== INPUT_TYPES.ENTRYFIELD) {

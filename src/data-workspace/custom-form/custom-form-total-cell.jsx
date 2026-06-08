@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { useValueStore } from '../../shared/index.js'
 import { TotalCell } from '../category-combo-table-body/total-cells.jsx'
 
@@ -18,7 +18,10 @@ const computeTotalValues = (dataElementValues) => {
 
 export const CustomFormTotalCell = ({ dataElementId }) => {
     const dataValues = useValueStore((state) => state.getDataValues())
-    const dataElementValues = dataValues?.[dataElementId] || {}
+    const dataElementValues = useMemo(
+        () => dataValues?.[dataElementId] || {},
+        [dataValues, dataElementId]
+    )
 
     const [total, setTotal] = useState(() =>
         computeTotalValues(dataElementValues)
