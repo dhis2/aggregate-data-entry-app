@@ -1,5 +1,6 @@
 import React from 'react'
 import { DataEntryField } from '../data-entry-cell/index.js'
+import { CustomFormIndicatorCell } from './custom-form-indicator-cell.jsx'
 import { CustomFormTotalCell } from './custom-form-total-cell.jsx'
 import { parseHtmlToReact } from './parse-html-to-react.jsx'
 
@@ -21,6 +22,50 @@ describe('parseHtmlToReact', () => {
         expect(result).toEqual(
             <div>
                 <CustomFormTotalCell dataElementId="RANDOMuid01" />
+            </div>
+        )
+    })
+    it('replaces indicator cells inside td elements', () => {
+        const htmlCode =
+            "<td><input id='indicatorRANDOMuid01' name='indicator' indicatorid='RANDOMuid01'/></td>"
+        const metadata = {
+            indicators: {
+                RANDOMuid01: {
+                    indicatorType: { factor: 1 },
+                    numerator: 'numerator',
+                    denominator: 'denominator',
+                    decimals: 2,
+                },
+            },
+        }
+        const result = parseHtmlToReact(htmlCode, metadata)
+        expect(result).toEqual(
+            <CustomFormIndicatorCell
+                indicatorId="RANDOMuid01"
+                metadata={metadata}
+            />
+        )
+    })
+    it('replaces indicator cells outside of elements', () => {
+        const htmlCode =
+            "<div><input id='indicatorRANDOMuid01' name='indicator' indicatorid='RANDOMuid01'/></div>"
+        const metadata = {
+            indicators: {
+                RANDOMuid01: {
+                    indicatorType: { factor: 1 },
+                    numerator: 'numerator',
+                    denominator: 'denominator',
+                    decimals: 2,
+                },
+            },
+        }
+        const result = parseHtmlToReact(htmlCode, metadata)
+        expect(result).toEqual(
+            <div>
+                <CustomFormIndicatorCell
+                    indicatorId="RANDOMuid01"
+                    metadata={metadata}
+                />
             </div>
         )
     })
