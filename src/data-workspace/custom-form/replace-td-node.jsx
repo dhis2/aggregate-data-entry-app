@@ -1,25 +1,7 @@
 import { attributesToProps } from 'html-react-parser'
 import React from 'react'
-import { IndicatorTableCell } from '../indicators-table-body/indicator-table-cell.jsx'
+import { replaceIndicatorCell } from './custom-form-indicator-cell.jsx'
 import { replaceTotalCell } from './custom-form-total-cell.jsx'
-
-const replaceIndicatorCell = (indicatorId, metadata) => {
-    const {
-        denominator,
-        numerator,
-        indicatorType: { factor },
-        decimals,
-    } = metadata.indicators[indicatorId]
-
-    return (
-        <IndicatorTableCell
-            denominator={denominator}
-            numerator={numerator}
-            factor={factor}
-            decimals={decimals}
-        />
-    )
-}
 
 const replaceTextCell = (domNode) => {
     const cleanedText = domNode.children[0].nodeValue.trim()

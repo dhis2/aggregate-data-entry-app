@@ -1,3 +1,10 @@
+## [102.0.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.6...v102.0.7) (2026-06-10)
+
+
+### Bug Fixes
+
+* replace standalone indicators custom forms [DHIS2-21607] ([9e06847](https://github.com/dhis2/aggregate-data-entry-app/commit/9e068472a6983867a0069128ece9e83cd3428b63))
+
 ## [102.0.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.5...v102.0.6) (2026-05-13)
 
 
