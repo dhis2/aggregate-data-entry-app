@@ -1,3 +1,10 @@
+## [102.0.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.7...v102.0.8) (2026-06-11)
+
+
+### Bug Fixes
+
+* update packages ([#562](https://github.com/dhis2/aggregate-data-entry-app/issues/562)) ([ca73ff7](https://github.com/dhis2/aggregate-data-entry-app/commit/ca73ff76a038c23164ab4b2790edafcca817e15c))
+
 ## [102.0.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.6...v102.0.7) (2026-06-10)
 
 
