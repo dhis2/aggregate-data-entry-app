@@ -59,8 +59,24 @@ dhis2.de.updateIndicators = function()
 	        {
 		        var value = eval( `(${expression}) / (${denominator})`);
 
-		        value = isNaN( value ) ? '-' : Math.round( value, 1 );
-		
+		        const factor = formula.indicatorType?.factor ?? 1;
+		        value *= factor;
+
+		        if ( !Number.isFinite( value ) )
+		        {
+		            value = '-';
+		        }
+		        // Round to the indicator's configured number of decimals ("Number
+		        // of decimals in data output"). When decimals is not configured the
+		        // value is left unrounded, matching the modern rendering engine in
+		        // compute-indicator-value.js.
+		        else if ( formula.decimals != null && formula.decimals >= 0
+		            && Number.isInteger( formula.decimals ) )
+		        {
+		            const roundingFactor = Math.pow( 10, formula.decimals );
+		            value = Math.round( value * roundingFactor ) / roundingFactor;
+		        }
+
 		        $( this ).val( value );
 	        }
         }
