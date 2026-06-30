@@ -122,7 +122,7 @@ dhis2.validation.isNegativeNumber = function(value) {
  * Allow any number (integer or decimal) inclusive between 0 and 100.
  */
 dhis2.validation.isPercentage = function(value) {
-  return dhis2.validation.isNumber(value) && parseFloat(value) >= 0 && parseFloat(value) <= 100;
+  return dhis2.validation.isNumber(value) && Number.parseFloat(value) >= 0 && Number.parseFloat(value) <= 100;
 };
 
 /**
