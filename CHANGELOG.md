@@ -1,3 +1,10 @@
+## [102.0.9](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.8...v102.0.9) (2026-06-30)
+
+
+### Bug Fixes
+
+* respect indicator decimals and factor in legacy custom forms [DHIS2-15129] ([6b063ab](https://github.com/dhis2/aggregate-data-entry-app/commit/6b063abe588fc9183cb4e1259ffa4b36ae34261c))
+
 ## [102.0.8](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.7...v102.0.8) (2026-06-11)
 
 
