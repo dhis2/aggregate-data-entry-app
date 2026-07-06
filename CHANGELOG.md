@@ -1,3 +1,11 @@
+## [102.0.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.9...v102.0.10) (2026-07-06)
+
+
+### Bug Fixes
+
+* allow decimals for value type percentage in legacy custom forms [DHIS2-13645] ([27b8e7e](https://github.com/dhis2/aggregate-data-entry-app/commit/27b8e7e2d9eb2b56276f76e57bb5deede578c971))
+* use Number.parseFloat to satisfy SonarCloud (javascript:S7773) ([496a5d3](https://github.com/dhis2/aggregate-data-entry-app/commit/496a5d33395c3b4673dfaf3e8b853ea7132f7c46))
+
 ## [102.0.9](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.8...v102.0.9) (2026-06-30)
 
 
