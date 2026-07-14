@@ -16,6 +16,7 @@ export const CustomFormIndicatorCell = ({ indicatorId, metadata }) => {
             numerator={numerator}
             factor={factor}
             decimals={decimals}
+            indicatorId={indicatorId}
         />
     )
 }

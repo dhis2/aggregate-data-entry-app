@@ -62,6 +62,7 @@ export const IndicatorsTableBody = ({
                             numerator={indicator.numerator}
                             factor={indicator.indicatorType.factor}
                             decimals={indicator.decimals}
+                            indicatorId={indicator.id}
                         />
                         {padColumns.map((_, i) => (
                             <TableCell

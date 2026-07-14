@@ -24,6 +24,14 @@ export default function DataDetailsSidebar({ hide }) {
     if (!dataValue) {
         return null
     }
+    if (dataValue?.isIndicator) {
+        return (
+            <Sidebar>
+                <Title onClose={hide}>{i18n.t('Details')}</Title>
+                <BasicInformation item={dataValue} />
+            </Sidebar>
+        )
+    }
     return (
         <Sidebar>
             <Title onClose={hide}>{i18n.t('Details')}</Title>

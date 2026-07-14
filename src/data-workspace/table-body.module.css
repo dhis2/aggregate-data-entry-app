@@ -67,6 +67,15 @@
     composes: tableCell;
     background: var(--colors-grey300);
     text-align: end;
+    position: relative;
+}
+
+.indicatorCellFocusWrapper {
+    position: absolute;
+    inset: 0;
+    display: block;
+    box-sizing: border-box;
+    padding: 8px;
 }
 
 .indicatorCellNoncalculable {
@@ -112,4 +121,18 @@
 }
 .category {
     font-weight: 300;
+}
+
+.highlightedCell {
+    outline: 3px solid var(--colors-grey800);
+    border: none;
+    /* Fix to prevent bottom outline to be clipped by next cell */
+    z-index: 1;
+}
+
+.activeCell {
+    outline: 3px solid var(--theme-focus);
+    border: none;
+    /* Fix to prevent bottom outline to be clipped by next cell */
+    z-index: 1;
 }
