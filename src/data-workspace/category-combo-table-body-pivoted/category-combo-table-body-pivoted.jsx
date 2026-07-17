@@ -3,6 +3,10 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useMetadata, selectors } from '../../shared/index.js'
+import {
+    RowTotal,
+    ColumnTotals,
+} from '../category-combo-table-body/total-cells.jsx'
 import { DataEntryCell, DataEntryField } from '../data-entry-cell/index.js'
 import { getFieldId } from '../get-field-id.jsx'
 import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.jsx'
@@ -27,10 +31,13 @@ export const PivotedCategoryComboTableBody = React.memo(
         greyedFields,
         filterText,
         globalFilterText,
-        /*
-        maxColumnsInSection,
         renderRowTotals,
-        renderColumnTotals,*/
+        renderColumnTotals,
+        // maxColumnsInSection,
+        /*
+        ,
+        ,
+        ,*/
         displayOptions,
         collapsed,
     }) {
@@ -45,6 +52,13 @@ export const PivotedCategoryComboTableBody = React.memo(
             metadata,
             categoryCombo.id
         )
+
+        // tbd
+        // const paddingCells = new Array(sortedCOCs.length).fill(0)
+        const paddingCells = new Array(categories.length - 1).fill(0)
+        // maxColumnsInSection > 0
+        //     ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
+        //     : []
 
         const categoryOptionsDetails = categories
             .map((c) => {
@@ -102,10 +116,10 @@ export const PivotedCategoryComboTableBody = React.memo(
 
         return (
             <>
-                {rowsMatrix.map((row, id /** todo: find suitable id */) => {
+                {rowsMatrix.map((row, index /** todo: find suitable id */) => {
                     return (
                         <TableRow
-                            key={id}
+                            key={index}
                             className={classNames({
                                 [styles.sectionRowCollapsed]: collapsed,
                             })}
@@ -179,9 +193,29 @@ export const PivotedCategoryComboTableBody = React.memo(
                                 // should never get here
                                 return <>unsupported field</>
                             })}
+                            {renderRowTotals && (
+                                <>
+                                    <RowTotal
+                                        dataElements={dataElements}
+                                        categoryOptionCombos={sortedCOCs}
+                                        row={index - 1}
+                                        pivot={true}
+                                    />
+                                    {/* maybe a padding cell? */}
+                                </>
+                            )}
                         </TableRow>
                     )
                 })}
+                {renderColumnTotals && (
+                    <ColumnTotals
+                        paddingCells={paddingCells}
+                        renderTotalSum={renderRowTotals && renderColumnTotals}
+                        dataElements={dataElements}
+                        categoryOptionCombos={sortedCOCs}
+                        pivot={true}
+                    />
+                )}
                 {hiddenItemsCount > 0 && (
                     <TableBodyHiddenByFiltersRow
                         hiddenItemsCount={hiddenItemsCount}
@@ -217,4 +251,6 @@ PivotedCategoryComboTableBody.propTypes = {
     /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
     globalFilterText: PropTypes.string,
     greyedFields: PropTypes.instanceOf(Set),
+    renderColumnTotals: PropTypes.bool,
+    renderRowTotals: PropTypes.bool,
 }

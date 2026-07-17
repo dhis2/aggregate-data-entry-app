@@ -7,6 +7,21 @@ import styles from '../table-body.module.css'
 import { calculateColumnTotals, calculateRowTotal } from './calculate-totals.js'
 import { useValueMatrix } from './use-value-matrix.js'
 
+export const PaddingCell = ({ children, colSpan }) => (
+    <TableCell
+        className={cx('total-cell', styles.totalCell)}
+        dataTest="dhis2-dataentry-totalcell-padding"
+        colSpan={colSpan}
+    >
+        {children}
+    </TableCell>
+)
+
+PaddingCell.propTypes = {
+    children: propTypes.node,
+    colSpan: propTypes.number,
+}
+
 export const TotalCell = ({ children }) => (
     <TableCell
         className={cx('total-cell', styles.totalCell)}
@@ -30,8 +45,13 @@ TotalHeader.propTypes = {
     rowSpan: propTypes.number,
 }
 
-export const RowTotal = ({ dataElements, categoryOptionCombos, row }) => {
-    const matrix = useValueMatrix(dataElements, categoryOptionCombos)
+export const RowTotal = ({
+    dataElements,
+    categoryOptionCombos,
+    row,
+    pivot = false,
+}) => {
+    const matrix = useValueMatrix(dataElements, categoryOptionCombos, pivot)
     const rowTotal = useMemo(
         () => calculateRowTotal(matrix, row),
         [matrix, row]
@@ -42,6 +62,7 @@ export const RowTotal = ({ dataElements, categoryOptionCombos, row }) => {
 RowTotal.propTypes = {
     categoryOptionCombos: propTypes.array,
     dataElements: propTypes.array,
+    pivot: propTypes.bool,
     row: propTypes.number,
 }
 
@@ -50,8 +71,9 @@ export const ColumnTotals = ({
     paddingCells,
     dataElements,
     categoryOptionCombos,
+    pivot,
 }) => {
-    const matrix = useValueMatrix(dataElements, categoryOptionCombos)
+    const matrix = useValueMatrix(dataElements, categoryOptionCombos, pivot)
     const columnTotals = useMemo(() => calculateColumnTotals(matrix), [matrix])
 
     return (
@@ -59,12 +81,16 @@ export const ColumnTotals = ({
             <TableCellHead className={styles.totalHeader}>
                 {i18n.t('Totals')}
             </TableCellHead>
+            {pivot &&
+                paddingCells.map((_, i) =>
+                    i === 0 ? (
+                        <PaddingCell colSpan={paddingCells.length} key={i} />
+                    ) : null
+                )}
             {columnTotals.map((v, i) => (
                 <TotalCell key={i}>{v}</TotalCell>
             ))}
-            {paddingCells.map((_, i) => (
-                <TotalCell key={i} />
-            ))}
+            {!pivot && paddingCells.map((_, i) => <TotalCell key={i} />)}
             {renderTotalSum && (
                 <TotalCell>
                     {columnTotals.reduce((acc, curr) => acc + curr, 0)}
@@ -78,5 +104,6 @@ ColumnTotals.propTypes = {
     categoryOptionCombos: propTypes.array,
     dataElements: propTypes.array,
     paddingCells: propTypes.array,
+    pivot: propTypes.bool,
     renderTotalSum: propTypes.bool,
 }
