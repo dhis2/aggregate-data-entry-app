@@ -51,6 +51,14 @@ export const RowTotal = ({
     row,
     pivot = false,
 }) => {
+    // maybe move this?
+    if (pivot && row === -1) {
+        return (
+            <TableCellHead className={styles.totalHeader}>
+                {i18n.t('Totals')}
+            </TableCellHead>
+        )
+    }
     const matrix = useValueMatrix(dataElements, categoryOptionCombos, pivot)
     const rowTotal = useMemo(
         () => calculateRowTotal(matrix, row),
@@ -68,6 +76,7 @@ RowTotal.propTypes = {
 
 export const ColumnTotals = ({
     renderTotalSum,
+    initialColumns = 1,
     paddingCells,
     dataElements,
     categoryOptionCombos,
@@ -78,19 +87,19 @@ export const ColumnTotals = ({
 
     return (
         <TableRow dataTest="dhis2-dataentry-columntotals">
-            <TableCellHead className={styles.totalHeader}>
+            <TableCellHead
+                className={styles.totalHeader}
+                colSpan={initialColumns}
+            >
                 {i18n.t('Totals')}
             </TableCellHead>
-            {pivot &&
-                paddingCells.map((_, i) =>
-                    i === 0 ? (
-                        <PaddingCell colSpan={paddingCells.length} key={i} />
-                    ) : null
-                )}
+
             {columnTotals.map((v, i) => (
                 <TotalCell key={i}>{v}</TotalCell>
             ))}
-            {!pivot && paddingCells.map((_, i) => <TotalCell key={i} />)}
+            {paddingCells.map((_, i) => (
+                <TotalCell key={i} />
+            ))}
             {renderTotalSum && (
                 <TotalCell>
                     {columnTotals.reduce((acc, curr) => acc + curr, 0)}

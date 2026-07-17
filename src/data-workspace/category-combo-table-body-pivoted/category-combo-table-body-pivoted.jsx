@@ -13,6 +13,14 @@ import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.
 import styles from '../table-body.module.css'
 import { generateFormMatrix } from './generate-form-matrix/index.js'
 
+// move this and refactor to reuse from CategoryComboTableBody?
+const PaddingCell = () => (
+    <TableCell
+        className={styles.paddingCell}
+        dataTest="dhis2-dataentry-paddingcell"
+    ></TableCell>
+)
+
 /**
  * This component is based on the CategoryComboTableBody, and the two should be consolidate eventually.
  * Some of the reasons for the separate component:
@@ -33,7 +41,7 @@ export const PivotedCategoryComboTableBody = React.memo(
         globalFilterText,
         renderRowTotals,
         renderColumnTotals,
-        // maxColumnsInSection,
+        maxColumnsInSection,
         /*
         ,
         ,
@@ -53,12 +61,10 @@ export const PivotedCategoryComboTableBody = React.memo(
             categoryCombo.id
         )
 
-        // tbd
-        // const paddingCells = new Array(sortedCOCs.length).fill(0)
-        const paddingCells = new Array(categories.length - 1).fill(0)
-        // maxColumnsInSection > 0
-        //     ? new Array(maxColumnsInSection - sortedCOCs.length).fill(0)
-        //     : []
+        const paddingCells =
+            maxColumnsInSection > 0
+                ? new Array(maxColumnsInSection - dataElements.length).fill(0)
+                : []
 
         const categoryOptionsDetails = categories
             .map((c) => {
@@ -193,6 +199,11 @@ export const PivotedCategoryComboTableBody = React.memo(
                                 // should never get here
                                 return <>unsupported field</>
                             })}
+                            {paddingCells.map((_, i) => (
+                                <PaddingCell
+                                    key={`total_replacement_padding_row_${i}`}
+                                />
+                            ))}
                             {renderRowTotals && (
                                 <>
                                     <RowTotal
@@ -201,7 +212,6 @@ export const PivotedCategoryComboTableBody = React.memo(
                                         row={index - 1}
                                         pivot={true}
                                     />
-                                    {/* maybe a padding cell? */}
                                 </>
                             )}
                         </TableRow>
@@ -210,6 +220,7 @@ export const PivotedCategoryComboTableBody = React.memo(
                 {renderColumnTotals && (
                     <ColumnTotals
                         paddingCells={paddingCells}
+                        initialColumns={categories.length}
                         renderTotalSum={renderRowTotals && renderColumnTotals}
                         dataElements={dataElements}
                         categoryOptionCombos={sortedCOCs}
