@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { TableRow, TableCell, TableCellHead } from '@dhis2/ui'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
@@ -42,10 +43,6 @@ export const PivotedCategoryComboTableBody = React.memo(
         renderRowTotals,
         renderColumnTotals,
         maxColumnsInSection,
-        /*
-        ,
-        ,
-        ,*/
         displayOptions,
         collapsed,
     }) {
@@ -204,16 +201,23 @@ export const PivotedCategoryComboTableBody = React.memo(
                                     key={`total_replacement_padding_row_${i}`}
                                 />
                             ))}
-                            {renderRowTotals && (
-                                <>
-                                    <RowTotal
-                                        dataElements={dataElements}
-                                        categoryOptionCombos={sortedCOCs}
-                                        row={index - 1}
-                                        pivot={true}
-                                    />
-                                </>
-                            )}
+                            {renderRowTotals &&
+                                (index === 0 ? (
+                                    <TableCellHead
+                                        className={styles.totalHeader}
+                                    >
+                                        {i18n.t('Totals')}
+                                    </TableCellHead>
+                                ) : (
+                                    <>
+                                        <RowTotal
+                                            dataElements={dataElements}
+                                            categoryOptionCombos={sortedCOCs}
+                                            row={index - 1}
+                                            pivot={true}
+                                        />
+                                    </>
+                                ))}
                         </TableRow>
                     )
                 })}
@@ -262,6 +266,7 @@ PivotedCategoryComboTableBody.propTypes = {
     /** Greyed fields is a Set where .has(fieldId) is true if that field is greyed/disabled */
     globalFilterText: PropTypes.string,
     greyedFields: PropTypes.instanceOf(Set),
+    maxColumnsInSection: PropTypes.number,
     renderColumnTotals: PropTypes.bool,
     renderRowTotals: PropTypes.bool,
 }

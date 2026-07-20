@@ -51,14 +51,6 @@ export const RowTotal = ({
     row,
     pivot = false,
 }) => {
-    // maybe move this?
-    if (pivot && row === -1) {
-        return (
-            <TableCellHead className={styles.totalHeader}>
-                {i18n.t('Totals')}
-            </TableCellHead>
-        )
-    }
     const matrix = useValueMatrix(dataElements, categoryOptionCombos, pivot)
     const rowTotal = useMemo(
         () => calculateRowTotal(matrix, row),
@@ -112,6 +104,7 @@ export const ColumnTotals = ({
 ColumnTotals.propTypes = {
     categoryOptionCombos: propTypes.array,
     dataElements: propTypes.array,
+    initialColumns: propTypes.number,
     paddingCells: propTypes.array,
     pivot: propTypes.bool,
     renderTotalSum: propTypes.bool,
