@@ -149,8 +149,8 @@ export const PivotedCategoryComboTableBody = React.memo(
                                                         'dataElement',
                                                 }
                                             )}
-                                            colSpan={fieldInRow.colSpan}
-                                            rowSpan={fieldInRow.rowSpan}
+                                            colSpan={fieldInRow.colSpan?.toString()}
+                                            rowSpan={fieldInRow.rowSpan?.toString()}
                                         >
                                             {fieldInRow.name !== 'default' &&
                                                 fieldInRow.displayFormName}
@@ -166,8 +166,8 @@ export const PivotedCategoryComboTableBody = React.memo(
                                                 styles.noWrap,
                                             ]}
                                             key={fieldInRow.id}
-                                            colSpan={fieldInRow.colSpan}
-                                            rowSpan={fieldInRow.rowSpan}
+                                            colSpan={fieldInRow.colSpan?.toString()}
+                                            rowSpan={fieldInRow.rowSpan?.toString()}
                                         />
                                     )
                                 }
@@ -209,14 +209,12 @@ export const PivotedCategoryComboTableBody = React.memo(
                                         {i18n.t('Totals')}
                                     </TableCellHead>
                                 ) : (
-                                    <>
-                                        <RowTotal
-                                            dataElements={dataElements}
-                                            categoryOptionCombos={sortedCOCs}
-                                            row={index - 1}
-                                            pivot={true}
-                                        />
-                                    </>
+                                    <RowTotal
+                                        dataElements={dataElements}
+                                        categoryOptionCombos={sortedCOCs}
+                                        row={index - 1}
+                                        pivot={true}
+                                    />
                                 ))}
                         </TableRow>
                     )

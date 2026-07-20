@@ -58,5 +58,6 @@ export const useValueMatrix = (
         dataElements,
         dataValues,
         sortedCOCs,
+        pivot,
     ])
 }

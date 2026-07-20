@@ -42,7 +42,7 @@ export const TotalHeader = ({ rowSpan }) => (
 )
 
 TotalHeader.propTypes = {
-    rowSpan: propTypes.number,
+    rowSpan: propTypes.string,
 }
 
 export const RowTotal = ({
@@ -81,7 +81,7 @@ export const ColumnTotals = ({
         <TableRow dataTest="dhis2-dataentry-columntotals">
             <TableCellHead
                 className={styles.totalHeader}
-                colSpan={initialColumns}
+                colSpan={initialColumns?.toString()}
             >
                 {i18n.t('Totals')}
             </TableCellHead>
