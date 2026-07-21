@@ -31,6 +31,19 @@ const MOCK_VALUES = {
             value: '150',
         },
     },
+    s46m5MS0hxu: {
+        Prlt0C1RF0s: {
+            value: '10',
+        },
+        psbwp3CQEhs: {
+            value: '20',
+        },
+    },
+    UOlfIjgN8X6: {
+        V6L425pT3A0: {
+            value: '30',
+        },
+    },
 }
 
 jest.mock('../../shared/stores/data-value-store.js', () => ({
@@ -762,5 +775,55 @@ describe('<PivotedCategoryComboTableBody />', () => {
         const totalCells = result.getAllByTestId('dhis2-dataentry-totalcell')
         expect(totalCells.length).toBe(1)
         expect(getByText(result.container, '5')).toBeTruthy()
+    })
+
+    it('should render both row and column totals when displayOptions has a pivotedCategory', () => {
+        // With pivotMode: 'move_categories', rows are grouped by
+        // dataElement x pivotedCategory-option (here: Location), and the
+        // remaining category (age) becomes the columns. Row/column totals
+        // still need to line up correctly with that grouping rather than
+        // with the plain dataElement x coc matrix.
+        const tableDataElements = [
+            dataElements.s46m5MS0hxu,
+            dataElements.UOlfIjgN8X6,
+        ]
+
+        const result = render(
+            <Table>
+                <PivotedCategoryComboTableBody
+                    renderColumnTotals
+                    renderRowTotals
+                    categoryCombo={categoryCombos.dzjKKQq0cSO}
+                    dataElements={tableDataElements}
+                    filterText=""
+                    globalFilterText=""
+                    displayOptions={{
+                        pivotMode: 'move_categories',
+                        pivotedCategory: 'fMZEcRHuamy',
+                    }}
+                />
+            </Table>,
+            {
+                wrapper: ({ children }) => <>{children}</>,
+            }
+        )
+
+        // One row per (dataElement, location-option) pair: BCG/Fixed,
+        // BCG/Outreach, Fully Immunized/Fixed, Fully Immunized/Outreach.
+        // Values (from MOCK_VALUES) are: BCG/Fixed/<1y=10, BCG/Fixed/>1y=20,
+        // Fully Immunized/Outreach/<1y=30, all others unset (0).
+        const rowTotals = result
+            .getAllByTestId('dhis2-dataentry-totalcell')
+            .map((cell) => cell.textContent)
+        expect(rowTotals).toEqual(['30', '0', '0', '30', '40', '20', '60'])
+
+        const columnTotalsRow = result.getByTestId(
+            'dhis2-dataentry-columntotals'
+        )
+        expect(columnTotalsRow).toBeTruthy()
+
+        // Both a row-totals header ("Totals" spanning the two header rows)
+        // and a column-totals header are rendered.
+        expect(result.getAllByText('Totals').length).toBe(2)
     })
 })

@@ -7,6 +7,8 @@ import styles from '../table-body.module.css'
 import { calculateColumnTotals, calculateRowTotal } from './calculate-totals.js'
 import { useValueMatrix } from './use-value-matrix.js'
 
+const defaultEmptyArray = []
+
 export const PaddingCell = ({ children, colSpan }) => (
     <TableCell
         className={cx('total-cell', styles.totalCell)}
@@ -49,9 +51,17 @@ export const RowTotal = ({
     dataElements,
     categoryOptionCombos,
     row,
-    pivot = false,
+    pivotType = 'none',
+    pivotedCategory,
+    categories,
 }) => {
-    const matrix = useValueMatrix(dataElements, categoryOptionCombos, pivot)
+    const matrix = useValueMatrix({
+        dataElements,
+        sortedCOCs: categoryOptionCombos,
+        pivotType,
+        pivotedCategory,
+        categories,
+    })
     const rowTotal = useMemo(
         () => calculateRowTotal(matrix, row),
         [matrix, row]
@@ -60,9 +70,11 @@ export const RowTotal = ({
 }
 
 RowTotal.propTypes = {
+    categories: propTypes.array,
     categoryOptionCombos: propTypes.array,
     dataElements: propTypes.array,
-    pivot: propTypes.bool,
+    pivotType: propTypes.oneOf(['move_categories', 'pivot', 'none']),
+    pivotedCategory: propTypes.string,
     row: propTypes.number,
 }
 
@@ -70,11 +82,19 @@ export const ColumnTotals = ({
     renderTotalSum,
     initialColumns = 1,
     paddingCells,
-    dataElements,
-    categoryOptionCombos,
-    pivot,
+    dataElements = defaultEmptyArray,
+    categoryOptionCombos = defaultEmptyArray,
+    pivotType = 'none',
+    pivotedCategory = null,
+    categories = defaultEmptyArray,
 }) => {
-    const matrix = useValueMatrix(dataElements, categoryOptionCombos, pivot)
+    const matrix = useValueMatrix({
+        dataElements,
+        sortedCOCs: categoryOptionCombos,
+        pivotType,
+        pivotedCategory,
+        categories,
+    })
     const columnTotals = useMemo(() => calculateColumnTotals(matrix), [matrix])
 
     return (
@@ -102,10 +122,12 @@ export const ColumnTotals = ({
 }
 
 ColumnTotals.propTypes = {
+    categories: propTypes.array,
     categoryOptionCombos: propTypes.array,
     dataElements: propTypes.array,
     initialColumns: propTypes.number,
     paddingCells: propTypes.array,
-    pivot: propTypes.bool,
+    pivotType: propTypes.oneOf(['move_categories', 'pivot', 'none']),
+    pivotedCategory: propTypes.string,
     renderTotalSum: propTypes.bool,
 }
