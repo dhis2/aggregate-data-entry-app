@@ -1,3 +1,10 @@
+## [102.0.11](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.10...v102.0.11) (2026-07-23)
+
+
+### Bug Fixes
+
+* add description for indicators ([#576](https://github.com/dhis2/aggregate-data-entry-app/issues/576)) ([de27a49](https://github.com/dhis2/aggregate-data-entry-app/commit/de27a49aa3a31dc58586e8686eb690aa08f61b50))
+
 ## [102.0.10](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.9...v102.0.10) (2026-07-06)
 
 
