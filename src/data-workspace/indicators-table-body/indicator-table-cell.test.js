@@ -1,6 +1,8 @@
 import { IconInfo16, IconWarning16 } from '@dhis2/ui'
 import { fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
+import { useHighlightedFieldStore } from '../../shared/index.js'
 import { render } from '../../test-utils/index.js'
 import { IndicatorTableCell } from './indicator-table-cell.jsx'
 import { useIndicatorValue } from './use-indicator-value.js'
@@ -20,9 +22,16 @@ const MOCK_INDICATOR_INFO = {
     factor: 1,
     numerator: '#{fakeUID1}',
     denominator: '#{fakeUID2}',
+    indicatorId: 'indicator1',
 }
 
 describe('IndicatorTableCell', () => {
+    const initialHighlightedFieldState = useHighlightedFieldStore.getState()
+
+    beforeEach(() => {
+        useHighlightedFieldStore.setState(initialHighlightedFieldState)
+    })
+
     it('shows the value returned by useIndicatorValue if valid', async () => {
         useIndicatorValue.mockReturnValue({ value: '42' })
         const { findByText } = render(
@@ -73,5 +82,41 @@ describe('IndicatorTableCell', () => {
 
         // check that the mocked value of info icon is present
         expect(await findByText('WARNING_ICON')).toBeInTheDocument()
+    })
+
+    it('calls setHighlightedFieldId with the indicatorId of the focused cell', async () => {
+        useIndicatorValue.mockReturnValue({ value: '42' })
+        const { container, findAllByText } = render(
+            <>
+                <IndicatorTableCell
+                    {...MOCK_INDICATOR_INFO}
+                    indicatorId="indicator1"
+                />
+                <IndicatorTableCell
+                    {...MOCK_INDICATOR_INFO}
+                    indicatorId="indicator2"
+                />
+            </>
+        )
+
+        await findAllByText('42')
+        const [cellA, cellB] = container.querySelectorAll('[tabindex="0"]')
+
+        expect(
+            useHighlightedFieldStore.getState().highlightedFieldId
+        ).not.toEqual({ indicatorId: 'indicator1' })
+
+        // activate the first cell by clicking it
+        await userEvent.click(cellA)
+        expect(useHighlightedFieldStore.getState().highlightedFieldId).toEqual({
+            indicatorId: 'indicator1',
+        })
+
+        // tab into the second cell
+        await userEvent.tab()
+        expect(document.activeElement).toBe(cellB)
+        expect(useHighlightedFieldStore.getState().highlightedFieldId).toEqual({
+            indicatorId: 'indicator2',
+        })
     })
 })

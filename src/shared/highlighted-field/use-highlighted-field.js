@@ -72,21 +72,24 @@ export default function useHighlightedField() {
         })
     )
     const { data: metadata } = useMetadata()
-    const dataElement = selectors.getDataElementById(
-        metadata,
-        item?.dataElementId
-    )
+    const dataElementOrIndicator = item?.indicatorId
+        ? selectors.getIndicatorById(metadata, item?.indicatorId)
+        : selectors.getDataElementById(metadata, item?.dataElementId)
 
     return useMemo(() => {
-        if (!item || !dataElement) {
+        if (!item || !dataElementOrIndicator) {
             return null
+        }
+
+        if (item.indicatorId) {
+            return { isIndicator: true, ...dataElementOrIndicator }
         }
 
         return gatherHighlightedFieldData({
             metadata,
             dataValue,
-            dataElement,
+            dataElement: dataElementOrIndicator,
             categoryOptionComboId: item.categoryOptionComboId,
         })
-    }, [item, dataElement, dataValue, metadata])
+    }, [item, dataElementOrIndicator, dataValue, metadata])
 }

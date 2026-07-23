@@ -86,4 +86,53 @@ describe('DataDetailsSideBar', () => {
             ).toBeInTheDocument()
         })
     })
+
+    describe('Indicator info', () => {
+        const mockIndicatorHighlightedFieldReturn = {
+            isIndicator: true,
+            displayFormName: 'EXP Drugs Expense Ratio',
+            description: 'Ratio of drug expenses to total expenses',
+        }
+
+        beforeAll(() => {
+            useHighlightedField.mockReturnValue({
+                ...mockIndicatorHighlightedFieldReturn,
+            })
+            useUserInfo.mockImplementation(() => ({
+                data: {
+                    authorities: ['ALL'],
+                },
+            }))
+        })
+
+        it('should only display the name and description', async () => {
+            const { getByText, queryByText } = renderComponent()
+
+            expect(
+                getByText(mockIndicatorHighlightedFieldReturn.displayFormName, {
+                    exact: false,
+                })
+            ).toBeInTheDocument()
+            expect(
+                getByText(
+                    `Description: ${mockIndicatorHighlightedFieldReturn.description}`,
+                    { exact: false }
+                )
+            ).toBeInTheDocument()
+
+            expect(queryByText(/Code:/)).not.toBeInTheDocument()
+            expect(queryByText(/Data element ID:/)).not.toBeInTheDocument()
+            expect(
+                queryByText(/Category option combo ID:/)
+            ).not.toBeInTheDocument()
+            expect(queryByText(/Last updated/)).not.toBeInTheDocument()
+            expect(queryByText(/Marked for follow-up/)).not.toBeInTheDocument()
+
+            // the other sidebar sections should not be rendered for indicators
+            expect(queryByText('Comment')).not.toBeInTheDocument()
+            expect(queryByText('Min and max limits')).not.toBeInTheDocument()
+            expect(queryByText('History')).not.toBeInTheDocument()
+            expect(queryByText('Audit log')).not.toBeInTheDocument()
+        })
+    })
 })
