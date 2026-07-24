@@ -9,4 +9,5 @@ const calculateColumnTotal = (matrix, column = 0) =>
 export const calculateColumnTotals = (matrix) =>
     matrix[0]?.map((_, i) => calculateColumnTotal(matrix, i)) || []
 
-export const calculateRowTotal = (matrix, row = 0) => matrix[row].reduce(sum, 0)
+export const calculateRowTotal = (matrix, row = 0) =>
+    matrix?.[row]?.reduce(sum, 0)

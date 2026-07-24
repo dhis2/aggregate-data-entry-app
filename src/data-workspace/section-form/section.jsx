@@ -33,6 +33,12 @@ export function SectionFormSection({
 
     const { data } = useMetadata()
 
+    const displayOptions = getDisplayOptions(section)
+
+    const isPivotMode =
+        displayOptions?.pivotMode === 'move_categories' ||
+        displayOptions?.pivotMode === 'pivot'
+
     const dataElements = selectors.getDataElementsBySection(
         data,
         dataSetId,
@@ -51,6 +57,11 @@ export function SectionFormSection({
     const maxColumnsInSection = useMemo(() => {
         if (groupedDataElements.length === 0) {
             return 0
+        }
+        if (isPivotMode) {
+            return Math.max(
+                ...groupedDataElements.map((grp) => grp.dataElements.length)
+            )
         }
         const groupedTotalColumns = groupedDataElements.map((grp) =>
             selectors.getNrOfColumnsInCategoryCombo(data, grp.categoryCombo.id)
@@ -73,12 +84,6 @@ export function SectionFormSection({
 
     const filterInputId = `filter-input-${section.id}`
     const headerCellStyles = classNames(styles.headerCell, styles.hideForPrint)
-
-    const displayOptions = getDisplayOptions(section)
-
-    const isPivotMode =
-        displayOptions?.pivotMode === 'move_categories' ||
-        displayOptions?.pivotMode === 'pivot'
 
     const TableComponent = isPivotMode
         ? PivotedCategoryComboTableBody
