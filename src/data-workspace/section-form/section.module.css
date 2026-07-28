@@ -164,6 +164,7 @@
 
 .verticalSectionTabWrapper {
     flex-direction: row;
+    align-items: flex-start;
 }
 
 @media print {
