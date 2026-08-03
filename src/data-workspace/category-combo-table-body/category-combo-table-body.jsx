@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableRow } from '@dhis2/ui'
+import { TableBody, TableRow } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
@@ -9,6 +9,7 @@ import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.
 import styles from '../table-body.module.css'
 import { CategoryComboTableBodyHeader } from './category-combo-table-body-header.jsx'
 import { DataElementCell } from './data-element-cell.jsx'
+import PaddingCell from './padding-cell.jsx'
 import { ColumnTotals, RowTotal } from './total-cells.jsx'
 
 export const CategoryComboTableBody = React.memo(
@@ -180,10 +181,3 @@ CategoryComboTableBody.propTypes = {
     renderColumnTotals: PropTypes.bool,
     renderRowTotals: PropTypes.bool,
 }
-
-const PaddingCell = () => (
-    <TableCell
-        className={styles.paddingCell}
-        dataTest="dhis2-dataentry-paddingcell"
-    ></TableCell>
-)

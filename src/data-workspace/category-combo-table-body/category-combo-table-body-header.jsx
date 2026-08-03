@@ -114,7 +114,9 @@ export const CategoryComboTableBodyHeader = ({
                         {hideRowTotalsDueToNonNumberValueTypes ? (
                             <PaddingCell key={'total_header_padding'} />
                         ) : (
-                            <TotalHeader rowSpan={categories.length} />
+                            <TotalHeader
+                                rowSpan={categories.length.toString()}
+                            />
                         )}
                     </>
                 )}
