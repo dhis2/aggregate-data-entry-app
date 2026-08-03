@@ -1,3 +1,10 @@
+# [102.1.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.11...v102.1.0) (2026-08-03)
+
+
+### Features
+
+* totals for pivoted layout [DHIS2-19079] ([#578](https://github.com/dhis2/aggregate-data-entry-app/issues/578)) ([d195f19](https://github.com/dhis2/aggregate-data-entry-app/commit/d195f1921da087da5adaeb046012124bb9a4a351))
+
 ## [102.0.11](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.10...v102.0.11) (2026-07-23)
 
 
