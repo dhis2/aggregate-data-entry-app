@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableRow } from '@dhis2/ui'
+import { TableBody, TableRow } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useCallback, useMemo } from 'react'
