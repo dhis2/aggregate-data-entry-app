@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import propTypes from 'prop-types'
 import React from 'react'
 import { useMetadata, selectors } from '../../shared/index.js'
+import PaddingCell from '../category-combo-table-body/padding-cell.jsx'
 import {
     RowTotal,
     ColumnTotals,
@@ -13,14 +14,6 @@ import { getFieldId } from '../get-field-id.jsx'
 import { TableBodyHiddenByFiltersRow } from '../table-body-hidden-by-filter-row.jsx'
 import styles from '../table-body.module.css'
 import { generateFormMatrix } from './generate-form-matrix/index.js'
-
-// move this and refactor to reuse from CategoryComboTableBody?
-const PaddingCell = () => (
-    <TableCell
-        className={styles.paddingCell}
-        dataTest="dhis2-dataentry-paddingcell"
-    ></TableCell>
-)
 
 const TotalRow = ({
     dataElements,

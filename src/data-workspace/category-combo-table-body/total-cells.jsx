@@ -9,21 +9,6 @@ import { useValueMatrix } from './use-value-matrix.js'
 
 const defaultEmptyArray = []
 
-export const PaddingCell = ({ children, colSpan }) => (
-    <TableCell
-        className={cx('total-cell', styles.totalCell)}
-        dataTest="dhis2-dataentry-totalcell-padding"
-        colSpan={colSpan}
-    >
-        {children}
-    </TableCell>
-)
-
-PaddingCell.propTypes = {
-    children: propTypes.node,
-    colSpan: propTypes.number,
-}
-
 export const TotalCell = ({ children }) => (
     <TableCell
         className={cx('total-cell', styles.totalCell)}
