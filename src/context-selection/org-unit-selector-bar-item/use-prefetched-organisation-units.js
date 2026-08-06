@@ -49,12 +49,12 @@ const createGistPrefetchQueryArgs = ([path, offlineLevels]) => ({
     ],
     enabled: Boolean(path && offlineLevels?.length >= 1),
     select: (results) =>
-        results.organisationUnits.map(({ displayName, path, children }) => ({
+        results.organisationUnits.map(({ name: displayName, path, children }) => ({
             displayName,
             id: path.split('/').at(-1),
             path,
             children: children ? 1 : 0,
-            level: path.split('/').length,
+            level: path.split('/').length - 1,
         })),
 })
 
