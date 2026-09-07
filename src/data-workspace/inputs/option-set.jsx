@@ -18,6 +18,8 @@ import styles from './inputs.module.css'
 import { InputPropTypes } from './utils.js'
 
 const MULTI_TEXT_SEPARATOR = ','
+const SELECT_MENU_MIN_WIDTH = '350px'
+const SELECT_MENU_MAX_WIDTH = '450px'
 
 const parse = ({ value, multi, sortByOptionsOrder }) => {
     if (multi) {
@@ -119,6 +121,8 @@ export const OptionSet = ({
             <div className={styles.selectFlexItem}>
                 <SelectComponent
                     dense
+                    menuMinWidth={SELECT_MENU_MIN_WIDTH}
+                    menuMaxWidth={SELECT_MENU_MAX_WIDTH}
                     className={cx(styles.select, {
                         [styles.selectMulti]: multi,
                     })}
