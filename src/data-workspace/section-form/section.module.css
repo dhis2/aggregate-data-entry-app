@@ -125,12 +125,6 @@
 
 .sectionTab {
     margin-block-end: 8px;
-    overflow: auto;
-    white-space: nowrap;
-}
-
-.sectionTab div {
-    display: inline-block;
 }
 
 .textStartLine {
@@ -146,9 +140,9 @@
     text-align: end;
 }
 
-.verticalSectionTabWrapper .sectionTab div {
-    flex-direction: column;
+.verticalSectionTabWrapper .sectionTab [role='tablist'] {
     display: flex;
+    flex-direction: column;
 }
 
 .sectionTab button {

@@ -73,7 +73,10 @@ const TabbedSectionForm = ({
                 [styles.verticalSectionTabWrapper]: direction === 'vertical',
             })}
         >
-            <TabBar className={styles.sectionTab}>
+            <TabBar
+                className={styles.sectionTab}
+                scrollable={direction !== 'vertical'}
+            >
                 {sections.map((s) => (
                     <Tab
                         key={s.id}
