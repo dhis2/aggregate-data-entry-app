@@ -1,3 +1,11 @@
+## [102.1.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.0...v102.1.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* constrain option set dropdown menu width ([84b97b0](https://github.com/dhis2/aggregate-data-entry-app/commit/84b97b07abc74339168d55c60d372bde564f7542))
+* prevent first data row from stretching in vertical section tabs ([89cc42b](https://github.com/dhis2/aggregate-data-entry-app/commit/89cc42b2e4345d699722cbe4644c555863754c47))
+
 # [102.1.0](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.0.11...v102.1.0) (2026-08-03)
 
 
