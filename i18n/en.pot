@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-06-01T13:05:23.374Z\n"
-"PO-Revision-Date: 2026-06-01T13:05:23.375Z\n"
+"POT-Creation-Date: 2026-09-09T12:29:22.201Z\n"
+"PO-Revision-Date: 2026-09-09T12:29:22.201Z\n"
 
 msgid "There was a problem loading metadata"
 msgstr "There was a problem loading metadata"
@@ -275,6 +275,9 @@ msgstr "Options"
 msgid "Search org units"
 msgstr "Search org units"
 
+msgid "Enter at least 3 characters to search"
+msgstr "Enter at least 3 characters to search"
+
 msgid "Dataset is not assigned to this organisation unit"
 msgstr "Dataset is not assigned to this organisation unit"
 
@@ -284,8 +287,34 @@ msgstr "Organisation unit"
 msgid "Choose a organisation unit"
 msgstr "Choose a organisation unit"
 
+msgid "Organisation unit search"
+msgstr "Organisation unit search"
+
 msgid "No organisation units could be found"
 msgstr "No organisation units could be found"
+
+msgid ""
+"No more matching organisation units. Go to the previous page or refine your "
+"search."
+msgstr ""
+"No more matching organisation units. Go to the previous page or refine your "
+"search."
+
+msgid ""
+"Search results are not available offline. Clear the search to browse "
+"available organisation units."
+msgstr ""
+"Search results are not available offline. Clear the search to browse "
+"available organisation units."
+
+msgid "Page {{page}}. Up to 50 matches; some may not be selectable."
+msgstr "Page {{page}}. Up to 50 matches; some may not be selectable."
+
+msgid "Previous page"
+msgstr "Previous page"
+
+msgid "Next page"
+msgstr "Next page"
 
 msgid "No children match filter"
 msgstr "No children match filter"
