@@ -11,6 +11,18 @@
     flex-grow: 0;
 }
 
+.searchPagingContainer {
+    flex-shrink: 0;
+    padding: var(--spacers-dp8);
+    max-inline-size: 480px;
+    font-size: 13px;
+    color: var(--colors-grey700);
+}
+
+.searchPagingContainer p {
+    margin: 0 0 var(--spacers-dp8);
+}
+
 .dividerContainer {
     flex-shrink: 0;
 }
