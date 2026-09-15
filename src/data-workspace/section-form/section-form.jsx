@@ -88,12 +88,14 @@ const TabbedSectionForm = ({
                 ))}
             </TabBar>
 
-            <SectionFormSection
-                section={section}
-                dataSetId={dataSetId}
-                key={section.id}
-                globalFilterText={globalFilterText}
-            />
+            <div className={styles.sectionTableScroll}>
+                <SectionFormSection
+                    section={section}
+                    dataSetId={dataSetId}
+                    key={section.id}
+                    globalFilterText={globalFilterText}
+                />
+            </div>
         </div>
     )
 }

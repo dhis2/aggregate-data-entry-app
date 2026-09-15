@@ -127,6 +127,10 @@
     margin-block-end: 8px;
 }
 
+.sectionTabWrapper:not(.verticalSectionTabWrapper) .sectionTab {
+    contain: inline-size;
+}
+
 .textStartLine {
     align-items: flex-start;
     text-align: start;
@@ -154,6 +158,12 @@
     gap: 6px;
     flex-direction: column;
     inline-size: 100%;
+}
+
+.sectionTableScroll {
+    inline-size: 100%;
+    overflow-x: auto;
+    contain: inline-size;
 }
 
 .verticalSectionTabWrapper {
