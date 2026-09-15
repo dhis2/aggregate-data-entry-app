@@ -1,8 +1,15 @@
 import { useAlert } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { SelectorBarItem, Divider, Tooltip } from '@dhis2/ui'
+import {
+    SelectorBarItem,
+    Divider,
+    Tooltip,
+    Button,
+    ButtonStrip,
+} from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { tabbable } from 'tabbable'
 import {
     selectors,
     useMetadata,
@@ -18,10 +25,24 @@ import {
     OrganisationUnitTreeRootLoading,
 } from './organisation-unit-tree/index.js'
 import useExpandedState from './use-expanded-state.js'
-import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
+import useOrgUnitPathsByName, {
+    isSearchTermValid,
+} from './use-org-unit-paths-by-name.js'
 import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
+
+const handleSearchKeyDown = (event) => {
+    if (event.key !== 'Tab') {
+        return
+    }
+    const controls = tabbable(event.currentTarget)
+    const index = controls.indexOf(document.activeElement)
+    if (index >= 0 && controls[index + (event.shiftKey ? -1 : 1)]) {
+        // Let focus move within the popup before SelectorBarItem dismisses it.
+        event.stopPropagation()
+    }
+}
 
 const UnclickableLabel = ({ label }) => {
     return (
@@ -49,7 +70,18 @@ export default function OrganisationUnitSetSelectorBarItem() {
     })
 
     const [filter, setFilter] = useState('')
-    const orgUnitPathsByName = useOrgUnitPathsByName(filter)
+    const [inputValue, setInputValue] = useState('')
+    const [page, setPage] = useState(1)
+    const searchContentRef = useRef()
+    const changePage = (direction) => {
+        setPage((value) => value + direction)
+        // The activated button may become disabled on the first/last page.
+        searchContentRef.current?.querySelector('input')?.focus()
+    }
+    const searching = isSearchTermValid(inputValue)
+    const debouncing = searching && inputValue.trim() !== filter
+    const searchTerm = searching && !debouncing ? filter : ''
+    const orgUnitPathsByName = useOrgUnitPathsByName(searchTerm, page)
 
     const [orgUnitOpen, setOrgUnitOpen] = useState(false)
     const { expanded, handleExpand, handleCollapse } = useExpandedState()
@@ -67,15 +99,14 @@ export default function OrganisationUnitSetSelectorBarItem() {
 
     const selectorBarItemValue = useSelectorBarItemValue()
     const selected = orgUnit.data ? [orgUnit.data.path] : []
-    const filteredOrgUnitPaths = filter ? orgUnitPathsByName.data : []
+    const filteredOrgUnitPaths = searching ? orgUnitPathsByName.data || [] : []
     const orgUnitPathsByNameLoading =
-        // offline levels need to be prefetched before rendering the org-unit-tree
+        // Offline tree prefetch is independent of interactive search.
         prefetchedOrganisationUnits.loading ||
-        // Either a filter has been set but the hook
-        // hasn't been called yet
-        (filter !== '' && !orgUnitPathsByName.called) ||
-        // or it's actually loading
+        debouncing ||
         orgUnitPathsByName.loading
+    const searchUnavailable =
+        searching && orgUnitPathsByName.paused && !orgUnitPathsByName.data
 
     useEffect(() => {
         // set as undefined if orgUnit is not assigned to dataset
@@ -107,11 +138,22 @@ export default function OrganisationUnitSetSelectorBarItem() {
                     setOrgUnitId(undefined)
                 }}
             >
-                <div className={css.itemContentContainer}>
+                <div
+                    ref={searchContentRef}
+                    className={css.itemContentContainer}
+                    role="group"
+                    aria-label={i18n.t('Organisation unit search')}
+                    onKeyDown={handleSearchKeyDown}
+                >
                     <div className={css.searchInputContainer}>
                         <DebouncedSearchInput
-                            initialValue={filter}
+                            initialValue={inputValue}
                             onChange={setFilter}
+                            onInputChange={(value) => {
+                                setInputValue(value)
+                                setFilter('')
+                                setPage(1)
+                            }}
                         />
                     </div>
                     <div className={css.dividerContainer}>
@@ -135,17 +177,33 @@ export default function OrganisationUnitSetSelectorBarItem() {
                             )}
 
                         {!orgUnitPathsByNameLoading &&
-                            !!filter &&
+                            searching &&
+                            !orgUnitPathsByName.error &&
+                            !searchUnavailable &&
                             !filteredOrgUnitPaths.length && (
                                 <div data-test="org-unit-selector-none-found">
-                                    {i18n.t(
-                                        'No organisation units could be found'
-                                    )}
+                                    {page === 1
+                                        ? i18n.t(
+                                              'No organisation units could be found'
+                                          )
+                                        : i18n.t(
+                                              'No more matching organisation units. Go to the previous page or refine your search.'
+                                          )}
                                 </div>
                             )}
 
+                        {searchUnavailable && (
+                            <div role="status">
+                                {i18n.t(
+                                    'Search results are not available offline. Clear the search to browse available organisation units.'
+                                )}
+                            </div>
+                        )}
+
                         {!orgUnitPathsByNameLoading &&
-                            (!filter || !!filteredOrgUnitPaths.length) && (
+                            !orgUnitPathsByName.error &&
+                            !searchUnavailable &&
+                            (!searching || !!filteredOrgUnitPaths.length) && (
                                 <OrganisationUnitTree
                                     dataTest="org-unit-selector-tree"
                                     singleSelection
@@ -182,6 +240,37 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                 />
                             )}
                     </div>
+                    {searching &&
+                        !debouncing &&
+                        (page > 1 || filteredOrgUnitPaths.length > 0) && (
+                            <div className={css.searchPagingContainer}>
+                                <p role="status">
+                                    {i18n.t(
+                                        'Page {{page}}. Up to 50 matches; some may not be selectable.',
+                                        { page }
+                                    )}
+                                </p>
+                                <ButtonStrip>
+                                    <Button
+                                        small
+                                        disabled={page === 1}
+                                        onClick={() => changePage(-1)}
+                                    >
+                                        {i18n.t('Previous page')}
+                                    </Button>
+                                    <Button
+                                        small
+                                        disabled={
+                                            orgUnitPathsByNameLoading ||
+                                            !orgUnitPathsByName.hasNextPage
+                                        }
+                                        onClick={() => changePage(1)}
+                                    >
+                                        {i18n.t('Next page')}
+                                    </Button>
+                                </ButtonStrip>
+                            </div>
+                        )}
                 </div>
             </SelectorBarItem>
         </div>
