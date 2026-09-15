@@ -1,3 +1,10 @@
+## [102.1.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.1...v102.1.2) (2026-09-15)
+
+
+### Bug Fixes
+
+* make section tab bar horizontally scrollable [DHIS2-21336] ([#591](https://github.com/dhis2/aggregate-data-entry-app/issues/591)) ([20b1384](https://github.com/dhis2/aggregate-data-entry-app/commit/20b1384221949f42af4060985471bf5f8df79f68))
+
 ## [102.1.1](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.0...v102.1.1) (2026-09-07)
 
 
