@@ -36,3 +36,8 @@
     overflow: hidden;
     overflow-y: auto;
 }
+
+.noOptionsBox {
+    margin: var(--spacers-dp16);
+    inline-size: 400px;
+}

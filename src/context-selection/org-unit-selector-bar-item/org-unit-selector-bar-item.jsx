@@ -23,13 +23,19 @@ import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
 
-const UnclickableLabel = ({ label }) => {
+const UnclickableLabel = ({ label, noDataSets }) => {
     return (
         <div className={css.disabled}>
             <Tooltip
-                content={i18n.t(
-                    'Dataset is not assigned to this organisation unit'
-                )}
+                content={
+                    noDataSets
+                        ? i18n.t(
+                              'No data sets are assigned to this organisation unit'
+                          )
+                        : i18n.t(
+                              'Dataset is not assigned to this organisation unit'
+                          )
+                }
             >
                 <span>{label}</span>
             </Tooltip>
@@ -39,6 +45,7 @@ const UnclickableLabel = ({ label }) => {
 
 UnclickableLabel.propTypes = {
     label: PropTypes.any.isRequired,
+    noDataSets: PropTypes.bool,
 }
 
 export default function OrganisationUnitSetSelectorBarItem() {
@@ -170,7 +177,10 @@ export default function OrganisationUnitSetSelectorBarItem() {
                                         ) ? (
                                             label
                                         ) : (
-                                            <UnclickableLabel label={label} />
+                                            <UnclickableLabel
+                                                label={label}
+                                                noDataSets={!dataSetId}
+                                            />
                                         )
                                     }}
                                     offlineLevels={
