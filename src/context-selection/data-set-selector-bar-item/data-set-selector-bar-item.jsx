@@ -5,6 +5,7 @@ import {
     Menu,
     MenuDivider,
     MenuItem,
+    NoticeBox,
     SelectorBarItem,
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
@@ -100,17 +101,27 @@ const DataSetSelectorBarDropDownContent = ({
 
     if (dataSetId && !dataSet) {
         return (
-            <span data-test="data-set-selector-no-dataset-for-id-msg">
-                {i18n.t('Could not find a data set for the selected id')}
-            </span>
+            <NoticeBox
+                className={styles.noOptionsBox}
+                error
+                title={i18n.t('ID not found')}
+            >
+                {i18n.t(`Could not find a data set for the selected id`)}
+            </NoticeBox>
         )
     }
 
     if (!dataSets.length) {
         return (
-            <span data-test="data-set-selector-none-available-msg">
-                {i18n.t('There are no data sets available!')}
-            </span>
+            <NoticeBox
+                className={styles.noOptionsBox}
+                error
+                title={i18n.t('No data sets available')}
+            >
+                {i18n.t(
+                    `There are no data sets configured, or you do not have access to view them.`
+                )}
+            </NoticeBox>
         )
     }
 
