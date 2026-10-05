@@ -1,3 +1,10 @@
+## [102.1.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.2...v102.1.3) (2026-10-05)
+
+
+### Bug Fixes
+
+* styling with no data sets [DHIS2-21850] ([#598](https://github.com/dhis2/aggregate-data-entry-app/issues/598)) ([d11d17f](https://github.com/dhis2/aggregate-data-entry-app/commit/d11d17fe50d5483fbcf432936c1481d1ede955d6))
+
 ## [102.1.2](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.1...v102.1.2) (2026-09-15)
 
 
