@@ -1,3 +1,10 @@
+## [102.1.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.3...v102.1.4) (2026-10-06)
+
+
+### Bug Fixes
+
+* search results non-level 1 [DHIS2-21397] ([a8c8cf0](https://github.com/dhis2/aggregate-data-entry-app/commit/a8c8cf02ad9c26b18d31afaba7fcea598365214d))
+
 ## [102.1.3](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.2...v102.1.3) (2026-10-05)
 
 
