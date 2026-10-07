@@ -3,13 +3,5 @@
  * @param {string} path
  * @returns {bool}
  */
-export const isPathIncluded = (includedPaths, path) => {
-    const isIncluded = includedPaths.some((includedPath) => {
-        if (path === includedPath) {
-            return true
-        }
-        return includedPath.includes(`${path}/`)
-    })
-
-    return isIncluded
-}
+export const isPathIncluded = (includedPaths, path) =>
+    includedPaths.some((includedPath) => includedPath.includes(path))

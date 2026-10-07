@@ -218,5 +218,40 @@ describe('OrganisationUnitTree', () => {
                 expect(screen.queryByText('Helsinki')).not.toBeInTheDocument()
             })
         })
+
+        it('should show the root org unit when it matches the filter term', async () => {
+            // The only matching path ends with the root id
+            // ("/World000001/Finland0001"), so there is no "/Finland0001/"
+            // segment to match against
+            render(
+                <SearchableOrganisationUnitTree
+                    offlineLevels={{ [finland.path]: [] }}
+                />,
+                {
+                    dataForCustomProvider,
+                }
+            )
+
+            await userEvent.type(
+                await screen.findByPlaceholderText('Search org units'),
+                'fin'
+            )
+
+            // expand the user's root org unit so we can tell when the filter
+            // has been applied to its children
+            await userEvent.click(
+                await screen.findByTestId(
+                    'dhis2-uiwidgets-orgunittree-node-toggle'
+                )
+            )
+
+            // the search input is debounced, so wait for the filter to apply
+            await waitFor(() => {
+                expect(screen.getByText('Finland')).toBeInTheDocument()
+                expect(
+                    screen.getByText('No children match filter')
+                ).toBeInTheDocument()
+            })
+        })
     })
 })
