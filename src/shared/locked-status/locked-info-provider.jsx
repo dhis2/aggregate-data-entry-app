@@ -4,7 +4,7 @@ import { useCanUserEditFields } from '../use-user-info/index.js'
 import { LockedContext } from './locked-info-context.js'
 import { LockedStates } from './locked-states.js'
 
-export function LockedProvider({ children }) {
+export function LockedProvider({ children, forceLocked = false }) {
     const userCanEditFields = useCanUserEditFields()
     const [{ state, lockDate }, setLockStatus] = useState({
         state: LockedStates.OPEN,
@@ -15,7 +15,10 @@ export function LockedProvider({ children }) {
         () => ({
             // We treat fields that can't be edited for
             // authority reasons as locked fields
-            locked: state !== LockedStates.OPEN || !userCanEditFields,
+            locked:
+                forceLocked ||
+                state !== LockedStates.OPEN ||
+                !userCanEditFields,
             lockStatus: {
                 state: !userCanEditFields
                     ? LockedStates.LOCKED_NO_AUTHORITY
@@ -24,7 +27,7 @@ export function LockedProvider({ children }) {
             },
             setLockStatus,
         }),
-        [state, lockDate, userCanEditFields]
+        [forceLocked, state, lockDate, userCanEditFields]
     )
 
     return (
@@ -36,4 +39,6 @@ export function LockedProvider({ children }) {
 
 LockedProvider.propTypes = {
     children: PropTypes.any.isRequired,
+    // e.g. for a read-only view of the form
+    forceLocked: PropTypes.bool,
 }

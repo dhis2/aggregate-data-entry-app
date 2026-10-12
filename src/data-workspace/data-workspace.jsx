@@ -24,7 +24,11 @@ import { EntryScreen } from './entry-screen.jsx'
 import { FormWrapper } from './final-form-wrapper.jsx'
 import { useHandleHeaderbarStatus } from './use-handle-headerbar-status.js'
 
-export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
+export const DataWorkspace = ({
+    selectionHasNoFormMessage,
+    readOnly = false,
+    fitContent = false,
+}) => {
     const queryClient = useQueryClient()
     const { data: metadata } = useMetadata()
     useHandleHeaderbarStatus()
@@ -133,21 +137,32 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
             dataValueSet={dataValueSet}
             validFormKey={validFormKey}
         >
-            <div className={styles.wrapper}>
+            <div
+                className={classNames(styles.wrapper, {
+                    [styles.fitContent]: fitContent,
+                })}
+            >
                 <main id="data-workspace" className={styles.formWrapper}>
                     <div className={styles.formArea}>
                         <EntryForm dataSet={dataSet} />
                     </div>
                 </main>
 
-                <footer className={footerClasses}>
-                    <BottomBar />
-                </footer>
+                {/* completion and validation have no place in a read-only form */}
+                {!readOnly && (
+                    <footer className={footerClasses}>
+                        <BottomBar />
+                    </footer>
+                )}
             </div>
         </FormWrapper>
     )
 }
 
 DataWorkspace.propTypes = {
+    // the form's natural height instead of filling its container and
+    // scrolling inside it, e.g. when embedded and sized by its host
+    fitContent: PropTypes.bool,
+    readOnly: PropTypes.bool,
     selectionHasNoFormMessage: PropTypes.string,
 }

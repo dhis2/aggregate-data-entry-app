@@ -13,6 +13,15 @@
     overflow: auto;
 }
 
+.fitContent {
+    block-size: auto;
+    grid-template-rows: auto auto;
+}
+
+.fitContent .formWrapper {
+    overflow: visible;
+}
+
 .formArea {
     display: flex;
     flex-direction: column;

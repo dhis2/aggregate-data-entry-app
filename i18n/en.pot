@@ -718,3 +718,6 @@ msgstr "Data Entry"
 msgctxt "Application description"
 msgid "__MANIFEST_APP_DESCRIPTION"
 msgstr ""
+
+msgid "There was a problem loading"
+msgstr "There was a problem loading"
