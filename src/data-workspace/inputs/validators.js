@@ -95,13 +95,34 @@ export const validateByValueType = (valueType) => {
     return validator ? validator : () => undefined
 }
 
+// This is an internal helper of the ui-forms library,
+// can be removed once `createLessThan` and `createMoreThan` have been moved to
+// the @dhis2/ui-forms library
+const isEmpty = (value) =>
+    typeof value === 'undefined' || value === null || value === ''
+
+// Min-max limits are guidelines, not hard limits: a value outside them is
+// still saved, so the message must not read like a rejection
+const createOutsideExpectedRange = (min, max) => (value) => {
+    if (isEmpty(value)) {
+        return undefined
+    }
+    const number = Number(value)
+    return number < min || number > max
+        ? i18n.t(
+              'This value is outside the expected range of {{min}} to {{max}}. Please check that it is correct.',
+              { min, max }
+          )
+        : undefined
+}
+
 export const warningValidateByValueType = (valueType, limits) => {
     if (
         CAN_HAVE_LIMITS_TYPES.includes(valueType) &&
         Number.isFinite(limits?.min) &&
         Number.isFinite(limits?.max)
     ) {
-        return createNumberRange(limits.min, limits.max)
+        return createOutsideExpectedRange(limits.min, limits.max)
     }
     return () => undefined
 }
@@ -115,12 +136,6 @@ export const minMaxValidatorsByValueType = {
     [VALUE_TYPES.NUMBER]: isInteger,
     [VALUE_TYPES.PERCENTAGE]: percentageInteger,
 }
-
-// This is an internal helper of the ui-forms library,
-// can be removed once `createLessThan` and `createMoreThan` have been moved to
-// the @dhis2/ui-forms library
-const isEmpty = (value) =>
-    typeof value === 'undefined' || value === null || value === ''
 
 // @TODO: Move to @dhis2/ui-forms validators
 export const createLessThan = (key, description) => {
