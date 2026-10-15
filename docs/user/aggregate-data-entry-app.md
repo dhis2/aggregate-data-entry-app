@@ -373,9 +373,15 @@ The badge in the header bar at the top of the screen shows your connection statu
 > Validation, data value history, and data value audit logs are not available offline.
 
 
-## Features not supported { #aggregate_data_entry_app.unsupported_features }
+## Custom forms { #aggregate_data_entry_app.custom_forms }
 
-- **Custom forms** that contain JavaScript work only in Data Entry app version 102.0.0 and later. To update the app, use the **App Management** app.
+The Data Entry app shows the custom forms that you set up for a data set. Custom forms that contain JavaScript also work. The app runs them with the Legacy Custom Forms plugin.
+
+> **Note**
+>
+> Custom forms with JavaScript do not work in versions of the Data Entry app earlier than 102.0.0. To update the app, use the **App Management** app.
+
+## Features not supported { #aggregate_data_entry_app.unsupported_features }
 
 - **Multi-organisation unit entry** is not supported.
 
