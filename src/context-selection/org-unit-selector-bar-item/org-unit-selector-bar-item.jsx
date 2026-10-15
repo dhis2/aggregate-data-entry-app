@@ -11,6 +11,7 @@ import {
     useOrgUnit,
 } from '../../shared/index.js'
 import DebouncedSearchInput from './debounced-search-input.jsx'
+import OrgUnitSearchTree from './org-unit-search-tree.jsx'
 import css from './org-unit-selector-bar-item.module.css'
 import {
     OrganisationUnitTree,
@@ -18,7 +19,9 @@ import {
     OrganisationUnitTreeRootLoading,
 } from './organisation-unit-tree/index.js'
 import useExpandedState from './use-expanded-state.js'
-import useOrgUnitPathsByName from './use-org-unit-paths-by-name.js'
+import useOrgUnitsByName, {
+    MAX_SEARCH_RESULTS,
+} from './use-org-units-by-name.js'
 import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
@@ -56,7 +59,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
     })
 
     const [filter, setFilter] = useState('')
-    const orgUnitPathsByName = useOrgUnitPathsByName(filter)
+    const orgUnitsByName = useOrgUnitsByName(filter)
 
     const [orgUnitOpen, setOrgUnitOpen] = useState(false)
     const { expanded, handleExpand, handleCollapse } = useExpandedState()
@@ -74,15 +77,33 @@ export default function OrganisationUnitSetSelectorBarItem() {
 
     const selectorBarItemValue = useSelectorBarItemValue()
     const selected = orgUnit.data ? [orgUnit.data.path] : []
-    const filteredOrgUnitPaths = filter ? orgUnitPathsByName.data : []
-    const orgUnitPathsByNameLoading =
+    const searchResults = filter ? orgUnitsByName.data?.orgUnits ?? [] : []
+    const loading =
         // offline levels need to be prefetched before rendering the org-unit-tree
         prefetchedOrganisationUnits.loading ||
         // Either a filter has been set but the hook
         // hasn't been called yet
-        (filter !== '' && !orgUnitPathsByName.called) ||
+        (filter !== '' && !orgUnitsByName.called) ||
         // or it's actually loading
-        orgUnitPathsByName.loading
+        orgUnitsByName.loading
+    const searchError = filter ? orgUnitsByName.error : undefined
+    const error = searchError || prefetchedOrganisationUnits.error
+    const isSelectable = (id) => !!assignedOrgUnits?.includes(id)
+    const renderNodeLabel = ({ node, label }) =>
+        isSelectable(node?.id) ? (
+            label
+        ) : (
+            <UnclickableLabel label={label} noDataSets={!dataSetId} />
+        )
+    const handleTreeChange = ({ id }, e) => {
+        // Not sure why this is necessary, but when not done,
+        // it causes bugs in the UI
+        e.stopPropagation()
+        if (isSelectable(id)) {
+            setOrgUnitId(id)
+            setOrgUnitOpen(false)
+        }
+    }
 
     useEffect(() => {
         // set as undefined if orgUnit is not assigned to dataset
@@ -125,72 +146,80 @@ export default function OrganisationUnitSetSelectorBarItem() {
                         <Divider dense />
                     </div>
                     <div className={css.orgUnitTreeContainer}>
-                        {orgUnitPathsByNameLoading && (
+                        {loading && (
                             <OrganisationUnitTreeRootLoading dataTest="org-unit-selector-loading" />
                         )}
 
-                        {!orgUnitPathsByNameLoading &&
-                            (orgUnitPathsByName.error ||
-                                prefetchedOrganisationUnits.error) && (
-                                <OrganisationUnitTreeRootError
-                                    dataTest="org-unit-selector-error"
-                                    error={
-                                        orgUnitPathsByName.error ||
-                                        prefetchedOrganisationUnits.error
-                                    }
-                                />
-                            )}
+                        {!loading && error && (
+                            <OrganisationUnitTreeRootError
+                                dataTest="org-unit-selector-error"
+                                error={error}
+                            />
+                        )}
 
-                        {!orgUnitPathsByNameLoading &&
+                        {!loading &&
+                            !searchError &&
                             !!filter &&
-                            !filteredOrgUnitPaths.length && (
-                                <div data-test="org-unit-selector-none-found">
+                            !searchResults.length && (
+                                <div
+                                    data-test="org-unit-selector-none-found"
+                                    className={css.searchNoneFound}
+                                >
                                     {i18n.t(
                                         'No organisation units could be found'
                                     )}
                                 </div>
                             )}
 
-                        {!orgUnitPathsByNameLoading &&
-                            (!filter || !!filteredOrgUnitPaths.length) && (
-                                <OrganisationUnitTree
-                                    dataTest="org-unit-selector-tree"
-                                    singleSelection
-                                    filter={filteredOrgUnitPaths}
-                                    roots={userOrgUnits.data || []}
-                                    selected={selected}
-                                    expanded={expanded}
-                                    handleExpand={handleExpand}
-                                    handleCollapse={handleCollapse}
-                                    onChange={({ id }, e) => {
-                                        // Not sure why this is necessary, but when not done,
-                                        // it causes bugs in the UI
-                                        e.stopPropagation()
-                                        if (assignedOrgUnits?.includes(id)) {
-                                            setOrgUnitId(id)
-                                            setOrgUnitOpen(false)
-                                        }
-                                    }}
-                                    renderNodeLabel={({ node, label }) => {
-                                        return assignedOrgUnits?.includes(
-                                            node?.id
-                                        ) ? (
-                                            label
-                                        ) : (
-                                            <UnclickableLabel
-                                                label={label}
-                                                noDataSets={!dataSetId}
-                                            />
-                                        )
-                                    }}
+                        {!loading && !searchError && !!searchResults.length && (
+                            <>
+                                <OrgUnitSearchTree
+                                    // reset the expanded state per search
+                                    key={filter}
+                                    orgUnits={searchResults}
                                     offlineLevels={
                                         prefetchedOrganisationUnits.offlineLevels
                                     }
                                     prefetchedOrganisationUnits={
                                         prefetchedOrganisationUnits.offlineOrganisationUnits
                                     }
+                                    selected={selected}
+                                    onChange={handleTreeChange}
+                                    renderNodeLabel={renderNodeLabel}
                                 />
-                            )}
+                                {orgUnitsByName.data.hasMore && (
+                                    <div
+                                        className={css.searchResultsMore}
+                                        data-test="org-unit-selector-search-results-more"
+                                    >
+                                        {i18n.t(
+                                            'Showing the first {{maxResults}} results. Refine your search to find other organisation units.',
+                                            { maxResults: MAX_SEARCH_RESULTS }
+                                        )}
+                                    </div>
+                                )}
+                            </>
+                        )}
+
+                        {!loading && !filter && (
+                            <OrganisationUnitTree
+                                dataTest="org-unit-selector-tree"
+                                singleSelection
+                                roots={userOrgUnits.data || []}
+                                selected={selected}
+                                expanded={expanded}
+                                handleExpand={handleExpand}
+                                handleCollapse={handleCollapse}
+                                onChange={handleTreeChange}
+                                renderNodeLabel={renderNodeLabel}
+                                offlineLevels={
+                                    prefetchedOrganisationUnits.offlineLevels
+                                }
+                                prefetchedOrganisationUnits={
+                                    prefetchedOrganisationUnits.offlineOrganisationUnits
+                                }
+                            />
+                        )}
                     </div>
                 </div>
             </SelectorBarItem>
