@@ -40,12 +40,21 @@ The Data Entry app is made up of the following sections:
 
 To start data entry, open a form. Use the top bar to choose the form that you want to open:
 
-1. Choose a data set from the first control in the top bar. The dropdown menu shows the data sets that you have access to. The data set determines what other choices are available, so choose a data set first.
+1. Choose a data set from the first control in the top bar. The dropdown menu shows the data sets that you have access to.
 2. Choose an organisation unit from the second control in the top bar. You can search for an organisation unit or browse the tree hierarchy.
 3. Choose a period from the third control in the top bar. The dropdown menu shows the periods set up for the chosen data set. To choose a different year, click the left or right arrow button.
 4. Make additional selections, if applicable. If additional selections are available, the app shows them as the last controls in the top bar. Additional selections depend on the data set, organisation unit, and period that you chose, so they do not appear until you make those first three choices. If there are no additional selections, the app shows no extra controls.
 
 After you make the selections in the top bar, the data entry form opens in the data workspace. If there is a problem opening a form, the data workspace shows an error that explains the problem.
+
+#### Choosing the data set or the organisation unit first { #aggregate_data_entry_app.selection_order }
+
+You can choose the data set or the organisation unit first. Each choice limits the other:
+
+- If you choose a data set first, the organisation unit tree shows only the organisation units that the data set is assigned to.
+- If you choose an organisation unit first, the data set menu shows only the data sets that are assigned to that organisation unit. When the app hides some data sets this way, the text **Some data sets are being filtered by the chosen organisation unit** and the **Show all data sets** button appear below the list. Click **Show all data sets** to clear the organisation unit and show all the data sets that you have access to.
+
+In Data Entry app version 101.0 and earlier, you must choose the data set first. To update the app, use the **App Management** app.
 
 #### Searching for a data set { #aggregate_data_entry_app.searching_data_sets }
 
@@ -59,7 +68,27 @@ Choose a data set from the filtered list to continue.
 
 The search field is available in Data Entry app version 101.1.0 and later. To update the app, use the **App Management** app.
 
-<!-- VERIFY IN APP: test a manual update of the Data Entry app to 101.1.0 or later on a 2.39 to 2.41 instance, and confirm where the app version is shown. -->
+<!-- VERIFY IN APP: test a manual update of the Data Entry app to 101.1.0 or later on a v39 to v41 instance, and confirm where the app version is shown. -->
+
+#### When your choices do not fit together { #aggregate_data_entry_app.selection_messages }
+
+The choices in the top bar depend on each other. When you change one choice so that another choice no longer fits, the app tells you.
+
+The **Period** menu stays disabled until you choose a data set. Point to the menu to see the message **Choose a data set first**.
+
+![](resources/images/aggregate_data_entry/tooltip-choose-data-set-first.png){ width=60% }
+
+After you choose a data set, the organisation unit tree shows the organisation units that the data set is not assigned to in grey. You cannot choose them. Point to one to see the message **Dataset is not assigned to this organisation unit**.
+
+![](resources/images/aggregate_data_entry/tooltip-org-unit-not-assigned.png){ width=60% }
+
+If you change the data set and the chosen period does not exist for the new data set or is not open, the app clears the period and shows the message **The Period (2026 October) is not open or is invalid.** The message shows the period that the app cleared. For example, this happens when you change from a monthly data set to a yearly data set. Choose a new period to continue.
+
+![](resources/images/aggregate_data_entry/warning-period-invalid.png){ width=50% }
+
+If the chosen organisation unit is not assigned to the data set, the app clears the organisation unit and shows the message **There was a problem loading the Organisation Unit selection**, followed by the identifier of the organisation unit. This can happen when you open a link or a bookmark that holds a combination that is not valid. When you choose the organisation unit in the top bar, the data set menu already hides the data sets that do not fit. See [Choosing the data set or the organisation unit first](#aggregate_data_entry_app.selection_order).
+
+![](resources/images/aggregate_data_entry/warning-org-unit-invalid.png){ width=50% }
 
 ### Entering data { #aggregate_data_entry_app.entering_data }
 
@@ -105,6 +134,32 @@ To filter the whole data entry form, enter a value in the input at the top of th
 
 For section forms, you can also filter inside a single section. Enter a value in the input at the top of a section.
 
+### Forms with sections { #aggregate_data_entry_app.section_forms }
+
+An administrator sets up how the sections of a form look when they configure the data set in the **Metadata Management** app. See [Manage section forms](#mm_manage_section_form). This section describes how the Data Entry app shows these settings.
+
+#### Collapsing sections { #aggregate_data_entry_app.collapsing_sections }
+
+When a form shows all of its sections on one page, each section header has an arrow icon. Click the arrow icon to collapse a section and hide its table. Click it again to expand the section. All sections are expanded when you open a form. An administrator does not need to configure this.
+
+#### Section tabs { #aggregate_data_entry_app.section_tabs }
+
+A data set can show one tab for each section, either above the form (horizontal tabs) or beside it (vertical tabs). Choose a tab to show that section. You cannot collapse a section that is shown as a tab.
+
+#### Pivoted sections { #aggregate_data_entry_app.pivoted_sections }
+
+By default, a section shows data elements as rows and categories as columns. An administrator can choose a different display mode for each section:
+
+- **Default**: data elements as rows, categories as columns.
+- **Pivot**: categories as rows, data elements as columns.
+- **Move a category to rows**: the default layout with one category moved to rows.
+
+A form can use a different display mode in each of its sections.
+
+#### Text before and after a section { #aggregate_data_entry_app.section_text }
+
+An administrator can add text that the form shows above a section and text that it shows below a section. The text can hold instructions for the person who enters data.
+
 ### Validation { #aggregate_data_entry_app.validation }
 When you are done entering data, you can run validation on the data values. Validation checks the values against rules set up in your DHIS2 instance.
 
@@ -116,6 +171,8 @@ The validation sidebar shows the validation results, grouped into high, medium, 
 
 ![](resources/images/aggregate_data_entry/validation-results.png)
 
+The validation sidebar also opens by itself when you complete a form and validation finds errors. See [Completing a form](#aggregate_data_entry_app.completing).
+
 
 ### Completing a form { #aggregate_data_entry_app.completing }
 
@@ -124,6 +181,10 @@ After you enter data and run validation, the last step is to complete the form. 
 Clicking **Mark complete** also runs validation. If the data set has **Completing requires passing validation** or **Completing requires compulsory fields to have a value** turned on, the app blocks completion until the form meets that requirement.
 
 ![](resources/images/aggregate_data_entry/complete-button.png){ width=60% }
+
+If validation finds errors when you click **Mark complete**, the validation sidebar opens by itself and shows the results. If the data set has **Completing requires passing validation** turned on, the app does not complete the form and shows the message **The form can't be completed while invalid**. If that setting is turned off, the app completes the form, and the sidebar stays open so you can review the results.
+
+![](resources/images/aggregate_data_entry/complete-opens-validation.png){ width=60% }
 
 If a form is complete but should not be, click **Mark incomplete** in the bottom bar to mark it as incomplete.
 
@@ -141,9 +202,13 @@ After a form is completed, the bottom bar shows **Last completed by** and the na
 
 #### When data entry closes { #aggregate_data_entry_app.closes }
 
-If a time limit applies to the form, the bottom bar shows **Closes** and the time left, for example **Closes in 3 days**. Hover over the text to see the exact date and time. The time uses the time zone of the DHIS2 server, which can differ from the time zone of your computer.
+If a time limit applies to the form, the bottom bar shows **Closes** and the time left, for example **Closes in 3 days**.
 
 ![](resources/images/aggregate_data_entry/bottom-bar-closes.png){ width=60% }
+
+Hover over the text to see the exact date and time. The time uses the time zone of the DHIS2 server, which can differ from the time zone of your computer.
+
+![](resources/images/aggregate_data_entry/bottom-bar-closes-hover.png){ width=60% }
 
 The app uses the sooner of two dates: the closing date of the data input period, or the end of the expiry days of the data set. The expiry days count only if you do not have the authority to edit expired data. After the time passes, the form is locked and the text is no longer shown. See [Locked forms](#aggregate_data_entry_app.locked_forms).
 
@@ -166,7 +231,7 @@ A form can be locked, so you cannot add or change data. When this happens, a **D
 |---|---|
 | Data cannot be added or changed because organisation unit is closed for the selected period. | The organisation unit has an opening date after the period or a closing date before the period. |
 | Data cannot be added or changed outside of the data input period. | The data set has data input periods, and the selected period is not one of them, or today is outside the open and close dates. |
-| Data cannot be added or changed because data entry has concluded. | The server locked the form. This happens when the expiry days of the data set have passed, or when the period is outside the data input periods of the data set. |
+| Data cannot be added or changed because data entry has concluded. | The server locked the form. This happens when the expiry days of the data set have passed. |
 | Data cannot be added or changed because data has been approved. | The data was approved in data approval. |
 | You do not have the authority to edit entry forms | Your user role does not include the authority to add data values. |
 
@@ -202,6 +267,17 @@ You can open the data details sidebar in two ways:
 - With a data entry cell selected, press ++ctrl+enter++ or ++cmd+enter++.
 
 The data details sidebar stays open until you close it, or until you change the data set, organisation unit, period, or attribute option combination. You can keep it open for reference as you work through a data entry form.
+
+#### Information about the data value { #aggregate_data_entry_app.data_value_info }
+
+At the top of the data details sidebar, the app shows the name of the data element and the category option combination of the selected cell. Below the name, the sidebar can show the following information:
+
+- **Description**: the description of the data element. The sidebar shows this line only when the data element has a description.
+- **Code**: the code of the data element, when it has one.
+- **Data element ID** and **Category option combo ID**: the unique identifiers (UIDs) of the data element and of the category option combination. You can use them in the API and in other apps.
+- **Last updated**: the time of the last change to the value and the name of the user who made it. The sidebar shows this line only for values that are saved.
+
+![](resources/images/aggregate_data_entry/data-details-description.png){ width=50% }
 
 #### Mark data values for follow-up { #aggregate_data_entry_app.mark_followup }
 
