@@ -227,6 +227,51 @@ Object {
 }
 `;
 
+exports[`convertToIso8601ToString (regression) ethiopian 1`] = `
+Object {
+  "0692-10-17": "0700-06-15",
+  "2015-13-06": "2023-09-11",
+  "2016-01-01": "2023-09-12",
+  "2016-10-08": "2024-06-15",
+  "2016-10-08T12:34:56.789": "2024-06-15T12:34:56.789",
+  "undefined": undefined,
+}
+`;
+
+exports[`convertToIso8601ToString (regression) ethiopic 1`] = `
+Object {
+  "2016-10-08": "2024-06-15",
+  "7516-10-08": "7524-07-27",
+  "undefined": undefined,
+}
+`;
+
+exports[`convertToIso8601ToString (regression) gregory 1`] = `
+Object {
+  "2024-06-15": "2024-06-15",
+  "2024-06-15T12:34:56": "2024-06-15T12:34:56",
+  "undefined": undefined,
+}
+`;
+
+exports[`convertToIso8601ToString (regression) islamic 1`] = `
+Object {
+  "0081-04-19": "0700-06-15",
+  "1445-12-09": "2024-06-15",
+  "1445-12-09T12:34:56": "2024-06-15T12:34:56",
+  "undefined": undefined,
+}
+`;
+
+exports[`convertToIso8601ToString (regression) nepali 1`] = `
+Object {
+  "2080-12-30": "2024-04-12",
+  "2081-03-01": "2024-06-15",
+  "2081-03-01T12:34:56": "2024-06-15T12:34:56",
+  "undefined": undefined,
+}
+`;
+
 exports[`getNowInCalendarString (regression) ethiopian 1`] = `
 Object {
   "2023-09-11T23:59:59Z": Object {

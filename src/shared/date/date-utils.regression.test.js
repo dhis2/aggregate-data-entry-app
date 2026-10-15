@@ -4,6 +4,7 @@
 import {
     addDaysToDateString,
     convertFromIso8601ToString,
+    convertToIso8601ToString,
 } from './date-utils.js'
 import { getNowInCalendarString } from './get-now-in-calendar.js'
 
@@ -76,6 +77,33 @@ describe('convertFromIso8601ToString (regression)', () => {
         })
         results.undefined = run(() =>
             convertFromIso8601ToString(undefined, calendar)
+        )
+        expect(results).toMatchSnapshot()
+    })
+})
+
+describe('convertToIso8601ToString (regression)', () => {
+    const CASES = {
+        gregory: ['2024-06-15', '2024-06-15T12:34:56'],
+        ethiopian: [
+            '2016-10-08',
+            '2016-10-08T12:34:56.789',
+            '2015-13-06',
+            '2016-01-01',
+            '0692-10-17',
+        ],
+        ethiopic: ['7516-10-08', '2016-10-08'],
+        nepali: ['2081-03-01', '2081-03-01T12:34:56', '2080-12-30'],
+        islamic: ['1445-12-09', '1445-12-09T12:34:56', '0081-04-19'],
+    }
+
+    it.each(CALENDARS)('%s', (calendar) => {
+        const results = {}
+        CASES[calendar].forEach((date) => {
+            results[date] = run(() => convertToIso8601ToString(date, calendar))
+        })
+        results.undefined = run(() =>
+            convertToIso8601ToString(undefined, calendar)
         )
         expect(results).toMatchSnapshot()
     })
