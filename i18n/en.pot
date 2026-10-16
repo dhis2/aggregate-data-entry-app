@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-06-01T13:05:23.374Z\n"
-"PO-Revision-Date: 2026-06-01T13:05:23.375Z\n"
+"POT-Creation-Date: 2026-10-15T13:19:28.649Z\n"
+"PO-Revision-Date: 2026-10-15T13:19:28.650Z\n"
 
 msgid "There was a problem loading metadata"
 msgstr "There was a problem loading metadata"
@@ -245,11 +245,17 @@ msgstr "Shift + Tab"
 msgid "No results found for {{filter}}"
 msgstr "No results found for {{filter}}"
 
+msgid "ID not found"
+msgstr "ID not found"
+
 msgid "Could not find a data set for the selected id"
 msgstr "Could not find a data set for the selected id"
 
-msgid "There are no data sets available!"
-msgstr "There are no data sets available!"
+msgid "No data sets available"
+msgstr "No data sets available"
+
+msgid "There are no data sets configured, or you do not have access to view them."
+msgstr "There are no data sets configured, or you do not have access to view them."
 
 msgid "Search for a data set"
 msgstr "Search for a data set"
@@ -274,6 +280,9 @@ msgstr "Options"
 
 msgid "Search org units"
 msgstr "Search org units"
+
+msgid "No data sets are assigned to this organisation unit"
+msgstr "No data sets are assigned to this organisation unit"
 
 msgid "Dataset is not assigned to this organisation unit"
 msgstr "Dataset is not assigned to this organisation unit"
