@@ -112,6 +112,7 @@ const DataWorkspacePlugin = ({
     periodId,
     attributeOptionComboSelection,
     sectionFilter,
+    readOnly,
 }) => {
     const params = new URLSearchParams({ dataSetId, orgUnitId, periodId })
     if (
@@ -138,7 +139,7 @@ const DataWorkspacePlugin = ({
     )
 
     return (
-        <OuterComponents router={Router}>
+        <OuterComponents router={Router} readOnly={Boolean(readOnly)}>
             <LoadApp>
                 <CheckedDataWorkspace />
             </LoadApp>
@@ -153,6 +154,8 @@ DataWorkspacePlugin.propTypes = {
     // { [categoryId]: categoryOptionId }, one per attribute category
     attributeOptionComboSelection: PropTypes.objectOf(PropTypes.string),
     sectionFilter: PropTypes.string,
+    // only show the values, e.g. when a report embeds the form
+    readOnly: PropTypes.bool,
 }
 
 /*

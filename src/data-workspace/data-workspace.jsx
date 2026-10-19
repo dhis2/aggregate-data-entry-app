@@ -12,6 +12,7 @@ import {
     useDataSetId,
     useContextSelectionId,
     useDataValueSet,
+    useIsReadOnly,
     useIsValidSelection,
     useValueStore,
     dataValueSetQueryKey,
@@ -44,6 +45,8 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     )
 
     const isValidSelection = useIsValidSelection()
+    // completing and running validation are editing actions
+    const readOnly = useIsReadOnly()
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
     const formKey = useContextSelectionId({ excludeSectionFilter: false })
@@ -140,9 +143,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     </div>
                 </main>
 
-                <footer className={footerClasses}>
-                    <BottomBar />
-                </footer>
+                {!readOnly && (
+                    <footer className={footerClasses}>
+                        <BottomBar />
+                    </footer>
+                )}
             </div>
         </FormWrapper>
     )
