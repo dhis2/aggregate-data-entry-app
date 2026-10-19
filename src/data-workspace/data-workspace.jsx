@@ -12,6 +12,7 @@ import {
     useDataSetId,
     useContextSelectionId,
     useDataValueSet,
+    useIsDataFromHost,
     useIsReadOnly,
     useIsValidSelection,
     useValueStore,
@@ -56,9 +57,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     // resetErrorsAndWarnings
     // to keep one stable dependency for effect below
     const validFormKey = isValidSelection ? formKey : false
+    // values from an embedding app are current already
+    const dataFromHost = useIsDataFromHost()
     // force refetch when context-selection changes
     useEffect(() => {
-        if (validFormKey) {
+        if (validFormKey && !dataFromHost) {
             // note this will only refetch "active"/mounted queries,
             // so it's safe to not provide params
             queryClient.invalidateQueries(
@@ -71,7 +74,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                 }
             )
         }
-    }, [validFormKey, queryClient])
+    }, [validFormKey, dataFromHost, queryClient])
 
     useEffect(() => {
         setCompleteAttempted(false)

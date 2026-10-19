@@ -7,7 +7,7 @@ const selectorFunction = createSelector(
     (data) => hashArraysInObject(data)
 )
 
-const queryKey = [`/dataEntry/metadata`]
+export const metadataQueryKey = [`/dataEntry/metadata`]
 
 const queryOpts = {
     refetchOnMount: false,
@@ -16,6 +16,6 @@ const queryOpts = {
 }
 
 export const useMetadata = () => {
-    const metadataQuery = useQuery(queryKey, queryOpts)
+    const metadataQuery = useQuery(metadataQueryKey, queryOpts)
     return metadataQuery
 }

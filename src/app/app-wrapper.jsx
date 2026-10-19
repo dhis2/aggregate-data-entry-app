@@ -66,6 +66,8 @@ export function OuterComponents({
 OuterComponents.propTypes = {
     children: PropTypes.any.isRequired,
     queryClient: PropTypes.instanceOf(QueryClient).isRequired,
+    // only show the form, e.g. when embedded as a report
+    readOnly: PropTypes.bool,
     // in js classes are functions, too
     router: PropTypes.elementType,
 }
