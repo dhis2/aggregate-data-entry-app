@@ -2,7 +2,7 @@ import { useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { ObjectParam } from 'use-query-params'
 import { OuterComponents } from '../app/app-wrapper.jsx'
@@ -114,7 +114,6 @@ const DataWorkspacePlugin = ({
     attributeOptionComboSelection,
     sectionFilter,
     readOnly,
-    metadata,
     dataValues,
 }) => {
     const params = new URLSearchParams({ dataSetId, orgUnitId, periodId })
@@ -131,17 +130,6 @@ const DataWorkspacePlugin = ({
         params.set('sectionFilter', sectionFilter)
     }
     const search = params.toString()
-    // props arrive as new objects with every update; search encodes them
-    const selection = useMemo(
-        () => ({
-            dataSetId,
-            orgUnitId,
-            periodId,
-            attributeOptionComboSelection,
-        }),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [search]
-    )
 
     const Router = useCallback(
         ({ children }) => (
@@ -154,15 +142,11 @@ const DataWorkspacePlugin = ({
 
     return (
         <OuterComponents router={Router} readOnly={Boolean(readOnly)}>
-            <HostData
-                metadata={metadata}
-                dataValues={dataValues}
-                selection={selection}
-            >
-                <LoadApp>
+            <LoadApp>
+                <HostData dataValues={dataValues}>
                     <CheckedDataWorkspace />
-                </LoadApp>
-            </HostData>
+                </HostData>
+            </LoadApp>
         </OuterComponents>
     )
 }
@@ -173,9 +157,8 @@ DataWorkspacePlugin.propTypes = {
     periodId: PropTypes.string.isRequired,
     // { [categoryId]: categoryOptionId }, one per attribute category
     attributeOptionComboSelection: PropTypes.objectOf(PropTypes.string),
-    // raw /api/dataEntry/dataValues and /api/dataEntry/metadata responses
+    // raw /api/dataEntry/dataValues response for the selection
     dataValues: PropTypes.object,
-    metadata: PropTypes.object,
     readOnly: PropTypes.bool,
     sectionFilter: PropTypes.string,
 }

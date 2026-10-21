@@ -1,60 +1,33 @@
 import { useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import {
-    dataValueSetQueryKey,
-    HostDataContext,
-    metadataQueryKey,
-} from '../shared/index.js'
-
-// useDataValueSet's key, built from the raw metadata before it is cached
-const dataValuesQueryKey = (
-    metadata,
-    { dataSetId, orgUnitId, periodId, attributeOptionComboSelection }
-) => {
-    const dataSet = metadata.dataSets?.find(({ id }) => id === dataSetId)
-    const categoryCombo = metadata.categoryCombos?.find(
-        ({ id }) => id === dataSet?.categoryCombo?.id
-    )
-    const hasAttributes = Boolean(categoryCombo && !categoryCombo.isDefault)
-    return dataValueSetQueryKey.byIds({
-        dataSetId,
-        periodId,
-        orgUnitId,
-        categoryComboId: hasAttributes ? categoryCombo.id : undefined,
-        // sorted, as useApiAttributeParams sorts them
-        categoryOptionIds: hasAttributes
-            ? Object.values(attributeOptionComboSelection ?? {}).sort()
-            : undefined,
-    })
-}
+import { HostDataContext, useDataValueSetQueryKey } from '../shared/index.js'
 
 /*
- * SPIKE (DHIS2-22048): caches the host's metadata and dataValues responses
- * before the workspace renders, so it doesn't fetch them itself.
+ * SPIKE (DHIS2-22048): caches the host's dataValues response under the key
+ * useDataValueSet reads, before the workspace renders, so it doesn't fetch
+ * the values itself. Needs the metadata, so it goes inside LoadApp.
  */
-export const HostData = ({ metadata, dataValues, selection, children }) => {
+export const HostData = ({ dataValues, children }) => {
     const queryClient = useQueryClient()
-    const fromHost = Boolean(metadata && dataValues)
-    const [seeded, setSeeded] = useState(!fromHost)
+    const queryKey = useDataValueSetQueryKey()
+    const key = JSON.stringify(queryKey)
+    const [seededKey, setSeededKey] = useState()
 
     useEffect(() => {
-        if (!fromHost) {
-            return
+        if (dataValues) {
+            queryClient.setQueryData(queryKey, dataValues)
+            setSeededKey(key)
         }
-        queryClient.setQueryData(metadataQueryKey, metadata)
-        queryClient.setQueryData(
-            dataValuesQueryKey(metadata, selection),
-            dataValues
-        )
-        setSeeded(true)
-    }, [fromHost, queryClient, metadata, dataValues, selection])
+        // key stands in for queryKey
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [queryClient, dataValues, key])
 
-    if (!seeded) {
+    if (dataValues && seededKey !== key) {
         return null
     }
     return (
-        <HostDataContext.Provider value={fromHost}>
+        <HostDataContext.Provider value={Boolean(dataValues)}>
             {children}
         </HostDataContext.Provider>
     )
@@ -63,11 +36,4 @@ export const HostData = ({ metadata, dataValues, selection, children }) => {
 HostData.propTypes = {
     children: PropTypes.node,
     dataValues: PropTypes.object,
-    metadata: PropTypes.object,
-    selection: PropTypes.shape({
-        attributeOptionComboSelection: PropTypes.objectOf(PropTypes.string),
-        dataSetId: PropTypes.string,
-        orgUnitId: PropTypes.string,
-        periodId: PropTypes.string,
-    }),
 }
