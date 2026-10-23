@@ -1,3 +1,10 @@
+## [102.1.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.4...v102.1.5) (2026-10-23)
+
+
+### Bug Fixes
+
+* match org unit itself [DHIS2-21397] ([#600](https://github.com/dhis2/aggregate-data-entry-app/issues/600)) ([fb74c14](https://github.com/dhis2/aggregate-data-entry-app/commit/fb74c14dcf76e295e79121455635e19db8e60659))
+
 ## [102.1.4](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.3...v102.1.4) (2026-10-06)
 
 
