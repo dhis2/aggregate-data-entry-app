@@ -105,7 +105,7 @@ describe('warningValidateByValueType', () => {
                     min: 5,
                     max: 10,
                     expectedErrorMessage:
-                        'Number cannot be less than 5 or more than 10',
+                        'This value is outside the expected range of 5 to 10. Check that it is correct.',
                 },
             ]),
             [
@@ -115,7 +115,7 @@ describe('warningValidateByValueType', () => {
                     min: -10,
                     max: -5,
                     expectedErrorMessage:
-                        'Number cannot be less than -10 or more than -5',
+                        'This value is outside the expected range of -10 to -5. Check that it is correct.',
                 },
             ],
         ])(
@@ -137,6 +137,30 @@ describe('warningValidateByValueType', () => {
                 })(7)
             ).toBeUndefined()
         })
+
+        it.each([5, 10, '5', '10'])(
+            'should not return error when the value %s is on a limit',
+            (value) => {
+                expect(
+                    warningValidateByValueType(VALUE_TYPES.NUMBER, {
+                        min: 5,
+                        max: 10,
+                    })(value)
+                ).toBeUndefined()
+            }
+        )
+
+        it.each([undefined, null, ''])(
+            'should not return error when the value is empty (%s)',
+            (value) => {
+                expect(
+                    warningValidateByValueType(VALUE_TYPES.NUMBER, {
+                        min: 5,
+                        max: 10,
+                    })(value)
+                ).toBeUndefined()
+            }
+        )
 
         it('should not return error for type that does not support limits', () => {
             expect(
