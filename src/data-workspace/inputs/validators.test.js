@@ -105,7 +105,7 @@ describe('warningValidateByValueType', () => {
                     min: 5,
                     max: 10,
                     expectedErrorMessage:
-                        'This value is outside the expected range of 5 to 10. Please check that it is correct.',
+                        'This value is outside the expected range of 5 to 10. Check that it is correct.',
                 },
             ]),
             [
@@ -115,7 +115,7 @@ describe('warningValidateByValueType', () => {
                     min: -10,
                     max: -5,
                     expectedErrorMessage:
-                        'This value is outside the expected range of -10 to -5. Please check that it is correct.',
+                        'This value is outside the expected range of -10 to -5. Check that it is correct.',
                 },
             ],
         ])(
