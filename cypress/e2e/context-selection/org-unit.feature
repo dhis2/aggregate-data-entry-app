@@ -62,7 +62,9 @@ Feature: An org unit can be selected
         When the user opens the org unit selector
         And the root org unit have been loaded
         When the user filters the org units by the name of a non-root org unit
-        Then the org unit tree should only display nodes up until the filtered org unit
+        Then the matching org units should be displayed as tree roots
+        When the user selects the matching org unit "Bombali Sebora"
+        Then the org unit's display name "Bombali Sebora" should be displayed as selected value
 
     # The "expanded" state should be persisted per session
     Scenario: The user closes and opens the org unit selector
