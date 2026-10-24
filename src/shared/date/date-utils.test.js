@@ -280,7 +280,7 @@ describe('addDaysToDateString', () => {
         expect(result).toBe('2023-03-20T12:00:00')
     })
 
-    it.skip('works with ethiopian calendar', () => {
+    it('works with ethiopian calendar', () => {
         const startDateString = '2016-02-30'
         const days = 5
         const calendar = 'ethiopian'
