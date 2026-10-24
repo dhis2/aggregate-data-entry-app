@@ -12,6 +12,8 @@ import {
     useDataSetId,
     useContextSelectionId,
     useDataValueSet,
+    useIsDataFromHost,
+    useIsReadOnly,
     useIsValidSelection,
     useValueStore,
     dataValueSetQueryKey,
@@ -44,6 +46,8 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     )
 
     const isValidSelection = useIsValidSelection()
+    // completing and running validation are editing actions
+    const readOnly = useIsReadOnly()
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
     const formKey = useContextSelectionId({ excludeSectionFilter: false })
@@ -53,9 +57,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     // resetErrorsAndWarnings
     // to keep one stable dependency for effect below
     const validFormKey = isValidSelection ? formKey : false
+    // values from an embedding app are current already
+    const dataFromHost = useIsDataFromHost()
     // force refetch when context-selection changes
     useEffect(() => {
-        if (validFormKey) {
+        if (validFormKey && !dataFromHost) {
             // note this will only refetch "active"/mounted queries,
             // so it's safe to not provide params
             queryClient.invalidateQueries(
@@ -68,7 +74,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                 }
             )
         }
-    }, [validFormKey, queryClient])
+    }, [validFormKey, dataFromHost, queryClient])
 
     useEffect(() => {
         setCompleteAttempted(false)
@@ -140,9 +146,11 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
                     </div>
                 </main>
 
-                <footer className={footerClasses}>
-                    <BottomBar />
-                </footer>
+                {!readOnly && (
+                    <footer className={footerClasses}>
+                        <BottomBar />
+                    </footer>
+                )}
             </div>
         </FormWrapper>
     )
