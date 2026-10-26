@@ -1,3 +1,10 @@
+## [102.1.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.5...v102.1.6) (2026-10-26)
+
+
+### Bug Fixes
+
+* word min-max warning as a guideline, not a hard limit [DHIS2-19618] ([#603](https://github.com/dhis2/aggregate-data-entry-app/issues/603)) ([80260ce](https://github.com/dhis2/aggregate-data-entry-app/commit/80260ce8d0b51f5a104bed56f07d322a9d45f817))
+
 ## [102.1.5](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.4...v102.1.5) (2026-10-23)
 
 
