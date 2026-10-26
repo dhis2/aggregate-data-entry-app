@@ -101,7 +101,16 @@ export const warningValidateByValueType = (valueType, limits) => {
         Number.isFinite(limits?.min) &&
         Number.isFinite(limits?.max)
     ) {
-        return createNumberRange(limits.min, limits.max)
+        // Min-max limits are guidelines, not hard limits: a value outside them
+        // is still saved, so the message must not read like a rejection
+        return createNumberRange(
+            limits.min,
+            limits.max,
+            i18n.t(
+                'This value is outside the expected range of {{min}} to {{max}}. Check that it is correct.',
+                { min: limits.min, max: limits.max }
+            )
+        )
     }
     return () => undefined
 }
