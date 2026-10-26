@@ -137,75 +137,28 @@ When(
     }
 )
 
-Then(
-    'the org unit tree should only display nodes up until the filtered org unit',
-    () => {
-        // Open Sierra Leone
-        cy.get(
-            `[data-test="org-unit-selector-tree-node-label"]:contains("Sierra Leone")`
-        )
-            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
-            .find('[data-test="org-unit-selector-tree-node-toggle"]')
-            .click()
+Then('the matching org units should be displayed as tree roots', () => {
+    // "Bombali" and its chiefdom "Bombali Sebora" (at least) both match
+    cy.get(
+        '[data-test="org-unit-selector-tree"] > [data-test="org-unit-selector-tree-node"]'
+    ).should('have.length.of.at.least', 2)
 
-        // Wait until bombali loaded its data
-        cy.get(
-            `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali")`
-        )
-            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
-            .first() // Ignore the node of Sierra Leone
-            .find('[data-test="org-unit-selector-tree-node-toggle"]')
-            .should('exist')
+    // the matching org units are expanded, so "Bombali Sebora" is
+    // displayed both as a root and as a child of "Bombali"
+    cy.get(
+        '[data-test="org-unit-selector-tree-node-label"]:contains("Bombali Sebora")'
+    ).should('have.length.of.at.least', 2)
+})
 
-        // Open Bombali
-        cy.get(
-            `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali")`
-        )
-            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
-            .first() // Ignore the node of Sierra Leone
-            .find('[data-test="org-unit-selector-tree-node-toggle"]')
-            .click()
-
-        // Wait until bombali sebora loaded its data
-        cy.get(
-            `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali Sebora")`
-        )
-            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
-            .first() // Ignore the node of Sierra Leone and Bombali
-            .find('[data-test="org-unit-selector-tree-node-icon"]')
-            .should('not.exist')
-
-        // "Bombali Sebora" should still indicate that it has children
-        cy.get(
-            `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali Sebora")`
-        )
-            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
-            .first() // Ignore the node of Sierra Leone and Bombali
-            .find('[data-test="org-unit-selector-tree-node-toggle"]')
-            .should('exist')
-
-        // a no children message should not be displayed
-        cy.contains('No children match filter').should('not.exist')
-
-        // Open Bombali Sebora
-        cy.get(
-            `[data-test="org-unit-selector-tree-node-label"]:contains("Bombali Sebora")`
-        )
-            .invoke('parents', '[data-test="org-unit-selector-tree-node"]')
-            .first()
-            .find('[data-test="org-unit-selector-tree-node-toggle"]')
-            .click()
-
-        // a no children message should be displayed
-        cy.contains('No children match filter').should('exist')
-
-        // There should be exactly three nodes
-        cy.get('[data-test="org-unit-selector-tree-node"]').should(
-            'have.length',
-            3
-        )
-    }
-)
+When('the user selects the matching org unit {string}', (orgUnitName) => {
+    // the same org unit can be displayed as a root and as a child of
+    // another matching org unit, either one selects it
+    cy.get(
+        `[data-test="org-unit-selector-tree-node-label"]:contains("${orgUnitName}")`
+    )
+        .first()
+        .click()
+})
 
 When('the user expands the root org unit', () => {
     cy.get(
