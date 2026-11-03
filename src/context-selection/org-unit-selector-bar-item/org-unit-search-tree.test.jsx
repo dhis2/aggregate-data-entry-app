@@ -74,7 +74,7 @@ describe('OrgUnitSearchTree', () => {
             expect(within(tree).getAllByText('Bombali Sebora')).toHaveLength(2)
             expect(
                 within(tree).getAllByText('Makeni Government Hospital')
-            ).not.toHaveLength(0)
+            ).toHaveLength(1)
         })
     })
 
