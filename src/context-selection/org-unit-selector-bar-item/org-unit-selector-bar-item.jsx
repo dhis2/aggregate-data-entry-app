@@ -19,9 +19,7 @@ import {
     OrganisationUnitTreeRootLoading,
 } from './organisation-unit-tree/index.js'
 import useExpandedState from './use-expanded-state.js'
-import useOrgUnitsByName, {
-    MAX_SEARCH_RESULTS,
-} from './use-org-units-by-name.js'
+import useOrgUnitsByName from './use-org-units-by-name.js'
 import usePrefetchedOrganisationUnits from './use-prefetched-organisation-units.js'
 import useSelectorBarItemValue from './use-select-bar-item-value.js'
 import useUserOrgUnits from './use-user-org-units.js'
@@ -172,33 +170,21 @@ export default function OrganisationUnitSetSelectorBarItem() {
                             )}
 
                         {!loading && !searchError && !!searchResults.length && (
-                            <>
-                                <OrgUnitSearchTree
-                                    // reset the expanded state per search
-                                    key={filter}
-                                    orgUnits={searchResults}
-                                    offlineLevels={
-                                        prefetchedOrganisationUnits.offlineLevels
-                                    }
-                                    prefetchedOrganisationUnits={
-                                        prefetchedOrganisationUnits.offlineOrganisationUnits
-                                    }
-                                    selected={selected}
-                                    onChange={handleTreeChange}
-                                    renderNodeLabel={renderNodeLabel}
-                                />
-                                {orgUnitsByName.data.hasMore && (
-                                    <div
-                                        className={css.searchResultsMore}
-                                        data-test="org-unit-selector-search-results-more"
-                                    >
-                                        {i18n.t(
-                                            'Showing the first {{maxResults}} results. Refine your search to find other organisation units.',
-                                            { maxResults: MAX_SEARCH_RESULTS }
-                                        )}
-                                    </div>
-                                )}
-                            </>
+                            <OrgUnitSearchTree
+                                // reset the expanded state per search
+                                key={filter}
+                                orgUnits={searchResults}
+                                hasMore={orgUnitsByName.data.hasMore}
+                                offlineLevels={
+                                    prefetchedOrganisationUnits.offlineLevels
+                                }
+                                prefetchedOrganisationUnits={
+                                    prefetchedOrganisationUnits.offlineOrganisationUnits
+                                }
+                                selected={selected}
+                                onChange={handleTreeChange}
+                                renderNodeLabel={renderNodeLabel}
+                            />
                         )}
 
                         {!loading && !filter && (

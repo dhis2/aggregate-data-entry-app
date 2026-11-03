@@ -1,6 +1,9 @@
+import i18n from '@dhis2/d2-i18n'
 import PropTypes from 'prop-types'
 import React, { useMemo, useState } from 'react'
+import css from './org-unit-selector-bar-item.module.css'
 import { OrganisationUnitTree } from './organisation-unit-tree/index.js'
+import { MAX_SEARCH_RESULTS } from './use-org-units-by-name.js'
 
 /**
  * The offline levels are keyed by the paths of the user org units
@@ -29,6 +32,7 @@ export const getSearchResultOfflineLevels = (orgUnits, offlineLevels = {}) => {
  */
 export default function OrgUnitSearchTree({
     orgUnits,
+    hasMore,
     offlineLevels,
     prefetchedOrganisationUnits,
     ...treeProps
@@ -43,21 +47,34 @@ export default function OrgUnitSearchTree({
     )
 
     return (
-        <OrganisationUnitTree
-            {...treeProps}
-            dataTest="org-unit-selector-tree"
-            singleSelection
-            roots={roots}
-            expanded={expanded}
-            handleExpand={({ path }) =>
-                setExpanded((prev) => [...new Set([...prev, path])])
-            }
-            handleCollapse={({ path }) =>
-                setExpanded((prev) => prev.filter((p) => p !== path))
-            }
-            offlineLevels={searchResultOfflineLevels}
-            prefetchedOrganisationUnits={prefetchedOrganisationUnits ?? []}
-        />
+        <>
+            <OrganisationUnitTree
+                {...treeProps}
+                dataTest="org-unit-selector-tree"
+                singleSelection
+                roots={roots}
+                expanded={expanded}
+                handleExpand={({ path }) =>
+                    setExpanded((prev) => [...new Set([...prev, path])])
+                }
+                handleCollapse={({ path }) =>
+                    setExpanded((prev) => prev.filter((p) => p !== path))
+                }
+                offlineLevels={searchResultOfflineLevels}
+                prefetchedOrganisationUnits={prefetchedOrganisationUnits ?? []}
+            />
+            {hasMore && (
+                <div
+                    className={css.searchResultsMore}
+                    data-test="org-unit-selector-search-results-more"
+                >
+                    {i18n.t(
+                        'Showing the first {{maxResults}} results. Refine your search to find other organisation units.',
+                        { maxResults: MAX_SEARCH_RESULTS }
+                    )}
+                </div>
+            )}
+        </>
     )
 }
 
@@ -68,6 +85,7 @@ OrgUnitSearchTree.propTypes = {
             path: PropTypes.string.isRequired,
         })
     ).isRequired,
+    hasMore: PropTypes.bool,
     offlineLevels: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.number)),
     prefetchedOrganisationUnits: PropTypes.array,
 }
