@@ -40,3 +40,14 @@
     color: var(--theme-disabled);
     cursor: auto;
 }
+
+.searchResultsMore {
+    font-size: 13px;
+    color: var(--colors-grey700);
+    padding: var(--spacers-dp8);
+}
+
+.searchNoneFound {
+    font-size: 13px;
+    color: var(--colors-grey800);
+}

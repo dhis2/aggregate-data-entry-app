@@ -2,33 +2,23 @@ import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { useState } from 'react'
 import { render } from '../../../../test-utils/render.jsx'
-import DebouncedSearchInput from '../../debounced-search-input.jsx'
-import useOrgUnitPathsByName from '../../use-org-unit-paths-by-name.js'
 import useUserOrgUnits from '../../use-user-org-units.js'
 import { OrganisationUnitTree } from './organisation-unit-tree.jsx'
 
-// Mirrors how the org unit selector bar item wires the search input
-// to the tree, without its dependencies on metadata and context selection
+// Renders the tree with the user's org units as roots,
+// without dependencies on metadata and context selection
 // eslint-disable-next-line react/prop-types
-const SearchableOrganisationUnitTree = ({ offlineLevels }) => {
-    const [filter, setFilter] = useState('')
+const FilteredOrganisationUnitTree = ({ filter, offlineLevels }) => {
     const userOrgUnits = useUserOrgUnits()
-    const orgUnitPathsByName = useOrgUnitPathsByName(filter)
     const [expanded, setExpanded] = useState([])
-
-    const isLoading =
-        userOrgUnits.loading ||
-        (filter !== '' && !orgUnitPathsByName.called) ||
-        orgUnitPathsByName.loading
 
     return (
         <>
-            <DebouncedSearchInput initialValue={filter} onChange={setFilter} />
-            {!isLoading && (
+            {!userOrgUnits.loading && (
                 <OrganisationUnitTree
                     singleSelection
                     roots={userOrgUnits.data}
-                    filter={filter ? orgUnitPathsByName.data : []}
+                    filter={filter}
                     expanded={expanded}
                     handleExpand={({ path }) =>
                         setExpanded((prev) => [...prev, path])
@@ -115,10 +105,9 @@ describe('OrganisationUnitTree', () => {
         ])
     })
 
-    describe('filtering by name', () => {
-        // The user is assigned to "Finland" (level 2), so the paths returned
-        // by the API do not start with the user's root org unit id
-        const world = { id: 'World000001', path: '/World000001', level: 1 }
+    describe('filtering', () => {
+        // The user is assigned to "Finland" (level 2), so the filtered paths
+        // do not start with the user's root org unit id
         const finland = {
             id: 'Finland0001',
             path: '/World000001/Finland0001',
@@ -169,39 +158,21 @@ describe('OrganisationUnitTree', () => {
                     return { organisationUnits: [finland] }
                 }
 
-                const [, searchTerm] =
-                    params?.filter?.match(/^displayName:ilike:(.*)$/) ?? []
-                if (searchTerm) {
-                    return {
-                        organisationUnits: [world, finland, ...finlandChildren]
-                            .filter(({ displayName }) =>
-                                displayName
-                                    ?.toLowerCase()
-                                    .includes(searchTerm.toLowerCase())
-                            )
-                            .map(({ path }) => ({ path })),
-                    }
-                }
-
                 return Promise.reject(
                     new Error(`Unexpected query: ${JSON.stringify(params)}`)
                 )
             },
         }
 
-        it('should show the org units matching the filter term', async () => {
+        it('should show the org units included in the filter', async () => {
             render(
-                <SearchableOrganisationUnitTree
+                <FilteredOrganisationUnitTree
+                    filter={[finlandChildren[0].path, finlandChildren[1].path]}
                     offlineLevels={{ [finland.path]: [] }}
                 />,
                 {
                     dataForCustomProvider,
                 }
-            )
-
-            await userEvent.type(
-                await screen.findByPlaceholderText('Search org units'),
-                'moo'
             )
 
             // expand the user's root org unit to reveal the matching children
@@ -211,7 +182,6 @@ describe('OrganisationUnitTree', () => {
                 )
             )
 
-            // the search input is debounced, so wait for the filter to apply
             await waitFor(() => {
                 expect(screen.getByText('Moomin valley')).toBeInTheDocument()
                 expect(screen.getByText('Moon town')).toBeInTheDocument()
