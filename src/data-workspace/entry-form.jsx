@@ -3,7 +3,11 @@ import { NoticeBox } from '@dhis2/ui'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { LockedStates, useLockedContext } from '../shared/index.js'
+import {
+    LockedStates,
+    useIsReadOnly,
+    useLockedContext,
+} from '../shared/index.js'
 import { FORM_TYPES } from './constants.js'
 import { CustomForm } from './custom-form/index.js'
 import { DefaultForm } from './default-form.jsx'
@@ -43,6 +47,8 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
         locked,
         lockStatus: { state: lockState },
     } = useLockedContext()
+    // a read-only form is locked on purpose; nothing to explain
+    const readOnly = useIsReadOnly()
     const formType = dataSet.formType
 
     const Component = formTypeToComponent[formType]
@@ -50,7 +56,7 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
 
     return (
         <>
-            {locked && (
+            {locked && !readOnly && (
                 <NoticeBox title={i18n.t('Data set locked')}>
                     {lockedNoticeBoxMessages[lockState]}
                 </NoticeBox>

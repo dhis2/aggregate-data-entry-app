@@ -7,7 +7,7 @@ import { HashRouter, Route } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import PrintAreaProvider from '../data-workspace/print-area/print-area-provider.jsx'
 import { RightHandPanelProvider } from '../right-hand-panel/index.js'
-import { LockedProvider } from '../shared/index.js'
+import { LockedProvider, ReadOnlyContext } from '../shared/index.js'
 import '../locales/index.js'
 import App from './app.jsx'
 import { ConfiguredQueryClientProvider } from './query-client/configured-query-client-provider.jsx'
@@ -33,6 +33,7 @@ export function OuterComponents({
     // This way we can use a different router in tests when needed
     router: Router = HashRouter,
     queryClient: customQueryClient,
+    readOnly = false,
 }) {
     const queryClient = useQueryClient()
 
@@ -46,13 +47,15 @@ export function OuterComponents({
                 {enableRQDevtools && <ReactQueryDevtools />}
                 <Router>
                     <QueryParamProvider ReactRouterRoute={Route}>
-                        <LockedProvider>
-                            <RightHandPanelProvider>
-                                <PrintAreaProvider>
-                                    {children}
-                                </PrintAreaProvider>
-                            </RightHandPanelProvider>
-                        </LockedProvider>
+                        <ReadOnlyContext.Provider value={readOnly}>
+                            <LockedProvider>
+                                <RightHandPanelProvider>
+                                    <PrintAreaProvider>
+                                        {children}
+                                    </PrintAreaProvider>
+                                </RightHandPanelProvider>
+                            </LockedProvider>
+                        </ReadOnlyContext.Provider>
                     </QueryParamProvider>
                 </Router>
             </ConfiguredQueryClientProvider>
@@ -63,6 +66,8 @@ export function OuterComponents({
 OuterComponents.propTypes = {
     children: PropTypes.any.isRequired,
     queryClient: PropTypes.instanceOf(QueryClient).isRequired,
+    // only show the form, e.g. when embedded as a report
+    readOnly: PropTypes.bool,
     // in js classes are functions, too
     router: PropTypes.elementType,
 }
