@@ -1,3 +1,11 @@
+## [102.1.7](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.6...v102.1.7) (2026-11-10)
+
+
+### Bug Fixes
+
+* organisation unit tree and search list results [DHIS2-20446] ([#606](https://github.com/dhis2/aggregate-data-entry-app/issues/606)) ([8eb6eee](https://github.com/dhis2/aggregate-data-entry-app/commit/8eb6eee7758a7ca294a1ecad78dc961220d9b3ed))
+* rename searchable org unit tree component in testing ([#612](https://github.com/dhis2/aggregate-data-entry-app/issues/612)) ([fbb499e](https://github.com/dhis2/aggregate-data-entry-app/commit/fbb499e33554a7573cd23383a56a7b6748393cb1))
+
 ## [102.1.6](https://github.com/dhis2/aggregate-data-entry-app/compare/v102.1.5...v102.1.6) (2026-10-26)
 
 
