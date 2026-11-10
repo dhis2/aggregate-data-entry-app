@@ -189,22 +189,18 @@ describe('OrganisationUnitTree', () => {
             })
         })
 
-        it('should show the root org unit when it matches the filter term', async () => {
+        it('should show the root org unit when it is included in the filter', async () => {
             // The only matching path ends with the root id
             // ("/World000001/Finland0001"), so there is no "/Finland0001/"
             // segment to match against
             render(
-                <SearchableOrganisationUnitTree
+                <FilteredOrganisationUnitTree
+                    filter={[finland.path]}
                     offlineLevels={{ [finland.path]: [] }}
                 />,
                 {
                     dataForCustomProvider,
                 }
-            )
-
-            await userEvent.type(
-                await screen.findByPlaceholderText('Search org units'),
-                'fin'
             )
 
             // expand the user's root org unit so we can tell when the filter
@@ -215,7 +211,6 @@ describe('OrganisationUnitTree', () => {
                 )
             )
 
-            // the search input is debounced, so wait for the filter to apply
             await waitFor(() => {
                 expect(screen.getByText('Finland')).toBeInTheDocument()
                 expect(
