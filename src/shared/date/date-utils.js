@@ -1,37 +1,23 @@
 import {
+    addToCalendarDate,
     convertFromIso8601,
     convertToIso8601,
+    formatCalendarDate,
 } from '@dhis2/multi-calendar-dates'
 import moment from 'moment'
 import { getNowInCalendarString } from './get-now-in-calendar.js'
 
 const GREGORY_CALENDARS = ['gregory', 'gregorian', 'iso8601'] // calendars that can be parsed by JS Date
-const DAY_MS = 24 * 60 * 60 * 1000
 const DATE_ONLY_REGEX = new RegExp(/^\d{4}-\d{2}-\d{2}$/)
 
-export const padWithZeros = (startValue, minLength) => {
-    try {
-        const startString = String(startValue)
-        return startString.padStart(minLength, '0')
-    } catch (e) {
-        console.error(e)
-        return startValue
-    }
-}
+// splits 'YYYY-MM-DD' or 'YYYY-MM-DDTHH:MM...' into the date and the time part
+const splitDateString = (date) => ({
+    dateString: date.substring(0, 10),
+    timeString: date.substring(11),
+})
 
-const formatDate = (date, withoutTimeStamp) => {
-    const yearString = padWithZeros(date.getFullYear(), 4)
-    const monthString = padWithZeros(date.getMonth() + 1, 2) // Jan = 0
-    const dateString = padWithZeros(date.getDate(), 2)
-    const hoursString = padWithZeros(date.getHours(), 2)
-    const minuteString = padWithZeros(date.getMinutes(), 2)
-    const secondsString = padWithZeros(date.getSeconds(), 2)
-
-    if (withoutTimeStamp) {
-        return `${yearString}-${monthString}-${dateString}`
-    }
-    return `${yearString}-${monthString}-${dateString}T${hoursString}:${minuteString}:${secondsString}`
-}
+const withTime = (dateString, timeString) =>
+    timeString ? `${dateString}T${timeString}` : dateString
 
 export const convertFromIso8601ToString = (date, calendar) => {
     // skip if there is no date
@@ -44,19 +30,10 @@ export const convertFromIso8601ToString = (date, calendar) => {
         return date
     }
 
-    // separate the YYYY-MM-DD and time portions of the string
-    const inCalendarDateString = date.substring(0, 10)
-    const timeString = date.substring(11)
+    const { dateString, timeString } = splitDateString(date)
+    const inCalendarDate = convertFromIso8601(dateString, calendar)
 
-    const { year, eraYear, month, day } = convertFromIso8601(
-        inCalendarDateString,
-        calendar
-    )
-    const ISOyear = calendar === 'ethiopian' ? eraYear : year
-    return `${padWithZeros(ISOyear, 4)}-${padWithZeros(
-        month,
-        2
-    )}-${padWithZeros(day, 2)}${timeString ? 'T' + timeString : ''}`
+    return withTime(formatCalendarDate(inCalendarDate), timeString)
 }
 
 export const convertToIso8601ToString = (date, calendar) => {
@@ -70,51 +47,25 @@ export const convertToIso8601ToString = (date, calendar) => {
         return date
     }
 
-    // separate the YYYY-MM-DD and time portions of the string
-    const inCalendarDateString = date.substring(0, 10)
-    const timeString = date.substring(11)
+    const { dateString, timeString } = splitDateString(date)
+    const isoDate = convertToIso8601(dateString, calendar)
 
-    const { year, month, day } = convertToIso8601(
-        inCalendarDateString,
-        calendar
-    )
-
-    return `${padWithZeros(year, 4)}-${padWithZeros(month, 2)}-${padWithZeros(
-        day,
-        2
-    )}${timeString ? 'T' + timeString : ''}`
+    return withTime(formatCalendarDate(isoDate), timeString)
 }
 
-// returns string in either 'YYYY-MM-DD' or 'YYYY-MM-DDTHH:MM.SSS' format (depending on input)
-// if non-gregory calendar, returns null
-// time zone will not be affected by browser conversion so long as initial date is not expressly UTC
+// adds days to a 'YYYY-MM-DD' or 'YYYY-MM-DDTHH:MM...' string in the given calendar
+// the time part (if any) is kept as it is
 export const addDaysToDateString = ({
     startDateString,
     days,
     calendar = 'gregory',
 }) => {
-    // convert date to gregory if necessary
-    const startDateStringISO = convertToIso8601ToString(
-        startDateString,
-        calendar
-    )
+    const { dateString, timeString } = splitDateString(startDateString)
+    const [year, month, day] = dateString.split('-').map(Number)
 
-    // if the startDate does not have time stamp, then add it
-    // adding T00:00 will prevent the date from being parsed in UTC time zone
-    // (parsing as UTC relative to browser time zone can alter the date)
-    const withoutTimeStamp = DATE_ONLY_REGEX.test(startDateStringISO)
-    const adjustedStartDateString = withoutTimeStamp
-        ? startDateStringISO + 'T00:00'
-        : startDateStringISO
+    const endDate = addToCalendarDate({ year, month, day }, { days }, calendar)
 
-    const startDate = new Date(adjustedStartDateString)
-    const endDate = new Date(startDate.getTime() + days * DAY_MS)
-
-    // we remove the YYYY-MM-DD format if that was what was originally passed
-    const formattedDate = formatDate(endDate, withoutTimeStamp)
-
-    // reconvert from ISO if necessary
-    return convertFromIso8601ToString(formattedDate, calendar)
+    return withTime(formatCalendarDate(endDate), timeString)
 }
 
 // returns relative time between two dates
