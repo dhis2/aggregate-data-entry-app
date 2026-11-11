@@ -63,7 +63,7 @@ Then(
 )
 
 Then('a no-value-label should be displayed', () => {
-    cy.contains('Choose a organisation unit').should('exist')
+    cy.contains('Choose an organisation unit').should('exist')
 })
 
 Then('a loading message should be displayed while loading its data', () => {
@@ -83,7 +83,7 @@ Then('an error message should be displayed', () => {
 When('the user opens the org unit selector', () => {
     // @TODO: Wait for this otherwise the org unit tree throws
     // "called" is not being checked by the tree, needs fix
-    cy.contains('Choose a organisation unit').should('exist')
+    cy.contains('Choose an organisation unit').should('exist')
 
     cy.get('[data-test="org-unit-selector"] button').click()
 })

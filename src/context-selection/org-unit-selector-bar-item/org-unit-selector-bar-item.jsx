@@ -128,7 +128,7 @@ export default function OrganisationUnitSetSelectorBarItem() {
                 value={selectorBarItemValue}
                 open={orgUnitOpen}
                 setOpen={setOrgUnitOpen}
-                noValueMessage={i18n.t('Choose a organisation unit')}
+                noValueMessage={i18n.t('Choose an organisation unit')}
                 onClearSelectionClick={() => {
                     setOrgUnitId(undefined)
                 }}
