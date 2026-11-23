@@ -71,11 +71,18 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
         onSuccess: defaultOnSuccess(onSuccess),
     })
 
-    // values from an embedding app are shown as they are, never fetched
+    // values from an embedding app are shown as they are, never fetched.
+    // They needn't be a full response: the rest is what the server sends when
+    // there is nothing to say (e.g. min-max limits mean nothing for totals)
     const hostResult = useMemo(
         () =>
             hostDataValues && {
-                data: select(hostDataValues),
+                data: select({
+                    dataValues: [],
+                    minMaxValues: [],
+                    completeStatus: { complete: false },
+                    ...hostDataValues,
+                }),
                 error: null,
                 status: 'success',
                 isSuccess: true,

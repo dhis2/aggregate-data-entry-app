@@ -58,6 +58,14 @@ describe('useDataValueSet', () => {
         expect(dataValuesResolver).not.toHaveBeenCalled()
     })
 
+    it('fills in what an embedding app leaves out', () => {
+        const { result } = renderWithHostValues({ dataValues: [] }, jest.fn())
+
+        // read by every number field
+        expect(result.current.data.minMaxValues).toEqual([])
+        expect(result.current.data.completeStatus).toEqual({ complete: false })
+    })
+
     it('fetches the values without an embedding app', async () => {
         const dataValuesResolver = jest.fn(() => ({ dataValues: [] }))
         const { result } = renderWithHostValues(undefined, dataValuesResolver)

@@ -6,6 +6,7 @@ import {
     shouldRollbackError,
 } from '../api-errors/index.js'
 import { defaultOnSuccess } from '../default-on-success.js'
+import { useIsReadOnly } from '../embedded/index.js'
 import { useSyncErrorsStore } from '../stores/sync-errors-store.js'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 import {
@@ -36,7 +37,9 @@ function useSharedDataValueMutation({
         (state) => state.clearErrorByMutationKey
     )
 
-    return useMutation(mutationFn, {
+    const readOnly = useIsReadOnly()
+
+    const mutation = useMutation(mutationFn, {
         mutationKey: mutationKey,
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
@@ -86,6 +89,17 @@ function useSharedDataValueMutation({
             onSuccess?.()
         }),
     })
+
+    // A read-only form never saves, whatever a field asks for: its values
+    // may not even be stored ones, e.g. a report's totals
+    if (readOnly) {
+        return {
+            ...mutation,
+            mutate: () => {},
+            mutateAsync: () => Promise.resolve(),
+        }
+    }
+    return mutation
 }
 
 /**
