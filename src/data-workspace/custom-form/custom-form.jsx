@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import useDataSetAdditionalInfo from '../../context-selection/section-filter-selector-bar-item/use-data-set-additional-info.js'
 import useCustomForm from '../../custom-forms/use-custom-form.js'
+import { PLUGIN_MODES } from '../../plugin/plugin-modes.js'
 import useSetRightHandPanel from '../../right-hand-panel/use-show-right-hand-panel.js'
 import {
     dataDetailsSidebarId,
@@ -118,6 +119,8 @@ export const CustomForm = ({ dataSet }) => {
             <Plugin
                 width="100%"
                 pluginSource="plugin.html"
+                // the app's plugin shows the data workspace by default
+                pluginMode={PLUGIN_MODES.LEGACY_CUSTOM_FORM}
                 htmlCode={formContent}
                 initialValues={initialDataValues}
                 metadata={metadata}

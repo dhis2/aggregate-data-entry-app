@@ -12,13 +12,15 @@ jest.mock('./data-workspace-plugin.jsx', () => ({
 }))
 
 describe('PluginEntry', () => {
-    it('shows a legacy custom form by default', () => {
-        render(<PluginEntry htmlCode="<p></p>" />)
-        expect(screen.getByText('legacy custom form')).toBeInTheDocument()
+    it('shows the data workspace by default', () => {
+        render(<PluginEntry dataSetId="ds" orgUnitId="ou" periodId="202401" />)
+        expect(screen.getByText('data workspace')).toBeInTheDocument()
     })
 
-    it('shows the data workspace in DATA_WORKSPACE mode', () => {
-        render(<PluginEntry pluginMode="DATA_WORKSPACE" />)
-        expect(screen.getByText('data workspace')).toBeInTheDocument()
+    it('shows a legacy custom form in LEGACY_CUSTOM_FORM mode', () => {
+        render(
+            <PluginEntry pluginMode="LEGACY_CUSTOM_FORM" htmlCode="<p></p>" />
+        )
+        expect(screen.getByText('legacy custom form')).toBeInTheDocument()
     })
 })
