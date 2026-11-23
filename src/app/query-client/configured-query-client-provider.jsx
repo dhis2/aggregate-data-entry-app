@@ -44,8 +44,7 @@ export const ConfiguredQueryClientProvider = ({
     persist = true,
     children,
 }) => {
-    // e.g. when embedded in another app, which shouldn't restore this app's
-    // offline cache or send its queued data values
+    // when embedded, don't restore this app's offline cache or queued values
     if (!persist) {
         return (
             <QueryClientProvider client={queryClient}>

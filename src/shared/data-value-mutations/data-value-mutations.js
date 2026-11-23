@@ -90,8 +90,7 @@ function useSharedDataValueMutation({
         }),
     })
 
-    // A read-only form never saves, whatever a field asks for: its values
-    // may not even be stored ones, e.g. a report's totals
+    // a read-only form never saves, whichever field asks
     if (readOnly) {
         return {
             ...mutation,

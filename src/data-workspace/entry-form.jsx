@@ -47,7 +47,6 @@ export const EntryForm = React.memo(function EntryForm({ dataSet }) {
         locked,
         lockStatus: { state: lockState },
     } = useLockedContext()
-    // a read-only form can't be edited anyway; the lock explains nothing
     const readOnly = useIsReadOnly()
     const formType = dataSet.formType
 

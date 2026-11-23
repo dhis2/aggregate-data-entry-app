@@ -25,8 +25,8 @@ export function useIsValidSelection() {
 
     const selectedOptions = Object.values(attributeOptionComboSelection)
 
-    // if default catCombo, no selection is needed. Values from an embedding
-    // app don't need one either: they can add up all attribute options
+    // if default catCombo, no selection is needed; host values can add up
+    // all attribute options
     if (categoryCombo?.isDefault || hostDataValues) {
         return true
     }

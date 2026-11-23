@@ -5,12 +5,9 @@ import { DataWorkspacePlugin } from './data-workspace-plugin.jsx'
 import { PLUGIN_MODES } from './plugin-modes.js'
 
 /*
- * An app has a single plugin entry point. By default it shows the data
- * workspace, which other apps embed (e.g. the reports app), so they need no
- * special props. This app also uses it internally for custom forms that run
- * scripts (see custom-form.jsx), which ask for pluginMode="LEGACY_CUSTOM_FORM".
- * Once the platform supports several entry points, the legacy custom forms
- * can move to their own.
+ * An app has a single plugin entry point. Other apps embed the data
+ * workspace, the default. Legacy custom forms are internal (custom-form.jsx)
+ * and can move to their own entry point once the platform supports several.
  */
 const PluginEntry = (props) =>
     props.pluginMode === PLUGIN_MODES.LEGACY_CUSTOM_FORM ? (

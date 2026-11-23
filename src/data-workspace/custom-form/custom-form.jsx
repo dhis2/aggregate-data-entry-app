@@ -103,8 +103,7 @@ export const CustomForm = ({ dataSet }) => {
             </div>
         )
     } else if (readOnly) {
-        // the form's scripts load and save values themselves, so it can't
-        // show values it is given, e.g. a report's
+        // the form's scripts load and save values themselves
         return (
             <NoticeBox
                 title={i18n.t('This custom form cannot be shown read-only')}
@@ -119,7 +118,6 @@ export const CustomForm = ({ dataSet }) => {
             <Plugin
                 width="100%"
                 pluginSource="plugin.html"
-                // the app's plugin shows the data workspace by default
                 pluginMode={PLUGIN_MODES.LEGACY_CUSTOM_FORM}
                 htmlCode={formContent}
                 initialValues={initialDataValues}

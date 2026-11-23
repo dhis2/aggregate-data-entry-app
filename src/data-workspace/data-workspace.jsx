@@ -45,7 +45,6 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
     )
 
     const isValidSelection = useIsValidSelection()
-    // completing and validating are editing actions
     const readOnly = useIsReadOnly()
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed

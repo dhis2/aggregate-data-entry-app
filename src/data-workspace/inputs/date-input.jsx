@@ -54,7 +54,6 @@ export const DateInput = ({
     }
 
     const handleChange = (value) => {
-        // e.g. the clear button of a locked or read-only field
         if (locked || disabled) {
             return
         }

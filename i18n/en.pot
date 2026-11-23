@@ -646,9 +646,6 @@ msgstr "The data entry form is not available"
 msgid "Data entry forms can only be shown for data sets you can enter data for."
 msgstr "Data entry forms can only be shown for data sets you can enter data for."
 
-msgid "Choose an option for each attribute category."
-msgstr "Choose an option for each attribute category."
-
 msgid "Loading file info failed"
 msgstr "Loading file info failed"
 
