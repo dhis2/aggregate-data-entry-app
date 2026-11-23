@@ -33,6 +33,7 @@ export function OuterComponents({
     // This way we can use a different router in tests when needed
     router: Router = HashRouter,
     queryClient: customQueryClient,
+    persistQueries = true,
 }) {
     const queryClient = useQueryClient()
 
@@ -42,6 +43,7 @@ export function OuterComponents({
             <CssVariables colors spacers theme />
             <ConfiguredQueryClientProvider
                 queryClient={customQueryClient || queryClient}
+                persist={persistQueries}
             >
                 {enableRQDevtools && <ReactQueryDevtools />}
                 <Router>
@@ -63,6 +65,8 @@ export function OuterComponents({
 OuterComponents.propTypes = {
     children: PropTypes.any.isRequired,
     queryClient: PropTypes.instanceOf(QueryClient).isRequired,
+    // keep queries and paused mutations offline, and restore them
+    persistQueries: PropTypes.bool,
     // in js classes are functions, too
     router: PropTypes.elementType,
 }

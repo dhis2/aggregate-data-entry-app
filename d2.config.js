@@ -22,7 +22,7 @@ const config = {
     },
     entryPoints: {
         app: './src/app/app-wrapper.jsx',
-        plugin: './src/plugin-legacy-custom-forms/index.jsx',
+        plugin: './src/plugin/index.jsx',
     },
     direction: 'auto',
 }

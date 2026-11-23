@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 import { Plugin } from '@dhis2/app-runtime/experimental' // ToDo: find out why /experimental causes lint and jest issues
+import i18n from '@dhis2/d2-i18n'
+import { NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import useDataSetAdditionalInfo from '../../context-selection/section-filter-selector-bar-item/use-data-set-additional-info.js'
@@ -9,6 +11,7 @@ import {
     dataDetailsSidebarId,
     useContextSelection,
     useHighlightedFieldStore,
+    useIsReadOnly,
     useLockedContext,
     useMetadata,
     useSetDataValueMutation,
@@ -32,6 +35,7 @@ export const CustomForm = ({ dataSet }) => {
     })
 
     const { locked } = useLockedContext()
+    const readOnly = useIsReadOnly()
 
     const getDataValues = useValueStore((state) => state.getDataValues)
     const initialDataValues = React.useMemo(
@@ -96,6 +100,18 @@ export const CustomForm = ({ dataSet }) => {
                     metadata
                 )}
             </div>
+        )
+    } else if (readOnly) {
+        // the form's scripts load and save values themselves, so it can't
+        // show values it is given, e.g. a report's
+        return (
+            <NoticeBox
+                title={i18n.t('This custom form cannot be shown read-only')}
+            >
+                {i18n.t(
+                    'The form runs its own scripts, which load and save data values directly.'
+                )}
+            </NoticeBox>
         )
     } else {
         return (

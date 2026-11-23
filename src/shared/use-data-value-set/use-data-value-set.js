@@ -1,6 +1,8 @@
 import { useQuery, useIsMutating } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { createSelector } from 'reselect'
 import { defaultOnSuccess } from '../../shared/default-on-success.js'
+import { useHostDataValues } from '../embedded/index.js'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
@@ -57,10 +59,11 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
     const queryKey = useDataValueSetQueryKey()
 
     const isMutating = useIsMutating(queryKey[0]) > 0
+    const hostDataValues = useHostDataValues()
 
     const result = useQuery(queryKey, {
         // TODO: Disable if disconnected from DHIS2 server?
-        enabled: !isMutating && isValidSelection,
+        enabled: !hostDataValues && !isMutating && isValidSelection,
         staleTime: Infinity,
         select: select,
         refetchOnReconnect: false,
@@ -68,5 +71,23 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
         onSuccess: defaultOnSuccess(onSuccess),
     })
 
-    return result
+    // values from an embedding app are shown as they are, never fetched
+    const hostResult = useMemo(
+        () =>
+            hostDataValues && {
+                data: select(hostDataValues),
+                error: null,
+                status: 'success',
+                isSuccess: true,
+                isError: false,
+                isLoading: false,
+                isInitialLoading: false,
+                isFetching: false,
+                isPaused: false,
+                refetch: () => Promise.resolve(),
+            },
+        [hostDataValues]
+    )
+
+    return hostResult ?? result
 }
