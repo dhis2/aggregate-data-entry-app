@@ -54,9 +54,6 @@ export const DateInput = ({
     }
 
     const handleChange = (value) => {
-        if (locked || disabled) {
-            return
-        }
         setValue(value)
         // If this value has changed, sync it to server if valid
         if (value !== lastSyncedValue) {
@@ -89,7 +86,7 @@ export const DateInput = ({
                     handleChange(selectedDate)
                 }}
                 locale={keyUiLocale}
-                clearable={!locked && !disabled}
+                clearable
             />
         </div>
     )

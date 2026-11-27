@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-23T11:05:37.188Z\n"
-"PO-Revision-Date: 2026-11-23T11:05:37.188Z\n"
+"POT-Creation-Date: 2026-11-27T07:43:27.683Z\n"
+"PO-Revision-Date: 2026-11-27T07:43:27.683Z\n"
 
 msgid "There was a problem loading metadata"
 msgstr "There was a problem loading metadata"
@@ -353,12 +353,6 @@ msgstr "Value"
 
 msgid "Totals"
 msgstr "Totals"
-
-msgid "This custom form cannot be shown read-only"
-msgstr "This custom form cannot be shown read-only"
-
-msgid "The form runs its own scripts, which load and save data values directly."
-msgstr "The form runs its own scripts, which load and save data values directly."
 
 msgid "Audit log"
 msgstr "Audit log"

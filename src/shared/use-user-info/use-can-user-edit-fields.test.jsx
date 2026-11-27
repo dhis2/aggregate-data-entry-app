@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import React from 'react'
-import { ReadOnlyContext } from '../embedded/index.js'
+import { EmbeddedContext } from '../embedded/index.js'
 import useCanUserEditFields from './use-can-user-edit-fields.js'
 import { useUserInfo } from './use-user-info.js'
 
@@ -11,9 +11,9 @@ jest.mock('./use-user-info.js', () => ({
 const renderWithReadOnly = (readOnly) =>
     renderHook(useCanUserEditFields, {
         wrapper: ({ children }) => (
-            <ReadOnlyContext.Provider value={readOnly}>
+            <EmbeddedContext.Provider value={{ readOnly }}>
                 {children}
-            </ReadOnlyContext.Provider>
+            </EmbeddedContext.Provider>
         ),
     })
 

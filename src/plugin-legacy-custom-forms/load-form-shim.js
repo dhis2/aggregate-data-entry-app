@@ -19,6 +19,8 @@ const loadCustomFormShim = ({
     saveValue,
     showDetailsBar,
     fileHelper,
+    readOnly,
+    dataValues,
 }) => {
     // * adding periodId and dataSetId to hidden selects so that previous jQuery code works as it is
     const periodInput = document.createElement('input')
@@ -77,6 +79,10 @@ const loadCustomFormShim = ({
 
     window.$.ajaxSetup({
         beforeSend: function (xhr, options) {
+            // a read-only form only reads: false cancels the request
+            if (readOnly && options.type?.toUpperCase() !== 'GET') {
+                return false
+            }
             if (!options.url?.match(baseUrl)) {
                 options.url = baseUrl + options.url
             }
@@ -116,6 +122,9 @@ const loadCustomFormShim = ({
     window.dhis2.shim.saveValue = (dataValue, options) => {
         saveValue(dataValue, options)
     }
+
+    // shown instead of fetching the stored values (see form.js)
+    window.dhis2.shim.dataValues = dataValues
 
     window.dhis2.shim.showDetailsBar = showDetailsBar
 

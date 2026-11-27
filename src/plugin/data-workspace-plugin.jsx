@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { NoticeBox } from '@dhis2/ui'
+import { useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { MemoryRouter, useHistory, useLocation } from 'react-router-dom'
@@ -7,10 +8,11 @@ import { OuterComponents } from '../app/app-wrapper.jsx'
 import LoadApp from '../app/load-app.jsx'
 import { DataWorkspace } from '../data-workspace/index.js'
 import {
-    HostDataValuesContext,
-    ReadOnlyContext,
+    dataValueSetQueryKey,
+    EmbeddedContext,
     selectors,
     useMetadata,
+    withServerDefaults,
 } from '../shared/index.js'
 import styles from './data-workspace-plugin.module.css'
 import '../locales/index.js'
@@ -28,7 +30,7 @@ const createRouter = (initialEntry) => {
 }
 
 // renders nothing until the URL has the host's current selection
-const FollowSelection = ({ search, children }) => {
+export const FollowSelection = ({ search, children }) => {
     const history = useHistory()
     const location = useLocation()
     const isCurrent = location.search === search
@@ -70,22 +72,49 @@ CheckedDataWorkspace.propTypes = {
     dataSetId: PropTypes.string.isRequired,
 }
 
-/*
- * Props arrive as new objects with every message from the host, so values are
- * compared by contents. The form reads its values once per selection, so a
- * new version remounts it when they change for the same selection.
- */
-const useHostValues = (dataValues) => {
-    const contents = useMemo(() => JSON.stringify(dataValues), [dataValues])
-    const current = useRef({ contents, values: dataValues, version: 0 })
+// values may come as numbers, e.g. a report's totals; fields expect strings
+export const toHostDataValues = (dataValues) => ({
+    ...dataValues,
+    dataValues: dataValues.dataValues.map((dataValue) => ({
+        ...dataValue,
+        value:
+            typeof dataValue.value === 'number'
+                ? String(dataValue.value)
+                : dataValue.value,
+    })),
+})
+
+// props arrive as new objects with every message from the host, so the same
+// values are only a change when their contents differ
+const useStableByContents = (value) => {
+    const contents = JSON.stringify(value)
+    const current = useRef({ contents, value })
     if (current.current.contents !== contents) {
-        current.current = {
-            contents,
-            values: dataValues,
-            version: current.current.version + 1,
-        }
+        current.current = { contents, value }
     }
-    return current.current
+    return current.current.value
+}
+
+// gives the shown form the host's new values
+export const SyncHostValues = ({ dataValues }) => {
+    const queryClient = useQueryClient()
+    const previous = useRef(dataValues)
+
+    useEffect(() => {
+        if (previous.current !== dataValues) {
+            previous.current = dataValues
+            queryClient.setQueriesData(
+                dataValueSetQueryKey.all,
+                withServerDefaults(dataValues)
+            )
+        }
+    }, [queryClient, dataValues])
+
+    return null
+}
+
+SyncHostValues.propTypes = {
+    dataValues: PropTypes.object.isRequired,
 }
 
 // the data workspace for other apps to embed, showing the values they pass
@@ -96,26 +125,33 @@ export const DataWorkspacePlugin = ({
     dataValues,
 }) => {
     const search = toSearch({ dataSetId, orgUnitId, periodId })
-    const hostValues = useHostValues(dataValues)
+    const hostDataValues = useStableByContents(toHostDataValues(dataValues))
     const [Router] = useState(() => createRouter(`/${search}`))
+    const embedded = useMemo(
+        () => ({
+            readOnly: true,
+            dataValues: hostDataValues,
+            // a report adds up the values of all attribute options
+            allAttributeOptions: true,
+        }),
+        [hostDataValues]
+    )
 
     return (
-        <ReadOnlyContext.Provider value={true}>
-            <HostDataValuesContext.Provider value={hostValues.values}>
-                <OuterComponents router={Router} persistQueries={false}>
-                    <FollowSelection search={search}>
-                        <LoadApp>
-                            <CheckedDataWorkspace
-                                key={hostValues.version}
-                                dataSetId={dataSetId}
-                            />
-                        </LoadApp>
-                    </FollowSelection>
-                </OuterComponents>
-            </HostDataValuesContext.Provider>
-        </ReadOnlyContext.Provider>
+        <EmbeddedContext.Provider value={embedded}>
+            <OuterComponents router={Router} persistQueries={false}>
+                <SyncHostValues dataValues={hostDataValues} />
+                <FollowSelection search={search}>
+                    <LoadApp>
+                        <CheckedDataWorkspace dataSetId={dataSetId} />
+                    </LoadApp>
+                </FollowSelection>
+            </OuterComponents>
+        </EmbeddedContext.Provider>
     )
 }
+
+const valuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 
 DataWorkspacePlugin.propTypes = {
     dataSetId: PropTypes.string.isRequired,
@@ -125,7 +161,7 @@ DataWorkspacePlugin.propTypes = {
             PropTypes.shape({
                 categoryOptionCombo: PropTypes.string.isRequired,
                 dataElement: PropTypes.string.isRequired,
-                value: PropTypes.string,
+                value: valuePropType,
             })
         ).isRequired,
     }).isRequired,

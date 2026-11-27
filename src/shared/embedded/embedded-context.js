@@ -1,12 +1,35 @@
+import { useMutation } from '@tanstack/react-query'
 import { createContext, useContext } from 'react'
 
-// fields can't be edited and editing actions are hidden
-export const ReadOnlyContext = createContext(false)
+/*
+ * Set when another app embeds the data workspace:
+ * - readOnly: fields can't be edited, editing actions are hidden and
+ *   nothing is saved
+ * - dataValues: values to show instead of the stored ones, shaped like a
+ *   dataEntry/dataValues response
+ * - allAttributeOptions: the values cover all attribute options (e.g. a
+ *   report's totals), so none needs choosing
+ */
+export const EmbeddedContext = createContext({})
 
-export const useIsReadOnly = () => useContext(ReadOnlyContext)
+export const useIsReadOnly = () => Boolean(useContext(EmbeddedContext).readOnly)
 
-// values provided by an embedding app, shaped like a dataEntry/dataValues
-// response; shown instead of fetching the stored values
-export const HostDataValuesContext = createContext(undefined)
+export const useHostDataValues = () => useContext(EmbeddedContext).dataValues
 
-export const useHostDataValues = () => useContext(HostDataValuesContext)
+export const useShowsAllAttributeOptions = () =>
+    Boolean(useContext(EmbeddedContext).allAttributeOptions)
+
+// useMutation for anything that writes: a read-only form never sends it
+export const useWriteMutation = (mutationFn, options) => {
+    const readOnly = useIsReadOnly()
+    const mutation = useMutation(mutationFn, options)
+
+    if (readOnly) {
+        return {
+            ...mutation,
+            mutate: () => {},
+            mutateAsync: () => Promise.resolve(),
+        }
+    }
+    return mutation
+}

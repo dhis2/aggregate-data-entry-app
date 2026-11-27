@@ -1,5 +1,4 @@
 import { useQuery, useIsMutating } from '@tanstack/react-query'
-import { useMemo } from 'react'
 import { createSelector } from 'reselect'
 import { defaultOnSuccess } from '../../shared/default-on-success.js'
 import { useHostDataValues } from '../embedded/index.js'
@@ -40,6 +39,13 @@ const select = createSelector(
     }
 )
 
+// fields an embedding app leaves out get the defaults the server sends
+export const withServerDefaults = (hostDataValues) => ({
+    minMaxValues: [],
+    completeStatus: { complete: false },
+    ...hostDataValues,
+})
+
 /**
  * If this query is used while offline, since it uses the 'offlineFirst'
  * network mode, the query will be try once, then be PAUSED
@@ -62,8 +68,12 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
     const hostDataValues = useHostDataValues()
 
     const result = useQuery(queryKey, {
+        // values from an embedding app are used instead of fetching them
+        ...(hostDataValues && {
+            queryFn: () => withServerDefaults(hostDataValues),
+        }),
         // TODO: Disable if disconnected from DHIS2 server?
-        enabled: !hostDataValues && !isMutating && isValidSelection,
+        enabled: !isMutating && isValidSelection,
         staleTime: Infinity,
         select: select,
         refetchOnReconnect: false,
@@ -71,22 +81,5 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
         onSuccess: defaultOnSuccess(onSuccess),
     })
 
-    // host values are never fetched; fields they leave out get the defaults
-    // the server sends
-    const hostResult = useMemo(
-        () =>
-            hostDataValues && {
-                data: select({
-                    minMaxValues: [],
-                    completeStatus: { complete: false },
-                    ...hostDataValues,
-                }),
-                error: null,
-                isFetching: false,
-                isInitialLoading: false,
-            },
-        [hostDataValues]
-    )
-
-    return hostResult ?? result
+    return result
 }

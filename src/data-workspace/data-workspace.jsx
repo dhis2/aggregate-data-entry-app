@@ -12,6 +12,7 @@ import {
     useDataSetId,
     useContextSelectionId,
     useDataValueSet,
+    useHostDataValues,
     useIsReadOnly,
     useIsValidSelection,
     useValueStore,
@@ -46,6 +47,7 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     const isValidSelection = useIsValidSelection()
     const readOnly = useIsReadOnly()
+    const hostDataValues = useHostDataValues()
     const [dataSetId] = useDataSetId()
     // used to reset form-state when context-selection is changed
     const formKey = useContextSelectionId({ excludeSectionFilter: false })
@@ -128,12 +130,17 @@ export const DataWorkspace = ({ selectionHasNoFormMessage }) => {
 
     const footerClasses = classNames(styles.footer, styles.hideForPrint)
     const dataValueSet = initialDataValuesFetch.data?.dataValues
+    // fields read their values once, but an embedding app can change them,
+    // so each version starts a new form
+    const formWrapperKey = hostDataValues
+        ? `${formKey}-${initialDataValuesFetch.dataUpdatedAt}`
+        : formKey
 
     return (
         <FormWrapper
-            key={formKey}
+            key={formWrapperKey}
             dataValueSet={dataValueSet}
-            validFormKey={validFormKey}
+            validFormKey={formWrapperKey}
         >
             <div className={styles.wrapper}>
                 <main id="data-workspace" className={styles.formWrapper}>

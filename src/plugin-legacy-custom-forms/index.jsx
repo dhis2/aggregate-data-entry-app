@@ -29,6 +29,8 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         fileHelper,
         style = 'NORMAL',
         locked,
+        readOnly,
+        dataValues,
     } = props
 
     console.log('[custom-forms] 🏁 Legacy Custom Form Plugin starting 🏁')
@@ -104,6 +106,8 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
                 saveValue,
                 showDetailsBar,
                 fileHelper,
+                readOnly,
+                dataValues,
             })
 
             // * appending the scripts that are part of the custom form at the end
@@ -131,6 +135,8 @@ const LegacyCustomFormPlugin = React.memo(function LegacyCustomFormPlugin(
         showDetailsBar,
         fileHelper,
         locked,
+        readOnly,
+        dataValues,
     ])
 
     return (
@@ -154,10 +160,14 @@ LegacyCustomFormPlugin.propTypes = {
     periodId: PropTypes.string.isRequired,
     attributeOptionComboSelection: PropTypes.object,
     dataSet: PropTypes.shape({ displayName: PropTypes.string }),
+    // shown instead of the stored values, shaped like a dataEntry/dataValues response
+    dataValues: PropTypes.object,
     fileHelper: PropTypes.object,
     initialValues: PropTypes.shape({}),
     locked: PropTypes.bool,
     metadata: PropTypes.object,
+    // the form's own requests can't save
+    readOnly: PropTypes.bool,
     saveValue: PropTypes.func,
     setHighlightedField: PropTypes.func,
     showDetailsBar: PropTypes.func,

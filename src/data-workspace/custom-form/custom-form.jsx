@@ -1,7 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
 import { Plugin } from '@dhis2/app-runtime/experimental' // ToDo: find out why /experimental causes lint and jest issues
-import i18n from '@dhis2/d2-i18n'
-import { NoticeBox } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import useDataSetAdditionalInfo from '../../context-selection/section-filter-selector-bar-item/use-data-set-additional-info.js'
@@ -12,11 +10,13 @@ import {
     dataDetailsSidebarId,
     useContextSelection,
     useHighlightedFieldStore,
+    useHostDataValues,
     useIsReadOnly,
     useLockedContext,
     useMetadata,
     useSetDataValueMutation,
     useValueStore,
+    withServerDefaults,
 } from '../../shared/index.js'
 import styles from './custom-form.module.css'
 import { parseHtmlToReact } from './parse-html-to-react.jsx'
@@ -37,6 +37,12 @@ export const CustomForm = ({ dataSet }) => {
 
     const { locked } = useLockedContext()
     const readOnly = useIsReadOnly()
+    const hostDataValues = useHostDataValues()
+    // a new object would make the form load again
+    const formDataValues = React.useMemo(
+        () => hostDataValues && withServerDefaults(hostDataValues),
+        [hostDataValues]
+    )
 
     const getDataValues = useValueStore((state) => state.getDataValues)
     const initialDataValues = React.useMemo(
@@ -102,17 +108,6 @@ export const CustomForm = ({ dataSet }) => {
                 )}
             </div>
         )
-    } else if (readOnly) {
-        // the form's scripts load and save values themselves
-        return (
-            <NoticeBox
-                title={i18n.t('This custom form cannot be shown read-only')}
-            >
-                {i18n.t(
-                    'The form runs its own scripts, which load and save data values directly.'
-                )}
-            </NoticeBox>
-        )
     } else {
         return (
             <Plugin
@@ -133,6 +128,8 @@ export const CustomForm = ({ dataSet }) => {
                 fileHelper={fileHelper}
                 style={dataSetInfo?.dataEntryForm?.style}
                 locked={locked}
+                readOnly={readOnly}
+                dataValues={formDataValues}
             />
         )
     }
