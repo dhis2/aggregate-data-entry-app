@@ -7,6 +7,10 @@ const parseFormContent = (doc) => {
         // * removing the scripts from the form HTML, keeping them in a copy that gets appended at the end
         // * after all base JS is loaded (jQuery etc..)
         const scriptCopy = document.createElement('script')
+        // * copy attributes (src, type, etc.) so external scripts are preserved
+        Array.from(script.attributes).forEach(({ name, value }) =>
+            scriptCopy.setAttribute(name, value)
+        )
         scriptCopy.textContent = script.textContent
         scriptCopy.async = false
         scriptsList.push(scriptCopy)
