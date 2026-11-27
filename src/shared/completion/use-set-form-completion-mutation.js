@@ -1,6 +1,7 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
+import { useWriteMutation } from '../embedded/index.js'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 import { useUsername } from '../use-user-info/use-user-info.js'
 import { mutationKeys } from './mutation-key-factory.js'
@@ -52,7 +53,7 @@ export function useSetFormCompletionMutation() {
     const mutationKey = useSetFormCompletionMutationKey()
     const { data: userInfo } = useUsername()
 
-    return useMutation(mutationFn, {
+    return useWriteMutation(mutationFn, {
         // retry: 0, // @TODO: Is this correct?
         mutationKey,
         onMutate: async ({ completed: complete }) => {

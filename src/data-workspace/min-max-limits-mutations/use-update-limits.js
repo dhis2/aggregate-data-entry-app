@@ -1,8 +1,9 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import {
     useDataValueSetQueryKey,
     defaultOnSuccess,
+    useWriteMutation,
 } from '../../shared/index.js'
 import getMinMaxValueIndex from './get-min-max-value-index.js'
 
@@ -73,7 +74,7 @@ export default function useUpdateLimits(onDone) {
         return engine.mutate(MUTATION_UPDATE_MIN_MAX_LIMITS, { variables })
     }
 
-    return useMutation(mutationFn, {
+    return useWriteMutation(mutationFn, {
         // Used to identify whether this mutation is running
         mutationKey: dataValueSetQueryKey,
 

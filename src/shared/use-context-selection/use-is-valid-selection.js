@@ -1,3 +1,4 @@
+import { useShowsAllAttributeOptions } from '../embedded/index.js'
 import { useMetadata, selectors } from '../metadata/index.js'
 import { useContextSelection } from './use-context-selection.js'
 
@@ -5,6 +6,7 @@ export function useIsValidSelection() {
     const [{ dataSetId, orgUnitId, periodId, attributeOptionComboSelection }] =
         useContextSelection()
     const { data } = useMetadata()
+    const showsAllAttributeOptions = useShowsAllAttributeOptions()
 
     if (!data || !dataSetId || !orgUnitId || !periodId) {
         return false
@@ -23,8 +25,9 @@ export function useIsValidSelection() {
 
     const selectedOptions = Object.values(attributeOptionComboSelection)
 
-    // if default catCombo, no selection is needed
-    if (categoryCombo?.isDefault) {
+    // if default catCombo, or all attribute options are shown together, no
+    // selection is needed
+    if (categoryCombo?.isDefault || showsAllAttributeOptions) {
         return true
     }
 

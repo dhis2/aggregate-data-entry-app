@@ -1,0 +1,3 @@
+export const PLUGIN_MODES = {
+    LEGACY_CUSTOM_FORM: 'LEGACY_CUSTOM_FORM',
+}

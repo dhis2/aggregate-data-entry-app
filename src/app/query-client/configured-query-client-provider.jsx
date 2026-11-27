@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -39,7 +39,20 @@ const persistOptions = {
         },
     },
 }
-export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
+export const ConfiguredQueryClientProvider = ({
+    queryClient,
+    persist = true,
+    children,
+}) => {
+    // when embedded, don't restore this app's offline cache or queued values
+    if (!persist) {
+        return (
+            <QueryClientProvider client={queryClient}>
+                {children}
+            </QueryClientProvider>
+        )
+    }
+
     return (
         <PersistQueryClientProvider
             client={queryClient}
@@ -55,4 +68,5 @@ export const ConfiguredQueryClientProvider = ({ queryClient, children }) => {
 ConfiguredQueryClientProvider.propTypes = {
     queryClient: PropTypes.instanceOf(QueryClient).isRequired,
     children: PropTypes.node,
+    persist: PropTypes.bool,
 }

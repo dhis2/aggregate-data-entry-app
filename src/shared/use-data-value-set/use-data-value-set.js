@@ -1,6 +1,7 @@
 import { useQuery, useIsMutating } from '@tanstack/react-query'
 import { createSelector } from 'reselect'
 import { defaultOnSuccess } from '../../shared/default-on-success.js'
+import { useHostDataValues } from '../embedded/index.js'
 import { useIsValidSelection } from '../use-context-selection/index.js'
 import useDataValueSetQueryKey from './use-data-value-set-query-key.js'
 
@@ -38,6 +39,13 @@ const select = createSelector(
     }
 )
 
+// fields an embedding app leaves out get the defaults the server sends
+export const withServerDefaults = (hostDataValues) => ({
+    minMaxValues: [],
+    completeStatus: { complete: false },
+    ...hostDataValues,
+})
+
 /**
  * If this query is used while offline, since it uses the 'offlineFirst'
  * network mode, the query will be try once, then be PAUSED
@@ -57,8 +65,13 @@ export const useDataValueSet = ({ onSuccess } = {}) => {
     const queryKey = useDataValueSetQueryKey()
 
     const isMutating = useIsMutating(queryKey[0]) > 0
+    const hostDataValues = useHostDataValues()
 
     const result = useQuery(queryKey, {
+        // values from an embedding app are used instead of fetching them
+        ...(hostDataValues && {
+            queryFn: () => withServerDefaults(hostDataValues),
+        }),
         // TODO: Disable if disconnected from DHIS2 server?
         enabled: !isMutating && isValidSelection,
         staleTime: Infinity,

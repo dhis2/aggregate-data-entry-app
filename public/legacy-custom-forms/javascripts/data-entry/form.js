@@ -865,6 +865,16 @@ function getAndInsertDataValues()
 
     $( '.entryfield' ).filter( ':disabled' ).css( 'background-color', dhis2.de.cst.colorGrey );
 
+    // [custom-forms] values from an embedding app are shown instead of the stored ones
+    var hostDataValues = window.dhis2.shim?.dataValues;
+
+    if ( hostDataValues )
+    {
+        insertDataValues( hostDataValues );
+        dataValuesInserted();
+        return;
+    }
+
     var params = {
 		pe : periodId,
         ds : dataSetId,
@@ -894,17 +904,19 @@ function getAndInsertDataValues()
 	    {
 	    	insertDataValues( json );
         },
-        complete: function()
-        {
-            $( '.indicator' ).attr( 'readonly', 'readonly' );
-            $( '.dataelementtotal' ).attr( 'readonly', 'readonly' );
-            $( document ).trigger( dhis2.de.event.dataValuesLoaded, dhis2.de.currentDataSetId );
-                     
-            //populate section row/column totals
-            dhis2.de.populateRowTotals();
-            dhis2.de.populateColumnTotals();
-        }
+        complete: dataValuesInserted
 	} );
+}
+
+function dataValuesInserted()
+{
+    $( '.indicator' ).attr( 'readonly', 'readonly' );
+    $( '.dataelementtotal' ).attr( 'readonly', 'readonly' );
+    $( document ).trigger( dhis2.de.event.dataValuesLoaded, dhis2.de.currentDataSetId );
+
+    //populate section row/column totals
+    dhis2.de.populateRowTotals();
+    dhis2.de.populateColumnTotals();
 }
 
 function insertDataValues( json )
@@ -1407,8 +1419,8 @@ dhis2.de.getSelectedPeriod = function()
  */
 dhis2.de.lockForm = function()
 {
-    $( 'input').attr( 'readonly', 'readonly' ).disable();
-    $( 'textarea').attr( 'readonly', 'readonly' ).disable();
+    $( 'input').attr( 'readonly', 'readonly' ).prop( 'disabled', true );
+    $( 'textarea').attr( 'readonly', 'readonly' ).prop( 'disabled', true );
 }
 
 /*

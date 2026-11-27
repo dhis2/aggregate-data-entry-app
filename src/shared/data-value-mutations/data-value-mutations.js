@@ -1,4 +1,4 @@
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import {
     ApiMutationError,
     isFetchError,
@@ -6,6 +6,7 @@ import {
     shouldRollbackError,
 } from '../api-errors/index.js'
 import { defaultOnSuccess } from '../default-on-success.js'
+import { useWriteMutation } from '../embedded/index.js'
 import { useSyncErrorsStore } from '../stores/sync-errors-store.js'
 import { useDataValueSetQueryKey } from '../use-data-value-set/index.js'
 import {
@@ -36,7 +37,7 @@ function useSharedDataValueMutation({
         (state) => state.clearErrorByMutationKey
     )
 
-    return useMutation(mutationFn, {
+    return useWriteMutation(mutationFn, {
         mutationKey: mutationKey,
         onMutate: async (variables) => {
             // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
