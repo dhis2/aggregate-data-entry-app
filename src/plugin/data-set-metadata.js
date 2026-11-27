@@ -1,12 +1,10 @@
 /*
- * dataEntry/metadata only has the data sets the user can enter data for. A
- * read-only workspace can show any data set the user can read, so its
- * metadata is fetched from the regular API with the fields that endpoint uses
- * (DefaultDataSetMetadataExportService in dhis2-core), giving the same shape.
+ * dataEntry/metadata only has the data sets the user can enter data for, so a
+ * readable one is fetched from the regular API with the same fields
+ * (DefaultDataSetMetadataExportService in dhis2-core).
  */
 
-// the fields dataEntry/metadata sends; data queries can't use field groups
-// such as :simple
+// data queries can't use field groups such as :simple
 const fields = (...names) => names.join(',')
 
 const IDENTIFIABLE = fields('id', 'code', 'name', 'created', 'lastUpdated')
@@ -73,8 +71,7 @@ const FIELDS_DATA_ELEMENTS = fields(
     'commentOptionSet[id]'
 )
 
-// not explodedNumerator/explodedDenominator: only the server fills them in,
-// and the form computes indicators from numerator and denominator
+// not explodedNumerator/Denominator: only dataEntry/metadata fills them in
 const FIELDS_INDICATORS = fields(
     IDENTIFIABLE,
     NAMES,
@@ -139,7 +136,6 @@ const FIELDS_OPTION_SETS = fields(
 
 const unique = (ids) => [...new Set(ids.filter(Boolean))]
 
-// lists by id; a list without ids is empty without asking
 const queryLists = async (engine, lists) => {
     const queries = Object.entries(lists).filter(([, { ids }]) => ids.length)
     const response = await engine.query(
@@ -187,10 +183,8 @@ export const fetchDataSetMetadata = async (engine, dataSetId) => {
         },
     })
 
-    // with their option combos, the data set's own (attribute) combo too:
-    // dataEntry/metadata leaves those out unless a data element uses the
-    // combo, but with a single data set the default combo could then miss
-    // its option combo
+    // the attribute combo keeps its option combos too, so the default combo
+    // can't miss its own
     const { categoryCombos, optionSets } = await queryLists(engine, {
         categoryCombos: {
             ids: unique([
@@ -238,7 +232,6 @@ export const fetchDataSetMetadata = async (engine, dataSetId) => {
     }
 }
 
-// adds what the metadata doesn't have yet
 export const mergeMetadata = (metadata, addition) => ({
     ...metadata,
     ...Object.fromEntries(
