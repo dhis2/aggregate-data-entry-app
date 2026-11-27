@@ -1419,8 +1419,9 @@ dhis2.de.getSelectedPeriod = function()
  */
 dhis2.de.lockForm = function()
 {
-    $( 'input').attr( 'readonly', 'readonly' ).disable();
-    $( 'textarea').attr( 'readonly', 'readonly' ).disable();
+    // [custom-forms] jQuery has no disable(): it came from a plugin these forms don't load
+    $( 'input').attr( 'readonly', 'readonly' ).prop( 'disabled', true );
+    $( 'textarea').attr( 'readonly', 'readonly' ).prop( 'disabled', true );
 }
 
 /*
