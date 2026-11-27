@@ -1,6 +1,7 @@
+import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { NoticeBox } from '@dhis2/ui'
-import { useQueryClient } from '@tanstack/react-query'
+import { CenteredContent, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { MemoryRouter, useHistory, useLocation } from 'react-router-dom'
@@ -10,10 +11,12 @@ import { DataWorkspace } from '../data-workspace/index.js'
 import {
     dataValueSetQueryKey,
     EmbeddedContext,
+    metadataQueryKey,
     selectors,
     useMetadata,
     withServerDefaults,
 } from '../shared/index.js'
+import { fetchDataSetMetadata, mergeMetadata } from './data-set-metadata.js'
 import styles from './data-workspace-plugin.module.css'
 import '../locales/index.js'
 
@@ -49,23 +52,47 @@ FollowSelection.propTypes = {
     children: PropTypes.node,
 }
 
-// dataEntry/metadata only has the data sets the user can enter data for
+// dataEntry/metadata only has the data sets the user can enter data for;
+// others the user can read are added to it
 const CheckedDataWorkspace = ({ dataSetId }) => {
+    const engine = useDataEngine()
+    const queryClient = useQueryClient()
     const { data: metadata } = useMetadata()
+    const available = Boolean(selectors.getDataSetById(metadata, dataSetId))
+    const readable = useQuery(
+        ['readableDataSetMetadata', dataSetId],
+        () => fetchDataSetMetadata(engine, dataSetId),
+        { enabled: !available, staleTime: Infinity, retry: false }
+    )
 
-    if (!selectors.getDataSetById(metadata, dataSetId)) {
+    useEffect(() => {
+        if (!available && readable.data) {
+            queryClient.setQueryData(metadataQueryKey, (current) =>
+                mergeMetadata(current, readable.data)
+            )
+        }
+    }, [available, readable.data, queryClient])
+
+    if (available) {
+        return <DataWorkspace />
+    }
+    if (readable.isError) {
         return (
             <NoticeBox
                 className={styles.message}
                 title={i18n.t('The data entry form is not available')}
             >
                 {i18n.t(
-                    'Data entry forms can only be shown for data sets you can enter data for.'
+                    'The data set could not be loaded. You may not have access to it.'
                 )}
             </NoticeBox>
         )
     }
-    return <DataWorkspace />
+    return (
+        <CenteredContent>
+            <CircularLoader />
+        </CenteredContent>
+    )
 }
 
 CheckedDataWorkspace.propTypes = {
