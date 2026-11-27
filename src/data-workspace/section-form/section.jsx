@@ -25,7 +25,7 @@ export function SectionFormSection({
     section,
     dataSetId,
     globalFilterText,
-    collapsible,
+    collapsible = false,
 }) {
     // Could potentially build table via props instead of rendering children
     const [filterText, setFilterText] = useState('')
@@ -220,8 +220,4 @@ SectionFormSection.propTypes = {
         showColumnTotals: PropTypes.bool,
         showRowTotals: PropTypes.bool,
     }),
-}
-
-SectionFormSection.defaultProps = {
-    collapsible: false,
 }
