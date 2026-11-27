@@ -866,7 +866,7 @@ function getAndInsertDataValues()
     $( '.entryfield' ).filter( ':disabled' ).css( 'background-color', dhis2.de.cst.colorGrey );
 
     // [custom-forms] values from an embedding app are shown instead of the stored ones
-    var hostDataValues = window.dhis2.shim && window.dhis2.shim.dataValues;
+    var hostDataValues = window.dhis2.shim?.dataValues;
 
     if ( hostDataValues )
     {
