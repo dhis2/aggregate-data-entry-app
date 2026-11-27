@@ -64,8 +64,9 @@ export function OuterComponents({
 
 OuterComponents.propTypes = {
     children: PropTypes.any.isRequired,
-    queryClient: PropTypes.instanceOf(QueryClient).isRequired,
     persistQueries: PropTypes.bool,
+    // the app's own client when not given
+    queryClient: PropTypes.instanceOf(QueryClient),
     // in js classes are functions, too
     router: PropTypes.elementType,
 }
